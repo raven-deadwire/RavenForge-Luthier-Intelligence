@@ -109,6 +109,17 @@
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="aboutTitle"></h2>
                 
+                <!-- 개인 소개 섹션 추가 -->
+                <div id="personal-intro" class="mb-12 pb-8 border-b">
+                    <h3 class="text-2xl font-bold mb-6" data-lang-key="introTitle"></h3>
+                    <div class="flex flex-col sm:flex-row items-center gap-8">
+                        <div class="w-48 h-48 bg-slate-200 rounded-full flex-shrink-0 flex items-center justify-center overflow-hidden">
+                           <img src="https://search.pstatic.net/common?type=b&size=3000&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2FprofileImg%2Ft%2F6b326d10-f4cd-468c-b907-64e27568e08a.jpg" alt="Raven Cho Profile" class="w-full h-full object-cover">
+                        </div>
+                        <div class="text-slate-600 leading-relaxed" data-lang-key="introContent"></div>
+                    </div>
+                </div>
+                
                 <div id="ravenforge-identity">
                     <h3 class="text-2xl font-bold mb-4" data-lang-key="visionTitle"></h3>
                     <p class="mb-8 text-slate-600" data-lang-key="visionContent"></p>
@@ -230,18 +241,18 @@
         </div>
     </div>
 
- <script>
+    <script>
         // --- TRANSLATION DATA ---
         const translations = {
             // --- ENGLISH ---
             en: {
                 // Navigation and Section Titles
                 navAbout: "About",
-                navMasterplan: "Masterplan",
+                navPrototype: "Prototype",
                 navAnalysis: "Analysis & Explorer",
                 navQuest: "Quest & Aspiration",
                 aboutTitle: "About",
-                masterplanTitle: "Masterplan",
+                PrototypeTitle: "Prototype",
                 analysisTitle: "Analysis & Luthier Explorer",
                 questTitle: "Quest & Aspiration",
 
@@ -296,11 +307,11 @@
             de: {
                 // Navigation and Section Titles
                 navAbout: "Über",
-                navMasterplan: "Masterplan",
+                navPrototype: "Prototype",
                 navAnalysis: "Analyse & Explorer",
                 navQuest: "Quest & Bestreben",
                 aboutTitle: "Über",
-                masterplanTitle: "Masterplan",
+                PrototypeTitle: "Prototype",
                 analysisTitle: "Analyse & Gitarrenbauer-Explorer",
                 questTitle: "Quest & Bestreben",
 
@@ -355,11 +366,11 @@
             ko: {
                 // Navigation and Section Titles
                 navAbout: "소개",
-                navMasterplan: "마스터플랜",
+                navPrototype: "프로토타입",
                 navAnalysis: "분석 및 탐색기",
                 navQuest: "비전과 목표",
                 aboutTitle: "소개 (About)",
-                masterplanTitle: "마스터플랜 (Masterplan)",
+                PrototypeTitle: "프로토타입 (Prototype)",
                 analysisTitle: "분석 및 제작가 탐색기 (Analysis & Luthier Explorer)",
                 questTitle: "비전과 목표 (Quest & Aspiration)",
                 
@@ -829,7 +840,6 @@ translations.ko.luthierData = [
             { title: "생산 및 고객 경험 최적화", content: "현대 기술을 활용하여 고객 참여를 극대화하고, 효율성과 장인정신 사이의 균형을 최적화하여 최상의 고객 경험을 제공하는 것을 목표로 합니다.", details: `<ul><li><strong>Marleaux의 프로 피드백 기반 개선 프로세스 도입:</strong> 전 세계 베이스 프로들의 피드백과 아이디어를 적극적으로 반영하여 제작 공정을 지속적으로 개선하는 Marleaux의 방식을 도입하여, RavenForge가 연주자들과 함께 성장하는 브랜드가 되도록 합니다.</li><li><strong>Halo 및 Maruszczyk의 온라인 컨피규레이터 도입:</strong> 고객이 실시간으로 악기를 디자인하고 시각화할 수 있는 시스템을 구축합니다.</li><li><strong>MÜB의 CNC 활용 철학:</strong> CNC를 '창의적인 도구'로 활용하여 반복적인 작업을 처리하고 장인들이 가치 추가 영역에 집중하도록 합니다.</li></ul>`, related: ["Marleaux Basses", "Halo Custom Guitars", "Maruszczyk Instruments", "Maurizio Über Basses"] }
         ];
 
-
         // --- APPLICATION LOGIC ---
         document.addEventListener('DOMContentLoaded', () => {
             // 전체 데이터 객체에서 luthier/proposals 데이터가 비어있으면 채워줍니다.
@@ -1135,6 +1145,3 @@ translations.ko.luthierData = [
     </script>
 </body>
 </html>
-
-
-
