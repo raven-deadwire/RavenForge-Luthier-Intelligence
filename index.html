@@ -10,10 +10,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* 기본 스타일 */
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             background-color: #f5f5f4; /* stone-100 */
         }
-        /* Language-specific font application */
+        /* 언어별 폰트 적용 */
         html[lang="ko"] body { font-family: 'Noto Sans KR', sans-serif; }
         html[lang="en"] body, html[lang="de"] body { font-family: 'Roboto', sans-serif; }
 
@@ -59,118 +63,155 @@
             background-color: #1e293b; /* slate-800 */
             color: #ffffff;
         }
-        /* Active language button style */
+        /* 활성 언어 버튼 스타일 */
         .lang-btn.active {
             background-color: #f1f5f9; /* slate-100 */
             color: #1e293b; /* slate-800 */
             border-color: #f1f5f9; /* slate-100 */
+        }
+        /* 네비게이션 메뉴 스타일 */
+        .nav-link {
+            transition: color 0.2s, border-color 0.2s;
         }
     </style>
 </head>
 <body class="text-slate-800">
 
     <header class="bg-slate-800 text-white shadow-lg sticky top-0 z-40">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <div>
-                <h1 class="text-2xl md:text-3xl font-bold" data-lang-key="mainTitle"></h1>
-                <p class="text-sm text-slate-300 mt-1" data-lang-key="headerSubtitle"></p>
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="py-4 flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold" data-lang-key="mainTitle"></h1>
+                    <p class="text-sm text-slate-300 mt-1" data-lang-key="headerSubtitle"></p>
+                </div>
+                <div class="flex space-x-2">
+                    <button id="lang-en-btn" class="lang-btn px-4 py-2 rounded-md font-semibold border border-slate-400 hover:bg-slate-700 transition">EN</button>
+                    <button id="lang-de-btn" class="lang-btn px-4 py-2 rounded-md font-semibold border border-slate-400 hover:bg-slate-700 transition">DE</button>
+                    <button id="lang-kr-btn" class="lang-btn px-4 py-2 rounded-md font-semibold border border-slate-400 hover:bg-slate-700 transition">KR</button>
+                </div>
             </div>
-            <div class="flex space-x-2">
-                <button id="lang-en-btn" class="lang-btn px-4 py-2 rounded-md font-semibold border border-slate-400 hover:bg-slate-700 transition">EN</button>
-                <button id="lang-de-btn" class="lang-btn px-4 py-2 rounded-md font-semibold border border-slate-400 hover:bg-slate-700 transition">DE</button>
-                <button id="lang-kr-btn" class="lang-btn px-4 py-2 rounded-md font-semibold border border-slate-400 hover:bg-slate-700 transition">KR</button>
-            </div>
+            <!-- 네비게이션 메뉴 추가 -->
+            <nav class="border-t border-slate-600">
+                <div class="flex justify-center space-x-4 md:space-x-8 py-3 text-sm md:text-base">
+                    <a href="#about" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAbout"></a>
+                    <a href="#masterplan" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navMasterplan"></a>
+                    <a href="#analysis" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAnalysis"></a>
+                    <a href="#quest" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navQuest"></a>
+                </div>
+            </nav>
         </div>
     </header>
 
     <main class="container mx-auto p-4 sm:p-6 lg:p-8">
         
-        <section id="ravenforge-identity" class="mb-12 bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold mb-4 border-b pb-2" data-lang-key="visionTitle"></h2>
-            <p class="mb-6 text-slate-600" data-lang-key="visionContent"></p>
-            
-            <h3 class="text-xl font-bold mb-4 mt-8 pt-4 border-t" data-lang-key="conceptTitle"></h3>
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="bg-stone-50 p-4 rounded-md border">
-                    <h4 class="text-xl font-bold text-amber-700" data-lang-key="emblaName"></h4>
-                    <p class="text-sm text-slate-500 mb-3" data-lang-key="emblaDesc"></p>
-                    <ul class="text-sm space-y-1 text-slate-700">
-                        <li><span class="font-semibold" data-lang-key="targetLabel"></span>: <span data-lang-key="emblaTarget"></span></li>
-                        <li><span class="font-semibold" data-lang-key="scaleLabel"></span>: <span data-lang-key="emblaScale"></span></li>
-                        <li><span class="font-semibold" data-lang-key="bodyLabel"></span>: <span data-lang-key="emblaBody"></span></li>
-                        <li><span class="font-semibold" data-lang-key="fretboardLabel"></span>: <span data-lang-key="emblaFretboard"></span></li>
-                        <li><span class="font-semibold" data-lang-key="pickupsLabel"></span>: <span data-lang-key="emblaPickups"></span></li>
-                    </ul>
-                </div>
-                <div class="bg-stone-50 p-4 rounded-md border">
-                    <h4 class="text-xl font-bold text-sky-700" data-lang-key="askrName"></h4>
-                    <p class="text-sm text-slate-500 mb-3" data-lang-key="askrDesc"></h4>
-                    <ul class="text-sm space-y-1 text-slate-700">
-                        <li><span class="font-semibold" data-lang-key="targetLabel"></span>: <span data-lang-key="askrTarget"></span></li>
-                        <li><span class="font-semibold" data-lang-key="scaleLabel"></span>: <span data-lang-key="askrScale"></span></li>
-                        <li><span class="font-semibold" data-lang-key="bodyLabel"></span>: <span data-lang-key="askrBody"></span></li>
-                        <li><span class="font-semibold" data-lang-key="fretboardLabel"></span>: <span data-lang-key="askrFretboard"></span></li>
-                        <li><span class="font-semibold" data-lang-key="pickupsLabel"></span>: <span data-lang-key="askrPickups"></span></li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section id="spec-sheet" class="mb-12 bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold mb-4 border-b pb-2" data-lang-key="specSheetTitle"></h2>
-            <p class="mb-6 text-slate-600" data-lang-key="specSheetDesc"></p>
-            
-            <div class="mb-6 flex flex-wrap gap-2">
-                <button id="btn-spec-embla" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition active">🌿 EMBLA</button>
-                <button id="btn-spec-askr" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">🔥 ASKR</button>
-                <button id="btn-spec-common" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specCommonBtn"></button>
-            </div>
-
-            <div id="spec-content-embla" class="spec-content"></div>
-            <div id="spec-content-askr" class="spec-content hidden"></div>
-            <div id="spec-content-common" class="spec-content hidden"></div>
-        </section>
-
-        <section id="innovation-synthesis" class="mb-12 bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold mb-2 border-b pb-2" data-lang-key="innovationTitle"></h2>
-            <p class="mb-6 text-slate-600" data-lang-key="innovationDesc"></p>
-            <div class="chart-container">
-                <canvas id="innovationChart"></canvas>
-            </div>
-        </section>
-
-        <section id="luthier-explorer" class="mb-12">
+        <!-- 1. About 섹션 -->
+        <section id="about" class="mb-16 pt-16 -mt-16">
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-2xl font-bold mb-4 border-b pb-2" data-lang-key="explorerTitle"></h2>
-                <p class="mb-6 text-slate-600" data-lang-key="explorerDesc"></p>
-                <div class="flex flex-wrap gap-4 mb-6 items-center">
-                    <div>
-                        <label for="region-filter" class="font-semibold mr-2" data-lang-key="regionLabel"></label>
-                        <select id="region-filter" class="p-2 border rounded-md bg-white">
-                        </select>
+                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="aboutTitle"></h2>
+                
+                <div id="ravenforge-identity">
+                    <h3 class="text-2xl font-bold mb-4" data-lang-key="visionTitle"></h3>
+                    <p class="mb-8 text-slate-600" data-lang-key="visionContent"></p>
+                    
+                    <h3 class="text-2xl font-bold mb-4 mt-8 pt-4 border-t" data-lang-key="conceptTitle"></h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-stone-50 p-4 rounded-md border">
+                            <h4 class="text-xl font-bold text-amber-700" data-lang-key="emblaName"></h4>
+                            <p class="text-sm text-slate-500 mb-3" data-lang-key="emblaDesc"></p>
+                            <ul class="text-sm space-y-1 text-slate-700">
+                                <li><span class="font-semibold" data-lang-key="targetLabel"></span>: <span data-lang-key="emblaTarget"></span></li>
+                                <li><span class="font-semibold" data-lang-key="scaleLabel"></span>: <span data-lang-key="emblaScale"></span></li>
+                                <li><span class="font-semibold" data-lang-key="bodyLabel"></span>: <span data-lang-key="emblaBody"></span></li>
+                                <li><span class="font-semibold" data-lang-key="fretboardLabel"></span>: <span data-lang-key="emblaFretboard"></span></li>
+                                <li><span class="font-semibold" data-lang-key="pickupsLabel"></span>: <span data-lang-key="emblaPickups"></span></li>
+                            </ul>
+                        </div>
+                        <div class="bg-stone-50 p-4 rounded-md border">
+                            <h4 class="text-xl font-bold text-sky-700" data-lang-key="askrName"></h4>
+                            <p class="text-sm text-slate-500 mb-3" data-lang-key="askrDesc"></h4>
+                            <ul class="text-sm space-y-1 text-slate-700">
+                                <li><span class="font-semibold" data-lang-key="targetLabel"></span>: <span data-lang-key="askrTarget"></span></li>
+                                <li><span class="font-semibold" data-lang-key="scaleLabel"></span>: <span data-lang-key="askrScale"></span></li>
+                                <li><span class="font-semibold" data-lang-key="bodyLabel"></span>: <span data-lang-key="askrBody"></span></li>
+                                <li><span class="font-semibold" data-lang-key="fretboardLabel"></span>: <span data-lang-key="askrFretboard"></span></li>
+                                <li><span class="font-semibold" data-lang-key="pickupsLabel"></span>: <span data-lang-key="askrPickups"></span></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div>
-                        <label for="theme-filter" class="font-semibold mr-2" data-lang-key="themeLabel"></label>
-                        <select id="theme-filter" class="p-2 border rounded-md bg-white">
-                        </select>
-                    </div>
-                    <button id="reset-filters" class="px-4 py-2 bg-slate-600 text-white rounded-md hover:bg-slate-700 transition" data-lang-key="resetBtn"></button>
-                </div>
-                <div id="luthier-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 </div>
             </div>
         </section>
 
-        <section id="strategic-vision" class="bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold mb-4 border-b pb-2" data-lang-key="questsTitle"></h2>
-            <p class="mb-6 text-slate-600" data-lang-key="questsDesc"></p>
-            <div id="proposals-accordion" class="space-y-2">
+        <!-- 2. Masterplan 섹션 -->
+        <section id="masterplan" class="mb-16 pt-16 -mt-16">
+            <div id="spec-sheet" class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="masterplanTitle"></h2>
+                <p class="mb-6 text-slate-600" data-lang-key="specSheetDesc"></p>
+                
+                <div class="mb-6 flex flex-wrap gap-2">
+                    <button id="btn-spec-embla" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition active">🌿 EMBLA</button>
+                    <button id="btn-spec-askr" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">🔥 ASKR</button>
+                    <button id="btn-spec-common" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specCommonBtn"></button>
+                </div>
+
+                <div id="spec-content-embla" class="spec-content"></div>
+                <div id="spec-content-askr" class="spec-content hidden"></div>
+                <div id="spec-content-common" class="spec-content hidden"></div>
             </div>
         </section>
 
-        <section id="long-term-aspiration" class="mt-12 bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold mb-4 border-b pb-2" data-lang-key="aspirationTitle"></h2>
-            <p class="text-slate-600" data-lang-key="aspirationContent"></p>
+        <!-- 3. Analysis & Luthier Explorer 섹션 -->
+        <section id="analysis" class="mb-16 pt-16 -mt-16">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="analysisTitle"></h2>
+
+                <div id="innovation-synthesis" class="mb-12">
+                    <h3 class="text-2xl font-bold mb-2" data-lang-key="innovationTitle"></h3>
+                    <p class="mb-6 text-slate-600" data-lang-key="innovationDesc"></p>
+                    <div class="chart-container">
+                        <canvas id="innovationChart"></canvas>
+                    </div>
+                </div>
+
+                <div id="luthier-explorer" class="mt-8 pt-8 border-t">
+                    <h3 class="text-2xl font-bold mb-4" data-lang-key="explorerTitle"></h3>
+                    <p class="mb-6 text-slate-600" data-lang-key="explorerDesc"></p>
+                    <div class="flex flex-wrap gap-4 mb-6 items-center">
+                        <div>
+                            <label for="region-filter" class="font-semibold mr-2" data-lang-key="regionLabel"></label>
+                            <select id="region-filter" class="p-2 border rounded-md bg-white">
+                            </select>
+                        </div>
+                        <div>
+                            <label for="theme-filter" class="font-semibold mr-2" data-lang-key="themeLabel"></label>
+                            <select id="theme-filter" class="p-2 border rounded-md bg-white">
+                            </select>
+                        </div>
+                        <button id="reset-filters" class="px-4 py-2 bg-slate-600 text-white rounded-md hover:bg-slate-700 transition" data-lang-key="resetBtn"></button>
+                    </div>
+                    <div id="luthier-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Quest & Aspiration 섹션 -->
+        <section id="quest" class="pt-16 -mt-16">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="questTitle"></h2>
+                
+                <div id="strategic-vision" class="mb-12">
+                    <h3 class="text-2xl font-bold mb-4" data-lang-key="questsTitle"></h3>
+                    <p class="mb-6 text-slate-600" data-lang-key="questsDesc"></p>
+                    <div id="proposals-accordion" class="space-y-2">
+                    </div>
+                </div>
+
+                <div id="long-term-aspiration" class="mt-8 pt-8 border-t">
+                    <h3 class="text-2xl font-bold mb-4" data-lang-key="aspirationTitle"></h3>
+                    <p class="text-slate-600" data-lang-key="aspirationContent"></p>
+                </div>
+            </div>
         </section>
     </main>
 
@@ -178,9 +219,9 @@
         <p>&copy; 2025 RavenForge Luthier Intelligence. All rights reserved.</p>
     </footer>
 
-    <div id="luthier-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+    <div id="luthier-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50 opacity-0">
         <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto transform scale-95">
-            <div class="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
+            <div class="sticky top-0 bg-white p-4 border-b flex justify-between items-center z-10">
                 <h3 id="modal-title" class="text-xl font-bold"></h3>
                 <button id="modal-close" class="text-2xl font-bold text-slate-500 hover:text-slate-800">&times;</button>
             </div>
@@ -194,6 +235,17 @@
         const translations = {
             // --- ENGLISH ---
             en: {
+                // Navigation and Section Titles
+                navAbout: "About",
+                navMasterplan: "Masterplan",
+                navAnalysis: "Analysis & Explorer",
+                navQuest: "Quest & Aspiration",
+                aboutTitle: "About",
+                masterplanTitle: "Masterplan",
+                analysisTitle: "Analysis & Luthier Explorer",
+                questTitle: "Quest & Aspiration",
+
+                // Existing translations
                 pageTitle: "RavenForge Luthier Intelligence: A 20-year vision and passion for Marleaux",
                 mainTitle: "RavenForge Luthier Intelligence",
                 headerSubtitle: "A Personal Vision Exploration & Desire for Long-Term Contribution to Marleaux",
@@ -206,7 +258,7 @@
                 askrDesc: "The First Man: Aggression & Instinct",
                 targetLabel: "Target", scaleLabel: "Scale", bodyLabel: "Body", fretboardLabel: "Fretboard", pickupsLabel: "Pickups/Preamp",
                 emblaTarget: "Session players, composers, various genres", emblaScale: "34″ (36″ option)", emblaBody: "Elm", emblaFretboard: "Wenge (Ebony option)", emblaPickups: "Delano Xtender / Sonar 3",
-                askrTarget: "Metal, high-gain, down-tuning", askrScale: "35″ (37–34″ multi-scale option)", askrBody: "Hard Ash", fretboardLabel: "Fretboard", askrFretboard: "Rosewood (Ebony option)", pickupsLabel: "Pickups/Preamp", askrPickups: "Fishman Fluence",
+                askrTarget: "Metal, high-gain, down-tuning", askrScale: "35″ (37–34″ multi-scale option)", askrBody: "Hard Ash", askrFretboard: "Rosewood (Ebony option)", askrPickups: "Fishman Fluence",
                 specSheetTitle: "RavenForge Master Spec Sheet (2025)",
                 specSheetDesc: "Here are the detailed specifications for RavenForge's two core models, EMBLA and ASKR. Click the buttons below to view the specs for each model.",
                 specCommonBtn: "🧱 Common/Options",
@@ -235,6 +287,17 @@
             },
             // --- GERMAN ---
             de: {
+                // Navigation and Section Titles
+                navAbout: "Über",
+                navMasterplan: "Masterplan",
+                navAnalysis: "Analyse & Explorer",
+                navQuest: "Quest & Bestreben",
+                aboutTitle: "Über",
+                masterplanTitle: "Masterplan",
+                analysisTitle: "Analyse & Gitarrenbauer-Explorer",
+                questTitle: "Quest & Bestreben",
+
+                // Existing translations
                 pageTitle: "RavenForge Luthier Intelligence: Eine 20-Jahres-Vision und Leidenschaft für Marleaux",
                 mainTitle: "RavenForge Luthier Intelligence",
                 headerSubtitle: "Eine persönliche Visionserkundung & der Wunsch nach einem langfristigen Beitrag für Marleaux",
@@ -276,6 +339,17 @@
             },
             // --- KOREAN ---
             ko: {
+                // Navigation and Section Titles
+                navAbout: "소개",
+                navMasterplan: "마스터플랜",
+                navAnalysis: "분석 및 탐색기",
+                navQuest: "비전과 목표",
+                aboutTitle: "소개 (About)",
+                masterplanTitle: "마스터플랜 (Masterplan)",
+                analysisTitle: "분석 및 제작가 탐색기 (Analysis & Luthier Explorer)",
+                questTitle: "비전과 목표 (Quest & Aspiration)",
+
+                // Existing translations
                 pageTitle: "RavenForge Luthier Intelligence: 20년을 바라보는 비전과 Marleaux를 향한 열정",
                 mainTitle: "RavenForge Luthier Intelligence",
                 headerSubtitle: "개인적 비전 탐구 및 Marleaux에 대한 장기적 기여 열망",
@@ -317,9 +391,8 @@
             }
         };
 
-        // --- DATA INJECTION ---
-        
-// English Data
+        // --- DATA INJECTION (데이터 주입) ---
+       // English Data
 translations.en.luthierData = [
     { name: "Marleaux Basses", country: "Germany", region: "europe", tags: ["Wood", "Structure", "Aesthetics", "Customization", "Ergonomics", "Electronics"],
         summary: "Marleaux’s approach fuses old-world craftsmanship and wood expertise with forward-thinking sustainability and technology. By championing ideas like RTW-certified local woods and the VARI process, Marleaux elevates its brand beyond just quality instruments – it represents environmental responsibility and technical innovation as key parts of its identity.",
@@ -735,9 +808,21 @@ translations.ko.luthierData = [
             { title: "생산 및 고객 경험 최적화", content: "현대 기술을 활용하여 고객 참여를 극대화하고, 효율성과 장인정신 사이의 균형을 최적화하여 최상의 고객 경험을 제공하는 것을 목표로 합니다.", details: `<ul><li><strong>Marleaux의 프로 피드백 기반 개선 프로세스 도입:</strong> 전 세계 베이스 프로들의 피드백과 아이디어를 적극적으로 반영하여 제작 공정을 지속적으로 개선하는 Marleaux의 방식을 도입하여, RavenForge가 연주자들과 함께 성장하는 브랜드가 되도록 합니다.</li><li><strong>Halo 및 Maruszczyk의 온라인 컨피규레이터 도입:</strong> 고객이 실시간으로 악기를 디자인하고 시각화할 수 있는 시스템을 구축합니다.</li><li><strong>MÜB의 CNC 활용 철학:</strong> CNC를 '창의적인 도구'로 활용하여 반복적인 작업을 처리하고 장인들이 가치 추가 영역에 집중하도록 합니다.</li></ul>`, related: ["Marleaux Basses", "Halo Custom Guitars", "Maruszczyk Instruments", "Maurizio Über Basses"] }
         ];
 
+
         // --- APPLICATION LOGIC ---
         document.addEventListener('DOMContentLoaded', () => {
-            let currentLang = 'en'; // Default language
+            // 전체 데이터 객체에서 luthier/proposals 데이터가 비어있으면 채워줍니다.
+            // 이 코드는 데이터가 한 언어(예: 영어)에만 정의되어 있을 때 다른 언어로 복사하는 역할을 합니다.
+            ['de', 'ko'].forEach(lang => {
+                if (translations[lang].luthierData.length === 0) {
+                    translations[lang].luthierData = translations.en.luthierData;
+                }
+                if (translations[lang].proposalsData.length === 0) {
+                    translations[lang].proposalsData = translations.en.proposalsData;
+                }
+            });
+
+            let currentLang = 'en'; // 기본 언어
             let innovationChart = null;
 
             const langEnBtn = document.getElementById('lang-en-btn');
@@ -875,7 +960,7 @@ translations.ko.luthierData = [
                                 currentThemeFilter = clickedLabel;
                                 themeFilter.value = clickedLabel;
                                 renderLuthiers();
-                                document.getElementById('luthier-explorer').scrollIntoView({ behavior: 'smooth' });
+                                document.getElementById('analysis').scrollIntoView({ behavior: 'smooth' });
                             }
                         }
                     }
@@ -981,6 +1066,7 @@ translations.ko.luthierData = [
                 }, 300);
             }
 
+            // --- Event Listeners ---
             langEnBtn.addEventListener('click', () => switchLanguage('en'));
             langDeBtn.addEventListener('click', () => switchLanguage('de'));
             langKrBtn.addEventListener('click', () => switchLanguage('ko'));
@@ -1023,21 +1109,8 @@ translations.ko.luthierData = [
             });
 
             // --- Initial Load ---
-            switchLanguage('en'); // Set default language to English
+            switchLanguage('ko'); // 기본 언어를 한국어로 설정
         });
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
