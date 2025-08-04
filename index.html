@@ -90,11 +90,11 @@
                     <button id="lang-kr-btn" class="lang-btn px-4 py-2 rounded-md font-semibold border border-slate-400 hover:bg-slate-700 transition">KR</button>
                 </div>
             </div>
-            <!-- 네비게이션 메뉴 추가 -->
+            <!-- 네비게이션 메뉴 수정 -->
             <nav class="border-t border-slate-600">
                 <div class="flex justify-center space-x-4 md:space-x-8 py-3 text-sm md:text-base">
                     <a href="#about" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAbout"></a>
-                    <a href="#Prototype" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navPrototype"></a>
+                    <a href="#prototype" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navPrototype"></a>
                     <a href="#analysis" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAnalysis"></a>
                     <a href="#quest" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navQuest"></a>
                 </div>
@@ -109,7 +109,7 @@
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="aboutTitle"></h2>
                 
-                <!-- 개인 소개 섹션 추가 -->
+                <!-- 개인 소개 섹션 -->
                 <div id="personal-intro" class="mb-12 pb-8 border-b">
                     <h3 class="text-2xl font-bold mb-6" data-lang-key="introTitle"></h3>
                     <div class="flex flex-col sm:flex-row items-center gap-8">
@@ -117,6 +117,21 @@
                            <img src="https://search.pstatic.net/common?type=b&size=3000&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2FprofileImg%2Ft%2F6b326d10-f4cd-468c-b907-64e27568e08a.jpg" alt="Raven Cho Profile" class="w-full h-full object-cover">
                         </div>
                         <div class="text-slate-600 leading-relaxed" data-lang-key="introContent"></div>
+                    </div>
+                </div>
+
+                <!-- 스승 소개 섹션 추가 -->
+                <div id="mentors-section" class="mb-12 pb-8 border-b">
+                    <h3 class="text-2xl font-bold mb-6" data-lang-key="mentorsTitle"></h3>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-xl font-semibold" data-lang-key="mentor1Name"></h4>
+                            <div class="text-slate-600 mt-2" data-lang-key="mentor1Desc"></div>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold" data-lang-key="mentor2Name"></h4>
+                            <div class="text-slate-600 mt-2" data-lang-key="mentor2Desc"></div>
+                        </div>
                     </div>
                 </div>
                 
@@ -154,9 +169,9 @@
         </section>
 
         <!-- 2. Prototype 섹션 -->
-        <section id="Prototype" class="mb-16 pt-16 -mt-16">
+        <section id="prototype" class="mb-16 pt-16 -mt-16">
             <div id="spec-sheet" class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="PrototypeTitle"></h2>
+                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="prototypeTitle"></h2>
                 <p class="mb-6 text-slate-600" data-lang-key="specSheetDesc"></p>
                 
                 <div class="mb-6 flex flex-wrap gap-2">
@@ -252,22 +267,28 @@
                 navAnalysis: "Analysis & Explorer",
                 navQuest: "Quest & Aspiration",
                 aboutTitle: "About",
-                PrototypeTitle: "Prototype",
+                prototypeTitle: "Prototype",
                 analysisTitle: "Analysis & Luthier Explorer",
                 questTitle: "Quest & Aspiration",
 
-                // New Intro Section
+                // Intro Section
                 introTitle: "About the Creator: Raven Cho",
                 introContent: `<p class="mb-4">Hello, I am Raven Cho (@raven_deadwire). My journey is one of two worlds: the intellectual rigor of philosophy and the raw passion of metal music, both of which converge into the craft of lutherie.</p>
                                <p class="mb-4">As a philosophy major at Yonsei University, I built a worldview grounded in aesthetics and critical thinking. This academic background became the soul of my artistic expression as the leader of DEADWIRE, a Scandinavian-style melodic death metal band. My deep dive into the genre led me to explore Norse mythology and folklore, which ultimately sparked the vision for RavenForge.</p>
-                               <p>My path to becoming a luthier has been hands-on and dedicated. I honed my initial skills from 2010-2013 at renowned Korean workshops like Freebud Mod Shop and Craftshouse. Today, while working professionally in educational publishing and EdTech, I continue my luthier apprenticeship with Berklee GT Repair and Moon Guitar, relentlessly pursuing mastery of this craft.</p>`,
-                image_placeholder: "Image",
+                               <p>My path to becoming a luthier has been hands-on and dedicated. I honed my initial skills from 2010-2013 at renowned Korean workshops like Freebud Mod Shop and Craftshouse. Today, while working professionally in educational publishing and EdTech, I continue my luthier apprenticeship under two great masters, relentlessly pursuing mastery of this craft.</p>`,
+                
+                // Mentors Section
+                mentorsTitle: "My Mentors",
+                mentor1Name: "Hojin Jeong (Berklee GT Repair)",
+                mentor1Desc: "<p>Mr. Hojin Jeong is a master of vintage and boutique instrument repair in Korea. With a 20-year tenure as the Head of Product Development at Dexter Guitars and over 15 years of specialized repair experience, his expertise is unparalleled.</p>",
+                mentor2Name: "Chanho Moon (Moon Guitar)",
+                mentor2Desc: "<p>Mr. Chanho Moon is a custom guitar luthier who graduated as the valedictorian from the Galloup School in the USA. He is a purist who adheres to 100% handmade, full-custom builds and is set to begin team-built production in 2025.</p>",
 
                 // Existing translations
                 pageTitle: "RavenForge Luthier Intelligence: A 20-year vision and passion for Marleaux",
                 mainTitle: "RavenForge Luthier Intelligence",
                 headerSubtitle: "A Personal Vision Exploration & Desire for Long-Term Contribution to Marleaux",
-                visionTitle: "Purpose of this Document & My Vision",
+                visionTitle: "Purpose & My Vision",
                 visionContent: "This document contains the in-depth research and vision I have gathered while conceptualizing 'RavenForge,' my long-held dream of a bass brand. With the goal of one day creating instruments that embody my own philosophy, I have analyzed high-end luthiers worldwide to explore the essential requirements of a superior bass.<br><br>In this process, I was most profoundly impressed by the craftsmanship, deep passion for wood, and sustainable innovation pursued by Marleaux Basses. For me, Marleaux is not merely a benchmark but a beacon, guiding the path I wish to walk as a luthier.<br><br>Therefore, this document is both a presentation of my independent research and a statement of intent, outlining why I want to become a part of the Marleaux team, learn and grow for over 20 years under a great craftsman like Sir Gerald Marleaux, and dedicate my entire passion to this journey.",
                 conceptTitle: "Project Conception: RavenForge Concept Models",
                 emblaName: "EMBLA – The All-Rounder Session Bass",
@@ -277,7 +298,7 @@
                 targetLabel: "Target", scaleLabel: "Scale", bodyLabel: "Body", fretboardLabel: "Fretboard", pickupsLabel: "Pickups/Preamp",
                 emblaTarget: "Session players, composers, various genres", emblaScale: "34″ (36″ option)", emblaBody: "Elm", emblaFretboard: "Wenge (Ebony option)", emblaPickups: "Delano Xtender / Sonar 3",
                 askrTarget: "Metal, high-gain, down-tuning", askrScale: "35″ (37–34″ multi-scale option)", askrBody: "Hard Ash", askrFretboard: "Rosewood (Ebony option)", askrPickups: "Fishman Fluence",
-                specSheetTitle: "RavenForge Master Spec Sheet (2025)",
+                specSheetTitle: "RavenForge Prototype Spec Sheet (2025)",
                 specSheetDesc: "Here are the detailed specifications for RavenForge's two core models, EMBLA and ASKR. Click the buttons below to view the specs for each model.",
                 specCommonBtn: "🧱 Common/Options",
                 innovationTitle: "Analysis of Key Innovation Themes",
@@ -307,26 +328,32 @@
             de: {
                 // Navigation and Section Titles
                 navAbout: "Über",
-                navPrototype: "Prototype",
+                navPrototype: "Prototyp",
                 navAnalysis: "Analyse & Explorer",
                 navQuest: "Quest & Bestreben",
                 aboutTitle: "Über",
-                PrototypeTitle: "Prototype",
+                prototypeTitle: "Prototyp",
                 analysisTitle: "Analyse & Gitarrenbauer-Explorer",
                 questTitle: "Quest & Bestreben",
 
-                // New Intro Section
+                // Intro Section
                 introTitle: "Über den Schöpfer: Raven Cho",
                 introContent: `<p class="mb-4">Hallo, ich bin Raven Cho (@raven_deadwire). Meine Reise ist eine zwischen zwei Welten: der intellektuellen Strenge der Philosophie und der rohen Leidenschaft der Metal-Musik, die beide im Handwerk des Gitarrenbaus zusammenfließen.</p>
                                <p class="mb-4">Als Hauptfachstudent der Philosophie an der Yonsei-Universität habe ich eine Weltanschauung entwickelt, die auf Ästhetik und kritischem Denken basiert. Dieser akademische Hintergrund wurde zur Seele meines künstlerischen Ausdrucks als Leiter von DEADWIRE, einer Melodic-Death-Metal-Band im skandinavischen Stil. Mein tiefes Eintauchen in das Genre führte mich zur Erforschung der nordischen Mythologie und Folklore, was letztendlich die Vision für RavenForge entfachte.</p>
-                               <p>Mein Weg zum Gitarrenbauer war praxisnah und engagiert. Ich habe meine ersten Fähigkeiten von 2010-2013 in renommierten koreanischen Werkstätten wie dem Freebud Mod Shop und Craftshouse verfeinert. Heute, während ich beruflich im Bildungsverlagswesen und in der EdTech-Branche tätig bin, setze ich meine Ausbildung zum Gitarrenbauer bei Berklee GT Repair und Moon Guitar fort und strebe unermüdlich nach der Meisterschaft in diesem Handwerk.</p>`,
-                image_placeholder: "Bild",
+                               <p>Mein Weg zum Gitarrenbauer war praxisnah und engagiert. Ich habe meine ersten Fähigkeiten von 2010-2013 in renommierten koreanischen Werkstätten wie dem Freebud Mod Shop und Craftshouse verfeinert. Heute, während ich beruflich im Bildungsverlagswesen und in der EdTech-Branche tätig bin, setze ich meine Ausbildung zum Gitarrenbauer unter zwei großen Meistern fort und strebe unermüdlich nach der Meisterschaft in diesem Handwerk.</p>`,
+                
+                // Mentors Section
+                mentorsTitle: "Meine Mentoren",
+                mentor1Name: "Hojin Jeong (Berklee GT Repair)",
+                mentor1Desc: "<p>Herr Hojin Jeong ist ein Meister der Reparatur von Vintage- und Boutique-Instrumenten in Korea. Mit 20 Jahren als Leiter der Produktentwicklung bei Dexter Guitars und über 15 Jahren spezialisierter Reparaturerfahrung ist seine Expertise unübertroffen.</p>",
+                mentor2Name: "Chanho Moon (Moon Guitar)",
+                mentor2Desc: "<p>Herr Chanho Moon ist ein Custom-Gitarrenbauer, der die Galloup School in den USA als Jahrgangsbester abgeschlossen hat. Er ist ein Purist, der sich zu 100% handgefertigten, vollständig kundenspezifischen Bauten bekennt und 2025 mit der Team-Built-Produktion beginnen wird.</p>",
 
                 // Existing translations
                 pageTitle: "RavenForge Luthier Intelligence: Eine 20-Jahres-Vision und Leidenschaft für Marleaux",
                 mainTitle: "RavenForge Luthier Intelligence",
                 headerSubtitle: "Eine persönliche Visionserkundung & der Wunsch nach einem langfristigen Beitrag für Marleaux",
-                visionTitle: "Zweck dieses Dokuments & meine Vision",
+                visionTitle: "Zweck & meine Vision",
                 visionContent: "Dieses Dokument enthält die tiefgehende Recherche und Vision, die ich bei der Konzeption von 'RavenForge', meinem lang gehegten Traum einer Bassmarke, gesammelt habe. Mit dem Ziel, eines Tages Instrumente zu schaffen, die meine eigene Philosophie verkörpern, habe ich weltweit High-End-Gitarrenbauer analysiert, um die wesentlichen Anforderungen an einen überlegenen Bass zu ergründen.<br><br>In diesem Prozess war ich am tiefsten von der Handwerkskunst, der tiefen Leidenschaft für Holz und der nachhaltigen Innovation von Marleaux Basses beeindruckt. Für mich ist Marleaux nicht nur ein Maßstab, sondern ein Leuchtfeuer, das den Weg weist, den ich als Gitarrenbauer gehen möchte.<br><br>Daher ist dieses Dokument sowohl eine Präsentation meiner unabhängigen Forschung als auch eine Absichtserklärung, die darlegt, warum ich Teil des Marleaux-Teams werden, über 20 Jahre unter einem großen Handwerker wie Herrn Gerald Marleaux lernen und wachsen und meine gesamte Leidenschaft dieser Reise widmen möchte.",
                 conceptTitle: "Projektkonzeption: RavenForge-Konzeptmodelle",
                 emblaName: "EMBLA – Der Allround-Session-Bass",
@@ -336,7 +363,7 @@
                 targetLabel: "Zielgruppe", scaleLabel: "Mensur", bodyLabel: "Korpus", fretboardLabel: "Griffbrett", pickupsLabel: "Tonabnehmer/Preamp",
                 emblaTarget: "Session-Musiker, Komponisten, diverse Genres", emblaScale: "34″ (36″ Option)", emblaBody: "Ulme", emblaFretboard: "Wenge (Ebenholz-Option)", emblaPickups: "Delano Xtender / Sonar 3",
                 askrTarget: "Metal, High-Gain, Down-Tuning", askrScale: "35″ (37–34″ Multi-Scale-Option)", askrBody: "Harte Esche", askrFretboard: "Palisander (Ebenholz-Option)", askrPickups: "Fishman Fluence",
-                specSheetTitle: "RavenForge Master-Spezifikationsblatt (2025)",
+                specSheetTitle: "RavenForge Prototyp-Spezifikationsblatt (2025)",
                 specSheetDesc: "Hier sind die detaillierten Spezifikationen für die beiden Kernmodelle von RavenForge, EMBLA und ASKR. Klicken Sie auf die Schaltflächen unten, um die Spezifikationen für jedes Modell anzuzeigen.",
                 specCommonBtn: "🧱 Allgemein/Optionen",
                 innovationTitle: "Analyse der wichtigsten Innovationsthemen",
@@ -370,23 +397,29 @@
                 navAnalysis: "분석 및 탐색기",
                 navQuest: "비전과 목표",
                 aboutTitle: "소개 (About)",
-                PrototypeTitle: "프로토타입 (Prototype)",
+                prototypeTitle: "프로토타입 (Prototype)",
                 analysisTitle: "분석 및 제작가 탐색기 (Analysis & Luthier Explorer)",
                 questTitle: "비전과 목표 (Quest & Aspiration)",
                 
-                // New Intro Section
+                // Intro Section
                 introTitle: "제작자 소개: Raven Cho",
                 introContent: `<p class="mb-4">안녕하세요, 저는 Raven Cho(@raven_deadwire)입니다. 저의 여정은 철학의 지적 탐구와 메탈 음악의 강렬한 열정이라는 두 세계를 오가며, 그 교차점에서 악기 제작이라는 예술을 발견했습니다.</p>
                                <p class="mb-4">연세대학교에서 철학을 전공하며 미학적, 비판적 사고에 기반한 세계관을 구축했습니다. 이러한 학문적 배경은 스칸디나비아 스타일의 멜로딕 데스 메탈 밴드 'DEADWIRE'를 이끄는 아티스트로서의 정체성에 깊은 영향을 주었습니다. 장르에 대한 깊은 이해를 위해 북유럽 신화와 민속을 탐구하던 중, 마침내 'RavenForge'라는 비전의 씨앗을 발견하게 되었습니다.</p>
-                               <p>악기 제작 장인이 되기 위한 저의 길은 꾸준하고 헌신적이었습니다. 2010년부터 2013년까지 한국의 프리버드 Mod Shop과 Craftshouse에서 기술의 기초를 닦았고, 현재는 교육 출판 및 에듀테크 분야에서 전문가로 일하면서도 버클리 GT 리페어 및 문 기타(Moon Guitar)에서 견습 과정을 밟으며 악기 제작에 대한 숙련도를 끊임없이 높여가고 있습니다.</p>`,
-                image_placeholder: "사진",
+                               <p>악기 제작 장인이 되기 위한 저의 길은 꾸준하고 헌신적이었습니다. 2010년부터 2013년까지 한국의 프리버드 Mod Shop과 Craftshouse에서 기술의 기초를 닦았고, 현재는 교육 출판 및 에듀테크 분야에서 전문가로 일하면서도 두 위대한 스승님 아래에서 견습 과정을 밟으며 악기 제작에 대한 숙련도를 끊임없이 높여가고 있습니다.</p>`,
+
+                // Mentors Section
+                mentorsTitle: "나의 스승",
+                mentor1Name: "정호진 (버클리 GT 리페어)",
+                mentor1Desc: "<p>정호진 사장님은 한국 빈티지-부티크 악기 수리 분야의 독보적인 전문가입니다. Dexter Guitars에서 20년간 제품 개발 부장으로 재직했으며, 이후 15년 이상의 전문 리페어 경력을 쌓아오셨습니다.</p>",
+                mentor2Name: "문찬호 (문 기타)",
+                mentor2Desc: "<p>문찬호 사장님은 미국 갤럽 스쿨을 수석 졸업한 커스텀 기타 루씨어입니다. 100% 핸드메이드 풀 커스텀 제작을 고수해오셨으며, 2025년부터는 팀빌트 제품 양산을 시작합니다.</p>",
 
                 // Existing translations
                 pageTitle: "RavenForge Luthier Intelligence: 20년을 바라보는 비전과 Marleaux를 향한 열정",
                 mainTitle: "RavenForge Luthier Intelligence",
                 headerSubtitle: "개인적 비전 탐구 및 Marleaux에 대한 장기적 기여 열망",
-                visionTitle: "문서의 목적 및 비전",
-                visionContent: "본 문서는 저의 오랜 꿈인 베이스 브랜드 'RavenForge'를 구상하며 수집한 심층적인 연구 자료와 비전을 담고 있습니다. 저는 언젠가 저만의 철학이 담긴 악기를 만들겠다는 목표를 가지고, 전 세계 하이엔드 루씨어들을 분석하며 최상의 베이스가 갖춰야 할 요건들을 탐구해왔습니다.<br><br>그 과정에서 저는 Marleaux Basses가 추구하는 장인정신, 목재에 대한 깊은 열정, 그리고 지속 가능한 혁신에 가장 깊은 감명을 받았습니다. Marleaux는 저에게 단순한 벤치마킹 대상을 넘어, 제가 루씨어로서 걷고 싶은 길의 방향을 제시하는 등대와 같은 존재가 되었습니다.<br><br>따라서 이 문서는 저의 독자적인 연구 결과물이자, 동시에 제가 왜 Marleaux의 일원이 되어 제랄드 말로우와 같은 위대한 장인 밑에서 20년 이상 배우고 성장하며 제 모든 열정을 바치고 싶은지에 대한 이유를 담은 출사표입니다.",
+                visionTitle: "목적 및 비전",
+                visionContent: "저의 오랜 꿈인 베이스 브랜드 'RavenForge'를 구상하며 수집한 심층적인 연구 자료와 비전을 담고 있습니다. 저는 언젠가 저만의 철학이 담긴 악기를 만들겠다는 목표를 가지고, 전 세계 하이엔드 루씨어들을 분석하며 최상의 베이스가 갖춰야 할 요건들을 탐구해왔습니다.<br><br>그 과정에서 저는 Marleaux Basses가 추구하는 장인정신, 목재에 대한 깊은 열정, 그리고 지속 가능한 혁신에 가장 깊은 감명을 받았습니다. Marleaux는 저에게 단순한 벤치마킹 대상을 넘어, 제가 루씨어로서 걷고 싶은 길의 방향을 제시하는 등대와 같은 존재가 되었습니다.<br><br>따라서 이 문서는 저의 독자적인 연구 결과물이자, 동시에 제가 왜 Marleaux의 일원이 되어 제랄드 말로우와 같은 위대한 장인 밑에서 20년 이상 배우고 성장하며 제 모든 열정을 바치고 싶은지에 대한 이유를 담은 출사표입니다.",
                 conceptTitle: "프로젝트 구상: RavenForge 컨셉 모델",
                 emblaName: "EMBLA – 올라운더 세션 베이스",
                 emblaDesc: "최초의 여성 인류: 감성과 균형",
@@ -395,7 +428,7 @@
                 targetLabel: "타겟", scaleLabel: "스케일", bodyLabel: "바디", fretboardLabel: "지판", pickupsLabel: "픽업/프리",
                 emblaTarget: "세션, 작곡가, 다양한 장르", emblaScale: "34″ (36″ 옵션)", emblaBody: "느릅나무(Elm)", emblaFretboard: "웽에(Wenge) (에보니 옵션)", emblaPickups: "Delano Xtender / Sonar 3",
                 askrTarget: "메탈, 하이게인, 다운튜닝", askrScale: "35″ (37–34″ 멀티스케일 옵션)", askrBody: "하드 애쉬(Hard Ash)", askrFretboard: "로즈우드 (에보니 옵션)", askrPickups: "Fishman Fluence",
-                specSheetTitle: "RavenForge Master Spec Sheet (2025)",
+                specSheetTitle: "RavenForge 프로토타입 스펙 시트 (2025)",
                 specSheetDesc: "RavenForge의 두 가지 핵심 모델, EMBLA와 ASKR의 상세 스펙입니다. 아래 버튼을 클릭하여 각 모델의 사양을 확인해 보세요.",
                 specCommonBtn: "🧱 공통/옵션",
                 innovationTitle: "핵심 혁신 테마 분석",
@@ -840,6 +873,8 @@ translations.ko.luthierData = [
             { title: "생산 및 고객 경험 최적화", content: "현대 기술을 활용하여 고객 참여를 극대화하고, 효율성과 장인정신 사이의 균형을 최적화하여 최상의 고객 경험을 제공하는 것을 목표로 합니다.", details: `<ul><li><strong>Marleaux의 프로 피드백 기반 개선 프로세스 도입:</strong> 전 세계 베이스 프로들의 피드백과 아이디어를 적극적으로 반영하여 제작 공정을 지속적으로 개선하는 Marleaux의 방식을 도입하여, RavenForge가 연주자들과 함께 성장하는 브랜드가 되도록 합니다.</li><li><strong>Halo 및 Maruszczyk의 온라인 컨피규레이터 도입:</strong> 고객이 실시간으로 악기를 디자인하고 시각화할 수 있는 시스템을 구축합니다.</li><li><strong>MÜB의 CNC 활용 철학:</strong> CNC를 '창의적인 도구'로 활용하여 반복적인 작업을 처리하고 장인들이 가치 추가 영역에 집중하도록 합니다.</li></ul>`, related: ["Marleaux Basses", "Halo Custom Guitars", "Maruszczyk Instruments", "Maurizio Über Basses"] }
         ];
 
+
+
         // --- APPLICATION LOGIC ---
         document.addEventListener('DOMContentLoaded', () => {
             // 전체 데이터 객체에서 luthier/proposals 데이터가 비어있으면 채워줍니다.
@@ -1140,7 +1175,7 @@ translations.ko.luthierData = [
             });
 
             // --- Initial Load ---
-            switchLanguage('ko'); // 기본 언어를 한국어로 설정
+            switchLanguage('en'); // 기본 언어를 영어로 설정
         });
     </script>
 </body>
