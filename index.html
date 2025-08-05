@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RavenForge Luthier Intelligence: A 20-year vision and passion for Marleaux</title>
+    <title>RavenForge Luthier Intelligence: A Vision for Modern Bass Craftsmanship</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -90,11 +90,11 @@
                     <button id="lang-kr-btn" class="lang-btn px-4 py-2 rounded-md font-semibold border border-slate-400 hover:bg-slate-700 transition">KR</button>
                 </div>
             </div>
-            <!-- 네비게이션 메뉴 수정 -->
+            <!-- 네비게이션 메뉴 추가 -->
             <nav class="border-t border-slate-600">
                 <div class="flex justify-center space-x-4 md:space-x-8 py-3 text-sm md:text-base">
                     <a href="#about" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAbout"></a>
-                    <a href="#prototype" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navPrototype"></a>
+                    <a href="#Prototype" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navPrototype"></a>
                     <a href="#analysis" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAnalysis"></a>
                     <a href="#quest" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navQuest"></a>
                 </div>
@@ -109,7 +109,7 @@
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="aboutTitle"></h2>
                 
-                <!-- 개인 소개 섹션 -->
+                <!-- 개인 소개 섹션 추가 -->
                 <div id="personal-intro" class="mb-12 pb-8 border-b">
                     <h3 class="text-2xl font-bold mb-6" data-lang-key="introTitle"></h3>
                     <div class="flex flex-col sm:flex-row items-center gap-8">
@@ -117,21 +117,6 @@
                            <img src="https://search.pstatic.net/common?type=b&size=3000&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2FprofileImg%2Ft%2F6b326d10-f4cd-468c-b907-64e27568e08a.jpg" alt="Raven Cho Profile" class="w-full h-full object-cover">
                         </div>
                         <div class="text-slate-600 leading-relaxed" data-lang-key="introContent"></div>
-                    </div>
-                </div>
-
-                <!-- 스승 소개 섹션 추가 -->
-                <div id="mentors-section" class="mb-12 pb-8 border-b">
-                    <h3 class="text-2xl font-bold mb-6" data-lang-key="mentorsTitle"></h3>
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div>
-                            <h4 class="text-xl font-semibold" data-lang-key="mentor1Name"></h4>
-                            <div class="text-slate-600 mt-2" data-lang-key="mentor1Desc"></div>
-                        </div>
-                        <div>
-                            <h4 class="text-xl font-semibold" data-lang-key="mentor2Name"></h4>
-                            <div class="text-slate-600 mt-2" data-lang-key="mentor2Desc"></div>
-                        </div>
                     </div>
                 </div>
                 
@@ -169,9 +154,9 @@
         </section>
 
         <!-- 2. Prototype 섹션 -->
-        <section id="prototype" class="mb-16 pt-16 -mt-16">
+        <section id="Prototype" class="mb-16 pt-16 -mt-16">
             <div id="spec-sheet" class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="prototypeTitle"></h2>
+                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="PrototypeTitle"></h2>
                 <p class="mb-6 text-slate-600" data-lang-key="specSheetDesc"></p>
                 
                 <div class="mb-6 flex flex-wrap gap-2">
@@ -267,29 +252,28 @@
                 navAnalysis: "Analysis & Explorer",
                 navQuest: "Quest & Aspiration",
                 aboutTitle: "About",
-                prototypeTitle: "Prototype",
+                PrototypeTitle: "Prototype",
                 analysisTitle: "Analysis & Luthier Explorer",
                 questTitle: "Quest & Aspiration",
 
                 // Intro Section
-                introTitle: "About the Creator: Raven Cho",
+                introTitle: "About Me: Raven Cho",
                 introContent: `<p class="mb-4">Hello, I am Raven Cho (@raven_deadwire). My journey is one of two worlds: the intellectual rigor of philosophy and the raw passion of metal music, both of which converge into the craft of lutherie.</p>
                                <p class="mb-4">As a philosophy major at Yonsei University, I built a worldview grounded in aesthetics and critical thinking. This academic background became the soul of my artistic expression as the leader of DEADWIRE, a Scandinavian-style melodic death metal band. My deep dive into the genre led me to explore Norse mythology and folklore, which ultimately sparked the vision for RavenForge.</p>
-                               <p>My path to becoming a luthier has been hands-on and dedicated. I honed my initial skills from 2010-2013 at renowned Korean workshops like Freebud Mod Shop and Craftshouse. Today, while working professionally in educational publishing and EdTech, I continue my luthier apprenticeship under two great masters, relentlessly pursuing mastery of this craft.</p>`,
+                               <p>My path to becoming a luthier has been hands-on and dedicated. I honed my initial skills from 2010-2013 at renowned Korean workshops like Freebud Mod Shop and Craftshouse. Today, while working professionally in educational publishing and EdTech, I continue my luthier apprenticeship with Berklee GT Repair and Moon Guitar, relentlessly pursuing mastery of this craft.</p>`,
                 
-                // Mentors Section
-                mentorsTitle: "My Mentors",
-                mentor1Name: "Hojin Jeong (Berklee GT Repair)",
-                mentor1Desc: "<p>Mr. Hojin Jeong is a master of vintage and boutique instrument repair in Korea. With a 20-year tenure as the Head of Product Development at Dexter Guitars and over 15 years of specialized repair experience, his expertise is unparalleled.</p>",
-                mentor2Name: "Chanho Moon (Moon Guitar)",
-                mentor2Desc: "<p>Mr. Chanho Moon is a custom guitar luthier who graduated as the valedictorian from the Galloup School in the USA. He is a purist who adheres to 100% handmade, full-custom builds and is set to begin team-built production in 2025.</p>",
-
-                // Existing translations
-                pageTitle: "RavenForge Luthier Intelligence: A 20-year vision and passion for Marleaux",
+                // --- MODIFIED FOR GENERAL PURPOSE ---
+                pageTitle: "RavenForge Luthier Intelligence: A 20-Year Vision for Bass Craftsmanship",
                 mainTitle: "RavenForge Luthier Intelligence",
-                headerSubtitle: "A Personal Vision Exploration & Desire for Long-Term Contribution to Marleaux",
-                visionTitle: "Purpose & My Vision",
-                visionContent: "This document contains the in-depth research and vision I have gathered while conceptualizing 'RavenForge,' my long-held dream of a bass brand. With the goal of one day creating instruments that embody my own philosophy, I have analyzed high-end luthiers worldwide to explore the essential requirements of a superior bass.<br><br>In this process, I was most profoundly impressed by the craftsmanship, deep passion for wood, and sustainable innovation pursued by Marleaux Basses. For me, Marleaux is not merely a benchmark but a beacon, guiding the path I wish to walk as a luthier.<br><br>Therefore, this document is both a presentation of my independent research and a statement of intent, outlining why I want to become a part of the Marleaux team, learn and grow for over 20 years under a great craftsman like Sir Gerald Marleaux, and dedicate my entire passion to this journey.",
+                headerSubtitle: "A Personal Portfolio and Vision for the Future of Bass Guitar Craftsmanship",
+                visionTitle: "My Purpose & Vision",
+                visionContent: "This document contains the in-depth research and vision I have gathered while conceptualizing 'RavenForge,' my long-held dream of a bass brand. With the goal of one day creating instruments that embody my own philosophy, I have analyzed high-end luthiers worldwide to explore the essential requirements of a superior bass.<br><br>This process has been a journey of deep respect for the masters of the craft. I have learned from their diverse philosophies, from their reverence for wood to their pursuit of technical innovation. This portfolio is a testament to that research and a presentation of my own path forward as a luthier.",
+                questsTitle: "The Quests for the 20-Year Vision of RavenForge",
+                questsDesc: "The six strategic initiatives below form the long-term roadmap for my vision, 'RavenForge'. The roots of all these ideas are connected to the philosophies and technologies of the great luthiers I have studied. This is my concrete vision of how deeply I understand their legacy and how I can creatively build upon their teachings. It is through this analytical and forward-thinking approach that I wish to grow as a craftsman and contribute to the world of lutherie.",
+                aspirationTitle: "Long-Term Aspiration and Dream",
+                aspirationContent: "My foremost goal is to grow into a master craftsman through continuous learning and dedication. I dream of the day when I can realize my own vision of 'RavenForge', creating instruments that stand on the shoulders of giants while forging a new path.<br><br>The ideal relationship I envision within the lutherie community is a creative partnership based on deep respect and trust, much like the way Sheldon Dingwall supports and champions Simon Padalka's growth. To inherit the legacy of the great masters and, within it, to create a new history together—that is the picture of myself I see in 20 years.",
+                // --- END OF MODIFICATION ---
+
                 conceptTitle: "Project Conception: RavenForge Concept Models",
                 emblaName: "EMBLA – The All-Rounder Session Bass",
                 emblaDesc: "The First Woman: Sensitivity & Balance",
@@ -298,7 +282,6 @@
                 targetLabel: "Target", scaleLabel: "Scale", bodyLabel: "Body", fretboardLabel: "Fretboard", pickupsLabel: "Pickups/Preamp",
                 emblaTarget: "Session players, composers, various genres", emblaScale: "34″ (36″ option)", emblaBody: "Elm", emblaFretboard: "Wenge (Ebony option)", emblaPickups: "Delano Xtender / Sonar 3",
                 askrTarget: "Metal, high-gain, down-tuning", askrScale: "35″ (37–34″ multi-scale option)", askrBody: "Hard Ash", askrFretboard: "Rosewood (Ebony option)", askrPickups: "Fishman Fluence",
-                specSheetTitle: "RavenForge Prototype Spec Sheet (2025)",
                 specSheetDesc: "Here are the detailed specifications for RavenForge's two core models, EMBLA and ASKR. Click the buttons below to view the specs for each model.",
                 specCommonBtn: "🧱 Common/Options",
                 innovationTitle: "Analysis of Key Innovation Themes",
@@ -306,10 +289,6 @@
                 explorerTitle: "Luthier Explorer",
                 explorerDesc: "Use the filters below to explore luthiers by region or innovation theme. Click on each card to view a detailed analysis.",
                 regionLabel: "Region:", themeLabel: "Innovation Theme:", resetBtn: "Reset Filters",
-                questsTitle: "The Quests for the 20-Year Vision of RavenForge",
-                questsDesc: "The six strategic initiatives below form the long-term roadmap for my vision, 'RavenForge'. However, the roots of all these ideas are connected to the philosophies and technologies of great luthiers, including Marleaux. This is my concrete vision of how deeply I understand their legacy and how I can creatively build upon their teachings. It is through this analytical and forward-thinking approach that I wish to contribute to the Marleaux team.",
-                aspirationTitle: "Long-Term Aspiration and Dream",
-                aspirationContent: "My foremost goal is to grow into a master craftsman through the experience and learning at Marleaux. And I dream of the day when, with the support and acknowledgment of a master like Sir Gerald Marleaux, I can realize my vision of 'RavenForge'.<br><br>The ideal relationship I envision is a creative partnership based on deep respect and trust, much like the way Sheldon Dingwall supports and champions Simon Padalka's growth. To inherit the legacy of Marleaux and, within it, to create a new history together—that is the picture of myself I see in 20 years.",
                 filterRegions: { all: "All", europe: "Europe", usa: "USA", other: "Other" },
                 filterThemes: { all: "All", Ergonomics: "Ergonomics & Playability", Electronics: "Electronics & Tone", Wood: "Wood & Sustainability", Structure: "Structure & Stability", Aesthetics: "Aesthetics & Artistry", Customization: "Customization" },
                 chartLabel: "# of Associated Luthiers", chartTooltip: (c) => ` ${c.raw} luthiers`,
@@ -320,7 +299,14 @@
                     headers: { embla: ['Item', 'Details'], askr: ['Item', 'Details'], common: ['Category', 'Item', 'Details'] }
                 },
                 luthierData: [],
-                proposalsData: [],
+                proposalsData: [
+                    { title: "Innovation in Neck Structure & Stability", content: "The goal is to further develop the 13-piece laminated neck to dramatically reduce issues like warping and dead spots, ensuring long-term reliability.", details: `<ul><li><strong>Study advanced neck joint systems:</strong> Analyze how leading luthiers' bolt-on systems and neck constructions contribute to stability and sound transfer to enhance reliability.</li><li><strong>Research KD Basses' Cone Core:</strong> Explore methods to significantly reduce neck twisting, warping, and dead spots.</li><li><strong>Integrate De Gier's neck reinforcement:</strong> Incorporate carbon fiber rods and CNC fret slotting technology to improve structural rigidity and tonal quality.</li><li><strong>Consider Rikkers' quartersawn necks:</strong> Study their stiffness and tight sound to optimize the neck's acoustic properties.</li></ul>`, related: ["KD Basses", "De Gier Basses", "Rikkers Basses"] },
+                    { title: "Wood Research & Enhanced Sustainability", content: "The goal is to maximize the quality and stability of core woods and integrate environmental responsibility into the brand philosophy to offer differentiated value.", details: `<ul><li><strong>Benchmark industry-leading sustainability philosophies:</strong> Study initiatives like certified regional wood sourcing and climate-neutral production to build a sustainable strategy for RavenForge.</li><li><strong>Adopt Padalka's wood management philosophy:</strong> Apply rigorous wood selection, drying, and stabilization processes to maximize the quality and stability of core woods.</li><li><strong>Benchmark Warwick's FSC certification and carbon-neutral production:</strong> Reference leading environmental efforts to strengthen the brand's social responsibility.</li></ul>`, related: ["Padalka Guitars", "Warwick Basses"] },
+                    { title: "Maximizing Ergonomics & Playing Comfort", content: "The goal is to innovate the ergonomic design across the body, neck, and overall structure to allow players to perform comfortably for extended periods and experience a sense of unity with the instrument.", details: `<ul><li><strong>Analyze leading ergonomic body shapes:</strong> Conduct an in-depth analysis of ergonomic shapes from top brands to improve the playing comfort of RavenForge models.</li><li><strong>Study the ergonomic body designs of Spector & Roks:</strong> Redesign body contours, center of gravity, and neck joints to maximize playing comfort.</li><li><strong>Consider Stradi's extended fingerboard and bridge position:</strong> Evaluate this innovative approach to improve left-hand accessibility and overall playability.</li><li><strong>Apply Elrick's 'heel-less' design:</strong> Implement on bolt-on neck models to maximize high-fret accessibility.</li></ul>`, related: ["Spector Basses", "Roks Instruments", "Stradi Basses", "Elrick Bass Guitars"] },
+                    { title: "Expanding Electronics & Tonal Palette", content: "The goal is to develop proprietary circuits or pickup configurations that go beyond existing systems to build a brand signature sound and enhance acoustic depth and versatility.", details: `<ul><li><strong>Benchmark leading tone systems:</strong> Analyze how premium EQ and pickup combinations create defined and versatile sounds to enrich the tonal palette of RavenForge.</li><li><strong>Embrace Alembic's pioneering spirit in active electronics:</strong> Develop proprietary active circuits or pickup configurations to establish a brand signature sound.</li><li><strong>Implement Zakrzewski's dual output system:</strong> Apply to the EMBLA model to enable greater acoustic depth and creative sound design in studio and live environments.</li><li><strong>Research Stradi's hybrid pickup system:</strong> Study magnetic/piezo integration to expand the tonal palette and increase versatility.</li></ul>`, related: ["Alembic Inc.", "Zakrzewski Basses", "Stradi Basses"] },
+                    { title: "Aesthetic Differentiation & Brand Storytelling", content: "The goal is to deeply integrate the Norse mythology theme into the instrument design and elevate the instruments to 'collectible works of art' through unique finishes and materials.", details: `<ul><li><strong>Study how leading brands create aesthetic value:</strong> Research how top luthiers use rare woods and weave technological innovation stories into their brand narrative.</li><li><strong>Adopt Jens Ritter's artistic approach:</strong> Transform instruments into cultural artifacts and investments through limited editions, unique inlay materials, and story-driven finishes.</li><li><strong>Research Sandberg's sophisticated aging process:</strong> Study their Thermo/Vibration Treatment to ensure instruments develop a richer, more mature tone over time.</li><li><strong>Utilize KD Basses' stabilized wood and mosaic fingerboards:</strong> Develop runic inlays into more original and visually captivating elements.</li></ul>`, related: ["Jens Ritter Instruments", "Sandberg Guitars", "KD Basses"] },
+                    { title: "Optimizing Production & Customer Experience", content: "The goal is to maximize customer engagement using modern technology and to optimize the balance between efficiency and craftsmanship to deliver the best possible customer experience.", details: `<ul><li><strong>Adopt pro-feedback-based improvement processes:</strong> Implement systems for actively incorporating feedback from professional players to continuously improve manufacturing.</li><li><strong>Introduce online configurators like Halo and Maruszczyk:</strong> Build a system that allows customers to design and visualize their instruments in real-time.</li><li><strong>Adopt MÜB's philosophy on CNC utilization:</strong> Use CNC as a 'creative tool' to handle repetitive tasks, allowing artisans to focus on value-added areas.</li></ul>`, related: ["Halo Custom Guitars", "Maruszczyk Instruments", "Maurizio Über Basses"] }
+                ],
                 relatedLuthiersLabel: "Related Luthiers:",
                 noLuthierMatch: "No luthiers match the selected criteria."
             },
@@ -332,29 +318,28 @@
                 navAnalysis: "Analyse & Explorer",
                 navQuest: "Quest & Bestreben",
                 aboutTitle: "Über",
-                prototypeTitle: "Prototyp",
+                PrototypeTitle: "Prototyp",
                 analysisTitle: "Analyse & Gitarrenbauer-Explorer",
                 questTitle: "Quest & Bestreben",
 
                 // Intro Section
-                introTitle: "Über den Schöpfer: Raven Cho",
+                introTitle: "Über Mich: Raven Cho",
                 introContent: `<p class="mb-4">Hallo, ich bin Raven Cho (@raven_deadwire). Meine Reise ist eine zwischen zwei Welten: der intellektuellen Strenge der Philosophie und der rohen Leidenschaft der Metal-Musik, die beide im Handwerk des Gitarrenbaus zusammenfließen.</p>
                                <p class="mb-4">Als Hauptfachstudent der Philosophie an der Yonsei-Universität habe ich eine Weltanschauung entwickelt, die auf Ästhetik und kritischem Denken basiert. Dieser akademische Hintergrund wurde zur Seele meines künstlerischen Ausdrucks als Leiter von DEADWIRE, einer Melodic-Death-Metal-Band im skandinavischen Stil. Mein tiefes Eintauchen in das Genre führte mich zur Erforschung der nordischen Mythologie und Folklore, was letztendlich die Vision für RavenForge entfachte.</p>
-                               <p>Mein Weg zum Gitarrenbauer war praxisnah und engagiert. Ich habe meine ersten Fähigkeiten von 2010-2013 in renommierten koreanischen Werkstätten wie dem Freebud Mod Shop und Craftshouse verfeinert. Heute, während ich beruflich im Bildungsverlagswesen und in der EdTech-Branche tätig bin, setze ich meine Ausbildung zum Gitarrenbauer unter zwei großen Meistern fort und strebe unermüdlich nach der Meisterschaft in diesem Handwerk.</p>`,
+                               <p>Mein Weg zum Gitarrenbauer war praxisnah und engagiert. Ich habe meine ersten Fähigkeiten von 2010-2013 in renommierten koreanischen Werkstätten wie dem Freebud Mod Shop und Craftshouse verfeinert. Heute, während ich beruflich im Bildungsverlagswesen und in der EdTech-Branche tätig bin, setze ich meine Ausbildung zum Gitarrenbauer bei Berklee GT Repair und Moon Guitar fort und strebe unermüdlich nach der Meisterschaft in diesem Handwerk.</p>`,
                 
-                // Mentors Section
-                mentorsTitle: "Meine Mentoren",
-                mentor1Name: "Hojin Jeong (Berklee GT Repair)",
-                mentor1Desc: "<p>Herr Hojin Jeong ist ein Meister der Reparatur von Vintage- und Boutique-Instrumenten in Korea. Mit 20 Jahren als Leiter der Produktentwicklung bei Dexter Guitars und über 15 Jahren spezialisierter Reparaturerfahrung ist seine Expertise unübertroffen.</p>",
-                mentor2Name: "Chanho Moon (Moon Guitar)",
-                mentor2Desc: "<p>Herr Chanho Moon ist ein Custom-Gitarrenbauer, der die Galloup School in den USA als Jahrgangsbester abgeschlossen hat. Er ist ein Purist, der sich zu 100% handgefertigten, vollständig kundenspezifischen Bauten bekennt und 2025 mit der Team-Built-Produktion beginnen wird.</p>",
-
-                // Existing translations
-                pageTitle: "RavenForge Luthier Intelligence: Eine 20-Jahres-Vision und Leidenschaft für Marleaux",
+                // --- MODIFIED FOR GENERAL PURPOSE ---
+                pageTitle: "RavenForge Luthier Intelligence: Eine 20-jährige Vision für die Bass-Handwerkskunst",
                 mainTitle: "RavenForge Luthier Intelligence",
-                headerSubtitle: "Eine persönliche Visionserkundung & der Wunsch nach einem langfristigen Beitrag für Marleaux",
-                visionTitle: "Zweck & meine Vision",
-                visionContent: "Dieses Dokument enthält die tiefgehende Recherche und Vision, die ich bei der Konzeption von 'RavenForge', meinem lang gehegten Traum einer Bassmarke, gesammelt habe. Mit dem Ziel, eines Tages Instrumente zu schaffen, die meine eigene Philosophie verkörpern, habe ich weltweit High-End-Gitarrenbauer analysiert, um die wesentlichen Anforderungen an einen überlegenen Bass zu ergründen.<br><br>In diesem Prozess war ich am tiefsten von der Handwerkskunst, der tiefen Leidenschaft für Holz und der nachhaltigen Innovation von Marleaux Basses beeindruckt. Für mich ist Marleaux nicht nur ein Maßstab, sondern ein Leuchtfeuer, das den Weg weist, den ich als Gitarrenbauer gehen möchte.<br><br>Daher ist dieses Dokument sowohl eine Präsentation meiner unabhängigen Forschung als auch eine Absichtserklärung, die darlegt, warum ich Teil des Marleaux-Teams werden, über 20 Jahre unter einem großen Handwerker wie Herrn Gerald Marleaux lernen und wachsen und meine gesamte Leidenschaft dieser Reise widmen möchte.",
+                headerSubtitle: "Ein persönliches Portfolio und eine Vision für die Zukunft des Bassgitarrenbaus",
+                visionTitle: "Mein Ziel und meine Vision",
+                visionContent: "Dieses Dokument enthält die tiefgehende Recherche und Vision, die ich bei der Konzeption von 'RavenForge', meinem lang gehegten Traum einer Bassmarke, gesammelt habe. Mit dem Ziel, eines Tages Instrumente zu schaffen, die meine eigene Philosophie verkörpern, habe ich weltweit High-End-Gitarrenbauer analysiert, um die wesentlichen Anforderungen an einen überlegenen Bass zu ergründen.<br><br>Dieser Prozess war eine Reise des tiefen Respekts vor den Meistern des Handwerks. Ich habe von ihren vielfältigen Philosophien gelernt, von ihrer Ehrfurcht vor dem Holz bis hin zu ihrem Streben nach technischer Innovation. Dieses Portfolio ist ein Zeugnis dieser Forschung und eine Präsentation meines eigenen zukünftigen Weges als Gitarrenbauer.",
+                questsTitle: "Die Quests für die 20-Jahres-Vision von RavenForge",
+                questsDesc: "Die sechs strategischen Initiativen unten bilden die langfristige Roadmap für meine Vision 'RavenForge'. Die Wurzeln all dieser Ideen sind mit den Philosophien und Technologien der großen Gitarrenbauer verbunden, die ich studiert habe. Dies ist meine konkrete Vision, wie tief ich ihr Erbe verstehe und wie ich kreativ auf ihren Lehren aufbauen kann. Durch diesen analytischen und vorausschauenden Ansatz möchte ich als Handwerker wachsen und zur Welt des Gitarrenbaus beitragen.",
+                aspirationTitle: "Langfristiges Bestreben und Traum",
+                aspirationContent: "Mein oberstes Ziel ist es, durch kontinuierliches Lernen und Engagement zu einem Meisterhandwerker heranzuwachsen. Ich träume von dem Tag, an dem ich meine eigene Vision von 'RavenForge' verwirklichen und Instrumente schaffen kann, die auf den Schultern von Giganten stehen und gleichzeitig einen neuen Weg beschreiten.<br><br>Die ideale Beziehung, die ich mir innerhalb der Gitarrenbau-Community vorstelle, ist eine kreative Partnerschaft, die auf tiefem Respekt und Vertrauen basiert, ähnlich wie Sheldon Dingwall das Wachstum von Simon Padalka unterstützt und fördert. Das Erbe der großen Meister anzutreten und darin eine neue Geschichte gemeinsam zu schaffen – das ist das Bild von mir, das ich in 20 Jahren sehe.",
+                // --- END OF MODIFICATION ---
+                
                 conceptTitle: "Projektkonzeption: RavenForge-Konzeptmodelle",
                 emblaName: "EMBLA – Der Allround-Session-Bass",
                 emblaDesc: "Die erste Frau: Sensibilität & Balance",
@@ -363,7 +348,6 @@
                 targetLabel: "Zielgruppe", scaleLabel: "Mensur", bodyLabel: "Korpus", fretboardLabel: "Griffbrett", pickupsLabel: "Tonabnehmer/Preamp",
                 emblaTarget: "Session-Musiker, Komponisten, diverse Genres", emblaScale: "34″ (36″ Option)", emblaBody: "Ulme", emblaFretboard: "Wenge (Ebenholz-Option)", emblaPickups: "Delano Xtender / Sonar 3",
                 askrTarget: "Metal, High-Gain, Down-Tuning", askrScale: "35″ (37–34″ Multi-Scale-Option)", askrBody: "Harte Esche", askrFretboard: "Palisander (Ebenholz-Option)", askrPickups: "Fishman Fluence",
-                specSheetTitle: "RavenForge Prototyp-Spezifikationsblatt (2025)",
                 specSheetDesc: "Hier sind die detaillierten Spezifikationen für die beiden Kernmodelle von RavenForge, EMBLA und ASKR. Klicken Sie auf die Schaltflächen unten, um die Spezifikationen für jedes Modell anzuzeigen.",
                 specCommonBtn: "🧱 Allgemein/Optionen",
                 innovationTitle: "Analyse der wichtigsten Innovationsthemen",
@@ -371,10 +355,6 @@
                 explorerTitle: "Gitarrenbauer-Explorer",
                 explorerDesc: "Verwenden Sie die Filter unten, um Gitarrenbauer nach Region oder Innovationsthema zu erkunden. Klicken Sie auf jede Karte, um eine detaillierte Analyse anzuzeigen.",
                 regionLabel: "Region:", themeLabel: "Innovationsthema:", resetBtn: "Filter zurücksetzen",
-                questsTitle: "Die Quests für die 20-Jahres-Vision von RavenForge",
-                questsDesc: "Die sechs strategischen Initiativen unten bilden die langfristige Roadmap für meine Vision 'RavenForge'. Die Wurzeln all dieser Ideen sind jedoch mit den Philosophien und Technologien großer Gitarrenbauer, einschließlich Marleaux, verbunden. Dies ist meine konkrete Vision, wie tief ich ihr Erbe verstehe und wie ich kreativ auf ihren Lehren aufbauen kann. Durch diesen analytischen und vorausschauenden Ansatz möchte ich zum Marleaux-Team beitragen.",
-                aspirationTitle: "Langfristiges Bestreben und Traum",
-                aspirationContent: "Mein oberstes Ziel ist es, durch die Erfahrung und das Lernen bei Marleaux zu einem Meisterhandwerker heranzuwachsen. Und ich träume von dem Tag, an dem ich mit der Unterstützung und Anerkennung eines Meisters wie Herrn Gerald Marleaux meine Vision von 'RavenForge' verwirklichen kann.<br><br>Die ideale Beziehung, die ich mir vorstelle, ist eine kreative Partnerschaft, die auf tiefem Respekt und Vertrauen basiert, ähnlich wie Sheldon Dingwall das Wachstum von Simon Padalka unterstützt und fördert. Das Erbe von Marleaux anzutreten und darin eine neue Geschichte gemeinsam zu schaffen – das ist das Bild von mir, das ich in 20 Jahren sehe.",
                 filterRegions: { all: "Alle", europe: "Europa", usa: "USA", other: "Andere" },
                 filterThemes: { all: "Alle", Ergonomics: "Ergonomie & Spielbarkeit", Electronics: "Elektronik & Ton", Wood: "Holz & Nachhaltigkeit", Structure: "Struktur & Stabilität", Aesthetics: "Ästhetik & Kunstfertigkeit", Customization: "Individualisierung" },
                 chartLabel: "# der zugehörigen Gitarrenbauer", chartTooltip: (c) => ` ${c.raw} Gitarrenbauer`,
@@ -385,7 +365,14 @@
                     headers: { embla: ['Merkmal', 'Details'], askr: ['Merkmal', 'Details'], common: ['Kategorie', 'Merkmal', 'Details'] }
                 },
                 luthierData: [],
-                proposalsData: [],
+                proposalsData: [
+                    { title: "Innovation bei Halsstruktur & Stabilität", content: "Das Ziel ist, den 13-teiligen laminierten Hals weiterzuentwickeln, um Probleme wie Verzug und Dead Spots drastisch zu reduzieren und langfristige Zuverlässigkeit zu gewährleisten.", details: `<ul><li><strong>Fortschrittliche Halsverbindungssysteme studieren:</strong> Analysieren, wie die Schraubsysteme und Halskonstruktionen führender Gitarrenbauer zur Stabilität und Klangübertragung beitragen, um die Zuverlässigkeit zu verbessern.</li><li><strong>KD Basses' Cone Core erforschen:</strong> Methoden untersuchen, um Halsverdrehung, Verzug und Dead Spots signifikant zu reduzieren.</li><li><strong>De Giers Halsverstärkung integrieren:</strong> Carbonfaserstäbe und CNC-Bundschlitztechnologie einbauen, um die strukturelle Steifigkeit und Klangqualität zu verbessern.</li><li><strong>Rikkers' stehend gesägte Hälse in Betracht ziehen:</strong> Ihre Steifigkeit und ihren straffen Klang studieren, um die akustischen Eigenschaften des Halses zu optimieren.</li></ul>`, related: ["KD Basses", "De Gier Basses", "Rikkers Basses"] },
+                    { title: "Holzforschung & verbesserte Nachhaltigkeit", content: "Das Ziel ist es, die Qualität und Stabilität der Kernhölzer zu maximieren und Umweltverantwortung in die Markenphilosophie zu integrieren, um einen differenzierten Wert zu bieten.", details: `<ul><li><strong>Branchenführende Nachhaltigkeitsphilosophien als Benchmark nutzen:</strong> Initiativen wie zertifizierte regionale Holzbeschaffung und klimaneutrale Produktion studieren, um eine nachhaltige Strategie für RavenForge aufzubauen.</li><li><strong>Padalkas Holzmanagementphilosophie anwenden:</strong> Strenge Holzauswahl-, Trocknungs- und Stabilisierungsprozesse anwenden, um die Qualität und Stabilität der Kernhölzer zu maximieren.</li><li><strong>Warwicks FSC-Zertifizierung und CO2-neutrale Produktion als Benchmark nutzen:</strong> Führende Umweltbemühungen als Referenz heranziehen, um die soziale Verantwortung der Marke zu stärken.</li></ul>`, related: ["Padalka Guitars", "Warwick Basses"] },
+                    { title: "Maximierung von Ergonomie & Spielkomfort", content: "Das Ziel ist es, das ergonomische Design von Korpus, Hals und Gesamtstruktur zu innovieren, damit Spieler über längere Zeiträume bequem spielen und ein Gefühl der Einheit mit dem Instrument erfahren können.", details: `<ul><li><strong>Führende ergonomische Korpusformen analysieren:</strong> Eine eingehende Analyse ergonomischer Formen von Top-Marken durchführen, um den Spielkomfort der RavenForge-Modelle zu verbessern.</li><li><strong>Die ergonomischen Korpusdesigns von Spector & Roks studieren:</strong> Korpus-Konturen, Schwerpunkt und Halsverbindungen neu gestalten, um den Spielkomfort zu maximieren.</li><li><strong>Stradis verlängertes Griffbrett und Brückenposition in Betracht ziehen:</strong> Diesen innovativen Ansatz bewerten, um die Zugänglichkeit der linken Hand und die allgemeine Spielbarkeit zu verbessern.</li><li><strong>Elricks 'fersenloses' Design anwenden:</strong> Bei Bolt-on-Halsmodellen implementieren, um die Zugänglichkeit der hohen Bünde zu maximieren.</li></ul>`, related: ["Spector Basses", "Roks Instruments", "Stradi Basses", "Elrick Bass Guitars"] },
+                    { title: "Erweiterung von Elektronik & Klangpalette", content: "Das Ziel ist es, proprietäre Schaltungen oder Tonabnehmerkonfigurationen zu entwickeln, die über bestehende Systeme hinausgehen, um einen Markensignaturklang aufzubauen und die akustische Tiefe und Vielseitigkeit zu verbessern.", details: `<ul><li><strong>Führende Tonsysteme als Benchmark nutzen:</strong> Analysieren, wie hochwertige EQ- und Tonabnehmerkombinationen definierte und vielseitige Klänge erzeugen, um die Klangpalette von RavenForge zu bereichern.</li><li><strong>Alembics Pioniergeist in der aktiven Elektronik aufgreifen:</strong> Proprietäre aktive Schaltungen oder Tonabnehmerkonfigurationen entwickeln, um einen Markensignaturklang zu etablieren.</li><li><strong>Zakrzewskis duales Ausgangssystem implementieren:</strong> Auf das EMBLA-Modell anwenden, um eine größere akustische Tiefe und kreatives Sounddesign im Studio und live zu ermöglichen.</li><li><strong>Stradis hybrides Tonabnehmersystem erforschen:</strong> Magnetische/Piezo-Integration studieren, um die Klangpalette zu erweitern und die Vielseitigkeit zu erhöhen.</li></ul>`, related: ["Alembic Inc.", "Zakrzewski Basses", "Stradi Basses"] },
+                    { title: "Ästhetische Differenzierung & Markengeschichte", content: "Das Ziel ist es, das Thema der nordischen Mythologie tief in das Instrumentendesign zu integrieren und die Instrumente durch einzigartige Oberflächen und Materialien zu 'sammelbaren Kunstwerken' zu erheben.", details: `<ul><li><strong>Studieren, wie führende Marken ästhetischen Wert schaffen:</strong> Erforschen, wie Top-Gitarrenbauer seltene Hölzer verwenden und technologische Innovationsgeschichten in ihre Markenerzählung einweben.</li><li><strong>Jens Ritters künstlerischen Ansatz übernehmen:</strong> Instrumente durch limitierte Auflagen, einzigartige Einlagenmaterialien und geschichtengetriebene Oberflächen in Kulturgüter und Investitionen verwandeln.</li><li><strong>Sandbergs ausgeklügelten Alterungsprozess erforschen:</strong> Ihre Thermo-/Vibrationsbehandlung studieren, um sicherzustellen, dass die Instrumente im Laufe der Zeit einen reicheren, reiferen Ton entwickeln.</li><li><strong>KD Basses' stabilisiertes Holz und Mosaik-Griffbretter nutzen:</strong> Runen-Inlays zu originelleren und visuell fesselnderen Elementen entwickeln.</li></ul>`, related: ["Jens Ritter Instruments", "Sandberg Guitars", "KD Basses"] },
+                    { title: "Optimierung von Produktion & Kundenerlebnis", content: "Das Ziel ist es, die Kundenbindung mit moderner Technologie zu maximieren und das Gleichgewicht zwischen Effizienz und Handwerkskunst zu optimieren, um das bestmögliche Kundenerlebnis zu bieten.", details: `<ul><li><strong>Auf Profi-Feedback basierende Verbesserungsprozesse übernehmen:</strong> Systeme zur aktiven Einbeziehung von Feedback von professionellen Spielern implementieren, um die Herstellung kontinuierlich zu verbessern.</li><li><strong>Online-Konfiguratoren wie bei Halo und Maruszczyk einführen:</strong> Ein System aufbauen, das es Kunden ermöglicht, ihre Instrumente in Echtzeit zu entwerfen und zu visualisieren.</li><li><strong>MÜBs Philosophie zur CNC-Nutzung übernehmen:</strong> CNC als 'kreatives Werkzeug' einsetzen, um repetitive Aufgaben zu erledigen, sodass sich Handwerker auf wertschöpfende Bereiche konzentrieren können.</li></ul>`, related: ["Halo Custom Guitars", "Maruszczyk Instruments", "Maurizio Über Basses"] }
+                ],
                 relatedLuthiersLabel: "Verwandte Gitarrenbauer:",
                 noLuthierMatch: "Keine Gitarrenbauer entsprechen den ausgewählten Kriterien."
             },
@@ -394,32 +381,31 @@
                 // Navigation and Section Titles
                 navAbout: "소개",
                 navPrototype: "프로토타입",
-                navAnalysis: "분석 및 탐색",
+                navAnalysis: "분석 및 탐색기",
                 navQuest: "비전과 목표",
                 aboutTitle: "소개 (About)",
-                prototypeTitle: "프로토타입 (Prototype)",
-                analysisTitle: "분석 및 제작가 탐색 (Analysis & Luthier Explorer)",
+                PrototypeTitle: "프로토타입 (Prototype)",
+                analysisTitle: "분석 및 제작가 탐색기 (Analysis & Luthier Explorer)",
                 questTitle: "비전과 목표 (Quest & Aspiration)",
                 
                 // Intro Section
-                introTitle: "제작자 소개: Raven Cho",
+                introTitle: "About Me: Raven Cho",
                 introContent: `<p class="mb-4">안녕하세요, 저는 Raven Cho(@raven_deadwire)입니다. 저의 여정은 철학의 지적 탐구와 메탈 음악의 강렬한 열정이라는 두 세계를 오가며, 그 교차점에서 악기 제작이라는 예술을 발견했습니다.</p>
                                <p class="mb-4">연세대학교에서 철학을 전공하며 미학적, 비판적 사고에 기반한 세계관을 구축했습니다. 이러한 학문적 배경은 스칸디나비아 스타일의 멜로딕 데스 메탈 밴드 'DEADWIRE'를 이끄는 아티스트로서의 정체성에 깊은 영향을 주었습니다. 장르에 대한 깊은 이해를 위해 북유럽 신화와 민속을 탐구하던 중, 마침내 'RavenForge'라는 비전의 씨앗을 발견하게 되었습니다.</p>
-                               <p>악기 제작 장인이 되기 위한 저의 길은 꾸준하고 헌신적이었습니다. 2010년부터 2013년까지 한국의 프리버드 Mod Shop과 Craftshouse에서 기술의 기초를 닦았고, 현재는 교육 출판 및 에듀테크 분야에서 전문가로 일하면서도 두 위대한 스승님 아래에서 견습 과정을 밟으며 악기 제작에 대한 숙련도를 끊임없이 높여가고 있습니다.</p>`,
-
-                // Mentors Section
-                mentorsTitle: "나의 스승",
-                mentor1Name: "정호진 (버클리 GT 리페어)",
-                mentor1Desc: "<p>정호진 사장님은 한국 빈티지-부티크 악기 수리 분야의 독보적인 전문가입니다. Dexter Guitars에서 20년간 제품 개발 부장으로 재직했으며, 이후 15년 이상의 전문 리페어 경력을 쌓아오셨습니다.</p>",
-                mentor2Name: "문찬호 (문 기타)",
-                mentor2Desc: "<p>문찬호 사장님은 미국 갤럽 스쿨을 수석 졸업한 커스텀 기타 루씨어입니다. 100% 핸드메이드 풀 커스텀 제작을 고수해오셨으며, 2025년부터는 팀빌트 제품 양산을 시작합니다.</p>",
-
-                // Existing translations
-                pageTitle: "RavenForge Luthier Intelligence: 20년을 바라보는 비전과 Marleaux를 향한 열정",
+                               <p>악기 제작 장인이 되기 위한 저의 길은 꾸준하고 헌신적이었습니다. 2010년부터 2013년까지 한국의 프리버드 Mod Shop과 Craftshouse에서 기술의 기초를 닦았고, 현재는 교육 출판 및 에듀테크 분야에서 전문가로 일하면서도 버클리 GT 리페어 및 문 기타(Moon Guitar)에서 견습 과정을 밟으며 악기 제작에 대한 숙련도를 끊임없이 높여가고 있습니다.</p>`,
+                
+                // --- MODIFIED FOR GENERAL PURPOSE ---
+                pageTitle: "RavenForge Luthier Intelligence: 베이스 제작을 위한 20년 비전",
                 mainTitle: "RavenForge Luthier Intelligence",
-                headerSubtitle: "개인적 비전 탐구 및 Marleaux에 대한 장기적 기여 열망",
-                visionTitle: "목적 및 비전",
-                visionContent: "저의 오랜 꿈인 베이스 브랜드 'RavenForge'를 구상하며 수집한 심층적인 연구 자료와 비전을 담고 있습니다. 저는 언젠가 저만의 철학이 담긴 악기를 만들겠다는 목표를 가지고, 전 세계 하이엔드 루씨어들을 분석하며 최상의 베이스가 갖춰야 할 요건들을 탐구해왔습니다.<br><br>그 과정에서 저는 Marleaux Basses가 추구하는 장인정신, 목재에 대한 깊은 열정, 그리고 지속 가능한 혁신에 가장 깊은 감명을 받았습니다. Marleaux는 저에게 단순한 벤치마킹 대상을 넘어, 제가 루씨어로서 걷고 싶은 길의 방향을 제시하는 등대와 같은 존재가 되었습니다.<br><br>따라서 이 문서는 저의 독자적인 연구 결과물이자, 동시에 제가 왜 Marleaux의 일원이 되어 제랄드 말로우와 같은 위대한 장인 밑에서 20년 이상 배우고 성장하며 제 모든 열정을 바치고 싶은지에 대한 이유를 담은 출사표입니다.",
+                headerSubtitle: "베이스 기타 제작의 미래를 위한 개인 포트폴리오 및 비전",
+                visionTitle: "문서의 목적 및 비전",
+                visionContent: "본 문서는 저의 오랜 꿈인 베이스 브랜드 'RavenForge'를 구상하며 수집한 심층적인 연구와 비전을 담고 있습니다. 언젠가 저만의 철학이 담긴 악기를 만들겠다는 목표를 가지고, 전 세계 하이엔드 제작가들을 분석하며 최상의 베이스가 갖춰야 할 요건들을 탐구해왔습니다.<br><br>이 과정은 제작의 대가들에 대한 깊은 존경심을 배우는 여정이었습니다. 목재에 대한 경외심부터 기술 혁신에 대한 탐구에 이르기까지, 그들의 다양한 철학에서 많은 것을 배웠습니다. 이 포트폴리오는 그 연구에 대한 증거이자, 제작가로서 나아갈 저 자신의 길을 제시하는 문서입니다.",
+                questsTitle: "RavenForge 20년 비전을 위한 과제",
+                questsDesc: "아래의 6가지 전략 과제는 저의 비전인 'RavenForge'를 위한 장기적인 로드맵입니다. 이 모든 아이디어의 뿌리는 제가 연구해온 위대한 제작가들의 철학과 기술에 닿아있습니다. 이는 제가 그들의 유산을 얼마나 깊이 이해하고 있으며, 그 가르침을 어떻게 창의적으로 발전시켜 나갈 수 있는지에 대한 저의 구체적인 비전입니다. 저는 이러한 분석적이고 미래지향적인 접근 방식을 통해 장인으로서 성장하고 악기 제작의 세계에 기여하고 싶습니다.",
+                aspirationTitle: "장기적인 비전과 꿈",
+                aspirationContent: "저의 최우선 목표는 끊임없는 학습과 헌신을 통해 최고의 장인으로 성장하는 것입니다. 언젠가 거인들의 어깨 위에서 새로운 길을 개척하는 악기를 만들며, 저의 비전인 'RavenForge'를 실현하는 날을 꿈꿉니다.<br><br>제가 악기 제작 커뮤니티 안에서 그리는 이상적인 관계는 깊은 존경과 신뢰를 바탕으로 한 창의적인 파트너십이며, 이는 쉘든 딩월이 사이먼 파달카의 성장을 지지하고 돕는 모습과 닮아있을 것입니다. 위대한 대가들의 유산을 계승하고, 그 안에서 새로운 역사를 함께 만들어가는 것. 그것이 제가 20년 후 그리고 있는 저의 모습입니다.",
+                // --- END OF MODIFICATION ---
+                
                 conceptTitle: "프로젝트 구상: RavenForge 컨셉 모델",
                 emblaName: "EMBLA – 올라운더 세션 베이스",
                 emblaDesc: "최초의 여성 인류: 감성과 균형",
@@ -428,7 +414,6 @@
                 targetLabel: "타겟", scaleLabel: "스케일", bodyLabel: "바디", fretboardLabel: "지판", pickupsLabel: "픽업/프리",
                 emblaTarget: "세션, 작곡가, 다양한 장르", emblaScale: "34″ (36″ 옵션)", emblaBody: "느릅나무(Elm)", emblaFretboard: "웽에(Wenge) (에보니 옵션)", emblaPickups: "Delano Xtender / Sonar 3",
                 askrTarget: "메탈, 하이게인, 다운튜닝", askrScale: "35″ (37–34″ 멀티스케일 옵션)", askrBody: "하드 애쉬(Hard Ash)", askrFretboard: "로즈우드 (에보니 옵션)", askrPickups: "Fishman Fluence",
-                specSheetTitle: "RavenForge 프로토타입 스펙 시트 (2025)",
                 specSheetDesc: "RavenForge의 두 가지 핵심 모델, EMBLA와 ASKR의 상세 스펙입니다. 아래 버튼을 클릭하여 각 모델의 사양을 확인해 보세요.",
                 specCommonBtn: "🧱 공통/옵션",
                 innovationTitle: "핵심 혁신 테마 분석",
@@ -436,10 +421,6 @@
                 explorerTitle: "Luthier Explorer",
                 explorerDesc: "아래 필터를 사용하여 지역별, 혁신 테마별로 루씨어들을 탐색할 수 있습니다. 각 카드를 클릭하면 상세한 분석 내용을 확인할 수 있습니다.",
                 regionLabel: "지역:", themeLabel: "혁신 테마:", resetBtn: "필터 초기화",
-                questsTitle: "RavenForge 20년 비전을 위한 과제",
-                questsDesc: "아래의 6가지 전략 과제는 저의 비전인 'RavenForge'를 위한 장기적인 로드맵입니다. 하지만 이 모든 아이디어의 뿌리는 Marleaux를 비롯한 위대한 루씨어들의 철학과 기술에 닿아있습니다. 이는 제가 그들의 유산을 얼마나 깊이 이해하고 있으며, 그 가르침을 어떻게 창의적으로 발전시켜 나갈 수 있는지에 대한 저의 구체적인 비전입니다. 저는 이러한 분석적이고 미래지향적인 접근 방식을 통해 Marleaux 팀에 기여하고 싶습니다.",
-                aspirationTitle: "장기적인 비전과 꿈",
-                aspirationContent: "저는 Marleaux에서의 경험과 배움을 통해 최고의 장인으로 성장하는 것을 최우선 목표로 삼고 있습니다. 그리고 언젠가 제랄드 말로우와 같은 마스터의 지지와 인정을 받으며 저의 비전인 'RavenForge'를 실현하는 날을 꿈꿉니다.<br><br>제가 생각하는 이상적인 관계는 깊은 존경심과 신뢰를 바탕으로 한 창의적인 협력 관계이며, 이는 쉘든 딩월이 사이먼 페달카의 성장을 돕고 지지하는 모습과 닮아있을 것입니다. Marleaux의 유산을 계승하고, 그 안에서 새로운 역사를 함께 만들어가는 것. 그것이 제가 20년 후 그리고 있는 저의 모습입니다.",
                 filterRegions: { all: "전체", europe: "유럽", usa: "미국", other: "기타" },
                 filterThemes: { all: "전체", Ergonomics: "인체공학 & 연주성", Electronics: "전자장치 & 톤", Wood: "목재 & 지속가능성", Structure: "구조 & 안정성", Aesthetics: "미학 & 예술성", Customization: "커스터마이징" },
                 chartLabel: "관련 루씨어 수", chartTooltip: (c) => ` ${c.raw}명의 루씨어`,
@@ -450,7 +431,14 @@
                     headers: { embla: ['항목', '내용'], askr: ['항목', '내용'], common: ['분류', '항목', '내용'] }
                 },
                 luthierData: [],
-                proposalsData: [],
+                proposalsData: [
+                    { title: "넥 구조 및 안정성 혁신", content: "13피스 라미네이티드 넥을 더욱 발전시켜, 뒤틀림, 데드 스팟 등의 문제를 획기적으로 줄이고 장기적인 신뢰성을 보장하는 것을 목표로 합니다.", details: `<ul><li><strong>선진적인 넥 접합 방식 연구:</strong> 선도적인 제작가들의 볼트온 시스템과 넥 구조가 어떻게 안정성과 사운드 전달에 기여하는지 분석하여 신뢰도를 높입니다.</li><li><strong>KD Basses의 콘 코어(Cone Core) 연구:</strong> 넥의 뒤틀림, 휘어짐, 데드 스팟 문제를 획기적으로 줄이는 방법을 모색합니다.</li><li><strong>De Gier의 넥 강화 기술 통합:</strong> 탄소 섬유 로드 보강 및 CNC 프렛 슬롯 기술을 통합하여 구조적 강성과 톤 품질을 향상시킵니다.</li><li><strong>Rikkers의 쿼터쏜(Quartersawn) 넥 고려:</strong> 강성과 타이트한 사운드를 연구하여 넥의 음향적 특성을 최적화합니다.</li></ul>`, related: ["KD Basses", "De Gier Basses", "Rikkers Basses"] },
+                    { title: "목재 연구 및 지속 가능성 강화", content: "핵심 목재의 품질과 안정성을 극대화하고, 환경적 책임을 브랜드 철학에 통합하여 차별화된 가치를 제공하는 것을 목표로 합니다.", details: `<ul><li><strong>업계 선도적인 지속 가능성 철학 벤치마킹:</strong> 인증된 지역 목재 소싱 및 기후 중립 생산과 같은 이니셔티브를 연구하여 RavenForge를 위한 지속 가능한 전략을 구축합니다.</li><li><strong>Padalka의 목재 관리 철학 도입:</strong> 엄격한 목재 선별, 건조, 안정화 프로세스를 적용하여 핵심 목재의 품질과 안정성을 극대화합니다.</li><li><strong>Warwick의 FSC 인증 및 탄소 중립 생산 벤치마킹:</strong> 선도적인 환경 보호 노력을 참고하여 브랜드의 사회적 책임을 강화합니다.</li></ul>`, related: ["Padalka Guitars", "Warwick Basses"] },
+                    { title: "인체 공학 및 연주 편의성 극대화", content: "연주자가 장시간 편안하게 연주하고 악기와 하나가 되는 경험을 제공하기 위해 바디, 넥, 구조 전반의 인체 공학적 설계를 혁신하는 것을 목표로 합니다.", details: `<ul><li><strong>선도적인 인체 공학적 바디 형태 분석:</strong> 최고 브랜드들의 인체 공학적 형태를 심층 분석하여 RavenForge 모델들의 연주 편의성을 개선합니다.</li><li><strong>Spector 및 Roks의 인체 공학적 바디 디자인 연구:</strong> 바디 윤곽, 무게 중심, 넥 조인트 등을 재설계하여 연주 편의성을 극대화합니다.</li><li><strong>Stradi의 확장된 지판 및 브릿지 위치:</strong> 왼손의 접근성과 전반적인 연주 편의성을 혁신적으로 개선하는 방안을 고려합니다.</li><li><strong>Elrick의 '힐리스(heel-less)' 디자인 적용:</strong> 볼트온 넥 모델에 적용하여 하이 프렛 접근성을 극대화합니다.</li></ul>`, related: ["Spector Basses", "Roks Instruments", "Stradi Basses", "Elrick Bass Guitars"] },
+                    { title: "전자장치 및 톤 팔레트 확장", content: "기존 시스템을 넘어선 독점적인 회로나 픽업 구성을 개발하여 브랜드 시그니처 사운드를 구축하고, 음향적 깊이와 다용도성을 높이는 것을 목표로 합니다.", details: `<ul><li><strong>선도적인 톤 시스템 벤치마킹:</strong> 프리미엄 EQ와 픽업 조합이 어떻게 정의되고 다재다능한 사운드를 만들어내는지 분석하여 RavenForge의 톤 팔레트를 더욱 풍성하게 만듭니다.</li><li><strong>Alembic의 액티브 전자장치 개척 정신:</strong> 독점적인 액티브 회로나 픽업 구성을 개발하여 브랜드 시그니처 사운드를 구축합니다.</li><li><strong>Zakrzewski의 듀얼 출력 시스템:</strong> EMBLA 모델에 적용하여 스튜디오 및 라이브 환경에서 더 큰 음향적 깊이와 창의적인 사운드 디자인을 가능하게 합니다.</li><li><strong>Stradi의 하이브리드 픽업 시스템:</strong> 마그네틱/피에조 통합을 연구하여 톤 팔레트를 확장하고 다용도성을 높입니다.</li></ul>`, related: ["Alembic Inc.", "Zakrzewski Basses", "Stradi Basses"] },
+                    { title: "미학적 차별화 및 브랜드 스토리텔링", content: "북유럽 신화 테마를 악기 디자인에 깊이 있게 통합하고, 독특한 마감과 재료를 통해 악기를 '수집 가능한 예술 작품'으로 승화시키는 것을 목표로 합니다.", details: `<ul><li><strong>선도 브랜드들이 미학적 가치를 창출하는 방식 연구:</strong> 최고의 제작가들이 희귀 목재를 사용하고 기술 혁신 스토리를 브랜드 서사에 어떻게 엮어내는지 연구합니다.</li><li><strong>Jens Ritter의 예술적 접근 방식:</strong> 한정판 제작, 독특한 인레이 재료, 이야기를 담은 마감을 통해 악기를 문화적 유물과 투자 대상으로 변모시킵니다.</li><li><strong>Sandberg의 정교한 에이징 공정:</strong> Thermo/Vibration Treatment를 연구하여 악기가 시간이 지남에 따라 더욱 풍부하고 성숙한 톤을 제공하도록 보장합니다.</li><li><strong>KD Basses의 안정화 목재 및 모자이크 지판:</strong> 룬 문자 인레이를 더욱 독창적이고 시각적으로 매력적인 요소로 발전시킵니다.</li></ul>`, related: ["Jens Ritter Instruments", "Sandberg Guitars", "KD Basses"] },
+                    { title: "생산 및 고객 경험 최적화", content: "현대 기술을 활용하여 고객 참여를 극대화하고, 효율성과 장인정신 사이의 균형을 최적화하여 최상의 고객 경험을 제공하는 것을 목표로 합니다.", details: `<ul><li><strong>프로 피드백 기반 개선 프로세스 도입:</strong> 전문 연주자들의 피드백을 적극적으로 반영하여 제조 공정을 지속적으로 개선하는 시스템을 도입합니다.</li><li><strong>Halo 및 Maruszczyk의 온라인 컨피규레이터 도입:</strong> 고객이 실시간으로 악기를 디자인하고 시각화할 수 있는 시스템을 구축합니다.</li><li><strong>MÜB의 CNC 활용 철학:</strong> CNC를 '창의적인 도구'로 활용하여 반복적인 작업을 처리하고 장인들이 가치 추가 영역에 집중하도록 합니다.</li></ul>`, related: ["Halo Custom Guitars", "Maruszczyk Instruments", "Maurizio Über Basses"] }
+                ],
                 relatedLuthiersLabel: "관련 루씨어:",
                 noLuthierMatch: "선택한 조건에 맞는 루씨어가 없습니다."
             }
@@ -873,8 +861,6 @@ translations.ko.luthierData = [
             { title: "생산 및 고객 경험 최적화", content: "현대 기술을 활용하여 고객 참여를 극대화하고, 효율성과 장인정신 사이의 균형을 최적화하여 최상의 고객 경험을 제공하는 것을 목표로 합니다.", details: `<ul><li><strong>Marleaux의 프로 피드백 기반 개선 프로세스 도입:</strong> 전 세계 베이스 프로들의 피드백과 아이디어를 적극적으로 반영하여 제작 공정을 지속적으로 개선하는 Marleaux의 방식을 도입하여, RavenForge가 연주자들과 함께 성장하는 브랜드가 되도록 합니다.</li><li><strong>Halo 및 Maruszczyk의 온라인 컨피규레이터 도입:</strong> 고객이 실시간으로 악기를 디자인하고 시각화할 수 있는 시스템을 구축합니다.</li><li><strong>MÜB의 CNC 활용 철학:</strong> CNC를 '창의적인 도구'로 활용하여 반복적인 작업을 처리하고 장인들이 가치 추가 영역에 집중하도록 합니다.</li></ul>`, related: ["Marleaux Basses", "Halo Custom Guitars", "Maruszczyk Instruments", "Maurizio Über Basses"] }
         ];
 
-
-
         // --- APPLICATION LOGIC ---
         document.addEventListener('DOMContentLoaded', () => {
             // 전체 데이터 객체에서 luthier/proposals 데이터가 비어있으면 채워줍니다.
@@ -1175,9 +1161,8 @@ translations.ko.luthierData = [
             });
 
             // --- Initial Load ---
-            switchLanguage('en'); // 기본 언어를 영어로 설정
+            switchLanguage('ko'); // 기본 언어를 한국어로 설정
         });
     </script>
 </body>
 </html>
-
