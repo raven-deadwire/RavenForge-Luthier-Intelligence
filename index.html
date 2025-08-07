@@ -934,6 +934,7 @@ translations.ko.luthierData = [
 
             function switchLanguage(lang) {
                 currentLang = lang;
+                localStorage.setItem('preferredLang', lang);
                 const t = translations[lang];
 
                 Object.values(langBtns).forEach(btn => btn.classList.remove('active'));
@@ -1194,11 +1195,13 @@ translations.ko.luthierData = [
             });
 
             // --- Initial Load ---
+            const initialLang = localStorage.getItem('preferredLang') || 'en';
             switchLanguage('en'); // 기본 언어를 영어로 설정
         });
     </script>
 </body>
 </html>
+
 
 
 
