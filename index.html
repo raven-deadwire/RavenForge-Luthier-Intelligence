@@ -1086,51 +1086,83 @@ translations.ko.luthierData = [
                     luthierGrid.appendChild(card);
                 });
             }
-
-            function renderProposals() {
-                const t = translations[currentLang];
-                const proposalsData = t.proposalsData;
-                const luthierData = t.luthierData;
-
-                proposalsAccordion.innerHTML = '';
-                proposalsData.forEach(proposal => {
-                    const proposalEl = document.createElement('div');
-                    proposalEl.className = 'border rounded-lg';
-                    proposalEl.innerHTML = `
-                        <button class="accordion-button w-full text-left p-4 bg-stone-100 hover:bg-stone-200 transition flex justify-between items-center font-semibold">
-                            <span>${proposal.title}</span>
-                            <span class="transform transition-transform duration-300">▼</span>
-                        </button>
-                        <div class="accordion-content bg-white p-4 border-t">
-                            <p class="mb-4">${proposal.content}</p>
-                            <div class="prose max-w-none mb-4">${proposal.details}</div>
-                            <div class="flex flex-wrap gap-2 items-center">
-                                <span class="text-sm font-semibold">${t.relatedLuthiersLabel}</span>
-                                ${proposal.related.map(name => `<span class="related-luthier-tag cursor-pointer text-xs bg-sky-100 text-sky-800 px-2 py-1 rounded-full hover:bg-sky-200 transition">${name}</span>`).join('')}
-                            </div>
-                        </div>
-                    `;
-                    proposalsAccordion.appendChild(proposalEl);
-                });
-
-                document.querySelectorAll('.accordion-button').forEach(button => {
-                    button.addEventListener('click', () => {
-                        button.classList.toggle('active');
-                        button.querySelector('span:last-child').style.transform = button.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
-                    });
-                });
-
-                document.querySelectorAll('.related-luthier-tag').forEach(tag => {
-                    tag.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const luthierName = tag.textContent;
-                        const luthier = luthierData.find(l => l.name === luthierName);
-                        if (luthier) {
-                            showModal(luthier);
-                        }
-                    });
+// [추가] 저장된 아코디언 상태를 불러와 적용하는 함수
+function applyAccordionState() {
+    const savedStateJSON = localStorage.getItem('openAccordions');
+    if (savedStateJSON) {
+        try {
+            const openIndexes = JSON.parse(savedStateJSON);
+            if (Array.isArray(openIndexes)) {
+                document.querySelectorAll('#proposals-accordion .accordion-button').forEach((button, index) => {
+                    if (openIndexes.includes(index)) {
+                        button.classList.add('active');
+                        button.querySelector('span:last-child').style.transform = 'rotate(180deg)';
+                    }
                 });
             }
+        } catch (e) {
+            console.error("저장된 아코디언 상태를 불러오는 데 실패했습니다:", e);
+            localStorage.removeItem('openAccordions'); // 오류 발생 시 잘못된 데이터 삭제
+        }
+    }
+}
+// [수정] 기존 renderProposals 함수를 아래 코드로 전체 교체합니다.
+function renderProposals() {
+    const t = translations[currentLang];
+    const proposalsData = t.proposalsData;
+    const luthierData = t.luthierData;
+
+    proposalsAccordion.innerHTML = '';
+    proposalsData.forEach(proposal => {
+        const proposalEl = document.createElement('div');
+        proposalEl.className = 'border rounded-lg';
+        proposalEl.innerHTML = `
+            <button class="accordion-button w-full text-left p-4 bg-stone-100 hover:bg-stone-200 transition flex justify-between items-center font-semibold">
+                <span>${proposal.title}</span>
+                <span class="transform transition-transform duration-300">▼</span>
+            </button>
+            <div class="accordion-content bg-white p-4 border-t">
+                <p class="mb-4">${proposal.content}</p>
+                <div class="prose max-w-none mb-4">${proposal.details}</div>
+                <div class="flex flex-wrap gap-2 items-center">
+                    <span class="text-sm font-semibold">${t.relatedLuthiersLabel}</span>
+                    ${proposal.related.map(name => `<span class="related-luthier-tag cursor-pointer text-xs bg-sky-100 text-sky-800 px-2 py-1 rounded-full hover:bg-sky-200 transition">${name}</span>`).join('')}
+                </div>
+            </div>
+        `;
+        proposalsAccordion.appendChild(proposalEl);
+    });
+
+    document.querySelectorAll('.accordion-button').forEach(button => {
+        button.addEventListener('click', () => {
+            button.classList.toggle('active');
+            button.querySelector('span:last-child').style.transform = button.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+            
+            // [추가] 클릭 시 현재 열린 아코디언 상태를 저장합니다.
+            const openIndexes = [];
+            document.querySelectorAll('#proposals-accordion .accordion-button').forEach((btn, index) => {
+                if (btn.classList.contains('active')) {
+                    openIndexes.push(index);
+                }
+            });
+            localStorage.setItem('openAccordions', JSON.stringify(openIndexes));
+        });
+    });
+
+    document.querySelectorAll('.related-luthier-tag').forEach(tag => {
+        tag.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const luthierName = tag.textContent;
+            const luthier = luthierData.find(l => l.name === luthierName);
+            if (luthier) {
+                showModal(luthier);
+            }
+        });
+    });
+    
+    // [추가] 함수 마지막에 저장된 상태를 적용하는 함수를 호출합니다.
+    applyAccordionState();
+}
 
             function showModal(luthier) {
                 modalTitle.textContent = `${luthier.name} (${luthier.country})`;
@@ -1201,6 +1233,7 @@ translations.ko.luthierData = [
     </script>
 </body>
 </html>
+
 
 
 
