@@ -988,7 +988,7 @@ translations.ko.luthierData = [
 
             function switchLanguage(lang) {
                 currentLang = lang;
-                localStorage.setItem('preferredLang', lang);
+                sessionStorage.setItem('preferredLang', lang);
                 const t = translations[lang];
 
                 Object.values(langBtns).forEach(btn => btn.classList.remove('active'));
@@ -1251,7 +1251,7 @@ specBtns.forEach(btn => {
 
         const tabKey = btn.id.replace('btn-spec-', '');
         // [추가된 코드] 클릭된 탭의 키(embla, askr 등)를 localStorage에 저장
-        localStorage.setItem('activeSpecTab', tabKey);
+        sessionStorage.setItem('activeSpecTab', tabKey);
 
         const targetId = `spec-content-${tabKey}`;
         document.querySelectorAll('.spec-content').forEach(content => {
@@ -1286,7 +1286,7 @@ specBtns.forEach(btn => {
             });
 
 // --- [추가] 프로토타입 탭 상태 복원 로직 ---
-const savedSpecTab = localStorage.getItem('activeSpecTab');
+const savedSpecTab = sessionStorage.getItem('activeSpecTab');
 if (savedSpecTab) {
     // 모든 버튼과 콘텐츠의 활성/보임 상태 초기화
     document.querySelectorAll('.spec-btn').forEach(btn => btn.classList.remove('active'));
@@ -1302,12 +1302,13 @@ if (savedSpecTab) {
 // --- 추가 끝 ---
 
             // --- Initial Load ---
-            const initialLang = localStorage.getItem('preferredLang') || 'en';
+            const initialLang = sessionStorage.getItem('preferredLang') || 'en';
             switchLanguage(initialLang);
         });
     </script>
 </body>
 </html>
+
 
 
 
