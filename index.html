@@ -1143,7 +1143,7 @@ translations.ko.luthierData = [
             }
 // [추가] 저장된 아코디언 상태를 불러와 적용하는 함수
 function applyAccordionState() {
-    const savedStateJSON = localStorage.getItem('openAccordions');
+    const savedStateJSON = sessionStorage.getItem('openAccordions');
     if (savedStateJSON) {
         try {
             const openIndexes = JSON.parse(savedStateJSON);
@@ -1308,6 +1308,7 @@ if (savedSpecTab) {
     </script>
 </body>
 </html>
+
 
 
 
