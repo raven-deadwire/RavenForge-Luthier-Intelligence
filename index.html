@@ -1157,7 +1157,7 @@ function applyAccordionState() {
             }
         } catch (e) {
             console.error("저장된 아코디언 상태를 불러오는 데 실패했습니다:", e);
-            localStorage.removeItem('openAccordions'); // 오류 발생 시 잘못된 데이터 삭제
+            sessionStorage.removeItem('openAccordions'); // 오류 발생 시 잘못된 데이터 삭제
         }
     }
 }
@@ -1200,7 +1200,7 @@ function renderProposals() {
                     openIndexes.push(index);
                 }
             });
-            localStorage.setItem('openAccordions', JSON.stringify(openIndexes));
+            sessionStorage.setItem('openAccordions', JSON.stringify(openIndexes));
         });
     });
 
@@ -1308,6 +1308,7 @@ if (savedSpecTab) {
     </script>
 </body>
 </html>
+
 
 
 
