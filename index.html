@@ -1544,6 +1544,25 @@ translations.ko.luthierData = [
             const initialLang = sessionStorage.getItem('preferredLang') || 'en';
             switchLanguage(initialLang);
         });
+        function openImagePopup(imageUrl) {
+            const popup = document.getElementById('image-popup');
+            const popupImg = document.getElementById('popup-img');
+            if (popup && popupImg) {
+                popupImg.src = imageUrl;
+                popup.classList.remove('hidden');
+                setTimeout(() => popup.classList.remove('opacity-0'), 10); // 부드러운 등장을 위한 딜레이
+                document.body.style.overflow = 'hidden'; // 배경 스크롤 방지
+            }
+        }
+
+        function closeImagePopup() {
+            const popup = document.getElementById('image-popup');
+            if (popup) {
+                popup.classList.add('opacity-0');
+                setTimeout(() => popup.classList.add('hidden'), 300); // 트랜지션 효과 후 숨김
+                document.body.style.overflow = ''; // 배경 스크롤 복원
+            }
+        }
     </script>
 <div id="image-popup" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden z-50 opacity-0" onclick="closeImagePopup()">
     <div class="modal-content bg-white p-2 rounded-lg shadow-xl max-w-4xl max-h-[90vh] relative" onclick="event.stopPropagation()">
@@ -1558,6 +1577,7 @@ translations.ko.luthierData = [
     </div>
 </body>
 </html>
+
 
 
 
