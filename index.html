@@ -77,6 +77,10 @@
             background-color: #1e293b; /* slate-800 */
             color: #ffffff;
         }
+		  .sm\:hidden.fixed.top-24.right-4 {
+    top: 9rem; /* 9rem은 144px에 해당하며, 기존 top-24(6rem)보다 아래로 내립니다. */
+  }
+</style>
     </style>
 </head>
 <body class="text-slate-800">
@@ -1547,13 +1551,14 @@ translations.ko.luthierData = [
         <button id="popup-close" class="absolute -top-4 -right-4 text-white bg-slate-800 rounded-full w-10 h-10 flex items-center justify-center text-2xl font-bold hover:bg-slate-600 transition" onclick="closeImagePopup()">&times;</button>
     </div>
 </div>
-<div class="fixed top-24 right-4 z-30 flex flex-col space-y-2 sm:hidden">
+<div class="fixed top-36 right-4 z-30 flex flex-col space-y-2 sm:hidden">
         <button id="lang-en-btn-float" class="lang-btn bg-slate-800 text-white w-14 h-10 rounded-md shadow-lg flex items-center justify-center font-semibold border border-slate-400 hover:bg-slate-700 transition">EN</button>
         <button id="lang-de-btn-float" class="lang-btn bg-slate-800 text-white w-14 h-10 rounded-md shadow-lg flex items-center justify-center font-semibold border border-slate-400 hover:bg-slate-700 transition">DE</button>
         <button id="lang-kr-btn-float" class="lang-btn bg-slate-800 text-white w-14 h-10 rounded-md shadow-lg flex items-center justify-center font-semibold border border-slate-400 hover:bg-slate-700 transition">KR</button>
     </div>
 </body>
 </html>
+
 
 
 
