@@ -137,8 +137,18 @@
                 <h3 class="text-2xl font-bold mb-4" data-lang-key="visionTitle"></h3>
                 <p class="mb-8 text-slate-600" data-lang-key="visionContent"></p>
                 <h3 class="text-2xl font-bold mb-4 mt-8 pt-4 border-t" data-lang-key="conceptTitle"></h3>
+       알겠습니다. 웹 주소(URL)를 사용할 경우, src 속성에 해당 이미지의 전체 웹 주소를 넣어주시면 됩니다.
+
+이전 코드에서 src 부분만 웹 주소 예시로 변경했습니다. 아래 코드로 교체하시고, "https://..." 부분에 실제 사용하실 이미지의 웹 주소를 붙여넣기 하시면 됩니다.
+
+웹 이미지 주소를 사용한 HTML 코드
+HTML
+
                 <div class="grid md:grid-cols-2 gap-6">
                     <div class="bg-stone-50 p-4 rounded-md border">
+                        <div class="mb-4">
+                            <img src="https://postfiles.pstatic.net/MjAyNTA5MTFfMjg1/MDAxNzU3NTYxODI3NDg0.KrgCcRUykbSsBaYVsxhGQSOuuR98lvoyBe8iOPmCjeYg.d-ewW7nPwk62CRkLNJCeqo001PTPDGVXrivvkqxHlecg.JPEG/900%EF%BC%BF1757473219797.jpg?type=w773" alt="EMBLA Prototype Design" class="w-full h-auto rounded-md object-cover">
+                        </div>
                         <h4 class="text-xl font-bold text-amber-700" data-lang-key="emblaName"></h4>
                         <p class="text-sm text-slate-500 mb-3" data-lang-key="emblaDesc"></p>
                         <ul class="text-sm space-y-1 text-slate-700">
@@ -150,6 +160,9 @@
                         </ul>
                     </div>
                     <div class="bg-stone-50 p-4 rounded-md border">
+                        <div class="mb-4">
+                            <img src="https://postfiles.pstatic.net/MjAyNTA5MTFfMTg1/MDAxNzU3NTYxODI3NTAw.qEDD_Rbz52v-7v1nJSdko0bglC_vBSNsnBmRz99e8JUg.n9sNWDK7la-gbvwYJG_CI88UWSpCWV5gENb63nqt7dMg.JPEG/900%EF%BC%BF1757561044650.jpg?type=w773" alt="ASKR Prototype Design" class="w-full h-auto rounded-md object-cover">
+                        </div>
                         <h4 class="text-xl font-bold text-sky-700" data-lang-key="askrName"></h4>
                         <p class="text-sm text-slate-500 mb-3" data-lang-key="askrDesc"></p>
                         <ul class="text-sm space-y-1 text-slate-700">
@@ -1577,6 +1590,7 @@ translations.ko.luthierData = [
     </div>
 </body>
 </html>
+
 
 
 
