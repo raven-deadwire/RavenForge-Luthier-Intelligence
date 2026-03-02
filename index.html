@@ -166,9 +166,21 @@
                             <li><span class="font-semibold" data-lang-key="pickupsLabel"></span>: <span data-lang-key="askrPickups"></span></li>
                         </ul>
                     </div>
-                </div>
-            </div>
+     <div class="bg-stone-50 p-4 rounded-md border">
+        <div class="mb-4">
+            <img src="https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/blob/main/Edda%20Prototype%20Design.png?raw=true" alt="EDDA Prototype Design" class="w-full h-auto rounded-md object-cover">
         </div>
+        <h4 class="text-xl font-bold text-emerald-700" data-lang-key="eddaName"></h4>
+        <p class="text-sm text-slate-500 mb-3" data-lang-key="eddaDesc"></p>
+        <ul class="text-sm space-y-1 text-slate-700">
+            <li><span class="font-semibold" data-lang-key="targetLabel"></span>: <span data-lang-key="eddaTarget"></span></li>
+            <li><span class="font-semibold" data-lang-key="scaleLabel"></span>: <span data-lang-key="eddaScale"></span></li>
+            <li><span class="font-semibold" data-lang-key="bodyLabel"></span>: <span data-lang-key="eddaBody"></span></li>
+            <li><span class="font-semibold" data-lang-key="fretboardLabel"></span>: <span data-lang-key="eddaFretboard"></span></li>
+            <li><span class="font-semibold" data-lang-key="pickupsLabel"></span>: <span data-lang-key="eddaPickups"></span></li>
+        </ul>
+    </div>
+</div>
 
         <div id="about-content-bio" class="about-content hidden">
             <h3 class="text-2xl font-bold mb-6" data-lang-key="bioProfileTitle"></h3>
@@ -300,17 +312,18 @@
                 <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="PrototypeTitle"></h2>
                 <p class="mb-6 text-slate-600" data-lang-key="specSheetDesc"></p>
                 
-	<div class="mb-6 flex flex-wrap gap-2">
-		<button id="btn-spec-embla" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition active">🌿 EMBLA</button>
-		<button id="btn-spec-askr" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">🔥 ASKR</button>
-		<button id="btn-spec-common" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specCommonBtn"></button>
-		<button id="btn-spec-neck" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specNeckBtn"></button>
-    </div>
+<div class="mb-6 flex flex-wrap gap-2">
+    <button id="btn-spec-embla" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition active">🌿 EMBLA</button>
+    <button id="btn-spec-askr" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">🔥 ASKR</button>
+    <button id="btn-spec-edda" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">📜 EDDA</button>
+    <button id="btn-spec-common" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specCommonBtn"></button>
+    <button id="btn-spec-neck" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specNeckBtn"></button>
+</div>
 
-                <div id="spec-content-embla" class="spec-content"></div>
-                <div id="spec-content-askr" class="spec-content hidden"></div>
-                <div id="spec-content-common" class="spec-content hidden"></div>
-		<div id="spec-content-neck" class="spec-content hidden"></div>
+<div id="spec-content-embla" class="spec-content"></div>
+<div id="spec-content-askr" class="spec-content hidden"></div>
+<div id="spec-content-edda" class="spec-content hidden"></div> <div id="spec-content-common" class="spec-content hidden"></div>
+<div id="spec-content-neck" class="spec-content hidden"></div>
             </div>
         </section>
 
@@ -456,10 +469,13 @@
                 emblaDesc: "The First Woman: Sensitivity & Balance",
                 askrName: "ASKR – The Metal-Oriented Bass",
                 askrDesc: "The First Man: Aggression & Instinct",
+				eddaName: "EDDA – The Heritage-Oriented Bass",
+				eddaDesc: "The Elder Poet: Saga & Lore",
                 targetLabel: "Target", scaleLabel: "Scale", bodyLabel: "Body", fretboardLabel: "Fretboard", pickupsLabel: "Pickups/Preamp",
                 emblaTarget: "Session players, composers, various genres", emblaScale: "34″ (36″ option)", emblaBody: "Elm", emblaFretboard: "Wenge", emblaPickups: "Delano SBC / Sonar 3",
                 askrTarget: "Metal, high-gain, down-tuning", askrScale: "35″ (37–34″ multi-scale option)", askrBody: "Ash", askrFretboard: "Rosewood", askrPickups: "Fishman Fluence",
-                specSheetDesc: "Here are the detailed specifications for RavenForge's two core models, EMBLA and ASKR. Click the buttons below to view the specs for each model.",
+                eddaTarget: "Heritage, Improved-Vintage", eddaScale: "34″ (Short Scale option)", eddaBody: "Ash / Alder / Limba / Red Toon", eddaFretboard: "Rosewood / Ebony / Ziricote", eddaPickups: "Herrick / Turner / Nova Omnia",
+				specSheetDesc: "Here are the detailed specifications for RavenForge's two core models, EMBLA and ASKR. Click the buttons below to view the specs for each model.",
                 specCommonBtn: "🧱 Common/Options",
 		specNeckBtn: "🎸 Neck System",
                 innovationTitle: "Analysis of Key Innovation Themes",
@@ -473,6 +489,7 @@
                 specData: {
                     embla: [ { item: 'Model Identity', details: 'The First Woman – Sensitivity & Balance' }, { item: 'Target Application', details: 'Sessions, Composers, Versatile Genres' }, { item: 'Scale', details: '34″ Standard / 36″ Option' }, { item: 'Body Wood', details: 'Elm / Option: Top wood (Flamed, Quilted, etc.)' }, { item: 'Neck Wood Examples', details: 'Maple / Wenge / Walnut / Bubinga' }, { item: 'Fretboard (Std/Opt)', details: 'Wenge Standard / Ebony, Katalox, Olive, Snakewood Option' }, { item: 'Headstock', details: '4+1 / Reverse available' }, { item: 'Default Pickups', details: 'Delano SBC' }, { item: 'Pickup Options', details: 'Delano Xtender / Delano Timesquare / Häussel / Herrick (for NFP)' }, { item: 'Default Preamp', details: 'Delano Sonar 3-Band EQ' }, { item: 'Preamp Options', details: 'Noll TCM-4XM / Glockenklang/ John East / Lusithand Double NFP' }, { item: 'Buffer Option', details: 'Delano Xpure (Recommended for external active circuit switching)' }, { item: 'Hardware', details: 'ETS, Hipshot A-Style Bridge / Hipshot Ultralite, Gotoh GB707 Machine Heads or etc.' }, { item: 'Controls', details: 'Vol / Blend / Bass / Mid / Treble / Coil Tap Option' }, { item: 'Battery', details: '9V or 18V selectable' }, { item: 'Finish Examples', details: 'Natural Burst / Open Pore Walnut / Nordic Matte' }, ],
                     askr: [ { item: 'Model Identity', details: 'The First Man – Aggression & Instinct' }, { item: 'Target Application', details: 'Metal, High-Gain Music, Down-Tuning' }, { item: 'Scale', details: '35″ Standard / Multi-scale 37–34″ Option' }, { item: 'Body Wood', details: 'Ash (Tone Block), Alder (Wing) / Top wood option available' }, { item: 'Neck Wood Examples', details: 'Maple / Bloodwood / Purpleheart / Bubinga' }, { item: 'Fretboard (Std/Opt)', details: 'Rosewood Standard / Ebony, Katalox, African Blackwood Option' }, { item: 'Headstock', details: '2+3 / Reverse available' }, { item: 'Default Pickups', details: 'Fishman Fluence' }, { item: 'Pickup Options', details: 'EMG TWX / Q-Tuner / Nova Omnia Custom' }, { item: 'Default Preamp', details: 'Fishman Fluence 3-Band EQ' }, { item: 'Preamp Options', details: 'Darkglass Tone Capsule / LHZ HAZ Clone' }, { item: 'Buffer Option', details: 'Delano Xpure (For passive parallel output)' }, { item: 'Hardware', details: 'Hipshot Triple Lock Down, Kahler Bridge / Hipshot Ultralite, Gotoh GB707 Machine Heads or etc.' }, { item: 'Controls', details: 'Vol / Blend / Bass / Mid / Treble / Coil Tap' }, { item: 'Battery', details: '9V fixed' }, { item: 'Finish Examples', details: 'Matt Black / Charcoal Burst / Metalflake' }, ],
+					edda: [ { item: 'Model Identity', details: 'The Elder Poet – Saga & Lore' }, { item: 'Target Application', details: 'Heritage, Improved-Vintage' }, { item: 'Scale', details: '34″ Standard / Short Scale option' }, { item: 'Body Wood', details: 'Ash / Alder / Limba / Red Toon' }, { item: 'Neck Wood', details: 'Maple (1~3 Piece Option)' }, { item: 'Frets', details: '24 with Zero Fret' }, { item: 'Fretboard', details: 'Rosewood / Ebony / Ziricote' }, { item: 'Pickups', details: 'Herrick / Turner / Nova Omnia' }, { item: 'Preamp', details: 'Passive or Dual Filter Preamp' }, { item: 'Special Options', details: 'Dual Tone-cap / 3-way Toggle for each Pickup Options' } ],
                     common: [ { category: 'Common Information', item: 'Brand Name', details: 'RavenForge' }, { category: 'Common Information', item: 'Product Lineup', details: 'EMBLA / ASKR' }, { category: 'Common Information', item: 'Philosophical Basis', details: 'Norse Mythology – The creation of humans (Ask & Embla)' }, { category: 'Common Information', item: 'Production Method', details: 'Semi-Custom Order Base (Part selection + Fixed specs)' }, { category: 'Common Information', item: 'Number of Frets', details: '24 Frets (including Zero Fret)' }, { category: 'Common Information', item: 'Fret Material', details: 'Brass (Fixed for all models)' }, { category: 'Common Information', item: 'Nut Material', details: 'Brass (Fixed for all models)' }, { category: 'Common Information', item: 'Neck Construction', details: 'Bolt-on / 13-piece laminated neck' }, { category: 'Common Information', item: 'Fretboard Inlay', details: 'Runic characters (ᛖ for Embla / ᚨ for Askr)' }, { category: 'Common Information', item: 'Common Options', details: '6-string, 7-string / Ebony fretboard / Top wood / Delano Xpure buffer' }, { category: 'String Configuration', item: 'Default Strings', details: '5-string (B–G)' }, { category: 'String Configuration', item: 'Options', details: '6-string (B–C) / 7-string (F#–C or Custom)' }, { category: 'String Configuration', item: 'Pickup Spacing', details: 'Adjusted for 6/7-string selection (Exact mm specs documented separately)' }, { category: 'String Configuration', item: 'Bridge/Nut Width', details: 'Automatically adjusted based on string count (Linked to modular parts library)' }, { category: 'String Configuration', item: 'Control Placement', details: 'Consistent placement regardless of string count, but with wider knob spacing for 7-string' }, ],
 neck: [
     { category: 'Overview', item: 'System', details: 'Unified 13-piece symmetrical laminated neck system for both models.' },
@@ -482,6 +499,9 @@ neck: [
     { category: 'ASKR Neck', item: 'Laminate Order', details: 'Bloodwood – Wenge – Purpleheart – Bubinga – Maple – Purpleheart – Purpleheart – Purpleheart – Maple – Bubinga – Purpleheart – Wenge – Bloodwood' },
     { category: 'ASKR Neck', item: 'Central Grain', details: 'Center Maple: Quartersawn vertical (⬇), Side Purpleheart blocks: Diagonal (↘ / ↙)' },
     { category: 'ASKR Neck', item: 'Thickness', details: '21.5mm @ 1st fret / 23.5mm @ 12th fret' },
+	{ category: 'EDDA Neck', item: 'Laminate Order', details: 'Only Maple Neck, 1~3 Piece Options' },
+    { category: 'EDDA Neck', item: 'Central Grain', details: 'Center Maple: Quartersawn vertical (⬇), Side Maple blocks: Diagonal (↘ / ↙)' },
+    { category: 'EDDA Neck', item: 'Thickness', details: '21.5mm @ 1st fret / 23.5mm @ 12th fret' },
     { category: 'Reinforcement (6/7-String)', item: 'Layout', details: '2 truss rods (opposing insertion) + 2 carbon rods (non-truss zone) + 1 central titanium bar' },
     { category: 'Ergonomics (5-String)', item: 'Nut / Bridge Spacing', details: '45mm / 18.0mm' },
     { category: 'Ergonomics (5-String)', item: 'Profile', details: 'Modern C, 16" Radius' },
@@ -490,7 +510,7 @@ neck: [
     { category: 'Ergonomics (7-String)', item: 'Nut / Bridge Spacing', details: '59mm / 17.0mm' },
     { category: 'Ergonomics (7-String)', item: 'Profile', details: 'Flat D, 20" Radius' }
 ],
-                    headers: { embla: ['Item', 'Details'], askr: ['Item', 'Details'], common: ['Category', 'Item', 'Details'], neck: ['Category', 'Item', 'Details'] }
+                   headers: { embla: ['Item', 'Details'], askr: ['Item', 'Details'], edda: ['Item', 'Details'], common: ['Category', 'Item', 'Details'], neck: ['Category', 'Item', 'Details'] }
                 },
                 luthierData: [],
                 proposalsData: [
@@ -574,9 +594,12 @@ neck: [
                 emblaDesc: "Die erste Frau: Sensibilität & Balance",
                 askrName: "ASKR – Der Metal-orientierte Bass",
                 askrDesc: "Der erste Mann: Aggression & Instinkt",
-                targetLabel: "Zielgruppe", scaleLabel: "Mensur", bodyLabel: "Korpus", fretboardLabel: "Griffbrett", pickupsLabel: "Tonabnehmer/Preamp",
+				eddaName: "EDDA – Der Heritage-orientierte Bass",
+        		eddaDesc: "Der ältere Dichter: Saga & Überlieferung",
+		        targetLabel: "Zielgruppe", scaleLabel: "Mensur", bodyLabel: "Korpus", fretboardLabel: "Griffbrett", pickupsLabel: "Tonabnehmer/Preamp",
                 emblaTarget: "Session-Musiker, Komponisten, diverse Genres", emblaScale: "34″ (36″ Option)", emblaBody: "Ulme", emblaFretboard: "Wenge (Ebenholz-Option)", emblaPickups: "Delano SBC / Sonar 3",
                 askrTarget: "Metal, High-Gain, Down-Tuning", askrScale: "35″ (37–34″ Multi-Scale-Option)", askrBody: "Esche", askrFretboard: "Palisander (Ebenholz-Option)", askrPickups: "Fishman Fluence",
+				eddaTarget: "Heritage, verbesserter Vintage", eddaScale: "34″ (Short-Scale-Option)", eddaBody: "Esche / Erle / Limba / Red Toon", eddaFretboard: "Palisander / Ebenholz / Ziricote", eddaPickups: "Herrick / Turner / Nova Omnia",
                 specSheetDesc: "Hier sind die detaillierten Spezifikationen für die beiden Kernmodelle von RavenForge, EMBLA und ASKR. Klicken Sie auf die Schaltflächen unten, um die Spezifikationen für jedes Modell anzuzeigen.",
                 specCommonBtn: "🧱 Allgemein/Optionen",
 		specNeckBtn: "🎸 Halssystem",
@@ -591,6 +614,7 @@ neck: [
                 specData: {
                     embla: [ { merkmal: 'Modellidentität', details: 'Die erste Frau – Sensibilität & Balance' }, { merkmal: 'Zielanwendung', details: 'Sessions, Komponisten, vielseitige Genres' }, { merkmal: 'Mensur', details: '34″ Standard / 36″ Option' }, { merkmal: 'Korpusholz', details: 'Ulme / Option: Deckenholz (Riegel-, Wölkchenahorn etc.)' }, { merkmal: 'Beispiele für Halsholz', details: 'Ahorn / Wenge / Walnuss / Bubinga' }, { merkmal: 'Griffbrett (Std/Opt)', details: 'Wenge Standard / Ebenholz-Option' }, { merkmal: 'Kopfplatte', details: '4+1 / Reverse verfügbar' }, { merkmal: 'Standard-Tonabnehmer', details: 'Delano SBC' }, { merkmal: 'Tonabnehmer-Optionen', details: 'Delano Xtender / Delano Timesquare / Häussel / Herrick (for NFP)' }, { merkmal: 'Standard-Preamp', details: 'Delano Sonar 3-Band EQ' }, { merkmal: 'Preamp-Optionen', details: 'Noll TCM-4XM / Glockenklang / John East / Lusithand Double NFP' }, { merkmal: 'Buffer-Option', details: 'Delano Xpure (Empfohlen für Umschaltung auf externe aktive Schaltung)' }, { merkmal: 'Hardware', details: 'ETS, Hipshot A-Style Brücke / Hipshot Ultralite, Gotoh GB707 Mechaniken oder etc.' }, { merkmal: 'Regler', details: 'Vol / Blend / Bass / Mid / Treble / Coil-Tap-Option' }, { merkmal: 'Batterie', details: '9V oder 18V wählbar' }, { merkmal: 'Finish-Beispiele', details: 'Natural Burst / Open Pore Walnut / Nordic Matte' }, ],
                     askr: [ { merkmal: 'Modellidentität', details: 'Der erste Mann – Aggression & Instinkt' }, { merkmal: 'Zielanwendung', details: 'Metal, High-Gain-Musik, Down-Tuning' }, { merkmal: 'Mensur', details: '35″ Standard / Multi-Scale 37–34″ Option' }, { merkmal: 'Korpusholz', details: 'Esche (Tone Block), Erle (Flügel) / Deckenholz-Option verfügbar' }, { merkmal: 'Beispiele für Halsholz', details: 'Ahorn / Bloodwood / Purpleheart / Bubinga' }, { merkmal: 'Griffbrett (Std/Opt)', details: 'Palisander Standard / Ebenholz-Option' }, { merkmal: 'Kopfplatte', details: '2+3 / Reverse verfügbar' }, { merkmal: 'Standard-Tonabnehmer', details: 'Fishman Fluence' }, { merkmal: 'Tonabnehmer-Optionen', details: 'EMG TWX / Q-Tuner / Nova Omnia Custom' }, { merkmal: 'Standard-Preamp', details: 'Fishman Fluence 3-Band EQ' }, { merkmal: 'Preamp-Optionen', details: 'Darkglass Tone Capsule / LHZ HAZ Clone' }, { merkmal: 'Buffer-Option', details: 'Delano Xpure (Für passiven Parallelausgang)' }, { merkmal: 'Hardware', details: 'Hipshot Triple Lock Down, Kahler Brücke / Hipshot Ultralite, Gotoh GB707 Mechaniken oder etc.' }, { merkmal: 'Regler', details: 'Vol / Blend / Bass / Mid / Treble / Coil-Tap' }, { merkmal: 'Batterie', details: '9V fest' }, { merkmal: 'Finish-Beispiele', details: 'Matt Black / Charcoal Burst / Metalflake' }, ],
+					edda: [ { merkmal: 'Modellidentität', details: 'Der ältere Dichter – Saga & Überlieferung' }, { merkmal: 'Zielanwendung', details: 'Heritage, verbesserter Vintage' }, { merkmal: 'Mensur', details: '34″ Standard / Short-Scale-Option' }, { merkmal: 'Korpusholz', details: 'Esche / Erle / Limba / Red Toon' }, { merkmal: 'Halsholz', details: 'Ahorn (1~3-teilige Option)' }, { merkmal: 'Bünde', details: '24 mit Nullbund' }, { merkmal: 'Griffbrett', details: 'Palisander / Ebenholz / Ziricote' }, { merkmal: 'Tonabnehmer', details: 'Herrick / Turner / Nova Omnia' }, { merkmal: 'Preamp', details: 'Passiv oder Dual-Filter-Preamp' }, { merkmal: 'Spezielle Optionen', details: 'Dual-Tone-Cap / 3-Wege-Kippschalter für jede Tonabnehmer-Option' }],
                     common: [ { kategorie: 'Allgemeine Informationen', merkmal: 'Markenname', details: 'RavenForge' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Produktlinie', details: 'EMBLA / ASKR' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Philosophische Grundlage', details: 'Nordische Mythologie – Die Schöpfung der Menschen (Ask & Embla)' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Produktionsmethode', details: 'Semi-Custom-Order-Basis (Teileauswahl + feste Spezifikationen)' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Anzahl der Bünde', details: '24 Bünde (inklusive Nullbund)' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Bundmaterial', details: 'Messing (fest für alle Modelle)' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Sattelmaterial', details: 'Messing (fest für alle Modelle)' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Halskonstruktion', details: 'Bolt-on / 13-teiliger laminierter Hals' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Griffbrett-Inlay', details: 'Runenzeichen (ᛖ für Embla / ᚨ für Askr)' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Allgemeine Optionen', details: '6-Saiter, 7-Saiter / Ebenholzgriffbrett / Deckenholz / Delano Xpure Puffer' }, { kategorie: 'Saitenkonfiguration', merkmal: 'Standard-Saiten', details: '5-Saiter (H–G)' }, { kategorie: 'Saitenkonfiguration', merkmal: 'Optionen', details: '6-Saiter (H–C) / 7-Saiter (F#–C oder Custom)' }, { kategorie: 'Saitenkonfiguration', merkmal: 'Tonabnehmerabstand', details: 'Angepasst für 6/7-Saiter-Auswahl (Genaue mm-Spezifikationen separat dokumentiert)' }, { kategorie: 'Saitenkonfiguration', merkmal: 'Brücken-/Sattelbreite', details: 'Automatisch angepasst je nach Saitenanzahl (Verknüpft mit modularer Teilebibliothek)' }, { kategorie: 'Saitenkonfiguration', merkmal: 'Platzierung der Regler', details: 'Konsistente Platzierung unabhängig von der Saitenanzahl, aber mit größerem Reglerabstand bei 7-Saitern' }, ],
 neck: [
     { category: 'Überblick', item: 'System', details: 'Einheitliches 13-teiliges symmetrisches laminiertes Halssystem für beide Modelle.' },
@@ -600,6 +624,9 @@ neck: [
     { category: 'ASKR Hals', item: 'Laminatreihenfolge', details: 'Bloodwood – Wenge – Purpleheart – Bubinga – Maple – Purpleheart – Purpleheart – Purpleheart – Maple – Bubinga – Purpleheart – Wenge – Bloodwood' },
     { category: 'ASKR Hals', item: 'Zentrale Maserung', details: 'Mittel-Ahorn: Quartersawn vertikal (⬇), Seitliche Purpleheart-Blöcke: Diagonal (↘ / ↙)' },
     { category: 'ASKR Hals', item: 'Dicke', details: '21,5 mm am 1. Bund / 23,5 mm am 12. Bund' },
+	{ category: 'EDDA', item: 'Laminatreihenfolge', details: 'Only Maple Neck, 1~3 Piece Options' },
+    { category: 'EDDA Hals', item: 'Zentrale Maserung', details: 'Mittel-Ahorn: Quartersawn vertikal (⬇), Seitliche Maple-Blöcke: Diagonal (↘ / ↙)' },
+    { category: 'EDDA Hals', item: 'Dicke', details: '21,5 mm am 1. Bund / 23,5 mm am 12. Bund' },
     { category: 'Verstärkung (6/7-Saiter)', item: 'Layout', details: '2 Halsstäbe (gegenläufiger Einbau) + 2 Carbonstäbe (truss-freie Zone) + 1 zentraler Titanstab' },
     { category: 'Ergonomie (5-Saiter)', item: 'Sattel- / Stegabstand', details: '45 mm / 18,0 mm' },
     { category: 'Ergonomie (5-Saiter)', item: 'Profil', details: 'Modern C, 16" Radius' },
@@ -608,7 +635,7 @@ neck: [
     { category: 'Ergonomie (7-Saiter)', item: 'Sattel- / Stegabstand', details: '59 mm / 17,0 mm' },
     { category: 'Ergonomie (7-Saiter)', item: 'Profil', details: 'Flaches D, 20" Radius' }
 ],
-                    headers: { embla: ['Merkmal', 'Details'], askr: ['Merkmal', 'Details'], common: ['Kategorie', 'Merkmal', 'Details'], neck: ['Kategorie', 'Merkmal', 'Details'] }
+                   headers: { embla: ['Merkmal', 'Details'], askr: ['Merkmal', 'Details'], edda: ['Merkmal', 'Details'], common: ['Kategorie', 'Merkmal', 'Details'], neck: ['Kategorie', 'Merkmal', 'Details'] }
                 },
                 luthierData: [],
                 proposalsData: [
@@ -691,9 +718,12 @@ neck: [
                 emblaDesc: "최초의 여성 인류: 감성과 균형",
                 askrName: "ASKR – 메탈 지향 베이스",
                 askrDesc: "최초의 남성 인류: 공격성과 본능",
+				eddaName: "EDDA – 헤리티지 지향 베이스",
+        		eddaDesc: "고대의 시인: 사가(Saga)와 전승",
                 targetLabel: "타겟", scaleLabel: "스케일", bodyLabel: "바디", fretboardLabel: "지판", pickupsLabel: "픽업/프리",
                 emblaTarget: "세션, 작곡가, 다양한 장르", emblaScale: "34″ (36″ 옵션)", emblaBody: "엘름(Elm)", emblaFretboard: "웽게(Wenge)", emblaPickups: "Delano SBC / Sonar 3",
                 askrTarget: "메탈, 하이게인, 다운튜닝", askrScale: "35″ (37–34″ 멀티스케일 옵션)", askrBody: "애쉬(Ash)", askrFretboard: "로즈우드", askrPickups: "Fishman Fluence",
+				eddaTarget: "헤리티지, 개선된 빈티지", eddaScale: "34″ (숏 스케일 옵션)", eddaBody: "Ash / Alder / Limba / Red Toon", eddaFretboard: "Rosewood / Ebony / Ziricote", eddaPickups: "Herrick / Turner / Nova Omnia",
                 specSheetDesc: "RavenForge의 두 가지 핵심 모델, EMBLA와 ASKR의 상세 스펙입니다. 아래 버튼을 클릭하여 각 모델의 사양을 확인해 보세요.",
                 specCommonBtn: "🧱 공통/옵션",
 		specNeckBtn: "🎸 넥 시스템",
@@ -708,6 +738,7 @@ neck: [
                 specData: {
                     embla: [ { 항목: '모델 정체성', 내용: '최초 여성 인류 – 감성과 균형' }, { 항목: '용도 타겟', 내용: '세션, 작곡가, 다양한 장르 대응' }, { 항목: '스케일', 내용: '34″ 기본 / 36″ 옵션' }, { 항목: '바디 목재', 내용: 'Elm (솔리드) / 옵션: Top wood (Flamed, Quilted 등)' }, { 항목: '넥 목재 예시', 내용: 'Maple / Wenge / Walnut / Bubinga' }, { 항목: '지판 기본 / 옵션', 내용: 'Wenge 기본 / Ebony, Katalox, Olive, Snakewood 옵션' }, { 항목: '헤드스톡', 내용: '4+1 / Reverse 가능' }, { 항목: '픽업 기본', 내용: 'Delano SBC' }, { 항목: '픽업 옵션', 내용: 'Delano Xtender / Delano Timesquare / Häussel / Herrick (for NFP)' }, { 항목: '프리앰프 기본', 내용: 'Delano Sonar 3-Band EQ' }, { 항목: '프리앰프 옵션', 내용: 'Noll TCM-4XM / Glockenklang / John East / Lusithand Double NFP' }, { 항목: '버퍼 옵션', 내용: 'Delano Xpure (액티브 회로 외부 스위칭 시 추천)' }, { 항목: '하드웨어 예시', 내용: 'ETS, Hipshot A-Style 브리지 / Hipshot Ultralite, Gotoh GB707 튜너 등' }, { 항목: '컨트롤 구성', 내용: 'Vol / Blend / Bass / Mid / Treble / Coil Tap 옵션' }, { 항목: '배터리', 내용: '9V 또는 18V 선택 가능' }, { 항목: '피니시 예시', 내용: 'Natural Burst / Open Pore Walnut / Nordic Matte' }, ],
                     askr: [ { 항목: '모델 정체성', 내용: '최초 남성 인류 – 공격성, 본능' }, { 항목: '용도 타겟', 내용: '메탈, 하이게인 음악, 다운튜닝' }, { 항목: '스케일', 내용: '35″ 기본 / 멀티스케일 37–34″ 옵션' }, { 항목: '바디 목재', 내용: 'Ash (톤 블록), Alder (윙) / Top wood 옵션 가능' }, { 항목: '넥 목재 예시', 내용: 'Maple / Bloodwood / Purpleheart / Bubinga' }, { 항목: '지판 기본 / 옵션', 내용: 'Rosewood 기본 / Ebony, Katalox, African Blackwood 옵션' }, { 항목: '헤드스톡', 내용: '2+3 / Reverse 가능' }, { 항목: '픽업 기본', 내용: 'Fishman Fluence' }, { 항목: '픽업 옵션', 내용: 'EMG TWX / Q-Tuner / Nova Omnia Custom' }, { 항목: '프리앰프 기본', 내용: 'Fishman Fluence 3-Band EQ' }, { 항목: '프리앰프 옵션', 내용: 'Darkglass Tone Capsule / LHZ HAZ Clone' }, { 항목: '버퍼 옵션', 내용: 'Delano Xpure (패시브 병렬 출력 대비용)' }, { 항목: '하드웨어', 내용: 'Hipshot Triple Lock Down, Kahler 브리지 / Hipshot Ultralite, Gotoh GB707 튜너 등' }, { 항목: '컨트롤 구성', 내용: 'Vol / Blend / Bass / Mid / Treble / Coil Tap' }, { 항목: '배터리', 내용: '9V 고정' }, { 항목: '피니시 예시', 내용: 'Matt Black / Charcoal Burst / Metalflake' }, ],
+					edda: [ { 항목: '모델 정체성', 내용: '고대의 시인 – 사가(Saga)와 전승' },                { 항목: '용도 타겟', 내용: '헤리티지, 개선된 빈티지' },                { 항목: '스케일', 내용: '34″ 기본 / 숏 스케일 옵션' },                { 항목: '바디 목재', 내용: 'Ash / Alder / Limba / Red Toon' },                { 항목: '넥 목재', 내용: 'Maple (1~3 피스 옵션)' },                { 항목: '프렛 수', 내용: '24 프렛 (Zero Fret 포함)' },                { 항목: '지판', 내용: 'Rosewood / Ebony / Ziricote' },                { 항목: '픽업', 내용: 'Herrick / Turner / Nova Omnia' },                { 항목: '프리앰프', 내용: '패시브 또는 듀얼 필터 프리앰프' },                { 항목: '특수 옵션', 내용: '듀얼 톤 캡 / 각 픽업 옵션을 위한 3단 토글 스위치' }            ],
                     common: [ { '분류': '공통 정보', '항목': '브랜드명', '내용': 'RavenForge' }, { '분류': '공통 정보', '항목': '제품 라인업', '내용': 'EMBLA / ASKR' }, { '분류': '공통 정보', '항목': '철학 기반', '내용': '북유럽 신화 – 인간 창조 신화 (Ask & Embla)' }, { '분류': '공통 정보', '항목': '제작 방식', '내용': '세미 커스텀 오더 베이스 (파츠 셀렉션 + 고정 스펙 병행)' }, { '분류': '공통 정보', '항목': '프렛 수', '내용': '24 프렛 (Zero Fret 포함)' }, { '분류': '공통 정보', '항목': '프렛 재질', '내용': 'Brass (전 모델 고정)' }, { '분류': '공통 정보', '항목': '너트 재질', '내용': 'Brass (전 모델 고정)' }, { '분류': '공통 정보', '항목': '넥 구조', '내용': 'Bolt-on / 13 피스 라미네이티드 넥' }, { '분류': '공통 정보', '항목': '지판 인레이', '내용': '룬 문자 (ᛖ for Embla / ᚨ for Askr)' }, { '분류': '공통 정보', '항목': '옵션 공통', '내용': '6현, 7현 / Ebony 지판 / Top wood / Delano Xpure buffer' }, { '분류': '현 구성 기준', '항목': '기본 현 수', '내용': '5현 (B–G)' }, { '분류': '현 구성 기준', '항목': '옵션', '내용': '6현 (B–C) / 7현 (F#–C or Custom)' }, { '분류': '현 구성 기준', '항목': '픽업 간 거리', '내용': '6현/7현 선택 시 간격 조정 (정확한 mm 스펙 별도 문서화)' }, { '분류': '현 구성 기준', '항목': '브리지 / 너트 폭', '내용': '현 수에 따라 자동 조정됨 (모듈식 파츠 라이브러리 연동)' }, { '분류': '현 구성 기준', '항목': '컨트롤 위치', '내용': '현 수와 관계없이 일관 배치, 단 7현은 노브 간격 넓힘 적용' }, ],
 neck: [
     { '분류': '개요', '항목': '시스템', '세부 내용': '두 모델에 모두 적용되는 통일된 13피스 대칭 라미네이트 넥 시스템' },
@@ -717,6 +748,9 @@ neck: [
     { '분류': 'ASKR 넥', '항목': '라미네이트 순서', '세부 내용': '블러드우드 – 웬지 – 퍼플하트 – 부빙가 – 메이플 – 퍼플하트 – 퍼플하트 – 퍼플하트 – 메이플 – 부빙가 – 퍼플하트 – 웬지 – 블러드우드' },
     { '분류': 'ASKR 넥', '항목': '중심부 목리', '세부 내용': '중앙 메이플: 쿼터쏜 수직 (⬇), 양측 퍼플하트: 대각선 (↘ / ↙)' },
     { '분류': 'ASKR 넥', '항목': '두께', '세부 내용': '1프렛 21.5mm / 12프렛 23.5mm' },
+	{ '분류': 'EDDA 넥', '항목': '라미네이트 순서', '세부 내용': '단일 메이플 넥, 1~3피스 옵션' },
+    { '분류': 'EDDA 넥', '항목': '중심부 목리', '세부 내용': '중앙 메이플: 쿼터쏜 수직 (⬇), 양측 메이플: 대각선 (↘ / ↙)' },
+    { '분류': 'EDDA 넥', '항목': '두께', '세부 내용': '1프렛 21.5mm / 12프렛 23.5mm' },
     { '분류': '보강재 (6/7현)', '항목': '레이아웃', '세부 내용': '트러스로드 2개 (역방향 삽입) + 카본로드 2개 (배제 구간) + 중앙 티타늄 바 1개' },
     { '분류': '인체공학 (5현)', '항목': '너트 / 브릿지 간격', '세부 내용': '45mm / 18.0mm' },
     { '분류': '인체공학 (5현)', '항목': '프로파일', '세부 내용': 'Modern C, 16인치 곡률' },
@@ -725,7 +759,7 @@ neck: [
     { '분류': '인체공학 (7현)', '항목': '너트 / 브릿지 간격', '세부 내용': '59mm / 17.0mm' },
     { '분류': '인체공학 (7현)', '항목': '프로파일', '세부 내용': 'Flat D, 20인치 곡률' }
 ],
-                    headers: { embla: ['항목', '내용'], askr: ['항목', '내용'], common: ['분류', '항목', '내용'], neck: ['분류', '항목', '세부 내용'] }
+                    headers: { embla: ['항목', '내용'], askr: ['항목', '내용'], edda: ['항목', '내용'], common: ['분류', '항목', '내용'], neck: ['분류', '항목', '세부 내용'] }
                 },
                 luthierData: [],
                 proposalsData: [
@@ -1198,6 +1232,7 @@ translations.ko.luthierData = [
             const proposalsAccordion = document.getElementById('proposals-accordion');
             const specContentEmbla = document.getElementById('spec-content-embla');
             const specContentAskr = document.getElementById('spec-content-askr');
+			const specContentEdda = document.getElementById('spec-content-edda');
             const specContentCommon = document.getElementById('spec-content-common');
             const specContentNeck = document.getElementById('spec-content-neck'); 
             const specBtns = document.querySelectorAll('.spec-btn');
@@ -1275,6 +1310,7 @@ translations.ko.luthierData = [
 
                 specContentEmbla.innerHTML = createSpecTable(specData.embla, headers.embla);
                 specContentAskr.innerHTML = createSpecTable(specData.askr, headers.askr);
+				specContentEdda.innerHTML = createSpecTable(specData.edda, headers.edda);
                 specContentCommon.innerHTML = createSpecTable(specData.common, headers.common);
                 specContentNeck.innerHTML = createSpecTable(specData.neck, headers.neck);
             }
@@ -1583,6 +1619,7 @@ translations.ko.luthierData = [
     </div>
 </body>
 </html>
+
 
 
 
