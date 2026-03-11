@@ -516,6 +516,7 @@ neck: [
     { category: 'Ergonomics (6-String)', item: 'Profile', details: 'Hybrid C/D, 20" Radius, 16"-24" Compound Option' },
     { category: 'Ergonomics (7-String)', item: 'Nut / Bridge Spacing', details: '59mm / 17.0mm' },
     { category: 'Ergonomics (7-String)', item: 'Profile', details: 'Flat or Assymetrical Slim D, 20" Radius, 16"-24" Compound Option' }
+	{ category: 'Aesthetics & Custom', item: 'Custom Bindrune Inlay', details: 'Option to design and apply a custom Bindrune (combined runic characters) holding personal meaning to the fretboard.' }
 ],
 					 body: [
                         { category: 'Core Arch.', item: 'Tone Block', details: 'The central core of the body connecting the neck and bridge. Captures string vibration without loss, acting as the foundation for attack, sustain, and punch.' },
@@ -695,6 +696,7 @@ neck: [
     { category: 'Ergonomie (6-saitig)', item: 'Profil', details: 'Hybrid C/D, 20"-Radius, 16"-24"-Compound-Option' },
     { category: 'Ergonomie (7-saitig)', item: 'Sattel-/Stegabstand', details: '59 mm / 17,0 mm' },
     { category: 'Ergonomie (7-saitig)', item: 'Profil', details: 'Flach oder asymmetrisch Slim D, 20"-Radius, 16"-24"-Compound-Option' }
+	{ category: 'Aesthetics & Custom', item: 'Custom Bindrune Inlay', details: 'Option to design and apply a custom Bindrune (combined runic characters) holding personal meaning to the fretboard.' }
 ],
 					                    body: [
                         { category: 'Kernarchitektur', item: 'Tone Block', details: 'Der zentrale Kern des Korpus, der Hals und Brücke verbindet. Nimmt die Saitenschwingung ohne Verlust auf und bestimmt grundlegend Attack, Sustain und Punch.' },
@@ -884,6 +886,7 @@ neck: [
     { category: '인체공학 (6현)', item: '프로파일', details: '하이브리드 C/D, 20인치 반경, 16인치-24인치 복합 옵션' },
     { category: '인체공학 (7현)', item: '너트 / 브릿지 간격', details: '59mm / 17.0mm' },
     { category: '인체공학 (7현)', item: '프로파일', details: '플랫 또는 비대칭 슬림 D, 20인치 반경, 16인치-24인치 컴파운드 옵션' }
+	{ category: '미학 및 커스텀', item: '커스텀 바인드룬 인레이', details: '연주자가 원하는 의미를 담은 룬 문자를 조합한 바인드룬(Bindrune)을 지판에 직접 디자인하여 적용하는 커스텀 옵션.' }
 ],
 					                    body: [
                         { category: 'Core Arch.', item: 'Tone Block', details: '넥과 브릿지를 잇는 바디의 중앙 코어. 현의 진동을 손실 없이 받아내며 악기의 근본적인 어택과 서스테인, 펀치감을 결정하는 핵심 뼈대.' },
@@ -1450,20 +1453,36 @@ translations.ko.luthierData = [
                 table += '</tbody></table></div>';
                 return table;
             }
+ 
+			function renderSpecSheet() {
+    const t = translations[currentLang];
+    const specData = t.specData;
+    const headers = specData.headers;
 
-            function renderSpecSheet() {
-                const t = translations[currentLang];
-                const specData = t.specData;
-                const headers = specData.headers;
-
-                specContentEmbla.innerHTML = createSpecTable(specData.embla, headers.embla);
-                specContentAskr.innerHTML = createSpecTable(specData.askr, headers.askr);
-				specContentEdda.innerHTML = createSpecTable(specData.edda, headers.edda);
-                specContentCommon.innerHTML = createSpecTable(specData.common, headers.common);
-                specContentNeck.innerHTML = createSpecTable(specData.neck, headers.neck);
-				specContentBody.innerHTML = createSpecTable(specData.body, headers.body);
-				specContentOptions.innerHTML = createSpecTable(specData.options, headers.options);
-            }
+    specContentEmbla.innerHTML = createSpecTable(specData.embla, headers.embla);
+    specContentAskr.innerHTML = createSpecTable(specData.askr, headers.askr);
+    specContentEdda.innerHTML = createSpecTable(specData.edda, headers.edda);
+    specContentCommon.innerHTML = createSpecTable(specData.common, headers.common);
+    
+    // 넥 시스템 이미지 추가 (표 상단)
+    const neckImageHTML = `
+        <div class="mb-6 overflow-hidden rounded-lg shadow-sm border border-slate-200">
+            <img src="./neck.png" alt="Neck System Structure" class="w-full h-auto cursor-pointer hover:opacity-90 transition-opacity" onclick="openImagePopup('./neck.png')">
+        </div>
+    `;
+    specContentNeck.innerHTML = neckImageHTML + createSpecTable(specData.neck, headers.neck);
+    
+    // 바디 카테고리 이미지 추가 (표 상단)
+    // 파일명에 공백이 있으므로 '%20'으로 처리하여 오류 방지
+    const bodyImageHTML = `
+        <div class="mb-6 overflow-hidden rounded-lg shadow-sm border border-slate-200">
+            <img src="./Body%20Structure.png" alt="Body Structure" class="w-full h-auto cursor-pointer hover:opacity-90 transition-opacity" onclick="openImagePopup('./Body%20Structure.png')">
+        </div>
+    `;
+    specContentBody.innerHTML = bodyImageHTML + createSpecTable(specData.body, headers.body);
+    
+    specContentOptions.innerHTML = createSpecTable(specData.options, headers.options);
+}
 
             function renderChart() {
                 const t = translations[currentLang];
@@ -1769,6 +1788,7 @@ translations.ko.luthierData = [
     </div>
 </body>
 </html>
+
 
 
 
