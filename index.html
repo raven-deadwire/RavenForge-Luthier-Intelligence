@@ -320,15 +320,12 @@
     <button id="btn-spec-edda" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">📜 EDDA</button>
     <button id="btn-spec-common" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specCommonBtn"></button>
     <button id="btn-spec-neck" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specNeckBtn"></button>
-    <button id="btn-spec-body" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specBodyBtn"></button>
 </div>
 
 <div id="spec-content-embla" class="spec-content"></div>
 <div id="spec-content-askr" class="spec-content hidden"></div>
-<div id="spec-content-edda" class="spec-content hidden"></div>
-<div id="spec-content-common" class="spec-content hidden"></div>
+<div id="spec-content-edda" class="spec-content hidden"></div> <div id="spec-content-common" class="spec-content hidden"></div>
 <div id="spec-content-neck" class="spec-content hidden"></div>
-<div id="spec-content-body" class="spec-content hidden"></div>
             </div>
         </section>
 
@@ -482,8 +479,7 @@
                 eddaTarget: "Heritage, Improved-Vintage", eddaScale: "34″ (Short Scale option)", eddaBody: "Ash / Alder / Limba / Red Toon", eddaFretboard: "Rosewood / Ebony / Ziricote", eddaPickups: "Herrick / Turner / Nova Omnia",
 				specSheetDesc: "Here are the detailed specifications for RavenForge's three core models, EMBLA, ASKR and EDDA. Click the buttons below to view the specs for each model.",
                 specCommonBtn: "🧱 Common/Options",
-		        specNeckBtn: "🎸 Neck System",
-                specBodyBtn: "🪓 Body & Electronics",
+		specNeckBtn: "🎸 Neck System",
                 innovationTitle: "Analysis of Key Innovation Themes",
                 innovationDesc: "The core philosophies and technologies of high-end luthiers can be categorized into several key themes. Click on each bar in the chart below to filter the luthiers corresponding to that theme. This summarizes the technological trends in the market and the areas I have focused on in my research.",
                 explorerTitle: "Luthier Explorer",
@@ -497,45 +493,26 @@
                     askr: [ { item: 'Model Identity', details: 'The First Man – Aggression & Instinct' }, { item: 'Target Application', details: 'Metal, High-Gain Music, Down-Tuning' }, { item: 'Scale', details: '35″ Standard / Multi-scale 37–34″ Option' }, { item: 'Body Wood', details: 'Ash (Tone Block), Alder (Wing) / Top wood option available' }, { item: 'Neck Wood Examples', details: 'Maple / Bloodwood / Purpleheart / Bubinga' }, { item: 'Fretboard (Std/Opt)', details: 'Rosewood Standard / Ebony, Katalox, African Blackwood Option' }, { item: 'Headstock', details: '2+3 / Reverse available' }, { item: 'Default Pickups', details: 'Fishman Fluence' }, { item: 'Pickup Options', details: 'EMG TWX / Q-Tuner / Nova Omnia Custom' }, { item: 'Default Preamp', details: 'Fishman Fluence 3-Band EQ' }, { item: 'Preamp Options', details: 'Darkglass Tone Capsule / LHZ HAZ Clone' }, { item: 'Buffer Option', details: 'Delano Xpure (Only for 9V, For passive parallel output)' }, { item: 'Hardware', details: 'Hipshot Triple Lock Down, Kahler Bridge / Hipshot Ultralite, Gotoh GB707 Machine Heads or etc.' }, { item: 'Controls', details: 'Vol / Blend / Bass / Mid / Treble (Coil Tap / Hi-Low Mid / Passive Tone Option)' }, { item: 'Battery', details: '9V or 18V selectable' }, { item: 'Finish Examples', details: 'Matt Black / Charcoal Burst / Metalflake' }, ],
 					edda: [ { item: 'Model Identity', details: 'The Elder Poet – Saga & Lore' }, { item: 'Target Application', details: 'Heritage, Improved-Vintage' }, { item: 'Scale', details: '34″ Standard / Short Scale option' }, { item: 'Body Wood', details: 'Ash / Alder / Limba / Red Toon' }, { item: 'Neck Wood', details: 'Ash / Maple (1~3 Piece Option)' }, { item: 'Frets', details: '24 with Zero Fret' }, { item: 'Fretboard', details: 'Rosewood / Ebony / Ziricote' }, { item: 'Pickups', details: 'Herrick / Turner / Nova Omnia' }, { item: 'Preamp', details: 'Passive or Dual Filter Preamp' }, { item: 'Special Options', details: 'Dual Tone-cap / 3-way Toggle for each Pickup Options' } ],
                     common: [ { category: 'Common Information', item: 'Brand Name', details: 'RavenForge' }, { category: 'Common Information', item: 'Product Lineup', details: 'EMBLA / ASKR / EDDA' }, { category: 'Common Information', item: 'Philosophical Basis', details: 'Norse Mythology – The creation of humans (Ask & Embla)' }, { category: 'Common Information', item: 'Production Method', details: 'Semi-Custom Order Base (Part selection + Fixed specs)' }, { category: 'Common Information', item: 'Number of Frets', details: '24 Frets (including Zero Fret)' }, { category: 'Common Information', item: 'Fret Material', details: 'Brass (Fixed for all models)' }, { category: 'Common Information', item: 'Nut Material', details: 'Brass (Fixed for all models)' }, { category: 'Common Information', item: 'Neck Construction', details: 'Bolt-on / 3 to 13-pieces laminated neck' }, { category: 'Common Information', item: 'Fretboard Inlay', details: 'Runic characters (ᛖ for Embla / ᚨ for Askr)' }, { category: 'Common Information', item: 'Common Options', details: '6-string, 7-string / Ebony fretboard / Top wood / Delano Xpure buffer' }, { category: 'String Configuration', item: 'Default Strings', details: '5-string (B–G)' }, { category: 'String Configuration', item: 'Options', details: '6-string (B–C) / 7-string (F#–C or Custom)' }, { category: 'String Configuration', item: 'Pickup Spacing', details: 'Adjusted for 6/7-string selection (Exact mm specs documented separately)' }, { category: 'String Configuration', item: 'Bridge/Nut Width', details: 'Automatically adjusted based on string count (Linked to modular parts library)' }, { category: 'String Configuration', item: 'Control Placement', details: 'Consistent placement regardless of string count, but with wider knob spacing for 7-string' }, ],
-                    neck: [
-                        { category: 'Overview', item: 'System', details: 'Unified 3 to 13-piecess symmetrical laminated cone core system.' },
-                        { category: 'EMBLA Neck', item: 'Laminate Order', details: 'ex) 13-Piece: Flamed Maple(Outer) – Bubinga(Stripe) – Walnut(Stripe) – Wenge(Main Wing) – Walnut(Stripe) – Bubinga(Stripe) – Ash(Core) – Bubinga(Stripe) – Walnut(Stripe) – Wenge(Main Wing) – Walnut(Stripe) – Bubinga(Stripe) – Flamed Maple(Outer)' },
-                        { category: 'EMBLA Neck', item: 'Central Grain', details: 'Center Ash: Quartersawn vertical (⬇), Side Wenge blocks: Diagonal (↘ / ↙)' },
-                        { category: 'EMBLA Neck', item: 'Thickness', details: '21.5mm @ 1st fret / 23.0mm @ 12th fret' },
-                        { category: 'ASKR Neck', item: 'Laminate Order', details: 'ex) 9-Piece: Bloodwood(Outer) – Wenge(Stripe) – Maple(Main Wing) – Purpleheart(Stripe) – Ash(Core) – Purpleheart(Stripe) – Maple(Main Wing) – Wenge(Stripe) – Bloodwood(Outer)' },
-                        { category: 'ASKR Neck', item: 'Central Grain', details: 'Center Ash: Quartersawn vertical (⬇), Side Maple blocks: Diagonal (↘ / ↙)' },
-                        { category: 'ASKR Neck', item: 'Thickness', details: '20.0mm @ 1st fret / 21.5mm @ 12th fret' },
-                        { category: 'EDDA Neck', item: 'Laminate Order', details: 'Ash or Maple Neck, 1~3 Piece Options, ex) 3-Piece: Maple - Ash - Maple' },
-                        { category: 'EDDA Neck', item: 'Central Grain', details: 'Center Core: Quartersawn vertical (⬇), Side Maple blocks: Diagonal (↘ / ↙)' },
-                        { category: 'EDDA Neck', item: 'Thickness', details: '21.5mm @ 1st fret / 23.5mm @ 12th fret' },
-                        { category: 'Reinforcement (6/7-String)', item: 'Layout', details: '2 truss rods (opposing insertion) + 2 carbon rods (non-truss zone) + 1 central titanium bar' },
-                        { category: 'Ergonomics (5-String)', item: 'Nut / Bridge Spacing', details: '45mm / 18.0mm' },
-                        { category: 'Ergonomics (5-String)', item: 'Profile', details: 'Modern C, 16" Radius, 12"-18" Compound Option' },
-                        { category: 'Ergonomics (6-String)', item: 'Nut / Bridge Spacing', details: '52mm / 17.0mm' },
-                        { category: 'Ergonomics (6-String)', item: 'Profile', details: 'Hybrid C/D, 20" Radius, 16"-24" Compound Option' },
-                        { category: 'Ergonomics (7-String)', item: 'Nut / Bridge Spacing', details: '59mm / 17.0mm' },
-                        { category: 'Ergonomics (7-String)', item: 'Profile', details: 'Flat or Assymetrical Slim D, 20" Radius, 16"-24" Compound Option' }
-                    ],
-                    body: [
-                        { category: 'Core Arch.', item: 'Tone Block', details: 'The central core of the body connecting the neck and bridge. Captures string vibration without loss, acting as the foundation for attack, sustain, and punch.' },
-                        { category: 'Core Arch.', item: 'Honeycomb Chambered Wings', details: 'Body wings joined to the tone block. Routed internally with a honeycomb structure to drastically reduce weight while maintaining physical rigidity and maximizing acoustic resonance.' },
-                        { category: 'Top Arch.', item: 'Veneer Top', details: '1~2mm thin decorative top. Applied to add visual flair (Burl, Flame, etc.) while preserving 100% of the acoustic properties of the core wood.' },
-                        { category: 'Top Arch.', item: 'Block Top', details: '5~10mm+ thick acoustic tonewood top. Applied to actively blend the unique overtones and tone colors (e.g., compression, hi-fi, warmth) of the top wood with the main core.' },
-                        { category: 'EMBLA Body', item: 'Wood Specs', details: 'Tone Block: Elm <br>Honeycomb Chambered Wings: Alder <br>Top Wood Option: Flame, Quilted Maple, etc., for rich overtones and aesthetic beauty.' },
-                        { category: 'ASKR Body', item: 'Wood Specs', details: 'Tone Block: Ash <br>Honeycomb Chambered Wings: Alder <br>Top Wood Option: Various custom top woods for tight attack and overwhelming aesthetics.' },
-                        { category: 'EDDA Body', item: 'Wood Specs', details: 'Core & Wing Wood: Choice of Ash / Alder / Limba / Red Toon <br>Structure: Vintage chambered and solid structures for heritage sound.' },
-                        { category: 'Slap Ramp', item: 'Function', details: 'Prevents fingers from digging too deep during slap popping. Located at the end of the fretboard.' },
-                        { category: 'Slap Ramp', item: 'Hidden Feature', details: '<strong>Concealed cover for the Neck Heel truss rod adjustment.</strong> (Tool-less attachment/detachment using neodymium magnets)' },
-                        { category: 'Finger Ramp', item: 'Function', details: 'Mounted between neck/bridge pickups. Maximizes consistency and speed of touch during fingerstyle (e.g., 3-finger) playing.' },
-                        { category: 'Finger Ramp', item: 'Customization', details: 'Radiused to perfectly match the fretboard (14"~20"). Built-in micro-height adjustment screws according to player preference.' },
-                        { category: 'Extension', item: 'Fretless Ext.', details: 'Optional extended fretboard instead of a slap ramp. (Extends fretless past the 24th to around the 28th fret)' },
-                        { category: 'Electronics', item: 'Overview', details: '3x Dual-Coil or Split-Coil Humbuckers (Custom placement tailored to each model\'s orientation)' },
-                        { category: 'Electronics', item: 'ASKR (Aggressive)', details: '<strong>Placement:</strong> 3 pickups tightly clustered towards the bridge. <br><strong>Tone Character:</strong> Specialized for powerful midrange punch and aggressive metallic growl, maintaining clarity even in down-tuning.' },
-                        { category: 'Electronics', item: 'EMBLA (Versatile)', details: '<strong>Placement:</strong> Integrated structure where the middle pickup exactly fits into the finger ramp space. <br><strong>Tone Character:</strong> The pickup cover doubles as a ramp or integrates visually to enhance aesthetic perfection, achieving a versatile high-end tone covering a wide range of genres.' },
-                        { category: 'Control', item: 'Rotary System', details: '<strong>Intuitive Setting (Rotary Selector):</strong> 5 or 6-way rotary switch. Fast, intuitive switching between optimal pickup combinations (single, series/parallel mix) pre-designed by the luthier for live environments.' },
-                        { category: 'Control', item: 'Blend + Mid Vol', details: '<strong>Expansive Setting (Blend + Mid Vol):</strong> Master Volume + [Neck/Bridge Pickup Blend] + [Independent Middle Pickup Volume]. Allows the player to infinitely mix the ratio of the 3 pickups for precise real-time tone sculpting.' }
-                    ],
-                   headers: { embla: ['Item', 'Details'], askr: ['Item', 'Details'], edda: ['Item', 'Details'], common: ['Category', 'Item', 'Details'], neck: ['Category', 'Item', 'Details'], body: ['Category', 'Item', 'Details'] }
+neck: [
+    { category: 'Overview', item: 'System', details: 'Unified 3 to 13-piecess symmetrical laminated cone core system.' },
+    { category: 'EMBLA Neck', item: 'Laminate Order', details: 'ex) 13-Piece: Flamed Maple(Outer) – Bubinga(Stripe) – Walnut(Stripe) – Wenge(Main Wing) – Walnut(Stripe) – Bubinga(Stripe) – Ash(Core) – Bubinga(Stripe) – Walnut(Stripe) – Wenge(Main Wing) – Walnut(Stripe) – Bubinga(Stripe) – Flamed Maple(Outer)' },
+    { category: 'EMBLA Neck', item: 'Central Grain', details: 'Center Ash: Quartersawn vertical (⬇), Side Wenge blocks: Diagonal (↘ / ↙)' },
+    { category: 'EMBLA Neck', item: 'Thickness', details: '21.5mm @ 1st fret / 23.0mm @ 12th fret' },
+    { category: 'ASKR Neck', item: 'Laminate Order', details: 'ex) 9-Piece: Bloodwood(Outer) – Wenge(Stripe) – Maple(Main Wing) – Purpleheart(Stripe) – Ash(Core) – Purpleheart(Stripe) – Maple(Main Wing) – Wenge(Stripe) – Bloodwood(Outer)' },
+    { category: 'ASKR Neck', item: 'Central Grain', details: 'Center Ash: Quartersawn vertical (⬇), Side Maple blocks: Diagonal (↘ / ↙)' },
+    { category: 'ASKR Neck', item: 'Thickness', details: '20.0mm @ 1st fret / 21.5mm @ 12th fret' },
+	{ category: 'EDDA Neck', item: 'Laminate Order', details: 'Ash or Maple Neck, 1~3 Piece Options, ex) 3-Piece: Maple - Ash - Maple' },
+    { category: 'EDDA Neck', item: 'Central Grain', details: 'Center Core: Quartersawn vertical (⬇), Side Maple blocks: Diagonal (↘ / ↙)' },
+    { category: 'EDDA Neck', item: 'Thickness', details: '21.5mm @ 1st fret / 23.5mm @ 12th fret' },
+    { category: 'Reinforcement (6/7-String)', item: 'Layout', details: '2 truss rods (opposing insertion) + 2 carbon rods (non-truss zone) + 1 central titanium bar' },
+    { category: 'Ergonomics (5-String)', item: 'Nut / Bridge Spacing', details: '45mm / 18.0mm' },
+    { category: 'Ergonomics (5-String)', item: 'Profile', details: 'Modern C, 16" Radius, 12"-18" Compound Option' },
+    { category: 'Ergonomics (6-String)', item: 'Nut / Bridge Spacing', details: '52mm / 17.0mm' },
+    { category: 'Ergonomics (6-String)', item: 'Profile', details: 'Hybrid C/D, 20" Radius, 16"-24" Compound Option' },
+    { category: 'Ergonomics (7-String)', item: 'Nut / Bridge Spacing', details: '59mm / 17.0mm' },
+    { category: 'Ergonomics (7-String)', item: 'Profile', details: 'Flat or Assymetrical Slim D, 20" Radius, 16"-24" Compound Option' }
+],
+                   headers: { embla: ['Item', 'Details'], askr: ['Item', 'Details'], edda: ['Item', 'Details'], common: ['Category', 'Item', 'Details'], neck: ['Category', 'Item', 'Details'] }
                 },
                 luthierData: [],
                 proposalsData: [
@@ -627,8 +604,7 @@
 				eddaTarget: "Heritage, verbesserter Vintage", eddaScale: "34″ (Short-Scale-Option)", eddaBody: "Esche / Erle / Limba / Red Toon", eddaFretboard: "Palisander / Ebenholz / Ziricote", eddaPickups: "Herrick / Turner / Nova Omnia",
                 specSheetDesc: "Im Folgenden finden Sie die detaillierten Spezifikationen der drei Kernmodelle von RavenForge: EMBLA, ASKR und EDDA. Klicken Sie auf die Schaltfläche unten, um die Spezifikationen der einzelnen Modelle anzuzeigen.",
                 specCommonBtn: "🧱 Allgemein/Optionen",
-		        specNeckBtn: "🎸 Halssystem",
-                specBodyBtn: "🪓 Korpus & Elektronik",
+		specNeckBtn: "🎸 Halssystem",
                 innovationTitle: "Analyse der wichtigsten Innovationsthemen",
                 innovationDesc: "Die Kernphilosophien und Technologien von High-End-Gitarrenbauern lassen sich in mehrere Schlüsselthemen einteilen. Klicken Sie auf jeden Balken im Diagramm unten, um die Gitarrenbauer zu filtern, die diesem Thema entsprechen. Dies fasst die technologischen Trends auf dem Markt und die Bereiche zusammen, auf die ich mich in meiner Forschung konzentriert habe.",
                 explorerTitle: "Gitarrenbauer-Explorer",
@@ -676,45 +652,26 @@ askr: [
 ],				
 					edda: [ { merkmal: 'Modellidentität', details: 'Der ältere Dichter – Saga & Überlieferung' }, { merkmal: 'Zielanwendung', details: 'Heritage, verbesserter Vintage' }, { merkmal: 'Mensur', details: '34″ Standard / Short-Scale-Option' }, { merkmal: 'Korpusholz', details: 'Esche / Erle / Limba / Red Toon' }, { merkmal: 'Halsholz', details: 'Esche / Ahorn (1~3-teilige Option)' }, { merkmal: 'Bünde', details: '24 mit Nullbund' }, { merkmal: 'Griffbrett', details: 'Palisander / Ebenholz / Ziricote' }, { merkmal: 'Tonabnehmer', details: 'Herrick / Turner / Nova Omnia' }, { merkmal: 'Preamp', details: 'Passiv oder Dual-Filter-Preamp' }, { merkmal: 'Spezielle Optionen', details: 'Dual-Tone-Cap / 3-Wege-Kippschalter für jede Tonabnehmer-Option' }],
                     common: [ { kategorie: 'Allgemeine Informationen', merkmal: 'Markenname', details: 'RavenForge' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Produktlinie', details: 'EMBLA / ASKR / EDDA' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Philosophische Grundlage', details: 'Nordische Mythologie – Die Schöpfung der Menschen (Ask & Embla)' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Produktionsmethode', details: 'Semi-Custom-Order-Basis (Teileauswahl + feste Spezifikationen)' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Anzahl der Bünde', details: '24 Bünde (inklusive Nullbund)' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Bundmaterial', details: 'Messing (fest für alle Modelle)' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Sattelmaterial', details: 'Messing (fest für alle Modelle)' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Halskonstruktion', details: 'Bolt-on / 13-teiliger laminierter Hals' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Griffbrett-Inlay', details: 'Runenzeichen (ᛖ für Embla / ᚨ für Askr)' }, { kategorie: 'Allgemeine Informationen', merkmal: 'Allgemeine Optionen', details: '6-Saiter, 7-Saiter / Ebenholzgriffbrett / Deckenholz / Delano Xpure Puffer' }, { kategorie: 'Saitenkonfiguration', merkmal: 'Standard-Saiten', details: '5-Saiter (H–G)' }, { kategorie: 'Saitenkonfiguration', merkmal: 'Optionen', details: '6-Saiter (H–C) / 7-Saiter (F#–C oder Custom)' }, { kategorie: 'Saitenkonfiguration', merkmal: 'Tonabnehmerabstand', details: 'Angepasst für 6/7-Saiter-Auswahl (Genaue mm-Spezifikationen separat dokumentiert)' }, { kategorie: 'Saitenkonfiguration', merkmal: 'Brücken-/Sattelbreite', details: 'Automatisch angepasst je nach Saitenanzahl (Verknüpft mit modularer Teilebibliothek)' }, { kategorie: 'Saitenkonfiguration', merkmal: 'Platzierung der Regler', details: 'Konsistente Platzierung unabhängig von der Saitenanzahl, aber mit größerem Reglerabstand bei 7-Saitern' }, ],
-                    neck: [
-                        { category: 'Übersicht', item: 'System', details: 'Einheitliches symmetrisches 3- bis 13-teiliges laminiertes Konuskernsystem.' },
-                        { category: 'EMBLA-Hals', item: 'Laminatreihenfolge', details: 'Beispiel: 13-teilig: geflammter Ahorn (außen) – Bubinga (Streifen) – Walnuss (Streifen) – Wenge (Hauptflügel) – Walnuss (Streifen) – Bubinga (Streifen) – Esche (Kern) – Bubinga (Streifen) – Walnuss (Streifen) – Wenge (Hauptflügel) – Walnuss (Streifen) – Bubinga (Streifen) – geflammter Ahorn (Außen)' },
-                        { category: 'EMBLA Hals', item: 'Mittlere Maserung', details: 'Mittlere Esche: vertikal geviertelt (⬇), seitliche Wenge-Blöcke: diagonal (↘ / ↙)' },
-                        { category: 'EMBLA Hals', item: 'Dicke', details: '21,5 mm am 1. Bund / 23,0 mm am 12. Bund' },
-                        { category: 'ASKR Hals', item: 'Laminat-Reihenfolge', details: 'Beispiel: 9-teilig: Bloodwood (Außen) – Wenge (Streifen) – Ahorn (Hauptflügel) – Purpleheart (Streifen) – Esche (Kern) – Purpurholz (Streifen) – Ahorn (Hauptflügel) – Wenge (Streifen) – Blutholz (Außen)' },
-                        { category: 'ASKR Hals', item: 'Mittlere Maserung', details: 'Mitte Esche: Quartierschnitt vertikal (⬇), Seitliche Ahornblöcke: Diagonal (↘ / ↙)' },
-                        { category: 'ASKR Hals', item: 'Dicke', details: '20,0 mm am 1. Bund / 21,5 mm am 12. Bund' },
-                        { category: 'EDDA-Hals', item: 'Laminatbestellung', details: 'Eschen- oder Ahornhals, 1~3-teilige Optionen, z. B. 3-teilig: Ahorn – Esche – Ahorn' },
-                        { category: 'EDDA-Hals', item: 'Mittlere Maserung', details: 'Mittelkern: Quartierschnitt vertikal (⬇), seitliche Ahornblöcke: diagonal (↘ / ↙)' },
-                        { category: 'EDDA-Hals', item: 'Thickness', details: '21,5 mm am 1. Bund / 23,5 mm am 12. Bund' },
-                        { category: 'Reinforcement (6/7-String)', item: 'Layout', details: '2 Halsstangen (gegenüberliegende Einfügung) + 2 Karbonstangen (Nicht-Halsstangen-Zone) + 1 zentrale Titanstange' },
-                        { category: 'Ergonomie (5-saitig)', item: 'Sattel-/Stegabstand', details: '45 mm / 18,0 mm' },
-                        { category: 'Ergonomie (5-saitig)', item: 'Profil', details: 'Modern C, 16"-Radius, 12"-18"-Compound-Option' },
-                        { category: 'Ergonomie (6-saitig)', item: 'Sattel-/Stegabstand', details: '52 mm / 17,0 mm' },
-                        { category: 'Ergonomie (6-saitig)', item: 'Profil', details: 'Hybrid C/D, 20"-Radius, 16"-24"-Compound-Option' },
-                        { category: 'Ergonomie (7-saitig)', item: 'Sattel-/Stegabstand', details: '59 mm / 17,0 mm' },
-                        { category: 'Ergonomie (7-saitig)', item: 'Profil', details: 'Flach oder asymmetrisch Slim D, 20"-Radius, 16"-24"-Compound-Option' }
-                    ],
-                    body: [
-                        { category: 'Kernarchitektur', item: 'Tone Block', details: 'Der zentrale Kern des Korpus, der Hals und Brücke verbindet. Nimmt die Saitenschwingung ohne Verlust auf und bestimmt grundlegend Attack, Sustain und Punch.' },
-                        { category: 'Kernarchitektur', item: 'Honeycomb Chambered Wings', details: 'An den Tone Block angefügte Korpusflügel. Innen mit einer Wabenstruktur (Honeycomb) gefräst, um das Gewicht drastisch zu reduzieren, während die strukturelle Steifigkeit erhalten bleibt und die akustische Resonanz maximiert wird.' },
-                        { category: 'Deckenarchitektur', item: 'Veneer Top (Furnierdecke)', details: '1~2 mm dünne dekorative Decke. Wird verwendet, um optische Brillanz (Burl, Flame usw.) hinzuzufügen, während die akustischen Eigenschaften des Kernholzes zu 100 % erhalten bleiben.' },
-                        { category: 'Deckenarchitektur', item: 'Block Top (Massivdecke)', details: '5~10 mm+ dicke akustische Tonholzdecke. Aktiv zur Mischung der einzigartigen Obertöne und Klangfarben (z.B. Kompression, Hi-Fi, Wärme) des Deckenholzes mit dem Hauptkern.' },
-                        { category: 'EMBLA Korpus', item: 'Holzspezifikationen', details: 'Tone Block: Ulme (Elm) <br>Honeycomb Chambered Wings: Erle (Alder) <br>Deckenholz-Option: Flame, Quilted Maple etc. für reiche Obertöne und ästhetische Schönheit.' },
-                        { category: 'ASKR Korpus', item: 'Holzspezifikationen', details: 'Tone Block: Esche (Ash) <br>Honeycomb Chambered Wings: Erle (Alder) <br>Deckenholz-Option: Verschiedene Custom-Decken für straffen Attack und überwältigende Optik.' },
-                        { category: 'EDDA Korpus', item: 'Holzspezifikationen', details: 'Kern- & Flügelholz: Wahlweise Esche / Erle / Limba / Red Toon <br>Struktur: Vintage-gekammert und massive Strukturen für Heritage-Sound.' },
-                        { category: 'Slap Ramp', item: 'Funktion', details: 'Verhindert, dass die Finger beim Slap-Popping zu tief eindringen. Befindet sich am Ende des Griffbretts.' },
-                        { category: 'Slap Ramp', item: 'Verstecktes Feature', details: '<strong>Verdeckte Abdeckung für den Halsstabzugang am Halsfuß (Heel).</strong> (Werkzeugloses Anbringen/Abnehmen dank Neodym-Magneten)' },
-                        { category: 'Finger Ramp', item: 'Funktion', details: 'Zwischen Hals- und Stegtonabnehmer montiert. Maximiert die Konsistenz und Geschwindigkeit der Berührung beim Fingerstyle-Spiel (z.B. 3-Finger).' },
-                        { category: 'Finger Ramp', item: 'Anpassung', details: 'Mit dem exakt gleichen Radius wie das Griffbrett (14"~20") gefräst. Eingebaute Mikroschrauben zur Höheneinstellung nach den Vorlieben des Spielers.' },
-                        { category: 'Erweiterung', item: 'Fretless Ext.', details: 'Optionale Griffbrettverlängerung anstelle einer Slap-Rampe. (Erweitert bundlos über den 24. bis ca. zum 28. Bund)' },
-                        { category: 'Elektronik (3-PU)', item: 'Übersicht', details: '3x Dual-Coil oder Split-Coil Humbucker (Spezielle Platzierung, zugeschnitten auf die Ausrichtung jedes Modells)' },
-                        { category: 'Elektronik (3-PU)', item: 'ASKR (Aggressiv)', details: '<strong>Platzierung:</strong> 3 Tonabnehmer dicht gebündelt in Richtung Steg. <br><strong>Klangcharakter:</strong> Spezialisiert auf kraftvollen Mitten-Punch und aggressives metallisches Knurren, wobei die Klarheit auch bei tiefen Stimmungen (Down-Tuning) erhalten bleibt.' },
-                        { category: 'Elektronik (3-PU)', item: 'EMBLA (Vielseitig)', details: '<strong>Platzierung:</strong> Integrierte Struktur, bei der der mittlere Tonabnehmer exakt in den Platz der Finger-Rampe passt. <br><strong>Klangcharakter:</strong> Die Tonabnehmerkappe dient gleichzeitig als Rampe oder integriert sich visuell, um die ästhetische Perfektion zu verbessern und einen vielseitigen High-End-Ton für eine Vielzahl von Genres zu erzielen.' },
-                        { category: 'Kontrolle', item: 'Rotary System', details: '<strong>Intuitive Einstellung (Rotary Selector):</strong> 5- oder 6-Wege-Drehschalter. Schnelles, intuitives Umschalten zwischen optimalen, vom Gitarrenbauer vorgefertigten Tonabnehmerkombinationen (Single, seriell/parallel gemischt) in Live-Umgebungen.' },
-                        { category: 'Kontrolle', item: 'Blend + Mid Vol', details: '<strong>Erweiterte Einstellung (Blend + Mid Vol):</strong> Master Volume + [Hals/Steg-Tonabnehmer-Blend] + [Unabhängige Lautstärke für den mittleren Tonabnehmer]. Ermöglicht es dem Spieler, das Mischungsverhältnis der 3 Tonabnehmer stufenlos anzupassen.' }
-                    ],
-                   headers: { embla: ['Merkmal', 'Details'], askr: ['Merkmal', 'Details'], edda: ['Merkmal', 'Details'], common: ['Kategorie', 'Merkmal', 'Details'], neck: ['Kategorie', 'Merkmal', 'Details'], body: ['Kategorie', 'Merkmal', 'Details'] }
+neck: [
+    { category: 'Übersicht', item: 'System', details: 'Einheitliches symmetrisches 3- bis 13-teiliges laminiertes Konuskernsystem.' },
+    { category: 'EMBLA-Hals', item: 'Laminatreihenfolge', details: 'Beispiel: 13-teilig: geflammter Ahorn (außen) – Bubinga (Streifen) – Walnuss (Streifen) – Wenge (Hauptflügel) – Walnuss (Streifen) – Bubinga (Streifen) – Esche (Kern) – Bubinga (Streifen) – Walnuss (Streifen) – Wenge (Hauptflügel) – Walnuss (Streifen) – Bubinga (Streifen) – geflammter Ahorn (Außen)' },
+    { category: 'EMBLA Hals', item: 'Mittlere Maserung', details: 'Mittlere Esche: vertikal geviertelt (⬇), seitliche Wenge-Blöcke: diagonal (↘ / ↙)' },
+    { category: 'EMBLA Hals', item: 'Dicke', details: '21,5 mm am 1. Bund / 23,0 mm am 12. Bund' },
+    { category: 'ASKR Hals', item: 'Laminat-Reihenfolge', details: 'Beispiel: 9-teilig: Bloodwood (Außen) – Wenge (Streifen) – Ahorn (Hauptflügel) – Purpleheart (Streifen) – Esche (Kern) – Purpurholz (Streifen) – Ahorn (Hauptflügel) – Wenge (Streifen) – Blutholz (Außen)' },
+    { category: 'ASKR Hals', item: 'Mittlere Maserung', details: 'Mitte Esche: Quartierschnitt vertikal (⬇), Seitliche Ahornblöcke: Diagonal (↘ / ↙)' },
+    { category: 'ASKR Hals', item: 'Dicke', details: '20,0 mm am 1. Bund / 21,5 mm am 12. Bund' },
+    { category: 'EDDA-Hals', item: 'Laminatbestellung', details: 'Eschen- oder Ahornhals, 1~3-teilige Optionen, z. B. 3-teilig: Ahorn – Esche – Ahorn' },
+    { category: 'EDDA-Hals', item: 'Mittlere Maserung', details: 'Mittelkern: Quartierschnitt vertikal (⬇), seitliche Ahornblöcke: diagonal (↘ / ↙)' },
+    { category: 'EDDA-Hals', item: 'Thickness', details: '21,5 mm am 1. Bund / 23,5 mm am 12. Bund' },
+    { category: 'Reinforcement (6/7-String)', item: 'Layout', details: '2 Halsstangen (gegenüberliegende Einfügung) + 2 Karbonstangen (Nicht-Halsstangen-Zone) + 1 zentrale Titanstange' },
+    { category: 'Ergonomie (5-saitig)', item: 'Sattel-/Stegabstand', details: '45 mm / 18,0 mm' },
+    { category: 'Ergonomie (5-saitig)', item: 'Profil', details: 'Modern C, 16"-Radius, 12"-18"-Compound-Option' },
+    { category: 'Ergonomie (6-saitig)', item: 'Sattel-/Stegabstand', details: '52 mm / 17,0 mm' },
+    { category: 'Ergonomie (6-saitig)', item: 'Profil', details: 'Hybrid C/D, 20"-Radius, 16"-24"-Compound-Option' },
+    { category: 'Ergonomie (7-saitig)', item: 'Sattel-/Stegabstand', details: '59 mm / 17,0 mm' },
+    { category: 'Ergonomie (7-saitig)', item: 'Profil', details: 'Flach oder asymmetrisch Slim D, 20"-Radius, 16"-24"-Compound-Option' }
+],
+                   headers: { embla: ['Merkmal', 'Details'], askr: ['Merkmal', 'Details'], edda: ['Merkmal', 'Details'], common: ['Kategorie', 'Merkmal', 'Details'], neck: ['Kategorie', 'Merkmal', 'Details'] }
                 },
                 luthierData: [],
                 proposalsData: [
@@ -805,8 +762,7 @@ askr: [
 				eddaTarget: "헤리티지, 개선된 빈티지", eddaScale: "34″ (숏 스케일 옵션)", eddaBody: "Ash / Alder / Limba / Red Toon", eddaFretboard: "Rosewood / Ebony / Ziricote", eddaPickups: "Herrick / Turner / Nova Omnia",
                 specSheetDesc: "RavenForge의 세 가지 핵심 모델, EMBLA와 ASKR, EDDA의 상세 스펙입니다. 아래 버튼을 클릭하여 각 모델의 사양을 확인해 보세요.",
                 specCommonBtn: "🧱 공통/옵션",
-		        specNeckBtn: "🎸 넥 시스템",
-                specBodyBtn: "🪓 바디 및 전자부",
+		specNeckBtn: "🎸 넥 시스템",
                 innovationTitle: "핵심 혁신 테마 분석",
                 innovationDesc: "하이엔드 루씨어들의 핵심 철학과 기술은 몇 가지 주요 테마로 분류할 수 있습니다. 아래 차트의 각 막대를 클릭하여 해당 테마에 해당하는 루씨어들을 필터링해 보세요. 이는 시장의 기술 트렌드와 제가 집중적으로 연구한 영역에 대한 통찰을 정리하였습니다.",
                 explorerTitle: "Luthier Explorer",
@@ -864,46 +820,27 @@ askr: [
     { item: '프리앰프', details: '패시브 또는 듀얼 필터 프리앰프' },
     { item: '특별 옵션', details: '듀얼 톤 캡 / 각 픽업별 3-way 토글 옵션' }
 ],
-                    common: [ { '분류': '공통 정보', '항목': '브랜드명', '내용': 'RavenForge' }, { '분류': '공통 정보', '항목': '제품 라인업', '내용': 'EMBLA / ASKR / EDDA' }, { '분류': '공통 정보', '항목': '철학 기반', '내용': '북유럽 신화 – 인간 창조 신화 (Ask & Embla)' }, { '분류': '공통 정보', '항목': '제작 방식', '내용': '세미 커스텀 오더 베이스 (파츠 셀렉션 + 고정 스펙 병행)' }, { '분류': '공통 정보', '항목': '프렛 수', '내용': '24 프렛 (Zero Fret 포함)' }, { '분류': '공통 정보', '항목': '프렛 재질', '내용': 'Brass (전 모델 고정)' }, { '분류': '공통 정보', '항목': '너트 재질', '내용': 'Brass (전 모델 고정)' }, { '분류': '공통 정보', '항목': '넥 구조', '내용': 'Bolt-on / 13 피스 라미네이티드 넥' }, { '분류': '공통 정보', '항목': '지판 인레이', '내용': '룬 문자 (ᛖ for Embla / ᚨ for Askr)' }, { '분류': '공통 정보', '항목': '옵션 공통', '내용': '6현, 7현 / Ebony 지판 / Top wood / Delano Xpure buffer' }, { '분류': '현 구성 기준', '항목': '기본 현 수', '내용': '5현 (B–G)' }, { '분류': '현 구성 기준', '항목': '옵션', '내용': '6현 (B–C) / 7현 (F#–C or Custom)' }, { '분류': '현 구성 기준', '항목': '픽업 간 거리', '내용': '6현/7현 선택 시 간격 조정 (정확한 mm 스펙 별도 문서화)' }, { '분류': '현 구성 기준', '항목': '브리지 / 너트 폭', '내용': '현 수에 따라 자동 조정됨 (모듈식 파츠 라이브러 연동)' }, { '분류': '현 구성 기준', '항목': '컨트롤 위치', '내용': '현 수와 관계없이 일관 배치, 단 7현은 노브 간격 넓힘 적용' }, ],
-                    neck: [
-                        { category: '개요', item: '시스템', details: '통합형 3~13피스 대칭 적층 콘 코어 시스템.' },
-                        { category: 'EMBLA 넥', item: '라미네이트 순서', details: '예) 13피스: 플레임 메이플(아우터) – 부빙가 (스트라이프) – 월넛(스트라이프) – 웬지(메인 윙) – 월넛(스트라이프) – 부빙가(스트라이프) – 애쉬(코어) – 부빙가(스트라이프) – 월넛(스트라이프) – 웬지(메인 윙) – 월넛 (스트라이프) – 부빙가(스트라이프) – 플레임 메이플(아우터)' },
-                        { category: 'EMBLA Neck', item: 'Central Grain', details: '중앙 애쉬: 쿼터쏜 수직 (⬇), 측면 웬지 블록: 대각선 (↘ / ↙)' },
-                        { category: 'EMBLA Neck', item: '두께', details: '1프렛 기준 21.5mm / 12프렛 기준 23.0mm' },
-                        { category: 'ASKR Neck', item: '라미네이트 순서', details: '예) 9겹: 블러드우드(아우터) – 웬지(스트라이프) – 메이플(메인 윙) – 퍼플하트(스트라이프) – 애쉬(코어) – 퍼플하트(스트라이프) – 메이플(메인 윙) – 웬지(스트라이프) – 블러드우드(아우터)' },
-                        { category: 'ASKR Neck', item: '중앙 나뭇결', details: '중앙 애쉬: 쿼터쏜 수직 (⬇), 측면 메이플 블록: 대각선 (↘ / ↙)' },
-                        { category: 'ASKR 넥', item: '두께', details: '1프렛 기준 20.0mm / 12프렛 기준 21.5mm' },
-                        { category: 'EDDA 넥', item: '라미네이트 순서', details: '애쉬 또는 메이플 넥, 1~3피스 옵션, 예) 3피스: 메이플 - 애쉬 - 메이플' },
-                        { category: 'EDDA Neck', item: '중앙 나뭇결', details: '중심 코어: 수직 쿼터쏜 (⬇), 측면 메이플 블록: 대각선 (↘ / ↙)' },
-                        { category: 'EDDA Neck', item: '두께', details: '1프렛 기준 21.5mm / 12프렛 기준 23.5mm' },
-                        { category: '보강재 (6/7현)', item: '레이아웃', details: '트러스 로드 2개 (대향 삽입) + 카본 로드 2개 (비트러스 영역) + 중앙 티타늄 바 1개' },
-                        { category: '인체공학 (5현)', item: '너트 / 브릿지 간격', details: '45mm / 18.0mm' },
-                        { category: '인체공학 (5현)', item: '프로파일', details: '모던 C, 16인치 반경, 12인치-18인치 복합 옵션' },
-                        { category: '인체공학 (6현)', item: '너트 / 브릿지 간격', details: '52mm / 17.0mm' },
-                        { category: '인체공학 (6현)', item: '프로파일', details: '하이브리드 C/D, 20인치 반경, 16인치-24인치 복합 옵션' },
-                        { category: '인체공학 (7현)', item: '너트 / 브릿지 간격', details: '59mm / 17.0mm' },
-                        { category: '인체공학 (7현)', item: '프로파일', details: '플랫 또는 비대칭 슬림 D, 20인치 반경, 16인치-24인치 컴파운드 옵션' }
-                    ],
-                    body: [
-                        { category: 'Core Arch.', item: 'Tone Block', details: '넥과 브릿지를 잇는 바디의 중앙 코어. 현의 진동을 손실 없이 받아내며 악기의 근본적인 어택과 서스테인, 펀치감을 결정하는 핵심 뼈대.' },
-                        { category: 'Core Arch.', item: 'Honeycomb Chambered Wings', details: '톤 블럭 양옆에 결합되는 바디 윙. 내부를 벌집(Honeycomb) 구조로 파내어 물리적 강성을 유지하면서도 무게를 획기적으로 줄이고, 어쿠스틱한 공명감(Resonance)을 극대화.' },
-                        { category: 'Top Arch.', item: 'Veneer Top (비니어 탑)', details: '1~2mm 두께의 얇은 장식용 탑. 바디 코어(톤 블럭 및 윙)가 가진 본연의 음향적 특성을 100% 유지하면서, 시각적인 화려함(Burl, Flame 등)만 더하고자 할 때 적용.' },
-                        { category: 'Top Arch.', item: 'Block Top (블럭 탑)', details: '5~10mm 이상의 두꺼운 음향목 탑. 메인 코어 우드의 특성에 탑 우드 고유의 배음과 톤 컬러(예: 컴프레션, 하이파이함, 따뜻함)를 적극적으로 섞어 톤을 블렌딩할 때 적용.' },
-                        { category: 'EMBLA Body', item: 'Wood Specs', details: '톤 블럭: 엘름 (Elm) <br>허니콤브 체임버드 윙: 앨더 (Alder) <br>탑 우드 옵션: 플레임(Flame), 퀼티드(Quilted) 메이플 등 수려한 배음과 미학을 더하는 옵션' },
-                        { category: 'ASKR Body', item: 'Wood Specs', details: '톤 블럭: 애쉬 (Ash) <br>허니콤브 체임버드 윙: 앨더 (Alder) <br>탑 우드 옵션: 타이트한 어택과 압도적인 외관을 위한 다양한 커스텀 탑 우드 옵션 가능' },
-                        { category: 'EDDA Body', item: 'Wood Specs', details: '코어 및 윙 우드: 애쉬 (Ash) / 앨더 (Alder) / 림바 (Limba) / 레드툰 (Red Toon) 중 선택 <br>구조: 헤리티지 사운드를 위한 빈티지 체임버 가공 및 솔리드 구조 적용' },
-                        { category: 'Slap Ramp', item: 'Function', details: '슬랩 팝핑 시 손가락이 깊게 들어가는 것을 방지. 지판 끝단에 위치.' },
-                        { category: 'Slap Ramp', item: 'Hidden Feature', details: '<strong>넥 힐(Heel) 트러스로드 조절부를 덮는 은닉 덮개 역할.</strong> (네오디뮴 자석 결합으로 도구 없이 탈부착 가능)' },
-                        { category: 'Finger Ramp', item: 'Function', details: '넥/브릿지 픽업 사이에 장착. 핑거스타일 속주(ex: 3핑거) 시 터치의 일관성과 속도를 극대화.' },
-                        { category: 'Finger Ramp', item: 'Customization', details: '지판 곡률(14"~20")과 완벽히 일치하는 곡면 가공. 연주자 취향에 따른 미세 높이 조절 나사 내장.' },
-                        { category: 'Extension', item: 'Fretless Ext.', details: '슬랩 램프 대신 선택 가능한 연장 지판 옵션. (24프렛 이후 28프렛 부근까지 프렛리스 형태로 연장)' },
-                        { category: 'Electronics (3-PU)', item: 'Overview', details: '3x Dual-Coil or Split-Coil Humbuckers (각 모델의 지향점에 맞춘 특수 배열)' },
-                        { category: 'Electronics (3-PU)', item: 'ASKR (Aggressive)', details: '<strong>배치:</strong> 브릿지 쪽에 3개의 픽업을 타이트하게 밀집 배치. <br><strong>톤 캐릭터:</strong> 다운튜닝 시에도 음이 뭉개지지 않는 강력한 미드레인지 펀치와 공격적인 메탈릭 그로울링 톤에 특화.' },
-                        { category: 'Electronics (3-PU)', item: 'EMBLA (Versatile)', details: '<strong>배치:</strong> 핑거 램프(Finger Ramp)가 들어갈 공간에 정확히 미들 픽업이 안착하는 통합형 구조. <br><strong>톤 캐릭터:</strong> 픽업 커버가 램프 역할을 겸하거나 시각적 일체감을 이루어 미학적 완성도를 높이고, 폭넓은 장르를 아우르는 범용적 하이엔드 톤 달성.' },
-                        { category: 'Control', item: 'Rotary System', details: '<strong>직관성 세팅 (Rotary Selector):</strong> 5단 혹은 6단 로터리 스위치 적용. 루시어가 사전에 설계한 최적의 픽업 조합(단일, 직/병렬 혼합)을 라이브 환경에서 빠르고 직관적으로 전환.' },
-                        { category: 'Control', item: 'Blend + Mid PU', details: '<strong>확장성 세팅 (Blend + Mid Vol):</strong> 마스터 볼륨 + [넥/브릿지 픽업 블렌드] + [독립된 미들 픽업 볼륨]. 3개의 픽업 믹스 비율을 무한대로 섞어 연주자만의 세밀한 톤 메이킹을 실시간으로 조율.' }
-                    ],
-                    headers: { embla: ['항목', '내용'], askr: ['항목', '내용'], edda: ['항목', '내용'], common: ['분류', '항목', '내용'], neck: ['분류', '항목', '세부 내용'], body: ['분류', '항목', '세부 내용'] }
+                    common: [ { '분류': '공통 정보', '항목': '브랜드명', '내용': 'RavenForge' }, { '분류': '공통 정보', '항목': '제품 라인업', '내용': 'EMBLA / ASKR / EDDA' }, { '분류': '공통 정보', '항목': '철학 기반', '내용': '북유럽 신화 – 인간 창조 신화 (Ask & Embla)' }, { '분류': '공통 정보', '항목': '제작 방식', '내용': '세미 커스텀 오더 베이스 (파츠 셀렉션 + 고정 스펙 병행)' }, { '분류': '공통 정보', '항목': '프렛 수', '내용': '24 프렛 (Zero Fret 포함)' }, { '분류': '공통 정보', '항목': '프렛 재질', '내용': 'Brass (전 모델 고정)' }, { '분류': '공통 정보', '항목': '너트 재질', '내용': 'Brass (전 모델 고정)' }, { '분류': '공통 정보', '항목': '넥 구조', '내용': 'Bolt-on / 13 피스 라미네이티드 넥' }, { '분류': '공통 정보', '항목': '지판 인레이', '내용': '룬 문자 (ᛖ for Embla / ᚨ for Askr)' }, { '분류': '공통 정보', '항목': '옵션 공통', '내용': '6현, 7현 / Ebony 지판 / Top wood / Delano Xpure buffer' }, { '분류': '현 구성 기준', '항목': '기본 현 수', '내용': '5현 (B–G)' }, { '분류': '현 구성 기준', '항목': '옵션', '내용': '6현 (B–C) / 7현 (F#–C or Custom)' }, { '분류': '현 구성 기준', '항목': '픽업 간 거리', '내용': '6현/7현 선택 시 간격 조정 (정확한 mm 스펙 별도 문서화)' }, { '분류': '현 구성 기준', '항목': '브리지 / 너트 폭', '내용': '현 수에 따라 자동 조정됨 (모듈식 파츠 라이브러리 연동)' }, { '분류': '현 구성 기준', '항목': '컨트롤 위치', '내용': '현 수와 관계없이 일관 배치, 단 7현은 노브 간격 넓힘 적용' }, ],
+neck: [
+    { category: '개요', item: '시스템', details: '통합형 3~13피스 대칭 적층 콘 코어 시스템.' },
+    { category: 'EMBLA 넥', item: '라미네이트 순서', details: '예) 13피스: 플레임 메이플(아우터) – 부빙가 (스트라이프) – 월넛(스트라이프) – 웬지(메인 윙) – 월넛(스트라이프) – 부빙가(스트라이프) – 애쉬(코어) – 부빙가(스트라이프) – 월넛(스트라이프) – 웬지(메인 윙) – 월넛 (스트라이프) – 부빙가(스트라이프) – 플레임 메이플(아우터)' },
+    { category: 'EMBLA Neck', item: 'Central Grain', details: '중앙 애쉬: 쿼터쏜 수직 (⬇), 측면 웬지 블록: 대각선 (↘ / ↙)' },
+    { category: 'EMBLA Neck', item: '두께', details: '1프렛 기준 21.5mm / 12프렛 기준 23.0mm' },
+    { category: 'ASKR Neck', item: '라미네이트 순서', details: '예) 9겹: 블러드우드(아우터) – 웬지(스트라이프) – 메이플(메인 윙) – 퍼플하트(스트라이프) – 애쉬(코어) – 퍼플하트(스트라이프) – 메이플(메인 윙) – 웬지(스트라이프) – 블러드우드(아우터)' },
+    { category: 'ASKR Neck', item: '중앙 나뭇결', details: '중앙 애쉬: 쿼터쏜 수직 (⬇), 측면 메이플 블록: 대각선 (↘ / ↙)' },
+    { category: 'ASKR 넥', item: '두께', details: '1프렛 기준 20.0mm / 12프렛 기준 21.5mm' },
+    { category: 'EDDA 넥', item: '라미네이트 순서', details: '애쉬 또는 메이플 넥, 1~3피스 옵션, 예) 3피스: 메이플 - 애쉬 - 메이플' },
+    { category: 'EDDA Neck', item: '중앙 나뭇결', details: '중심 코어: 수직 쿼터쏜 (⬇), 측면 메이플 블록: 대각선 (↘ / ↙)' },
+    { category: 'EDDA Neck', item: '두께', details: '1프렛 기준 21.5mm / 12프렛 기준 23.5mm' },
+    { category: '보강재 (6/7현)', item: '레이아웃', details: '트러스 로드 2개 (대향 삽입) + 카본 로드 2개 (비트러스 영역) + 중앙 티타늄 바 1개' },
+    { category: '인체공학 (5현)', item: '너트 / 브릿지 간격', details: '45mm / 18.0mm' },
+    { category: '인체공학 (5현)', item: '프로파일', details: '모던 C, 16인치 반경, 12인치-18인치 복합 옵션' },
+    { category: '인체공학 (6현)', item: '너트 / 브릿지 간격', details: '52mm / 17.0mm' },
+    { category: '인체공학 (6현)', item: '프로파일', details: '하이브리드 C/D, 20인치 반경, 16인치-24인치 복합 옵션' },
+    { category: '인체공학 (7현)', item: '너트 / 브릿지 간격', details: '59mm / 17.0mm' },
+    { category: '인체공학 (7현)', item: '프로파일', details: '플랫 또는 비대칭 슬림 D, 20인치 반경, 16인치-24인치 컴파운드 옵션' }
+],
+                    headers: { embla: ['항목', '내용'], askr: ['항목', '내용'], edda: ['항목', '내용'], common: ['분류', '항목', '내용'], neck: ['분류', '항목', '세부 내용'] }
                 },
                 luthierData: [],
                 proposalsData: [
@@ -918,6 +855,7 @@ askr: [
                 noLuthierMatch: "선택한 조건에 맞는 루씨어가 없습니다."
             }
         };
+
         // --- DATA INJECTION (데이터 주입) ---
        // English Data
 translations.en.luthierData = [
@@ -1378,7 +1316,6 @@ translations.ko.luthierData = [
 			const specContentEdda = document.getElementById('spec-content-edda');
             const specContentCommon = document.getElementById('spec-content-common');
             const specContentNeck = document.getElementById('spec-content-neck'); 
-            const specContentBody = document.getElementById('spec-content-body');
             const specBtns = document.querySelectorAll('.spec-btn');
 
             let currentRegionFilter = 'all';
@@ -1431,7 +1368,6 @@ translations.ko.luthierData = [
             }
 
             function createSpecTable(data, headers) {
-                if (!data || !headers) return '';
                 let table = '<div class="overflow-x-auto"><table class="w-full text-sm spec-table"><thead><tr>';
                 headers.forEach(header => {
                     table += `<th class="font-semibold">${header}</th>`;
@@ -1458,7 +1394,6 @@ translations.ko.luthierData = [
 				specContentEdda.innerHTML = createSpecTable(specData.edda, headers.edda);
                 specContentCommon.innerHTML = createSpecTable(specData.common, headers.common);
                 specContentNeck.innerHTML = createSpecTable(specData.neck, headers.neck);
-                specContentBody.innerHTML = createSpecTable(specData.body, headers.body);
             }
 
             function renderChart() {
@@ -1765,40 +1700,3 @@ translations.ko.luthierData = [
     </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
