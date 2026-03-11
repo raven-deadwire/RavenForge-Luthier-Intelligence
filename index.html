@@ -315,17 +315,23 @@
                 <p class="mb-6 text-slate-600" data-lang-key="specSheetDesc"></p>
                 
 <div class="mb-6 flex flex-wrap gap-2">
-    <button id="btn-spec-embla" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition active">🌿 EMBLA</button>
-    <button id="btn-spec-askr" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">🔥 ASKR</button>
-    <button id="btn-spec-edda" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">📜 EDDA</button>
-    <button id="btn-spec-common" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specCommonBtn"></button>
-    <button id="btn-spec-neck" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specNeckBtn"></button>
+    <button id="btn-spec-embla" class="spec-btn ...">🌿 EMBLA</button>
+    <button id="btn-spec-askr" class="spec-btn ...">🔥 ASKR</button>
+    <button id="btn-spec-edda" class="spec-btn ...">📜 EDDA</button>
+    <button id="btn-spec-common" class="spec-btn ..." data-lang-key="specCommonBtn"></button>
+    <button id="btn-spec-neck" class="spec-btn ..." data-lang-key="specNeckBtn"></button>
+    
+    <button id="btn-spec-body" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">🎸 Body</button>
+    <button id="btn-spec-options" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">⚙️ Options</button>
 </div>
 
 <div id="spec-content-embla" class="spec-content"></div>
 <div id="spec-content-askr" class="spec-content hidden"></div>
-<div id="spec-content-edda" class="spec-content hidden"></div> <div id="spec-content-common" class="spec-content hidden"></div>
+<div id="spec-content-edda" class="spec-content hidden"></div>
+<div id="spec-content-common" class="spec-content hidden"></div>
 <div id="spec-content-neck" class="spec-content hidden"></div>
+<div id="spec-content-body" class="spec-content hidden"></div>
+<div id="spec-content-options" class="spec-content hidden"></div>
             </div>
         </section>
 
@@ -532,7 +538,7 @@ neck: [
                         { category: '3-PU System', item: 'Rotary Control', details: '<strong>Intuitive Setting:</strong> 5 or 6-way rotary switch for fast switching in live environments.' },
                         { category: '3-PU System', item: 'Blend Control', details: '<strong>Expansive Setting:</strong> Master Volume + Neck/Bridge Blend + Independent Middle Pickup Volume.' }
                     ],
-                   headers: { embla: ['Item', 'Details'], askr: ['Item', 'Details'], edda: ['Item', 'Details'], common: ['Category', 'Item', 'Details'], neck: ['Category', 'Item', 'Details'] }
+                   headers: { embla: ['Item', 'Details'], askr: ['Item', 'Details'], edda: ['Item', 'Details'], common: ['Category', 'Item', 'Details'], neck: ['Category', 'Item', 'Details'], body: ['Category', 'Item', 'Details'], options: ['Category', 'Item', 'Details'] }
                 },
                 luthierData: [],
                 proposalsData: [
@@ -711,7 +717,7 @@ neck: [
                         { category: '3-PU System', item: 'Rotary Control', details: '<strong>Intuitive Einstellung:</strong> 5- oder 6-Wege-Drehschalter für schnelle Umschaltung.' },
                         { category: '3-PU System', item: 'Blend Control', details: '<strong>Erweiterte Einstellung:</strong> Master Volume + [Hals/Steg-Blend] + [Unabhängige Mid Vol].' }
                     ],
-                   headers: { embla: ['Merkmal', 'Details'], askr: ['Merkmal', 'Details'], edda: ['Merkmal', 'Details'], common: ['Kategorie', 'Merkmal', 'Details'], neck: ['Kategorie', 'Merkmal', 'Details'] }
+                   headers: { embla: ['Merkmal', 'Details'], askr: ['Merkmal', 'Details'], edda: ['Merkmal', 'Details'], common: ['Kategorie', 'Merkmal', 'Details'], eck: ['Kategorie', 'Merkmal', 'Details'], body: ['Kategorie', 'Merkmal', 'Details'], options: ['Kategorie', 'Merkmal', 'Details'] }
                 },
                 luthierData: [],
                 proposalsData: [
@@ -900,7 +906,7 @@ neck: [
                         { category: '3픽업 시스템', item: '로터리 컨트롤', details: '<strong>직관성 세팅 (Rotary Selector):</strong> 5단 혹은 6단 로터리 스위치 적용. 라이브 환경에서 빠르고 직관적인 전환.' },
                         { category: '3픽업 시스템', item: '블렌드 컨트롤', details: '<strong>확장성 세팅 (Blend + Mid Vol):</strong> 마스터 볼륨 + [넥/브릿지 픽업 블렌드] + [독립된 미들 픽업 볼륨]. 3개의 픽업 믹스 비율을 무한대로 섞어 연주자만의 세밀한 톤 메이킹을 실시간으로 조율.' }
                     ],
-                    headers: { embla: ['항목', '내용'], askr: ['항목', '내용'], edda: ['항목', '내용'], common: ['분류', '항목', '내용'], neck: ['분류', '항목', '세부 내용'] }
+                    headers: { embla: ['항목', '내용'], askr: ['항목', '내용'], edda: ['항목', '내용'], common: ['분류', '항목', '내용'], neck: ['분류', '항목', '세부 내용'], body: ['분류', '항목', '세부 내용'], options: ['분류', '항목', '세부 내용'] }
                 },
                 luthierData: [],
                 proposalsData: [
@@ -1376,6 +1382,8 @@ translations.ko.luthierData = [
 			const specContentEdda = document.getElementById('spec-content-edda');
             const specContentCommon = document.getElementById('spec-content-common');
             const specContentNeck = document.getElementById('spec-content-neck'); 
+			const specContentBody = document.getElementById('spec-content-body');
+			const specContentOptions = document.getElementById('spec-content-options');
             const specBtns = document.querySelectorAll('.spec-btn');
 
             let currentRegionFilter = 'all';
@@ -1454,6 +1462,8 @@ translations.ko.luthierData = [
 				specContentEdda.innerHTML = createSpecTable(specData.edda, headers.edda);
                 specContentCommon.innerHTML = createSpecTable(specData.common, headers.common);
                 specContentNeck.innerHTML = createSpecTable(specData.neck, headers.neck);
+				specContentBody.innerHTML = createSpecTable(specData.body, headers.body);
+				specContentOptions.innerHTML = createSpecTable(specData.options, headers.options);
             }
 
             function renderChart() {
@@ -1760,4 +1770,5 @@ translations.ko.luthierData = [
     </div>
 </body>
 </html>
+
 
