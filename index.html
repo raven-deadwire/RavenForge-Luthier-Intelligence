@@ -122,6 +122,7 @@
 
         <div class="mb-6 flex flex-wrap gap-2">
             <button id="btn-about-intro" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition active" data-target="intro" data-lang-key="aboutTabBrief"></button>
+			<button id="btn-about-brand" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="brand" data-lang-key="aboutTabBrand"></button>
             <button id="btn-about-bio" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="bio" data-lang-key="aboutTabBio"></button>
             <button id="btn-about-mentors" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="mentors" data-lang-key="aboutTabMentors"></button>
             <button id="btn-about-works" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="works" data-lang-key="aboutTabWorks"></button>
@@ -186,6 +187,40 @@
     </div>
 </div>
 </div> </div>
+		<div id="about-content-brand" class="about-content hidden">
+    <h3 class="text-2xl font-bold mb-6" data-lang-key="brandTitle"></h3>
+    
+    <div class="flex flex-col md:flex-row items-center gap-8 mb-12 pb-8 border-b">
+        <div class="w-48 h-48 bg-white rounded-lg flex-shrink-0 flex items-center justify-center p-4 shadow-sm border border-slate-200">
+            <img src="./ravenforge.png" alt="RavenForge Brand Logo" class="w-full h-auto object-contain">
+        </div>
+        <div class="text-slate-600 leading-relaxed">
+            <h4 class="text-xl font-bold text-slate-800 mb-2" data-lang-key="brandIntroSubTitle"></h4>
+            <div data-lang-key="brandMainDesc"></div>
+        </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-stone-50 p-6 rounded-lg border">
+            <h4 class="text-lg font-bold text-slate-800 mb-3 flex items-center">
+                <span class="mr-2">ᛟ</span> <span data-lang-key="brandWhyNorseTitle"></span>
+            </h4>
+            <div class="text-sm" data-lang-key="brandWhyNorseContent"></div>
+        </div>
+        <div class="bg-stone-50 p-6 rounded-lg border">
+            <h4 class="text-lg font-bold text-slate-800 mb-3 flex items-center">
+                <span class="mr-2">ᚱ</span> <span data-lang-key="brandWhyUsTitle"></span>
+            </h4>
+            <div class="text-sm" data-lang-key="brandWhyUsContent"></div>
+        </div>
+        <div class="bg-stone-50 p-6 rounded-lg border">
+            <h4 class="text-lg font-bold text-slate-800 mb-3 flex items-center">
+                <span class="mr-2">ᚠ</span> <span data-lang-key="brandEdgeTitle"></span>
+            </h4>
+            <div class="text-sm" data-lang-key="brandEdgeContent"></div>
+        </div>
+    </div>
+</div>
         <div id="about-content-bio" class="about-content hidden">
             <h3 class="text-2xl font-bold mb-6" data-lang-key="bioProfileTitle"></h3>
             <div class="border-t">
@@ -430,7 +465,19 @@
         introContent: `<p class="mb-4">Hello, I am Raven Cho (@raven_deadwire). My journey is one of two worlds: the intellectual rigor of philosophy and the raw passion of metal music, both of which converge into the craft of lutherie.</p>
                        <p class="mb-4">As a philosophy major at Yonsei University, I built a worldview grounded in aesthetics and critical thinking. This academic background became the soul of my artistic expression as the leader of DEADWIRE, a Scandinavian-style melodic death metal band. My deep dive into the genre led me to explore Norse mythology and folklore, which ultimately sparked the vision for RavenForge.</p>
                        <p>My path to becoming a luthier has been hands-on and dedicated. I honed my initial skills from 2010-2013 at renowned Korean workshops like Freebud Mod Shop and Craftshouse. Today, while working professionally in educational publishing and EdTech, I continue my luthier apprenticeship under two great masters, relentlessly pursuing mastery of this craft.</p>`,
-        
+
+	// translations.en 객체 내부에 추가
+aboutTabBrand: "What is RavenForge?",
+brandTitle: "Brand Identity: RavenForge",
+brandIntroSubTitle: "The Craft of Manifesting the Soul's Narrative",
+brandMainDesc: "<p>RavenForge is more than just a brand; it is an 'altar' where the musical narratives latent within a performer are transformed into visual aesthetics and overwhelming sound. It is the confluence where the raw breath of the North meets the precision of modern lutherie.</p>",
+brandWhyNorseTitle: "Why Norse?",
+brandWhyNorseContent: "<p>The Norse creation myth of Ask and Embla forms the bedrock of our design. We believe an instrument should not be a mere tool, but a living entity that breathes with the performer to create new worlds.</p>",
+brandWhyUsTitle: "Why RavenForge?",
+brandWhyUsContent: "<p>We bridge the gap between soul-less mass-produced instruments and over-designed customs that lack practical reliability. Combining an artist's vision with a luthier's engineering data, we provide absolute trust on stage.</p>",
+brandEdgeTitle: "Our Edge",
+brandEdgeContent: "<p>Our signature 13-piece laminated neck and honeycomb-chambered body are symbols of RavenForge's commitment. We take pride in technical stability that resists warping and a tight midrange punch that cuts through any mix.</p>",			
+				
         // Bio & Profile Section
         bioProfileTitle: "Profile",
         bioNameLabel: "Name",
@@ -575,7 +622,19 @@ neck: [
         introContent: `<p class="mb-4">Hallo, ich bin Raven Cho (@raven_deadwire). Meine Reise ist eine zwischen zwei Welten: der intellektuellen Strenge der Philosophie und der rohen Leidenschaft der Metal-Musik, die beide im Handwerk des Gitarrenbaus zusammenfließen.</p>
                        <p class="mb-4">Als Hauptfachstudent der Philosophie an der Yonsei-Universität habe ich eine Weltanschauung entwickelt, die auf Ästhetik und kritischem Denken basiert. Dieser akademische Hintergrund wurde zur Seele meines künstlerischen Ausdrucks als Leiter von DEADWIRE, einer Melodic-Death-Metal-Band im skandinavischen Stil. Mein tiefes Eintauchen in das Genre führte mich zur Erforschung der nordischen Mythologie und Folklore, was letztendlich die Vision für RavenForge entfachte.</p>
                        <p>Mein Weg zum Gitarrenbauer war praxisnah und engagiert. Ich habe meine ersten Fähigkeiten von 2010-2013 in renommierten koreanischen Werkstätten wie dem Freebud Mod Shop und Craftshouse verfeinert. Heute, während ich beruflich im Bildungsverlagswesen und in der EdTech-Branche tätig bin, setze ich meine Ausbildung zum Gitarrenbauer unter zwei großen Meistern fort und strebe unermüdlich nach der Meisterschaft in diesem Handwerk.</p>`,
-                       
+
+// translations.de 객체 내부에 추가
+aboutTabBrand: "Was ist RavenForge?",
+brandTitle: "Markenidentität: RavenForge",
+brandIntroSubTitle: "Das Handwerk der Manifestation seelischer Erzählungen",
+brandMainDesc: "<p>RavenForge ist mehr als nur eine Marke; es ist ein 'Altar', auf dem die musikalischen Erzählungen, die in einem Künstler schlummern, in visuelle Ästhetik und überwältigenden Klang verwandelt werden. Es ist der Ort, an dem der raue Atem des Nordens auf die Präzision moderner Gitarrenbaukunst trifft.</p>",
+brandWhyNorseTitle: "Warum Nordisch?",
+brandWhyNorseContent: "<p>Der nordische Schöpfungsmythos von Ask und Embla bildet das Fundament unseres Designs. Wir glauben, dass ein Instrument kein bloßes Werkzeug sein sollte, sondern eine lebendige Einheit, die mit dem Musiker atmet, um neue Welten zu erschaffen.</p>",
+brandWhyUsTitle: "Warum RavenForge?",
+brandWhyUsContent: "<p>Wir schließen die Lücke zwischen seelenlosen Massenprodukten und über디자인ten Custom-Instrumenten, denen es an praktischer Zuverlässigkeit mangelt. Durch die Kombination der Vision eines Künstlers mit den Ingenieursdaten eines Gitarrenbauers bieten wir absolutes Vertrauen auf der Bühne.</p>",
+brandEdgeTitle: "Unsere Stärke",
+brandEdgeContent: "<p>Unser charakteristischer 13-teiliger laminierter Hals und der Korpus mit Honeycomb-Chambering sind Symbole für das Engagement von RavenForge. Wir sind stolz auf technische Stabilität, die Verzug widersteht, und einen straffen Midrange-Punch, der sich in jedem Mix durchsetzt.</p>",
+		
         // Bio & Profile Section
         bioProfileTitle: "Profil",
         bioNameLabel: "Name",
@@ -756,6 +815,18 @@ neck: [
                        <p class="mb-4">연세대학교에서 철학을 전공하며 미학적, 비판적 사고에 기반한 세계관을 구축했습니다. 이러한 학문적 배경은 스칸디나비아 스타일의 멜로딕 데스 메탈 밴드 'DEADWIRE'를 이끄는 아티스트로서의 정체성에 깊은 영향을 주었습니다. 장르에 대한 깊은 이해를 위해 북유럽 신화와 민속을 탐구하던 중, 마침내 'RavenForge'라는 비전의 씨앗을 발견하게 되었습니다.</p>
                        <p>악기 제작 장인이 되기 위한 저의 길은 꾸준하고 헌신적이었습니다. 2010년부터 2013년까지 한국의 프리버드 Mod Shop과 Craftshouse에서 기술의 기초를 닦았고, 현재는 교육 출판 및 에듀테크 분야에서 전문가로 일하면서도 두 위대한 스승님 아래에서 견습 과정을 밟으며 악기 제작에 대한 숙련도를 끊임없이 높여가고 있습니다.</p>`,
 
+		// ko 객체 내부에 추가
+aboutTabBrand: "RavenForge란?",
+brandTitle: "Brand Identity: RavenForge",
+brandIntroSubTitle: "영혼의 서사를 구현하는 악기 제조학",
+brandMainDesc: "<p>RavenForge는 단순히 악기를 만드는 브랜드가 아닙니다. 우리는 연주자의 내면에 잠재된 음악적 서사를 시각적 미학과 압도적인 사운드로 변환하는 '제단'을 만듭니다. 북유럽의 거친 숨결과 현대 루씨어 기술의 정밀함이 만나는 곳, 그곳이 RavenForge입니다.</p>",
+brandWhyNorseTitle: "왜 북유럽인가?",
+brandWhyNorseContent: "<p>북유럽 신화의 인간 창조 서사(Ask & Embla)는 우리 설계의 근간입니다. 악기는 단순한 도구가 아닌, 연주자와 함께 호흡하며 새로운 세계를 창조하는 '생명력'을 지녀야 한다고 믿기 때문입니다.</p>",
+brandWhyUsTitle: "왜 RavenForge인가?",
+brandWhyUsContent: "<p>우리는 양산형 악기의 한계와 실전성이 결여된 과잉 디자인 사이의 공백을 메웁니다. 아티스트로서의 주관과 루씨어로서의 공학적 데이터가 결합되어, 무대 위에서 가장 완벽한 신뢰를 제공합니다.</p>",
+brandEdgeTitle: "우리의 경쟁력",
+brandEdgeContent: "<p>13피스 라미네이티드 넥과 허니콤 챔버 바디는 RavenForge만의 상징입니다. 어떠한 환경에서도 뒤틀림 없는 안정성과 합주를 뚫고 나가는 타이트한 미드레인지 펀치감이 우리의 기술적 자부심입니다.</p>",
+		
         // Bio & Profile Section
         bioProfileTitle: "프로필",
         bioNameLabel: "활동명",
@@ -1788,6 +1859,7 @@ translations.ko.luthierData = [
     </div>
 </body>
 </html>
+
 
 
 
