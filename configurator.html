@@ -953,16 +953,16 @@
                   </div>
                   
                   {/* PDF Only Header */}
-                  <div id="pdf-header" style={{display: 'none'}} className="bg-slate-900 p-6 text-white border-b-2 border-slate-800 justify-between items-center">
-                    <div>
-                      <h3 className="text-xl font-bold uppercase tracking-tight">Summary</h3>
-                      <div className="text-slate-400 text-xs mt-1">{selectedModel} Custom Build</div>
-                    </div>
-                    <div className="text-right">
-                      <h2 className="text-sm font-black uppercase tracking-widest text-slate-100">RavenForge</h2>
-                      <p className="text-[9px] font-bold tracking-widest text-red-500 mt-0.5">Luthier Intelligence™</p>
-                    </div>
-                  </div>
+<div id="pdf-header" style={{display: 'none'}} className="bg-slate-900 p-6 text-white border-b-2 border-slate-800 justify-between items-center">
+  <div>
+    <h3 className="text-xl font-bold uppercase tracking-tight">Summary</h3>
+    <div className="text-slate-400 text-xs mt-1">{selectedModel} Custom Build</div>
+  </div>
+  {/* 텍스트 대신 로고 이미지 삽입 */}
+  <div className="flex justify-end items-center">
+    <img src="./ravenforge.png" alt="RavenForge Logo" className="h-8 w-auto object-contain" />
+  </div>
+</div>
                   
                   <div className="p-6">
                     <div id="quote-scroll-area" className="mb-6 max-h-[calc(100vh-420px)] min-h-[300px] overflow-y-auto pr-2 text-sm custom-scrollbar">
