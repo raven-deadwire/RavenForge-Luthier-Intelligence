@@ -694,78 +694,62 @@
       };
 
       const handleRequestQuote = async () => {
-        setIsGeneratingPDF(true);
-        const element = document.getElementById('quote-summary-card');
-        const scrollArea = document.getElementById('quote-scroll-area');
-        const actionsArea = document.getElementById('quote-actions-area');
-        const uiHeader = document.getElementById('ui-header');
-        const pdfHeader = document.getElementById('pdf-header');
-        const listContainer = document.getElementById('quote-list-container');
+  setIsGeneratingPDF(true);
+  const element = document.getElementById('quote-summary-card');
+  const scrollArea = document.getElementById('quote-scroll-area');
+  const actionsArea = document.getElementById('quote-actions-area');
+  const uiHeader = document.getElementById('ui-header');
+  const pdfHeader = document.getElementById('pdf-header');
+  const listContainer = document.getElementById('quote-list-container');
 
-        // 1. PDF 캡처를 위한 스타일 일시 변경 (중요: sticky 및 height 제한 제거)
-        const originalStyle = element.getAttribute('style') || '';
-        const originalClass = element.className;
-        
-        // 캡처 중에는 sticky를 끄고 위치를 초기화하여 좌표 오류 방지
-        element.classList.remove('sticky', 'top-24');
-        element.style.position = 'relative';
-        element.style.top = '0';
-        element.style.width = '100%'; // 너비 고정
+  // 1. html2canvas 렌더링 버그 방지를 위해 sticky 속성 임시 제거 (핵심)
+  element.classList.remove('sticky', 'top-24');
 
-        // 스크롤 영역 해제 및 높이 자동 확장
-        scrollArea.style.maxHeight = 'none';
-        scrollArea.style.overflow = 'visible';
-        scrollArea.classList.remove('overflow-y-auto', 'custom-scrollbar');
-        
-        actionsArea.style.display = 'none'; 
-        uiHeader.style.display = 'none';
-        pdfHeader.style.display = 'flex';
-        
-        // 2열 레이아웃 적용
-        listContainer.classList.remove('space-y-3');
-        listContainer.classList.add('grid', 'grid-cols-2', 'gap-x-6', 'gap-y-2');
+  // 2. 스크롤 영역 제한 해제
+  scrollArea.classList.remove('max-h-[calc(100vh-420px)]', 'min-h-[300px]', 'overflow-y-auto', 'custom-scrollbar', 'pr-2');
+  actionsArea.style.display = 'none'; 
+  
+  // 3. 헤더 교체
+  uiHeader.style.display = 'none';
+  pdfHeader.style.display = 'flex';
+  
+  // 4. 2단 그리드 적용 (텍스트 줄바꿈을 최소화하기 위해 gap-x를 6에서 4로 살짝 줄임)
+  listContainer.classList.remove('space-y-3');
+  listContainer.classList.add('grid', 'grid-cols-2', 'gap-x-4', 'gap-y-2');
 
-        // DOM 렌더링을 위해 충분한 대기 시간 부여
-        await new Promise(resolve => setTimeout(resolve, 300));
+  // DOM이 완전히 재배치될 때까지 여유 있게 대기
+  await new Promise(resolve => setTimeout(resolve, 150));
 
-        const opt = {
-          margin:       [10, 10, 10, 10], // 상하좌우 여백
-          filename:     `RavenForge_${selectedModel}_Quote.pdf`,
-          image:        { type: 'jpeg', quality: 0.98 },
-          html2canvas:  { 
-            scale: 2, 
-            useCORS: true, 
-            logging: false,
-            windowWidth: element.scrollWidth, // 요소의 실제 너비 기준 캡처
-            windowHeight: element.scrollHeight 
-          },
-          jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] } // 내용이 잘리지 않게 페이지 분할 방지
-        };
+  const opt = {
+    margin:       10,
+    filename:     `RavenForge_${selectedModel}_Quote.pdf`,
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { 
+      scale: 2, 
+      useCORS: true,
+      scrollY: 0 // 스크롤 위치가 어디에 있든 최상단을 기준으로 캡처하도록 강제 (핵심)
+    },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
 
-        try {
-          await html2pdf().set(opt).from(element).save();
-        } catch (error) {
-          console.error("PDF 생성 실패:", error);
-        } finally {
-          // 2. 스타일 및 클래스 복구
-          element.className = originalClass;
-          element.setAttribute('style', originalStyle);
-          
-          scrollArea.style.maxHeight = '';
-          scrollArea.style.overflow = '';
-          scrollArea.classList.add('overflow-y-auto', 'custom-scrollbar');
-          
-          actionsArea.style.display = 'block';
-          uiHeader.style.display = 'block';
-          pdfHeader.style.display = 'none';
-          
-          listContainer.classList.add('space-y-3');
-          listContainer.classList.remove('grid', 'grid-cols-2', 'gap-x-6', 'gap-y-2');
+  try {
+    await html2pdf().set(opt).from(element).save();
+  } finally {
+    // 5. PDF 캡처 완료 후 스타일 원상 복구
+    element.classList.add('sticky', 'top-24');
+    scrollArea.classList.add('max-h-[calc(100vh-420px)]', 'min-h-[300px]', 'overflow-y-auto', 'custom-scrollbar', 'pr-2');
+    actionsArea.style.display = 'block';
+    
+    uiHeader.style.display = 'block';
+    pdfHeader.style.display = 'none';
+    
+    listContainer.classList.add('space-y-3');
+    listContainer.classList.remove('grid', 'grid-cols-2', 'gap-x-4', 'gap-y-2');
 
-          setIsGeneratingPDF(false);
-        }
-      };
+    setIsGeneratingPDF(false);
+  }
+};
+      
       return (
         <div className="min-h-screen pb-20 font-sans text-slate-900">
           <header className="bg-slate-900 text-slate-50 sticky top-0 z-50 shadow-md">
