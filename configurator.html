@@ -449,7 +449,7 @@
           title: 'Onborad EQ',
           options: [
             { id: 'passive', label: 'passive', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: null }, isStandard: ['EDDA'] },
-            { id: 'dual_filter', label: 'dual filter preamp', spec: '', prices: { EDDA: 0, EMBLA: 340, ASKR: 340 } },
+            { id: 'dual_filter', label: 'Lusithand Double NFP', spec: '', prices: { EDDA: 340, EMBLA: 340, ASKR: 340 } },
             { id: 'fishman', label: 'Fishman Fluence 3 band (*only for Fishman Fluence pickup)', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
             { id: 'delano', label: 'Delano Sonar 3 band', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA'] },
             { id: 'glockenklang', label: 'Glockenklang 3 band', spec: '', prices: { EDDA: null, EMBLA: 160, ASKR: null } },
@@ -534,7 +534,7 @@
           options: [
             { id: 'ramp_none', label: 'none', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
             { id: 'ramp_wood', label: 'wood fingeramp', spec: '(matching with top)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } },
-            { id: 'ramp_3pickup', label: '3 pickup option', spec: '(add another coil tap switch)', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } }
+            { id: 'ramp_3pickup', label: '3 pickup option', spec: '(add another coil tap switch or push-pull knob)', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } }
           ]
         }
       ]
@@ -564,19 +564,50 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       };
 
-      // Logic to show/hide bridges based on specific rules
-      const isBridgeVisible = (bridgeId, modelId, currentSelections) => {
-        // 1. EDDA specific filters
-        if (modelId === 'EDDA') {
-          const allowedEddaBridges = ['ets_custom', 'hipshot_b', 'babicz_top'];
-          if (!allowedEddaBridges.includes(bridgeId)) return false;
+      // 카테고리 표시 여부 판별
+      const isCategoryVisible = (category, currentSelections) => {
+        // 기존 dependsOn 체크
+        if (category.dependsOn) {
+          const [depKey, depVal] = Object.entries(category.dependsOn)[0];
+          const currentSelection = currentSelections[depKey];
+          const isVisible = Array.isArray(depVal) 
+            ? depVal.includes(currentSelection) 
+            : currentSelection === depVal;
+          if (!isVisible) return false;
         }
-        // 2. EMBLA specific filters
-        if (modelId === 'EMBLA') {
-          if (bridgeId.startsWith('kahler_')) return false;
+
+        // [추가 조건] EMG TWX 픽업 선택 시 Select Coil Switch 비활성화(숨김)
+        if (category.id === 'coil_switch' && currentSelections['pickups'] === 'emg') {
+          return false;
         }
-        // 3. Multi-scale common filter
-        if (bridgeId === 'kahler_2400' && currentSelections['scale'] === 'multi') return false;
+
+        return true;
+      };
+
+      // 개별 옵션 표시 여부 판별
+      const isOptionVisible = (categoryId, optionId, modelId, currentSelections) => {
+        // 1. Hardware Bridge 룰
+        if (categoryId === 'hardware_bridge') {
+          if (modelId === 'EDDA') {
+            const allowedEddaBridges = ['ets_custom', 'hipshot_b', 'babicz_top'];
+            if (!allowedEddaBridges.includes(optionId)) return false;
+          }
+          if (modelId === 'EMBLA') {
+            if (optionId.startsWith('kahler_')) return false;
+          }
+          // [추가 조건] ASKR 모델 & 멀티스케일 선택 시 특정 브릿지 3개만 허용
+          if (modelId === 'ASKR' && currentSelections['scale'] === 'multi') {
+            const allowedAskrMultiBridges = ['ets_custom', 'hipshot_lock', 'babicz_solo'];
+            if (!allowedAskrMultiBridges.includes(optionId)) return false;
+          }
+          if (optionId === 'kahler_2400' && currentSelections['scale'] === 'multi') return false;
+        }
+
+        // 2. [추가 조건] 3 pickup 옵션 선택 시 Fishman 프리앰프 & 픽업 숨김
+        if (currentSelections['finger_ramp'] === 'ramp_3pickup') {
+          if (categoryId === 'electronics' && optionId === 'fishman') return false;
+          if (categoryId === 'pickups' && optionId === 'fishman') return false;
+        }
 
         return true;
       };
@@ -586,21 +617,14 @@
         configData.categories.forEach(category => {
           let stdOption = category.options.find(opt => {
             const baseMatch = opt.isStandard && opt.isStandard.includes(modelId);
-            // Extra visibility check for bridge
-            if (category.id === 'hardware_bridge') {
-              return baseMatch && isBridgeVisible(opt.id, modelId, {});
-            }
-            return baseMatch;
+            return baseMatch && isOptionVisible(category.id, opt.id, modelId, defaults);
           });
 
           if (!stdOption) {
             stdOption = category.options.find(opt => {
               if (category.id === 'top_wood_selection') return true;
               const hasPrice = opt.prices[modelId] !== undefined && opt.prices[modelId] !== null;
-              if (category.id === 'hardware_bridge') {
-                return hasPrice && isBridgeVisible(opt.id, modelId, {});
-              }
-              return hasPrice;
+              return hasPrice && isOptionVisible(category.id, opt.id, modelId, defaults);
             });
           }
           if (stdOption) {
@@ -621,21 +645,15 @@
         const breakdown = [];
 
         configData.categories.forEach(category => {
-          if (category.dependsOn) {
-            const [depKey, depVal] = Object.entries(category.dependsOn)[0];
-            const currentSelection = selections[depKey];
-            const isVisible = Array.isArray(depVal) 
-              ? depVal.includes(currentSelection) 
-              : currentSelection === depVal;
-            if (!isVisible) return;
-          }
+          // 카테고리가 비활성화 상태이면 스킵
+          if (!isCategoryVisible(category, selections)) return;
 
           const optionId = selections[category.id];
           if (optionId) {
             const option = category.options.find(o => o.id === optionId);
             if (option) {
-              // Bridge visibility check to prevent calculation
-              if (category.id === 'hardware_bridge' && !isBridgeVisible(option.id, selectedModel, selections)) {
+              // 옵션이 현재 조건에서 비활성화된 상태이면 스킵
+              if (!isOptionVisible(category.id, option.id, selectedModel, selections)) {
                 return;
               }
 
@@ -685,11 +703,48 @@
         setSelections(prev => {
           const nextSelections = { ...prev, [categoryId]: optionId };
 
-          // [Bug Fix] Automatically select the default ETS Custom bridge
-          // if the current bridge is Kahler 2400 when changing to multiscale
+          // [Bug Fix & Update] Automatically select the default ETS Custom bridge
+          // if the current bridge is no longer available when changing to multiscale
           if (categoryId === 'scale' && optionId === 'multi') {
-            if (nextSelections['hardware_bridge'] === 'kahler_2400') {
+            if (selectedModel === 'ASKR') {
+              const allowedAskrMulti = ['ets_custom', 'hipshot_lock', 'babicz_solo'];
+              if (!allowedAskrMulti.includes(nextSelections['hardware_bridge'])) {
+                nextSelections['hardware_bridge'] = 'ets_custom';
+              }
+            } else if (nextSelections['hardware_bridge'] === 'kahler_2400') {
               nextSelections['hardware_bridge'] = 'ets_custom';
+            }
+          }
+
+          // [Update] EMG TWX 선택 시 Select Coil Switch 숨김 및 값 초기화
+          if (categoryId === 'pickups' && optionId === 'emg') {
+            nextSelections['coil_switch'] = 'coil_none';
+          }
+
+          // [Update] 3 pickup option 선택 시 Fishman 옵션이 선택되어 있다면 다른 값으로 폴백
+          if (categoryId === 'finger_ramp' && optionId === 'ramp_3pickup') {
+            if (nextSelections['electronics'] === 'fishman') {
+              const elCategory = configData.categories.find(c => c.id === 'electronics');
+              // 현재 모델에서 사용 가능하고 fishman이 아닌 첫 번째 옵션 탐색 (예: ASKR일 경우 darkglass 등)
+              const fallback = elCategory.options.find(opt => 
+                opt.id !== 'fishman' && 
+                opt.prices[selectedModel] !== undefined && 
+                opt.prices[selectedModel] !== null
+              );
+              if (fallback) {
+                nextSelections['electronics'] = fallback.id;
+              }
+            }
+            if (nextSelections['pickups'] === 'fishman') { // 픽업에 있을 경우 대응
+              const puCategory = configData.categories.find(c => c.id === 'pickups');
+              const fallback = puCategory.options.find(opt => 
+                opt.id !== 'fishman' && 
+                opt.prices[selectedModel] !== undefined && 
+                opt.prices[selectedModel] !== null
+              );
+              if (fallback) {
+                nextSelections['pickups'] = fallback.id;
+              }
             }
           }
 
@@ -698,61 +753,54 @@
       };
 
       const handleRequestQuote = async () => {
-  setIsGeneratingPDF(true);
-  const element = document.getElementById('quote-summary-card');
-  const scrollArea = document.getElementById('quote-scroll-area');
-  const actionsArea = document.getElementById('quote-actions-area');
-  const uiHeader = document.getElementById('ui-header');
-  const pdfHeader = document.getElementById('pdf-header');
-  const listContainer = document.getElementById('quote-list-container');
+        setIsGeneratingPDF(true);
+        const element = document.getElementById('quote-summary-card');
+        const scrollArea = document.getElementById('quote-scroll-area');
+        const actionsArea = document.getElementById('quote-actions-area');
+        const uiHeader = document.getElementById('ui-header');
+        const pdfHeader = document.getElementById('pdf-header');
+        const listContainer = document.getElementById('quote-list-container');
 
-  // 1. html2canvas 렌더링 버그 방지를 위해 sticky 속성 임시 제거 (핵심)
-  element.classList.remove('sticky', 'top-24');
+        element.classList.remove('sticky', 'top-24');
+        scrollArea.classList.remove('max-h-[calc(100vh-420px)]', 'min-h-[300px]', 'overflow-y-auto', 'custom-scrollbar', 'pr-2');
+        actionsArea.style.display = 'none'; 
+        
+        uiHeader.style.display = 'none';
+        pdfHeader.style.display = 'flex';
+        
+        listContainer.classList.remove('space-y-3');
+        listContainer.classList.add('grid', 'grid-cols-2', 'gap-x-4', 'gap-y-2');
 
-  // 2. 스크롤 영역 제한 해제
-  scrollArea.classList.remove('max-h-[calc(100vh-420px)]', 'min-h-[300px]', 'overflow-y-auto', 'custom-scrollbar', 'pr-2');
-  actionsArea.style.display = 'none'; 
-  
-  // 3. 헤더 교체
-  uiHeader.style.display = 'none';
-  pdfHeader.style.display = 'flex';
-  
-  // 4. 2단 그리드 적용 (텍스트 줄바꿈을 최소화하기 위해 gap-x를 6에서 4로 살짝 줄임)
-  listContainer.classList.remove('space-y-3');
-  listContainer.classList.add('grid', 'grid-cols-2', 'gap-x-4', 'gap-y-2');
+        await new Promise(resolve => setTimeout(resolve, 150));
 
-  // DOM이 완전히 재배치될 때까지 여유 있게 대기
-  await new Promise(resolve => setTimeout(resolve, 150));
+        const opt = {
+          margin:       10,
+          filename:     `RavenForge_${selectedModel}_Quote.pdf`,
+          image:        { type: 'jpeg', quality: 0.98 },
+          html2canvas:  { 
+            scale: 2, 
+            useCORS: true,
+            scrollY: 0
+          },
+          jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
 
-  const opt = {
-    margin:       10,
-    filename:     `RavenForge_${selectedModel}_Quote.pdf`,
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { 
-      scale: 2, 
-      useCORS: true,
-      scrollY: 0 // 스크롤 위치가 어디에 있든 최상단을 기준으로 캡처하도록 강제 (핵심)
-    },
-    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  };
+        try {
+          await html2pdf().set(opt).from(element).save();
+        } finally {
+          element.classList.add('sticky', 'top-24');
+          scrollArea.classList.add('max-h-[calc(100vh-420px)]', 'min-h-[300px]', 'overflow-y-auto', 'custom-scrollbar', 'pr-2');
+          actionsArea.style.display = 'block';
+          
+          uiHeader.style.display = 'block';
+          pdfHeader.style.display = 'none';
+          
+          listContainer.classList.add('space-y-3');
+          listContainer.classList.remove('grid', 'grid-cols-2', 'gap-x-4', 'gap-y-2');
 
-  try {
-    await html2pdf().set(opt).from(element).save();
-  } finally {
-    // 5. PDF 캡처 완료 후 스타일 원상 복구
-    element.classList.add('sticky', 'top-24');
-    scrollArea.classList.add('max-h-[calc(100vh-420px)]', 'min-h-[300px]', 'overflow-y-auto', 'custom-scrollbar', 'pr-2');
-    actionsArea.style.display = 'block';
-    
-    uiHeader.style.display = 'block';
-    pdfHeader.style.display = 'none';
-    
-    listContainer.classList.add('space-y-3');
-    listContainer.classList.remove('grid', 'grid-cols-2', 'gap-x-4', 'gap-y-2');
-
-    setIsGeneratingPDF(false);
-  }
-};
+          setIsGeneratingPDF(false);
+        }
+      };
       
       return (
         <div className="min-h-screen pb-20 font-sans text-slate-900">
@@ -837,23 +885,12 @@
                     <div className="space-y-6">
                       {configData.categories
                         .filter(cat => stepConfig.find(s => s.step === currentStep).categories.includes(cat.id))
+                        .filter(cat => isCategoryVisible(cat, selections))
                         .map(category => {
-                          if (category.dependsOn) {
-                            const [depKey, depVal] = Object.entries(category.dependsOn)[0];
-                            const currentSelection = selections[depKey];
-                            const isVisible = Array.isArray(depVal) 
-                              ? depVal.includes(currentSelection) 
-                              : currentSelection === depVal;
-                            if (!isVisible) return null;
-                          }
-
                           const availableOptions = category.options.filter(
                             opt => {
                               if (category.id === 'top_wood_selection') return true;
-                              // Bridge special filtering
-                              if (category.id === 'hardware_bridge') {
-                                return isBridgeVisible(opt.id, selectedModel, selections);
-                              }
+                              if (!isOptionVisible(category.id, opt.id, selectedModel, selections)) return false;
                               return opt.prices[selectedModel] !== undefined && opt.prices[selectedModel] !== null;
                             }
                           );
@@ -965,16 +1002,15 @@
                   </div>
                   
                   {/* PDF Only Header */}
-<div id="pdf-header" style={{display: 'none'}} className="bg-slate-900 p-6 text-white border-b-2 border-slate-800 justify-between items-center">
-  <div>
-    <h3 className="text-xl font-bold uppercase tracking-tight">Summary</h3>
-    <div className="text-slate-400 text-xs mt-1">{selectedModel} Custom Build</div>
-  </div>
-  {/* 텍스트 대신 로고 이미지 삽입 */}
-  <div className="flex justify-end items-center">
-    <img src="./ravenforge.png" alt="RavenForge Logo" className="h-16 w-auto object-contain" />
-  </div>
-</div>
+                  <div id="pdf-header" style={{display: 'none'}} className="bg-slate-900 p-6 text-white border-b-2 border-slate-800 justify-between items-center">
+                    <div>
+                      <h3 className="text-xl font-bold uppercase tracking-tight">Summary</h3>
+                      <div className="text-slate-400 text-xs mt-1">{selectedModel} Custom Build</div>
+                    </div>
+                    <div className="flex justify-end items-center">
+                      <img src="./ravenforge.png" alt="RavenForge Logo" className="h-16 w-auto object-contain" />
+                    </div>
+                  </div>
                   
                   <div className="p-6">
                     <div id="quote-scroll-area" className="mb-6 max-h-[calc(100vh-420px)] min-h-[300px] overflow-y-auto pr-2 text-sm custom-scrollbar">
