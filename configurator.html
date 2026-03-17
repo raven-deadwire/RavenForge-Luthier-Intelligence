@@ -154,10 +154,10 @@
             { id: '5pc_ash_walnut_wenge', label: '5 piece ash (core) + walnut (stripe) + wenge (wing)', spec: '', prices: { EDDA: null, EMBLA: 150, ASKR: 150 } },
             { id: '7pc_1', label: '7 piece ash (core) + purpleheart (stripe) + maple (wing) + wenge (outer)', spec: '', prices: { EDDA: null, EMBLA: 200, ASKR: 200 } },
             { id: '7pc_2', label: '7 piece ash (core) + purpleheart (stripe) + wenge (wing) + walnut (outer)', spec: '', prices: { EDDA: null, EMBLA: 200, ASKR: 200 } },
-            { id: '9pc_1', label: '9 piece ash (core) + purpleheart (stripe) + maple (wing) + wenge (stripe) + bloodwood (outer)', spec: '', prices: { EDDA: null, EMBLA: 300, ASKR: 300 } },
-            { id: '9pc_2', label: '9 piece ash (core) + purpleheart (stripe) + wenge (wing) + walnut (stripe) + maple (outer)', spec: '', prices: { EDDA: null, EMBLA: 300, ASKR: 300 } },
-            { id: '13pc_1', label: '13 piece ash (core) + purpleheart (stripe) + bubinga (stripe) + wenge (stripe) + maple (wing) + bloodwood (outer)', spec: '', prices: { EDDA: null, EMBLA: 400, ASKR: 400 } },
-            { id: '13pc_2', label: '13 piece ash (core) + purpleheart (stripe) + bubinga (stripe) + walnut (stripe) + wenge (wing) + maple (outer)', spec: '', prices: { EDDA: null, EMBLA: 400, ASKR: 400 } },
+            { id: '9pc_1', label: '9 piece ash (core) + purpleheart (stripe) + maple (wing) + wenge (stripe) + bloodwood (outer)', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 300 } },
+            { id: '9pc_2', label: '9 piece ash (core) + purpleheart (stripe) + wenge (wing) + walnut (stripe) + maple (outer)', spec: '', prices: { EDDA: null, EMBLA: 300, ASKR: null } },
+            { id: '13pc_1', label: '13 piece ash (core) + purpleheart (stripe) + bubinga (stripe) + wenge (stripe) + maple (wing) + bloodwood (outer)', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 400 } },
+            { id: '13pc_2', label: '13 piece ash (core) + purpleheart (stripe) + bubinga (stripe) + walnut (stripe) + wenge (wing) + maple (outer)', spec: '', prices: { EDDA: null, EMBLA: 400, ASKR: null } },
             { id: 'extra', label: 'choose your own laminating combination', spec: '(* It will take at least extra one year to stabilize the neck blank)', prices: { EDDA: null, EMBLA: 'request', ASKR: 'request' } }
           ]
         },
@@ -166,11 +166,11 @@
           title: 'Fretboard',
           options: [
             { id: 'rosewood', label: 'rosewood', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA'] },
-            { id: 'ebony', label: 'ebony', spec: '', prices: { EDDA: 50, EMBLA: 0, ASKR: 0 } },
+            { id: 'ebony', label: 'ebony', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['ASKR'] },
             { id: 'ziricote', label: 'ziricote', spec: '', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } },
             { id: 'maple', label: 'maple', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: 0 } },
             { id: 'wenge', label: 'wenge', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: 0 }, isStandard: ['EMBLA'], recModels: ['EMBLA'] },
-            { id: 'katalox', label: 'katalox', spec: '', prices: { EDDA: null, EMBLA: 100, ASKR: 100 }, isStandard: ['ASKR'], recModels: ['ASKR'] },
+            { id: 'katalox', label: 'katalox', spec: '', prices: { EDDA: null, EMBLA: 100, ASKR: 100 }, recModels: ['ASKR'] },
             { id: 'olive', label: 'olive', spec: '', prices: { EDDA: null, EMBLA: 100, ASKR: 100 } },
             { id: 'snakewood', label: 'snakewood', spec: '', prices: { EDDA: null, EMBLA: 300, ASKR: 300 }, recModels: ['EMBLA'] },
             { id: 'african_blackwood', label: 'african blackwood', spec: '', prices: { EDDA: null, EMBLA: 300, ASKR: 300 }, recModels: ['ASKR'] }
@@ -446,13 +446,14 @@
         },
         {
           id: 'electronics',
-          title: 'Electronics',
+          title: 'Onborad EQ',
           options: [
             { id: 'passive', label: 'passive', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: null }, isStandard: ['EDDA'] },
             { id: 'dual_filter', label: 'dual filter preamp', spec: '', prices: { EDDA: 0, EMBLA: 340, ASKR: 340 } },
             { id: 'fishman', label: 'Fishman Fluence 3 band (*only for Fishman Fluence pickup)', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
             { id: 'delano', label: 'Delano Sonar 3 band', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA'] },
             { id: 'glockenklang', label: 'Glockenklang 3 band', spec: '', prices: { EDDA: null, EMBLA: 160, ASKR: null } },
+            { id: 'noll', label: 'Noll TCM-4XM', spec: '', prices: { EDDA: null, EMBLA: 150, ASKR: null } },
             { id: 'darkglass', label: 'Darkglass Tone Capsule 3 band', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 165 } },
             { id: 'lhz', label: 'LHZ HAZ clone 3 band', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 270 } },
             { id: 'john_east', label: 'John East Uni Pre 5', spec: '', prices: { EDDA: null, EMBLA: 375, ASKR: null }, recModels: ['EMBLA'] },
@@ -466,6 +467,9 @@
             { id: 'nova_mm', label: 'Nova Omnia MM', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: null }, isStandard: ['EDDA'] },
             { id: 'nova_custom', label: 'Nova Omnia Custom', spec: '(*recommended)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } },
             { id: 'delano_sbc', label: 'Delano SBC HE/S-4', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: 350 }, isStandard: ['EMBLA'] },
+            { id: 'delano_sbc', label: 'Delano Xtender HE', spec: '', prices: { EDDA: null, EMBLA: 350, ASKR: null } },
+            { id: 'delano_sbc', label: 'Delano Timesquare SBC TF', spec: '', prices: { EDDA: null, EMBLA: 435, ASKR: null } },
+            { id: 'häussel', label: 'Häussel Bass Bar Custom', spec: '', prices: { EDDA: null, EMBLA: 350, ASKR: null } },
             { id: 'emg', label: 'EMG TWX', spec: '', prices: { EDDA: null, EMBLA: 245, ASKR: 245 } },
             { id: 'others', label: 'others (Q-tuner, Herrick, Turner, and more)', spec: '', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
