@@ -103,13 +103,14 @@
             </div>
         </div>
             <nav class="border-t border-slate-600">
-                <div class="flex justify-center space-x-4 md:space-x-8 py-2 sm:py-3 text-sm md:text-base">
-                    <a href="#about" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAbout"></a>
-                    <a href="#Prototype" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navPrototype"></a>
-                    <a href="#analysis" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAnalysis"></a>
-                    <a href="#quest" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navQuest"></a>
-                </div>
-            </nav>
+    <div class="flex justify-center space-x-4 md:space-x-8 py-2 sm:py-3 text-sm md:text-base">
+        <a href="#about" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAbout"></a>
+        <a href="#Prototype" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navPrototype"></a>
+        <a href="#analysis" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAnalysis"></a>
+        <a href="#quest" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navQuest"></a>
+        <a href="#configurator" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navConfigurator"></a>
+    </div>
+</nav>
         </div>
     </header>
 
@@ -442,6 +443,20 @@
                 </div>
             </div>
         </section>
+		<section id="configurator" class="pt-16 -mt-16 mb-16">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex justify-between items-center mb-6 border-b pb-3">
+                    <h2 class="text-3xl font-bold" data-lang-key="configuratorTitle"></h2>
+                    <a href="./configurator.html" target="_blank" class="text-sm bg-slate-800 text-white px-4 py-2 rounded hover:bg-slate-700 transition" data-lang-key="configuratorOpenBtn"></a>
+                </div>
+                
+                <p class="mb-6 text-slate-600" data-lang-key="configuratorDesc"></p>
+                
+                <div class="w-full bg-slate-50 rounded-xl overflow-hidden border border-slate-200" style="height: 900px;">
+                    <iframe src="./configurator.html" width="100%" height="100%" style="border: none;" title="RavenForge Bass Configurator"></iframe>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer class="text-center py-6 bg-slate-800 text-slate-400 text-sm mt-8">
@@ -473,6 +488,10 @@
         PrototypeTitle: "Prototype",
         analysisTitle: "Analysis & Luthier Explorer",
         questTitle: "Quest & Aspiration",
+		navConfigurator: "Configurator",
+        configuratorTitle: "Custom Build Configurator",
+        configuratorDesc: "Design your own RavenForge bass. Select your desired specifications below to build your dream instrument and generate a preliminary quote.",
+        configuratorOpenBtn: "Open in New Tab",
 
         // About Section Tabs
         aboutTabBrief: "Brief Intro & Vision",
@@ -640,6 +659,10 @@ neck: [
         PrototypeTitle: "Prototyp",
         analysisTitle: "Analyse & Gitarrenbauer-Explorer",
         questTitle: "Quest & Bestreben",
+		navConfigurator: "Konfigurator",
+        configuratorTitle: "Custom Build Konfigurator",
+        configuratorDesc: "Entwerfen Sie Ihren eigenen RavenForge-Bass. Wählen Sie unten Ihre gewünschten Spezifikationen aus, um Ihr Trauminstrument zu bauen und ein vorläufiges Angebot zu erstellen.",
+        configuratorOpenBtn: "In neuem Tab öffnen",
 
         // About Section Tabs
         aboutTabBrief: "Einführung & Vision",
@@ -842,6 +865,10 @@ neck: [
         PrototypeTitle: "프로토타입 (Prototype)",
         analysisTitle: "분석 및 제작가 탐색 (Analysis & Luthier Explorer)",
         questTitle: "비전과 목표 (Quest & Aspiration)",
+		navConfigurator: "컨피규레이터",
+        configuratorTitle: "커스텀 빌드 컨피규레이터",
+        configuratorDesc: "나만의 RavenForge 베이스를 설계해 보세요. 아래에서 원하는 사양을 선택하여 꿈의 악기를 구성하고 가견적을 확인하실 수 있습니다.",
+        configuratorOpenBtn: "새 탭에서 크게 보기",
 
         // About Section Tabs
         aboutTabBrief: "간략한 소개 및 비전",
