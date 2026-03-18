@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<!-- Mirrored from raven-deadwire.github.io/RavenForge-Luthier-Intelligence/configurator.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 18 Mar 2026 00:58:11 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RavenForge Bass Configurator</title>
   
   <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com/"></script>
   
   <!-- React Library (v18) -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
   
   <!-- Babel (JSX compiler) -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.2/babel.min.js"></script>
 
   <!-- html2pdf.js for PDF generation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -73,9 +76,16 @@
     const InfoIcon = () => (
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
     );
-    const GuitarIcon = () => (
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 8v8"/><path d="M12 8v8"/><path d="M16 8v8"/><path d="M9 3h6"/><path d="M11 3v5"/><path d="M13 3v5"/><path d="M12 21a4 4 0 0 0 4-4v-3a2 2 0 0 1 2-2 2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 1-2-2V4a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2a2 2 0 0 1-2 2 2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 1 2 2v3a4 4 0 0 0 4 4z"/></svg>
-    );
+
+    // Special Options Data List
+    const specialOptionsList = [
+      { id: 'kill_switch', label: 'Kill switch', price: 0 },
+      { id: 'locking_jack', label: 'Locking output jack', price: 0 },
+      { id: 'dual_tone', label: 'Dual tone capacity', price: 100, requiresPassive: true },
+      { id: 'delano_buffer', label: 'Delano xpure buffer (*with 9V battery)', price: 100, requiresPassive: true },
+      { id: 'leather_strap', label: 'Leather strap with Schaller strap lock', price: 300 },
+      { id: 'flight_case', label: 'Castle flight hard case', price: 400 },
+    ];
 
     const configData = {
       models: [
@@ -103,14 +113,6 @@
             { id: '36', label: '36"', spec: 'sub contra / 32" to standard tuning', prices: { EDDA: null, EMBLA: 600, ASKR: null } },
             { id: 'short', label: 'short scale', spec: '30", 32", 33"', prices: { EDDA: 'request', EMBLA: 'request', ASKR: null } },
             { id: 'multi', label: 'multiscale', spec: '37"-34" or something else', prices: { EDDA: null, EMBLA: null, ASKR: 600 } }
-          ]
-        },
-        {
-          id: 'headstock_shape',
-          title: 'Headstock Shape',
-          options: [
-            { id: 'shape_select', label: 'select', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'shape_reverse', label: 'reverse', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
           ]
         },
         {
@@ -150,14 +152,14 @@
             { id: '3pc_roasted_ash', label: '3 piece roasted ash', spec: '', prices: { EDDA: 150, EMBLA: null, ASKR: null } },
             { id: '3pc_roasted_maple', label: '3 piece roasted maple', spec: '', prices: { EDDA: 150, EMBLA: null, ASKR: null } },
             { id: '3pc_ash_maple', label: '3 piece ash (core) + maple (wing)', spec: '', prices: { EDDA: 100, EMBLA: null, ASKR: null } },
-            { id: '5pc_ash_wenge_maple', label: '5 piece ash (core) + wenge (stripe) + maple (wing)', spec: '', prices: { EDDA: null, EMBLA: 150, ASKR: 150 }, isStandard: ['EMBLA', 'ASKR'] },
-            { id: '5pc_ash_walnut_wenge', label: '5 piece ash (core) + walnut (stripe) + wenge (wing)', spec: '', prices: { EDDA: null, EMBLA: 150, ASKR: 150 } },
-            { id: '7pc_1', label: '7 piece ash (core) + purpleheart (stripe) + maple (wing) + wenge (outer)', spec: '', prices: { EDDA: null, EMBLA: 200, ASKR: 200 } },
-            { id: '7pc_2', label: '7 piece ash (core) + purpleheart (stripe) + wenge (wing) + walnut (outer)', spec: '', prices: { EDDA: null, EMBLA: 200, ASKR: 200 } },
-            { id: '9pc_1', label: '9 piece ash (core) + purpleheart (stripe) + maple (wing) + wenge (stripe) + bloodwood (outer)', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 300 } },
-            { id: '9pc_2', label: '9 piece ash (core) + purpleheart (stripe) + wenge (wing) + walnut (stripe) + maple (outer)', spec: '', prices: { EDDA: null, EMBLA: 300, ASKR: null } },
-            { id: '13pc_1', label: '13 piece ash (core) + purpleheart (stripe) + bubinga (stripe) + wenge (stripe) + maple (wing) + bloodwood (outer)', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 400 } },
-            { id: '13pc_2', label: '13 piece ash (core) + purpleheart (stripe) + bubinga (stripe) + walnut (stripe) + wenge (wing) + maple (outer)', spec: '', prices: { EDDA: null, EMBLA: 400, ASKR: null } },
+            { id: '5pc_ash_wenge_maple', label: '5 piece ash (core) + wenge (stripe) + maple (wing)', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: 0 }, isStandard: ['EMBLA', 'ASKR'] },
+            { id: '5pc_ash_walnut_wenge', label: '5 piece ash (core) + walnut (stripe) + wenge (wing)', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: 0 } },
+            { id: '7pc_1', label: '7 piece ash (core) + purpleheart (stripe) + maple (wing) + wenge (outer)', spec: '', prices: { EDDA: null, EMBLA: 300, ASKR: 300 } },
+            { id: '7pc_2', label: '7 piece ash (core) + purpleheart (stripe) + wenge (wing) + walnut (outer)', spec: '', prices: { EDDA: null, EMBLA: 300, ASKR: 300 } },
+            { id: '9pc_1', label: '9 piece ash (core) + purpleheart (stripe) + maple (wing) + wenge (stripe) + bloodwood (outer)', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 450 } },
+            { id: '9pc_2', label: '9 piece ash (core) + purpleheart (stripe) + wenge (wing) + walnut (stripe) + maple (outer)', spec: '', prices: { EDDA: null, EMBLA: 450, ASKR: null } },
+            { id: '13pc_1', label: '13 piece ash (core) + purpleheart (stripe) + bubinga (stripe) + wenge (stripe) + maple (wing) + bloodwood (outer)', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 600 } },
+            { id: '13pc_2', label: '13 piece ash (core) + purpleheart (stripe) + bubinga (stripe) + walnut (stripe) + wenge (wing) + maple (outer)', spec: '', prices: { EDDA: null, EMBLA: 600, ASKR: null } },
             { id: 'extra', label: 'choose your own laminating combination', spec: '(* It will take at least extra one year to stabilize the neck blank)', prices: { EDDA: null, EMBLA: 'request', ASKR: 'request' } }
           ]
         },
@@ -166,14 +168,13 @@
           title: 'Fretboard',
           options: [
             { id: 'rosewood', label: 'rosewood', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA'] },
-            { id: 'ebony', label: 'ebony', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['ASKR'] },
-            { id: 'ziricote', label: 'ziricote', spec: '', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } },
-            { id: 'maple', label: 'maple', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: 0 } },
+            { id: 'ebony', label: 'ebony', spec: '', prices: { EDDA: 50, EMBLA: 50, ASKR: 50 }, isStandard: ['ASKR'], recModels: ['ASKR'] },
+            { id: 'maple', label: 'maple', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
+            { id: 'ziricote', label: 'ziricote', spec: '', prices: { EDDA: null, EMBLA: 100, ASKR: 100 } },
+            { id: 'snakewood', label: 'snakewood', spec: '', prices: { EDDA: null, EMBLA: 200, ASKR: 200 }, recModels: ['EMBLA'] },
             { id: 'wenge', label: 'wenge', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: 0 }, isStandard: ['EMBLA'], recModels: ['EMBLA'] },
-            { id: 'katalox', label: 'katalox', spec: '', prices: { EDDA: null, EMBLA: 100, ASKR: 100 }, recModels: ['ASKR'] },
-            { id: 'olive', label: 'olive', spec: '', prices: { EDDA: null, EMBLA: 100, ASKR: 100 } },
-            { id: 'snakewood', label: 'snakewood', spec: '', prices: { EDDA: null, EMBLA: 300, ASKR: 300 }, recModels: ['EMBLA'] },
-            { id: 'african_blackwood', label: 'african blackwood', spec: '', prices: { EDDA: null, EMBLA: 300, ASKR: 300 }, recModels: ['ASKR'] }
+            { id: 'african_blackwood', label: 'african blackwood', spec: '', prices: { EDDA: null, EMBLA: 300, ASKR: 300 }, recModels: ['ASKR'] },
+            { id: 'others', label: 'others (exotic wood)', spec: '(* It will take at least extra one year to stabilize the blank)', prices: { EDDA: null, EMBLA: 'request', ASKR: 'request' } }
           ]
         },
         {
@@ -449,7 +450,7 @@
           title: 'Onborad EQ',
           options: [
             { id: 'passive', label: 'passive', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: null }, isStandard: ['EDDA'] },
-            { id: 'dual_filter', label: 'Lusithand Double NFP', spec: '', prices: { EDDA: 340, EMBLA: 340, ASKR: 340 } },
+            { id: 'dual_filter', label: 'Lusithand Double NFP MKII', spec: '', prices: { EDDA: 340, EMBLA: 340, ASKR: 340 } },
             { id: 'fishman', label: 'Fishman Fluence 3 band (*only for Fishman Fluence pickup)', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
             { id: 'delano', label: 'Delano Sonar 3 band', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA'] },
             { id: 'glockenklang', label: 'Glockenklang 3 band', spec: '', prices: { EDDA: null, EMBLA: 160, ASKR: null } },
@@ -457,7 +458,8 @@
             { id: 'darkglass', label: 'Darkglass Tone Capsule 3 band', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 165 } },
             { id: 'lhz', label: 'LHZ HAZ clone 3 band', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 270 } },
             { id: 'john_east', label: 'John East Uni Pre 5', spec: '', prices: { EDDA: null, EMBLA: 375, ASKR: null }, recModels: ['EMBLA'] },
-            { id: 'bypass_knob', label: 'add tone knob for preamp bypass', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
+            { id: 'eq01', label: 'John East ACG EQ-01', spec: '', prices: { EDDA: 400, EMBLA: null, ASKR: null } }
+            { id: 'dual_filter', label: 'Nova Dual Filter Custom', spec: '', prices: { EDDA: 'request', EMBLA: null, ASKR: null } }
           ]
         },
         {
@@ -469,8 +471,11 @@
             { id: 'delano_sbc', label: 'Delano SBC HE/S-4', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: 350 }, isStandard: ['EMBLA'] },
             { id: 'delano_oval', label: 'Delano Xtender HE', spec: '', prices: { EDDA: null, EMBLA: 350, ASKR: null } },
             { id: 'delano_ts', label: 'Delano Timesquare SBC TF', spec: '', prices: { EDDA: null, EMBLA: 435, ASKR: null } },
-            { id: 'häussel', label: 'Häussel Bass Bar Custom', spec: '', prices: { EDDA: null, EMBLA: 350, ASKR: null } },
+            { id: 'häussel_triple', label: 'Häussel Triplebucker', spec: '', prices: { EDDA: 350, EMBLA: null, ASKR: null } },
+            { id: 'häussel_jbuck', label: 'Häussel Jazzbucker', spec: '', prices: { EDDA: null, EMBLA: 350, ASKR: null } },
+            { id: 'häussel_bar', label: 'Häussel Bass Bar Custom', spec: '', prices: { EDDA: null, EMBLA: 350, ASKR: null } },
             { id: 'emg', label: 'EMG TWX', spec: '', prices: { EDDA: null, EMBLA: 245, ASKR: 245 } },
+            { id: 'fishman', label: 'Fishman Fluence', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
             { id: 'others', label: 'others (Q-tuner, Herrick, Turner, and more)', spec: '', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
         },
@@ -513,7 +518,7 @@
         {
           id: 'buffer',
           title: 'Buffer',
-          dependsOn: { battery: ['bat_9v'] },
+          dependsOn: { battery: 'bat_9v' },
           options: [
             { id: 'buffer_none', label: 'none', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
             { id: 'buffer_delano', label: 'Delano xpure buffer', spec: '(only for 9V)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
@@ -543,12 +548,14 @@
     const App = () => {
       const [selectedModel, setSelectedModel] = useState('EDDA');
       const [selections, setSelections] = useState({});
+      const [specialOptions, setSpecialOptions] = useState([]);
+      const [specialInstructions, setSpecialInstructions] = useState('');
       const [currentStep, setCurrentStep] = useState(1);
       const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
       const stepConfig = [
         { step: 1, title: 'Model & Core', categories: ['strings', 'scale'] },
-        { step: 2, title: 'Neck & Fretboard', categories: ['headstock_shape', 'headstock_angle', 'nut_size', 'nut_material', 'neck', 'fretboard', 'radius', 'fret_type', 'fret_material', 'fret_size', 'fretline', 'fret_side', 'inlay_type', 'inlay_oval_mat', 'inlay_dot_pos', 'inlay_dot_mat', 'inlay_custom_spec', 'side_dot', 'fretboard_extense'] },
+        { step: 2, title: 'Neck & Fretboard', categories: ['headstock_angle', 'nut_size', 'nut_material', 'neck', 'fretboard', 'radius', 'fret_type', 'fret_material', 'fret_size', 'fretline', 'fret_side', 'inlay_type', 'inlay_oval_mat', 'inlay_dot_pos', 'inlay_dot_mat', 'inlay_custom_spec', 'side_dot', 'fretboard_extense'] },
         { step: 3, title: 'Body & Finish', categories: ['body_construction', 'body_wood_single', 'body_core_wood', 'body_wing_wood', 'top_type', 'top_wood_selection', 'color_top', 'color_back_side', 'extra_finish_burst', 'extra_finish_flake', 'color_headstock'] },
         { step: 4, title: 'Hardware', categories: ['hardware_bridge', 'hardware_machine_head', 'knob', 'hardware_color', 'finger_ramp'] },
         { step: 5, title: 'Electronics', categories: ['pickups', 'electronics', 'battery', 'coil_switch', 'buffer'] }
@@ -576,8 +583,18 @@
           if (!isVisible) return false;
         }
 
-        // [추가 조건] EMG TWX 픽업 선택 시 Select Coil Switch 비활성화(숨김)
-        if (category.id === 'coil_switch' && currentSelections['pickups'] === 'emg') {
+        // [추가 조건] EMG TWX 또는 Fishman 선택 시 Select Coil Switch 비활성화(숨김)
+        if (category.id === 'coil_switch' && (currentSelections['pickups'] === 'emg' || currentSelections['pickups'] === 'fishman' || currentSelections['electronics'] === 'fishman')) {
+          return false;
+        }
+
+        // [추가 조건] Onboard EQ가 passive 일 때 Battery 섹션 비활성화(숨김)
+        if (category.id === 'battery' && currentSelections['electronics'] === 'passive') {
+          return false;
+        }
+
+        // [추가 조건] Onboard EQ가 passive 이거나 Fishman 제품일 때 라디오 버튼 형태의 Buffer 섹션 비활성화(숨김)
+        if (category.id === 'buffer' && (currentSelections['electronics'] === 'passive' || currentSelections['pickups'] === 'fishman' || currentSelections['electronics'] === 'fishman')) {
           return false;
         }
 
@@ -644,6 +661,7 @@
         let requiresRequest = false;
         const breakdown = [];
 
+        // 1. 카테고리별 옵션 요약
         configData.categories.forEach(category => {
           // 카테고리가 비활성화 상태이면 스킵
           if (!isCategoryVisible(category, selections)) return;
@@ -684,6 +702,21 @@
           }
         });
 
+        // 2. Special Options 요약 추가
+        specialOptions.forEach(optId => {
+          const opt = specialOptionsList.find(o => o.id === optId);
+          // passive 의존성 조건 확인
+          if (opt && (!opt.requiresPassive || selections['electronics'] === 'passive')) {
+             breakdown.push({
+               categoryTitle: 'Special Options',
+               label: opt.label,
+               price: opt.price,
+               isStandard: false
+             });
+             extraCosts += opt.price;
+          }
+        });
+
         return {
           basePrice,
           extraCosts,
@@ -691,7 +724,7 @@
           requiresRequest,
           breakdown
         };
-      }, [selectedModel, selections]);
+      }, [selectedModel, selections, specialOptions]);
 
       const formatPrice = (price, isStd) => {
         if (isStd || price === 0) return 'Included';
@@ -716,16 +749,22 @@
             }
           }
 
-          // [Update] EMG TWX 선택 시 Select Coil Switch 숨김 및 값 초기화
-          if (categoryId === 'pickups' && optionId === 'emg') {
+          // [Update] EMG TWX 또는 Fishman 선택 시 Select Coil Switch 숨김 및 값 초기화
+          if ((categoryId === 'pickups' && (optionId === 'emg' || optionId === 'fishman')) ||
+              (categoryId === 'electronics' && optionId === 'fishman')) {
             nextSelections['coil_switch'] = 'coil_none';
+          }
+
+          // [Update] Fishman 제품 선택 시 Buffer 값 초기화
+          if (optionId === 'fishman') {
+            nextSelections['buffer'] = 'buffer_none';
           }
 
           // [Update] 3 pickup option 선택 시 Fishman 옵션이 선택되어 있다면 다른 값으로 폴백
           if (categoryId === 'finger_ramp' && optionId === 'ramp_3pickup') {
             if (nextSelections['electronics'] === 'fishman') {
               const elCategory = configData.categories.find(c => c.id === 'electronics');
-              // 현재 모델에서 사용 가능하고 fishman이 아닌 첫 번째 옵션 탐색 (예: ASKR일 경우 darkglass 등)
+              // 현재 모델에서 사용 가능하고 fishman이 아닌 첫 번째 옵션 탐색
               const fallback = elCategory.options.find(opt => 
                 opt.id !== 'fishman' && 
                 opt.prices[selectedModel] !== undefined && 
@@ -735,7 +774,7 @@
                 nextSelections['electronics'] = fallback.id;
               }
             }
-            if (nextSelections['pickups'] === 'fishman') { // 픽업에 있을 경우 대응
+            if (nextSelections['pickups'] === 'fishman') {
               const puCategory = configData.categories.find(c => c.id === 'pickups');
               const fallback = puCategory.options.find(opt => 
                 opt.id !== 'fishman' && 
@@ -748,8 +787,43 @@
             }
           }
 
+          // [Update] Fishman Fluence 연동 (EQ - 픽업)
+          if (categoryId === 'pickups') {
+            if (optionId === 'fishman') {
+              nextSelections['electronics'] = 'fishman';
+            } else if (nextSelections['electronics'] === 'fishman') {
+              const elCategory = configData.categories.find(c => c.id === 'electronics');
+              const fallback = elCategory.options.find(opt => 
+                opt.id !== 'fishman' && 
+                opt.prices[selectedModel] !== undefined && 
+                opt.prices[selectedModel] !== null
+              );
+              if (fallback) nextSelections['electronics'] = fallback.id;
+            }
+          }
+
+          if (categoryId === 'electronics') {
+            if (optionId === 'fishman') {
+              nextSelections['pickups'] = 'fishman';
+            } else if (nextSelections['pickups'] === 'fishman') {
+              const puCategory = configData.categories.find(c => c.id === 'pickups');
+              const fallback = puCategory.options.find(opt => 
+                opt.id !== 'fishman' && 
+                opt.prices[selectedModel] !== undefined && 
+                opt.prices[selectedModel] !== null
+              );
+              if (fallback) nextSelections['pickups'] = fallback.id;
+            }
+          }
+
           return nextSelections;
         });
+      };
+
+      const handleSpecialOptionToggle = (id) => {
+        setSpecialOptions(prev => 
+          prev.includes(id) ? prev.filter(opt => opt !== id) : [...prev, id]
+        );
       };
 
       const handleRequestQuote = async () => {
@@ -967,6 +1041,64 @@
                           );
                         })}
                     </div>
+                    
+                    {/* Special Options Area (Only visible in Step 5) */}
+                    {currentStep === 5 && (
+                      <div className="bg-white rounded-xl border-2 border-slate-200 overflow-hidden shadow-sm mt-6">
+                        <div className="bg-slate-100 px-6 py-4 border-b-2 border-slate-200">
+                          <h3 className="text-lg font-bold text-slate-800">Special Options</h3>
+                        </div>
+                        <div className="p-6">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+                            {specialOptionsList.map(opt => {
+                              // EQ가 passive가 아니면 passive 전용 옵션은 숨김
+                              if (opt.requiresPassive && selections['electronics'] !== 'passive') return null;
+                              
+                              const isSelected = specialOptions.includes(opt.id);
+                              
+                              return (
+                                <label 
+                                  key={opt.id} 
+                                  className={`flex items-start p-4 border-2 rounded-lg cursor-pointer transition-colors duration-200 ${isSelected ? 'border-red-700 bg-red-50 shadow-sm' : 'border-slate-200 hover:border-slate-400 hover:bg-slate-50'}`}
+                                >
+                                  <div className="flex items-center h-5">
+                                    <input 
+                                      type="checkbox" 
+                                      checked={isSelected} 
+                                      onChange={() => handleSpecialOptionToggle(opt.id)} 
+                                      className="w-4 h-4 text-red-700 border-slate-300 rounded focus:ring-red-700" 
+                                    />
+                                  </div>
+                                  <div className="ml-3 flex-1">
+                                    <div className="flex justify-between items-start">
+                                      <span className={`text-sm font-semibold ${isSelected ? 'text-red-700' : 'text-slate-700'}`}>
+                                        {opt.label}
+                                      </span>
+                                      <span className={`text-xs font-medium ml-2 shrink-0 ${opt.price === 0 ? 'text-slate-400' : 'text-red-700'}`}>
+                                        {opt.price === 0 ? 'Included' : `+ €${opt.price}`}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </label>
+                              );
+                            })}
+                          </div>
+                          
+                          {/* Special Instructions */}
+                          <div className="border-t-2 border-slate-100 pt-6">
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">Special Instructions</label>
+                            <p className="text-xs text-slate-500 mb-3">Tell us what you need and we'll do our best to accommodate your request. We'll confirm and adjust pricing after your order is placed, or you can contact us in advance to confirm.</p>
+                            <textarea
+                              value={specialInstructions}
+                              onChange={(e) => setSpecialInstructions(e.target.value)}
+                              className="w-full p-4 border-2 border-slate-200 rounded-lg focus:border-red-700 focus:outline-none focus:ring-1 focus:ring-red-700 text-sm transition-colors duration-200 custom-scrollbar"
+                              rows="4"
+                              placeholder="Type your special requests here..."
+                            ></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </section>
 
                   {/* Step Navigation Buttons */}
@@ -1037,6 +1169,16 @@
                           </div>
                         ))}
                       </div>
+
+                      {/* Display Special Instructions in PDF/Summary Area */}
+                      {specialInstructions.trim() && (
+                        <div className="mt-4 pt-3 border-t-2 border-slate-100">
+                          <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">Special Instructions</div>
+                          <div className="text-xs text-slate-700 italic break-words whitespace-pre-wrap">
+                            "{specialInstructions}"
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div className="pt-4 border-t-2 border-slate-200">
@@ -1082,4 +1224,6 @@
     root.render(<App />);
   </script>
 </body>
+
+<!-- Mirrored from raven-deadwire.github.io/RavenForge-Luthier-Intelligence/configurator.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 18 Mar 2026 00:58:13 GMT -->
 </html>
