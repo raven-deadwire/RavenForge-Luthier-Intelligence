@@ -79,12 +79,12 @@
 
     // Special Options Data List
     const specialOptionsList = [
-      { id: 'kill_switch', label: 'Kill switch', price: 0 },
-      { id: 'locking_jack', label: 'Locking output jack', price: 0 },
-      { id: 'dual_tone', label: 'Dual tone capacity', price: 100, requiresPassive: true },
-      { id: 'delano_buffer', label: 'Delano xpure buffer (*with 9V battery)', price: 100, requiresPassive: true },
-      { id: 'leather_strap', label: 'Leather strap with Schaller strap lock', price: 300 },
-      { id: 'flight_case', label: 'Castle flight hard case', price: 400 },
+      { id: 'kill_switch', label: 'Kill switch', spec: '', price: 0 },
+      { id: 'locking_jack', label: 'Locking output jack', spec: '', price: 0 },
+      { id: 'dual_tone', label: 'Dual tone capacity', price: 100, spec: '', requiresPassive: true },
+      { id: 'delano_buffer', label: 'Delano xpure buffer', spec: '(*with 9V battery)', price: 100, requiresPassive: true },
+      { id: 'leather_strap', label: 'Leather strap with Schaller strap lock', spec: '', price: 300 },
+      { id: 'flight_case', label: 'Castle flight hard case', spec: '', price: 400 },
     ];
 
     const configData = {
@@ -200,7 +200,7 @@
           dependsOn: { fret_type: 'fret_24' },
           options: [
             { id: 'mat_brass', label: 'brass', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'mat_others', label: 'others (nickel silver, stainless, or etc.)', spec: '', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
+            { id: 'mat_others', label: 'others', spec: '(nickel silver, stainless, or etc.)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
         },
         {
@@ -272,7 +272,7 @@
             { id: 'dot_avalon', label: 'avalon', spec: '', prices: { EDDA: 110, EMBLA: 110, ASKR: 110 } },
             { id: 'dot_mop', label: 'mother of pearl', spec: '', prices: { EDDA: 110, EMBLA: 110, ASKR: 110 } },
             { id: 'dot_bw', label: 'black or white', spec: '', prices: { EDDA: 110, EMBLA: 110, ASKR: 110 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'dot_lum', label: 'luminlay (blue or green)', spec: '', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
+            { id: 'dot_lum', label: 'luminlay', spec: '(blue or green)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
           ]
         },
         {
@@ -291,7 +291,7 @@
             { id: 'sdot_std', label: 'standard (black or white)', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
             { id: 'sdot_avalon', label: 'avalon', spec: '', prices: { EDDA: 110, EMBLA: 110, ASKR: 110 } },
             { id: 'sdot_mop', label: 'mother of pearl', spec: '', prices: { EDDA: 110, EMBLA: 110, ASKR: 110 } },
-            { id: 'sdot_lum', label: 'luminlay (blue or green)', spec: '', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
+            { id: 'sdot_lum', label: 'luminlay', spec: '(blue or green)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
           ]
         },
         {
@@ -476,7 +476,7 @@
             { id: 'häussel_bar', label: 'Häussel Bass Bar Custom', spec: '', prices: { EDDA: null, EMBLA: 350, ASKR: null } },
             { id: 'emg', label: 'EMG TWX', spec: '', prices: { EDDA: null, EMBLA: 245, ASKR: 245 } },
             { id: 'fishman', label: 'Fishman Fluence', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
-            { id: 'others', label: 'others (Q-tuner, Herrick, Turner, and more)', spec: '', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
+            { id: 'others', label: 'others', spec: '(Q-tuner, Herrick, Turner, Walding, and more)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
         },
         {
