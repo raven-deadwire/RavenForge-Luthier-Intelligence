@@ -1872,27 +1872,46 @@ translations.ko.luthierData = [
                 `;
                 
                 card.onclick = () => {
-                    const openNewTabTxt = currentLang === 'ko' ? '새 창에서 열기' : (currentLang === 'de' ? 'In neuem Tab öffnen' : 'Open in New Tab');
-                    document.getElementById('modal-title').textContent = title;
+                    const modal = document.getElementById('luthier-modal');
+                    const modalContent = modal.querySelector('.modal-content');
+                    const modalBody = document.getElementById('modal-body');
+                    const openNewTabTxt = currentLang === 'ko' ? '새 창에서 크게 읽기' : (currentLang === 'de' ? 'In neuem Tab lesen' : 'Read in New Tab');
                     
-                    // (수정) 모달 내부 레이아웃 최적화: 버튼 가로 꽉 차게 & iframe 높이 확보
-                    document.getElementById('modal-body').innerHTML = `
-                        <div class="flex flex-col space-y-4">
-                            <a href="${docLink}" target="_blank" class="w-full sm:w-auto text-center px-4 py-3 bg-sky-700 text-white text-sm font-bold rounded-md hover:bg-sky-800 transition shadow-sm">
-                                ${openNewTabTxt} ↗
-                            </a>
-                            <div class="w-full h-[60vh] sm:h-[75vh] bg-slate-100 rounded-lg border border-slate-200 overflow-hidden">
-                                <iframe src="${docLink}" class="w-full h-full border-0" title="${title}"></iframe>
+                    document.getElementById('modal-title').textContent = title;
+
+                    // [핵심] 모바일 전용 전체화면 스타일 대응 (화면을 최대한 넓게 사용)
+                    if (window.innerWidth < 640) {
+                        modalContent.style.width = '100%';
+                        modalContent.style.height = '100%';
+                        modalContent.style.maxWidth = 'none';
+                        modalContent.style.maxHeight = 'none';
+                        modalContent.style.borderRadius = '0';
+                        modalBody.style.padding = '0'; // 여백 제거
+                    }
+
+                    modalBody.innerHTML = `
+                        <div class="flex flex-col h-full bg-white">
+                            <div class="p-4 bg-slate-50 border-b flex justify-center">
+                                <a href="${docLink}" target="_blank" class="w-full text-center px-6 py-4 bg-sky-700 text-white text-lg font-bold rounded-lg shadow-lg hover:bg-sky-800 transition-all flex items-center justify-center gap-2">
+                                    <span>${openNewTabTxt}</span>
+                                    <span class="text-xl">↗</span>
+                                </a>
+                            </div>
+                            <div class="relative flex-grow w-full h-[60vh] sm:h-[75vh] overflow-hidden">
+                                <iframe src="${docLink}" class="absolute top-0 left-0 w-full h-full border-0" title="${title}"></iframe>
                             </div>
                         </div>
                     `;
-                    const modal = document.getElementById('luthier-modal');
+
                     modal.classList.remove('hidden');
                     document.body.style.overflow = 'hidden';
-		    history.pushState({ modalOpen: true }, '');
+                    
+                    // 뒤로가기 버튼 대응 (이전에 알려드린 로직 유지)
+                    history.pushState({ modalOpen: true }, '');
+
                     setTimeout(() => {
                         modal.classList.remove('opacity-0');
-                        modal.querySelector('.modal-content').classList.remove('scale-95');
+                        modalContent.classList.remove('scale-95');
                     }, 10);
                 };
                 researchGrid.appendChild(card);
@@ -2099,9 +2118,11 @@ translations.ko.luthierData = [
 
             function hideModal() {
                 const modal = document.getElementById('luthier-modal');
-                modal.classList.add('opacity-0');
+                const modalContent = modal.querySelector('.modal-content');
                 
-                // 👉 만약 히스토리에 모달 기록이 남아있다면 한 칸 뒤로 돌려줍니다.
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95');
+                
                 if (history.state && history.state.modalOpen) {
                     history.back();
                 }
@@ -2109,6 +2130,14 @@ translations.ko.luthierData = [
                 setTimeout(() => {
                     modal.classList.add('hidden');
                     document.body.style.overflow = '';
+                    
+                    // 👉 모바일에서 강제로 먹였던 전체화면 스타일 초기화
+                    modalContent.style.width = '';
+                    modalContent.style.height = '';
+                    modalContent.style.maxWidth = '';
+                    modalContent.style.maxHeight = '';
+                    modalContent.style.borderRadius = '';
+                    document.getElementById('modal-body').style.padding = '';
                 }, 300);
             }
             
