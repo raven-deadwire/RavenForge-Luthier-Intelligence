@@ -2,13 +2,12 @@
 <html lang="en">
 
 <!-- Mirrored from raven-deadwire.github.io/RavenForge-Luthier-Intelligence/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 24 Mar 2026 07:27:17 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RavenForge Luthier Intelligence: A Vision for Modern Bass Craftsmanship</title>
     <script src="https://cdn.tailwindcss.com/"></script>
-    <script src="../../cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
@@ -23,6 +22,25 @@
         /* 언어별 폰트 적용 */
         html[lang="ko"] body { font-family: 'Noto Sans KR', sans-serif; }
         html[lang="en"] body, html[lang="de"] body { font-family: 'Roboto', sans-serif; }
+
+        /* === 페이지 전환을 위한 클래스 추가 === */
+        .page-section {
+            display: none; /* 기본적으로 모두 숨김 */
+        }
+        .page-section.active {
+            display: block; /* active 클래스가 있으면 보임 */
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 네비게이션 활성화 스타일 */
+        .nav-link.active-nav {
+            color: #ffffff;
+            border-color: #ffffff;
+        }
 
         .chart-container {
             position: relative;
@@ -76,343 +94,333 @@
         .nav-link {
             transition: color 0.2s, border-color 0.2s;
         }
-.spec-btn.active, .about-tab-btn.active { /* .about-tab-btn.active 추가 */
+        .spec-btn.active, .about-tab-btn.active { 
             background-color: #1e293b; /* slate-800 */
             color: #ffffff;
         }
-		  .sm\:hidden.fixed.top-24.right-4 {
-    top: 9rem; /* 9rem은 144px에 해당하며, 기존 top-24(6rem)보다 아래로 내립니다. */
-  }
-</style>
+        .sm\:hidden.fixed.top-24.right-4 {
+            top: 9rem; 
+        }
+    </style>
 </head>
 <body class="text-slate-800">
 
-<header class="bg-slate-800 text-white shadow-lg sticky top-0 z-40">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="py-2 sm:py-4 flex justify-between items-center">
-            
-            <div class="flex items-center space-x-3 sm:space-x-4">
-                <img src="ravenforge.png" alt="RavenForge Logo" class="h-10 sm:h-12 md:h-14 w-auto object-contain">
+    <header class="bg-slate-800 text-white shadow-lg sticky top-0 z-40">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="py-2 sm:py-4 flex justify-between items-center">
                 
-                <div>
-                    <h1 class="text-lg sm:text-2xl md:text-3xl font-bold" data-lang-key="mainTitle"></h1>
-                    <p class="text-xs sm:text-sm text-slate-300 mt-0.5 sm:mt-1" data-lang-key="headerSubtitle"></p>
+                <div class="flex items-center space-x-3 sm:space-x-4">
+                    <img src="ravenforge.png" alt="RavenForge Logo" class="h-10 sm:h-12 md:h-14 w-auto object-contain" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><rect width=\'50\' height=\'50\' fill=\'%23ccc\'/><text x=\'50%\' y=\'50%\' fill=\'%23333\' font-size=\'12\' text-anchor=\'middle\' dy=\'.3em\'>LOGO</text></svg>'">
+                    
+                    <div>
+                        <h1 class="text-lg sm:text-2xl md:text-3xl font-bold" data-lang-key="mainTitle"></h1>
+                        <p class="text-xs sm:text-sm text-slate-300 mt-0.5 sm:mt-1" data-lang-key="headerSubtitle"></p>
+                    </div>
+                </div>
+                <div class="hidden sm:flex sm:flex-row sm:space-y-0 sm:space-x-2">
+                    <button id="lang-en-btn" class="lang-btn text-sm sm:text-base px-3 sm:px-4 py-1 sm:py-2 rounded-md font-semibold border border-slate-400 hover:bg-slate-700 transition">EN</button>
+                    <button id="lang-de-btn" class="lang-btn text-sm sm:text-base px-3 sm:px-4 py-1 sm:py-2 rounded-md font-semibold border border-slate-400 hover:bg-slate-700 transition">DE</button>
+                    <button id="lang-kr-btn" class="lang-btn text-sm sm:text-base px-3 sm:px-4 py-1 sm:py-2 rounded-md font-semibold border border-slate-400 hover:bg-slate-700 transition">KR</button>
                 </div>
             </div>
-            <div class="hidden sm:flex sm:flex-row sm:space-y-0 sm:space-x-2">
-                <button id="lang-en-btn" class="lang-btn text-sm sm:text-base px-3 sm:px-4 py-1 sm:py-2 rounded-md font-semibold border border-slate-400 hover:bg-slate-700 transition">EN</button>
-                <button id="lang-de-btn" class="lang-btn text-sm sm:text-base px-3 sm:px-4 py-1 sm:py-2 rounded-md font-semibold border border-slate-400 hover:bg-slate-700 transition">DE</button>
-                <button id="lang-kr-btn" class="lang-btn text-sm sm:text-base px-3 sm:px-4 py-1 sm:py-2 rounded-md font-semibold border border-slate-400 hover:bg-slate-700 transition">KR</button>
-            </div>
-        </div>
             <nav class="border-t border-slate-600">
-    <div class="flex justify-center space-x-4 md:space-x-8 py-2 sm:py-3 text-sm md:text-base">
-        <a href="#about" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAbout"></a>
-        <a href="#Prototype" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navPrototype"></a>
-        <a href="#analysis" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAnalysis"></a>
-        <a href="#quest" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navQuest"></a>
-        <a href="#configurator" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navConfigurator"></a>
-    </div>
-</nav>
+                <div class="flex justify-center space-x-4 md:space-x-8 py-2 sm:py-3 text-sm md:text-base">
+                    <!-- 기본 활성 상태(active-nav) 추가 -->
+                    <a href="#about" class="nav-link active-nav text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAbout"></a>
+                    <a href="#Prototype" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navPrototype"></a>
+                    <a href="#analysis" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAnalysis"></a>
+                    <a href="#quest" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navQuest"></a>
+		   <a href="#research" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navResearch"></a>
+                    <a href="#configurator" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navConfigurator"></a>
+                </div>
+            </nav>
         </div>
     </header>
 
-    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8 min-h-[70vh]">
         
         <!-- 1. About 섹션 -->
-<section id="about" class="mb-16 pt-16 -mt-16">
-    <div class="bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="aboutTitle"></h2>
+        <!-- 스크롤 용 마진(-mt-16 pt-16) 제거, page-section 클래스 적용 -->
+        <section id="about" class="page-section active mb-16 pt-4">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="aboutTitle"></h2>
 
-        <div class="mb-6 flex flex-wrap gap-2">
-            <button id="btn-about-intro" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition active" data-target="intro" data-lang-key="aboutTabBrief"></button>
-			<button id="btn-about-brand" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="brand" data-lang-key="aboutTabBrand"></button>
-            <button id="btn-about-bio" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="bio" data-lang-key="aboutTabBio"></button>
-            <button id="btn-about-mentors" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="mentors" data-lang-key="aboutTabMentors"></button>
-            <button id="btn-about-works" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="works" data-lang-key="aboutTabWorks"></button>
-        </div>
-
-        <div id="about-content-intro" class="about-content">
-            <div id="personal-intro" class="mb-12 pb-8 border-b">
-                <h3 class="text-2xl font-bold mb-6" data-lang-key="introTitle"></h3>
-                <div class="flex flex-col sm:flex-row items-center gap-8">
-                    <div class="w-48 h-48 bg-slate-200 rounded-full flex-shrink-0 flex items-center justify-center overflow-hidden">
-                       <img src="https://search.pstatic.net/common?type=b&size=3000&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2FprofileImg%2Ft%2F6b326d10-f4cd-468c-b907-64e27568e08a.jpg" alt="Raven Cho Profile" class="w-full h-full object-cover">
-                    </div>
-                    <div class="text-slate-600 leading-relaxed" data-lang-key="introContent"></div>
+                <div class="mb-6 flex flex-wrap gap-2">
+                    <button id="btn-about-intro" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition active" data-target="intro" data-lang-key="aboutTabBrief"></button>
+                    <button id="btn-about-brand" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="brand" data-lang-key="aboutTabBrand"></button>
+                    <button id="btn-about-bio" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="bio" data-lang-key="aboutTabBio"></button>
+                    <button id="btn-about-mentors" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="mentors" data-lang-key="aboutTabMentors"></button>
+                    <button id="btn-about-works" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="works" data-lang-key="aboutTabWorks"></button>
                 </div>
-            </div>
-            <div id="ravenforge-identity">
-                <h3 class="text-2xl font-bold mb-4" data-lang-key="visionTitle"></h3>
-                <p class="mb-8 text-slate-600" data-lang-key="visionContent"></p>
-                <h3 class="text-2xl font-bold mb-4 mt-8 pt-4 border-t" data-lang-key="conceptTitle"></h3>
-                <div class="grid md:grid-cols-3 gap-6">
-                    <div class="bg-stone-50 p-4 rounded-md border">
-                        <div class="mb-4">
-                            <img src="EMBLA%20Prototype%20Design.png" alt="EMBLA Prototype Design" class="w-full h-auto rounded-md object-cover">
+
+                <div id="about-content-intro" class="about-content">
+                    <div id="personal-intro" class="mb-12 pb-8 border-b">
+                        <h3 class="text-2xl font-bold mb-6" data-lang-key="introTitle"></h3>
+                        <div class="flex flex-col sm:flex-row items-center gap-8">
+                            <div class="w-48 h-48 bg-slate-200 rounded-full flex-shrink-0 flex items-center justify-center overflow-hidden">
+                               <img src="https://search.pstatic.net/common?type=b&size=3000&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2FprofileImg%2Ft%2F6b326d10-f4cd-468c-b907-64e27568e08a.jpg" alt="Raven Cho Profile" class="w-full h-full object-cover">
+                            </div>
+                            <div class="text-slate-600 leading-relaxed" data-lang-key="introContent"></div>
                         </div>
-                        <h4 class="text-xl font-bold text-amber-700" data-lang-key="emblaName"></h4>
-                        <p class="text-sm text-slate-500 mb-3" data-lang-key="emblaDesc"></p>
-                        <ul class="text-sm space-y-1 text-slate-700">
-                            <li><span class="font-semibold" data-lang-key="targetLabel"></span>: <span data-lang-key="emblaTarget"></span></li>
-                            <li><span class="font-semibold" data-lang-key="scaleLabel"></span>: <span data-lang-key="emblaScale"></span></li>
-                            <li><span class="font-semibold" data-lang-key="bodyLabel"></span>: <span data-lang-key="emblaBody"></span></li>
-                            <li><span class="font-semibold" data-lang-key="fretboardLabel"></span>: <span data-lang-key="emblaFretboard"></span></li>
-                            <li><span class="font-semibold" data-lang-key="pickupsLabel"></span>: <span data-lang-key="emblaPickups"></span></li>
-                        </ul>
                     </div>
-                    <div class="bg-stone-50 p-4 rounded-md border">
-                        <div class="mb-4">
-                            <img src="ASKR%20Prototype%20Design.png" alt="ASKR Prototype Design" class="w-full h-auto rounded-md object-cover">
+                    <div id="ravenforge-identity">
+                        <h3 class="text-2xl font-bold mb-4" data-lang-key="visionTitle"></h3>
+                        <p class="mb-8 text-slate-600" data-lang-key="visionContent"></p>
+                        <h3 class="text-2xl font-bold mb-4 mt-8 pt-4 border-t" data-lang-key="conceptTitle"></h3>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="bg-stone-50 p-4 rounded-md border">
+                                <div class="mb-4">
+                                    <img src="EMBLA%20Prototype%20Design.png" alt="EMBLA Prototype Design" class="w-full h-auto rounded-md object-cover" onerror="this.style.display='none'">
+                                </div>
+                                <h4 class="text-xl font-bold text-amber-700" data-lang-key="emblaName"></h4>
+                                <p class="text-sm text-slate-500 mb-3" data-lang-key="emblaDesc"></p>
+                                <ul class="text-sm space-y-1 text-slate-700">
+                                    <li><span class="font-semibold" data-lang-key="targetLabel"></span>: <span data-lang-key="emblaTarget"></span></li>
+                                    <li><span class="font-semibold" data-lang-key="scaleLabel"></span>: <span data-lang-key="emblaScale"></span></li>
+                                    <li><span class="font-semibold" data-lang-key="bodyLabel"></span>: <span data-lang-key="emblaBody"></span></li>
+                                    <li><span class="font-semibold" data-lang-key="fretboardLabel"></span>: <span data-lang-key="emblaFretboard"></span></li>
+                                    <li><span class="font-semibold" data-lang-key="pickupsLabel"></span>: <span data-lang-key="emblaPickups"></span></li>
+                                </ul>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded-md border">
+                                <div class="mb-4">
+                                    <img src="ASKR%20Prototype%20Design.png" alt="ASKR Prototype Design" class="w-full h-auto rounded-md object-cover" onerror="this.style.display='none'">
+                                </div>
+                                <h4 class="text-xl font-bold text-sky-700" data-lang-key="askrName"></h4>
+                                <p class="text-sm text-slate-500 mb-3" data-lang-key="askrDesc"></p>
+                                <ul class="text-sm space-y-1 text-slate-700">
+                                    <li><span class="font-semibold" data-lang-key="targetLabel"></span>: <span data-lang-key="askrTarget"></span></li>
+                                    <li><span class="font-semibold" data-lang-key="scaleLabel"></span>: <span data-lang-key="askrScale"></span></li>
+                                    <li><span class="font-semibold" data-lang-key="bodyLabel"></span>: <span data-lang-key="askrBody"></span></li>
+                                    <li><span class="font-semibold" data-lang-key="fretboardLabel"></span>: <span data-lang-key="askrFretboard"></span></li>
+                                    <li><span class="font-semibold" data-lang-key="pickupsLabel"></span>: <span data-lang-key="askrPickups"></span></li>
+                                </ul>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded-md border">
+                                <div class="mb-4">
+                                    <img src="Edda%20Prototype%20Design.png" alt="EDDA Prototype Design" class="w-full h-auto rounded-md object-cover" onerror="this.style.display='none'">
+                                </div>
+                                <h4 class="text-xl font-bold text-emerald-700" data-lang-key="eddaName"></h4>
+                                <p class="text-sm text-slate-500 mb-3" data-lang-key="eddaDesc"></p>
+                                <ul class="text-sm space-y-1 text-slate-700">
+                                    <li><span class="font-semibold" data-lang-key="targetLabel"></span>: <span data-lang-key="eddaTarget"></span></li>
+                                    <li><span class="font-semibold" data-lang-key="scaleLabel"></span>: <span data-lang-key="eddaScale"></span></li>
+                                    <li><span class="font-semibold" data-lang-key="bodyLabel"></span>: <span data-lang-key="eddaBody"></span></li>
+                                    <li><span class="font-semibold" data-lang-key="fretboardLabel"></span>: <span data-lang-key="eddaFretboard"></span></li>
+                                    <li><span class="font-semibold" data-lang-key="pickupsLabel"></span>: <span data-lang-key="eddaPickups"></span></li>
+                                </ul>
+                            </div>
                         </div>
-                        <h4 class="text-xl font-bold text-sky-700" data-lang-key="askrName"></h4>
-                        <p class="text-sm text-slate-500 mb-3" data-lang-key="askrDesc"></p>
-                        <ul class="text-sm space-y-1 text-slate-700">
-                            <li><span class="font-semibold" data-lang-key="targetLabel"></span>: <span data-lang-key="askrTarget"></span></li>
-                            <li><span class="font-semibold" data-lang-key="scaleLabel"></span>: <span data-lang-key="askrScale"></span></li>
-                            <li><span class="font-semibold" data-lang-key="bodyLabel"></span>: <span data-lang-key="askrBody"></span></li>
-                            <li><span class="font-semibold" data-lang-key="fretboardLabel"></span>: <span data-lang-key="askrFretboard"></span></li>
-                            <li><span class="font-semibold" data-lang-key="pickupsLabel"></span>: <span data-lang-key="askrPickups"></span></li>
-                        </ul>
                     </div>
-     <div class="bg-stone-50 p-4 rounded-md border">
-        <div class="mb-4">
-            <img src="Edda%20Prototype%20Design.png" alt="EDDA Prototype Design" class="w-full h-auto rounded-md object-cover">
-        </div>
-        <h4 class="text-xl font-bold text-emerald-700" data-lang-key="eddaName"></h4>
-        <p class="text-sm text-slate-500 mb-3" data-lang-key="eddaDesc"></p>
-        <ul class="text-sm space-y-1 text-slate-700">
-            <li><span class="font-semibold" data-lang-key="targetLabel"></span>: <span data-lang-key="eddaTarget"></span></li>
-            <li><span class="font-semibold" data-lang-key="scaleLabel"></span>: <span data-lang-key="eddaScale"></span></li>
-            <li><span class="font-semibold" data-lang-key="bodyLabel"></span>: <span data-lang-key="eddaBody"></span></li>
-            <li><span class="font-semibold" data-lang-key="fretboardLabel"></span>: <span data-lang-key="eddaFretboard"></span></li>
-            <li><span class="font-semibold" data-lang-key="pickupsLabel"></span>: <span data-lang-key="eddaPickups"></span></li>
-        </ul>
-    </div>
-</div>
-</div> </div>
-		<div id="about-content-brand" class="about-content hidden">
-    <h3 class="text-2xl font-bold mb-6" data-lang-key="brandTitle"></h3>
-    
-    <div class="flex flex-col md:flex-row items-center gap-8 mb-12 pb-8 border-b">
-        <div class="w-48 h-48 bg-white rounded-lg flex-shrink-0 flex items-center justify-center p-4 shadow-sm border border-slate-200">
-            <img src="ravenforge.png" alt="RavenForge Brand Logo" class="w-full h-auto object-contain">
-        </div>
-        <div class="text-slate-600 leading-relaxed">
-            <h4 class="text-xl font-bold text-slate-800 mb-2" data-lang-key="brandIntroSubTitle"></h4>
-            <div data-lang-key="brandMainDesc"></div>
-        </div>
-    </div>
+                </div>
 
-    <div class="grid md:grid-cols-3 gap-6">
-        <div class="bg-stone-50 p-6 rounded-lg border">
-            <h4 class="text-lg font-bold text-slate-800 mb-3 flex items-center">
-                <span class="mr-2">ᛟ</span> <span data-lang-key="brandWhyNorseTitle"></span>
-            </h4>
-            <div class="text-sm" data-lang-key="brandWhyNorseContent"></div>
-        </div>
-        <div class="bg-stone-50 p-6 rounded-lg border">
-            <h4 class="text-lg font-bold text-slate-800 mb-3 flex items-center">
-                <span class="mr-2">ᚱ</span> <span data-lang-key="brandWhyUsTitle"></span>
-            </h4>
-            <div class="text-sm" data-lang-key="brandWhyUsContent"></div>
-        </div>
-        <div class="bg-stone-50 p-6 rounded-lg border">
-            <h4 class="text-lg font-bold text-slate-800 mb-3 flex items-center">
-                <span class="mr-2">ᚠ</span> <span data-lang-key="brandEdgeTitle"></span>
-            </h4>
-            <div class="text-sm" data-lang-key="brandEdgeContent"></div>
-        </div>
-    </div>
-			<div class="mt-12 pt-8 border-t border-stone-200">
-    <h4 class="text-xl font-bold text-center mb-8" data-lang-key="brandModelCoreTitle"></h4>
-    <div class="grid md:grid-cols-3 gap-8">
-        <div class="text-center px-4">
-            <div class="text-3xl mb-3">🌿</div>
-            <h5 class="font-bold text-amber-800 text-lg mb-2" data-lang-key="emblaName"></h5>
-            <p class="text-sm text-slate-500 italic" data-lang-key="brandEmblaPhilosophy"></p>
-        </div>
-        <div class="text-center px-4">
-            <div class="text-3xl mb-3">🔥</div>
-            <h5 class="font-bold text-sky-800 text-lg mb-2" data-lang-key="askrName"></h5>
-            <p class="text-sm text-slate-500 italic" data-lang-key="brandAskrPhilosophy"></p>
-        </div>
-        <div class="text-center px-4">
-            <div class="text-3xl mb-3">📜</div>
-            <h5 class="font-bold text-emerald-800 text-lg mb-2" data-lang-key="eddaName"></h5>
-            <p class="text-sm text-slate-500 italic" data-lang-key="brandEddaPhilosophy"></p>
-        </div>
-    </div>
-</div>
-</div>
-<div id="about-content-bio" class="about-content hidden">
-            <h3 class="text-2xl font-bold mb-6" data-lang-key="bioProfileTitle"></h3>
-        
-            <div class="border-t">
-                <div class="flex border-b">
-                    <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioNameLabel"></div>
-                    <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioNameValue"></div>
+                <div id="about-content-brand" class="about-content hidden">
+                    <h3 class="text-2xl font-bold mb-6" data-lang-key="brandTitle"></h3>
+                    
+                    <div class="flex flex-col md:flex-row items-center gap-8 mb-12 pb-8 border-b">
+                        <div class="w-48 h-48 bg-white rounded-lg flex-shrink-0 flex items-center justify-center p-4 shadow-sm border border-slate-200">
+                            <img src="ravenforge.png" alt="RavenForge Brand Logo" class="w-full h-auto object-contain" onerror="this.style.display='none'">
+                        </div>
+                        <div class="text-slate-600 leading-relaxed">
+                            <h4 class="text-xl font-bold text-slate-800 mb-2" data-lang-key="brandIntroSubTitle"></h4>
+                            <div data-lang-key="brandMainDesc"></div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-stone-50 p-6 rounded-lg border">
+                            <h4 class="text-lg font-bold text-slate-800 mb-3 flex items-center">
+                                <span class="mr-2">ᛟ</span> <span data-lang-key="brandWhyNorseTitle"></span>
+                            </h4>
+                            <div class="text-sm" data-lang-key="brandWhyNorseContent"></div>
+                        </div>
+                        <div class="bg-stone-50 p-6 rounded-lg border">
+                            <h4 class="text-lg font-bold text-slate-800 mb-3 flex items-center">
+                                <span class="mr-2">ᚱ</span> <span data-lang-key="brandWhyUsTitle"></span>
+                            </h4>
+                            <div class="text-sm" data-lang-key="brandWhyUsContent"></div>
+                        </div>
+                        <div class="bg-stone-50 p-6 rounded-lg border">
+                            <h4 class="text-lg font-bold text-slate-800 mb-3 flex items-center">
+                                <span class="mr-2">ᚠ</span> <span data-lang-key="brandEdgeTitle"></span>
+                            </h4>
+                            <div class="text-sm" data-lang-key="brandEdgeContent"></div>
+                        </div>
+                    </div>
+                    <div class="mt-12 pt-8 border-t border-stone-200">
+                        <h4 class="text-xl font-bold text-center mb-8" data-lang-key="brandModelCoreTitle"></h4>
+                        <div class="grid md:grid-cols-3 gap-8">
+                            <div class="text-center px-4">
+                                <div class="text-3xl mb-3">🌿</div>
+                                <h5 class="font-bold text-amber-800 text-lg mb-2" data-lang-key="emblaName"></h5>
+                                <p class="text-sm text-slate-500 italic" data-lang-key="brandEmblaPhilosophy"></p>
+                            </div>
+                            <div class="text-center px-4">
+                                <div class="text-3xl mb-3">🔥</div>
+                                <h5 class="font-bold text-sky-800 text-lg mb-2" data-lang-key="askrName"></h5>
+                                <p class="text-sm text-slate-500 italic" data-lang-key="brandAskrPhilosophy"></p>
+                            </div>
+                            <div class="text-center px-4">
+                                <div class="text-3xl mb-3">📜</div>
+                                <h5 class="font-bold text-emerald-800 text-lg mb-2" data-lang-key="eddaName"></h5>
+                                <p class="text-sm text-slate-500 italic" data-lang-key="brandEddaPhilosophy"></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex border-b">
-                    <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioOccupationLabel"></div>
-                    <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioOccupationValue"></div>
+
+                <div id="about-content-bio" class="about-content hidden">
+                    <h3 class="text-2xl font-bold mb-6" data-lang-key="bioProfileTitle"></h3>
+                
+                    <div class="border-t">
+                        <div class="flex border-b">
+                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioNameLabel"></div>
+                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioNameValue"></div>
+                        </div>
+                        <div class="flex border-b">
+                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioOccupationLabel"></div>
+                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioOccupationValue"></div>
+                        </div>
+                        <div class="flex border-b">
+                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioEducationLabel"></div>
+                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioEducationValue"></div>
+                        </div>
+                        <div class="flex border-b">
+                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioDebutLabel"></div>
+                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioDebutValue"></div>
+                        </div>
+                        <div class="flex border-b">
+                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioCareerLabel"></div>
+                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioCareerValue"></div>
+                        </div>
+                        <div class="flex border-b">
+                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioTrainingLabel"></div>
+                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioTrainingValue"></div>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex flex-wrap gap-4 sm:gap-6 justify-center sm:justify-start">
+                        <a href="https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%27raven&ackey=zq21eb7z" target="_blank" class="inline-flex items-center px-4 sm:px-5 py-2.5 bg-[#03C75A] text-white text-sm sm:text-base font-bold rounded-md shadow-md hover:bg-[#02a94d] transition-colors">
+                            <svg class="w-4 h-4 mr-2 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.273 12.845 7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z"/></svg>
+                            <span data-lang-key="naverProfileBtn"></span>
+                        </a>
+
+                        <a href="https://www.instagram.com/raven_deadwire" target="_blank" class="inline-flex items-center px-4 sm:px-5 py-2.5 bg-[#E1306C] text-white text-sm sm:text-base font-bold rounded-md shadow-md hover:bg-[#c3285e] transition-colors">
+                            <svg class="w-4 h-4 mr-2 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.058-1.69-.072-4.949-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.209-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span data-lang-key="instaProfileBtn"></span>
+                        </a>
+
+                        <a href="https://www.youtube.com/@raven_deadwire" target="_blank" class="inline-flex items-center px-4 sm:px-5 py-2.5 bg-[#FF0000] text-white text-sm sm:text-base font-bold rounded-md shadow-md hover:bg-[#cc0000] transition-colors">
+                            <svg class="w-4 h-4 mr-2 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                            <span data-lang-key="youtubeProfileBtn"></span>
+                        </a>
+
+                    </div>
                 </div>
-                <div class="flex border-b">
-                    <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioEducationLabel"></div>
-                    <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioEducationValue"></div>
+                
+                <div id="about-content-mentors" class="about-content hidden">
+                    <div id="mentors-section">
+                        <h3 class="text-2xl font-bold mb-6" data-lang-key="mentorsTitle"></h3>
+                        <div class="grid md:grid-cols-3 gap-8 text-slate-600 leading-relaxed"> 
+                            <div>
+                                <h4 class="text-xl font-semibold mb-2" data-lang-key="mentor1Name"></h4>
+                                <div data-lang-key="mentor1Desc"></div>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-semibold mb-2" data-lang-key="mentor2Name"></h4>
+                                <div data-lang-key="mentor2Desc"></div>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-semibold mb-2" data-lang-key="mentor3Name"></h4>
+                                <div data-lang-key="mentor3Desc"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex border-b">
-                    <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioDebutLabel"></div>
-                    <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioDebutValue"></div>
-                </div>
-                <div class="flex border-b">
-                    <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioCareerLabel"></div>
-                    <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioCareerValue"></div>
-                </div>
-                <div class="flex border-b">
-                    <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioTrainingLabel"></div>
-                    <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioTrainingValue"></div>
+
+                <div id="about-content-works" class="about-content hidden">
+                    <h3 class="text-2xl font-bold mb-4" data-lang-key="worksTitle"></h3>
+                    <p class="text-slate-600 mb-6" data-lang-key="worksDesc"></p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238701297c7cc4344bc3f7f88b355f77d73bc7334a8c640320a273c2cb1b992d9e14855f10811014a8613150740e059b9ebe40da39ddcbc9b0685af14ff6e7')">
+                            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238701297c7cc4344bc3f7f88b355f77d73bc7334a8c640320a273c2cb1b992d9e14855f10811014a8613150740e059b9ebe40da39ddcbc9b0685af14ff6e7" alt="작업물 1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe880fa1bd625319c0da8adda994eab2f589016bb5556b5d0ee9c60db3bdb370198cfcce179a6f152e68428a9d55f29e9723bd399cd8d32')">
+                            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe880fa1bd625319c0da8adda994eab2f589016bb5556b5d0ee9c60db3bdb370198cfcce179a6f152e68428a9d55f29e9723bd399cd8d32" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg1.dcinside.com/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dedf82e413735eaa0f7e81410eb67dd2e8db21400de3b067c043f4cfb50dce1144b49e777f7ba07150de59b8bc7cf9a9b3eab6&amp;orgExt')">
+                            <img src="https://dcimg1.dcinside.com/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dedf82e413735eaa0f7e81410eb67dd2e8db21400de3b067c043f4cfb50dce1144b49e777f7ba07150de59b8bc7cf9a9b3eab6&amp;orgExt" alt="작업물 3" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe880fa1bd625319c0da8adda994eab2f589016bb5553b59f2b17bf0e8ce916bc53008051508a6543fe65370c779cdab2b1361140d2f26e')">
+                            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe880fa1bd625319c0da8adda994eab2f589016bb5553b59f2b17bf0e8ce916bc53008051508a6543fe65370c779cdab2b1361140d2f26e" alt="작업물 4" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe880fa1bd625319c0da8adda994eab2f589016bb5553b59f2b17bf0e8ce916bc5d0987535280640044a802dfcf7cb4849e2f97bcf1a481')">
+                            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe880fa1bd625319c0da8adda994eab2f589016bb5553b59f2b17bf0e8ce916bc5d0987535280640044a802dfcf7cb4849e2f97bcf1a481" alt="작업물 5" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238701297d7bc434ad8ea9e5bf1569f814a5e2129eba8b4bd221395357da9ae6dad034b55d2b80de3a136678585098487b5a47e81e844d85171d')">
+                            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238701297d7bc434ad8ea9e5bf1569f814a5e2129eba8b4bd221395357da9ae6dad034b55d2b80de3a136678585098487b5a47e81e844d85171d" alt="작업물 6" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238700297e7fc43400c54fa7a23fe4b51e2859b89984cab877d8a6264088193cfe84a2f0cad2bcfe7bd4d77258ff6a982bdeb1028aea913c2fcc66c58583cb919aea0530')">
+                            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238700297e7fc43400c54fa7a23fe4b51e2859b89984cab877d8a6264088193cfe84a2f0cad2bcfe7bd4d77258ff6a982bdeb1028aea913c2fcc66c58583cb919aea0530" alt="작업물 7" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe880fa11d028314bb15509d71b23e0dc3173495d93fca8a11091fb169505b48ac5d5f5d094c5f0f93f24a23dda468ce567621f17e196a2deeed0baa9e189f25dd56828127d6d576e1588fc2f66f97f205fd9fe')">
+                            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe880fa11d028314bb15509d71b23e0dc3173495d93fca8a11091fb169505b48ac5d5f5d094c5f0f93f24a23dda468ce567621f17e196a2deeed0baa9e189f25dd56828127d6d576e1588fc2f66f97f205fd9fe" alt="작업물 8" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg1.dcinside.com/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dedf82e413735eaa0f7e81410eb67dd2e8db21400de3b067c017a3c9b55ecf4015b4dd253827711f441039358749c1dcef06afbed94f97ad5be67728c2fdabf70e43e3&amp;orgExt')">
+                            <img src="https://dcimg1.dcinside.com/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dedf82e413735eaa0f7e81410eb67dd2e8db21400de3b067c017a3c9b55ecf4015b4dd253827711f441039358749c1dcef06afbed94f97ad5be67728c2fdabf70e43e3&amp;orgExt" alt="작업물 9" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238701297c7bc43430f882221cd5260d817e988df1923aadeffd30b612de7523e86cdf5d57665f948fce4c3d3106aae16be74f3b9f50f4ff2cf1c9ce433272fd0f50086b')">
+                            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238701297c7bc43430f882221cd5260d817e988df1923aadeffd30b612de7523e86cdf5d57665f948fce4c3d3106aae16be74f3b9f50f4ff2cf1c9ce433272fd0f50086b" alt="작업물 10" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238700297e76c434161c7f4ce79c9ce70c830d44b2d31a5f294271c3587e3f238e2d7e3cfcf0d246732919647805ad818240a95d750a01a85d339b17416ea9a99ea40520')">
+                            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238700297e76c434161c7f4ce79c9ce70c830d44b2d31a5f294271c3587e3f238e2d7e3cfcf0d246732919647805ad818240a95d750a01a85d339b17416ea9a99ea40520" alt="작업물 11" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dddf82e41373a2c8d788ffc2d2d81afac5f394942cabfcc3d7c5a0520d9ea6355153f8103d4572c12413acb0d3a85ba1dd67529530ea7effe5d1a1236da29f83e9e5')">
+                            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dddf82e41373a2c8d788ffc2d2d81afac5f394942cabfcc3d7c5a0520d9ea6355153f8103d4572c12413acb0d3a85ba1dd67529530ea7effe5d1a1236da29f83e9e5" alt="작업물 12" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dddf82e41373a2c8d788ffc2d2d81afac5f394942cabfcc3d790a65006c5a6690053f8103d45abaebdfa777fafbda647b9f24ccbd1e752e5776665e20efa37ee5cdc')">
+                            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dddf82e41373a2c8d788ffc2d2d81afac5f394942cabfcc3d790a65006c5a6690053f8103d45abaebdfa777fafbda647b9f24ccbd1e752e5776665e20efa37ee5cdc" alt="작업물 13" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dddf82e41373a2c8d788ffc2d2d81afac5f394942cabfcc3d7c3a0560d99a7690153f8103d456e7da30ab502f0f42de259a70258b36ea61d7bbc0dc61e0b2a749296')">
+                            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dddf82e41373a2c8d788ffc2d2d81afac5f394942cabfcc3d7c3a0560d99a7690153f8103d456e7da30ab502f0f42de259a70258b36ea61d7bbc0dc61e0b2a749296" alt="작업물 14" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg1.dcinside.com/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dedf82e413735eaa0f7e81410eb67dd2e8db21400de3b067c017a2c4e408c1121db49d70797b3e0a53e143a3cb33889b6476ad759a&amp;orgExt')">
+                            <img src="https://dcimg1.dcinside.com/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dedf82e413735eaa0f7e81410eb67dd2e8db21400de3b067c017a2c4e408c1121db49d70797b3e0a53e143a3cb33889b6476ad759a&amp;orgExt" alt="작업물 15" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="mt-6 flex flex-wrap gap-4 sm:gap-6 justify-center sm:justify-start">
-                <a href="https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%27raven&ackey=zq21eb7z" target="_blank" class="inline-flex items-center px-4 sm:px-5 py-2.5 bg-[#03C75A] text-white text-sm sm:text-base font-bold rounded-md shadow-md hover:bg-[#02a94d] transition-colors">
-                    <svg class="w-4 h-4 mr-2 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.273 12.845 7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z"/></svg>
-                    <span data-lang-key="naverProfileBtn"></span>
-                </a>
-
-                <a href="https://www.instagram.com/raven_deadwire" target="_blank" class="inline-flex items-center px-4 sm:px-5 py-2.5 bg-[#E1306C] text-white text-sm sm:text-base font-bold rounded-md shadow-md hover:bg-[#c3285e] transition-colors">
-                    <svg class="w-4 h-4 mr-2 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.058-1.69-.072-4.949-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.209-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                    <span data-lang-key="instaProfileBtn"></span>
-                </a>
-
-                <a href="https://www.youtube.com/@raven_deadwire" target="_blank" class="inline-flex items-center px-4 sm:px-5 py-2.5 bg-[#FF0000] text-white text-sm sm:text-base font-bold rounded-md shadow-md hover:bg-[#cc0000] transition-colors">
-                    <svg class="w-4 h-4 mr-2 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                    <span data-lang-key="youtubeProfileBtn"></span>
-                </a>
-
-            </div>
-            </div>
-        
-<div id="about-content-mentors" class="about-content hidden">
-    <div id="mentors-section">
-        <h3 class="text-2xl font-bold mb-6" data-lang-key="mentorsTitle"></h3>
-        <div class="grid md:grid-cols-3 gap-8 text-slate-600 leading-relaxed"> 
-            <div>
-                <h4 class="text-xl font-semibold mb-2" data-lang-key="mentor1Name"></h4>
-                <div data-lang-key="mentor1Desc"></div>
-            </div>
-            <div>
-                <h4 class="text-xl font-semibold mb-2" data-lang-key="mentor2Name"></h4>
-                <div data-lang-key="mentor2Desc"></div>
-            </div>
-            <div>
-                <h4 class="text-xl font-semibold mb-2" data-lang-key="mentor3Name"></h4>
-                <div data-lang-key="mentor3Desc"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="about-content-works" class="about-content hidden">
-    <h3 class="text-2xl font-bold mb-4" data-lang-key="worksTitle"></h3>
-    <p class="text-slate-600 mb-6" data-lang-key="worksDesc"></p>
-    
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        
-        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238701297c7cc4344bc3f7f88b355f77d73bc7334a8c640320a273c2cb1b992d9e14855f10811014a8613150740e059b9ebe40da39ddcbc9b0685af14ff6e7')">
-            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238701297c7cc4344bc3f7f88b355f77d73bc7334a8c640320a273c2cb1b992d9e14855f10811014a8613150740e059b9ebe40da39ddcbc9b0685af14ff6e7" alt="작업물 1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-        </div>
-
-        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe880fa1bd625319c0da8adda994eab2f589016bb5556b5d0ee9c60db3bdb370198cfcce179a6f152e68428a9d55f29e9723bd399cd8d32')">
-            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe880fa1bd625319c0da8adda994eab2f589016bb5556b5d0ee9c60db3bdb370198cfcce179a6f152e68428a9d55f29e9723bd399cd8d32" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-        </div>
-
-        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg1.dcinside.com/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dedf82e413735eaa0f7e81410eb67dd2e8db21400de3b067c043f4cfb50dce1144b49e777f7ba07150de59b8bc7cf9a9b3eab6&amp;orgExt')">
-            <img src="https://dcimg1.dcinside.com/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dedf82e413735eaa0f7e81410eb67dd2e8db21400de3b067c043f4cfb50dce1144b49e777f7ba07150de59b8bc7cf9a9b3eab6&amp;orgExt" alt="작업물 3" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-        </div>
-
-        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe880fa1bd625319c0da8adda994eab2f589016bb5553b59f2b17bf0e8ce916bc53008051508a6543fe65370c779cdab2b1361140d2f26e')">
-            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe880fa1bd625319c0da8adda994eab2f589016bb5553b59f2b17bf0e8ce916bc53008051508a6543fe65370c779cdab2b1361140d2f26e" alt="작업물 4" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-        </div>
-
-        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe880fa1bd625319c0da8adda994eab2f589016bb5553b59f2b17bf0e8ce916bc5d0987535280640044a802dfcf7cb4849e2f97bcf1a481')">
-            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe880fa1bd625319c0da8adda994eab2f589016bb5553b59f2b17bf0e8ce916bc5d0987535280640044a802dfcf7cb4849e2f97bcf1a481" alt="작업물 5" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-        </div>
-
-        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238701297d7bc434ad8ea9e5bf1569f814a5e2129eba8b4bd221395357da9ae6dad034b55d2b80de3a136678585098487b5a47e81e844d85171d')">
-            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238701297d7bc434ad8ea9e5bf1569f814a5e2129eba8b4bd221395357da9ae6dad034b55d2b80de3a136678585098487b5a47e81e844d85171d" alt="작업물 6" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-        </div>
-
-            <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238700297e7fc43400c54fa7a23fe4b51e2859b89984cab877d8a6264088193cfe84a2f0cad2bcfe7bd4d77258ff6a982bdeb1028aea913c2fcc66c58583cb919aea0530')">
-            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238700297e7fc43400c54fa7a23fe4b51e2859b89984cab877d8a6264088193cfe84a2f0cad2bcfe7bd4d77258ff6a982bdeb1028aea913c2fcc66c58583cb919aea0530" alt="작업물 7" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-        </div>
-
-        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe880fa11d028314bb15509d71b23e0dc3173495d93fca8a11091fb169505b48ac5d5f5d094c5f0f93f24a23dda468ce567621f17e196a2deeed0baa9e189f25dd56828127d6d576e1588fc2f66f97f205fd9fe')">
-            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe880fa11d028314bb15509d71b23e0dc3173495d93fca8a11091fb169505b48ac5d5f5d094c5f0f93f24a23dda468ce567621f17e196a2deeed0baa9e189f25dd56828127d6d576e1588fc2f66f97f205fd9fe" alt="작업물 8" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-        </div>
-
-        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg1.dcinside.com/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dedf82e413735eaa0f7e81410eb67dd2e8db21400de3b067c017a3c9b55ecf4015b4dd253827711f441039358749c1dcef06afbed94f97ad5be67728c2fdabf70e43e3&amp;orgExt')">
-            <img src="https://dcimg1.dcinside.com/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dedf82e413735eaa0f7e81410eb67dd2e8db21400de3b067c017a3c9b55ecf4015b4dd253827711f441039358749c1dcef06afbed94f97ad5be67728c2fdabf70e43e3&amp;orgExt" alt="작업물 9" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-        </div>
-
-        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238701297c7bc43430f882221cd5260d817e988df1923aadeffd30b612de7523e86cdf5d57665f948fce4c3d3106aae16be74f3b9f50f4ff2cf1c9ce433272fd0f50086b')">
-            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238701297c7bc43430f882221cd5260d817e988df1923aadeffd30b612de7523e86cdf5d57665f948fce4c3d3106aae16be74f3b9f50f4ff2cf1c9ce433272fd0f50086b" alt="작업물 10" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-        </div>
-
-        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238700297e76c434161c7f4ce79c9ce70c830d44b2d31a5f294271c3587e3f238e2d7e3cfcf0d246732919647805ad818240a95d750a01a85d339b17416ea9a99ea40520')">
-            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe883fa11d028313b52c5650cf177f0238700297e76c434161c7f4ce79c9ce70c830d44b2d31a5f294271c3587e3f238e2d7e3cfcf0d246732919647805ad818240a95d750a01a85d339b17416ea9a99ea40520" alt="작업물 11" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-        </div>
-
-        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dddf82e41373a2c8d788ffc2d2d81afac5f394942cabfcc3d7c5a0520d9ea6355153f8103d4572c12413acb0d3a85ba1dd67529530ea7effe5d1a1236da29f83e9e5')">
-            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dddf82e41373a2c8d788ffc2d2d81afac5f394942cabfcc3d7c5a0520d9ea6355153f8103d4572c12413acb0d3a85ba1dd67529530ea7effe5d1a1236da29f83e9e5" alt="작업물 12" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-        </div>
-
-        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dddf82e41373a2c8d788ffc2d2d81afac5f394942cabfcc3d790a65006c5a6690053f8103d45abaebdfa777fafbda647b9f24ccbd1e752e5776665e20efa37ee5cdc')">
-            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dddf82e41373a2c8d788ffc2d2d81afac5f394942cabfcc3d790a65006c5a6690053f8103d45abaebdfa777fafbda647b9f24ccbd1e752e5776665e20efa37ee5cdc" alt="작업물 13" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-        </div>
-
-        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dddf82e41373a2c8d788ffc2d2d81afac5f394942cabfcc3d7c3a0560d99a7690153f8103d456e7da30ab502f0f42de259a70258b36ea61d7bbc0dc61e0b2a749296')">
-            <img src="https://dcimg4.dcinside.co.kr/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dddf82e41373a2c8d788ffc2d2d81afac5f394942cabfcc3d7c3a0560d99a7690153f8103d456e7da30ab502f0f42de259a70258b36ea61d7bbc0dc61e0b2a749296" alt="작업물 14" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-        </div>
-
-        <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('https://dcimg1.dcinside.com/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dedf82e413735eaa0f7e81410eb67dd2e8db21400de3b067c017a2c4e408c1121db49d70797b3e0a53e143a3cb33889b6476ad759a&amp;orgExt')">
-            <img src="https://dcimg1.dcinside.com/viewimage.php?id=2fbcc335&amp;no=24b0d769e1d32ca73fe882fa11d028310673c8c0c405f98f4834dedf82e413735eaa0f7e81410eb67dd2e8db21400de3b067c017a2c4e408c1121db49d70797b3e0a53e143a3cb33889b6476ad759a&amp;orgExt" alt="작업물 15" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-        </div>
-
-    </div>
-</div>
-        </div>
-    </div>
-</section>
+        </section>
 
         <!-- 2. Prototype 섹션 -->
-        <section id="Prototype" class="mb-16 pt-16 -mt-16">
+        <!-- 스크롤 용 마진 제거, page-section 적용 -->
+        <section id="Prototype" class="page-section mb-16 pt-4">
             <div id="spec-sheet" class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="PrototypeTitle"></h2>
                 <p class="mb-6 text-slate-600" data-lang-key="specSheetDesc"></p>
                 
-<div class="mb-6 flex flex-wrap gap-2">
-    <button id="btn-spec-embla" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">🌿 EMBLA</button>
-	<button id="btn-spec-askr" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">🔥 ASKR</button>
-	<button id="btn-spec-edda" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">📜 EDDA</button>
-	<button id="btn-spec-common" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specCommonBtn"></button>
-	<button id="btn-spec-neck" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specNeckBtn"></button>
-    <button id="btn-spec-body" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">🎸 Body</button>
-    <button id="btn-spec-options" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">⚙️ Options</button>
-</div>
+                <div class="mb-6 flex flex-wrap gap-2">
+                    <button id="btn-spec-embla" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition active">🌿 EMBLA</button>
+                    <button id="btn-spec-askr" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">🔥 ASKR</button>
+                    <button id="btn-spec-edda" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">📜 EDDA</button>
+                    <button id="btn-spec-common" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specCommonBtn"></button>
+                    <button id="btn-spec-neck" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specNeckBtn"></button>
+                    <button id="btn-spec-body" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">🎸 Body</button>
+                    <button id="btn-spec-options" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">⚙️ Options</button>
+                </div>
 
-<div id="spec-content-embla" class="spec-content"></div>
-<div id="spec-content-askr" class="spec-content hidden"></div>
-<div id="spec-content-edda" class="spec-content hidden"></div>
-<div id="spec-content-common" class="spec-content hidden"></div>
-<div id="spec-content-neck" class="spec-content hidden"></div>
-<div id="spec-content-body" class="spec-content hidden"></div>
-<div id="spec-content-options" class="spec-content hidden"></div>
+                <div id="spec-content-embla" class="spec-content"></div>
+                <div id="spec-content-askr" class="spec-content hidden"></div>
+                <div id="spec-content-edda" class="spec-content hidden"></div>
+                <div id="spec-content-common" class="spec-content hidden"></div>
+                <div id="spec-content-neck" class="spec-content hidden"></div>
+                <div id="spec-content-body" class="spec-content hidden"></div>
+                <div id="spec-content-options" class="spec-content hidden"></div>
             </div>
         </section>
 
         <!-- 3. Analysis & Luthier Explorer 섹션 -->
-        <section id="analysis" class="mb-16 pt-16 -mt-16">
+        <section id="analysis" class="page-section mb-16 pt-4">
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="analysisTitle"></h2>
 
@@ -447,7 +455,7 @@
         </section>
 
         <!-- 4. Quest & Aspiration 섹션 -->
-        <section id="quest" class="pt-16 -mt-16">
+        <section id="quest" class="page-section mb-16 pt-4">
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="questTitle"></h2>
                 
@@ -464,7 +472,19 @@
                 </div>
             </div>
         </section>
-		<section id="configurator" class="pt-16 -mt-16 mb-16">
+
+        <!-- 5. Research Journal 섹션 -->
+	<section id="research" class="page-section mb-16 pt-4">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="researchTitle"></h2>
+                <p class="mb-6 text-slate-600" data-lang-key="researchDesc"></p>
+                <div id="research-filters" class="flex flex-wrap gap-2 mb-6 border-b pb-4"></div>
+                <div id="research-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+            </div>
+        </section>
+
+        <!-- 6. Configurator 섹션 -->
+        <section id="configurator" class="page-section mb-16 pt-4">
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <div class="flex justify-between items-center mb-6 border-b pb-3">
                     <h2 class="text-3xl font-bold" data-lang-key="configuratorTitle"></h2>
@@ -501,6 +521,16 @@
             // --- ENGLISH ---
             en: {
         // Navigation and Section Titles
+	navResearch: "Research Journal",
+        researchTitle: "Luthier's Research Journal",
+        researchDesc: "A collection of my personal research papers and essays detailing the acoustic engineering, tonewood analysis, and design philosophies behind RavenForge instruments.",
+        readMoreBtn: "Read Full Paper",
+        catAll: "All",
+        catWood: "Wood Science",
+        catCraft: "Structure & Crafting",
+        catSound: "Sound & Electronics",
+        catLiberal: "Liberal Arts",
+        catLog: "Bench Notes",
         navAbout: "About",
         navPrototype: "Prototype",
         navAnalysis: "Analysis & Explorer",
@@ -675,6 +705,16 @@ neck: [
             // --- GERMAN ---
     de: {
         // Navigation and Section Titles
+	navResearch: "Forschungsjournal",
+        researchTitle: "Forschungsjournal des Gitarrenbauers",
+        researchDesc: "Eine Sammlung meiner persönlichen Forschungsarbeiten und Essays zu Akustik, Holzanalyse und Designphilosophien von RavenForge.",
+        readMoreBtn: "Vollständigen Artikel lesen",
+        catAll: "Alle",
+        catWood: "Holzwissenschaft",
+        catCraft: "Struktur & Handwerk",
+        catSound: "Klang & Elektronik",
+        catLiberal: "Geisteswissenschaften",
+        catLog: "Werkstattnotizen",
         navAbout: "Über",
         navPrototype: "Prototyp",
         navAnalysis: "Analyse & Explorer",
@@ -884,6 +924,16 @@ neck: [
             // --- KOREAN ---
     ko: {
         // Navigation and Section Titles
+	navResearch: "연구 일지",
+        researchTitle: "루씨어 연구 일지",
+        researchDesc: "RavenForge 악기 설계의 근간이 되는 음향 공학, 톤우드 특성 분석, 그리고 악기 제작 철학에 대한 저의 개인적인 연구 소논문과 에세이입니다.",
+        readMoreBtn: "소논문 전체 읽기",
+        catAll: "전체보기",
+        catWood: "목재 및 음향학",
+        catCraft: "구조 공학 및 크래프팅",
+        catSound: "사운드 및 전자공학",
+        catLiberal: "철학과 인문학",
+        catLog: "작업 노트",
         navAbout: "소개",
         navPrototype: "프로토타입",
         navAnalysis: "분석 및 탐색",
@@ -1518,15 +1568,12 @@ translations.ko.luthierData = [
             { title: "미학적 차별화 및 브랜드 스토리텔링", content: "북유럽 신화 테마를 악기 디자인에 깊이 있게 통합하고, 독특한 마감과 재료를 통해 악기를 '수집 가능한 예술 작품'으로 승화시키는 것을 목표로 합니다.", details: `<ul><li><strong>Marleaux의 미학적 가치 및 혁신 스토리텔링 연구:</strong> Marleaux의 '숨 막힐 듯한 희귀 부티크 목재 컬렉션'을 활용한 미학적 가치 창출 방식과, 자연 섬유 직물을 활용한 VARI 공정처럼 전통적 장인정신과 첨단 재료 과학을 융합하는 기술 혁신 스토리를 브랜드에 녹여냅니다.</li><li><strong>Jens Ritter의 예술적 접근 방식:</strong> 한정판 제작, 독특한 인레이 재료, 이야기를 담은 마감을 통해 악기를 문화적 유물과 투자 대상으로 변모시킵니다.</li><li><strong>Sandberg의 정교한 에이징 공정:</strong> Thermo/Vibration Treatment를 연구하여 악기가 시간이 지남에 따라 더욱 풍부하고 성숙한 톤을 제공하도록 보장합니다.</li><li><strong>KD Basses의 안정화 목재 및 모자이크 지판:</strong> 룬 문자 인레이를 더욱 독창적이고 시각적으로 매력적인 요소로 발전시킵니다.</li></ul>`, related: ["Marleaux Basses", "Jens Ritter Instruments", "Sandberg Guitars", "KD Basses"] },
             { title: "생산 및 고객 경험 최적화", content: "현대 기술을 활용하여 고객 참여를 극대화하고, 효율성과 장인정신 사이의 균형을 최적화하여 최상의 고객 경험을 제공하는 것을 목표로 합니다.", details: `<ul><li><strong>Marleaux의 프로 피드백 기반 개선 프로세스 도입:</strong> 전 세계 베이스 프로들의 피드백과 아이디어를 적극적으로 반영하여 제작 공정을 지속적으로 개선하는 Marleaux의 방식을 도입하여, RavenForge가 연주자들과 함께 성장하는 브랜드가 되도록 합니다.</li><li><strong>Halo 및 Maruszczyk의 온라인 컨피규레이터 도입:</strong> 고객이 실시간으로 악기를 디자인하고 시각화할 수 있는 시스템을 구축합니다.</li><li><strong>MÜB의 CNC 활용 철학:</strong> CNC를 '창의적인 도구'로 활용하여 반복적인 작업을 처리하고 장인들이 가치 추가 영역에 집중하도록 합니다.</li></ul>`, related: ["Marleaux Basses", "Halo Custom Guitars", "Maruszczyk Instruments", "Maurizio Über Basses"] }
         ];
-
+        
         // --- APPLICATION LOGIC ---
         document.addEventListener('DOMContentLoaded', () => {
             ['de', 'ko'].forEach(lang => {
                 if (translations[lang].luthierData.length === 0) {
-                    translations[lang].luthierData = translations.en.luthierData;
-                }
-                if (translations[lang].proposalsData.length === 0) {
-                    translations[lang].proposalsData = translations.en.proposalsData;
+                    translations[lang].luthierData = translations.en.luthierData || [];
                 }
             });
 
@@ -1541,13 +1588,65 @@ translations.ko.luthierData = [
             const langDeBtnFloat = document.getElementById('lang-de-btn-float');
             const langKrBtnFloat = document.getElementById('lang-kr-btn-float');
             
-            // 두 종류의 버튼을 모두 관리하기 위한 객체
             const langBtnSets = {
                 en: [langEnBtn, langEnBtnFloat],
                 de: [langDeBtn, langDeBtnFloat],
                 ko: [langKrBtn, langKrBtnFloat]
             };
             
+            // --- 페이지 전환 (SPA) 로직 추가 ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pageSections = document.querySelectorAll('.page-section');
+
+            function activatePage(targetId) {
+                // 모든 섹션 숨기기
+                pageSections.forEach(section => section.classList.remove('active'));
+                
+                // 모든 메뉴 활성화 표시 초기화
+                navLinks.forEach(nav => nav.classList.remove('active-nav'));
+
+                // 타겟 섹션 보이기
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+
+                // 타겟 메뉴 활성화
+                const targetNavs = document.querySelectorAll(`.nav-link[href="#${targetId}"]`);
+                targetNavs.forEach(nav => nav.classList.add('active-nav'));
+
+                // 페이지 전환 시 화면 최상단으로 (부드럽게 스크롤하지 않고 즉시 이동)
+                window.scrollTo(0, 0);
+            }
+
+            // 네비게이션 클릭 이벤트 연결
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    activatePage(targetId);
+                    
+                    // URL 해시값 업데이트 (뒤로가기 지원)
+                    history.pushState(null, null, `#${targetId}`);
+                });
+            });
+
+            // 초기 로딩 시 해시값 체크하여 해당 페이지 띄우기
+            const initialHash = window.location.hash.substring(1);
+            if (initialHash && document.getElementById(initialHash)) {
+                activatePage(initialHash);
+            } else {
+                // 없으면 기본으로 about 띄우기
+                activatePage('about');
+            }
+            
+            // 브라우저 뒤로가기/앞으로가기 처리
+            window.addEventListener('popstate', () => {
+                const hash = window.location.hash.substring(1) || 'about';
+                activatePage(hash);
+            });
+
+
             const luthierGrid = document.getElementById('luthier-grid');
             const regionFilter = document.getElementById('region-filter');
             const themeFilter = document.getElementById('theme-filter');
@@ -1569,16 +1668,70 @@ translations.ko.luthierData = [
             let currentRegionFilter = 'all';
             let currentThemeFilter = 'all';
 
+// --- Research Journal 변수 및 데이터 로드 ---
+        let currentResearchCategory = 'all';
+        let researchArticles = [];
+        let isResearchDataLoaded = false;
+        
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS_PHt3LmAsjEbH_9XCiD18E8XFgY2gWb0QDQhghJmM0V9eZDCz1CcWUIJA5h_abKecwLEn_XIEzlsH/pub?output=csv';
+
+        const researchCategories = [
+            { id: 'all', key: 'catAll' }, { id: 'wood', key: 'catWood' },
+            { id: 'craft', key: 'catCraft' }, { id: 'sound', key: 'catSound' },
+            { id: 'liberal', key: 'catLiberal' }, { id: 'log', key: 'catLog' }
+        ];
+
+        function parseCSV(str) {
+            const arr = [];
+            let quote = false; let row = 0; let col = 0;
+            for (let c = 0; c < str.length; c++) {
+                let cc = str[c], nc = str[c+1];
+                arr[row] = arr[row] || []; arr[row][col] = arr[row][col] || '';
+                if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }
+                if (cc == '"') { quote = !quote; continue; }
+                if (cc == ',' && !quote) { ++col; continue; }
+                if (cc == '\r' && nc == '\n' && !quote) { ++row; col = 0; ++c; continue; }
+                if (cc == '\n' && !quote) { ++row; col = 0; continue; }
+                if (cc == '\r' && !quote) { ++row; col = 0; continue; }
+                arr[row][col] += cc;
+            }
+            return arr;
+        }
+
+        async function loadResearchData() {
+            try {
+                const response = await fetch(SHEET_CSV_URL);
+                const csvText = await response.text();
+                const rows = parseCSV(csvText);
+                
+                if (rows.length > 0) {
+                    // 눈에 보이지 않는 BOM 특수문자 제거 및 헤더를 대문자로 통일하여 에러 원천 차단
+                    const headers = rows[0].map(h => h.trim().replace(/^\uFEFF/, '').toUpperCase());
+                    researchArticles = rows.slice(1).filter(row => row.length > 1).map(row => {
+                        let obj = {};
+                        headers.forEach((header, index) => {
+                            obj[header] = row[index] ? row[index].trim() : '';
+                        });
+                        return obj;
+                    });
+                }
+                isResearchDataLoaded = true;
+                renderResearch();
+            } catch (error) {
+                console.error('Failed to load research data:', error);
+                document.getElementById('research-grid').innerHTML = '<p class="text-red-500 col-span-full">데이터 로딩 실패: 사내 보안 방화벽 등에 의해 접근이 차단되었습니다.</p>';
+            }
+        }
+
             function switchLanguage(lang) {
                 currentLang = lang;
                 sessionStorage.setItem('preferredLang', lang);
                 const t = translations[lang];
 
-                // 모든 버튼의 'active' 클래스 제거 (PC, 모바일 모두)
+                // 활성화 언어 버튼 스타일링
                 Object.values(langBtnSets).flat().forEach(btn => {
                     if(btn) btn.classList.remove('active');
                 });
-                // 현재 언어에 해당하는 버튼(PC, 모바일 모두)에 'active' 클래스 추가
                 if(langBtnSets[lang]) {
                     langBtnSets[lang].forEach(btn => {
                         if(btn) btn.classList.add('active');
@@ -1604,6 +1757,7 @@ translations.ko.luthierData = [
                 renderChart();
                 renderLuthiers();
                 renderProposals();
+		renderResearch();
             }
 
             function populateFilters() {
@@ -1632,39 +1786,126 @@ translations.ko.luthierData = [
                 return table;
             }
  
-			function renderSpecSheet() {
-    const t = translations[currentLang];
-    const specData = t.specData;
-    const headers = specData.headers;
+// --- Research 화면 렌더링 ---
+        function renderResearch() {
+            const researchGrid = document.getElementById('research-grid');
+            const filterContainer = document.getElementById('research-filters');
+            if (!researchGrid || !filterContainer) return;
+            
+            const t = translations[currentLang];
+            filterContainer.innerHTML = '';
+            
+            researchCategories.forEach(cat => {
+                const btn = document.createElement('button');
+                const isActive = currentResearchCategory === cat.id;
+                btn.className = `px-3 py-1 text-sm rounded-full font-semibold transition-colors border ${isActive ? 'bg-slate-800 text-white border-slate-800' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-100'}`;
+                btn.textContent = t[cat.key] || cat.id;
+                btn.onclick = () => {
+                    currentResearchCategory = cat.id;
+                    renderResearch();
+                };
+                filterContainer.appendChild(btn);
+            });
 
-    specContentEmbla.innerHTML = createSpecTable(specData.embla, headers.embla);
-    specContentAskr.innerHTML = createSpecTable(specData.askr, headers.askr);
-    specContentEdda.innerHTML = createSpecTable(specData.edda, headers.edda);
-    specContentCommon.innerHTML = createSpecTable(specData.common, headers.common);
-    
-    // 넥 시스템 이미지 추가 (표 상단)
-    const neckImageHTML = `
-        <div class="mb-6 overflow-hidden rounded-lg shadow-sm border border-slate-200">
-            <img src="./neck.png" alt="Neck System Structure" class="w-full h-auto cursor-pointer hover:opacity-90 transition-opacity" onclick="openImagePopup('neck.png')">
-        </div>
-    `;
-    specContentNeck.innerHTML = neckImageHTML + createSpecTable(specData.neck, headers.neck);
-    
-    // 바디 카테고리 이미지 추가 (표 상단)
-    // 파일명에 공백이 있으므로 '%20'으로 처리하여 오류 방지
-    const bodyImageHTML = `
-        <div class="mb-6 overflow-hidden rounded-lg shadow-sm border border-slate-200">
-            <img src="./Body%20Structure.png" alt="Body Structure" class="w-full h-auto cursor-pointer hover:opacity-90 transition-opacity" onclick="openImagePopup('Body%20Structure.png')">
-        </div>
-    `;
-    specContentBody.innerHTML = bodyImageHTML + createSpecTable(specData.body, headers.body);
-    
-    specContentOptions.innerHTML = createSpecTable(specData.options, headers.options);
-}
+            researchGrid.innerHTML = '';
+
+            if (!isResearchDataLoaded) {
+                researchGrid.innerHTML = '<p class="text-slate-500 col-span-full font-bold animate-pulse">데이터를 불러오는 중입니다...</p>';
+                return;
+            }
+
+            if (researchArticles.length === 0) {
+                researchGrid.innerHTML = '<p class="text-slate-500 col-span-full">등록된 소논문이 없습니다.</p>';
+                return;
+            }
+
+            const filteredArticles = researchArticles.filter(article => {
+                if (currentResearchCategory === 'all') return true;
+                const articleCat = (article['CATEGORY'] || '').toLowerCase().trim();
+                return articleCat === currentResearchCategory;
+            });
+
+            if (filteredArticles.length === 0) {
+                researchGrid.innerHTML = '<p class="text-slate-500 col-span-full">해당 카테고리에 등록된 글이 없습니다.</p>';
+                return;
+            }
+
+            filteredArticles.forEach(article => {
+                const langKey = currentLang.toUpperCase();
+                const title = article[`TITLE_${langKey}`] || article['TITLE_EN'] || article['TITLE'];
+                const excerpt = article[`EXCERPT_${langKey}`] || article['EXCERPT_EN'] || article['EXCERPT'];
+                const docLink = article[`LINK_${langKey}`] || article['LINK_EN'] || article['LINK'];
+                const date = article['DATE'] || '';
+                const catId = (article['CATEGORY'] || '').toLowerCase().trim();
+                const catObj = researchCategories.find(c => c.id === catId);
+                const catName = catObj ? (t[catObj.key] || catId) : catId;
+
+                if (!title) return;
+
+                const card = document.createElement('div');
+                card.className = 'border border-slate-200 rounded-lg p-6 hover:shadow-md transition-shadow bg-white flex flex-col cursor-pointer group relative overflow-hidden';
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-xs font-bold px-2 py-1 bg-slate-100 text-slate-600 rounded">${catName.toUpperCase()}</span>
+                        <span class="text-sm text-slate-400 font-mono">${date}</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3 group-hover:text-sky-700 transition-colors">${title}</h3>
+                    <p class="text-slate-600 mb-4 flex-grow leading-relaxed text-sm">${excerpt}</p>
+                    <div class="mt-auto pt-4 border-t border-slate-100">
+                        <span class="text-sky-700 font-semibold text-sm flex items-center group-hover:text-sky-900 transition-colors">
+                            ${t.readMoreBtn} <span class="ml-2">→</span>
+                        </span>
+                    </div>
+                `;
+                
+                card.onclick = () => {
+                    document.getElementById('modal-title').textContent = title;
+                    document.getElementById('modal-body').innerHTML = `
+                        <div class="w-full h-[75vh] bg-white rounded flex items-center justify-center">
+                            <iframe src="${docLink}" width="100%" height="100%" style="border: none;" title="${title}"></iframe>
+                        </div>
+                    `;
+                    const modal = document.getElementById('luthier-modal');
+                    modal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                    setTimeout(() => {
+                        modal.classList.remove('opacity-0');
+                        modal.querySelector('.modal-content').classList.remove('scale-95');
+                    }, 10);
+                };
+                researchGrid.appendChild(card);
+            });
+        }
+
+			function renderSpecSheet() {
+                const t = translations[currentLang];
+                const specData = t.specData;
+                const headers = specData.headers;
+
+                specContentEmbla.innerHTML = createSpecTable(specData.embla, headers.embla);
+                specContentAskr.innerHTML = createSpecTable(specData.askr, headers.askr);
+                specContentEdda.innerHTML = createSpecTable(specData.edda, headers.edda);
+                specContentCommon.innerHTML = createSpecTable(specData.common, headers.common);
+                
+                const neckImageHTML = `
+                    <div class="mb-6 overflow-hidden rounded-lg shadow-sm border border-slate-200">
+                        <img src="./neck.png" alt="Neck System Structure" class="w-full h-auto cursor-pointer hover:opacity-90 transition-opacity" onclick="openImagePopup('neck.png')" onerror="this.style.display='none'">
+                    </div>
+                `;
+                specContentNeck.innerHTML = neckImageHTML + createSpecTable(specData.neck, headers.neck);
+                
+                const bodyImageHTML = `
+                    <div class="mb-6 overflow-hidden rounded-lg shadow-sm border border-slate-200">
+                        <img src="./Body%20Structure.png" alt="Body Structure" class="w-full h-auto cursor-pointer hover:opacity-90 transition-opacity" onclick="openImagePopup('Body%20Structure.png')" onerror="this.style.display='none'">
+                    </div>
+                `;
+                specContentBody.innerHTML = bodyImageHTML + createSpecTable(specData.body, headers.body);
+                specContentOptions.innerHTML = createSpecTable(specData.options, headers.options);
+            }
 
             function renderChart() {
                 const t = translations[currentLang];
-                const luthierData = t.luthierData;
+                const luthierData = t.luthierData || [];
                 const themeLabels = t.filterThemes;
 
                 const themeCounts = luthierData.flatMap(l => l.tags).reduce((acc, tag) => {
@@ -1711,7 +1952,6 @@ translations.ko.luthierData = [
                                 currentThemeFilter = clickedLabel;
                                 themeFilter.value = clickedLabel;
                                 renderLuthiers();
-                                document.getElementById('analysis').scrollIntoView({ behavior: 'smooth' });
                             }
                         }
                     }
@@ -1720,7 +1960,7 @@ translations.ko.luthierData = [
 
             function renderLuthiers() {
                 const t = translations[currentLang];
-                const luthierData = t.luthierData;
+                const luthierData = t.luthierData || [];
 
                 luthierGrid.innerHTML = '';
                 const filteredLuthiers = luthierData.filter(luthier => {
@@ -1766,15 +2006,14 @@ translations.ko.luthierData = [
                             });
                         }
                     } catch (e) {
-                        console.error("저장된 아코디언 상태를 불러오는 데 실패했습니다:", e);
                         sessionStorage.removeItem('openAccordions');
                     }
                 }
             }
             function renderProposals() {
                 const t = translations[currentLang];
-                const proposalsData = t.proposalsData;
-                const luthierData = t.luthierData;
+                const proposalsData = t.proposalsData || [];
+                const luthierData = t.luthierData || [];
 
                 proposalsAccordion.innerHTML = '';
                 proposalsData.forEach(proposal => {
@@ -1932,15 +2171,17 @@ translations.ko.luthierData = [
             // --- Initial Load ---
             const initialLang = sessionStorage.getItem('preferredLang') || 'en';
             switchLanguage(initialLang);
+	    loadResearchData();
         });
+
         function openImagePopup(imageUrl) {
             const popup = document.getElementById('image-popup');
             const popupImg = document.getElementById('popup-img');
             if (popup && popupImg) {
                 popupImg.src = imageUrl;
                 popup.classList.remove('hidden');
-                setTimeout(() => popup.classList.remove('opacity-0'), 10); // 부드러운 등장을 위한 딜레이
-                document.body.style.overflow = 'hidden'; // 배경 스크롤 방지
+                setTimeout(() => popup.classList.remove('opacity-0'), 10);
+                document.body.style.overflow = 'hidden'; 
             }
         }
 
@@ -1948,35 +2189,21 @@ translations.ko.luthierData = [
             const popup = document.getElementById('image-popup');
             if (popup) {
                 popup.classList.add('opacity-0');
-                setTimeout(() => popup.classList.add('hidden'), 300); // 트랜지션 효과 후 숨김
-                document.body.style.overflow = ''; // 배경 스크롤 복원
+                setTimeout(() => popup.classList.add('hidden'), 300);
+                document.body.style.overflow = '';
             }
         }
     </script>
-<div id="image-popup" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden z-50 opacity-0" onclick="closeImagePopup()">
-    <div class="modal-content bg-white p-2 rounded-lg shadow-xl max-w-4xl max-h-[90vh] relative" onclick="event.stopPropagation()">
-        <img id="popup-img" src="#" alt="Popup Image" class="max-w-full max-h-[85vh] block">
-        <button id="popup-close" class="absolute -top-4 -right-4 text-white bg-slate-800 rounded-full w-10 h-10 flex items-center justify-center text-2xl font-bold hover:bg-slate-600 transition" onclick="closeImagePopup()">&times;</button>
+    <div id="image-popup" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden z-50 opacity-0" onclick="closeImagePopup()">
+        <div class="modal-content bg-white p-2 rounded-lg shadow-xl max-w-4xl max-h-[90vh] relative" onclick="event.stopPropagation()">
+            <img id="popup-img" src="#" alt="Popup Image" class="max-w-full max-h-[85vh] block">
+            <button id="popup-close" class="absolute -top-4 -right-4 text-white bg-slate-800 rounded-full w-10 h-10 flex items-center justify-center text-2xl font-bold hover:bg-slate-600 transition" onclick="closeImagePopup()">&times;</button>
+        </div>
     </div>
-</div>
-<div class="fixed top-36 right-4 z-30 flex flex-col space-y-2 sm:hidden">
+    <div class="fixed top-36 right-4 z-30 flex flex-col space-y-2 sm:hidden">
         <button id="lang-en-btn-float" class="lang-btn bg-slate-800 text-white w-14 h-10 rounded-md shadow-lg flex items-center justify-center font-semibold border border-slate-400 hover:bg-slate-700 transition">EN</button>
         <button id="lang-de-btn-float" class="lang-btn bg-slate-800 text-white w-14 h-10 rounded-md shadow-lg flex items-center justify-center font-semibold border border-slate-400 hover:bg-slate-700 transition">DE</button>
         <button id="lang-kr-btn-float" class="lang-btn bg-slate-800 text-white w-14 h-10 rounded-md shadow-lg flex items-center justify-center font-semibold border border-slate-400 hover:bg-slate-700 transition">KR</button>
     </div>
 </body>
-
-<!-- Mirrored from raven-deadwire.github.io/RavenForge-Luthier-Intelligence/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 24 Mar 2026 07:27:17 GMT -->
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
