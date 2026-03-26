@@ -1640,8 +1640,23 @@ translations.ko.luthierData = [
                 activatePage('about');
             }
             
-            // 브라우저 뒤로가기/앞으로가기 처리
-            window.addEventListener('popstate', () => {
+            // 브라우저 뒤로가기/앞으로가기 처리 (수정본)
+            window.addEventListener('popstate', (event) => {
+                const modal = document.getElementById('luthier-modal');
+                
+                // 1. 만약 모달이 열려 있는 상태에서 뒤로가기가 눌렸다면?
+                if (modal && !modal.classList.contains('hidden')) {
+                    // 페이지 이동(activatePage)을 하지 않고 모달만 닫습니다.
+                    // (Step 3에서 만든 hideModal 함수가 있으면 그걸 쓰고, 없으면 아래처럼 직접 처리)
+                    modal.classList.add('opacity-0');
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                        document.body.style.overflow = '';
+                    }, 300);
+                    return; // 함수 종료 (페이지 이동 방지)
+                }
+
+                // 2. 모달이 닫혀 있는 상태라면 기존대로 페이지 섹션 이동
                 const hash = window.location.hash.substring(1) || 'about';
                 activatePage(hash);
             });
@@ -1874,6 +1889,7 @@ translations.ko.luthierData = [
                     const modal = document.getElementById('luthier-modal');
                     modal.classList.remove('hidden');
                     document.body.style.overflow = 'hidden';
+		    history.pushState({ modalOpen: true }, '');
                     setTimeout(() => {
                         modal.classList.remove('opacity-0');
                         modal.querySelector('.modal-content').classList.remove('scale-95');
@@ -2082,8 +2098,14 @@ translations.ko.luthierData = [
             }
 
             function hideModal() {
+                const modal = document.getElementById('luthier-modal');
                 modal.classList.add('opacity-0');
-                modal.querySelector('.modal-content').classList.add('scale-95');
+                
+                // 👉 만약 히스토리에 모달 기록이 남아있다면 한 칸 뒤로 돌려줍니다.
+                if (history.state && history.state.modalOpen) {
+                    history.back();
+                }
+
                 setTimeout(() => {
                     modal.classList.add('hidden');
                     document.body.style.overflow = '';
