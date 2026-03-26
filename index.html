@@ -1787,7 +1787,7 @@ translations.ko.luthierData = [
                 return table;
             }
  
-// --- Research 화면 렌더링 ---
+// --- Research 화면 렌더링 (모바일 깨짐 방지 버전) ---
         function renderResearch() {
             const researchGrid = document.getElementById('research-grid');
             const filterContainer = document.getElementById('research-filters');
@@ -1796,10 +1796,11 @@ translations.ko.luthierData = [
             const t = translations[currentLang];
             filterContainer.innerHTML = '';
             
+            // 카테고리 필터 버튼 (모바일에서 버튼이 너무 커지지 않게 조정)
             researchCategories.forEach(cat => {
                 const btn = document.createElement('button');
                 const isActive = currentResearchCategory === cat.id;
-                btn.className = `px-3 py-1 text-sm rounded-full font-semibold transition-colors border ${isActive ? 'bg-slate-800 text-white border-slate-800' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-100'}`;
+                btn.className = `px-3 py-1.5 text-xs sm:text-sm rounded-full font-semibold transition-colors border mb-1 ${isActive ? 'bg-slate-800 text-white border-slate-800' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-100'}`;
                 btn.textContent = t[cat.key] || cat.id;
                 btn.onclick = () => {
                     currentResearchCategory = cat.id;
@@ -1812,11 +1813,6 @@ translations.ko.luthierData = [
 
             if (!isResearchDataLoaded) {
                 researchGrid.innerHTML = '<p class="text-slate-500 col-span-full font-bold animate-pulse">데이터를 불러오는 중입니다...</p>';
-                return;
-            }
-
-            if (researchArticles.length === 0) {
-                researchGrid.innerHTML = '<p class="text-slate-500 col-span-full">등록된 소논문이 없습니다.</p>';
                 return;
             }
 
@@ -1844,14 +1840,15 @@ translations.ko.luthierData = [
                 if (!title) return;
 
                 const card = document.createElement('div');
-                card.className = 'border border-slate-200 rounded-lg p-6 hover:shadow-md transition-shadow bg-white flex flex-col cursor-pointer group relative overflow-hidden';
+                // (수정) break-words 추가 및 패딩 조절로 텍스트 탈출 방지
+                card.className = 'border border-slate-200 rounded-lg p-5 sm:p-6 hover:shadow-md transition-shadow bg-white flex flex-col cursor-pointer group relative overflow-hidden break-words w-full';
                 card.innerHTML = `
-                    <div class="flex justify-between items-start mb-3 gap-2">
-                        <span class="text-xs font-bold px-2 py-1 bg-slate-100 text-slate-600 rounded whitespace-nowrap flex-shrink-0">${catName.toUpperCase()}</span>
-                        <span class="text-sm text-slate-400 font-mono text-right break-words">${date}</span>
+                    <div class="flex flex-wrap justify-between items-start mb-3 gap-2">
+                        <span class="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded uppercase whitespace-nowrap">${catName}</span>
+                        <span class="text-xs text-slate-400 font-mono">${date}</span>
                     </div>
-                    <h3 class="text-lg sm:text-xl font-bold text-slate-800 mb-3 group-hover:text-sky-700 transition-colors break-words">${title}</h3>
-                    <p class="text-slate-600 mb-4 flex-grow leading-relaxed text-sm break-words line-clamp-3">${excerpt}</p>
+                    <h3 class="text-lg sm:text-xl font-bold text-slate-800 mb-3 group-hover:text-sky-700 transition-colors leading-tight break-all">${title}</h3>
+                    <p class="text-slate-600 mb-4 flex-grow leading-relaxed text-sm line-clamp-3 overflow-hidden">${excerpt}</p>
                     <div class="mt-auto pt-4 border-t border-slate-100">
                         <span class="text-sky-700 font-semibold text-sm flex items-center group-hover:text-sky-900 transition-colors">
                             ${t.readMoreBtn} <span class="ml-2">→</span>
@@ -1860,19 +1857,18 @@ translations.ko.luthierData = [
                 `;
                 
                 card.onclick = () => {
+                    const openNewTabTxt = currentLang === 'ko' ? '새 창에서 열기' : (currentLang === 'de' ? 'In neuem Tab öffnen' : 'Open in New Tab');
                     document.getElementById('modal-title').textContent = title;
                     
-                    // 현재 선택된 언어에 맞춰 버튼 텍스트 자동 변경
-                    const openNewTabTxt = currentLang === 'ko' ? '새 창에서 크게 보기 ↗' : (currentLang === 'de' ? 'In neuem Tab öffnen ↗' : 'Open in New Tab ↗');
-                    
+                    // (수정) 모달 내부 레이아웃 최적화: 버튼 가로 꽉 차게 & iframe 높이 확보
                     document.getElementById('modal-body').innerHTML = `
-                        <div class="flex justify-end mb-3">
-                            <a href="${docLink}" target="_blank" class="px-4 py-2 bg-sky-700 text-white text-sm font-bold rounded-md hover:bg-sky-800 transition shadow">
-                                ${openNewTabTxt}
+                        <div class="flex flex-col space-y-4">
+                            <a href="${docLink}" target="_blank" class="w-full sm:w-auto text-center px-4 py-3 bg-sky-700 text-white text-sm font-bold rounded-md hover:bg-sky-800 transition shadow-sm">
+                                ${openNewTabTxt} ↗
                             </a>
-                        </div>
-                        <div class="w-full h-[65vh] sm:h-[75vh] bg-slate-100 rounded flex items-center justify-center border border-slate-200 overflow-hidden">
-                            <iframe src="${docLink}" class="w-full h-full border-0" title="${title}"></iframe>
+                            <div class="w-full h-[60vh] sm:h-[75vh] bg-slate-100 rounded-lg border border-slate-200 overflow-hidden">
+                                <iframe src="${docLink}" class="w-full h-full border-0" title="${title}"></iframe>
+                            </div>
                         </div>
                     `;
                     const modal = document.getElementById('luthier-modal');
@@ -1883,7 +1879,9 @@ translations.ko.luthierData = [
                         modal.querySelector('.modal-content').classList.remove('scale-95');
                     }, 10);
                 };
-
+                researchGrid.appendChild(card);
+            });
+        }
 			function renderSpecSheet() {
                 const t = translations[currentLang];
                 const specData = t.specData;
