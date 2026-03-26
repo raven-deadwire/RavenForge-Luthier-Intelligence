@@ -1861,8 +1861,17 @@ translations.ko.luthierData = [
                 
                 card.onclick = () => {
                     document.getElementById('modal-title').textContent = title;
+                    
+                    // 현재 선택된 언어에 맞춰 버튼 텍스트 자동 변경
+                    const openNewTabTxt = currentLang === 'ko' ? '새 창에서 크게 보기 ↗' : (currentLang === 'de' ? 'In neuem Tab öffnen ↗' : 'Open in New Tab ↗');
+                    
                     document.getElementById('modal-body').innerHTML = `
-                        <div class="w-full h-[80vh] sm:h-[75vh] bg-white flex items-center justify-center -mx-6 -mb-6">
+                        <div class="flex justify-end mb-3">
+                            <a href="${docLink}" target="_blank" class="px-4 py-2 bg-sky-700 text-white text-sm font-bold rounded-md hover:bg-sky-800 transition shadow">
+                                ${openNewTabTxt}
+                            </a>
+                        </div>
+                        <div class="w-full h-[65vh] sm:h-[75vh] bg-slate-100 rounded flex items-center justify-center border border-slate-200 overflow-hidden">
                             <iframe src="${docLink}" class="w-full h-full border-0" title="${title}"></iframe>
                         </div>
                     `;
@@ -1874,9 +1883,6 @@ translations.ko.luthierData = [
                         modal.querySelector('.modal-content').classList.remove('scale-95');
                     }, 10);
                 };
-                researchGrid.appendChild(card);
-            });
-        }
 
 			function renderSpecSheet() {
                 const t = translations[currentLang];
