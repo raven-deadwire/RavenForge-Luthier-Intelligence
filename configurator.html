@@ -440,17 +440,14 @@
           title: 'Hardware - Machine Head',
           options: [
             { id: 'gotoh_707', label: 'Gotoh GB707', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'gotoh_640', label: 'Gotoh GB640', spec: '', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } },
-            { id: 'gotoh_510m9', label: 'Gotoh GRL510M-9', spec: '', prices: { EDDA: 60, EMBLA: 60, ASKR: 60 } },
-            { id: 'gotoh_510m12', label: 'Gotoh GRL510M-12', spec: '', prices: { EDDA: 70, EMBLA: 70, ASKR: 70 } },
-            { id: 'hipshot_ul_12', label: 'Hipshot Ultralite 1/2" Y-key', spec: '', prices: { EDDA: 120, EMBLA: 120, ASKR: 120 } },
+            { id: 'gotoh_350', label: 'Gotoh GB350', spec: '', prices: { EDDA: null, EMBLA: 70, ASKR: 70 } },
+            { id: 'gotoh_528', label: 'Gotoh GB528', spec: '', prices: { EDDA: 100, EMBLA: null, ASKR: null } },
             { id: 'hipshot_ul_38', label: 'Hipshot Ultralite 3/8" Y-key', spec: '', prices: { EDDA: 120, EMBLA: 120, ASKR: 120 } },
-            { id: 'hipshot_ul_12_xt', label: 'Hipshot Ultralite 1/2" with Xtender', spec: '', prices: { EDDA: 250, EMBLA: 250, ASKR: 250 } },
             { id: 'hipshot_ul_38_xt', label: 'Hipshot Ultralite 3/8" with Xtender', spec: '', prices: { EDDA: 250, EMBLA: 250, ASKR: 250 } },
-            { id: 'schaller_bm', label: 'Schaller BM Scahller Style', spec: '', prices: { EDDA: 250, EMBLA: 250, ASKR: 250 } },
+            { id: 'schaller_bm', label: 'Schaller BM Scahller Style', spec: '', prices: { EDDA: 150, EMBLA: null, ASKR: null } },
             { id: 'schaller_bm_lt', label: 'Schaller BM Light', spec: '', prices: { EDDA: 250, EMBLA: 250, ASKR: 250 } },
-            { id: 'schaller_m4_90', label: 'Schaller M4 90', spec: '', prices: { EDDA: 250, EMBLA: 250, ASKR: 250 } },
-            { id: 'schaller_m4_180', label: 'Schaller M4 180', spec: '', prices: { EDDA: 250, EMBLA: 250, ASKR: 250 } }
+            { id: 'schaller_m4_splitted', label: 'Schaller M4 90 (Splitted)', spec: '', prices: { EDDA: 220, EMBLA: 220, ASKR: 220 } },
+            { id: 'schaller_m4_locking', label: 'Schaller M4 90 (Locking)', spec: '', prices: { EDDA: 250, EMBLA: 250, ASKR: 250 } }
           ]
         },
         {
@@ -458,11 +455,11 @@
           title: 'Onborad EQ',
           options: [
             { id: 'passive', label: 'passive', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: null }, isStandard: ['EDDA'] },
-            { id: 'nfp', label: 'Lusithand Double NFP MKII', spec: '', prices: { EDDA: 340, EMBLA: 340, ASKR: 340 } },
+            { id: 'nfp', label: 'Lusithand Double NFP MKII', spec: '', prices: { EDDA: 340, EMBLA: null, ASKR: 340 } recModels: ['EDDA'] },
             { id: 'fishman', label: 'Fishman Fluence 3 band (*only for Fishman Fluence pickup)', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
-            { id: 'delano', label: 'Delano Sonar 3 band', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA'] },
+            { id: 'underhill', label: 'Underhill Cali Dub', spec: '', prices: { EDDA: null, EMBLA: 340, ASKR: null }, recModels: ['EMBLA'] },
             { id: 'glockenklang', label: 'Glockenklang 3 band', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 210 } },
-            { id: 'zuta', label: 'Zuta Bass Core', spec: '', prices: { EDDA: null, EMBLA: 160, ASKR: null }, recModels: ['EMBLA'] },
+            { id: 'zuta', label: 'Zuta Bass Core', spec: '', prices: { EDDA: null, EMBLA: 160, ASKR: null }, isStandard: ['EMBLA'] },
             { id: 'noll', label: 'Noll TCM-4XM', spec: '', prices: { EDDA: null, EMBLA: 250, ASKR: null } },
             { id: 'darkglass', label: 'Darkglass Tone Capsule 3 band', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 165 } },
             { id: 'lhz', label: 'LHZ HAZ clone 3 band', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 270 } },
