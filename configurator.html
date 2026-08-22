@@ -594,7 +594,7 @@
         return true;
       };
 
-      // 개별 옵션 표시 여부 판별
+// 개별 옵션 표시 여부 판별
       const isOptionVisible = (categoryId, optionId, modelId, currentSelections) => {
         // 1. Hardware Bridge 룰
         if (categoryId === 'hardware_bridge') {
@@ -605,11 +605,16 @@
           if (modelId === 'EMBLA') {
             if (optionId.startsWith('kahler_')) return false;
           }
-          // [추가 조건] ASKR 모델 & 멀티스케일 선택 시 특정 브릿지 3개만 허용
+          // [수정됨] ASKR 모델 & 멀티스케일 선택 시 특정 브릿지 4개만 허용 ('payson' 추가)
           if (modelId === 'ASKR' && currentSelections['scale'] === 'multi') {
-            const allowedAskrMultiBridges = ['ets_custom', 'hipshot_lock', 'babicz_solo'];
+            const allowedAskrMultiBridges = ['ets_custom', 'hipshot_lock', 'babicz_solo', 'payson'];
             if (!allowedAskrMultiBridges.includes(optionId)) return false;
           }
+          // [추가됨] payson 브릿지는 멀티스케일이 아닐 경우 무조건 숨김
+          if (optionId === 'payson' && currentSelections['scale'] !== 'multi') {
+            return false;
+          }
+          
           if (optionId === 'kahler_2400' && currentSelections['scale'] === 'multi') return false;
         }
 
@@ -725,20 +730,27 @@
         return `+ €${price}`;
       };
 
-      const handleOptionChange = (categoryId, optionId) => {
+const handleOptionChange = (categoryId, optionId) => {
         setSelections(prev => {
           const nextSelections = { ...prev, [categoryId]: optionId };
 
-          // [Bug Fix & Update] Automatically select the default ETS Custom bridge
-          // if the current bridge is no longer available when changing to multiscale
-          if (categoryId === 'scale' && optionId === 'multi') {
-            if (selectedModel === 'ASKR') {
-              const allowedAskrMulti = ['ets_custom', 'hipshot_lock', 'babicz_solo'];
-              if (!allowedAskrMulti.includes(nextSelections['hardware_bridge'])) {
+          // [수정됨] 스케일 변경 시 브릿지 강제 조정 로직
+          if (categoryId === 'scale') {
+            if (optionId === 'multi') {
+              if (selectedModel === 'ASKR') {
+                // payson 추가
+                const allowedAskrMulti = ['ets_custom', 'hipshot_lock', 'babicz_solo', 'payson'];
+                if (!allowedAskrMulti.includes(nextSelections['hardware_bridge'])) {
+                  nextSelections['hardware_bridge'] = 'ets_custom';
+                }
+              } else if (nextSelections['hardware_bridge'] === 'kahler_2400') {
                 nextSelections['hardware_bridge'] = 'ets_custom';
               }
-            } else if (nextSelections['hardware_bridge'] === 'kahler_2400') {
-              nextSelections['hardware_bridge'] = 'ets_custom';
+            } else {
+              // [추가됨] 멀티스케일에서 다른 스케일로 바꿨는데 브릿지가 payson으로 남아있다면 기본값으로 리셋
+              if (nextSelections['hardware_bridge'] === 'payson') {
+                nextSelections['hardware_bridge'] = 'ets_custom';
+              }
             }
           }
 
