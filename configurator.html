@@ -596,41 +596,44 @@
 
 // 개별 옵션 표시 여부 판별
       const isOptionVisible = (categoryId, optionId, modelId, currentSelections) => {
-        // 1. Hardware Bridge 룰
-        if (categoryId === 'hardware_bridge') {
-          if (modelId === 'EDDA') {
-            const allowedEddaBridges = ['ets_custom', 'gotoh_404BO', 'hipshot_b', 'babicz_top'];
-            if (!allowedEddaBridges.includes(optionId)) return false;
-          }
-          if (modelId === 'EMBLA') {
-            if (optionId.startsWith('kahler_')) return false;
-          }
-          // [수정됨] ASKR 모델 & 멀티스케일 선택 시 특정 브릿지 4개만 허용 ('payson' 추가)
-          if (modelId === 'ASKR' && currentSelections['scale'] === 'multi') {
-            const allowedAskrMultiBridges = ['ets_custom', 'hipshot_lock', 'babicz_solo', 'payson'];
-            if (!allowedAskrMultiBridges.includes(optionId)) return false;
-          }
-          // [추가됨] payson 브릿지는 멀티스케일이 아닐 경우 무조건 숨김
-          if (optionId === 'payson' && currentSelections['scale'] !== 'multi') {
-            return false;
-          }
-          // 수정 2: ASKR 모델 & 35인치 스케일 선택 시 특정 브릿지 숨김 추가
-          if (modelId === 'ASKR' && currentSelections['scale'] === '35') {
-            const hiddenAskr35Bridges = ['hipshot_lock', 'babicz_solo'];
-            if (hiddenAskr35Bridges.includes(optionId)) return false;
-          }
-          
-          if (optionId === 'kahler_2400' && currentSelections['scale'] === 'multi') return false;
-        }
+  // 1. Hardware Bridge 룰
+  if (categoryId === 'hardware_bridge') {
+    if (modelId === 'EDDA') {
+      const allowedEddaBridges = ['ets_custom', 'gotoh_404BO', 'hipshot_b', 'babicz_top'];
+      if (!allowedEddaBridges.includes(optionId)) return false;
+    }
+    if (modelId === 'EMBLA') {
+      if (optionId.startsWith('kahler_')) return false;
+    }
+    // ASKR 모델 & 멀티스케일 선택 시 특정 브릿지 4개만 허용
+    if (modelId === 'ASKR' && currentSelections['scale'] === 'multi') {
+      const allowedAskrMultiBridges = ['ets_custom', 'hipshot_lock', 'babicz_solo', 'payson'];
+      if (!allowedAskrMultiBridges.includes(optionId)) return false;
+    }
+    // payson 브릿지는 멀티스케일이 아닐 경우 무조건 숨김
+    if (optionId === 'payson' && currentSelections['scale'] !== 'multi') {
+      return false;
+    }
+    // ASKR 모델 & 35인치 스케일 선택 시 특정 브릿지 숨김
+    if (modelId === 'ASKR' && currentSelections['scale'] === '35') {
+      const hiddenAskr35Bridges = ['hipshot_lock', 'babicz_solo'];
+      if (hiddenAskr35Bridges.includes(optionId)) return false;
+    }
+    
+    if (optionId === 'kahler_2400' && currentSelections['scale'] === 'multi') return false;
+  }
 
-        // 2. [추가 조건] 3 pickup 옵션 선택 시 Fishman 프리앰프 & 픽업 숨김
-        if (currentSelections['finger_ramp'] === 'ramp_3pickup') {
-          if (categoryId === 'electronics' && optionId === 'fishman') return false;
-          if (categoryId === 'pickups' && optionId === 'fishman') return false;
-        }
+  // 2. 3 pickup 옵션 선택 시 특정 프리앰프 & 픽업 숨김
+  if (currentSelections['finger_ramp'] === 'ramp_3pickup') {
+    if (categoryId === 'electronics' && optionId === 'fishman') return false;
+    if (categoryId === 'pickups' && optionId === 'fishman') return false;
+    
+    // [추가된 부분] 3픽업 선택 시 Delano Xtender HE (delano_oval) 픽업 노출 숨김
+    if (categoryId === 'pickups' && optionId === 'delano_oval') return false;
+  }
 
-        return true;
-      };
+  return true;
+};
 
       const getDefaultSelections = (modelId) => {
         const defaults = {};
