@@ -152,9 +152,9 @@
           id: 'fretboard',
           title: 'Fretboard',
           options: [
-            { id: 'rosewood', label: 'rosewood', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA'] },
-            { id: 'ebony', label: 'ebony', spec: '', prices: { EDDA: 50, EMBLA: 50, ASKR: 0 }, isStandard: ['ASKR'], recModels: ['ASKR'] },
-            { id: 'wenge', label: 'wenge', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: 0 }, isStandard: ['EMBLA'], recModels: ['EMBLA'] },
+            { id: 'rosewood', label: 'rosewood', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA'], recModels: ['EMBLA'] },
+            { id: 'ebony', label: 'ebony', spec: '', prices: { EDDA: 50, EMBLA: 50, ASKR: 50 }, recModels: ['ASKR'] },
+            { id: 'wenge', label: 'wenge', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: 0 }, isStandard: ['EMBLA', 'ASKR'] },
             { id: 'others', label: 'others (exotic wood)', spec: '(* It will take at least extra one year to stabilize the blank)', prices: { EDDA: null, EMBLA: 'request', ASKR: 'request' } }
           ]
         },
