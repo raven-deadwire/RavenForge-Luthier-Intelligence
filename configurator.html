@@ -630,6 +630,11 @@
     
     // [추가된 부분] 3픽업 선택 시 Delano Xtender HE (delano_oval) 픽업 노출 숨김
     if (categoryId === 'pickups' && optionId === 'delano_oval') return false;
+}
+
+  // 3. [추가된 부분] EDDA 모델에서는 3 pickup 옵션 노출 숨김
+  if (categoryId === 'finger_ramp' && optionId === 'ramp_3pickup') {
+    if (modelId === 'EDDA') return false;
   }
 
   return true;
