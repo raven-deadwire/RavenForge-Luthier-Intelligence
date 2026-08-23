@@ -459,7 +459,7 @@
           id: 'pickups',
           title: 'Pickups',
           options: [
-            { id: 'nova_mm', label: 'Nova Omnia MM', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: null }, isStandard: ['EDDA'] },
+            { id: 'nova_mm', label: 'Nova Omnia MM', spec: '', prices: { EDDA: 0, EMBLA: null, ASKR: null }, isStandard: ['EDDA'] },
             { id: 'nova_custom', label: 'Nova Omnia Custom', spec: '(*recommended)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } },
             { id: 'delano_sbc', label: 'Delano SBC HE/S-4', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: 350 }, isStandard: ['EMBLA'] },
             { id: 'delano_oval', label: 'Delano Xtender HE', spec: '', prices: { EDDA: null, EMBLA: 350, ASKR: null } },
@@ -599,7 +599,7 @@
         // 1. Hardware Bridge 룰
         if (categoryId === 'hardware_bridge') {
           if (modelId === 'EDDA') {
-            const allowedEddaBridges = ['ets_custom', 'hipshot_b', 'babicz_top'];
+            const allowedEddaBridges = ['ets_custom', 'gotoh_404BO', 'hipshot_b', 'babicz_top'];
             if (!allowedEddaBridges.includes(optionId)) return false;
           }
           if (modelId === 'EMBLA') {
@@ -613,6 +613,11 @@
           // [추가됨] payson 브릿지는 멀티스케일이 아닐 경우 무조건 숨김
           if (optionId === 'payson' && currentSelections['scale'] !== 'multi') {
             return false;
+          }
+          // 수정 2: ASKR 모델 & 35인치 스케일 선택 시 특정 브릿지 숨김 추가
+          if (modelId === 'ASKR' && currentSelections['scale'] === '35') {
+            const hiddenAskr35Bridges = ['hipshot_lock', 'babicz_solo'];
+            if (hiddenAskr35Bridges.includes(optionId)) return false;
           }
           
           if (optionId === 'kahler_2400' && currentSelections['scale'] === 'multi') return false;
@@ -753,7 +758,17 @@ const handleOptionChange = (categoryId, optionId) => {
               }
             }
           }
+// 2. 3 pickup 옵션 선택 시 특정 옵션들 숨김
+  if (currentSelections['finger_ramp'] === 'ramp_3pickup') {
+    if (categoryId === 'electronics' && optionId === 'fishman') return false;
+    if (categoryId === 'pickups' && optionId === 'fishman') return false;
+    
+    // [추가된 부분] 3픽업 선택 시 Delano Xtender HE 픽업 숨김
+    if (categoryId === 'pickups' && optionId === 'delano_oval') return false;
+  }
 
+  return true;
+};
           // [Update] EMG TWX 또는 Fishman 선택 시 Select Coil Switch 숨김 및 값 초기화
           if ((categoryId === 'pickups' && (optionId === 'emg' || optionId === 'fishman')) ||
               (categoryId === 'electronics' && optionId === 'fishman')) {
@@ -779,6 +794,20 @@ const handleOptionChange = (categoryId, optionId) => {
                 nextSelections['electronics'] = fallback.id;
               }
             }
+            // [수정된 부분] fishman 뿐만 아니라 delano_oval일 때도 처리
+  if (nextSelections['pickups'] === 'fishman' || nextSelections['pickups'] === 'delano_oval') {
+    const puCategory = configData.categories.find(c => c.id === 'pickups');
+    const fallback = puCategory.options.find(opt => 
+      opt.id !== 'fishman' && 
+      opt.id !== 'delano_oval' && // delano_oval도 제외하고 폴백 찾기
+      opt.prices[selectedModel] !== undefined && 
+      opt.prices[selectedModel] !== null
+    );
+    if (fallback) {
+      nextSelections['pickups'] = fallback.id;
+    }
+  }
+}
             if (nextSelections['pickups'] === 'fishman') {
               const puCategory = configData.categories.find(c => c.id === 'pickups');
               const fallback = puCategory.options.find(opt => 
