@@ -339,8 +339,7 @@
           ]
         },
         {
-{
-  id: 'top_wood_selection',
+          id: 'top_wood_selection',
   title: 'Top Wood Selection',
   dependsOn: { top_type: ['veneer', 'cap'] },
   options: [
@@ -436,8 +435,8 @@
       prices: { veneer: 'request', cap: 'request' },
       availableFor: ['EDDA', 'EMBLA', 'ASKR']
     }
-  ]
-}
+   ]
+        },
         {
           id: 'color_top',
           title: 'Finish Color - Top',
@@ -667,6 +666,17 @@
 
 // 개별 옵션 표시 여부 판별
       const isOptionVisible = (categoryId, optionId, modelId, currentSelections) => {
+
+  // 모델별 옵션 노출 제한
+  const category = configData.categories.find(c => c.id === categoryId);
+  const option = category?.options.find(o => o.id === optionId);
+
+  if (
+    option?.availableFor &&
+    !option.availableFor.includes(modelId)
+  ) {
+    return false;
+  }
   // 1. Hardware Bridge 룰
   if (categoryId === 'hardware_bridge') {
     if (modelId === 'EDDA') {
@@ -720,12 +730,32 @@
           });
 
           if (!stdOption) {
-            stdOption = category.options.find(opt => {
-              if (category.id === 'top_wood_selection') return true;
-              const hasPrice = opt.prices[modelId] !== undefined && opt.prices[modelId] !== null;
-              return hasPrice && isOptionVisible(category.id, opt.id, modelId, defaults);
-            });
-          }
+  stdOption = category.options.find(opt => {
+
+    if (category.id === 'top_wood_selection') {
+      return isOptionVisible(
+        category.id,
+        opt.id,
+        modelId,
+        defaults
+      );
+    }
+
+    const hasPrice =
+      opt.prices[modelId] !== undefined &&
+      opt.prices[modelId] !== null;
+
+    return (
+      hasPrice &&
+      isOptionVisible(
+        category.id,
+        opt.id,
+        modelId,
+        defaults
+      )
+    );
+  });
+}
           if (stdOption) {
             defaults[category.id] = stdOption.id;
           }
@@ -1053,13 +1083,29 @@ const handleOptionChange = (categoryId, optionId) => {
                         .filter(cat => stepConfig.find(s => s.step === currentStep).categories.includes(cat.id))
                         .filter(cat => isCategoryVisible(cat, selections))
                         .map(category => {
-                          const availableOptions = category.options.filter(
-                            opt => {
-                              if (category.id === 'top_wood_selection') return true;
-                              if (!isOptionVisible(category.id, opt.id, selectedModel, selections)) return false;
-                              return opt.prices[selectedModel] !== undefined && opt.prices[selectedModel] !== null;
-                            }
-                          );
+                          const availableOptions = category.options.filter(opt => {
+
+  if (
+    !isOptionVisible(
+      category.id,
+      opt.id,
+      selectedModel,
+      selections
+    )
+  ) {
+    return false;
+  }
+
+  // Top Wood는 가격표가 모델명이 아니라 veneer / cap 기준
+  if (category.id === 'top_wood_selection') {
+    return true;
+  }
+
+  return (
+    opt.prices[selectedModel] !== undefined &&
+    opt.prices[selectedModel] !== null
+  );
+});
 
                           return (
                             <div key={category.id} className="bg-white rounded-xl border-2 border-slate-200 overflow-hidden shadow-sm">
