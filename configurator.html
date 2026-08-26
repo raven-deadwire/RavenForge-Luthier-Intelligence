@@ -291,8 +291,11 @@
           dependsOn: { body_construction: ['1pc_solid', '1pc_chambered'] },
           options: [
             { id: 'ash', label: 'ash', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
+            { id: 'jindai_ash', label: 'jindai ash', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 'request' } },
             { id: 'alder', label: 'alder', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: null }, isStandard: ['EDDA']  },
-            { id: 'elm', label: 'elm', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA'] },
+            { id: 'zelkova', label: 'zelkova', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA'] },
+            { id: 'elm', label: 'elm', spec: '', prices: { EDDA: null, EMBLA: 100, ASKR: null } },
+            { id: 'jindai_elm', label: 'jindai elm', spec: '', prices: { EDDA: null, EMBLA: 'request', ASKR: null } },
             { id: 'maple', label: 'maple', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 } },
             { id: 'limba', label: 'limba', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: null } },
             { id: 'red_toon', label: 'red toon', spec: '', prices: { EDDA: 0, EMBLA: null, ASKR: 0 } },
@@ -306,8 +309,9 @@
           options: [
             { id: 'core_ash', label: 'ash', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
             { id: 'core_alder', label: 'alder', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: null }, isStandard: ['EDDA'] },
-            { id: 'core_elm', label: 'elm', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA'] },
-            { id: 'core_maple', label: 'maple', spec: '', prices: { EDDA: 0, EMBLA: null, ASKR: 0 } }
+            { id: 'core_elm', label: 'elm', spec: '', prices: { EDDA: null, EMBLA: 100, ASKR: null }, isStandard: ['EMBLA'] },
+            { id: 'core_zelkova', label: 'zelkova', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null } },
+            { id: 'core_maple', label: 'maple', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
           ]
         },
         {
@@ -317,10 +321,11 @@
           options: [
             { id: 'wing_ash', label: 'ash', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
             { id: 'wing_alder', label: 'alder', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA'] },
-            { id: 'wing_elm', label: 'elm', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA'] },
-            { id: 'wing_maple', label: 'maple', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 } },
-            { id: 'wing_limba', label: 'limba', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: null } },
-            { id: 'wing_red_toon', label: 'red toon', spec: '', prices: { EDDA: 0, EMBLA: null, ASKR: null } },
+            { id: 'wing_zelkova', label: 'zelkova', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA'] },
+            { id: 'wing_elm', label: 'elm', spec: '', prices: { EDDA: null, EMBLA: 100, ASKR: null } },
+            { id: 'wing_maple', label: 'maple', spec: '(* weight-selected, but chambered recommended)', prices: { EDDA: null, EMBLA: null, ASKR: 100 } },
+            { id: 'wing_limba', label: 'limba', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
+            { id: 'wing_red_toon', label: 'red toon', spec: '', prices: { EDDA: 0, EMBLA: null, ASKR: 0 } },
             { id: 'wing_others', label: 'others', spec: '', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
         },
@@ -328,28 +333,111 @@
           id: 'top_type',
           title: 'Top Type',
           options: [
-            { id: 'none', label: 'none', spec: 'same with core wood', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            {id: 'none', label: 'standard / matching top', spec: 'matching core wood on 3-piece construction', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
             { id: 'veneer', label: 'veneer', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
             { id: 'cap', label: 'cap', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
           ]
         },
         {
-          id: 'top_wood_selection',
-          title: 'Top Wood Selection',
-          dependsOn: { top_type: ['veneer', 'cap'] },
-          options: [
-            { id: 'flame_maple', label: 'flame maple', prices: { veneer: 50, cap: 250 } },
-            { id: 'quilted_maple', label: 'quilted maple', prices: { veneer: 50, cap: 250 } },
-            { id: 'spalted_maple', label: 'spalted maple', prices: { veneer: 50, cap: 250 } },
-            { id: 'figured_ash', label: 'figured ash', prices: { veneer: 50, cap: 250 } },
-            { id: 'wenge', label: 'wenge', prices: { veneer: 50, cap: 200 } },
-            { id: 'walnut', label: 'walnut', prices: { veneer: 50, cap: 200 } },
-            { id: 'ziricote', label: 'ziricote', prices: { veneer: 50, cap: 200 } },
-            { id: 'elm_burl', label: 'elm burl', prices: { veneer: 100, cap: 300 } },
-            { id: 'maple_burl', label: 'maple burl', prices: { veneer: 100, cap: 300 } },
-            { id: 'buckeye_burl', label: 'buckeye burl', prices: { veneer: 300, cap: 500 } }
-          ]
-        },
+{
+  id: 'top_wood_selection',
+  title: 'Top Wood Selection',
+  dependsOn: { top_type: ['veneer', 'cap'] },
+  options: [
+    {
+      id: 'flame_maple',
+      label: 'flame maple',
+      prices: { veneer: 50, cap: 250 },
+      availableFor: ['EDDA', 'EMBLA', 'ASKR']
+    },
+    {
+      id: 'quilted_maple',
+      label: 'quilted maple',
+      prices: { veneer: 50, cap: 250 },
+      availableFor: ['EDDA', 'EMBLA', 'ASKR']
+    },
+    {
+      id: 'spalted_maple',
+      label: 'spalted maple',
+      prices: { veneer: 50, cap: 'request' },
+      availableFor: ['EDDA']
+    },
+    {
+      id: 'birdseye_maple',
+      label: 'birdseye maple',
+      prices: { veneer: 50, cap: 'request' },
+      availableFor: ['EDDA', 'ASKR']
+    },
+
+    // EMBLA / ASKR 계열
+    {
+      id: 'figured_ash',
+      label: 'figured ash',
+      prices: { veneer: 50, cap: 'request' },
+      availableFor: ['EMBLA', 'ASKR']
+    },
+    {
+      id: 'figured_elm',
+      label: 'figured elm',
+      prices: { veneer: 50, cap: 'request' },
+      availableFor: ['EMBLA']
+    },
+
+    // Dark / natural
+    {
+      id: 'wenge',
+      label: 'wenge',
+      prices: { veneer: 50, cap: 200 },
+      availableFor: ['ASKR']
+    },
+    {
+      id: 'walnut',
+      label: 'walnut',
+      prices: { veneer: 50, cap: 200 },
+      availableFor: ['EDDA', 'EMBLA']
+    },
+    {
+      id: 'black_limba',
+      label: 'black limba',
+      prices: { veneer: 50, cap: 200 },
+      availableFor: ['EDDA']
+    },
+    {
+      id: 'ziricote',
+      label: 'ziricote',
+      prices: { veneer: 50, cap: 200 },
+      availableFor: ['EDDA', 'ASKR']
+    },
+
+    // Burl
+    {
+      id: 'elm_burl',
+      label: 'elm burl',
+      prices: { veneer: 100, cap: 'request' },
+      availableFor: ['EMBLA']
+    },
+    {
+      id: 'maple_burl',
+      label: 'maple burl',
+      prices: { veneer: 100, cap: 'request' },
+      availableFor: ['EDDA']
+    },
+    {
+      id: 'buckeye_burl',
+      label: 'buckeye burl',
+      prices: { veneer: 300, cap: 'request' },
+      availableFor: ['EDDA', 'ASKR']
+    },
+
+    {
+      id: 'top_others',
+      label: 'others',
+      spec: '',
+      prices: { veneer: 'request', cap: 'request' },
+      availableFor: ['EDDA', 'EMBLA', 'ASKR']
+    }
+  ]
+}
         {
           id: 'color_top',
           title: 'Finish Color - Top',
