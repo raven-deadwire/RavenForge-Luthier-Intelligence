@@ -854,6 +854,27 @@ const handleOptionChange = (categoryId, optionId) => {
   setSelections(prev => {
     const nextSelections = { ...prev, [categoryId]: optionId };
 
+    // [새로 추가된 로직] 과야칸 너트 <-> 프렛리스 양방향 강제 연동
+    if (categoryId === 'nut_material') {
+      if (optionId === 'nut_guayacan') {
+        // 과야칸 너트 선택 시 자동으로 프렛리스 선택
+        nextSelections['fret_type'] = 'fretless';
+      } else if (prev['fret_type'] === 'fretless') {
+        // 프렛리스 상태에서 과야칸이 아닌 다른 너트로 바꾸면 24프렛으로 원복
+        nextSelections['fret_type'] = 'fret_24';
+      }
+    }
+
+    if (categoryId === 'fret_type') {
+      if (optionId === 'fretless') {
+        // 프렛리스 선택 시 자동으로 과야칸 너트 선택
+        nextSelections['nut_material'] = 'nut_guayacan';
+      } else if (prev['nut_material'] === 'nut_guayacan') {
+        // 프렛리스를 해제하고 24프렛으로 돌아가면 너트도 기본인 브라스(brass)로 원복
+        nextSelections['nut_material'] = 'nut_brass';
+      }
+    }
+
     // [수정됨] 스케일 변경 시 브릿지 강제 조정 로직
     if (categoryId === 'scale') {
       if (optionId === 'multi') {
