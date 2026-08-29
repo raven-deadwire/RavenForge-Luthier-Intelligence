@@ -94,7 +94,7 @@
     const configData = {
       models: [
         { id: 'EDDA', name: 'EDDA', basePrice: 2000, desc: 'Classic & Punchy' },
-        { id: 'EMBLA', name: 'EMBLA', basePrice: 2350, desc: 'Modern & Versatile' },
+        { id: 'EMBLA', name: 'EMBLA', basePrice: 2450, desc: 'Modern & Versatile' },
         { id: 'ASKR', name: 'ASKR', basePrice: 2650, desc: 'Premium & Aggressive' },
       ],
       categories: [
@@ -340,11 +340,12 @@
           title: 'Body Wood',
           dependsOn: { body_construction: ['1pc_solid', '1pc_chambered'] },
           options: [
-            { id: 'ash', label: 'ash', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
+            { id: 'ash', label: 'hard ash', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
+            { id: 'swampash', label: 'swamp ash', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 100 } },
             { id: 'jindai_ash', label: 'jindai ash', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 'request' } },
             { id: 'alder', label: 'alder', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: null }, isStandard: ['EDDA']  },
-            { id: 'zelkova', label: 'zelkova', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA'] },
-            { id: 'elm', label: 'elm', spec: '', prices: { EDDA: null, EMBLA: 100, ASKR: null } },
+            { id: 'zelkova', label: 'zelkova', spec: '', prices: { EDDA: null, EMBLA: -100, ASKR: null }},
+            { id: 'elm', label: 'elm', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA']  },
             { id: 'jindai_elm', label: 'jindai elm', spec: '', prices: { EDDA: null, EMBLA: 'request', ASKR: null } },
             { id: 'maple', label: 'maple', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 } },
             { id: 'limba', label: 'limba', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: null } },
@@ -360,8 +361,8 @@
             { id: 'core_ash', label: 'hard ash', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
             { id: 'core_swampash', label: 'swamp ash', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 100 } },
             { id: 'core_alder', label: 'alder', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: null }, isStandard: ['EDDA'] },
-            { id: 'core_zelkova', label: 'zelkova', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA'] },
-            { id: 'core_elm', label: 'elm', spec: '', prices: { EDDA: null, EMBLA: 100, ASKR: null }},            
+            { id: 'core_zelkova', label: 'zelkova', spec: '', prices: { EDDA: null, EMBLA: -100, ASKR: null }},
+            { id: 'core_elm', label: 'elm', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA'] },            
             { id: 'core_maple', label: 'maple', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
           ]
         },
@@ -373,8 +374,8 @@
             { id: 'wing_ash', label: 'ash', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
             { id: 'wing_swampash', label: 'swamp ash', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 100 } },
             { id: 'wing_alder', label: 'alder', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA'] },
-            { id: 'wing_zelkova', label: 'zelkova', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA'] },
-            { id: 'wing_elm', label: 'elm', spec: '', prices: { EDDA: null, EMBLA: 100, ASKR: null } },
+            { id: 'wing_zelkova', label: 'zelkova', spec: '', prices: { EDDA: null, EMBLA: -100, ASKR: null } },
+            { id: 'wing_elm', label: 'elm', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA'] },
             { id: 'wing_maple', label: 'maple', spec: '(* weight-selected, but chambered recommended)', prices: { EDDA: null, EMBLA: null, ASKR: 100 } },
             { id: 'wing_limba', label: 'limba', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
             { id: 'wing_red_toon', label: 'red toon', spec: '', prices: { EDDA: 0, EMBLA: null, ASKR: 0 } },
