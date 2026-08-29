@@ -77,12 +77,16 @@
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
     );
 
-    // Special Options Data List
+    // Instrument-specific options
     const specialOptionsList = [
       { id: 'kill_switch', label: 'Kill switch', spec: '', price: 0 },
       { id: 'locking_jack', label: 'Locking output jack', spec: '', price: 0 },
       { id: 'dual_tone', label: 'Dual tone capacity', price: 100, spec: '', requiresPassive: true },
-      { id: 'delano_buffer', label: 'Delano xpure buffer (* with 9V battery)', spec: '(* with 9V battery)', price: 100, requiresPassive: true },
+      { id: 'delano_buffer', label: 'Delano xPure buffer', spec: '(* passive electronics only; dedicated 9V power included)', price: 100, requiresPassive: true },
+    ];
+
+    // Accessories are kept separate from instrument specifications
+    const accessoriesList = [
       { id: 'leather_strap', label: 'Leather strap with Schaller strap lock', spec: '', price: 300 },
       { id: 'flight_case', label: 'Castle flight hard case', spec: '', price: 400 },
     ];
@@ -95,6 +99,14 @@
       ],
       categories: [
         {
+          id: 'orientation',
+          title: 'Orientation',
+          options: [
+            { id: 'right_hand', label: 'Right-handed', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'left_hand', label: 'Left-handed', spec: '(* mirrored routing, dedicated templates and setup)', prices: { EDDA: 200, EMBLA: 235, ASKR: 265 } }
+          ]
+        },
+        {
           id: 'strings',
           title: 'Strings',
           options: [
@@ -102,6 +114,16 @@
             { id: '5_strings', label: '5 strings', spec: 'BEADG or EADGC', prices: { EDDA: null, EMBLA: 0, ASKR: 0 }, isStandard: ['EMBLA', 'ASKR'] },
             { id: '6_strings', label: '6 strings', spec: 'BEADGC or F#BEADG', prices: { EDDA: null, EMBLA: 200, ASKR: 200 } },
             { id: '7_strings', label: '7+ strings', spec: 'customized tuning', prices: { EDDA: null, EMBLA: 'request', ASKR: 'request' } }
+          ]
+        },
+        {
+          id: 'factory_setup',
+          title: 'Factory Setup',
+          options: [
+            { id: 'setup_std', label: 'Standard Setup', spec: '(standard tuning / standard gauge / medium action)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'setup_low', label: 'Low Action Setup', spec: '(standard tuning / standard gauge / low action)', prices: { EDDA: 50, EMBLA: 50, ASKR: 50 } },
+            { id: 'setup_down', label: 'Down-Tuning Setup', spec: '(drop/down tuning / heavier gauge / medium action - specify tuning in Special Instructions)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } },
+            { id: 'setup_custom', label: 'Custom Setup', spec: '(* tuning / string gauge / action to be confirmed before build)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
         },
         {
@@ -116,11 +138,19 @@
           ]
         },
         {
-          id: 'nut_size',
-          title: 'Nut Size',
+          id: 'string_spacing',
+          title: 'String Spacing',
           options: [
-            { id: 'nut_std', label: 'standard', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'nut_custom', label: 'custom', spec: '', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
+            { id: 'spacing_std', label: 'Standard Spacing', spec: '(model and string-count specific)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'spacing_custom', label: 'Custom Spacing', spec: '(* specify nut and/or bridge spacing in Special Instructions)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
+          ]
+        },
+        {
+          id: 'nut_size',
+          title: 'Nut Width',
+          options: [
+            { id: 'nut_std', label: 'Standard Width', spec: '(model and string-count specific)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'nut_custom', label: 'Custom Width', spec: '(* specify target width in Special Instructions)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
         },
         {
@@ -131,7 +161,7 @@
             { id: 'nut_horn', label: 'black buffalo horn', spec: '', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
             { id: 'nut_brass', label: 'brass', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
             { id: 'nut_guayacan', label: 'guayacan (lignum vitae)', spec: '(* only for fretless)', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
-            { id: 'nut_guide', label: 'string guide with retainer', spec: '', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
+            { id: 'nut_guide', label: 'zero-fret string retainer', spec: '(* no separate nut; the retainer guides the strings at the zero fret)', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
             { id: 'nut_others', label: 'others', spec: '', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
         },
@@ -146,6 +176,26 @@
             { id: '9pc', label: '9 piece laminated', spec: 'ash, purpleheart, maple, wenge, bloodwood or walnut', prices: { EDDA: null, EMBLA: 450, ASKR: 450 } },
             { id: '13pc', label: '13 piece laminated', spec: 'ash, purpleheart, bubinga, maple, wenge, bloodwood or walnut', prices: { EDDA: null, EMBLA: 600, ASKR: 600 } },
             { id: 'extra', label: 'choose your own laminating combination', spec: '(* It will take at least extra one year to stabilize the neck blank)', prices: { EDDA: null, EMBLA: 'request', ASKR: 'request' } }
+          ]
+        },
+
+        {
+          id: 'neck_profile',
+          title: 'Neck Profile',
+          options: [
+            // EDDA: traditional boutique family. Keep the carve centered and progressively fuller toward the heel.
+            { id: 'profile_edda_vintage', label: 'RavenForge Vintage Boutique', spec: '(balanced rounded carve with moderate depth and even shoulders; substantial without feeling bulky)', prices: { EDDA: 0, EMBLA: null, ASKR: null }, isStandard: ['EDDA'] },
+            { id: 'profile_vintage_slender', label: 'Slender Vintage', spec: '(shallower center depth with softened shoulders; quick in the lower positions while retaining a traditional rounded feel)', prices: { EDDA: 50, EMBLA: null, ASKR: null } },
+            { id: 'profile_vintage_full', label: 'Full Vintage', spec: '(deeper center section with firm, rounded shoulders; more palm support and a solid hand-filling feel)', prices: { EDDA: 50, EMBLA: null, ASKR: null } },
+            { id: 'profile_vintage_broad', label: 'Broad Shoulder Vintage', spec: '(moderate-to-full depth with broader shoulder mass and a less tapered hand-carved feel; strongest palm contact of the EDDA profiles)', prices: { EDDA: 50, EMBLA: null, ASKR: null } },
+
+            // EMBLA / ASKR: ergonomic modern family. Shift mass toward the bass side and relieve the treble-side shoulder.
+            { id: 'profile_modern_asym', label: 'RavenForge Modern Asymmetrical', spec: '(moderate asymmetric carve with more support under the thumb side and a relieved treble-side shoulder; slim, neutral and fast)', prices: { EDDA: null, EMBLA: 0, ASKR: 0 }, isStandard: ['EMBLA', 'ASKR'] },
+            { id: 'profile_asym_offset', label: 'Offset Asymmetrical', spec: '(stronger offset of the neck mass toward the bass side; pronounced thumb support with the treble side carved away for reach)', prices: { EDDA: null, EMBLA: 50, ASKR: 50 } },
+            { id: 'profile_asym_slim', label: 'Slim Asymmetrical', spec: '(reduced overall depth and softer shoulders with mild asymmetry; the lightest and quickest-feeling modern carve)', prices: { EDDA: null, EMBLA: 50, ASKR: 50 } },
+            { id: 'profile_flat_c', label: 'Flat C', spec: '(flatter central back with low, restrained shoulders; broad contact surface without much sidewall bulk)', prices: { EDDA: null, EMBLA: 50, ASKR: 50 } },
+            { id: 'profile_medium_c', label: 'Medium C', spec: '(even rounded C with moderate depth and gradual thickening toward the heel; familiar and neutral across playing positions)', prices: { EDDA: null, EMBLA: 50, ASKR: 50 } },
+            { id: 'profile_custom', label: 'Custom Profile', spec: '(* describe the target feel, asymmetry, shoulder shape, or desired 1st / 12th fret thickness in Special Instructions)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
         },
         {
@@ -255,7 +305,7 @@
             { id: 'dot_avalon', label: 'avalon', spec: '', prices: { EDDA: 110, EMBLA: 110, ASKR: 110 } },
             { id: 'dot_mop', label: 'mother of pearl', spec: '', prices: { EDDA: 110, EMBLA: 110, ASKR: 110 } },
             { id: 'dot_bw', label: 'black or white', spec: '', prices: { EDDA: 110, EMBLA: 110, ASKR: 110 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'dot_lum', label: 'luminlay', spec: 'blue or green with black circle line', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
+            { id: 'dot_lum', label: 'luminlay', spec: '(blue or green)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
           ]
         },
         {
@@ -263,8 +313,8 @@
           title: 'Custom Inlay Specification',
           dependsOn: { inlay_type: 'inlay_custom' },
           options: [
-            { id: 'custom_bindrune', label: 'bindrune', spec: 'engrave your own mystical spell', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } },
-            { id: 'custom_others', label: 'others', spec: 'please send us a reference image', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
+            { id: 'custom_bindrune', label: 'bindrune', spec: 'Engrave your own mystical spell', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } },
+            { id: 'custom_others', label: 'others', spec: 'Please send us a reference image', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
         },
         {
@@ -272,7 +322,7 @@
           title: 'Side Dot',
           options: [
             { id: 'sdot_std', label: 'standard (black or white)', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'sdot_lum', label: 'luminlay', spec: 'blue or green', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
+            { id: 'sdot_lum', label: 'luminlay', spec: '(blue or green)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
           ]
         },
         {
@@ -333,115 +383,27 @@
           id: 'top_type',
           title: 'Top Type',
           options: [
-            {id: 'none', label: 'standard / matching top', spec: '(* matching core or wing wood on 3-piece construction)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            {id: 'none', label: 'standard / matching top', spec: 'matching core wood on 3-piece construction', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
             { id: 'veneer', label: 'veneer', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
             { id: 'cap', label: 'cap', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
           ]
         },
+
         {
           id: 'top_wood_selection',
-  title: 'Top Wood Selection',
-  dependsOn: { top_type: ['veneer', 'cap'] },
-  options: [
-    {
-      id: 'flame_maple',
-      label: 'flame maple',
-      prices: { veneer: 50, cap: 250 },
-      availableFor: ['EMBLA', 'ASKR']
-    },
-    {
-      id: 'quilted_maple',
-      label: 'quilted maple',
-      prices: { veneer: 50, cap: 250 },
-      availableFor: ['EMBLA', 'ASKR']
-    },
-    {
-      id: 'spalted_maple',
-      label: 'spalted maple',
-      prices: { veneer: 50, cap: 250 },
-      availableFor: ['EMBLA', 'ASKR']
-    },
-
-    // EMBLA / ASKR 계열
-    {
-      id: 'figured_ash',
-      label: 'figured ash',
-      prices: { veneer: 50, cap: 'request' },
-      availableFor: ['ASKR']
-    },
-    {
-      id: 'figured_elm',
-      label: 'figured elm',
-      prices: { veneer: 50, cap: 'request' },
-      availableFor: ['EMBLA']
-    },
-
-    // Dark / natural
-    {
-      id: 'wenge',
-      label: 'wenge',
-      prices: { veneer: 50, cap: 200 },
-      availableFor: ['EDDA', 'EMBLA', 'ASKR']
-    },
-    {
-      id: 'walnut',
-      label: 'walnut',
-      prices: { veneer: 50, cap: 200 },
-      availableFor: ['EDDA', 'EMBLA', 'ASKR']
-    },
-
-    // Burl
-    {
-      id: 'elm_burl',
-      label: 'elm burl',
-      prices: { veneer: 100, cap: 'request' },
-      availableFor: ['EMBLA']
-    },
-        {
-      id: 'ash_burl',
-      label: 'ash burl',
-      prices: { veneer: 100, cap: 'request' },
-      availableFor: ['ASKR']
-    },
-        {
-      id: 'redwood_burl',
-      label: 'redwood burl',
-      prices: { veneer: 100, cap: 'request' },
-      availableFor: ['EMBLA', 'ASKR']
-    },
-    {
-      id: 'mappa_burl',
-      label: 'mappa burl',
-      prices: { veneer: 100, cap: 'request' },
-      availableFor: ['ASKR']
-    },
-    {
-      id: 'myrtle_burl',
-      label: 'myrtle burl',
-      prices: { veneer: 100, cap: 'request' },
-      availableFor: ['EMBLA']
-    },
-    {
-      id: 'maple_burl',
-      label: 'maple burl',
-      prices: { veneer: 100, cap: 'request' },
-      availableFor: ['EDDA', 'EMBLA', 'ASKR']
-    },
-    {
-      id: 'buckeye_burl',
-      label: 'buckeye burl',
-      prices: { veneer: 300, cap: 'request' },
-      availableFor: ['EMBLA', 'ASKR']
-    },
-
-    {
-      id: 'top_others',
-      label: 'others',
-      spec: '',
-      prices: { veneer: 'request', cap: 'request' },
-      availableFor: ['EDDA', 'EMBLA', 'ASKR']
-    }
-   ]
+          title: 'Top Wood Selection',
+          dependsOn: { top_type: ['veneer', 'cap'] },
+          options: [
+            { id: 'flame_maple', label: 'flame maple', prices: { veneer: 50, cap: 250 }, availableFor: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'quilted_maple', label: 'quilted maple', prices: { veneer: 50, cap: 250 }, availableFor: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'figured_ash', label: 'figured ash', prices: { veneer: 50, cap: 'request' }, availableFor: ['ASKR'] },
+            { id: 'figured_elm', label: 'figured elm', prices: { veneer: 50, cap: 'request' }, availableFor: ['EMBLA'] },
+            { id: 'wenge', label: 'wenge', prices: { veneer: 50, cap: 200 }, availableFor: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'walnut', label: 'walnut', prices: { veneer: 50, cap: 200 }, availableFor: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'maple_burl', label: 'maple burl', prices: { veneer: 100, cap: 'request' }, availableFor: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'buckeye_burl', label: 'buckeye burl', prices: { veneer: 300, cap: 'request' }, availableFor: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'other_burl_exotic', label: 'other burl / exotic top', spec: '(* subject to stock and material suitability)', prices: { veneer: 'request', cap: 'request' }, availableFor: ['EDDA', 'EMBLA', 'ASKR'] }
+          ]
         },
         {
           id: 'color_top',
@@ -502,7 +464,7 @@
             { id: 'babicz_top', label: 'Babicz FCH top mount', spec: '', prices: { EDDA: 150, EMBLA: 150, ASKR: 150 } },
             { id: 'babicz_solo', label: 'Babicz FCH Solorail', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 150 } },
             { id: 'payson', label: 'Payson Multi-Scale Bass Bridge', spec: '(* only for multiscale)', prices: { EDDA: null, EMBLA: null, ASKR: 150 } },
-            { id: 'schaller_3d', label: 'Scahller 3D', spec: '', prices: { EDDA: 250, EMBLA: 250, ASKR: 250 } }
+            { id: 'schaller_3d', label: 'Schaller 3D', spec: '', prices: { EDDA: 250, EMBLA: 250, ASKR: 250 } }
           ]
         },
         {
@@ -515,14 +477,14 @@
             { id: 'hipshot_ul_38', label: 'Hipshot Ultralite 3/8" Y-key', spec: '', prices: { EDDA: 120, EMBLA: 120, ASKR: 120 } },
             { id: 'hipshot_ul_38_xt', label: 'Hipshot Ultralite 3/8" with Xtender', spec: '', prices: { EDDA: 250, EMBLA: null, ASKR: null } },
             { id: 'graphtech', label: 'Graph Tech PRB Ratio', spec: '', prices: { EDDA: null, EMBLA: 150, ASKR: 150 } },
-            { id: 'schaller_bm', label: 'Schaller BM Scahller Style', spec: '', prices: { EDDA: 150, EMBLA: null, ASKR: null } },
+            { id: 'schaller_bm', label: 'Schaller BM Schaller Style', spec: '', prices: { EDDA: 150, EMBLA: null, ASKR: null } },
             { id: 'schaller_bm_lt', label: 'Schaller BM Light', spec: '', prices: { EDDA: 250, EMBLA: 250, ASKR: 250 } },
             { id: 'schaller_m4_locking', label: 'Schaller M4 90 (Locking)', spec: '', prices: { EDDA: null, EMBLA: 250, ASKR: 250 } }
           ]
         },
         {
           id: 'electronics',
-          title: 'Onborad EQ',
+          title: 'Onboard EQ',
           options: [
             { id: 'passive', label: 'passive', spec: '', prices: { EDDA: 0, EMBLA: null, ASKR: null }, isStandard: ['EDDA'] },
             { id: 'nfp', label: 'Lusithand Double NFP MKII', spec: '', prices: { EDDA: 340, EMBLA: null, ASKR: null }, recModels: ['EDDA'] },
@@ -536,6 +498,14 @@
             { id: 'john_east', label: 'John East Uni Pre 5', spec: '', prices: { EDDA: null, EMBLA: 375, ASKR: null }, recModels: ['EMBLA'] },
             { id: 'eq01', label: 'John East ACG EQ-01', spec: '', prices: { EDDA: 400, EMBLA: null, ASKR: null } },
             { id: 'dual_filter', label: 'Nova Dual Filter Custom', spec: '', prices: { EDDA: 'request', EMBLA: null, ASKR: null } }
+          ]
+        },
+        {
+          id: 'pickup_configuration',
+          title: 'Pickup Configuration',
+          options: [
+            { id: 'pickup_2', label: '2 pickups', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'pickup_3', label: '3 pickups', spec: '(* additional switching or push-pull control included as required; separate wood finger ramp unavailable)', prices: { EDDA: null, EMBLA: 300, ASKR: 300 } }
           ]
         },
         {
@@ -556,6 +526,15 @@
           ]
         },
         {
+          id: 'knob',
+          title: 'Control Knobs',
+          options: [
+            { id: 'knob_metal', label: 'Metal Dome', spec: '(Matches hardware color)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'knob_alu', label: 'Custom Aluminum', spec: '', prices: { EDDA: 50, EMBLA: 50, ASKR: 50 } },
+            { id: 'knob_wood', label: 'Wood Matching Knobs', spec: '(Matches top or core wood)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
+          ]
+        },
+        {
           id: 'hardware_color',
           title: 'Hardware Color',
           options: [
@@ -566,11 +545,22 @@
           ]
         },
         {
-          id: 'battery',
-          title: 'Battery',
+          id: 'control_layout',
+          title: 'Control Layout',
           options: [
-            { id: 'bat_9v', label: '9V', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'bat_18v', label: '18V', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
+            { id: 'control_std', label: 'Standard Layout', spec: '(matched to pickup configuration and selected electronics)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'control_2vol', label: '2 × Volume', spec: '(2-pickup configuration only)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
+            { id: 'control_vol_blend', label: 'Volume + Blend', spec: '(2-pickup configuration only)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
+            { id: 'control_custom', label: 'Custom Layout', spec: '(* control count, switch functions and placement to be confirmed)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
+          ]
+        },
+        {
+          id: 'lhz_voltage',
+          title: 'LHZ Supply Voltage',
+          dependsOn: { electronics: 'lhz' },
+          options: [
+            { id: 'lhz_9v', label: '9V — Classic HAZ Response', spec: '(slight peak compression and harmonic bite under aggressive playing)', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
+            { id: 'lhz_18v', label: '18V — High Headroom', spec: '(cleaner, more transparent response with reduced compression)', prices: { EDDA: null, EMBLA: null, ASKR: 0 } }
           ]
         },
         {
@@ -585,21 +575,12 @@
           ]
         },
         {
-          id: 'buffer',
-          title: 'Buffer',
-          dependsOn: { battery: 'bat_9v' },
-          options: [
-            { id: 'buffer_none', label: 'none', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'buffer_delano', label: 'Delano xpure buffer', spec: '(* only for 9V)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
-          ]
-        },
-        {
           id: 'fretboard_extense',
           title: 'Fretboard Extension',
           options: [
             { id: 'extense_none', label: 'none', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'extense_slap', label: 'slap ramp', spec: 'matching with top', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } },
-            { id: 'extense_fretless', label: 'fretless extension', spec: 'matching with fretboard', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
+            { id: 'extense_slap', label: 'slap ramp', spec: '(matching with top)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } },
+            { id: 'extense_fretless', label: 'fretless extension', spec: '(matching with fretboard)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
           ]
         },
         {
@@ -607,8 +588,7 @@
           title: 'Finger Ramp',
           options: [
             { id: 'ramp_none', label: 'none', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'ramp_wood', label: 'wood fingeramp', spec: '(matching with top)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } },
-            { id: 'ramp_3pickup', label: '3 pickup option', spec: '(add another coil tap switch or push-pull knob)', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } }
+            { id: 'ramp_wood', label: 'Wood Finger Ramp', spec: '(matching with top)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
           ]
         }
       ]
@@ -618,17 +598,54 @@
       const [selectedModel, setSelectedModel] = useState('EDDA');
       const [selections, setSelections] = useState({});
       const [specialOptions, setSpecialOptions] = useState([]);
+      const [accessories, setAccessories] = useState([]);
       const [specialInstructions, setSpecialInstructions] = useState('');
       const [currentStep, setCurrentStep] = useState(1);
       const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
       const stepConfig = [
-        { step: 1, title: 'Model & Core', categories: ['strings', 'scale'] },
-        { step: 2, title: 'Neck & Fretboard', categories: ['headstock_angle', 'nut_size', 'nut_material', 'neck', 'fretboard', 'radius', 'fret_type', 'fret_material', 'fret_size', 'fretline', 'fret_side', 'inlay_type', 'inlay_oval_mat', 'inlay_dot_pos', 'inlay_dot_mat', 'inlay_custom_spec', 'side_dot', 'fretboard_extense'] },
+        { step: 1, title: 'Model & Core', categories: ['orientation', 'strings', 'factory_setup', 'scale', 'string_spacing'] },
+        { step: 2, title: 'Neck & Fretboard', categories: ['nut_size', 'nut_material', 'neck', 'neck_profile', 'fretboard', 'radius', 'fret_type', 'fret_material', 'fret_size', 'fretline', 'fret_side', 'inlay_type', 'inlay_oval_mat', 'inlay_dot_pos', 'inlay_dot_mat', 'inlay_custom_spec', 'side_dot', 'fretboard_extense'] },
         { step: 3, title: 'Body & Finish', categories: ['body_construction', 'body_wood_single', 'body_core_wood', 'body_wing_wood', 'top_type', 'top_wood_selection', 'color_top', 'color_back_side', 'extra_finish_burst', 'extra_finish_flake', 'color_headstock'] },
         { step: 4, title: 'Hardware', categories: ['hardware_bridge', 'hardware_machine_head', 'knob', 'hardware_color', 'finger_ramp'] },
-        { step: 5, title: 'Electronics', categories: ['pickups', 'electronics', 'battery', 'coil_switch', 'buffer'] }
+        { step: 5, title: 'Electronics', categories: ['pickup_configuration', 'pickups', 'electronics', 'lhz_voltage', 'control_layout', 'coil_switch'] }
       ];
+
+
+      // Power supply is determined automatically from the selected electronics.
+      const getAutomaticPowerSupply = (currentSelections, currentSpecialOptions = []) => {
+        const eq = currentSelections?.electronics;
+        const hasXpureBuffer = currentSpecialOptions.includes('delano_buffer');
+
+        if (!eq || eq === 'passive') {
+          if (hasXpureBuffer) {
+            return { label: '9V', spec: 'Delano xPure buffer power' };
+          }
+          return { label: 'No battery', spec: 'fully passive signal path' };
+        }
+
+        // High-headroom house configuration where the selected preamp explicitly supports 18V.
+        if (eq === 'darkglass') {
+          return { label: '18V', spec: 'high-headroom configuration for Darkglass Tone Capsule' };
+        }
+        if (eq === 'glockenklang') {
+          return { label: '18V', spec: 'high-headroom configuration for Glockenklang onboard preamp' };
+        }
+
+        // LHZ supports both 9V and 18V; voltage is a tonal preference rather than a compatibility requirement.
+        if (eq === 'lhz') {
+          if (currentSelections?.lhz_voltage === 'lhz_18v') {
+            return { label: '18V', spec: 'LHZ high-headroom / transparent response' };
+          }
+          return { label: '9V', spec: 'LHZ classic HAZ-style response' };
+        }
+
+        if (eq === 'fishman') {
+          return { label: '9V', spec: 'standard Fishman Fluence bass supply' };
+        }
+
+        return { label: '9V', spec: 'standard active-electronics supply' };
+      };
 
       const handleNext = () => {
         if (currentStep < 5) setCurrentStep(prev => prev + 1);
@@ -654,16 +671,6 @@
 
         // [추가 조건] EMG TWX 또는 Fishman 선택 시 Select Coil Switch 비활성화(숨김)
         if (category.id === 'coil_switch' && (currentSelections['pickups'] === 'emg' || currentSelections['pickups'] === 'fishman' || currentSelections['electronics'] === 'fishman')) {
-          return false;
-        }
-
-        // [추가 조건] Onboard EQ가 passive 일 때 Battery 섹션 비활성화(숨김)
-        if (category.id === 'battery' && currentSelections['electronics'] === 'passive') {
-          return false;
-        }
-
-        // [추가 조건] Onboard EQ가 passive 이거나 Fishman 제품일 때 라디오 버튼 형태의 Buffer 섹션 비활성화(숨김)
-        if (category.id === 'buffer' && (currentSelections['electronics'] === 'passive' || currentSelections['pickups'] === 'fishman' || currentSelections['electronics'] === 'fishman')) {
           return false;
         }
 
@@ -710,18 +717,29 @@
     if (optionId === 'kahler_2400' && currentSelections['scale'] === 'multi') return false;
   }
 
-  // 2. 3 pickup 옵션 선택 시 특정 프리앰프 & 픽업 숨김
-  if (currentSelections['finger_ramp'] === 'ramp_3pickup') {
+  // 2. EDDA는 3 pickup 옵션 미지원
+  if (categoryId === 'pickup_configuration' && optionId === 'pickup_3' && modelId === 'EDDA') {
+    return false;
+  }
+
+  // Fretless는 guayacan nut만 허용
+  if (categoryId === 'nut_material' && currentSelections['fret_type'] === 'fretless' && optionId !== 'nut_guayacan') {
+    return false;
+  }
+
+  // 3. 3 pickup 옵션 선택 시 특정 프리앰프, 픽업 및 별도 핑거램프 제한
+  if (currentSelections['pickup_configuration'] === 'pickup_3') {
     if (categoryId === 'electronics' && optionId === 'fishman') return false;
     if (categoryId === 'pickups' && optionId === 'fishman') return false;
     
-    // [추가된 부분] 3픽업 선택 시 Delano Xtender HE (delano_oval) 픽업 노출 숨김
+    // 3픽업 선택 시 Delano Xtender HE (delano_oval) 픽업 노출 숨김
     if (categoryId === 'pickups' && optionId === 'delano_oval') return false;
-}
 
-  // 3. [추가된 부분] EDDA 모델에서는 3 pickup 옵션 노출 숨김
-  if (categoryId === 'finger_ramp' && optionId === 'ramp_3pickup') {
-    if (modelId === 'EDDA') return false;
+    // 3픽업에서는 가운데 픽업이 사실상 램프 역할을 하므로 별도 우드 핑거램프 비활성화
+    if (categoryId === 'finger_ramp' && optionId === 'ramp_wood') return false;
+
+    // 2픽업 전용 control layout은 3픽업에서 숨김
+    if (categoryId === 'control_layout' && ['control_2vol', 'control_vol_blend'].includes(optionId)) return false;
   }
 
   return true;
@@ -820,13 +838,36 @@
           }
         });
 
-        // 2. Special Options 요약 추가
+        // Automatic power supply summary
+        const powerSupply = getAutomaticPowerSupply(selections, specialOptions);
+        breakdown.push({
+          categoryTitle: 'Power Supply',
+          label: `${powerSupply.label} (${powerSupply.spec})`,
+          price: 0,
+          isStandard: true
+        });
+
+        // 2. Instrument Options 요약 추가
         specialOptions.forEach(optId => {
           const opt = specialOptionsList.find(o => o.id === optId);
           // passive 의존성 조건 확인
           if (opt && (!opt.requiresPassive || selections['electronics'] === 'passive')) {
              breakdown.push({
-               categoryTitle: 'Special Options',
+               categoryTitle: 'Instrument Options',
+               label: opt.spec ? `${opt.label} ${opt.spec}` : opt.label,
+               price: opt.price,
+               isStandard: false
+             });
+             extraCosts += opt.price;
+          }
+        });
+
+        // 3. Accessories 요약 추가
+        accessories.forEach(optId => {
+          const opt = accessoriesList.find(o => o.id === optId);
+          if (opt) {
+             breakdown.push({
+               categoryTitle: 'Accessories',
                label: opt.label,
                price: opt.price,
                isStandard: false
@@ -842,38 +883,18 @@
           requiresRequest,
           breakdown
         };
-      }, [selectedModel, selections, specialOptions]);
+      }, [selectedModel, selections, specialOptions, accessories]);
 
       const formatPrice = (price, isStd) => {
         if (isStd || price === 0) return 'Included';
         if (price === 'request') return 'Price on Request';
+        if (typeof price === 'number' && price < 0) return `- €${Math.abs(price)}`;
         return `+ €${price}`;
       };
 
 const handleOptionChange = (categoryId, optionId) => {
   setSelections(prev => {
     const nextSelections = { ...prev, [categoryId]: optionId };
-
-    // [새로 추가된 로직] 과야칸 너트 <-> 프렛리스 양방향 강제 연동
-    if (categoryId === 'nut_material') {
-      if (optionId === 'nut_guayacan') {
-        // 과야칸 너트 선택 시 자동으로 프렛리스 선택
-        nextSelections['fret_type'] = 'fretless';
-      } else if (prev['fret_type'] === 'fretless') {
-        // 프렛리스 상태에서 과야칸이 아닌 다른 너트로 바꾸면 24프렛으로 원복
-        nextSelections['fret_type'] = 'fret_24';
-      }
-    }
-
-    if (categoryId === 'fret_type') {
-      if (optionId === 'fretless') {
-        // 프렛리스 선택 시 자동으로 과야칸 너트 선택
-        nextSelections['nut_material'] = 'nut_guayacan';
-      } else if (prev['nut_material'] === 'nut_guayacan') {
-        // 프렛리스를 해제하고 24프렛으로 돌아가면 너트도 기본인 브라스(brass)로 원복
-        nextSelections['nut_material'] = 'nut_brass';
-      }
-    }
 
     // [수정됨] 스케일 변경 시 브릿지 강제 조정 로직
     if (categoryId === 'scale') {
@@ -895,19 +916,31 @@ const handleOptionChange = (categoryId, optionId) => {
       }
     }
 
+    // Fretless 선택 시 guayacan nut 자동 적용; fretted로 복귀 시 기본 brass nut으로 복귀
+    if (categoryId === 'fret_type') {
+      if (optionId === 'fretless') {
+        nextSelections['nut_material'] = 'nut_guayacan';
+      } else if (nextSelections['nut_material'] === 'nut_guayacan') {
+        nextSelections['nut_material'] = 'nut_brass';
+      }
+    }
+
     // [Update] EMG TWX 또는 Fishman 선택 시 Select Coil Switch 숨김 및 값 초기화
     if ((categoryId === 'pickups' && (optionId === 'emg' || optionId === 'fishman')) ||
         (categoryId === 'electronics' && optionId === 'fishman')) {
       nextSelections['coil_switch'] = 'coil_none';
     }
 
-    // [Update] Fishman 제품 선택 시 Buffer 값 초기화
-    if (optionId === 'fishman') {
-      nextSelections['buffer'] = 'buffer_none';
-    }
+    // [Update] 3 pickup option 선택 시 충돌 옵션 자동 정리
+    if (categoryId === 'pickup_configuration' && optionId === 'pickup_3') {
+      // 별도 Wood Finger Ramp는 사용할 수 없으므로 None으로 강제 전환
+      nextSelections['finger_ramp'] = 'ramp_none';
 
-    // [Update] 3 pickup option 선택 시 Fishman 옵션이 선택되어 있다면 다른 값으로 폴백
-    if (categoryId === 'finger_ramp' && optionId === 'ramp_3pickup') {
+      // 2픽업 전용 control layout이 남아 있으면 Standard Layout으로 복귀
+      if (['control_2vol', 'control_vol_blend'].includes(nextSelections['control_layout'])) {
+        nextSelections['control_layout'] = 'control_std';
+      }
+
       if (nextSelections['electronics'] === 'fishman') {
         const elCategory = configData.categories.find(c => c.id === 'electronics');
         // 현재 모델에서 사용 가능하고 fishman이 아닌 첫 번째 옵션 탐색
@@ -971,6 +1004,12 @@ const handleOptionChange = (categoryId, optionId) => {
 
       const handleSpecialOptionToggle = (id) => {
         setSpecialOptions(prev => 
+          prev.includes(id) ? prev.filter(opt => opt !== id) : [...prev, id]
+        );
+      };
+
+      const handleAccessoryToggle = (id) => {
+        setAccessories(prev => 
           prev.includes(id) ? prev.filter(opt => opt !== id) : [...prev, id]
         );
       };
@@ -1207,11 +1246,33 @@ const handleOptionChange = (categoryId, optionId) => {
                         })}
                     </div>
                     
+                    {/* Automatic Power Supply (Only visible in Step 5) */}
+                    {currentStep === 5 && (() => {
+                      const powerSupply = getAutomaticPowerSupply(selections, specialOptions);
+                      return (
+                        <div className="bg-white rounded-xl border-2 border-slate-200 overflow-hidden shadow-sm mt-6">
+                          <div className="bg-slate-100 px-6 py-4 border-b-2 border-slate-200">
+                            <h3 className="text-lg font-bold text-slate-800">Power Supply <span className="text-xs font-medium text-slate-400 uppercase ml-1">Automatic</span></h3>
+                          </div>
+                          <div className="p-6">
+                            <div className="flex items-start justify-between p-4 border-2 border-red-200 bg-red-50 rounded-lg">
+                              <div>
+                                <div className="text-sm font-bold text-red-700">{powerSupply.label}</div>
+                                <div className="text-xs text-slate-500 mt-1">{powerSupply.spec}</div>
+                              </div>
+                              <span className="text-xs font-medium text-slate-400">Included</span>
+                            </div>
+                            <p className="text-xs text-slate-500 mt-3">Power configuration is assigned automatically to match the selected pickups, onboard electronics and buffer options.</p>
+                          </div>
+                        </div>
+                      );
+                    })()}
+
                     {/* Special Options Area (Only visible in Step 5) */}
                     {currentStep === 5 && (
                       <div className="bg-white rounded-xl border-2 border-slate-200 overflow-hidden shadow-sm mt-6">
                         <div className="bg-slate-100 px-6 py-4 border-b-2 border-slate-200">
-                          <h3 className="text-lg font-bold text-slate-800">Special Options</h3>
+                          <h3 className="text-lg font-bold text-slate-800">Instrument Options</h3>
                         </div>
                         <div className="p-6">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
@@ -1236,9 +1297,14 @@ const handleOptionChange = (categoryId, optionId) => {
                                   </div>
                                   <div className="ml-3 flex-1">
                                     <div className="flex justify-between items-start">
-                                      <span className={`text-sm font-semibold ${isSelected ? 'text-red-700' : 'text-slate-700'}`}>
-                                        {opt.label}
-                                      </span>
+                                      <div>
+                                        <span className={`text-sm font-semibold ${isSelected ? 'text-red-700' : 'text-slate-700'}`}>
+                                          {opt.label}
+                                        </span>
+                                        {opt.spec && (
+                                          <p className="text-xs text-slate-500 mt-1"><FormattedText text={opt.spec} /></p>
+                                        )}
+                                      </div>
                                       <span className={`text-xs font-medium ml-2 shrink-0 ${opt.price === 0 ? 'text-slate-400' : 'text-red-700'}`}>
                                         {opt.price === 0 ? 'Included' : `+ €${opt.price}`}
                                       </span>
@@ -1248,11 +1314,45 @@ const handleOptionChange = (categoryId, optionId) => {
                               );
                             })}
                           </div>
+
+                          {/* Accessories */}
+                          <div className="border-t-2 border-slate-100 pt-6 mt-2">
+                            <h4 className="text-sm font-bold text-slate-700 mb-3 uppercase tracking-wide">Accessories</h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+                              {accessoriesList.map(opt => {
+                                const isSelected = accessories.includes(opt.id);
+                                return (
+                                  <label 
+                                    key={opt.id}
+                                    className={`flex items-start p-4 border-2 rounded-lg cursor-pointer transition-colors duration-200 ${isSelected ? 'border-red-700 bg-red-50 shadow-sm' : 'border-slate-200 hover:border-slate-400 hover:bg-slate-50'}`}
+                                  >
+                                    <div className="flex items-center h-5">
+                                      <input 
+                                        type="checkbox"
+                                        checked={isSelected}
+                                        onChange={() => handleAccessoryToggle(opt.id)}
+                                        className="w-4 h-4 text-red-700 border-slate-300 rounded focus:ring-red-700"
+                                      />
+                                    </div>
+                                    <div className="ml-3 flex-1">
+                                      <div className="flex justify-between items-start">
+                                        <div>
+                                          <span className={`text-sm font-semibold ${isSelected ? 'text-red-700' : 'text-slate-700'}`}>{opt.label}</span>
+                                          {opt.spec && <p className="text-xs text-slate-500 mt-1"><FormattedText text={opt.spec} /></p>}
+                                        </div>
+                                        <span className="text-xs font-medium ml-2 shrink-0 text-red-700">+ €{opt.price}</span>
+                                      </div>
+                                    </div>
+                                  </label>
+                                );
+                              })}
+                            </div>
+                          </div>
                           
                           {/* Special Instructions */}
                           <div className="border-t-2 border-slate-100 pt-6">
                             <label className="block text-sm font-semibold text-slate-700 mb-2">Special Instructions</label>
-                            <p className="text-xs text-slate-500 mb-3">Tell us what you need and we'll do our best to accommodate your request. We'll confirm and adjust pricing after your order is placed, or you can contact us in advance to confirm.</p>
+                            <p className="text-xs text-slate-500 mb-3">Use this field for custom setup details, dimensions, tuning, control requests, or other build notes. On-request items and final pricing will be confirmed before the build is accepted.</p>
                             <textarea
                               value={specialInstructions}
                               onChange={(e) => setSpecialInstructions(e.target.value)}
@@ -1329,7 +1429,7 @@ const handleOptionChange = (categoryId, optionId) => {
                             <div className="shrink-0 text-slate-900 font-medium text-right text-xs">
                               {item.isStandard || item.price === 0 ? <span className="text-slate-300">-</span> : 
                                item.price === 'request' ? <span className="text-yellow-600 font-bold">Req</span> : 
-                               `€${item.price}`}
+                               item.price < 0 ? `-€${Math.abs(item.price)}` : `€${item.price}`}
                             </div>
                           </div>
                         ))}
@@ -1357,7 +1457,7 @@ const handleOptionChange = (categoryId, optionId) => {
                       {summary.requiresRequest && (
                         <div className="flex items-start mt-4 p-3 bg-yellow-50 rounded-lg text-yellow-800 text-[12px] leading-relaxed border border-yellow-200">
                           <div className="mr-2 mt-0.5 shrink-0"><InfoIcon /></div>
-                          <p>Some options are selected as <strong>'On Request'</strong>, so the total price may vary upon ordering.</p>
+                          <p>Some options are selected as <strong>'On Request'</strong>, so the final price will be confirmed before the build is accepted.</p>
                         </div>
                       )}
                     </div>
@@ -1368,7 +1468,7 @@ const handleOptionChange = (categoryId, optionId) => {
                         onClick={handleRequestQuote}
                         disabled={isGeneratingPDF}
                       >
-                        {isGeneratingPDF ? 'Generating PDF...' : 'Request Quote (Save PDF)'}
+                        {isGeneratingPDF ? 'Generating PDF...' : 'Save Quote PDF'}
                       </button>
                       <p className="text-center text-[11px] text-slate-400 mt-4 leading-tight">
                         * The above amount is the RRP (Recommended Retail Price),<br/>and does not include customs duties and shipping fees.
