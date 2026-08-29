@@ -219,10 +219,10 @@
           id: 'inlay_type',
           title: 'Inlay',
           options: [
-            { id: 'inlay_none', label: 'none', spec: '(feel the grain of wood)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'inlay_none', label: 'none', spec: 'feel the grain of wood', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
             { id: 'inlay_oval', label: 'oval', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
             { id: 'inlay_dot', label: 'dot', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
-            { id: 'inlay_custom', label: 'custom', spec: '(your special rune words)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
+            { id: 'inlay_custom', label: 'custom', spec: 'your special rune words', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
         },
         {
@@ -255,7 +255,7 @@
             { id: 'dot_avalon', label: 'avalon', spec: '', prices: { EDDA: 110, EMBLA: 110, ASKR: 110 } },
             { id: 'dot_mop', label: 'mother of pearl', spec: '', prices: { EDDA: 110, EMBLA: 110, ASKR: 110 } },
             { id: 'dot_bw', label: 'black or white', spec: '', prices: { EDDA: 110, EMBLA: 110, ASKR: 110 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'dot_lum', label: 'luminlay', spec: '(blue or green)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
+            { id: 'dot_lum', label: 'luminlay', spec: 'blue or green with black circle line', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
           ]
         },
         {
@@ -263,8 +263,8 @@
           title: 'Custom Inlay Specification',
           dependsOn: { inlay_type: 'inlay_custom' },
           options: [
-            { id: 'custom_bindrune', label: 'bindrune', spec: 'Engrave your own mystical spell', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } },
-            { id: 'custom_others', label: 'others', spec: 'Please send us a reference image', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
+            { id: 'custom_bindrune', label: 'bindrune', spec: 'engrave your own mystical spell', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } },
+            { id: 'custom_others', label: 'others', spec: 'please send us a reference image', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
         },
         {
@@ -272,7 +272,7 @@
           title: 'Side Dot',
           options: [
             { id: 'sdot_std', label: 'standard (black or white)', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'sdot_lum', label: 'luminlay', spec: '(blue or green)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
+            { id: 'sdot_lum', label: 'luminlay', spec: 'blue or green', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
           ]
         },
         {
@@ -333,7 +333,7 @@
           id: 'top_type',
           title: 'Top Type',
           options: [
-            {id: 'none', label: 'standard / matching top', spec: 'matching core wood on 3-piece construction', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            {id: 'none', label: 'standard / matching top', spec: '(* matching core or wing wood on 3-piece construction)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
             { id: 'veneer', label: 'veneer', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
             { id: 'cap', label: 'cap', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
           ]
@@ -598,8 +598,8 @@
           title: 'Fretboard Extension',
           options: [
             { id: 'extense_none', label: 'none', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'extense_slap', label: 'slap ramp', spec: '(matching with top)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } },
-            { id: 'extense_fretless', label: 'fretless extension', spec: '(matching with fretboard)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
+            { id: 'extense_slap', label: 'slap ramp', spec: 'matching with top', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } },
+            { id: 'extense_fretless', label: 'fretless extension', spec: 'matching with fretboard', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
           ]
         },
         {
