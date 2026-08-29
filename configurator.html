@@ -722,11 +722,24 @@
     return false;
   }
 
-  // Fishman Fluence 픽업 또는 전용 EQ 선택 시 3 pickup 옵션 자체 비노출
+  // Fishman Fluence 픽업/전용 EQ 또는 Underhill 선택 시 3 pickup 옵션 자체 비노출
   if (
     categoryId === 'pickup_configuration' &&
     optionId === 'pickup_3' &&
-    (currentSelections['pickups'] === 'fishman' || currentSelections['electronics'] === 'fishman')
+    (
+      currentSelections['pickups'] === 'fishman' ||
+      currentSelections['electronics'] === 'fishman' ||
+      currentSelections['electronics'] === 'underhill'
+    )
+  ) {
+    return false;
+  }
+
+  // Fishman Fluence 픽업은 Fishman Fluence 2-band EQ가 선택된 경우에만 노출
+  if (
+    categoryId === 'pickups' &&
+    optionId === 'fishman' &&
+    currentSelections['electronics'] !== 'fishman'
   ) {
     return false;
   }
