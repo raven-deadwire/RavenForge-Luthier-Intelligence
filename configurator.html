@@ -357,10 +357,11 @@
           title: 'Core Wood',
           dependsOn: { body_construction: ['3pc_solid', '3pc_chambered'] },
           options: [
-            { id: 'core_ash', label: 'ash', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
+            { id: 'core_ash', label: 'hard ash', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
+            { id: 'core_swampash', label: 'swamp ash', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 100 } },
             { id: 'core_alder', label: 'alder', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: null }, isStandard: ['EDDA'] },
-            { id: 'core_elm', label: 'elm', spec: '', prices: { EDDA: null, EMBLA: 100, ASKR: null }, isStandard: ['EMBLA'] },
-            { id: 'core_zelkova', label: 'zelkova', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null } },
+            { id: 'core_zelkova', label: 'zelkova', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA'] },
+            { id: 'core_elm', label: 'elm', spec: '', prices: { EDDA: null, EMBLA: 100, ASKR: null }},            
             { id: 'core_maple', label: 'maple', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
           ]
         },
@@ -370,6 +371,7 @@
           dependsOn: { body_construction: ['3pc_solid', '3pc_chambered'] },
           options: [
             { id: 'wing_ash', label: 'ash', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
+            { id: 'wing_swampash', label: 'swamp ash', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 100 } },
             { id: 'wing_alder', label: 'alder', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA'] },
             { id: 'wing_zelkova', label: 'zelkova', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA'] },
             { id: 'wing_elm', label: 'elm', spec: '', prices: { EDDA: null, EMBLA: 100, ASKR: null } },
