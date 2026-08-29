@@ -102,8 +102,8 @@
           id: 'orientation',
           title: 'Orientation',
           options: [
-            { id: 'right_hand', label: 'Right-handed', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'left_hand', label: 'Left-handed', spec: '(* mirrored routing, dedicated templates and setup)', prices: { EDDA: 200, EMBLA: 235, ASKR: 265 } }
+            { id: 'right_hand', label: 'right-handed', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'left_hand', label: 'left-handed', spec: '(* mirrored routing, dedicated templates and setup)', prices: { EDDA: 200, EMBLA: 235, ASKR: 265 } }
           ]
         },
         {
@@ -120,10 +120,10 @@
           id: 'factory_setup',
           title: 'Factory Setup',
           options: [
-            { id: 'setup_std', label: 'Standard Setup', spec: '(standard tuning / standard gauge / medium action)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'setup_low', label: 'Low Action Setup', spec: '(standard tuning / standard gauge / low action)', prices: { EDDA: 50, EMBLA: 50, ASKR: 50 } },
-            { id: 'setup_down', label: 'Down-Tuning Setup', spec: '(drop/down tuning / heavier gauge / medium action - specify tuning in Special Instructions)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } },
-            { id: 'setup_custom', label: 'Custom Setup', spec: '(* tuning / string gauge / action to be confirmed before build)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
+            { id: 'setup_std', label: 'standard', spec: 'standard tuning / standard gauge / medium action', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'setup_low', label: 'low action', spec: 'standard tuning / standard gauge / low action', prices: { EDDA: 50, EMBLA: 50, ASKR: 50 } },
+            { id: 'setup_down', label: 'down-tuning', spec: 'drop/down tuning / heavier gauge / medium action - specify tuning in special instructions', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } },
+            { id: 'setup_custom', label: 'custom setup', spec: '(* tuning / string gauge / action to be confirmed before build)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
         },
         {
@@ -141,16 +141,16 @@
           id: 'string_spacing',
           title: 'String Spacing',
           options: [
-            { id: 'spacing_std', label: 'Standard Spacing', spec: '(model and string-count specific)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'spacing_custom', label: 'Custom Spacing', spec: '(* specify nut and/or bridge spacing in Special Instructions)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
+            { id: 'spacing_std', label: 'standard', spec: 'model and string-count specific', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'spacing_custom', label: 'custom spacing', spec: '(* specify nut and/or bridge spacing in Special Instructions)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
         },
         {
           id: 'nut_size',
           title: 'Nut Width',
           options: [
-            { id: 'nut_std', label: 'Standard Width', spec: '(model and string-count specific)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'nut_custom', label: 'Custom Width', spec: '(* specify target width in Special Instructions)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
+            { id: 'nut_std', label: 'standard', spec: 'model and string-count specific', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'nut_custom', label: 'custom width', spec: '(* specify target width in Special Instructions)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
         },
         {
@@ -184,18 +184,18 @@
           title: 'Neck Profile',
           options: [
             // EDDA: traditional boutique family. Keep the carve centered and progressively fuller toward the heel.
-            { id: 'profile_edda_vintage', label: 'RavenForge Vintage Boutique', spec: '(balanced rounded carve with moderate depth and even shoulders; substantial without feeling bulky)', prices: { EDDA: 0, EMBLA: null, ASKR: null }, isStandard: ['EDDA'] },
-            { id: 'profile_vintage_slender', label: 'Slender Vintage', spec: '(shallower center depth with softened shoulders; quick in the lower positions while retaining a traditional rounded feel)', prices: { EDDA: 50, EMBLA: null, ASKR: null } },
-            { id: 'profile_vintage_full', label: 'Full Vintage', spec: '(deeper center section with firm, rounded shoulders; more palm support and a solid hand-filling feel)', prices: { EDDA: 50, EMBLA: null, ASKR: null } },
-            { id: 'profile_vintage_broad', label: 'Broad Shoulder Vintage', spec: '(moderate-to-full depth with broader shoulder mass and a less tapered hand-carved feel; strongest palm contact of the EDDA profiles)', prices: { EDDA: 50, EMBLA: null, ASKR: null } },
+            { id: 'profile_edda_vintage', label: 'RavenForge vintage boutique', spec: 'balanced rounded carve with moderate depth and even shoulders; substantial without feeling bulky', prices: { EDDA: 0, EMBLA: null, ASKR: null }, isStandard: ['EDDA'] },
+            { id: 'profile_vintage_slender', label: 'slender vintage', spec: 'shallower center depth with softened shoulders; quick in the lower positions while retaining a traditional rounded feel', prices: { EDDA: 50, EMBLA: null, ASKR: null } },
+            { id: 'profile_vintage_full', label: 'full vintage', spec: 'deeper center section with firm, rounded shoulders; more palm support and a solid hand-filling feel', prices: { EDDA: 50, EMBLA: null, ASKR: null } },
+            { id: 'profile_vintage_broad', label: 'broad shoulder vintage', spec: 'moderate-to-full depth with broader shoulder mass and a less tapered hand-carved feel; strongest palm contact of the EDDA profiles', prices: { EDDA: 50, EMBLA: null, ASKR: null } },
 
             // EMBLA / ASKR: ergonomic modern family. Shift mass toward the bass side and relieve the treble-side shoulder.
-            { id: 'profile_modern_asym', label: 'RavenForge Modern Asymmetrical', spec: '(moderate asymmetric carve with more support under the thumb side and a relieved treble-side shoulder; slim, neutral and fast)', prices: { EDDA: null, EMBLA: 0, ASKR: 0 }, isStandard: ['EMBLA', 'ASKR'] },
-            { id: 'profile_asym_offset', label: 'Offset Asymmetrical', spec: '(stronger offset of the neck mass toward the bass side; pronounced thumb support with the treble side carved away for reach)', prices: { EDDA: null, EMBLA: 50, ASKR: 50 } },
-            { id: 'profile_asym_slim', label: 'Slim Asymmetrical', spec: '(reduced overall depth and softer shoulders with mild asymmetry; the lightest and quickest-feeling modern carve)', prices: { EDDA: null, EMBLA: 50, ASKR: 50 } },
-            { id: 'profile_flat_c', label: 'Flat C', spec: '(flatter central back with low, restrained shoulders; broad contact surface without much sidewall bulk)', prices: { EDDA: null, EMBLA: 50, ASKR: 50 } },
-            { id: 'profile_medium_c', label: 'Medium C', spec: '(even rounded C with moderate depth and gradual thickening toward the heel; familiar and neutral across playing positions)', prices: { EDDA: null, EMBLA: 50, ASKR: 50 } },
-            { id: 'profile_custom', label: 'Custom Profile', spec: '(* describe the target feel, asymmetry, shoulder shape, or desired 1st / 12th fret thickness in Special Instructions)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
+            { id: 'profile_modern_asym', label: 'RavenForge modern asymmetrical', spec: 'moderate asymmetric carve with more support under the thumb side and a relieved treble-side shoulder; slim, neutral and fast', prices: { EDDA: null, EMBLA: 0, ASKR: 0 }, isStandard: ['EMBLA', 'ASKR'] },
+            { id: 'profile_asym_offset', label: 'offset asymmetrical', spec: 'stronger offset of the neck mass toward the bass side; pronounced thumb support with the treble side carved away for reach', prices: { EDDA: null, EMBLA: 50, ASKR: 50 } },
+            { id: 'profile_asym_slim', label: 'slim asymmetrical', spec: 'reduced overall depth and softer shoulders with mild asymmetry; the lightest and quickest-feeling modern carve', prices: { EDDA: null, EMBLA: 50, ASKR: 50 } },
+            { id: 'profile_flat_c', label: 'flat C', spec: 'flatter central back with low, restrained shoulders; broad contact surface without much sidewall bulk', prices: { EDDA: null, EMBLA: 50, ASKR: 50 } },
+            { id: 'profile_medium_c', label: 'medium C', spec: 'even rounded C with moderate depth and gradual thickening toward the heel; familiar and neutral across playing positions', prices: { EDDA: null, EMBLA: 50, ASKR: 50 } },
+            { id: 'profile_custom', label: 'custom profile', spec: '(* describe the target feel, asymmetry, shoulder shape, or desired 1st / 12th fret thickness in Special Instructions)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
         },
         {
@@ -305,7 +305,7 @@
             { id: 'dot_avalon', label: 'avalon', spec: '', prices: { EDDA: 110, EMBLA: 110, ASKR: 110 } },
             { id: 'dot_mop', label: 'mother of pearl', spec: '', prices: { EDDA: 110, EMBLA: 110, ASKR: 110 } },
             { id: 'dot_bw', label: 'black or white', spec: '', prices: { EDDA: 110, EMBLA: 110, ASKR: 110 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'dot_lum', label: 'luminlay', spec: '(blue or green)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
+            { id: 'dot_lum', label: 'luminlay', spec: 'blue or green', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
           ]
         },
         {
@@ -322,7 +322,7 @@
           title: 'Side Dot',
           options: [
             { id: 'sdot_std', label: 'standard (black or white)', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'sdot_lum', label: 'luminlay', spec: '(blue or green)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
+            { id: 'sdot_lum', label: 'luminlay', spec: 'blue or green', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
           ]
         },
         {
@@ -489,7 +489,7 @@
             { id: 'passive', label: 'passive', spec: '', prices: { EDDA: 0, EMBLA: null, ASKR: null }, isStandard: ['EDDA'] },
             { id: 'nfp', label: 'Lusithand Double NFP MKII', spec: '', prices: { EDDA: 340, EMBLA: null, ASKR: null }, recModels: ['EDDA'] },
             { id: 'fishman', label: 'Fishman Fluence 2 band', spec: '(* only for Fishman Fluence pickup)', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
-            { id: 'underhill', label: 'Underhill Cali Dub', spec: '', prices: { EDDA: null, EMBLA: 340, ASKR: null }, recModels: ['EMBLA'] },
+            { id: 'underhill', label: 'Underhill Cali Dub', spec: '(* 2-pickup configuration only)', prices: { EDDA: null, EMBLA: 340, ASKR: null }, recModels: ['EMBLA'] },
             { id: 'glockenklang', label: 'Glockenklang 3 band', spec: '', prices: { EDDA: null, EMBLA: null, ASKR: 210 } },
             { id: 'zuta', label: 'Zuta Bass Core', spec: '', prices: { EDDA: null, EMBLA: 0, ASKR: null }, isStandard: ['EMBLA'] },
             { id: 'noll', label: 'Noll TCM-4XM', spec: '', prices: { EDDA: null, EMBLA: 250, ASKR: null } },
@@ -529,9 +529,8 @@
           id: 'knob',
           title: 'Control Knobs',
           options: [
-            { id: 'knob_metal', label: 'Metal Dome', spec: '(Matches hardware color)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'knob_alu', label: 'Custom Aluminum', spec: '', prices: { EDDA: 50, EMBLA: 50, ASKR: 50 } },
-            { id: 'knob_wood', label: 'Wood Matching Knobs', spec: '(Matches top or core wood)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
+            { id: 'knob_metal', label: 'metal dome', spec: 'matches hardware color', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'knob_wood', label: 'wood matching', spec: 'matches top or core wood', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
           ]
         },
         {
@@ -548,10 +547,8 @@
           id: 'control_layout',
           title: 'Control Layout',
           options: [
-            { id: 'control_std', label: 'Standard Layout', spec: '(matched to pickup configuration and selected electronics)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'control_2vol', label: '2 × Volume', spec: '(2-pickup configuration only)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
-            { id: 'control_vol_blend', label: 'Volume + Blend', spec: '(2-pickup configuration only)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
-            { id: 'control_custom', label: 'Custom Layout', spec: '(* control count, switch functions and placement to be confirmed)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
+            { id: 'control_std', label: 'Standard Layout', spec: 'automatically matched to pickup configuration and selected electronics', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'control_custom', label: 'Custom Layout', spec: '(* control functions, quantity and placement to be confirmed before production)', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
         },
         {
@@ -559,19 +556,19 @@
           title: 'LHZ Supply Voltage',
           dependsOn: { electronics: 'lhz' },
           options: [
-            { id: 'lhz_9v', label: '9V — Classic HAZ Response', spec: '(slight peak compression and harmonic bite under aggressive playing)', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
-            { id: 'lhz_18v', label: '18V — High Headroom', spec: '(cleaner, more transparent response with reduced compression)', prices: { EDDA: null, EMBLA: null, ASKR: 0 } }
+            { id: 'lhz_9v', label: '9V — Classic HAZ Response', spec: 'slight peak compression and harmonic bite under aggressive playing', prices: { EDDA: null, EMBLA: null, ASKR: 0 }, isStandard: ['ASKR'] },
+            { id: 'lhz_18v', label: '18V — High Headroom', spec: 'cleaner, more transparent response with reduced compression', prices: { EDDA: null, EMBLA: null, ASKR: 0 } }
           ]
         },
         {
           id: 'coil_switch',
           title: 'Select Coil Switch',
           options: [
-            { id: 'coil_1_ps', label: '1 × parallel-series', spec: '(operates both front/rear pickups with one switch)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'coil_1_pcts', label: '1 × parallel-coil tap-series', spec: '(operates both front/rear pickups with one switch)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
-            { id: 'coil_2_ps', label: '2 × parallel-series', spec: '(assigned individually per pickup)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
-            { id: 'coil_2_pcts', label: '2 × parallel-coil tap-series', spec: '(assigned individually per pickup)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
-            { id: 'coil_none', label: 'none', spec: '(connected in series by default)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
+            { id: 'coil_1_ps', label: '1 × parallel-series', spec: 'operates both front/rear pickups with one switch', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'coil_1_pcts', label: '1 × parallel-coil tap-series', spec: 'operates both front/rear pickups with one switch', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
+            { id: 'coil_2_ps', label: '2 × parallel-series', spec: 'assigned individually per pickup', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
+            { id: 'coil_2_pcts', label: '2 × parallel-coil tap-series', spec: 'assigned individually per pickup', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
+            { id: 'coil_none', label: 'none', spec: 'connected in series by default', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
           ]
         },
         {
@@ -579,8 +576,8 @@
           title: 'Fretboard Extension',
           options: [
             { id: 'extense_none', label: 'none', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'extense_slap', label: 'slap ramp', spec: '(matching with top)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } },
-            { id: 'extense_fretless', label: 'fretless extension', spec: '(matching with fretboard)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
+            { id: 'extense_slap', label: 'slap ramp', spec: 'matching with top', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } },
+            { id: 'extense_fretless', label: 'fretless extension', spec: 'matching with fretboard', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
           ]
         },
         {
@@ -588,7 +585,7 @@
           title: 'Finger Ramp',
           options: [
             { id: 'ramp_none', label: 'none', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'ramp_wood', label: 'Wood Finger Ramp', spec: '(matching with top)', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
+            { id: 'ramp_wood', label: 'wood finger ramp', spec: 'matching with top', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
           ]
         }
       ]
@@ -729,7 +726,7 @@
 
   // 3. 3 pickup 옵션 선택 시 특정 프리앰프, 픽업 및 별도 핑거램프 제한
   if (currentSelections['pickup_configuration'] === 'pickup_3') {
-    if (categoryId === 'electronics' && optionId === 'fishman') return false;
+    if (categoryId === 'electronics' && (optionId === 'fishman' || optionId === 'underhill')) return false;
     if (categoryId === 'pickups' && optionId === 'fishman') return false;
     
     // 3픽업 선택 시 Delano Xtender HE (delano_oval) 픽업 노출 숨김
@@ -738,8 +735,6 @@
     // 3픽업에서는 가운데 픽업이 사실상 램프 역할을 하므로 별도 우드 핑거램프 비활성화
     if (categoryId === 'finger_ramp' && optionId === 'ramp_wood') return false;
 
-    // 2픽업 전용 control layout은 3픽업에서 숨김
-    if (categoryId === 'control_layout' && ['control_2vol', 'control_vol_blend'].includes(optionId)) return false;
   }
 
   return true;
@@ -936,16 +931,13 @@ const handleOptionChange = (categoryId, optionId) => {
       // 별도 Wood Finger Ramp는 사용할 수 없으므로 None으로 강제 전환
       nextSelections['finger_ramp'] = 'ramp_none';
 
-      // 2픽업 전용 control layout이 남아 있으면 Standard Layout으로 복귀
-      if (['control_2vol', 'control_vol_blend'].includes(nextSelections['control_layout'])) {
-        nextSelections['control_layout'] = 'control_std';
-      }
 
-      if (nextSelections['electronics'] === 'fishman') {
+      if (nextSelections['electronics'] === 'fishman' || nextSelections['electronics'] === 'underhill') {
         const elCategory = configData.categories.find(c => c.id === 'electronics');
-        // 현재 모델에서 사용 가능하고 fishman이 아닌 첫 번째 옵션 탐색
+        // 3픽업과 충돌하는 Fishman / Underhill을 제외한 사용 가능한 프리앰프로 폴백
         const fallback = elCategory.options.find(opt => 
           opt.id !== 'fishman' && 
+          opt.id !== 'underhill' &&
           opt.prices[selectedModel] !== undefined && 
           opt.prices[selectedModel] !== null
         );
@@ -967,6 +959,11 @@ const handleOptionChange = (categoryId, optionId) => {
           nextSelections['pickups'] = fallback.id;
         }
       }
+    }
+
+    // Underhill Cali Dub은 2픽업 전용: 3픽업 상태에서 선택하면 2픽업으로 자동 복귀
+    if (categoryId === 'electronics' && optionId === 'underhill' && nextSelections['pickup_configuration'] === 'pickup_3') {
+      nextSelections['pickup_configuration'] = 'pickup_2';
     }
 
     // [Update] Fishman Fluence 연동 (EQ - 픽업)
