@@ -719,6 +719,15 @@
     return false;
   }
 
+  // Fishman Fluence 픽업 또는 전용 EQ 선택 시 3 pickup 옵션 자체 비노출
+  if (
+    categoryId === 'pickup_configuration' &&
+    optionId === 'pickup_3' &&
+    (currentSelections['pickups'] === 'fishman' || currentSelections['electronics'] === 'fishman')
+  ) {
+    return false;
+  }
+
   // Fretless는 guayacan nut만 허용
   if (categoryId === 'nut_material' && currentSelections['fret_type'] === 'fretless' && optionId !== 'nut_guayacan') {
     return false;
@@ -970,6 +979,7 @@ const handleOptionChange = (categoryId, optionId) => {
     if (categoryId === 'pickups') {
       if (optionId === 'fishman') {
         nextSelections['electronics'] = 'fishman';
+        nextSelections['pickup_configuration'] = 'pickup_2';
       } else if (nextSelections['electronics'] === 'fishman') {
         const elCategory = configData.categories.find(c => c.id === 'electronics');
         const fallback = elCategory.options.find(opt => 
@@ -984,6 +994,7 @@ const handleOptionChange = (categoryId, optionId) => {
     if (categoryId === 'electronics') {
       if (optionId === 'fishman') {
         nextSelections['pickups'] = 'fishman';
+        nextSelections['pickup_configuration'] = 'pickup_2';
       } else if (nextSelections['pickups'] === 'fishman') {
         const puCategory = configData.categories.find(c => c.id === 'pickups');
         const fallback = puCategory.options.find(opt => 
