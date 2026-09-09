@@ -102,8 +102,9 @@
             top: 9rem; 
         }
     </style>
+    <link rel="stylesheet" href="assets/ravenforge-design.css">
 </head>
-<body class="text-slate-800">
+<body class="text-slate-800 rf-site">
 
     <header class="bg-slate-800 text-white shadow-lg sticky top-0 z-40">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -117,7 +118,7 @@
                         <p class="text-xs sm:text-sm text-slate-300 mt-0.5 sm:mt-1" data-lang-key="headerSubtitle"></p>
                     </div>
                 </div>
-                <div class="hidden sm:flex sm:flex-row sm:space-y-0 sm:space-x-2">
+                <div class="rf-languages flex sm:flex-row sm:space-y-0 sm:space-x-2">
                     <button id="lang-en-btn" class="lang-btn text-sm sm:text-base px-3 sm:px-4 py-1 sm:py-2 rounded-md font-semibold border border-slate-400 hover:bg-slate-700 transition">EN</button>
                     <button id="lang-de-btn" class="lang-btn text-sm sm:text-base px-3 sm:px-4 py-1 sm:py-2 rounded-md font-semibold border border-slate-400 hover:bg-slate-700 transition">DE</button>
                     <button id="lang-kr-btn" class="lang-btn text-sm sm:text-base px-3 sm:px-4 py-1 sm:py-2 rounded-md font-semibold border border-slate-400 hover:bg-slate-700 transition">KR</button>
@@ -128,6 +129,7 @@
                     <!-- 기본 활성 상태(active-nav) 추가 -->
                     <a href="#about" class="nav-link active-nav text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAbout"></a>
                     <a href="#Prototype" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navPrototype"></a>
+                    <a href="#concept" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navConcept">Concept Lab</a>
                     <a href="#analysis" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAnalysis"></a>
                     <a href="#quest" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navQuest"></a>
 		   <a href="#research" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navResearch"></a>
@@ -142,6 +144,19 @@
         <!-- 1. About 섹션 -->
         <!-- 스크롤 용 마진(-mt-16 pt-16) 제거, page-section 클래스 적용 -->
         <section id="about" class="page-section active mb-16 pt-4">
+            <div class="rf-hero">
+                <div class="rf-hero-copy">
+                    <p class="rf-eyebrow">RAVENFORGE / LUTHIER INTELLIGENCE</p>
+                    <h2 data-lang-key="designHeroTitle">Form.<br>Material.<br>Sound.</h2>
+                    <p class="rf-hero-description" data-lang-key="designHeroDescription">Norse stories, material research, and the making of a bass.</p>
+                    <a href="#Prototype" class="rf-primary-link" data-page-link data-lang-key="designHeroLink">Explore the prototypes</a>
+                </div>
+                <figure class="rf-hero-figure">
+                    <div class="rf-figure-heading"><span>ASKR</span><span data-lang-key="designDrawingLabel">PROTOTYPE DESIGN</span></div>
+                    <img src="ASKR%20Prototype%20Design.png" alt="ASKR Prototype Design" fetchpriority="high">
+                    <figcaption><span data-lang-key="askrDesc"></span><span>RAVENFORGE</span></figcaption>
+                </figure>
+            </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="aboutTitle"></h2>
 
@@ -434,6 +449,29 @@
             </div>
         </section>
 
+        <!-- Concept Lab: add owned artwork and multilingual captions to this JSON array. -->
+        <section id="concept" class="page-section mb-16 pt-4" aria-labelledby="concept-title">
+            <div class="rf-concept-header">
+                <div>
+                    <p class="rf-eyebrow">RAVENFORGE / CONCEPT LAB</p>
+                    <h2 id="concept-title" data-lang-key="conceptLabTitle">Concept Lab</h2>
+                </div>
+                <p data-lang-key="conceptLabDescription">A place for sketches, concept art, and studies of form. Ideas remain open as they develop.</p>
+            </div>
+            <div class="rf-concept-index">
+                <p data-lang-key="conceptLabKinds">Sketches / Concept art / Form studies</p>
+                <p id="concept-count" aria-live="polite"></p>
+            </div>
+            <div id="concept-gallery" class="rf-concept-gallery"></div>
+            <div id="concept-empty" class="rf-concept-empty">
+                <p class="rf-eyebrow" data-lang-key="conceptEmptyLabel">OPEN SKETCHBOOK</p>
+                <h3 data-lang-key="conceptEmptyTitle">Room for the next idea.</h3>
+                <p data-lang-key="conceptEmptyDescription">No sketches have been published here yet.</p>
+            </div>
+            <noscript><p>JavaScript is required to view this gallery.</p></noscript>
+        </section>
+        <script type="application/json" id="concept-lab-data">[]</script>
+
         <!-- 3. Analysis & Luthier Explorer 섹션 -->
         <section id="analysis" class="page-section mb-16 pt-4">
             <div class="bg-white p-6 rounded-lg shadow-md">
@@ -548,6 +586,17 @@
         catLog: "Bench Notes",
         navAbout: "About",
         navPrototype: "Prototype",
+        navConcept: "Concept Lab",
+        conceptLabTitle: "Concept Lab",
+        conceptLabDescription: "A place for sketches, concept art, and studies of form. Ideas remain open as they develop.",
+        conceptLabKinds: "Sketches / Concept art / Form studies",
+        conceptEmptyLabel: "OPEN SKETCHBOOK",
+        conceptEmptyTitle: "Room for the next idea.",
+        conceptEmptyDescription: "No sketches have been published here yet.",
+        designHeroTitle: "Form.<br>Material.<br>Sound.",
+        designHeroDescription: "Norse stories, material research, and the making of a bass.",
+        designHeroLink: "Explore the prototypes",
+        designDrawingLabel: "PROTOTYPE DESIGN",
         navAnalysis: "Analysis & Explorer",
         navQuest: "Quest & Aspiration",
         aboutTitle: "About",
@@ -850,6 +899,17 @@ brandEdgeContent: "<p>RavenForge's goals are 'unwavering structure' and 'overwhe
         catLog: "Werkstattnotizen",
         navAbout: "Über",
         navPrototype: "Prototyp",
+        navConcept: "Concept Lab",
+        conceptLabTitle: "Concept Lab",
+        conceptLabDescription: "Ein Ort für Skizzen, Konzeptkunst und Formstudien. Ideen bleiben offen und entwickeln sich weiter.",
+        conceptLabKinds: "Skizzen / Konzeptkunst / Formstudien",
+        conceptEmptyLabel: "OFFENES SKIZZENBUCH",
+        conceptEmptyTitle: "Raum für die nächste Idee.",
+        conceptEmptyDescription: "Hier wurden noch keine Skizzen veröffentlicht.",
+        designHeroTitle: "Form.<br>Material.<br>Klang.",
+        designHeroDescription: "Nordische Geschichten, Materialforschung und der Weg zum eigenen Bass.",
+        designHeroLink: "Prototypen entdecken",
+        designDrawingLabel: "PROTOTYPENTWURF",
         navAnalysis: "Analyse & Explorer",
         navQuest: "Quest & Bestreben",
         aboutTitle: "Über",
@@ -1153,6 +1213,17 @@ brandEdgeContent: "<p>Die Ziele von RavenForge sind 'unerschütterliche Struktur
         catLog: "작업 노트",
         navAbout: "소개",
         navPrototype: "프로토타입",
+        navConcept: "컨셉 랩",
+        conceptLabTitle: "컨셉 랩",
+        conceptLabDescription: "스케치, 컨셉 아트, 형태 연구를 기록합니다. 아이디어는 열린 상태로 남아 계속 발전합니다.",
+        conceptLabKinds: "아이디어 스케치 / 컨셉 아트 / 형태 연구",
+        conceptEmptyLabel: "열린 스케치북",
+        conceptEmptyTitle: "다음 아이디어를 위한 자리.",
+        conceptEmptyDescription: "아직 공개된 스케치가 없습니다.",
+        designHeroTitle: "형태.<br>재료.<br>소리.",
+        designHeroDescription: "북유럽의 서사, 재료에 대한 탐구, 그리고 베이스를 만드는 과정.",
+        designHeroLink: "프로토타입 살펴보기",
+        designDrawingLabel: "프로토타입 디자인",
         navAnalysis: "분석 및 탐색",
         navQuest: "비전과 목표",
         aboutTitle: "소개 (About)",
@@ -1889,11 +1960,16 @@ translations.ko.luthierData = [
             const pageSections = document.querySelectorAll('.page-section');
 
             function activatePage(targetId) {
+                const requestedPage = document.getElementById(targetId);
+                if (!requestedPage || !requestedPage.classList.contains('page-section')) targetId = 'about';
                 // 모든 섹션 숨기기
                 pageSections.forEach(section => section.classList.remove('active'));
                 
                 // 모든 메뉴 활성화 표시 초기화
-                navLinks.forEach(nav => nav.classList.remove('active-nav'));
+                navLinks.forEach(nav => {
+                    nav.classList.remove('active-nav');
+                    nav.removeAttribute('aria-current');
+                });
 
                 // 타겟 섹션 보이기
                 const targetSection = document.getElementById(targetId);
@@ -1902,16 +1978,21 @@ translations.ko.luthierData = [
                 }
 
                 // 타겟 메뉴 활성화
-                const targetNavs = document.querySelectorAll(`.nav-link[href="#${targetId}"]`);
-                targetNavs.forEach(nav => nav.classList.add('active-nav'));
+                navLinks.forEach(nav => {
+                    if (nav.getAttribute('href') === `#${targetId}`) {
+                        nav.classList.add('active-nav');
+                        nav.setAttribute('aria-current', 'page');
+                    }
+                });
 
                 // 페이지 전환 시 화면 최상단으로 (부드럽게 스크롤하지 않고 즉시 이동)
                 window.scrollTo(0, 0);
             }
 
             // 네비게이션 클릭 이벤트 연결
-            navLinks.forEach(link => {
+            document.querySelectorAll('.nav-link, [data-page-link]').forEach(link => {
                 link.addEventListener('click', function(e) {
+                    if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
                     e.preventDefault();
                     const targetId = this.getAttribute('href').substring(1);
                     activatePage(targetId);
@@ -1919,6 +2000,10 @@ translations.ko.luthierData = [
                     // URL 해시값 업데이트 (뒤로가기 지원)
                     history.pushState(null, null, `#${targetId}`);
                 });
+            });
+
+            window.addEventListener('hashchange', () => {
+                activatePage(window.location.hash.substring(1) || 'about');
             });
 
             // 초기 로딩 시 해시값 체크하여 해당 페이지 띄우기
@@ -2589,10 +2674,11 @@ translations.ko.luthierData = [
             <button id="popup-close" class="absolute -top-4 -right-4 text-white bg-slate-800 rounded-full w-10 h-10 flex items-center justify-center text-2xl font-bold hover:bg-slate-600 transition" onclick="closeImagePopup()">&times;</button>
         </div>
     </div>
-    <div class="fixed top-36 right-4 z-30 flex flex-col space-y-2 sm:hidden">
+    <div class="rf-legacy-languages fixed top-36 right-4 z-30 flex flex-col space-y-2 sm:hidden">
         <button id="lang-en-btn-float" class="lang-btn bg-slate-800 text-white w-14 h-10 rounded-md shadow-lg flex items-center justify-center font-semibold border border-slate-400 hover:bg-slate-700 transition">EN</button>
         <button id="lang-de-btn-float" class="lang-btn bg-slate-800 text-white w-14 h-10 rounded-md shadow-lg flex items-center justify-center font-semibold border border-slate-400 hover:bg-slate-700 transition">DE</button>
         <button id="lang-kr-btn-float" class="lang-btn bg-slate-800 text-white w-14 h-10 rounded-md shadow-lg flex items-center justify-center font-semibold border border-slate-400 hover:bg-slate-700 transition">KR</button>
     </div>
+    <script src="assets/concept-lab.js"></script>
 </body>
 </html>
