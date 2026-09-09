@@ -151,11 +151,38 @@
                     <p class="rf-hero-description" data-lang-key="designHeroDescription">Norse stories, material research, and the making of a bass.</p>
                     <a href="#Prototype" class="rf-primary-link" data-page-link data-lang-key="designHeroLink">Explore the prototypes</a>
                 </div>
-                <figure class="rf-hero-figure">
-                    <div class="rf-figure-heading"><span>ASKR</span><span data-lang-key="designDrawingLabel">PROTOTYPE DESIGN</span></div>
-                    <img src="ASKR%20Prototype%20Design.png" alt="ASKR Prototype Design" fetchpriority="high">
-                    <figcaption><span data-lang-key="askrDesc"></span><span>RAVENFORGE</span></figcaption>
-                </figure>
+                <div id="model-carousel" class="rf-hero-showcase" role="region" aria-roledescription="carousel" aria-label="Prototype models" data-model="embla" data-interval="6000">
+                    <div class="rf-carousel-slides" aria-live="off">
+                        <figure class="rf-hero-figure rf-model-slide is-active" data-model="embla" role="group" aria-roledescription="slide" aria-label="1 / 3: EMBLA">
+                            <div class="rf-figure-heading"><span>EMBLA</span><span data-lang-key="designDrawingLabel">PROTOTYPE DESIGN</span></div>
+                            <img src="EMBLA%20Prototype%20Design.png" alt="EMBLA Prototype Design" fetchpriority="high" decoding="async">
+                            <figcaption><span data-lang-key="emblaDesc"></span><span>RAVENFORGE</span></figcaption>
+                        </figure>
+                        <figure class="rf-hero-figure rf-model-slide" data-model="askr" role="group" aria-roledescription="slide" aria-label="2 / 3: ASKR" aria-hidden="true" inert>
+                            <div class="rf-figure-heading"><span>ASKR</span><span data-lang-key="designDrawingLabel">PROTOTYPE DESIGN</span></div>
+                            <img src="ASKR%20Prototype%20Design.png" alt="ASKR Prototype Design" decoding="async">
+                            <figcaption><span data-lang-key="askrDesc"></span><span>RAVENFORGE</span></figcaption>
+                        </figure>
+                        <figure class="rf-hero-figure rf-model-slide" data-model="edda" role="group" aria-roledescription="slide" aria-label="3 / 3: EDDA" aria-hidden="true" inert>
+                            <div class="rf-figure-heading"><span>EDDA</span><span data-lang-key="designDrawingLabel">PROTOTYPE DESIGN</span></div>
+                            <img src="Edda%20Prototype%20Design.png" alt="EDDA Prototype Design" decoding="async">
+                            <figcaption><span data-lang-key="eddaDesc"></span><span>RAVENFORGE</span></figcaption>
+                        </figure>
+                    </div>
+                    <div class="rf-carousel-picker" role="group" aria-label="Choose a model">
+                        <button type="button" data-model="embla" aria-pressed="true">EMBLA</button>
+                        <button type="button" data-model="askr" aria-pressed="false">ASKR</button>
+                        <button type="button" data-model="edda" aria-pressed="false">EDDA</button>
+                    </div>
+                    <div class="rf-carousel-controls">
+                        <span class="rf-carousel-position" aria-hidden="true">01 / 03</span>
+                        <div>
+                            <button type="button" data-carousel-action="previous" aria-label="Previous model"><span aria-hidden="true">‹</span></button>
+                            <button type="button" data-carousel-action="rotation">Pause</button>
+                            <button type="button" data-carousel-action="next" aria-label="Next model"><span aria-hidden="true">›</span></button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="aboutTitle"></h2>
@@ -2680,5 +2707,6 @@ translations.ko.luthierData = [
         <button id="lang-kr-btn-float" class="lang-btn bg-slate-800 text-white w-14 h-10 rounded-md shadow-lg flex items-center justify-center font-semibold border border-slate-400 hover:bg-slate-700 transition">KR</button>
     </div>
     <script src="assets/concept-lab.js"></script>
+    <script src="assets/model-carousel.js"></script>
 </body>
 </html>
