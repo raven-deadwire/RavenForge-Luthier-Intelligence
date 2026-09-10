@@ -50,7 +50,7 @@
   box-shadow: 0 12px 40px rgb(4 10 15 / .12);
 }
 .rf-site .page-section > .bg-white > h2 { font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.18; letter-spacing: -.035em; padding: .25rem 0 1.3rem; border-bottom: 1px solid var(--rf-line); margin-bottom: 1.5rem; }
-.rf-site .page-section > .bg-white > p { max-width: 74ch; color: var(--rf-muted); }
+.rf-site .page-section > .bg-white > p { width: 100%; max-width: none; color: var(--rf-muted); }
 .rf-site .about-tab-btn, .rf-site .spec-btn { border: 1px solid var(--rf-line); border-radius: 2px; background: transparent; padding: .65rem 1rem; min-height: 44px; font-size: .875rem; font-weight: 500; }
 .rf-site .about-tab-btn:hover, .rf-site .spec-btn:hover { background: #e8ece9; }
 .rf-site .about-tab-btn.active, .rf-site .spec-btn.active { background: var(--rf-dark); border-color: var(--rf-dark); color: #fff; }
