@@ -1,0 +1,38 @@
+{
+  "mode": "built-in image_gen, edit with referenced_image_paths",
+  "calls": "Exactly one per input; three calls in one parallel batch; no variants or retries",
+  "implementation": "Background-only plates extend the original scene. The webpage overlays the unchanged original model photograph with an edge mask and places the existing ravenforge.png emblem at the outer bottom-right. No model photograph was repainted or replaced.",
+  "encoding": "WebP quality 86, method 6; original generated dimensions retained.",
+  "assets": [
+    {
+      "model": "EMBLA",
+      "source": "EMBLA Prototype Design.png",
+      "asset": "assets/model-backdrops/embla-wide.webp",
+      "width": 1619,
+      "height": 971,
+      "bytes": 11896,
+      "sha256": "d2cb38e115694ce2ba519234ea8a9ddc0cf8a4076a67e66aabcc079ea4b61a72",
+      "prompt": "Use case: precise-object-edit.\nAsset type: background-only extension plate for compositing the unchanged original RavenForge product photo in a webpage.\nInput image: the supplied local embla.png is the EDIT TARGET, not a style inspiration.\nPrimary request: expand this exact square photograph to a landscape 5:3 background-only canvas, preferably 1800 by 1080 pixels. Preserve the original square's background as the central 60% of the expanded canvas, at unchanged scene scale and full height; add equal new scene area only at the left and right. The central square maps to x=360..1440 on an 1800x1080 output. Do not zoom out, crop, move the camera, or design a new environment.\nScene/backdrop: the exact existing soft dark charcoal-gray studio background and floor with subtly warm gray illumination, fine unobtrusive surface texture, soft gradients, and the same smooth floor transition and camera perspective. Continue its edge colors, lighting and background texture scale seamlessly into the new side areas.\nSubject: BACKGROUND ONLY. Completely remove the blue bass guitar and all of its parts, shadow or silhouette remnants, and remove the old bottom-right corner logo. Reconstruct only the existing studio background and floor behind those removals.\nConstraints: retain the original exposure, colors, light direction, surface texture scale, camera perspective and floor transition position. Match the actual supplied scene, especially where the original left and right edges meet the extensions. The output will sit behind the unchanged original instrument photo, so continuity and registration are essential.\nAvoid: instruments, guitar fragments, strings, stands, instrument ghosts or silhouettes, logos, emblems, watermarks, text, props, invented objects, a new room, or a newly designed background. One final image only."
+    },
+    {
+      "model": "ASKR",
+      "source": "ASKR Prototype Design.png",
+      "asset": "assets/model-backdrops/askr-wide.webp",
+      "width": 1619,
+      "height": 971,
+      "bytes": 37516,
+      "sha256": "b30ac51a0de6797e2922c2f588e86560824db464311c83b5e342b8824fbbf8b9",
+      "prompt": "Use case: precise-object-edit.\nAsset type: background-only extension plate for compositing the unchanged original RavenForge product photo in a webpage.\nInput image: the supplied local askr.png is the EDIT TARGET, not a style inspiration.\nPrimary request: expand this exact square photograph to a landscape 5:3 background-only canvas, preferably 1800 by 1080 pixels. Preserve the original square's background as the central 60% of the expanded canvas, at unchanged scene scale and full height; add equal new scene area only at the left and right. The central square maps to x=360..1440 on an 1800x1080 output. Do not zoom out, crop, move the camera, or design a new environment.\nScene/backdrop: the exact existing dark charcoal curtain with vertical fabric folds, subtle woven texture and softly illuminated gray ridges. Continue this same curtain naturally across the left and right expansions, preserving the fold width and spacing, texture scale, tonal variation and vertical orientation. The curtain fills the frame; do not invent a floor, hem, room, stage or other setting.\nSubject: BACKGROUND ONLY. Completely remove the red bass guitar, every instrument part and any stand or instrument shadow/silhouette remnants, and remove the old bottom-right corner logo. Reconstruct only the existing dark curtain behind those removals.\nConstraints: retain the original exposure, colors, light direction, fabric texture scale, fold scale and camera perspective. Match the actual supplied scene, especially where the original left and right edges meet the extensions. The output will sit behind the unchanged original instrument photo, so continuity and registration are essential.\nAvoid: instruments, guitar fragments, strings, stands, instrument ghosts or silhouettes, logos, emblems, watermarks, text, props, invented objects, a new room, or a newly designed background. One final image only."
+    },
+    {
+      "model": "EDDA",
+      "source": "Edda Prototype Design.png",
+      "asset": "assets/model-backdrops/edda-wide.webp",
+      "width": 1663,
+      "height": 946,
+      "bytes": 113352,
+      "sha256": "8f6bc3daf0274282af7e9ececd09eb09c396ddda1927659f67af560065e80447",
+      "prompt": "Use case: precise-object-edit.\nAsset type: background-only extension plate for compositing the unchanged original RavenForge product photo in a webpage.\nInput image: the supplied local edda.png is the EDIT TARGET, not a style inspiration.\nPrimary request: expand this exact square photograph to a landscape 5:3 background-only canvas, preferably 1800 by 1080 pixels. Preserve the original square's background as the central 60% of the expanded canvas, at unchanged scene scale and full height; add equal new scene area only at the left and right. The central square maps to x=360..1440 on an 1800x1080 output. Do not zoom out, crop, move the camera, or design a new environment.\nScene/backdrop: the exact existing aged dark metal wall panels, with desaturated charcoal, muted blue-gray and olive-gray patina, irregular vertical wear, scratches, seams and small existing rivets. Preserve the original panel seams and rivet placement in the central square and naturally continue the same panel construction into the added side areas. Preserve the original lighter upper-left illumination, darker central-right area, panel widths, surface patina and scratch scale. The wall fills the frame; do not invent a floor or a room.\nSubject: BACKGROUND ONLY. Completely remove the gray bass guitar, every instrument part and all instrument shadow/silhouette remnants, and remove the old bottom-right corner logo. Reconstruct only the existing aged metal wall behind those removals.\nConstraints: retain the original exposure, colors, light direction, metal surface texture scale, panel geometry and camera perspective. Match the actual supplied scene, especially where the original left and right edges meet the extensions. The output will sit behind the unchanged original instrument photo, so continuity and registration are essential.\nAvoid: instruments, guitar fragments, strings, stands, instrument ghosts or silhouettes, logos, emblems, watermarks, text, props, invented objects, a new room, or a newly designed background. One final image only."
+    }
+  ]
+}
