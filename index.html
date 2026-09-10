@@ -102,7 +102,7 @@
             top: 9rem; 
         }
     </style>
-    <link rel="stylesheet" href="assets/ravenforge-design.css?v=20260910-prototype-notes">
+    <link rel="stylesheet" href="assets/ravenforge-design.css?v=20260910-prototype-balance">
 </head>
 <body class="text-slate-800 rf-site">
 
@@ -2870,7 +2870,7 @@ translations.ko.luthierData = [
 
                 return `
                     <div class="mb-8 rounded-xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
-                        <div class="grid lg:grid-cols-[320px_minmax(0,1fr)] xl:grid-cols-[360px_minmax(0,1fr)] gap-6 xl:gap-8 items-start">
+                        <div class="rf-prototype-layout">
                             <aside class="rf-prototype-sidebar" data-model="${modelKey}">
                                 <div class="rf-prototype-rail" role="region" aria-label="${modelName}: ${specData.designNotesTitle}" aria-describedby="prototype-${modelKey}-swipe" tabindex="0">
                                     <figure class="rf-prototype-portrait">
@@ -2883,10 +2883,10 @@ translations.ko.luthierData = [
                                 </div>
                                 <p class="rf-prototype-swipe" id="prototype-${modelKey}-swipe">${specData.designNotesSwipeHint}</p>
                             </aside>
-                            <div class="min-w-0">
+                            <div class="rf-prototype-comparison">
                                 <h3 class="text-xl font-bold text-slate-800 mb-1">${specData.showcaseTitle}</h3>
                                 <p class="text-sm text-slate-500 mb-4">${specData.showcaseSubTitle}</p>
-                                <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white">
+                                <div class="rf-prototype-table-wrap overflow-x-auto rounded-lg border border-slate-200 bg-white">
                                     <table class="w-full min-w-[760px] text-xs sm:text-sm spec-table">
                                         <thead><tr>
                                             <th>${headers[0]}</th>
@@ -2897,9 +2897,9 @@ translations.ko.luthierData = [
                                         <tbody>${rows}</tbody>
                                     </table>
                                 </div>
-                                <p class="mt-3 text-xs leading-relaxed text-slate-500">${model.note}</p>
                             </div>
                         </div>
+                        <p class="mt-4 text-xs leading-relaxed text-slate-500">${model.note}</p>
                     </div>
                     <h3 class="text-xl font-bold mb-4">${specData.detailTitle}</h3>`;
             }
