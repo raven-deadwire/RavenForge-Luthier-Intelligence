@@ -5,7 +5,7 @@
   const supplementalEntries = [
     {
       id: 'gram-superstrat-24f',
-      image: 'assets/concepts/gram-superstrat-24f.webp',
+      image: 'assets/concepts/gram-superstrat-24f.png',
       kind: 'concept',
       date: '2026-09-11',
       title: { ko: 'GRAM — Heritage, Reforged.', en: 'GRAM — Heritage, Reforged.', de: 'GRAM — Heritage, Reforged.' },
@@ -47,13 +47,13 @@
   ];
 
   const ui = {
-    en: { count:n=>`${n} ${n===1?'entry':'entries'}`, sketch:'Sketch', concept:'Concept art', study:'Form study', specs:'Provisional specifications', item:'Item', value:'Concept specification', error:'The concept archive could not be loaded.' },
-    de: { count:n=>`${n} ${n===1?'Eintrag':'Einträge'}`, sketch:'Skizze', concept:'Konzeptkunst', study:'Formstudie', specs:'Vorläufige Spezifikationen', item:'Merkmal', value:'Konzeptspezifikation', error:'Das Konzeptarchiv konnte nicht geladen werden.' },
-    ko: { count:n=>`${n}개의 기록`, sketch:'스케치', concept:'컨셉 아트', study:'형태 연구', specs:'잠정 사양', item:'항목', value:'구상 사양', error:'컨셉 목록을 불러오지 못했습니다.' }
+    en: { count:n=>`${n} ${n===1?'entry':'entries'}`, sketch:'Sketch', concept:'Concept art', study:'Form study', specs:'Provisional specifications', error:'The concept archive could not be loaded.' },
+    de: { count:n=>`${n} ${n===1?'Eintrag':'Einträge'}`, sketch:'Skizze', concept:'Konzeptkunst', study:'Formstudie', specs:'Vorläufige Spezifikationen', error:'Das Konzeptarchiv konnte nicht geladen werden.' },
+    ko: { count:n=>`${n}개의 기록`, sketch:'스케치', concept:'컨셉 아트', study:'형태 연구', specs:'잠정 사양', error:'컨셉 목록을 불러오지 못했습니다.' }
   };
 
-  const text = (value, lang) => typeof value === 'string' ? value : value?.[lang] || value?.en || value?.ko || value?.de || '';
-  const lang = () => ui[document.documentElement.lang] ? document.documentElement.lang : 'en';
+  const text = (value, language) => typeof value === 'string' ? value : value?.[language] || value?.en || value?.ko || value?.de || '';
+  const language = () => ui[document.documentElement.lang] ? document.documentElement.lang : 'en';
   const imageUrl = value => {
     if (typeof value !== 'string' || !value.trim()) return null;
     try {
@@ -108,7 +108,7 @@
       if (!Array.isArray(parsed)) throw new Error('Invalid concept data');
       baseEntries = parsed;
     } catch {
-      count.textContent = ui[lang()].error;
+      count.textContent = ui[language()].error;
       empty.hidden = true;
       gallery.replaceChildren();
       return;
@@ -123,10 +123,10 @@
         seen.add(key);
         return true;
       })
-      .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+      .sort((a,b) => (b.date || '').localeCompare(a.date || ''));
 
     function render() {
-      const current = lang();
+      const current = language();
       const t = ui[current];
       count.textContent = t.count(entries.length);
       empty.hidden = entries.length > 0;
@@ -152,20 +152,19 @@
         }
         const title = document.createElement('h3');
         title.textContent = text(entry.title, current);
-        heading.append(meta, title);
+        heading.append(meta,title);
 
         const figure = document.createElement('figure');
         figure.className = 'rf-concept-scroll-figure';
         const image = document.createElement('img');
         image.src = imageUrl(entry.image);
-        image.alt = text(entry.alt, current) || text(entry.title, current);
+        image.alt = text(entry.alt,current) || text(entry.title,current);
         image.loading = 'lazy';
         image.decoding = 'async';
         figure.append(image);
+        article.append(heading,figure);
 
-        article.append(heading, figure);
-
-        const description = text(entry.description, current);
+        const description = text(entry.description,current);
         if (description) {
           const paragraph = document.createElement('p');
           paragraph.className = 'rf-concept-scroll-description';
@@ -181,8 +180,8 @@
           const table = document.createElement('table');
           const tbody = document.createElement('tbody');
           entry.specifications.forEach(spec => {
-            const label = text(spec?.label, current);
-            const value = text(spec?.value, current);
+            const label = text(spec?.label,current);
+            const value = text(spec?.value,current);
             if (!label || !value) return;
             const row = document.createElement('tr');
             const name = document.createElement('th');
@@ -190,22 +189,21 @@
             name.textContent = label;
             const detail = document.createElement('td');
             detail.textContent = value;
-            row.append(name, detail);
+            row.append(name,detail);
             tbody.append(row);
           });
           table.append(tbody);
-          specs.append(specsTitle, table);
+          specs.append(specsTitle,table);
           article.append(specs);
         }
-
         gallery.append(article);
       });
     }
 
-    new MutationObserver(render).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
+    new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
     render();
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',init);
   else init();
 })();
