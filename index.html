@@ -102,7 +102,7 @@
             top: 9rem; 
         }
     </style>
-    <link rel="stylesheet" href="assets/ravenforge-design.css?v=20260910-wide-scenes">
+    <link rel="stylesheet" href="assets/ravenforge-design.css?v=20260910-prototype-notes">
 </head>
 <body class="text-slate-800 rf-site">
 
@@ -1209,6 +1209,9 @@ brandEdgeContent: "<p>RavenForge's goals are 'unwavering structure' and 'overwhe
                 filterThemes: { all: "All", Ergonomics: "Ergonomics & Playability", Electronics: "Electronics & Tone", Wood: "Wood & Sustainability", Structure: "Structure & Stability", Aesthetics: "Aesthetics & Artistry", Customization: "Customization" },
                 chartLabel: "# of Associated Luthiers", chartTooltip: (c) => ` ${c.raw} luthiers`,
                 specData: {
+                    designNotesTitle: "Image and design notes",
+                    designNotesSwipeHint: "Scroll sideways to view the image and design notes.",
+                    openImageLabel: "Enlarge prototype image",
                     showcaseTitle: "Configuration Examples",
                     showcaseSubTitle: "Three example builds based on the current configurator. Premium Jindai bodies and exotic fretboards are Custom / Request materials subject to stock and material suitability.",
                     showcaseHeaders: ['Key Spec', 'Standard', 'Recommended', 'Premium'],
@@ -1216,6 +1219,11 @@ brandEdgeContent: "<p>RavenForge's goals are 'unwavering structure' and 'overwhe
                     showcase: {
                         embla: {
                             image: 'EMBLA%20Prototype%20Design.png',
+                            designNotes: [
+                                { title: "Design direction", text: "Balance and sensitivity for session work, composition and playing across genres." },
+                                { title: "Material choices", text: "Elm remains the core body material; top and fretboard choices broaden the model while retaining that identity." },
+                                { title: "Sound goals", text: "Pickup and preamp combinations are selected for a wide tonal range and a responsive playing feel." }
+                            ],
                             rows: [
                                 { item: 'Strings / Scale', standard: '5-string / 34″', recommended: '5-string / 34″', premium: '6-string / 36″ Sub-Contra<br><span class="text-[11px] text-slate-500">32″→Standard tuning range</span>' },
                                 { item: 'Neck', standard: '5-piece Ash / Maple / Wenge', recommended: '7-piece laminated', premium: '13-piece laminated' },
@@ -1231,6 +1239,11 @@ brandEdgeContent: "<p>RavenForge's goals are 'unwavering structure' and 'overwhe
                         },
                         askr: {
                             image: 'ASKR%20Prototype%20Design.png',
+                            designNotes: [
+                                { title: "Design direction", text: "A metal-focused platform for down-tuning, defined low notes and an assertive attack." },
+                                { title: "Material choices", text: "A hard ash body anchors the design, with neck and fretboard options tailored to the chosen configuration." },
+                                { title: "Sound goals", text: "The target is clear articulation through gain, with pickup and preamp combinations chosen around the tuning." }
+                            ],
                             rows: [
                                 { item: 'Strings / Scale', standard: '5-string / 35″', recommended: '5-string / 35″', premium: '5-string / 37–34″ multiscale' },
                                 { item: 'Neck', standard: '5-piece Ash / Maple / Wenge', recommended: '7-piece laminated', premium: '13-piece laminated' },
@@ -1246,6 +1259,11 @@ brandEdgeContent: "<p>RavenForge's goals are 'unwavering structure' and 'overwhe
                         },
                         edda: {
                             image: 'Edda%20Prototype%20Design.png',
+                            designNotes: [
+                                { title: "Design direction", text: "A four-string platform that revisits bass-making heritage through modern playability and flexible electronics." },
+                                { title: "Material choices", text: "Alder and maple form the standard foundation; alternative woods extend the heritage theme in custom builds." },
+                                { title: "Sound goals", text: "From a passive foundation to filter-based options, the aim is to shape each pickup’s character with intent." }
+                            ],
                             rows: [
                                 { item: 'Strings / Scale', standard: '4-string / 34″', recommended: '4-string / 34″', premium: '4-string / 34″' },
                                 { item: 'Neck', standard: '1-piece Maple', recommended: '3-piece Maple', premium: '3-piece Maple' },
@@ -1523,6 +1541,9 @@ brandEdgeContent: "<p>Die Ziele von RavenForge sind 'unerschütterliche Struktur
                 filterThemes: { all: "Alle", Ergonomics: "Ergonomie & Spielbarkeit", Electronics: "Elektronik & Ton", Wood: "Holz & Nachhaltigkeit", Structure: "Struktur & Stabilität", Aesthetics: "Ästhetik & Kunstfertigkeit", Customization: "Individualisierung" },
                 chartLabel: "# der zugehörigen Gitarrenbauer", chartTooltip: (c) => ` ${c.raw} Gitarrenbauer`,
                 specData: {
+                    designNotesTitle: "Bild und Entwurfsnotizen",
+                    designNotesSwipeHint: "Seitlich blättern: Bild und Entwurfsnotizen.",
+                    openImageLabel: "Prototypbild vergrößern",
                     showcaseTitle: "Konfigurationsbeispiele",
                     showcaseSubTitle: "Drei Beispielkonfigurationen auf Basis des aktuellen Konfigurators. Premium-Jindai-Korpusse und exotische Griffbretter sind Custom-/Request-Materialien und hängen von Verfügbarkeit und Materialeignung ab.",
                     showcaseHeaders: ['Hauptmerkmal', 'Standard', 'Recommended', 'Premium'],
@@ -1530,6 +1551,11 @@ brandEdgeContent: "<p>Die Ziele von RavenForge sind 'unerschütterliche Struktur
                     showcase: {
                         embla: {
                             image: 'EMBLA%20Prototype%20Design.png',
+                            designNotes: [
+                                { title: "Entwurfsrichtung", text: "Balance und Sensibilität für Studioarbeit, Komposition und das Spiel in unterschiedlichen Genres." },
+                                { title: "Materialwahl", text: "Ulme bleibt das zentrale Korpusholz; Decken- und Griffbrettoptionen erweitern das Modell, ohne diese Identität aufzugeben." },
+                                { title: "Klangziele", text: "Pickup- und Preamp-Kombinationen werden für ein breites Klangspektrum und eine sensible Ansprache gewählt." }
+                            ],
                             rows: [
                                 { item: 'Saiten / Mensur', standard: '5-Saiter / 34″', recommended: '5-Saiter / 34″', premium: '6-Saiter / 36″ Sub-Contra<br><span class="text-[11px] text-slate-500">32″→Standardstimmung</span>' },
                                 { item: 'Hals', standard: '5-teilig · Esche / Ahorn / Wenge', recommended: '7-teilig laminiert', premium: '13-teilig laminiert' },
@@ -1545,6 +1571,11 @@ brandEdgeContent: "<p>Die Ziele von RavenForge sind 'unerschütterliche Struktur
                         },
                         askr: {
                             image: 'ASKR%20Prototype%20Design.png',
+                            designNotes: [
+                                { title: "Entwurfsrichtung", text: "Eine auf Metal ausgerichtete Plattform für tiefe Stimmungen, definierte Bässe und einen markanten Anschlag." },
+                                { title: "Materialwahl", text: "Ein Korpus aus harter Esche bildet die Basis; Hals- und Griffbrettoptionen ergänzen die jeweilige Konfiguration." },
+                                { title: "Klangziele", text: "Ziel ist eine klare Artikulation auch mit Verzerrung. Die Wahl von Pickups und Preamp orientiert sich an der Stimmung." }
+                            ],
                             rows: [
                                 { item: 'Saiten / Mensur', standard: '5-Saiter / 35″', recommended: '5-Saiter / 35″', premium: '5-Saiter / 37–34″ Multiscale' },
                                 { item: 'Hals', standard: '5-teilig · Esche / Ahorn / Wenge', recommended: '7-teilig laminiert', premium: '13-teilig laminiert' },
@@ -1560,6 +1591,11 @@ brandEdgeContent: "<p>Die Ziele von RavenForge sind 'unerschütterliche Struktur
                         },
                         edda: {
                             image: 'Edda%20Prototype%20Design.png',
+                            designNotes: [
+                                { title: "Entwurfsrichtung", text: "Eine viersaitige Plattform, die das Erbe des Bassbaus mit moderner Bespielbarkeit und flexibler Elektronik neu betrachtet." },
+                                { title: "Materialwahl", text: "Erle und Ahorn bilden die Standardbasis; alternative Hölzer erweitern das Heritage-Konzept bei individuellen Konfigurationen." },
+                                { title: "Klangziele", text: "Von passiver Elektronik bis zu Filteroptionen steht die gezielte Formung des Charakters jedes Pickups im Mittelpunkt." }
+                            ],
                             rows: [
                                 { item: 'Saiten / Mensur', standard: '4-Saiter / 34″', recommended: '4-Saiter / 34″', premium: '4-Saiter / 34″' },
                                 { item: 'Hals', standard: '1-teiliger Ahorn', recommended: '3-teiliger Ahorn', premium: '3-teiliger Ahorn' },
@@ -1836,6 +1872,9 @@ brandEdgeContent: "<p>RavenForge의 목표는 '흔들림 없는 구조'와 '압�
                 filterThemes: { all: "전체", Ergonomics: "인체공학 & 연주성", Electronics: "전자장치 & 톤", Wood: "목재 & 지속가능성", Structure: "구조 & 안정성", Aesthetics: "미학 & 예술성", Customization: "커스터마이징" },
                 chartLabel: "관련 루씨어 수", chartTooltip: (c) => ` ${c.raw}명의 루씨어`,
                 specData: {
+                    designNotesTitle: "이미지와 설계 노트",
+                    designNotesSwipeHint: "좌우로 넘겨 이미지와 설계 노트를 확인하세요.",
+                    openImageLabel: "프로토타입 이미지 크게 보기",
                     showcaseTitle: "구성 예시",
                     showcaseSubTitle: "현재 컨피겨레이터를 기준으로 한 세 가지 예시 조합입니다. Premium의 진다이 바디와 희귀 지판재는 Custom / Request 항목이며 재고와 소재 적합성 확인이 필요합니다.",
                     showcaseHeaders: ['주요 사양', 'Standard', 'Recommended', 'Premium'],
@@ -1843,6 +1882,11 @@ brandEdgeContent: "<p>RavenForge의 목표는 '흔들림 없는 구조'와 '압�
                     showcase: {
                         embla: {
                             image: 'EMBLA%20Prototype%20Design.png',
+                            designNotes: [
+                                { title: "설계 방향", text: "세션과 작곡, 여러 장르를 오가는 연주자를 위한 균형 잡힌 올라운더를 지향합니다." },
+                                { title: "소재 선택", text: "느릅나무 바디를 정체성의 중심에 두고, 탑과 지판 조합으로 외관과 구성을 확장합니다." },
+                                { title: "사운드 목표", text: "섬세한 터치부터 강한 피킹까지 폭넓게 대응하도록 픽업과 프리앰프 조합을 설계합니다." }
+                            ],
                             rows: [
                                 { item: '현 / 스케일', standard: '5현 / 34″', recommended: '5현 / 34″', premium: '6현 / 36″ Sub-Contra<br><span class="text-[11px] text-slate-500">32″→Standard tuning 대응</span>' },
                                 { item: '넥', standard: '5피스 Ash / Maple / Wenge', recommended: '7피스 라미네이트', premium: '13피스 라미네이트' },
@@ -1858,6 +1902,11 @@ brandEdgeContent: "<p>RavenForge의 목표는 '흔들림 없는 구조'와 '압�
                         },
                         askr: {
                             image: 'ASKR%20Prototype%20Design.png',
+                            designNotes: [
+                                { title: "설계 방향", text: "다운튜닝에서도 선명한 저음과 강한 어택을 추구하는 메탈 중심의 플랫폼입니다." },
+                                { title: "소재 선택", text: "하드 애쉬 바디를 기본으로 삼고, 선택한 구성에 맞춰 넥과 지판의 조합을 조율합니다." },
+                                { title: "사운드 목표", text: "게인 속에서도 음의 윤곽이 살아나도록, 튜닝과 연주 방식에 맞춰 픽업·프리앰프를 조합합니다." }
+                            ],
                             rows: [
                                 { item: '현 / 스케일', standard: '5현 / 35″', recommended: '5현 / 35″', premium: '5현 / 37–34″ 멀티스케일' },
                                 { item: '넥', standard: '5피스 Ash / Maple / Wenge', recommended: '7피스 라미네이트', premium: '13피스 라미네이트' },
@@ -1873,6 +1922,11 @@ brandEdgeContent: "<p>RavenForge의 목표는 '흔들림 없는 구조'와 '압�
                         },
                         edda: {
                             image: 'Edda%20Prototype%20Design.png',
+                            designNotes: [
+                                { title: "설계 방향", text: "베이스 제작의 유산을 현대적인 연주성과 전자 구성으로 다시 해석하는 4현 플랫폼입니다." },
+                                { title: "소재 선택", text: "앨더와 메이플을 기본 토대로 삼고, 커스텀 구성에서는 대체 소재로 헤리티지의 범위를 넓힙니다." },
+                                { title: "사운드 목표", text: "패시브 구성부터 필터 기반 옵션까지, 픽업별 성격을 세밀하게 다루는 방향을 탐구합니다." }
+                            ],
                             rows: [
                                 { item: '현 / 스케일', standard: '4현 / 34″', recommended: '4현 / 34″', premium: '4현 / 34″' },
                                 { item: '넥', standard: '1피스 Maple', recommended: '3피스 Maple', premium: '3피스 Maple' },
@@ -2798,6 +2852,14 @@ translations.ko.luthierData = [
                 if (!model) return '';
                 const headers = specData.showcaseHeaders || ['Key Spec', 'Standard', 'Recommended', 'Premium'];
                 const modelName = modelKey.toUpperCase();
+                const designNotes = (model.designNotes || []).map((note, index) => `
+                    <article class="rf-prototype-note">
+                        <div class="rf-prototype-note-heading">
+                            <span class="rf-prototype-note-number" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>
+                            <h4>${note.title}</h4>
+                        </div>
+                        <p>${note.text}</p>
+                    </article>`).join('');
                 let rows = model.rows.map(row => `
                     <tr>
                         <td class="font-semibold text-slate-700 whitespace-nowrap">${row.item}</td>
@@ -2809,12 +2871,18 @@ translations.ko.luthierData = [
                 return `
                     <div class="mb-8 rounded-xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
                         <div class="grid lg:grid-cols-[320px_minmax(0,1fr)] xl:grid-cols-[360px_minmax(0,1fr)] gap-6 xl:gap-8 items-start">
-                            <div class="flex flex-col items-center lg:sticky lg:top-28">
-                                <div class="w-full max-w-[360px] min-h-[300px] sm:min-h-[340px] flex items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-                                    <img src="${model.image}" alt="${modelName} Prototype Design" class="w-full h-auto max-h-[430px] object-contain p-3 cursor-pointer hover:scale-[1.015] transition-transform" onclick="openImagePopup('${decodeURIComponent(model.image)}')" onerror="this.parentElement.style.display='none'">
+                            <aside class="rf-prototype-sidebar" data-model="${modelKey}">
+                                <div class="rf-prototype-rail" role="region" aria-label="${modelName}: ${specData.designNotesTitle}" aria-describedby="prototype-${modelKey}-swipe" tabindex="0">
+                                    <figure class="rf-prototype-portrait">
+                                        <button type="button" class="rf-prototype-image" aria-label="${modelName}: ${specData.openImageLabel}" onclick="openImagePopup('${decodeURIComponent(model.image)}')">
+                                            <img src="${model.image}" alt="${modelName} Prototype Design" decoding="async" onerror="this.parentElement.style.display='none'">
+                                        </button>
+                                        <figcaption>${modelName}</figcaption>
+                                    </figure>
+                                    ${designNotes}
                                 </div>
-                                <div class="mt-3 text-xs font-bold tracking-[0.18em] text-slate-500">${modelName}</div>
-                            </div>
+                                <p class="rf-prototype-swipe" id="prototype-${modelKey}-swipe">${specData.designNotesSwipeHint}</p>
+                            </aside>
                             <div class="min-w-0">
                                 <h3 class="text-xl font-bold text-slate-800 mb-1">${specData.showcaseTitle}</h3>
                                 <p class="text-sm text-slate-500 mb-4">${specData.showcaseSubTitle}</p>
