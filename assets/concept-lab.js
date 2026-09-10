@@ -9,14 +9,15 @@
  *   "alt": { "ko": "이미지 설명", "en": "Image description", "de": "Bildbeschreibung" }
  * }
  * kind: sketch | concept | study. Date, description, and alt are optional.
+ * Optional specifications: [{ label: { en: "Scale" }, value: "36 inches" }].
  * Image URLs may be repository-relative or HTTPS. Text is never evaluated as HTML.
  */
 (() => {
   'use strict';
   const copy = {
-    en: { count: n => `${n} ${n === 1 ? 'entry' : 'entries'}`, sketch: 'Sketch', concept: 'Concept art', study: 'Form study', open: 'View artwork', close: 'Close', imageError: 'This image could not be loaded.', dataError: 'The concept archive could not be loaded.' },
-    de: { count: n => `${n} ${n === 1 ? 'Eintrag' : 'Einträge'}`, sketch: 'Skizze', concept: 'Konzeptkunst', study: 'Formstudie', open: 'Bild ansehen', close: 'Schließen', imageError: 'Dieses Bild konnte nicht geladen werden.', dataError: 'Das Konzeptarchiv konnte nicht geladen werden.' },
-    ko: { count: n => `${n}개의 기록`, sketch: '스케치', concept: '컨셉 아트', study: '형태 연구', open: '이미지 크게 보기', close: '닫기', imageError: '이미지를 불러오지 못했습니다.', dataError: '컨셉 목록을 불러오지 못했습니다.' }
+    en: { count: n => `${n} ${n === 1 ? 'entry' : 'entries'}`, sketch: 'Sketch', concept: 'Concept art', study: 'Form study', open: 'View artwork', close: 'Close', imageError: 'This image could not be loaded.', dataError: 'The concept archive could not be loaded.', specifications: 'Provisional specifications', item: 'Item', specification: 'Concept specification' },
+    de: { count: n => `${n} ${n === 1 ? 'Eintrag' : 'Einträge'}`, sketch: 'Skizze', concept: 'Konzeptkunst', study: 'Formstudie', open: 'Bild ansehen', close: 'Schließen', imageError: 'Dieses Bild konnte nicht geladen werden.', dataError: 'Das Konzeptarchiv konnte nicht geladen werden.', specifications: 'Vorläufige Spezifikationen', item: 'Merkmal', specification: 'Konzeptspezifikation' },
+    ko: { count: n => `${n}개의 기록`, sketch: '스케치', concept: '컨셉 아트', study: '형태 연구', open: '이미지 크게 보기', close: '닫기', imageError: '이미지를 불러오지 못했습니다.', dataError: '컨셉 목록을 불러오지 못했습니다.', specifications: '잠정 사양', item: '항목', specification: '구상 사양' }
   };
   const text = (value, lang) => typeof value === 'string' ? value : value?.[lang] || value?.en || value?.ko || value?.de || '';
   const imageUrl = value => {
@@ -136,12 +137,49 @@
         }
         const heading = document.createElement('h3');
         heading.textContent = text(entry.title, current);
-        article.append(button, meta, heading);
+        const content = document.createElement('div');
+        content.className = 'rf-concept-card-copy';
+        content.append(meta, heading);
         const description = text(entry.description, current);
         if (description) {
           const paragraph = document.createElement('p');
+          paragraph.className = 'rf-concept-card-description';
           paragraph.textContent = description;
-          article.append(paragraph);
+          content.append(paragraph);
+        }
+        article.append(button, content);
+        if (Array.isArray(entry.specifications) && entry.specifications.length) {
+          const specifications = document.createElement('div');
+          specifications.className = 'rf-concept-specifications';
+          const table = document.createElement('table');
+          const tableCaption = document.createElement('caption');
+          tableCaption.textContent = `${text(entry.title, current)} · ${t.specifications}`;
+          const thead = document.createElement('thead');
+          const headerRow = document.createElement('tr');
+          [t.item, t.specification].forEach(label => {
+            const cell = document.createElement('th');
+            cell.scope = 'col';
+            cell.textContent = label;
+            headerRow.append(cell);
+          });
+          thead.append(headerRow);
+          const tbody = document.createElement('tbody');
+          entry.specifications.forEach(spec => {
+            const label = text(spec?.label, current);
+            const value = text(spec?.value, current);
+            if (!label || !value) return;
+            const row = document.createElement('tr');
+            const name = document.createElement('th');
+            name.scope = 'row';
+            name.textContent = label;
+            const detail = document.createElement('td');
+            detail.textContent = value;
+            row.append(name, detail);
+            tbody.append(row);
+          });
+          table.append(tableCaption, thead, tbody);
+          specifications.append(table);
+          article.append(specifications);
         }
         gallery.append(article);
       });
