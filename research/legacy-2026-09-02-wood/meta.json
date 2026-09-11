@@ -7,16 +7,19 @@
   "ko": {
     "title": "EMBLA — 엘름, 웬지, 라미네이트 넥의 선택 이유",
     "excerpt": "Material & Acoustics Research Log 01에서 정리한 “목재는 종명이 아니라 구조 안에 들어간 물성 변수”라는 원칙을 EMBLA에 적용한다. Elm 바디, 5-piece laminated neck, Wenge 지판이 왜 기본값이 되었는지 설명하고, 초기 최우선 지판 후보였던 Snakewood가 왜 표준 사양에서 제외되었는지 물성·조달·수출정책을 함께 검토한다.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vTmsMbllyo5VbZ_Zka4CEIYI-uSp4xPO65ndXEy0wDcO1BmNTE0601wilIWlwdGoA/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-02-wood/ko.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vTmsMbllyo5VbZ_Zka4CEIYI-uSp4xPO65ndXEy0wDcO1BmNTE0601wilIWlwdGoA/pub?embedded=true&rm=minimal"
   },
   "en": {
     "title": "EMBLA — Why Elm, Wenge, and a Laminated Neck?",
     "excerpt": "Apply the principle established in Material & Acoustics Research Log 01 — that wood is not a species label but a set of mechanical properties embedded in a structure — to EMBLA. Explain why an Elm body, 5-piece laminated neck, and Wenge fingerboard became the standard, and examine why the original first-choice fingerboard candidate, Snakewood, was removed from the standard specification by considering mechanics, procurement, and export policy together.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vS43A2sbLMdFBrWbd0Jt6GlBZi_w2nCxJTvcYCOBeQQlSkJdTOcVhsUdTiCemlJgQ/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-02-wood/en.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vS43A2sbLMdFBrWbd0Jt6GlBZi_w2nCxJTvcYCOBeQQlSkJdTOcVhsUdTiCemlJgQ/pub?embedded=true&rm=minimal"
   },
   "de": {
     "title": "EMBLA — Warum Ulme, Wenge und ein laminierter Hals?",
     "excerpt": "Übertragung des in Material & Acoustics Research Log 01 formulierten Grundsatzes auf EMBLA: Holz ist kein bloßer Artname, sondern eine Kombination mechanischer Eigenschaften innerhalb einer Struktur. Das Dokument erläutert, warum ein Elm-/Ulmenkorpus, ein 5-teiliger laminierter Hals und ein Wenge-Griffbrett zum Standard wurden, und warum Snakewood als ursprünglicher Wunschkandidat unter Einbezug von Mechanik, Beschaffung und Exportpolitik aus der Standardspezifikation herausfiel.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vR0ZYJD7zJADuAQIk26gpVhOFIvDrVg2MrU-7q1TVSPoa3PONayLfO2laaCjgEHsg/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-02-wood/de.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vR0ZYJD7zJADuAQIk26gpVhOFIvDrVg2MrU-7q1TVSPoa3PONayLfO2laaCjgEHsg/pub?embedded=true&rm=minimal"
   }
 }

@@ -7,16 +7,19 @@
   "ko": {
     "title": "픽업 포지션과 하모닉 샘플링 — 정규화된 현 좌표에서 프렛별 공간 샘플링까지",
     "excerpt": "전기 기타·베이스의 magnetic pickup position을 “bridge = bright / neck = warm” 같은 tone adjective로만 설명하지 않고, vibrating string의 특정 spatial coordinate를 읽는 sampling geometry로 정의한다. A01에서 확립한 signal chain 가운데 이번 회차는 pickup-coordinate sampling을 분리하되, ideal string의 mode shape factor와 실제 induced voltage를 동일시하지 않는다. Point-sensor 위치계수, fret 변화에 따른 normalized coordinate, plucking-point excitation, finite sensing kernel, multi-pickup spatial mixing, magnetic-field geometry와 real-string effects를 문헌으로 검증하고, RavenForge ASKR·EMBLA 및 향후 3PU layout에서 사용할 공통 coordinate model과 C01 measurement protocol을 구축한다. 특정 pickup 좌표나 sensing width를 아직 최적값으로 확정하지 않는다.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vSd5NLI_c6ZindP3WqosNYvAn7jeGVTRhlBgcOPuR6wtdTH9PN9PmZkuO3-RaKFOw/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-07-sound/ko.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vSd5NLI_c6ZindP3WqosNYvAn7jeGVTRhlBgcOPuR6wtdTH9PN9PmZkuO3-RaKFOw/pub?embedded=true&rm=minimal"
   },
   "en": {
     "title": "Pickup Position and Harmonic Sampling — From normalized string coordinates to fret-dependent spatial sampling",
     "excerpt": "Rather than describing magnetic pickup position on electric guitars and basses only through tone adjectives such as “bridge = bright / neck = warm,” this log defines it as sampling geometry that reads a specific spatial coordinate of the vibrating string. Within the signal chain established in A01, this entry isolates pickup-coordinate sampling while explicitly separating the ideal string mode-shape factor from actual induced voltage. Literature is used to verify point-sensor position factors, fret-dependent normalized coordinates, plucking-point excitation, finite sensing kernels, multi-pickup spatial mixing, magnetic-field geometry, and real-string effects. The goal is to establish a common coordinate model and C01 measurement protocol for RavenForge ASKR, EMBLA, and future 3PU layouts. No pickup coordinate or sensing width is declared optimal at this stage.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vQY9NzjI_LJuWURfAMQKyeQXCiNoCF6KQ9BW30QqHoTPv9hDvsl6FTfcMTNvojq4g/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-07-sound/en.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vQY9NzjI_LJuWURfAMQKyeQXCiNoCF6KQ9BW30QqHoTPv9hDvsl6FTfcMTNvojq4g/pub?embedded=true&rm=minimal"
   },
   "de": {
     "title": "Pickup-Position und harmonische Abtastung — Von normierten Saitenkoordinaten zur bundabhängigen räumlichen Abtastung",
     "excerpt": "Die Position eines magnetischen Pickups bei E-Gitarre und Bass wird nicht nur über Klangadjektive wie „Bridge = hell / Neck = warm“ beschrieben, sondern als Abtastgeometrie definiert, die eine bestimmte räumliche Koordinate der schwingenden Saite erfasst. Innerhalb der in A01 etablierten Signalkette isoliert dieser Eintrag die Pickup-Koordinatenabtastung und trennt den Modenformfaktor der idealen Saite ausdrücklich von der real induzierten Spannung. Literatur dient zur Verifikation von Punktsensor-Positionsfaktoren, bundabhängigen normierten Koordinaten, Anschlagpunktanregung, endlichen Sensitivitätskernen, räumlicher Multi-Pickup-Mischung, Magnetfeldgeometrie und Effekten realer Saiten. Ziel ist ein gemeinsames Koordinatenmodell und C01-Messprotokoll für RavenForge ASKR, EMBLA und zukünftige 3PU-Layouts. In dieser Phase wird weder eine Pickup-Koordinate noch eine Sensitivitätsbreite als optimal festgelegt.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vQmiV-giCV9BbMEnqOGPhciylxrojcETC7uxmk8_HmDrNgeHyJYjZesjXtxdqQxhA/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-07-sound/de.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vQmiV-giCV9BbMEnqOGPhciylxrojcETC7uxmk8_HmDrNgeHyJYjZesjXtxdqQxhA/pub?embedded=true&rm=minimal"
   }
 }

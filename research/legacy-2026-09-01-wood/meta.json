@@ -7,16 +7,19 @@
   "ko": {
     "title": "구조적 변수로서의 톤우드",
     "excerpt": "솔리드바디 전기기타와 베이스에서 목재가 음색에 영향을 준다는 주장을 수종명 중심의 “톤우드” 서술이 아니라 재료 물성과 구조 동역학의 문제로 다시 검토한다. 특히 지판의 물성, 바디와 넥의 상대적 영향, 라미네이트 넥의 실제 장단점을 문헌 근거와 제작 관점으로 연결하고, RavenForge 프로토타입에서 직접 검증할 측정 항목을 정의한다",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vTIv2crzhOO7OyUCOSsqJ-gEdanF2e_2cnKa4LPhQ9NBRTZix99dtxBVTuT8lhIIw/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-01-wood/ko.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vTIv2crzhOO7OyUCOSsqJ-gEdanF2e_2cnKa4LPhQ9NBRTZix99dtxBVTuT8lhIIw/pub?embedded=true&rm=minimal"
   },
   "en": {
     "title": "Tonewood as a Structural Variable",
     "excerpt": "Re-examine claims that wood influences the sound of solid-body electric guitars and basses as a problem of material properties and structural dynamics rather than species-centered “tonewood” descriptions. The review focuses on fingerboard properties, the relative roles of body and neck, and the practical advantages and limitations of laminated necks, linking published evidence to lutherie decisions and defining measurements to be verified directly on RavenForge prototypes.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vRdrWJrT-3NLqAQ5jqb6v36rpo9MofEOYm1b8UybosRkTIBryKzrhYyju2hZfuVaQ/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-01-wood/en.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vRdrWJrT-3NLqAQ5jqb6v36rpo9MofEOYm1b8UybosRkTIBryKzrhYyju2hZfuVaQ/pub?embedded=true&rm=minimal"
   },
   "de": {
     "title": "Tonholz als strukturelle Variable",
     "excerpt": "Die Behauptung, Holz beeinflusse den Klang von Solidbody-E-Gitarren und -Bässen, wird nicht als holzartzentrierte „Tonholz“-Erzählung, sondern als Problem von Materialeigenschaften und Strukturdynamik neu untersucht. Im Mittelpunkt stehen Griffbretteigenschaften, die relativen Rollen von Korpus und Hals sowie die praktischen Vor- und Nachteile laminierter Hälse. Veröffentlichte Evidenz wird mit Entscheidungen im Instrumentenbau verknüpft und es werden Messgrößen definiert, die direkt an RavenForge-Prototypen zu verifizieren sind.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vR6FbzChUXCKuKfxCkDrKtz_K0NANlLYZmmHjhhrLpBnVo1jxHZT1_ipDECG_M_vg/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-01-wood/de.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vR6FbzChUXCKuKfxCkDrKtz_K0NANlLYZmmHjhhrLpBnVo1jxHZT1_ipDECG_M_vg/pub?embedded=true&rm=minimal"
   }
 }

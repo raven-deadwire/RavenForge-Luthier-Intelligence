@@ -7,16 +7,19 @@
   "ko": {
     "title": "프로토타입 개발 일지 Vol.1",
     "excerpt": "완성 도면의 결과만 보여주는 것이 아니라, 실제 제작 가능한 geometry로 접근하는 동안 어떤 가정이 틀렸고 어떤 검증을 통해 수정했는지를 기록한다. 실패한 revision과 폐기된 배치를 숨기지 않고 설계 근거로 남기는 것이 이 연구일지의 핵심이다.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vTqVajWrAIwgKIA6vetLA5_JW6-oeEeESMcPWLgzyT8WbS6UxkLc6w7MRPc6fDjug/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-08-30-log/ko.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vTqVajWrAIwgKIA6vetLA5_JW6-oeEeESMcPWLgzyT8WbS6UxkLc6w7MRPc6fDjug/pub?embedded=true&rm=minimal"
   },
   "en": {
     "title": "Prototype Development Log Vol.1",
     "excerpt": "Rather than simply presenting the final drawings, this log documents which assumptions proved incorrect and how they were corrected through verification during the process of developing buildable geometry. The core of this development log is to preserve failed revisions and discarded designs as part of the design rationale, without concealing them.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vQRp6RL2aX0o4a1icw5YQsj6Xk3Fesb2Ng-OMjZ-fxdrBk3HeOwVsVmcnqS9iuW2A/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-08-30-log/en.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vQRp6RL2aX0o4a1icw5YQsj6Xk3Fesb2Ng-OMjZ-fxdrBk3HeOwVsVmcnqS9iuW2A/pub?embedded=true&rm=minimal"
   },
   "de": {
     "title": "Prototypen-Entwicklungsprotokoll Vol.1",
     "excerpt": "Statt lediglich die endgültigen Zeichnungen zu präsentieren, dokumentiert dieses Protokoll, welche Annahmen sich bei der Entwicklung einer fertigungstauglichen Geometrie als falsch erwiesen und wie sie durch Verifikation korrigiert wurden. Ein zentraler Zweck ist, gescheiterte Revisionen und verworfene Entwürfe als Teil der Konstruktionsbegründung sichtbar zu bewahren, statt sie zu verbergen.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vTRgT96jJn2gFqyynzg7C5Tg-9jGNi0lNhtYpFV_GNO7P7r9MZ3NOyUg6ng4T4CyA/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-08-30-log/de.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vTRgT96jJn2gFqyynzg7C5Tg-9jGNi0lNhtYpFV_GNO7P7r9MZ3NOyUg6ng4T4CyA/pub?embedded=true&rm=minimal"
   }
 }

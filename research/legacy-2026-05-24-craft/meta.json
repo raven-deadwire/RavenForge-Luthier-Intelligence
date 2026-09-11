@@ -7,16 +7,19 @@
   "ko": {
     "title": "R&D 아이디어 노트: RavenForge Shift-Nut System",
     "excerpt": "RavenForge Shift-Nut System은 35인치 또는 36인치와 같은 확장 스케일 베이스의 장점을 포기하지 않으면서도, 사용자가 필요에 따라 짧은 유효 스케일로 전환할 수 있도록 설계된 내장형 카포-너트 시스템이다. 이 아이디어의 출발점은 단순한 숏스케일 베이스 개발이 아니다. 핵심 문제의식은 다음과 같다. 많은 베이시스트들이 35인치, 36인치 스케일이 제공하는 저음현의 안정성, 명료도, 장력감, 음정 안정성을 이해하면서도, “내가 적응하지 못할 것 같다”는 막연한 두려움 때문에 확장 스케일 악기를 선택하지 못한다. 즉, 문제는 확장 스케일 자체가 아니라 사용자가 느끼는 심리적 리스크다. Shift-Nut System은 이 리스크를 줄이기 위한 대안이다. 사용자는 기본적으로 긴 스케일의 장점을 경험하되, 필요할 때는 카포-너트 모드를 통해 더 짧은 유효 스케일로 전환할 수 있다.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vTf-IV5r_6tBUAoSXuN-f3hO8DwnKgqnngYxb7C7QRBtxlLCiczW6U7X-hVx4W6Diheb-CwKAkrfD88/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-05-24-craft/ko.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vTf-IV5r_6tBUAoSXuN-f3hO8DwnKgqnngYxb7C7QRBtxlLCiczW6U7X-hVx4W6Diheb-CwKAkrfD88/pub?embedded=true&rm=minimal"
   },
   "en": {
     "title": "R&D Idea Note: RavenForge Shift-Nut System",
     "excerpt": "The RavenForge Shift-Nut System is a proposed built-in capo-nut mechanism for bass guitars. Its purpose is to preserve the benefits of extended scale lengths such as 35 inches or 36 inches while giving players the option to switch into a shorter effective scale when needed. The concept did not begin as a simple short-scale bass idea. The underlying problem is that many players understand the advantages of extended-scale basses but abandon them because of a vague fear that they may fail to adapt. Many bassists do not reject 35-inch or 36-inch instruments because they deny the benefits. They reject them because the perceived risk of adaptation feels too high. The Shift-Nut System is designed as a technical answer to that psychological barrier. It allows a player to experience the clarity, low-string stability, and tuning authority of a longer scale, while retaining a fallback mode with a shorter effective scale.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vThZeo8sZwskNdmhifNZxUYPEOAsAl6uAyv7zI-n-IYF7zVhBMgNZbrrsH0_qwQMtoO32hoLpUhEq1P/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-05-24-craft/en.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vThZeo8sZwskNdmhifNZxUYPEOAsAl6uAyv7zI-n-IYF7zVhBMgNZbrrsH0_qwQMtoO32hoLpUhEq1P/pub?embedded=true&rm=minimal"
   },
   "de": {
     "title": "R&D Idea Note: RavenForge Shift-Nut System",
     "excerpt": "Das RavenForge Shift-Nut System ist ein vorgeschlagenes, in den Bass integriertes Capo-Nut-System. Ziel ist es, die Vorteile längerer Mensuren wie 35 Zoll oder 36 Zoll zu erhalten und dem Spieler gleichzeitig die Möglichkeit zu geben, bei Bedarf auf eine kürzere effektive Mensur umzuschalten. Der Ausgangspunkt dieser Idee ist nicht die Entwicklung eines gewöhnlichen Short-Scale-Basses. Das eigentliche Problem ist, dass viele Spieler die Vorteile von Extended-Scale-Bässen verstehen, sie aber aus einer diffusen Sorge vor mangelnder Anpassung nicht wählen. Viele Bassisten lehnen 35-Zoll- oder 36-Zoll-Instrumente nicht ab, weil sie deren Vorteile bestreiten. Sie lehnen sie ab, weil das wahrgenommene Risiko der Umgewöhnung zu hoch wirkt. Das Shift-Nut System versteht sich als technische Antwort auf diese psychologische Einstiegshürde. Es ermöglicht dem Spieler, Klarheit, Stabilität der tiefen Saiten und Stimmfestigkeit einer längeren Mensur zu nutzen, während ein kürzerer effektiver Spielmodus als sichere Alternative verfügbar bleibt.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vTBMCiaROC_xONinFaVFK6UDRmA4ynNM3EdEToTxXnIbDyUmao1-E-1NoOXfHmbYJGn5VwVrRDkzMBm/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-05-24-craft/de.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vTBMCiaROC_xONinFaVFK6UDRmA4ynNM3EdEToTxXnIbDyUmao1-E-1NoOXfHmbYJGn5VwVrRDkzMBm/pub?embedded=true&rm=minimal"
   }
 }

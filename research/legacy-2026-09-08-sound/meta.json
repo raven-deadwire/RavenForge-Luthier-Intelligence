@@ -7,16 +7,19 @@
   "ko": {
     "title": "Voicing Before Specification — 소리의 언어를 측정 가능한 설계 요구사항으로 변환하는 방법",
     "excerpt": "RavenForge의 모델 개발을 부품 목록에서 시작하지 않고, 연주자가 원하는 sonic intent와 사용 맥락을 먼저 정의한 뒤 이를 지각적 언어 → 측정 가능한 target → subsystem requirement → 실제 specification으로 단계적으로 변환하는 설계 방법론을 정립한다. Torillo의 “voice design / sonical presets”처럼 소리의 캐릭터를 먼저 제시하는 커스텀 제작 사례를 검토하되, 제작자의 wood–tone 서술을 과학적 인과관계로 그대로 채택하지 않는다. 또한 QFD와 systems engineering의 requirements flow-down 개념을 도입해 RavenForge의 `concept → target response → specification → prototype validation` 체계를 구축한다.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vRCpMiKnwmnxskofVwYEIWqQZbKDV9be4OQxPNHl9VhN7Ie6Xt1BPOVxb-GooR8Ow/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-08-sound/ko.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vRCpMiKnwmnxskofVwYEIWqQZbKDV9be4OQxPNHl9VhN7Ie6Xt1BPOVxb-GooR8Ow/pub?embedded=true&rm=minimal"
   },
   "en": {
     "title": "Voicing Before Specification — Turning the Language of Sound into Measurable Design Requirements",
     "excerpt": "Establish a design methodology in which RavenForge model development does not begin with a parts list. Instead, the player’s desired sonic intent and use context are defined first and then translated step by step from perceptual language → measurable target → subsystem requirement → actual specification. Custom-building examples such as Torillo’s “voice design / sonical presets” are examined as cases where sonic character is presented before the parts list, without adopting the maker’s wood–tone descriptions as scientific causality. The log also adapts requirements flow-down from QFD and systems engineering to build RavenForge’s `concept → target response → specification → prototype validation` framework.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vSXsjEpg7Mb-NhRE6vjKn3Gd7YR8bXiOiL8h2Cq-sdGV35uZXOaPyXi_x5I2exz_w/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-08-sound/en.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vSXsjEpg7Mb-NhRE6vjKn3Gd7YR8bXiOiL8h2Cq-sdGV35uZXOaPyXi_x5I2exz_w/pub?embedded=true&rm=minimal"
   },
   "de": {
     "title": "Voicing vor Spezifikation — Klangsprache in messbare Konstruktionsanforderungen übersetzen",
     "excerpt": "Eine Konstruktionsmethodik festlegen, bei der die RavenForge-Modellentwicklung nicht mit einer Bauteilliste beginnt. Zuerst werden gewünschte Klangabsicht und Nutzungskontext definiert und anschließend schrittweise von Wahrnehmungssprache → messbarem Ziel → Subsystemanforderung → realer Spezifikation übersetzt. Custom-Build-Beispiele wie Torillos „voice design / sonical presets“ werden als Fälle untersucht, in denen der Klangcharakter vor der Bauteilliste steht; Aussagen des Herstellers zu Holz und Klang werden jedoch nicht als wissenschaftliche Kausalität übernommen. Zusätzlich werden Konzepte des Requirements Flow-down aus QFD und Systems Engineering adaptiert, um RavenForges Rahmen `concept → target response → specification → prototype validation` aufzubauen.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vSclkhDugkR1sTcfPKltjjK03ujilcgpbQGDigMPrAz2LFr5nCowI2VVoO4swvYrA/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-08-sound/de.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vSclkhDugkR1sTcfPKltjjK03ujilcgpbQGDigMPrAz2LFr5nCowI2VVoO4swvYrA/pub?embedded=true&rm=minimal"
   }
 }

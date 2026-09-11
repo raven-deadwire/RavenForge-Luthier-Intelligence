@@ -7,16 +7,19 @@
   "ko": {
     "title": "RLC 시스템으로서의 마그네틱 픽업",
     "excerpt": "패시브 magnetic pickup을 “저항값이 높은 코일”이나 단순한 tone adjective로 설명하지 않고, 현의 운동을 유도 기전력로 변환하는 전자기적 source와 주파수 의존 terminal impedance를 분리해 모델링한다. R–L–C 등가회로가 유효한 범위와 한계를 명시하고, DCR·inductance·distributed capacitance·resonance·Q·eddy-current loss를 공통 측정 언어로 정리한다. 외부 pot/cable loading의 상세는 A04, buffer/interface는 A05, 실제 pickup의 Z(f)와 magnetic transfer function 실측은 후속 C-log로 넘긴다.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vRaFJdWjn85P2fNEKbHmJxYa78Xx8CQRB0NYb9h0yuFFW96N-R1-O1I-mBzbTR5yg/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-09-sound/ko.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vRaFJdWjn85P2fNEKbHmJxYa78Xx8CQRB0NYb9h0yuFFW96N-R1-O1I-mBzbTR5yg/pub?embedded=true&rm=minimal"
   },
   "en": {
     "title": "Magnetic Pickups as RLC Systems",
     "excerpt": "Model the passive magnetic pickup as an electromagnetic source plus a frequency-dependent terminal network rather than as a “high-resistance coil” or a collection of tone adjectives. Establish the valid scope and limitations of the R–L–C approximation and organize DCR, inductance, distributed capacitance, resonance, Q and eddy-current loss into a common measurement language. Detailed external loading is deferred to A04, buffer/interface behavior to A05, and actual Z(f) plus magnetic transfer measurements to a later C-log.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vStIHqWNrNhUAk9CuIk7xycfr0wD51QEaRC9ZxbCsI6TA96avE4WqKu0SLssGvo_Q/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-09-sound/en.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vStIHqWNrNhUAk9CuIk7xycfr0wD51QEaRC9ZxbCsI6TA96avE4WqKu0SLssGvo_Q/pub?embedded=true&rm=minimal"
   },
   "de": {
     "title": "Einen verteilten elektromagnetischen Wandler mit einem Ersatznetzwerk 1. Ordnung lesen und DCR, Z(f), Resonanz und Q sauber trennen",
     "excerpt": "Den passiven magnetischen Pickup als elektromagnetische Quelle plus frequenzabhängiges Klemmen-Netzwerk modellieren, nicht als bloße „hochohmige Spule“ oder Sammlung von Klangadjektiven. Gültigkeitsbereich und Grenzen der R–L–C-Näherung festlegen und DCR, Induktivität, verteilte Kapazität, Resonanz, Q und Wirbelstromverluste in eine gemeinsame Messsprache überführen. Externe Lasten werden in A04, Buffer/Interface in A05 und reale Z(f)- sowie magnetische Transfermessungen in einem späteren C-Log behandelt.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vTYlHq9fPe2vt1kvc0nqaD4XbEiM_VKG-sEADueTN8izyZuCBBuU01I4-Sm9szLaA/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-09-sound/de.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vTYlHq9fPe2vt1kvc0nqaD4XbEiM_VKG-sEADueTN8izyZuCBBuU01I4-Sm9szLaA/pub?embedded=true&rm=minimal"
   }
 }

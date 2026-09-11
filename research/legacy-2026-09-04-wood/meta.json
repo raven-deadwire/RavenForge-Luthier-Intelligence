@@ -7,16 +7,19 @@
   "ko": {
     "title": "EDDA — 왜 ‘앨더’인가, 그리고 “헤리티지”란 무엇을 의미하는가?",
     "excerpt": "EDDA는 RavenForge의 최초 라인업에는 존재하지 않았던 모델이다. EMBLA와 ASKR를 중심으로 설계를 진행하던 중 Alembic과 Wal에 대한 관심이 커졌고, 그 역사를 따라가면서 “빈티지 베이스의 유산”을 Fender 계열 P/J archetype과 그 파생형만으로 설명하는 것은 지나치게 좁다는 문제의식이 생겼다. 1970년대의 boutique bass history에는 저임피던스 pickup, onboard preamp, low-pass filter, 전용 hardware와 player/studio feedback을 하나의 시스템으로 통합하려 했던 또 다른 계보가 존재한다 [1–4]. EDDA는 그 계보를 직접 복제하는 모델이 아니라, 그들이 던진 설계 질문을 오늘의 제작 조건에서 다시 연구하기 위해 추가된 heritage / improved-vintage platform이다. 이 문서는 Alder·Limba·Maple·Rosewood·Ebony를 왜 표준/추천 재료로 두는지, 그리고 Jindai Keyaki·Bog Oak·Ancient Kauri 같은 premium material을 왜 “더 좋은 tonewood”가 아닌 stock-specific research material로 다루는지를 정리한다.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vQM7fQ7-2qbIJdIE3IneB6obMvLt2E8oLR7mcmdScAiN8XtATdZyYRZfEs05fhYXQ/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-04-wood/ko.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vQM7fQ7-2qbIJdIE3IneB6obMvLt2E8oLR7mcmdScAiN8XtATdZyYRZfEs05fhYXQ/pub?embedded=true&rm=minimal"
   },
   "en": {
     "title": "EDDA — Why Alder, and What Does “Heritage” Mean?",
     "excerpt": "EDDA did not exist in RavenForge’s original lineup. While design work focused on EMBLA and ASKR, growing interest in Alembic and Wal led to the realization that defining the “heritage of vintage bass” only through Fender-derived P/J archetypes and their descendants was too narrow. The boutique-bass history of the 1970s also contains a parallel lineage that attempted to integrate low-impedance pickups, onboard preamps, low-pass filters, dedicated hardware, and player/studio feedback into one system [1–4]. EDDA was added not to reproduce that lineage directly, but as a heritage / improved-vintage platform for re-examining the design questions those builders raised under present manufacturing conditions. This document explains why Alder, Limba, Maple, Rosewood, and Ebony are used as Standard/Recommended materials, and why premium materials such as Jindai Keyaki, Bog Oak, and Ancient Kauri are treated not as “better tonewoods” but as stock-specific research materials.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vSdU4k12eUmvvpJNz7eS5yhpw_uPLuA_wrozjAbIRZIxo_ZjmNSZEdsubK4cy_AOw/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-04-wood/en.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vSdU4k12eUmvvpJNz7eS5yhpw_uPLuA_wrozjAbIRZIxo_ZjmNSZEdsubK4cy_AOw/pub?embedded=true&rm=minimal"
   },
   "de": {
     "title": "EDDA — Warum Erle, und was bedeutet „Heritage“?",
     "excerpt": "EDDA gehörte nicht zur ursprünglichen RavenForge-Modellpalette. Während die Entwicklung zunächst auf EMBLA und ASKR konzentriert war, wuchs das Interesse an Alembic und Wal. Bei der Beschäftigung mit ihrer Geschichte entstand die Einsicht, dass es zu eng wäre, das „Heritage des Vintage-Basses“ nur über Fender-abgeleitete P/J-Archetypen und deren Derivate zu definieren. Die Boutique-Bass-Geschichte der 1970er enthält eine parallele Linie, die niederohmige Pickups, Onboard-Preamps, Tiefpassfilter, spezielle Hardware und Feedback aus Spieler- und Studioeinsatz als ein Gesamtsystem integrieren wollte [1–4]. EDDA wurde nicht hinzugefügt, um diese Linie direkt zu kopieren, sondern als Heritage-/Improved-Vintage-Plattform, auf der ihre Designfragen unter heutigen Fertigungsbedingungen erneut untersucht werden. Dieses Dokument erklärt, warum Erle, Limba, Ahorn, Palisander und Ebenholz als Standard-/Recommended-Materialien dienen und warum Premium-Materialien wie Jindai Keyaki, Mooreiche und Ancient Kauri nicht als „bessere Tonhölzer“, sondern als stock-spezifische Forschungsmaterialien behandelt werden.",
-    "link": "https://docs.google.com/document/d/e/2PACX-1vR2q21D81ghhwB4SaOb2NYolHL_g7xioK9zLNg5NOXl864QBo8BBXPwURF0wOB3Hg/pub?embedded=true&rm=minimal"
+    "link": "research/legacy-2026-09-04-wood/de.html",
+    "sourceLink": "https://docs.google.com/document/d/e/2PACX-1vR2q21D81ghhwB4SaOb2NYolHL_g7xioK9zLNg5NOXl864QBo8BBXPwURF0wOB3Hg/pub?embedded=true&rm=minimal"
   }
 }
