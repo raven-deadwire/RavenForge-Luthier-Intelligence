@@ -1,12 +1,12 @@
-/* Home/About structure and local profile/release media. Preserves the existing RavenForge visual system. */
+/* Home/About structure and profile/release media. Preserves the existing RavenForge visual system. */
 (() => {
   'use strict';
 
   const homeLabels = { en: 'Home', de: 'Start', ko: '홈' };
   const releaseMedia = [
-    ['assets/music/from-destiny-they-called.webp', 'From Destiny They Called album cover'],
-    ['assets/music/revenant-raven.webp', 'Revenant Raven album cover'],
-    ['assets/music/a-warrior-betrayed-us.webp', 'A Warrior Betrayed Us album cover']
+    ['https://image.bugsm.co.kr/album/images/1000/208067/20806769.jpg', 'From Destiny They Called album cover'],
+    ['https://image.bugsm.co.kr/album/images/1000/205923/20592334.jpg', 'Revenant Raven album cover'],
+    ['https://image.bugsm.co.kr/album/images/1000/205975/20597516.jpg', 'A Warrior Betrayed Us album cover']
   ];
 
   const language = () => homeLabels[document.documentElement.lang] ? document.documentElement.lang : 'en';
@@ -88,7 +88,7 @@
       #about-content-bio .rf-release-label { margin-bottom:.2rem; }
       .rf-project-stage { display:none !important; }
 
-      /* Home > Project Conception: let square model artwork fill each card edge-to-edge. */
+      /* Home > Project Conception: fill the full card width without stretching the square artwork. */
       #home #ravenforge-identity .grid.md\\:grid-cols-3 > .bg-stone-50 > .mb-4 {
         margin:-1rem -1rem 1rem !important;
         width:calc(100% + 2rem);
@@ -105,11 +105,6 @@
         object-fit:cover !important;
         object-position:center;
         border-radius:0 !important;
-      }
-      @media (max-width:767px) {
-        #home #ravenforge-identity .grid.md\\:grid-cols-3 > .bg-stone-50 > .mb-4 {
-          aspect-ratio:4 / 3;
-        }
       }
     `;
     document.head.append(style);
