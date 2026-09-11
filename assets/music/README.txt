@@ -1,0 +1,1 @@
+Release artwork directory. Original cover art supplied by Raven Cho; web-optimized copies only.
