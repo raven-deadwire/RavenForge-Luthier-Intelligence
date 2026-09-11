@@ -1,3 +1,4 @@
+# One-time importer for migrating the published Research Lab sheet into GitHub-native metadata.
 import csv
 import io
 import json
