@@ -87,6 +87,30 @@
       #about-content-bio .rf-release-card h4 { margin:.2rem 0 .55rem !important; }
       #about-content-bio .rf-release-label { margin-bottom:.2rem; }
       .rf-project-stage { display:none !important; }
+
+      /* Home > Project Conception: let square model artwork fill each card edge-to-edge. */
+      #home #ravenforge-identity .grid.md\\:grid-cols-3 > .bg-stone-50 > .mb-4 {
+        margin:-1rem -1rem 1rem !important;
+        width:calc(100% + 2rem);
+        aspect-ratio:1 / 1;
+        overflow:hidden;
+        border-radius:.375rem .375rem 0 0;
+        background:#111827;
+      }
+      #home #ravenforge-identity .grid.md\\:grid-cols-3 > .bg-stone-50 > .mb-4 > img {
+        display:block;
+        width:100% !important;
+        height:100% !important;
+        max-width:none !important;
+        object-fit:cover !important;
+        object-position:center;
+        border-radius:0 !important;
+      }
+      @media (max-width:767px) {
+        #home #ravenforge-identity .grid.md\\:grid-cols-3 > .bg-stone-50 > .mb-4 {
+          aspect-ratio:4 / 3;
+        }
+      }
     `;
     document.head.append(style);
   }
