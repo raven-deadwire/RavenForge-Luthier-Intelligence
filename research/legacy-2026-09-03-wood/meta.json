@@ -1,0 +1,22 @@
+{
+  "id": "legacy-2026-09-03-wood",
+  "date": "2026-09-03",
+  "category": "wood",
+  "migratedFrom": "google-sheet",
+  "legacySheetRow": 10,
+  "ko": {
+    "title": "ASKR — 왜 ‘애쉬(Ash)’인가, 그리고 왜 지판은 여전히 미정인 요소로 남아 있는가?",
+    "excerpt": "Material & Acoustics Research Log 01의 “수종명이 아니라 완성 구조의 물성을 본다”는 원칙을 ASKR에 적용한다. Ash 바디와 5-piece laminated neck을 기본값으로 둔 이유, 지판에서 Mpingo(African Blackwood)와 Kingwood를 최우선 천연목 후보로 보는 이유와 동시에 이들의 수급·CITES 관리 문제를 검토한다. 또한 과거 Ebonol·Richlite 계열 합성 지판을 직접 사용해 본 RavenForge workshop 경험을 기록하고, 왜 현재까지 Ebony/Wenge를 대체할 만큼 유의미한 이점을 확인하지 못했는지 ‘실험 결과’가 아니라 현장 관찰로 구분해 남긴다.",
+    "link": "https://docs.google.com/document/d/e/2PACX-1vSKGfDCe6DkLmJXyKtX7Mf5QVrlYx1lkBySZEjmDhNWZURedmxN71zcFjmsOHNtwQ/pub?embedded=true&rm=minimal"
+  },
+  "en": {
+    "title": "ASKR — Why Ash, and Why the Fingerboard Remains an Open Variable?",
+    "excerpt": "This document applies to ASKR the principle established in Material & Acoustics Research Log 01: evaluate the mechanical properties of the finished structure rather than relying on species names. It explains why an Ash body and a 5-piece laminated neck form the baseline, why Mpingo (African Blackwood) and Kingwood are the highest-priority natural fingerboard candidates, and why their supply and CITES-management constraints matter. It also records RavenForge workshop experience with Ebonol- and Richlite-type synthetic fingerboards and distinguishes the lack of a meaningful advantage over Ebony/Wenge so far as a workshop observation rather than an experimental result.",
+    "link": "https://docs.google.com/document/d/e/2PACX-1vRTW84Aj20C9Rf7p520z16Qo4nuta8kN6z3zUxx69TmVwMgzzRtvwmWsRv4iU3CQA/pub?embedded=true&rm=minimal"
+  },
+  "de": {
+    "title": "ASKR — Warum Esche, und warum das Griffbrett eine offene Variable bleibt?",
+    "excerpt": "Dieses Dokument überträgt den in Material & Acoustics Research Log 01 formulierten Grundsatz auf ASKR: Nicht der Artname, sondern die mechanischen Eigenschaften der fertigen Struktur werden bewertet. Es erläutert, warum ein Esche-Korpus und ein 5-teiliger laminierter Hals die Baseline bilden, warum Mpingo (African Blackwood) und Kingwood die Naturholz-Kandidaten mit höchster Forschungspriorität für das Griffbrett sind und warum Beschaffung sowie CITES-Management berücksichtigt werden müssen. Zudem werden RavenForge-Werkstatterfahrungen mit Ebonol- und Richlite-artigen synthetischen Griffbrettern dokumentiert; die bislang fehlenden relevanten Vorteile gegenüber Ebony/Wenge werden ausdrücklich als Werkstattbeobachtung und nicht als Versuchsergebnis eingeordnet.",
+    "link": "https://docs.google.com/document/d/e/2PACX-1vQD_IaXtAPLpD0nkN7XQmipqhIWpd66265-GCbpUh59hXDYbVHgmtpsGLDgeILHmw/pub?embedded=true&rm=minimal"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "legacy-2026-09-10-sound",
+  "date": "2026-09-10",
+  "category": "sound",
+  "migratedFrom": "google-sheet",
+  "legacySheetRow": 3,
+  "ko": {
+    "title": "픽업 자체의 Z(f)에서 실제 악기 출력까지 — 저항성·용량성 부하와 control topology가 loaded response를 바꾸는 방식",
+    "excerpt": "A03에서 확립한 passive pickup의 source + Zpu(f) 모델을 실제 악기 경계조건으로 확장한다. volume/tone controls, cable capacitance, downstream input resistance/capacitance를 하나의 loaded system으로 다루고, 250 kΩ / 500 kΩ / 1 MΩ 같은 관행을 고정된 “tone recipe”가 아니라 측정 가능한 damping·resonance 조건으로 재정의한다. A04는 passive loading까지 다루며 active buffer의 격리 메커니즘은 A05로 넘긴다.",
+    "link": "https://docs.google.com/document/d/e/2PACX-1vSlnRPxqjbCeh421A5jNdXooReKMHLCMbEn3Ir3jULHsKNW5RO8rlLh55mp6_TB2Q/pub?embedded=true&rm=minimal"
+  },
+  "en": {
+    "title": "Electrical Loading of Passive Pickups",
+    "excerpt": "Extend the passive-pickup source + Zpu(f) model established in A03 to real instrument boundary conditions. Volume/tone controls, cable capacitance, and downstream input resistance/capacitance are treated as one loaded system. Conventional values such as 250 kΩ / 500 kΩ / 1 MΩ are reframed as measurable damping and resonance conditions rather than fixed tone recipes. A04 ends at passive loading; active-buffer isolation is deferred to A05.",
+    "link": "https://docs.google.com/document/d/e/2PACX-1vRFzgByuiifRNk_Ipa_iuDfxAFZGEYpzTuc9phDRbXvkFdDOSjkhUzAr5lwKQbZ2Q/pub?embedded=true&rm=minimal"
+  },
+  "de": {
+    "title": "Vom Pickup-Z(f) zum realen Instrumentenausgang — wie resistive/kapazitive Lasten und die Regler-Topologie die belastete Übertragungsfunktion formen",
+    "excerpt": "Das in A03 etablierte Modell eines passiven Pickups als Quelle + Zpu(f) wird auf reale elektrische Randbedingungen erweitert. Volume-/Tone-Regler, Kabelkapazität sowie Eingangs-Widerstand und -Kapazität des Folgengeräts werden als ein belastetes System behandelt. Konventionelle Werte wie 250 kΩ / 500 kΩ / 1 MΩ werden nicht als feste Klangrezepte, sondern als messbare Dämpfungs- und Resonanzbedingungen definiert. A04 endet bei der passiven Belastung; die Entkopplung durch aktive Buffer folgt in A05.",
+    "link": "https://docs.google.com/document/d/e/2PACX-1vSueNbia0Jvj0cUV0scsCB2_6LsaVWWPOA24MOz-2FGZgljpFJeNO1ghGP2404Y-w/pub?embedded=true&rm=minimal"
+  }
+}

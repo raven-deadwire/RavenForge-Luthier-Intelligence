@@ -1,0 +1,22 @@
+{
+  "id": "legacy-2026-03-31-liberal",
+  "date": "2026-03-31",
+  "category": "liberal",
+  "migratedFrom": "google-sheet",
+  "legacySheetRow": 16,
+  "ko": {
+    "title": "EMBLA & ASKR: 신화적 질료, 철학적 오르가놀로지, 그리고 능동적 매개체로서의 루씨어리를 그리며",
+    "excerpt": "이 에세이는 레이븐포지의 일렉트릭 베이스 프로토타입 모델인 ‘엠블라(EMBLA)’와 ‘아스크르(ASKR)’에 담긴 북유럽 창조 신화의 스토리텔링이, 현대 악기 제작의 재료공학과 음향학적 설계와 어떻게 유기적으로 어우러지는지 소개하고자 한다. 수동적인 질료(Matter)인 유목이 연주자와 만나면서 능동적으로 소리를 만들어내는 존재로 변하는 과정을 분석하기 위해, 철학적 오르가놀로지와 신물질주의적 관점을 빌려왔다. 이를 바탕으로, 아스크르 모델은 쉘든 딩월의 ‘멀티스케일 생태계’와 명료함의 철학을 통해 극한의 펀치감과 이성적인 구조를 구현하는 방식에 주목한다. 반면 엠블라 모델은 제랄드 말로우의 ‘유기적 공명’과 레지오 톤 우드(RTW) 철학, 그리고 독일 악기상 수상 콘삿 모델의 전통을 바탕으로, 생태적 균형과 따뜻한 어쿠스틱 질감을 만들어내는 과정에 집중한다. 결국 두 악기는 단순한 공산품이 아니라, 연주자의 개별적인 서사가 더해짐으로써 비로소 완성되는 능동적 매개체임을 밝힌다.",
+    "link": "https://docs.google.com/document/d/e/2PACX-1vSSrY6CbWoojuh1JEK24gA6VMwxi1c9TDNgt1Sa1xtXd-F-VXBcBx8yD_8cQ7z2XBNwmWk5kHfnumZi/pub?embedded=true&rm=minimal"
+  },
+  "en": {
+    "title": "EMBLA & ASKR: Toward a Luthiery of Mythic Matter, Philosophical Organology, and Active Mediation",
+    "excerpt": "This essay examines how the storytelling of the Norse creation myth embedded in RavenForge’s electric bass prototypes, EMBLA and ASKR, can be organically interwoven with modern materials engineering and acoustic design in instrument making. To analyze the process by which driftwood, as passive matter, becomes an entity capable of actively producing sound once it encounters a performer, the essay draws on philosophical organology and new-materialist thought. On this basis, the ASKR model is read through Sheldon Dingwall’s philosophy of the multiscale ecosystem and sonic clarity, foregrounding the realization of extreme punch and rational structure. EMBLA, by contrast, is grounded in Gerald Marleaux’s notion of organic resonance, the Regio Tone Wood (RTW) philosophy, and the legacy of the award-winning Consat model, focusing on the production of ecological balance and a warm acoustic texture. Ultimately, the essay argues that these two instruments are not mere industrial commodities but active mediating agents that are completed only when the individual narrative of the performer is added to them.",
+    "link": "https://docs.google.com/document/d/e/2PACX-1vSIsl_Z6GjiyxVyOgJ4WhH1P14MCIaY82xQ3asVi-eQ-Nif_H1dlBsmvoUJKQfN0vr_DuFQyr1CEj99/pub?embedded=true&rm=minimal"
+  },
+  "de": {
+    "title": "EMBLA & ASKR: Entwurf einer Lutherie aus mythischer Materialität, philosophischer Organologie und aktiver Vermittlung",
+    "excerpt": "Dieser Essay untersucht, wie sich die in den elektrischen Bass-Prototypen EMBLA und ASKR von RavenForge angelegte Erzählung des nordischen Schöpfungsmythos organisch mit moderner Werkstofftechnik und akustischer Konstruktion im Instrumentenbau verbinden lässt. Um den Prozess zu analysieren, in dem Treibholz als passive Materie in der Begegnung mit dem Musiker zu einem aktiv klangerzeugenden Wesen wird, greift der Text auf philosophische Organologie und auf Denkrichtungen des New Materialism zurück. Vor diesem Hintergrund wird das Modell ASKR durch Sheldon Dingwalls Philosophie eines Multiscale-Ökosystems und klanglicher Klarheit gelesen und als Realisierung extremer Durchsetzungskraft und rationaler Struktur verstanden. EMBLA hingegen stützt sich auf Gerald Marleaux’ Idee der organischen Resonanz, auf die Regio-Tone-Wood-Philosophie und auf die Tradition des preisgekrönten Consat-Modells und konzentriert sich auf die Hervorbringung ökologischer Balance sowie einer warmen akustischen Textur. Letztlich zeigt der Essay, dass diese beiden Instrumente keine bloßen Industrieprodukte sind, sondern aktive Vermittlungsinstanzen, die erst durch die individuelle Erzählung des Spielers vollendet werden.",
+    "link": "https://docs.google.com/document/d/e/2PACX-1vRpqaA3gLkoZEcgD-Olh6C4zLKZnJ3IKnxmzuZ6ElGCvrf4pA7GWSEWxgGUoFGGrfO-tHRgr8OwdRlh/pub?embedded=true&rm=minimal"
+  }
+}

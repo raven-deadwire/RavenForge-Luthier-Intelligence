@@ -2,23 +2,323 @@
   "schemaVersion": 1,
   "articles": [
     {
+      "id": "legacy-2026-09-10-sound",
+      "date": "2026-09-10",
+      "category": "sound",
+      "ko": {
+        "title": "픽업 자체의 Z(f)에서 실제 악기 출력까지 — 저항성·용량성 부하와 control topology가 loaded response를 바꾸는 방식",
+        "excerpt": "A03에서 확립한 passive pickup의 source + Zpu(f) 모델을 실제 악기 경계조건으로 확장한다. volume/tone controls, cable capacitance, downstream input resistance/capacitance를 하나의 loaded system으로 다루고, 250 kΩ / 500 kΩ / 1 MΩ 같은 관행을 고정된 “tone recipe”가 아니라 측정 가능한 damping·resonance 조건으로 재정의한다. A04는 passive loading까지 다루며 active buffer의 격리 메커니즘은 A05로 넘긴다.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vSlnRPxqjbCeh421A5jNdXooReKMHLCMbEn3Ir3jULHsKNW5RO8rlLh55mp6_TB2Q/pub?embedded=true&rm=minimal"
+      },
+      "en": {
+        "title": "Electrical Loading of Passive Pickups",
+        "excerpt": "Extend the passive-pickup source + Zpu(f) model established in A03 to real instrument boundary conditions. Volume/tone controls, cable capacitance, and downstream input resistance/capacitance are treated as one loaded system. Conventional values such as 250 kΩ / 500 kΩ / 1 MΩ are reframed as measurable damping and resonance conditions rather than fixed tone recipes. A04 ends at passive loading; active-buffer isolation is deferred to A05.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vRFzgByuiifRNk_Ipa_iuDfxAFZGEYpzTuc9phDRbXvkFdDOSjkhUzAr5lwKQbZ2Q/pub?embedded=true&rm=minimal"
+      },
+      "de": {
+        "title": "Vom Pickup-Z(f) zum realen Instrumentenausgang — wie resistive/kapazitive Lasten und die Regler-Topologie die belastete Übertragungsfunktion formen",
+        "excerpt": "Das in A03 etablierte Modell eines passiven Pickups als Quelle + Zpu(f) wird auf reale elektrische Randbedingungen erweitert. Volume-/Tone-Regler, Kabelkapazität sowie Eingangs-Widerstand und -Kapazität des Folgengeräts werden als ein belastetes System behandelt. Konventionelle Werte wie 250 kΩ / 500 kΩ / 1 MΩ werden nicht als feste Klangrezepte, sondern als messbare Dämpfungs- und Resonanzbedingungen definiert. A04 endet bei der passiven Belastung; die Entkopplung durch aktive Buffer folgt in A05.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vSueNbia0Jvj0cUV0scsCB2_6LsaVWWPOA24MOz-2FGZgljpFJeNO1ghGP2404Y-w/pub?embedded=true&rm=minimal"
+      }
+    },
+    {
+      "id": "legacy-2026-09-09-sound",
+      "date": "2026-09-09",
+      "category": "sound",
+      "ko": {
+        "title": "RLC 시스템으로서의 마그네틱 픽업",
+        "excerpt": "패시브 magnetic pickup을 “저항값이 높은 코일”이나 단순한 tone adjective로 설명하지 않고, 현의 운동을 유도 기전력로 변환하는 전자기적 source와 주파수 의존 terminal impedance를 분리해 모델링한다. R–L–C 등가회로가 유효한 범위와 한계를 명시하고, DCR·inductance·distributed capacitance·resonance·Q·eddy-current loss를 공통 측정 언어로 정리한다. 외부 pot/cable loading의 상세는 A04, buffer/interface는 A05, 실제 pickup의 Z(f)와 magnetic transfer function 실측은 후속 C-log로 넘긴다.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vRaFJdWjn85P2fNEKbHmJxYa78Xx8CQRB0NYb9h0yuFFW96N-R1-O1I-mBzbTR5yg/pub?embedded=true&rm=minimal"
+      },
+      "en": {
+        "title": "Magnetic Pickups as RLC Systems",
+        "excerpt": "Model the passive magnetic pickup as an electromagnetic source plus a frequency-dependent terminal network rather than as a “high-resistance coil” or a collection of tone adjectives. Establish the valid scope and limitations of the R–L–C approximation and organize DCR, inductance, distributed capacitance, resonance, Q and eddy-current loss into a common measurement language. Detailed external loading is deferred to A04, buffer/interface behavior to A05, and actual Z(f) plus magnetic transfer measurements to a later C-log.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vStIHqWNrNhUAk9CuIk7xycfr0wD51QEaRC9ZxbCsI6TA96avE4WqKu0SLssGvo_Q/pub?embedded=true&rm=minimal"
+      },
+      "de": {
+        "title": "Einen verteilten elektromagnetischen Wandler mit einem Ersatznetzwerk 1. Ordnung lesen und DCR, Z(f), Resonanz und Q sauber trennen",
+        "excerpt": "Den passiven magnetischen Pickup als elektromagnetische Quelle plus frequenzabhängiges Klemmen-Netzwerk modellieren, nicht als bloße „hochohmige Spule“ oder Sammlung von Klangadjektiven. Gültigkeitsbereich und Grenzen der R–L–C-Näherung festlegen und DCR, Induktivität, verteilte Kapazität, Resonanz, Q und Wirbelstromverluste in eine gemeinsame Messsprache überführen. Externe Lasten werden in A04, Buffer/Interface in A05 und reale Z(f)- sowie magnetische Transfermessungen in einem späteren C-Log behandelt.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vTYlHq9fPe2vt1kvc0nqaD4XbEiM_VKG-sEADueTN8izyZuCBBuU01I4-Sm9szLaA/pub?embedded=true&rm=minimal"
+      }
+    },
+    {
+      "id": "legacy-2026-09-08-sound",
+      "date": "2026-09-08",
+      "category": "sound",
+      "ko": {
+        "title": "Voicing Before Specification — 소리의 언어를 측정 가능한 설계 요구사항으로 변환하는 방법",
+        "excerpt": "RavenForge의 모델 개발을 부품 목록에서 시작하지 않고, 연주자가 원하는 sonic intent와 사용 맥락을 먼저 정의한 뒤 이를 지각적 언어 → 측정 가능한 target → subsystem requirement → 실제 specification으로 단계적으로 변환하는 설계 방법론을 정립한다. Torillo의 “voice design / sonical presets”처럼 소리의 캐릭터를 먼저 제시하는 커스텀 제작 사례를 검토하되, 제작자의 wood–tone 서술을 과학적 인과관계로 그대로 채택하지 않는다. 또한 QFD와 systems engineering의 requirements flow-down 개념을 도입해 RavenForge의 `concept → target response → specification → prototype validation` 체계를 구축한다.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vRCpMiKnwmnxskofVwYEIWqQZbKDV9be4OQxPNHl9VhN7Ie6Xt1BPOVxb-GooR8Ow/pub?embedded=true&rm=minimal"
+      },
+      "en": {
+        "title": "Voicing Before Specification — Turning the Language of Sound into Measurable Design Requirements",
+        "excerpt": "Establish a design methodology in which RavenForge model development does not begin with a parts list. Instead, the player’s desired sonic intent and use context are defined first and then translated step by step from perceptual language → measurable target → subsystem requirement → actual specification. Custom-building examples such as Torillo’s “voice design / sonical presets” are examined as cases where sonic character is presented before the parts list, without adopting the maker’s wood–tone descriptions as scientific causality. The log also adapts requirements flow-down from QFD and systems engineering to build RavenForge’s `concept → target response → specification → prototype validation` framework.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vSXsjEpg7Mb-NhRE6vjKn3Gd7YR8bXiOiL8h2Cq-sdGV35uZXOaPyXi_x5I2exz_w/pub?embedded=true&rm=minimal"
+      },
+      "de": {
+        "title": "Voicing vor Spezifikation — Klangsprache in messbare Konstruktionsanforderungen übersetzen",
+        "excerpt": "Eine Konstruktionsmethodik festlegen, bei der die RavenForge-Modellentwicklung nicht mit einer Bauteilliste beginnt. Zuerst werden gewünschte Klangabsicht und Nutzungskontext definiert und anschließend schrittweise von Wahrnehmungssprache → messbarem Ziel → Subsystemanforderung → realer Spezifikation übersetzt. Custom-Build-Beispiele wie Torillos „voice design / sonical presets“ werden als Fälle untersucht, in denen der Klangcharakter vor der Bauteilliste steht; Aussagen des Herstellers zu Holz und Klang werden jedoch nicht als wissenschaftliche Kausalität übernommen. Zusätzlich werden Konzepte des Requirements Flow-down aus QFD und Systems Engineering adaptiert, um RavenForges Rahmen `concept → target response → specification → prototype validation` aufzubauen.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vSclkhDugkR1sTcfPKltjjK03ujilcgpbQGDigMPrAz2LFr5nCowI2VVoO4swvYrA/pub?embedded=true&rm=minimal"
+      }
+    },
+    {
+      "id": "legacy-2026-09-07-sound",
+      "date": "2026-09-07",
+      "category": "sound",
+      "ko": {
+        "title": "픽업 포지션과 하모닉 샘플링 — 정규화된 현 좌표에서 프렛별 공간 샘플링까지",
+        "excerpt": "전기 기타·베이스의 magnetic pickup position을 “bridge = bright / neck = warm” 같은 tone adjective로만 설명하지 않고, vibrating string의 특정 spatial coordinate를 읽는 sampling geometry로 정의한다. A01에서 확립한 signal chain 가운데 이번 회차는 pickup-coordinate sampling을 분리하되, ideal string의 mode shape factor와 실제 induced voltage를 동일시하지 않는다. Point-sensor 위치계수, fret 변화에 따른 normalized coordinate, plucking-point excitation, finite sensing kernel, multi-pickup spatial mixing, magnetic-field geometry와 real-string effects를 문헌으로 검증하고, RavenForge ASKR·EMBLA 및 향후 3PU layout에서 사용할 공통 coordinate model과 C01 measurement protocol을 구축한다. 특정 pickup 좌표나 sensing width를 아직 최적값으로 확정하지 않는다.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vSd5NLI_c6ZindP3WqosNYvAn7jeGVTRhlBgcOPuR6wtdTH9PN9PmZkuO3-RaKFOw/pub?embedded=true&rm=minimal"
+      },
+      "en": {
+        "title": "Pickup Position and Harmonic Sampling — From normalized string coordinates to fret-dependent spatial sampling",
+        "excerpt": "Rather than describing magnetic pickup position on electric guitars and basses only through tone adjectives such as “bridge = bright / neck = warm,” this log defines it as sampling geometry that reads a specific spatial coordinate of the vibrating string. Within the signal chain established in A01, this entry isolates pickup-coordinate sampling while explicitly separating the ideal string mode-shape factor from actual induced voltage. Literature is used to verify point-sensor position factors, fret-dependent normalized coordinates, plucking-point excitation, finite sensing kernels, multi-pickup spatial mixing, magnetic-field geometry, and real-string effects. The goal is to establish a common coordinate model and C01 measurement protocol for RavenForge ASKR, EMBLA, and future 3PU layouts. No pickup coordinate or sensing width is declared optimal at this stage.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vQY9NzjI_LJuWURfAMQKyeQXCiNoCF6KQ9BW30QqHoTPv9hDvsl6FTfcMTNvojq4g/pub?embedded=true&rm=minimal"
+      },
+      "de": {
+        "title": "Pickup-Position und harmonische Abtastung — Von normierten Saitenkoordinaten zur bundabhängigen räumlichen Abtastung",
+        "excerpt": "Die Position eines magnetischen Pickups bei E-Gitarre und Bass wird nicht nur über Klangadjektive wie „Bridge = hell / Neck = warm“ beschrieben, sondern als Abtastgeometrie definiert, die eine bestimmte räumliche Koordinate der schwingenden Saite erfasst. Innerhalb der in A01 etablierten Signalkette isoliert dieser Eintrag die Pickup-Koordinatenabtastung und trennt den Modenformfaktor der idealen Saite ausdrücklich von der real induzierten Spannung. Literatur dient zur Verifikation von Punktsensor-Positionsfaktoren, bundabhängigen normierten Koordinaten, Anschlagpunktanregung, endlichen Sensitivitätskernen, räumlicher Multi-Pickup-Mischung, Magnetfeldgeometrie und Effekten realer Saiten. Ziel ist ein gemeinsames Koordinatenmodell und C01-Messprotokoll für RavenForge ASKR, EMBLA und zukünftige 3PU-Layouts. In dieser Phase wird weder eine Pickup-Koordinate noch eine Sensitivitätsbreite als optimal festgelegt.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vQmiV-giCV9BbMEnqOGPhciylxrojcETC7uxmk8_HmDrNgeHyJYjZesjXtxdqQxhA/pub?embedded=true&rm=minimal"
+      }
+    },
+    {
+      "id": "legacy-2026-09-06-liberal",
+      "date": "2026-09-06",
+      "category": "liberal",
+      "ko": {
+        "title": "신체의 연장으로서의 악기 — 신체 스키마와 기술적 투명성에서 연주자 중심의 악기 기하학에 이르기까지",
+        "excerpt": "악기를 연주자가 손으로 조작하는 외부 물체로만 보지 않고, 숙련 과정에서 어떻게 body schema, sensorimotor capacity와 habitual action에 편입되어 음악적 행위를 가능하게 하는 매개가 되는지 검토한다. Merleau-Ponty의 body schema와 habit, Don Ihde의 embodiment relation, embodied music cognition의 musician–instrument coupling / affordance를 실제 전기 기타·베이스의 ergonomics와 연결한다. 특히 “compact body는 low fret을 멀게 하고 conventional full-size body는 이를 가까이 가져오므로 더 ergonomic하다”는 통념을 검증하고, RavenForge에서 body outline 대신 player-relative instrument geometry를 기록하는 기준을 구축한다.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vSCShWmSW50hCgR7OiTEY315PQY74w0jPerKKGb3ZLF0FqtDKf0RQ1MoGFUE3zKkQ/pub?embedded=true&rm=minimal"
+      },
+      "en": {
+        "title": "The Instrument as an Extension of the Body — From body schema and technological transparency to player-relative instrument geometry",
+        "excerpt": "Rather than treating an instrument only as an external object manipulated by the player’s hands, this log examines how, through skill acquisition, it can become incorporated into body schema, sensorimotor capacity, and habitual action as a medium that enables musical action. It connects Merleau-Ponty’s body schema and habit, Don Ihde’s embodiment relation, and embodied music cognition concepts of musician–instrument coupling / affordance with the ergonomics of electric guitars and basses. In particular, it tests the common claim that “a compact body pushes the low frets farther away while a conventional full-size body brings them closer and is therefore more ergonomic,” and establishes a RavenForge standard for recording player-relative instrument geometry instead of body outline alone.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vSmJQSCkhqy2amPEbqOewD5zxqFwjTqdh9zS3t3gJTn-bZt0aL_DxNRNJ2XmtNDng/pub?embedded=true&rm=minimal"
+      },
+      "de": {
+        "title": "Das Instrument als Erweiterung des Körpers — Vom Körperschema und technologischer Transparenz zur spielerbezogenen Instrumentengeometrie",
+        "excerpt": "Dieses Forschungslog behandelt das Instrument nicht nur als äußeres Objekt, das mit den Händen bedient wird, sondern untersucht, wie es sich durch Fertigkeitserwerb in Körperschema, sensomotorische Fähigkeiten und habitualisierte Handlungen integrieren und so zum Medium musikalischer Handlung werden kann. Merleau-Pontys Körperschema und Gewohnheit, Don Ihdes embodiment relation sowie die Begriffe Musiker–Instrument-Kopplung / Affordanz aus der embodied music cognition werden mit der Ergonomie von E-Gitarre und E-Bass verbunden. Besonders geprüft wird die verbreitete Behauptung, „ein kompakter Korpus rückt die tiefen Bundlagen weiter weg, während ein konventioneller Full-Size-Korpus sie näher heranbringt und deshalb ergonomischer ist“. RavenForge etabliert dafür eine Dokumentationsweise, die spielerbezogene Instrumentengeometrie statt bloßer Korpusumrisse erfasst.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vTkEHJYSaaZgd-qLbvQG0k8a3AtvwrkKrd7d0HskY6H8mn5s0SmtNG-KMTrwIvl4Q/pub?embedded=true&rm=minimal"
+      }
+    },
+    {
       "id": "A01",
       "date": "2026-09-05",
       "category": "sound",
       "ko": {
         "title": "기계적 진동에서 전기 신호로",
-        "excerpt": "전기 기타와 베이스의 출력 신호를 개별 부품의 ‘톤’ 합으로 설명하지 않고, 연주자의 가진에서 현–구조 결합, 픽업 위치의 spatial sampling, 자기회로의 flux modulation, coil 및 외부 부하의 electrical response로 이어지는 하나의 coupled signal system으로 정의한다. 이번 회차는 특정 pickup 위치나 pot 값의 정답을 확정하는 문서가 아니라, A02–A05와 C01–C02에서 각 변수를 분리·검증하기 위한 RavenForge 공통 reference model을 구축한다.",
+        "excerpt": "전기 기타와 베이스의 출력 신호를 개별 부품의 “톤” 합으로 설명하지 않고, 연주자의 가진에서 현–구조 결합, 픽업 위치의 spatial sampling, 자기회로의 flux modulation, coil 및 외부 부하의 electrical response로 이어지는 하나의 coupled signal system으로 정의한다. 이번 회차는 특정 pickup 위치나 pot 값의 정답을 확정하는 문서가 아니라, A02–A05와 C01–C02에서 각 변수를 분리·검증하기 위한 RavenForge 공통 reference model을 구축한다.",
         "link": "https://docs.google.com/document/d/e/2PACX-1vT6XS9btB_YpJQL1ipbFx0IGi-HiObWCb3rzKiwTqlUGy0Z7oW8xApC9i02NWSObA/pub?embedded=true&rm=minimal"
       },
       "en": {
         "title": "From Mechanical Vibration to Electrical Signal",
-        "excerpt": "Define the output signal of electric guitars and basses not as the sum of the ‘tone’ of individual components, but as one coupled signal system extending from player excitation through string–structure coupling, pickup-position spatial sampling, magnetic-circuit flux modulation, and the electrical response of the coil and external load. This entry does not establish a single correct pickup position or pot value; it builds a common RavenForge reference model for isolating and validating variables in A02–A05 and C01–C02.",
+        "excerpt": "Define the output signal of electric guitars and basses not as the sum of the “tone” of individual components, but as one coupled signal system extending from player excitation through string–structure coupling, pickup-position spatial sampling, magnetic-circuit flux modulation, and the electrical response of the coil and external load. This entry does not establish a single correct pickup position or pot value; it builds a common RavenForge reference model for isolating and validating variables in A02–A05 and C01–C02.",
         "link": "https://docs.google.com/document/d/e/2PACX-1vQqT7H_kIvExVkaaPVOBAdv71TVpgj8uHdPdDM7kZcVZSTD9BFBWoVxxm5O1KsKmQ/pub?embedded=true&rm=minimal"
       },
       "de": {
         "title": "Von mechanischer Schwingung zum elektrischen Signal",
-        "excerpt": "Das Ausgangssignal von E-Gitarren und E-Bässen wird nicht als Summe des ‘Tons’ einzelner Bauteile beschrieben, sondern als ein gekoppeltes Signalsystem: von der Spieleranregung über Saiten-Struktur-Kopplung und räumliches Sampling an der Pickup-Position bis zur Flussmodulation im Magnetkreis sowie zur elektrischen Antwort von Spule und externer Last. Dieser Eintrag legt weder eine einzig richtige Pickup-Position noch einen bestimmten Potentiometerwert fest; er schafft ein gemeinsames RavenForge-Referenzmodell, um die Variablen in A02–A05 und C01–C02 getrennt zu prüfen und zu validieren.",
+        "excerpt": "Das Ausgangssignal von E-Gitarren und E-Bässen wird nicht als Summe des „Tons“ einzelner Bauteile beschrieben, sondern als ein gekoppeltes Signalsystem: von der Spieleranregung über Saiten-Struktur-Kopplung und räumliches Sampling an der Pickup-Position bis zur Flussmodulation im Magnetkreis sowie zur elektrischen Antwort von Spule und externer Last. Dieser Eintrag legt weder eine einzig richtige Pickup-Position noch einen bestimmten Potentiometerwert fest; er schafft ein gemeinsames RavenForge-Referenzmodell, um die Variablen in A02–A05 und C01–C02 getrennt zu prüfen und zu validieren.",
         "link": "https://docs.google.com/document/d/e/2PACX-1vS5fccJrZ9dIshynfOx3v3d_3NVGOT5L5eEljCnRZ6vUb8yvjZraRD_EulGZLXvXQ/pub?embedded=true&rm=minimal"
+      }
+    },
+    {
+      "id": "legacy-2026-09-04-wood",
+      "date": "2026-09-04",
+      "category": "wood",
+      "ko": {
+        "title": "EDDA — 왜 ‘앨더’인가, 그리고 “헤리티지”란 무엇을 의미하는가?",
+        "excerpt": "EDDA는 RavenForge의 최초 라인업에는 존재하지 않았던 모델이다. EMBLA와 ASKR를 중심으로 설계를 진행하던 중 Alembic과 Wal에 대한 관심이 커졌고, 그 역사를 따라가면서 “빈티지 베이스의 유산”을 Fender 계열 P/J archetype과 그 파생형만으로 설명하는 것은 지나치게 좁다는 문제의식이 생겼다. 1970년대의 boutique bass history에는 저임피던스 pickup, onboard preamp, low-pass filter, 전용 hardware와 player/studio feedback을 하나의 시스템으로 통합하려 했던 또 다른 계보가 존재한다 [1–4]. EDDA는 그 계보를 직접 복제하는 모델이 아니라, 그들이 던진 설계 질문을 오늘의 제작 조건에서 다시 연구하기 위해 추가된 heritage / improved-vintage platform이다. 이 문서는 Alder·Limba·Maple·Rosewood·Ebony를 왜 표준/추천 재료로 두는지, 그리고 Jindai Keyaki·Bog Oak·Ancient Kauri 같은 premium material을 왜 “더 좋은 tonewood”가 아닌 stock-specific research material로 다루는지를 정리한다.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vQM7fQ7-2qbIJdIE3IneB6obMvLt2E8oLR7mcmdScAiN8XtATdZyYRZfEs05fhYXQ/pub?embedded=true&rm=minimal"
+      },
+      "en": {
+        "title": "EDDA — Why Alder, and What Does “Heritage” Mean?",
+        "excerpt": "EDDA did not exist in RavenForge’s original lineup. While design work focused on EMBLA and ASKR, growing interest in Alembic and Wal led to the realization that defining the “heritage of vintage bass” only through Fender-derived P/J archetypes and their descendants was too narrow. The boutique-bass history of the 1970s also contains a parallel lineage that attempted to integrate low-impedance pickups, onboard preamps, low-pass filters, dedicated hardware, and player/studio feedback into one system [1–4]. EDDA was added not to reproduce that lineage directly, but as a heritage / improved-vintage platform for re-examining the design questions those builders raised under present manufacturing conditions. This document explains why Alder, Limba, Maple, Rosewood, and Ebony are used as Standard/Recommended materials, and why premium materials such as Jindai Keyaki, Bog Oak, and Ancient Kauri are treated not as “better tonewoods” but as stock-specific research materials.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vSdU4k12eUmvvpJNz7eS5yhpw_uPLuA_wrozjAbIRZIxo_ZjmNSZEdsubK4cy_AOw/pub?embedded=true&rm=minimal"
+      },
+      "de": {
+        "title": "EDDA — Warum Erle, und was bedeutet „Heritage“?",
+        "excerpt": "EDDA gehörte nicht zur ursprünglichen RavenForge-Modellpalette. Während die Entwicklung zunächst auf EMBLA und ASKR konzentriert war, wuchs das Interesse an Alembic und Wal. Bei der Beschäftigung mit ihrer Geschichte entstand die Einsicht, dass es zu eng wäre, das „Heritage des Vintage-Basses“ nur über Fender-abgeleitete P/J-Archetypen und deren Derivate zu definieren. Die Boutique-Bass-Geschichte der 1970er enthält eine parallele Linie, die niederohmige Pickups, Onboard-Preamps, Tiefpassfilter, spezielle Hardware und Feedback aus Spieler- und Studioeinsatz als ein Gesamtsystem integrieren wollte [1–4]. EDDA wurde nicht hinzugefügt, um diese Linie direkt zu kopieren, sondern als Heritage-/Improved-Vintage-Plattform, auf der ihre Designfragen unter heutigen Fertigungsbedingungen erneut untersucht werden. Dieses Dokument erklärt, warum Erle, Limba, Ahorn, Palisander und Ebenholz als Standard-/Recommended-Materialien dienen und warum Premium-Materialien wie Jindai Keyaki, Mooreiche und Ancient Kauri nicht als „bessere Tonhölzer“, sondern als stock-spezifische Forschungsmaterialien behandelt werden.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vR2q21D81ghhwB4SaOb2NYolHL_g7xioK9zLNg5NOXl864QBo8BBXPwURF0wOB3Hg/pub?embedded=true&rm=minimal"
+      }
+    },
+    {
+      "id": "legacy-2026-09-03-wood",
+      "date": "2026-09-03",
+      "category": "wood",
+      "ko": {
+        "title": "ASKR — 왜 ‘애쉬(Ash)’인가, 그리고 왜 지판은 여전히 미정인 요소로 남아 있는가?",
+        "excerpt": "Material & Acoustics Research Log 01의 “수종명이 아니라 완성 구조의 물성을 본다”는 원칙을 ASKR에 적용한다. Ash 바디와 5-piece laminated neck을 기본값으로 둔 이유, 지판에서 Mpingo(African Blackwood)와 Kingwood를 최우선 천연목 후보로 보는 이유와 동시에 이들의 수급·CITES 관리 문제를 검토한다. 또한 과거 Ebonol·Richlite 계열 합성 지판을 직접 사용해 본 RavenForge workshop 경험을 기록하고, 왜 현재까지 Ebony/Wenge를 대체할 만큼 유의미한 이점을 확인하지 못했는지 ‘실험 결과’가 아니라 현장 관찰로 구분해 남긴다.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vSKGfDCe6DkLmJXyKtX7Mf5QVrlYx1lkBySZEjmDhNWZURedmxN71zcFjmsOHNtwQ/pub?embedded=true&rm=minimal"
+      },
+      "en": {
+        "title": "ASKR — Why Ash, and Why the Fingerboard Remains an Open Variable?",
+        "excerpt": "This document applies to ASKR the principle established in Material & Acoustics Research Log 01: evaluate the mechanical properties of the finished structure rather than relying on species names. It explains why an Ash body and a 5-piece laminated neck form the baseline, why Mpingo (African Blackwood) and Kingwood are the highest-priority natural fingerboard candidates, and why their supply and CITES-management constraints matter. It also records RavenForge workshop experience with Ebonol- and Richlite-type synthetic fingerboards and distinguishes the lack of a meaningful advantage over Ebony/Wenge so far as a workshop observation rather than an experimental result.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vRTW84Aj20C9Rf7p520z16Qo4nuta8kN6z3zUxx69TmVwMgzzRtvwmWsRv4iU3CQA/pub?embedded=true&rm=minimal"
+      },
+      "de": {
+        "title": "ASKR — Warum Esche, und warum das Griffbrett eine offene Variable bleibt?",
+        "excerpt": "Dieses Dokument überträgt den in Material & Acoustics Research Log 01 formulierten Grundsatz auf ASKR: Nicht der Artname, sondern die mechanischen Eigenschaften der fertigen Struktur werden bewertet. Es erläutert, warum ein Esche-Korpus und ein 5-teiliger laminierter Hals die Baseline bilden, warum Mpingo (African Blackwood) und Kingwood die Naturholz-Kandidaten mit höchster Forschungspriorität für das Griffbrett sind und warum Beschaffung sowie CITES-Management berücksichtigt werden müssen. Zudem werden RavenForge-Werkstatterfahrungen mit Ebonol- und Richlite-artigen synthetischen Griffbrettern dokumentiert; die bislang fehlenden relevanten Vorteile gegenüber Ebony/Wenge werden ausdrücklich als Werkstattbeobachtung und nicht als Versuchsergebnis eingeordnet.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vQD_IaXtAPLpD0nkN7XQmipqhIWpd66265-GCbpUh59hXDYbVHgmtpsGLDgeILHmw/pub?embedded=true&rm=minimal"
+      }
+    },
+    {
+      "id": "legacy-2026-09-02-wood",
+      "date": "2026-09-02",
+      "category": "wood",
+      "ko": {
+        "title": "EMBLA — 엘름, 웬지, 라미네이트 넥의 선택 이유",
+        "excerpt": "Material & Acoustics Research Log 01에서 정리한 “목재는 종명이 아니라 구조 안에 들어간 물성 변수”라는 원칙을 EMBLA에 적용한다. Elm 바디, 5-piece laminated neck, Wenge 지판이 왜 기본값이 되었는지 설명하고, 초기 최우선 지판 후보였던 Snakewood가 왜 표준 사양에서 제외되었는지 물성·조달·수출정책을 함께 검토한다.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vTmsMbllyo5VbZ_Zka4CEIYI-uSp4xPO65ndXEy0wDcO1BmNTE0601wilIWlwdGoA/pub?embedded=true&rm=minimal"
+      },
+      "en": {
+        "title": "EMBLA — Why Elm, Wenge, and a Laminated Neck?",
+        "excerpt": "Apply the principle established in Material & Acoustics Research Log 01 — that wood is not a species label but a set of mechanical properties embedded in a structure — to EMBLA. Explain why an Elm body, 5-piece laminated neck, and Wenge fingerboard became the standard, and examine why the original first-choice fingerboard candidate, Snakewood, was removed from the standard specification by considering mechanics, procurement, and export policy together.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vS43A2sbLMdFBrWbd0Jt6GlBZi_w2nCxJTvcYCOBeQQlSkJdTOcVhsUdTiCemlJgQ/pub?embedded=true&rm=minimal"
+      },
+      "de": {
+        "title": "EMBLA — Warum Ulme, Wenge und ein laminierter Hals?",
+        "excerpt": "Übertragung des in Material & Acoustics Research Log 01 formulierten Grundsatzes auf EMBLA: Holz ist kein bloßer Artname, sondern eine Kombination mechanischer Eigenschaften innerhalb einer Struktur. Das Dokument erläutert, warum ein Elm-/Ulmenkorpus, ein 5-teiliger laminierter Hals und ein Wenge-Griffbrett zum Standard wurden, und warum Snakewood als ursprünglicher Wunschkandidat unter Einbezug von Mechanik, Beschaffung und Exportpolitik aus der Standardspezifikation herausfiel.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vR0ZYJD7zJADuAQIk26gpVhOFIvDrVg2MrU-7q1TVSPoa3PONayLfO2laaCjgEHsg/pub?embedded=true&rm=minimal"
+      }
+    },
+    {
+      "id": "legacy-2026-09-01-wood",
+      "date": "2026-09-01",
+      "category": "wood",
+      "ko": {
+        "title": "구조적 변수로서의 톤우드",
+        "excerpt": "솔리드바디 전기기타와 베이스에서 목재가 음색에 영향을 준다는 주장을 수종명 중심의 “톤우드” 서술이 아니라 재료 물성과 구조 동역학의 문제로 다시 검토한다. 특히 지판의 물성, 바디와 넥의 상대적 영향, 라미네이트 넥의 실제 장단점을 문헌 근거와 제작 관점으로 연결하고, RavenForge 프로토타입에서 직접 검증할 측정 항목을 정의한다",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vTIv2crzhOO7OyUCOSsqJ-gEdanF2e_2cnKa4LPhQ9NBRTZix99dtxBVTuT8lhIIw/pub?embedded=true&rm=minimal"
+      },
+      "en": {
+        "title": "Tonewood as a Structural Variable",
+        "excerpt": "Re-examine claims that wood influences the sound of solid-body electric guitars and basses as a problem of material properties and structural dynamics rather than species-centered “tonewood” descriptions. The review focuses on fingerboard properties, the relative roles of body and neck, and the practical advantages and limitations of laminated necks, linking published evidence to lutherie decisions and defining measurements to be verified directly on RavenForge prototypes.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vRdrWJrT-3NLqAQ5jqb6v36rpo9MofEOYm1b8UybosRkTIBryKzrhYyju2hZfuVaQ/pub?embedded=true&rm=minimal"
+      },
+      "de": {
+        "title": "Tonholz als strukturelle Variable",
+        "excerpt": "Die Behauptung, Holz beeinflusse den Klang von Solidbody-E-Gitarren und -Bässen, wird nicht als holzartzentrierte „Tonholz“-Erzählung, sondern als Problem von Materialeigenschaften und Strukturdynamik neu untersucht. Im Mittelpunkt stehen Griffbretteigenschaften, die relativen Rollen von Korpus und Hals sowie die praktischen Vor- und Nachteile laminierter Hälse. Veröffentlichte Evidenz wird mit Entscheidungen im Instrumentenbau verknüpft und es werden Messgrößen definiert, die direkt an RavenForge-Prototypen zu verifizieren sind.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vR6FbzChUXCKuKfxCkDrKtz_K0NANlLYZmmHjhhrLpBnVo1jxHZT1_ipDECG_M_vg/pub?embedded=true&rm=minimal"
+      }
+    },
+    {
+      "id": "legacy-2026-08-30-log",
+      "date": "2026-08-30",
+      "category": "log",
+      "ko": {
+        "title": "프로토타입 개발 일지 Vol.1",
+        "excerpt": "완성 도면의 결과만 보여주는 것이 아니라, 실제 제작 가능한 geometry로 접근하는 동안 어떤 가정이 틀렸고 어떤 검증을 통해 수정했는지를 기록한다. 실패한 revision과 폐기된 배치를 숨기지 않고 설계 근거로 남기는 것이 이 연구일지의 핵심이다.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vTqVajWrAIwgKIA6vetLA5_JW6-oeEeESMcPWLgzyT8WbS6UxkLc6w7MRPc6fDjug/pub?embedded=true&rm=minimal"
+      },
+      "en": {
+        "title": "Prototype Development Log Vol.1",
+        "excerpt": "Rather than simply presenting the final drawings, this log documents which assumptions proved incorrect and how they were corrected through verification during the process of developing buildable geometry. The core of this development log is to preserve failed revisions and discarded designs as part of the design rationale, without concealing them.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vQRp6RL2aX0o4a1icw5YQsj6Xk3Fesb2Ng-OMjZ-fxdrBk3HeOwVsVmcnqS9iuW2A/pub?embedded=true&rm=minimal"
+      },
+      "de": {
+        "title": "Prototypen-Entwicklungsprotokoll Vol.1",
+        "excerpt": "Statt lediglich die endgültigen Zeichnungen zu präsentieren, dokumentiert dieses Protokoll, welche Annahmen sich bei der Entwicklung einer fertigungstauglichen Geometrie als falsch erwiesen und wie sie durch Verifikation korrigiert wurden. Ein zentraler Zweck ist, gescheiterte Revisionen und verworfene Entwürfe als Teil der Konstruktionsbegründung sichtbar zu bewahren, statt sie zu verbergen.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vTRgT96jJn2gFqyynzg7C5Tg-9jGNi0lNhtYpFV_GNO7P7r9MZ3NOyUg6ng4T4CyA/pub?embedded=true&rm=minimal"
+      }
+    },
+    {
+      "id": "legacy-2026-05-24-craft",
+      "date": "2026-05-24",
+      "category": "craft",
+      "ko": {
+        "title": "R&D 아이디어 노트: RavenForge Shift-Nut System",
+        "excerpt": "RavenForge Shift-Nut System은 35인치 또는 36인치와 같은 확장 스케일 베이스의 장점을 포기하지 않으면서도, 사용자가 필요에 따라 짧은 유효 스케일로 전환할 수 있도록 설계된 내장형 카포-너트 시스템이다. 이 아이디어의 출발점은 단순한 숏스케일 베이스 개발이 아니다. 핵심 문제의식은 다음과 같다. 많은 베이시스트들이 35인치, 36인치 스케일이 제공하는 저음현의 안정성, 명료도, 장력감, 음정 안정성을 이해하면서도, “내가 적응하지 못할 것 같다”는 막연한 두려움 때문에 확장 스케일 악기를 선택하지 못한다. 즉, 문제는 확장 스케일 자체가 아니라 사용자가 느끼는 심리적 리스크다. Shift-Nut System은 이 리스크를 줄이기 위한 대안이다. 사용자는 기본적으로 긴 스케일의 장점을 경험하되, 필요할 때는 카포-너트 모드를 통해 더 짧은 유효 스케일로 전환할 수 있다.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vTf-IV5r_6tBUAoSXuN-f3hO8DwnKgqnngYxb7C7QRBtxlLCiczW6U7X-hVx4W6Diheb-CwKAkrfD88/pub?embedded=true&rm=minimal"
+      },
+      "en": {
+        "title": "R&D Idea Note: RavenForge Shift-Nut System",
+        "excerpt": "The RavenForge Shift-Nut System is a proposed built-in capo-nut mechanism for bass guitars. Its purpose is to preserve the benefits of extended scale lengths such as 35 inches or 36 inches while giving players the option to switch into a shorter effective scale when needed. The concept did not begin as a simple short-scale bass idea. The underlying problem is that many players understand the advantages of extended-scale basses but abandon them because of a vague fear that they may fail to adapt. Many bassists do not reject 35-inch or 36-inch instruments because they deny the benefits. They reject them because the perceived risk of adaptation feels too high. The Shift-Nut System is designed as a technical answer to that psychological barrier. It allows a player to experience the clarity, low-string stability, and tuning authority of a longer scale, while retaining a fallback mode with a shorter effective scale.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vThZeo8sZwskNdmhifNZxUYPEOAsAl6uAyv7zI-n-IYF7zVhBMgNZbrrsH0_qwQMtoO32hoLpUhEq1P/pub?embedded=true&rm=minimal"
+      },
+      "de": {
+        "title": "R&D Idea Note: RavenForge Shift-Nut System",
+        "excerpt": "Das RavenForge Shift-Nut System ist ein vorgeschlagenes, in den Bass integriertes Capo-Nut-System. Ziel ist es, die Vorteile längerer Mensuren wie 35 Zoll oder 36 Zoll zu erhalten und dem Spieler gleichzeitig die Möglichkeit zu geben, bei Bedarf auf eine kürzere effektive Mensur umzuschalten. Der Ausgangspunkt dieser Idee ist nicht die Entwicklung eines gewöhnlichen Short-Scale-Basses. Das eigentliche Problem ist, dass viele Spieler die Vorteile von Extended-Scale-Bässen verstehen, sie aber aus einer diffusen Sorge vor mangelnder Anpassung nicht wählen. Viele Bassisten lehnen 35-Zoll- oder 36-Zoll-Instrumente nicht ab, weil sie deren Vorteile bestreiten. Sie lehnen sie ab, weil das wahrgenommene Risiko der Umgewöhnung zu hoch wirkt. Das Shift-Nut System versteht sich als technische Antwort auf diese psychologische Einstiegshürde. Es ermöglicht dem Spieler, Klarheit, Stabilität der tiefen Saiten und Stimmfestigkeit einer längeren Mensur zu nutzen, während ein kürzerer effektiver Spielmodus als sichere Alternative verfügbar bleibt.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vTBMCiaROC_xONinFaVFK6UDRmA4ynNM3EdEToTxXnIbDyUmao1-E-1NoOXfHmbYJGn5VwVrRDkzMBm/pub?embedded=true&rm=minimal"
+      }
+    },
+    {
+      "id": "legacy-2026-04-06-wood",
+      "date": "2026-04-06",
+      "category": "wood",
+      "ko": {
+        "title": "톤우드로서의 애쉬(Ash) 목재에 대한 종합적 고찰 및 생태학적 전망",
+        "excerpt": "본 에세이는 전통적인 실용 목재로 널리 쓰였던 애쉬(물푸레나무)가 어떻게 솔리드 바디 일렉트릭 기타의 대표적인 음향목(Tonewood)으로 자리매김하게 되었는지에 주목한다. 이를 위해 애쉬의 식물학적 특징, 물리적 성질, 그리고 음향적인 특성을 다각도로 살펴보고, 이와 더불어 현대 악기 제작 산업이 마주한 생태학적 위기까지 폭넓게 분석하였다. 애쉬는 주로 북미와 유라시아를 중심으로 분포하는 물푸레나뭇과(Oleaceae) 물푸레나무속(Fraxinus)에  속하는 나무로, 오랜 세월에 걸쳐 그 탁월한 탄성 및 강도 덕분에 도구나 스포츠 장비의 소재로 널리 쓰여 왔다.1 본 에세이에서는 악기 제작(특히 기타 제작)의 관점에서 애쉬를 집중적으로 조명한다. 특히 상업적으로 통용되는 ‘스웜프 애쉬(Swamp Ash)'와, 식물학적으로 구분되는 애쉬 수종 간의 차이를 명확히 설명하고, 아시아에서 자생하는 ‘타모 애쉬(Tamo Ash, 들메나무)’와 ‘한국산 물푸레나무(Fraxinus chinensis subsp. rhynchophylla)’에 대한 최신 분류학적 견해와 물성 자료를 서로 대조하여 제시하고자 한다. 이러한 종합적 논의를 통해, 애쉬가 가진 다양한 가능성과 한계, 그리고 이를 둘러싼 현대 제작 산업의 생태적 과제까지 함께 살펴보고자 한다.3",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vSJyrw8uUvcMGPXPjf5HbKZmONgw7Ok66FDTOkKnUhBnhXU6Hb4JkpyPKnAqJNL8cqYQnVN1f-hqRFS/pub?embedded=true&rm=minimal"
+      },
+      "en": {
+        "title": "A Comprehensive Study of Ash as a Tonewood and Its Ecological Outlook",
+        "excerpt": "This essay examines how ash, once valued primarily as a practical timber, came to occupy a central place among the canonical tonewoods of the solid-body electric guitar. To that end, it surveys the botanical identity, physical properties, and acoustic behavior of ash, while also addressing the ecological crisis now confronting instrument makers who rely on it. Ash belongs to the genus Fraxinus in the family Oleaceae and is distributed mainly across North America and Eurasia. For centuries it has been prized for its elasticity, strength, and resilience, which made it indispensable for tools, athletic equipment, and structural applications. This study narrows the focus to instrument making, especially guitar building. It clarifies the difference between the trade term “swamp ash” and botanically defined ash species, and it compares current taxonomic views and material data for Asian ash, including tamo ash and Korean ash",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vSGZtYslf9-v3ZPyYtFvEQNZeGX4oFDxY-DqsY1laojLKeP4LCUYkCO3fnOoUw5K9RVbj3ebY5bbljD/pub?embedded=true&rm=minimal"
+      },
+      "de": {
+        "title": "Eine umfassende Untersuchung von Esche als Tonholz und ihr ökologischer Ausblick",
+        "excerpt": "Dieser Essay untersucht, wie sich Esche, die lange Zeit vor allem als praktisches Nutzholz geschätzt wurde, zu einem der prägenden Tonhölzer der Solidbody-E-Gitarre entwickeln konnte. Zu diesem Zweck werden die botanische Identität, die physikalischen Eigenschaften und das akustische Verhalten von Esche ebenso behandelt wie die ökologische Krise, mit der Instrumentenbauer heute im Umgang mit diesem Material konfrontiert sind. Esche gehört zur Gattung Fraxinus innerhalb der Familie Oleaceae und ist vor allem in Nordamerika und Eurasien verbreitet. Über Jahrhunderte wurde sie wegen ihrer Elastizität, Festigkeit und Widerstandsfähigkeit geschätzt und daher für Werkzeuge, Sportgeräte und konstruktive Anwendungen verwendet. Der vorliegende Beitrag verengt den Fokus auf den Instrumentenbau, insbesondere auf den Gitarrenbau. Er klärt den Unterschied zwischen dem Handelsbegriff „Swamp Ash“ und botanisch definierten Eschenarten und vergleicht aktuelle taxonomische Auffassungen sowie Materialdaten zu asiatischer Esche, darunter Tamo-Esche und koreanische Esche",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vR3Q5vni74IrcYSpYysBzAcuRb11CsK6ZvjkGDphzb8TxuzMcMgbgJooAvfPdtIr0RTyqrnKC69jxBX/pub?embedded=true&rm=minimal"
+      }
+    },
+    {
+      "id": "legacy-2026-03-31-liberal",
+      "date": "2026-03-31",
+      "category": "liberal",
+      "ko": {
+        "title": "EMBLA & ASKR: 신화적 질료, 철학적 오르가놀로지, 그리고 능동적 매개체로서의 루씨어리를 그리며",
+        "excerpt": "이 에세이는 레이븐포지의 일렉트릭 베이스 프로토타입 모델인 ‘엠블라(EMBLA)’와 ‘아스크르(ASKR)’에 담긴 북유럽 창조 신화의 스토리텔링이, 현대 악기 제작의 재료공학과 음향학적 설계와 어떻게 유기적으로 어우러지는지 소개하고자 한다. 수동적인 질료(Matter)인 유목이 연주자와 만나면서 능동적으로 소리를 만들어내는 존재로 변하는 과정을 분석하기 위해, 철학적 오르가놀로지와 신물질주의적 관점을 빌려왔다. 이를 바탕으로, 아스크르 모델은 쉘든 딩월의 ‘멀티스케일 생태계’와 명료함의 철학을 통해 극한의 펀치감과 이성적인 구조를 구현하는 방식에 주목한다. 반면 엠블라 모델은 제랄드 말로우의 ‘유기적 공명’과 레지오 톤 우드(RTW) 철학, 그리고 독일 악기상 수상 콘삿 모델의 전통을 바탕으로, 생태적 균형과 따뜻한 어쿠스틱 질감을 만들어내는 과정에 집중한다. 결국 두 악기는 단순한 공산품이 아니라, 연주자의 개별적인 서사가 더해짐으로써 비로소 완성되는 능동적 매개체임을 밝힌다.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vSSrY6CbWoojuh1JEK24gA6VMwxi1c9TDNgt1Sa1xtXd-F-VXBcBx8yD_8cQ7z2XBNwmWk5kHfnumZi/pub?embedded=true&rm=minimal"
+      },
+      "en": {
+        "title": "EMBLA & ASKR: Toward a Luthiery of Mythic Matter, Philosophical Organology, and Active Mediation",
+        "excerpt": "This essay examines how the storytelling of the Norse creation myth embedded in RavenForge’s electric bass prototypes, EMBLA and ASKR, can be organically interwoven with modern materials engineering and acoustic design in instrument making. To analyze the process by which driftwood, as passive matter, becomes an entity capable of actively producing sound once it encounters a performer, the essay draws on philosophical organology and new-materialist thought. On this basis, the ASKR model is read through Sheldon Dingwall’s philosophy of the multiscale ecosystem and sonic clarity, foregrounding the realization of extreme punch and rational structure. EMBLA, by contrast, is grounded in Gerald Marleaux’s notion of organic resonance, the Regio Tone Wood (RTW) philosophy, and the legacy of the award-winning Consat model, focusing on the production of ecological balance and a warm acoustic texture. Ultimately, the essay argues that these two instruments are not mere industrial commodities but active mediating agents that are completed only when the individual narrative of the performer is added to them.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vSIsl_Z6GjiyxVyOgJ4WhH1P14MCIaY82xQ3asVi-eQ-Nif_H1dlBsmvoUJKQfN0vr_DuFQyr1CEj99/pub?embedded=true&rm=minimal"
+      },
+      "de": {
+        "title": "EMBLA & ASKR: Entwurf einer Lutherie aus mythischer Materialität, philosophischer Organologie und aktiver Vermittlung",
+        "excerpt": "Dieser Essay untersucht, wie sich die in den elektrischen Bass-Prototypen EMBLA und ASKR von RavenForge angelegte Erzählung des nordischen Schöpfungsmythos organisch mit moderner Werkstofftechnik und akustischer Konstruktion im Instrumentenbau verbinden lässt. Um den Prozess zu analysieren, in dem Treibholz als passive Materie in der Begegnung mit dem Musiker zu einem aktiv klangerzeugenden Wesen wird, greift der Text auf philosophische Organologie und auf Denkrichtungen des New Materialism zurück. Vor diesem Hintergrund wird das Modell ASKR durch Sheldon Dingwalls Philosophie eines Multiscale-Ökosystems und klanglicher Klarheit gelesen und als Realisierung extremer Durchsetzungskraft und rationaler Struktur verstanden. EMBLA hingegen stützt sich auf Gerald Marleaux’ Idee der organischen Resonanz, auf die Regio-Tone-Wood-Philosophie und auf die Tradition des preisgekrönten Consat-Modells und konzentriert sich auf die Hervorbringung ökologischer Balance sowie einer warmen akustischen Textur. Letztlich zeigt der Essay, dass diese beiden Instrumente keine bloßen Industrieprodukte sind, sondern aktive Vermittlungsinstanzen, die erst durch die individuelle Erzählung des Spielers vollendet werden.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vRpqaA3gLkoZEcgD-Olh6C4zLKZnJ3IKnxmzuZ6ElGCvrf4pA7GWSEWxgGUoFGGrfO-tHRgr8OwdRlh/pub?embedded=true&rm=minimal"
+      }
+    },
+    {
+      "id": "legacy-2026-03-29-craft",
+      "date": "2026-03-29",
+      "category": "craft",
+      "ko": {
+        "title": "쉘든 딩월(Sheldon Dingwall)의 악기 제작 철학과 기술 혁신에 대한 고찰",
+        "excerpt": "이 연구는 현대 일렉트릭 베이스 제작의 흐름을 완전히 바꿔 놓은 쉘든 딩월의 악기 제작 철학과, 이를 실현하기 위해 고안된 혁신적인 기술에 대해 깊이 있게 다룬다. 딩월은 악기를 단순한 도구 이상의 존재로 바라본다. 그는 명료한 톤을 통해 연주자와 청중 사이에 진동하는 '에너지 피드백 루프'가 형성될 때, 비로소 악기가 진정한 소통의 매개체가 된다고 강조한다. 본 논문에서는 이러한 딩월의 비전이 어떻게 물리학적 한계를 뛰어넘는 다중 스케일 생태계 설계, 기후 변화에 강한 소재 개발, 그리고 다크글래스(Darkglass)와 루퍼트 니브 디자인(Rupert Neve Designs) 등과의 하이엔드 전자 장비 융합으로 이어졌는지 살펴본다. 더불어, 타악기인 마림바의 음향학적 원리를 과감히 차용하고 모터스포츠 기계 공학을 융합한 최신 헤드리스 베이스에피지(Effigy)' 모델이, 연주자의 물리적·음악적 한계를 어떻게 확장시키는지를 분석한다.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vSpy7xs2ATbvt1HfqSOpGAKUVugMBRzKPFhOMvdkycRlHcyEZSKWsmzrFpaAeH3CSuEVj8PaKT4EP_H/pub?embedded=true&rm=minimal"
+      },
+      "en": {
+        "title": "Sheldon Dingwall’s Instrument-Making Philosophy and Technological Innovation",
+        "excerpt": "This study offers an in-depth examination of Sheldon Dingwall’s instrument-making philosophy and the innovative technologies he devised to realize it - a body of work that fundamentally reshaped the direction of modern electric-bass construction. Dingwall does not regard an instrument as a mere tool. He argues that an instrument becomes a true medium of communication only when a clearly articulated tone creates an “energy feedback loop” that vibrates between performer and audience. This paper explores how Dingwall’s vision took concrete form through the design of a multi-scale ecosystem that overcomes physical limitations, the development of materials resilient to climate change, and the integration of high-end electronics in collaboration with companies such as Darkglass and Rupert Neve Designs. It also analyzes how the latest headless bass, the Effigy - a model that boldly borrows acoustic principles from the marimba and combines them with motorsport engineering - expands the player’s physical and musical limits.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vSl9mm-CkHZNQVe-wKAKUnU-OuRWPCBRK8ZyFOjG8CNucmJnic5fI9Ek1XYTu9N2-zlod7CwitHynO8/pub?embedded=true&rm=minimal"
+      },
+      "de": {
+        "title": "Sheldon Dingwalls Instrumentenphilosophie und technologischer Innovation",
+        "excerpt": "Diese Studie bietet eine eingehende Untersuchung von Sheldon Dingwalls Philosophie des Instrumentenbaus und der innovativen Technologien, die er zu ihrer Verwirklichung entwickelt hat - ein Werk, das die Entwicklung des modernen E-Bass-Baus grundlegend verändert hat. Dingwall betrachtet ein Instrument nicht als bloßes Werkzeug. Er betont vielmehr, dass ein Instrument erst dann zu einem echten Medium der Kommunikation wird, wenn ein klar artikulierter Ton eine „Energy Feedback Loop“ zwischen Musiker und Publikum entstehen lässt. Die vorliegende Arbeit untersucht, wie sich Dingwalls Vision konkret in der Konstruktion eines Multi-Scale-Ökosystems niederschlug, das physikalische Grenzen überwindet, in der Entwicklung klimatisch robuster Materialien sowie in der Integration hochwertiger Elektronik in Zusammenarbeit mit Unternehmen wie Darkglass und Rupert Neve Designs. Darüber hinaus analysiert sie, wie der neueste Headless-Bass, der Effigy - ein Modell, das akustische Prinzipien der Marimba aufgreift und mit Motorsporttechnik verbindet - die physischen und musikalischen Grenzen des Spielers erweitert.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vTxobCFoB9o_dtIF4SypjnkgLYMYOAcXmYy56K2lSg61TnJXu3g8LZCoUd3wKXR4gVoda-jCGlOWqje/pub?embedded=true&rm=minimal"
+      }
+    },
+    {
+      "id": "legacy-2026-03-26-wood",
+      "date": "2026-03-26",
+      "category": "wood",
+      "ko": {
+        "title": "독립 루씨어들을 위한 열/냉각 처리 방법",
+        "excerpt": "이 연구는 현대의 독립 루씨어(Luthier)들이 고품질의 자연 숙성 음향목(Tonewood)을 구하기 어려운 현실을 극복하기 위한 대안을 제시하고자 한다. 목재의 인공 에이징 방법인 열처리(Torrefaction)와 극저온 처리(Cryogenic Treatment)의 과학적 원리, 그리고 이를 소규모 공방에서 실제로 적용할 수 있는 구체적인 방안을 종합적으로 다룬다. 형 상업용 가마나 액체 질소 장비 없이도, 초고온 내성 진공 백, 포일 포장과 산소 소모제, 드라이아이스와 알코올 또는 부동액을 이용한 슬러리 배스(Slurry Bath) 등 다양한 기법을 활용해 두 공정을 안전하게 병행할 수 있는 온도와 시간 관리 방법을 정리했다.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vTTLg8nAeOqZwqPScNiHnW9NXTxuqR7QqgPOH8jewGvZ4ION1IiYYEpnr4yc0PN2AnCJMA49zgi9hON/pub?embedded=true&rm=minimal"
+      },
+      "en": {
+        "title": "Torrefaction and Cryogenic Treatment Techniques and Scientific Mechanisms at Tonewoods for Independent Luthiers",
+        "excerpt": "This study proposes practical alternatives for contemporary independent luthiers who face increasing difficulty in sourcing high-quality, naturally aged tonewoods. It comprehensively examines the scientific principles behind torrefaction and cryogenic treatment as artificial wood-aging methods, and presents concrete ways to apply them in small workshops. Without relying on large commercial kilns or liquid-nitrogen systems, the study organizes safe, workable methods for combining both processes by using ultra-high-temperature vacuum bags, foil wrapping with oxygen scavengers, and slurry baths made from dry ice with alcohol or antifreeze, together with appropriate temperature and time control. In addition, it identifies critical environmental variables that must be managed for successful wood modification, including the rate of temperature change, moisture content, and oxygen exclusion, while also proposing safety guidelines for preventing fire and frost injury. In doing so, the paper offers practical guidelines that can help individual workshops produce custom tonewoods with acoustic performance and durability comparable to those of vintage instruments.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vTLcV3jmKINtjLAVqw9I7Ou--4yq_zyVaxpVbtSt5jeTMdS2TvOcqZwttfszr3DK0ypoL4jEOo3oQ-c/pub?embedded=true&rm=minimal"
+      },
+      "de": {
+        "title": "Torrefizierungs- und Kryobehandlungsverfahren sowie zu den wissenschaftlichen Mechanismen von Tonhölzern für unabhängige Luthiers",
+        "excerpt": "Diese Studie schlägt praxisnahe Alternativen für heutige unabhängige Luthiers vor, die zunehmend Schwierigkeiten haben, hochwertiges, natürlich gealtertes Tonholz zu beschaffen. Sie untersucht umfassend die wissenschaftlichen Prinzipien, praktischen Verfahren und sicherheitstechnischen Anforderungen der Torrefizierung und der kryogenen Behandlung. Darüber hinaus analysiert sie, wie sich diese Verfahren auf Zellstruktur, Feuchtehaushalt, Steifigkeit, Dämpfung und akustische Leistungsfähigkeit von Holz auswirken, und leitet daraus anwendbare Protokolle für kleine Werkstätten ab. Ziel ist es zu zeigen, dass auch unabhängige Instrumentenbauer durch präzise Temperaturführung, Atmosphärenkontrolle und konsequente Sicherheitsmaßnahmen Eigenschaften erreichen können, die traditionell jahrzehntelang natürlich gealtertem Holz zugeschrieben wurden.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vRILnoEEJTNDOdvEvKgzZfsKEuCmqU_mFPeURQRA8PnfTcovy7npJ_6juhnTpb0g07MSHDqHq6gNoz1/pub?embedded=true&rm=minimal"
       }
     }
   ]

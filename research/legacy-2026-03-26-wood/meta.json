@@ -1,0 +1,22 @@
+{
+  "id": "legacy-2026-03-26-wood",
+  "date": "2026-03-26",
+  "category": "wood",
+  "migratedFrom": "google-sheet",
+  "legacySheetRow": 18,
+  "ko": {
+    "title": "독립 루씨어들을 위한 열/냉각 처리 방법",
+    "excerpt": "이 연구는 현대의 독립 루씨어(Luthier)들이 고품질의 자연 숙성 음향목(Tonewood)을 구하기 어려운 현실을 극복하기 위한 대안을 제시하고자 한다. 목재의 인공 에이징 방법인 열처리(Torrefaction)와 극저온 처리(Cryogenic Treatment)의 과학적 원리, 그리고 이를 소규모 공방에서 실제로 적용할 수 있는 구체적인 방안을 종합적으로 다룬다. 형 상업용 가마나 액체 질소 장비 없이도, 초고온 내성 진공 백, 포일 포장과 산소 소모제, 드라이아이스와 알코올 또는 부동액을 이용한 슬러리 배스(Slurry Bath) 등 다양한 기법을 활용해 두 공정을 안전하게 병행할 수 있는 온도와 시간 관리 방법을 정리했다.",
+    "link": "https://docs.google.com/document/d/e/2PACX-1vTTLg8nAeOqZwqPScNiHnW9NXTxuqR7QqgPOH8jewGvZ4ION1IiYYEpnr4yc0PN2AnCJMA49zgi9hON/pub?embedded=true&rm=minimal"
+  },
+  "en": {
+    "title": "Torrefaction and Cryogenic Treatment Techniques and Scientific Mechanisms at Tonewoods for Independent Luthiers",
+    "excerpt": "This study proposes practical alternatives for contemporary independent luthiers who face increasing difficulty in sourcing high-quality, naturally aged tonewoods. It comprehensively examines the scientific principles behind torrefaction and cryogenic treatment as artificial wood-aging methods, and presents concrete ways to apply them in small workshops. Without relying on large commercial kilns or liquid-nitrogen systems, the study organizes safe, workable methods for combining both processes by using ultra-high-temperature vacuum bags, foil wrapping with oxygen scavengers, and slurry baths made from dry ice with alcohol or antifreeze, together with appropriate temperature and time control. In addition, it identifies critical environmental variables that must be managed for successful wood modification, including the rate of temperature change, moisture content, and oxygen exclusion, while also proposing safety guidelines for preventing fire and frost injury. In doing so, the paper offers practical guidelines that can help individual workshops produce custom tonewoods with acoustic performance and durability comparable to those of vintage instruments.",
+    "link": "https://docs.google.com/document/d/e/2PACX-1vTLcV3jmKINtjLAVqw9I7Ou--4yq_zyVaxpVbtSt5jeTMdS2TvOcqZwttfszr3DK0ypoL4jEOo3oQ-c/pub?embedded=true&rm=minimal"
+  },
+  "de": {
+    "title": "Torrefizierungs- und Kryobehandlungsverfahren sowie zu den wissenschaftlichen Mechanismen von Tonhölzern für unabhängige Luthiers",
+    "excerpt": "Diese Studie schlägt praxisnahe Alternativen für heutige unabhängige Luthiers vor, die zunehmend Schwierigkeiten haben, hochwertiges, natürlich gealtertes Tonholz zu beschaffen. Sie untersucht umfassend die wissenschaftlichen Prinzipien, praktischen Verfahren und sicherheitstechnischen Anforderungen der Torrefizierung und der kryogenen Behandlung. Darüber hinaus analysiert sie, wie sich diese Verfahren auf Zellstruktur, Feuchtehaushalt, Steifigkeit, Dämpfung und akustische Leistungsfähigkeit von Holz auswirken, und leitet daraus anwendbare Protokolle für kleine Werkstätten ab. Ziel ist es zu zeigen, dass auch unabhängige Instrumentenbauer durch präzise Temperaturführung, Atmosphärenkontrolle und konsequente Sicherheitsmaßnahmen Eigenschaften erreichen können, die traditionell jahrzehntelang natürlich gealtertem Holz zugeschrieben wurden.",
+    "link": "https://docs.google.com/document/d/e/2PACX-1vRILnoEEJTNDOdvEvKgzZfsKEuCmqU_mFPeURQRA8PnfTcovy7npJ_6juhnTpb0g07MSHDqHq6gNoz1/pub?embedded=true&rm=minimal"
+  }
+}
