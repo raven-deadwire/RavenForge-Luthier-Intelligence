@@ -107,12 +107,18 @@
   else init();
 })();
 
-/* Keep the profile refresh modular without expanding the legacy index.html further. */
+/* Keep current content modules separate from the legacy index.html. */
 (() => {
-  if (document.querySelector('script[data-rf-profile-enhancements]')) return;
-  const script = document.createElement('script');
-  script.src = 'assets/profile-enhancements.js?v=20260912-profile';
-  script.defer = true;
-  script.dataset.rfProfileEnhancements = 'true';
-  document.head.append(script);
+  const modules = [
+    ['rf-profile-enhancements', 'assets/profile-enhancements.js?v=20260912-profile'],
+    ['rf-site-context', 'assets/site-context.js?v=20260912-context']
+  ];
+  modules.forEach(([id, src]) => {
+    if (document.querySelector(`script[data-${id}]`)) return;
+    const script = document.createElement('script');
+    script.src = src;
+    script.defer = true;
+    script.setAttribute(`data-${id}`, 'true');
+    document.head.append(script);
+  });
 })();
