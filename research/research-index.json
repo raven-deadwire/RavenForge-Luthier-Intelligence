@@ -2,6 +2,26 @@
   "schemaVersion": 1,
   "articles": [
     {
+      "id": "C01",
+      "date": "2026-09-12",
+      "category": "sound",
+      "ko": {
+        "title": "Pickup Position FFT Mapping — 픽업 위치의 공간 샘플링 가설을 반복 가능한 스펙트럼 측정과 불확도 분석으로 검증하는 방법",
+        "excerpt": "A02의 pickup-position spatial sampling 모델을 실제 측정 프로토콜로 전환한다. sin(nπd/L)를 완성된 pickup output이 아니라 geometric spatial factor로 한정하고, pluck point, finite sensing aperture, magnetic transduction, string inharmonicity와 고정된 electrical load를 분리해 실제 modal spectrum에서 위치 signature가 반복적으로 관찰되는지 검증한다.",
+        "link": "research/C01/ko.html"
+      },
+      "en": {
+        "title": "Pickup Position FFT Mapping — Validating pickup-position spatial sampling with repeatable spectral measurement and an explicit uncertainty budget",
+        "excerpt": "Translate the A02 pickup-position spatial-sampling model into an empirical measurement protocol. Treat sin(nπd/L) as a geometric spatial factor rather than complete pickup output, isolate plucking position, finite sensing aperture, magnetic transduction, string inharmonicity and fixed electrical loading, and test whether a repeatable pickup-position signature survives in the measured modal spectrum.",
+        "link": "research/C01/en.html"
+      },
+      "de": {
+        "title": "Pickup Position FFT Mapping — Validierung der räumlichen Pickup-Abtastung durch reproduzierbare Spektralmessungen und eine explizite Unsicherheitsbilanz",
+        "excerpt": "Das A02-Modell der räumlichen Pickup-Abtastung wird in ein empirisches Messprotokoll überführt. sin(nπd/L) wird als geometrischer Raumfaktor und nicht als vollständiger Pickup-Ausgang behandelt; Anschlagposition, endliche Sensitivitätsbreite, magnetische Wandlung, Saiteninharmonizität und definierte elektrische Last werden getrennt, um eine reproduzierbare Positionssignatur im gemessenen Modalspektrum zu prüfen.",
+        "link": "research/C01/de.html"
+      }
+    },
+    {
       "id": "legacy-2026-09-10-sound",
       "date": "2026-09-10",
       "category": "sound",
