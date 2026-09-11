@@ -1,3 +1,134 @@
+/* Home/About structure and local profile/release media. Preserves the existing RavenForge visual system. */
+(() => {
+  'use strict';
+
+  const homeLabels = { en: 'Home', de: 'Start', ko: '홈' };
+  const releaseMedia = [
+    ['assets/music/from-destiny-they-called.webp', 'From Destiny They Called album cover'],
+    ['assets/music/revenant-raven.webp', 'Revenant Raven album cover'],
+    ['assets/music/a-warrior-betrayed-us.webp', 'A Warrior Betrayed Us album cover']
+  ];
+
+  const language = () => homeLabels[document.documentElement.lang] ? document.documentElement.lang : 'en';
+
+  function installHomeAboutStructure() {
+    const about = document.getElementById('about');
+    const aboutNav = document.querySelector('a.nav-link[href="#about"]');
+    if (!about || !aboutNav) return;
+
+    let home = document.getElementById('home');
+    let homeNav = document.querySelector('a.nav-link[href="#home"]');
+
+    if (!homeNav) {
+      homeNav = document.createElement('a');
+      homeNav.href = '#home';
+      homeNav.className = aboutNav.className.replace(/\bactive-nav\b/g, '').replace(/\s+/g, ' ').trim();
+      homeNav.dataset.rfHomeNav = 'true';
+      aboutNav.before(homeNav);
+    }
+
+    const updateHomeLabel = () => { homeNav.textContent = homeLabels[language()]; };
+    updateHomeLabel();
+    new MutationObserver(updateHomeLabel).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+
+    if (!home) {
+      home = document.createElement('section');
+      home.id = 'home';
+      home.className = 'page-section mb-16 pt-4';
+      about.before(home);
+    }
+
+    const hero = about.querySelector('.rf-hero');
+    if (hero && hero.parentElement !== home) home.append(hero);
+
+    const intro = document.getElementById('about-content-intro');
+    if (intro && !home.contains(intro)) {
+      intro.classList.remove('about-content', 'hidden');
+      intro.removeAttribute('hidden');
+      const card = document.createElement('div');
+      card.className = 'bg-white p-6 rounded-lg shadow-md mt-6';
+      card.dataset.rfHomeIntro = 'true';
+      card.append(intro);
+      home.append(card);
+    }
+
+    document.getElementById('btn-about-intro')?.remove();
+
+    const validTabs = ['brand', 'bio', 'mentors', 'works'];
+    const savedTab = sessionStorage.getItem('activeAboutTab');
+    const activeTab = validTabs.includes(savedTab) ? savedTab : 'brand';
+    sessionStorage.setItem('activeAboutTab', activeTab);
+
+    about.querySelectorAll('.about-tab-btn').forEach(button => {
+      button.classList.toggle('active', button.dataset.target === activeTab);
+    });
+    about.querySelectorAll('.about-content').forEach(content => {
+      content.classList.toggle('hidden', content.id !== `about-content-${activeTab}`);
+    });
+
+    if (!window.location.hash) {
+      history.replaceState(null, '', '#home');
+      about.classList.remove('active');
+      home.classList.add('active');
+      aboutNav.classList.remove('active-nav');
+      aboutNav.removeAttribute('aria-current');
+      homeNav.classList.add('active-nav');
+      homeNav.setAttribute('aria-current', 'page');
+    }
+  }
+
+  function installMediaStyles() {
+    if (document.getElementById('rf-profile-media-style')) return;
+    const style = document.createElement('style');
+    style.id = 'rf-profile-media-style';
+    style.textContent = `
+      #about-content-bio .rf-release-card { min-height:0 !important; padding:.8rem !important; }
+      #about-content-bio .rf-release-cover { display:block; width:100%; aspect-ratio:1 / 1; object-fit:cover; margin:0 0 .9rem; border:1px solid rgb(255 255 255 / .14); background:#101b20; }
+      #about-content-bio .rf-release-card h4 { margin:.2rem 0 .55rem !important; }
+      #about-content-bio .rf-release-label { margin-bottom:.2rem; }
+      .rf-project-stage { display:none !important; }
+    `;
+    document.head.append(style);
+  }
+
+  function decorateLocalMedia() {
+    const profile = document.querySelector('#personal-intro img');
+    if (profile) {
+      profile.src = 'assets/profile/raven-profile.webp';
+      profile.alt = 'Raven Cho performing live';
+      profile.removeAttribute('onerror');
+      profile.loading = 'eager';
+      profile.decoding = 'async';
+    }
+
+    document.querySelectorAll('#about-content-bio .rf-release-grid .rf-release-card').forEach((card, index) => {
+      const item = releaseMedia[index];
+      if (!item) return;
+      let image = card.querySelector(':scope > .rf-release-cover');
+      if (!image) {
+        image = document.createElement('img');
+        image.className = 'rf-release-cover';
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        card.prepend(image);
+      }
+      image.src = item[0];
+      image.alt = item[1];
+    });
+
+    document.querySelectorAll('[data-rf-project-stage], .rf-project-stage').forEach(node => node.remove());
+  }
+
+  installHomeAboutStructure();
+  installMediaStyles();
+
+  if (document.body) {
+    new MutationObserver(decorateLocalMedia).observe(document.body, { childList: true, subtree: true });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', decorateLocalMedia, { once: true });
+  else decorateLocalMedia();
+})();
+
 /* Equal-time model cards. No automatic movement while reading or off screen. */
 (() => {
   'use strict';
@@ -9,7 +140,7 @@
   function init() {
     const root = document.getElementById('model-carousel');
     if (!root) return;
-    const page = document.getElementById('about');
+    const page = document.getElementById('home') || document.getElementById('about');
     const slides = [...root.querySelectorAll('.rf-model-slide')];
     const picker = root.querySelector('.rf-carousel-picker');
     const buttons = [...picker.querySelectorAll('button')];
