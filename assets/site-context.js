@@ -36,6 +36,15 @@
     if (node) node.innerHTML = value;
   }
 
+  function ensureHomeEditorialStyles() {
+    if (document.querySelector('link[data-rf-home-editorial]')) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'assets/home-editorial.css?v=20260912-home-editorial-2';
+    link.dataset.rfHomeEditorial = 'true';
+    document.head.append(link);
+  }
+
   function render() {
     const t = copy[language()];
     document.title = t.pageTitle;
@@ -47,6 +56,7 @@
   }
 
   function init() {
+    ensureHomeEditorialStyles();
     render();
     new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
   }
