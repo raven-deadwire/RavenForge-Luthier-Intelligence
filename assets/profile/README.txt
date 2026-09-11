@@ -1,0 +1,1 @@
+Profile and release media are sourced from the user's original uploads and optimized for web delivery. No generated artwork is used here.
