@@ -23,66 +23,68 @@ def fetch_published_doc(url: str) -> str:
 
 
 def make_static_html(source_html: str, source_url: str, title: str, lang: str) -> str:
-    soup = BeautifulSoup(source_html, "html.parser")
+    source = BeautifulSoup(source_html, "html.parser")
 
-    # Published Google Docs pages contain runtime scripts that are unnecessary in
-    # a static RavenForge mirror. Keep the document markup and CSS, drop scripts.
-    for tag in soup.find_all(["script", "noscript"]):
+    # Google runtime code is not needed in a static archive.
+    for tag in source.find_all(["script", "noscript"]):
         tag.decompose()
-
-    # Remove Google UI elements when present, while preserving the document body.
     for selector in ["#docs-toolbar-wrapper", ".docs-butterbar-container"]:
-        for tag in soup.select(selector):
+        for tag in source.select(selector):
             tag.decompose()
 
-    # Make relative resources absolute before the page moves away from docs.google.com.
-    for tag in soup.find_all(True):
+    # Keep the Google Docs publication CSS, but rebuild a clean standalone shell.
+    source_css = "\n".join(tag.get_text() for tag in source.find_all("style"))
+    content = source.select_one(".doc-content")
+    if content is None:
+        content = source.body if source.body is not None else source
+
+    # Make relative resources absolute before moving away from docs.google.com.
+    for tag in content.find_all(True):
         for attr in ("src", "href"):
             value = tag.get(attr)
             if not value or value.startswith(("#", "data:", "mailto:", "tel:", "javascript:")):
                 continue
             tag[attr] = urljoin(source_url, value)
 
-    if soup.html is None:
-        wrapper = BeautifulSoup("<!doctype html><html><head></head><body></body></html>", "html.parser")
-        wrapper.body.append(soup)
-        soup = wrapper
+    out = BeautifulSoup("<!doctype html><html><head></head><body></body></html>", "html.parser")
+    out.html["lang"] = lang
 
-    html_tag = soup.html
-    html_tag["lang"] = lang
-
-    head = soup.head
-    if head is None:
-        head = soup.new_tag("head")
-        html_tag.insert(0, head)
-
-    # Ensure a predictable standalone page inside the RavenForge modal iframe.
-    charset = soup.new_tag("meta")
+    charset = out.new_tag("meta")
     charset["charset"] = "utf-8"
-    head.insert(0, charset)
-    viewport = soup.new_tag("meta")
+    out.head.append(charset)
+    viewport = out.new_tag("meta")
     viewport["name"] = "viewport"
     viewport["content"] = "width=device-width, initial-scale=1"
-    head.insert(1, viewport)
+    out.head.append(viewport)
+    title_tag = out.new_tag("title")
+    title_tag.string = title
+    out.head.append(title_tag)
 
-    if not head.title:
-        title_tag = soup.new_tag("title")
-        title_tag.string = title
-        head.append(title_tag)
+    if source_css:
+        source_style = out.new_tag("style")
+        source_style.string = source_css
+        out.head.append(source_style)
 
-    style = soup.new_tag("style")
-    style.string = """
+    ravenforge_style = out.new_tag("style")
+    ravenforge_style.string = """
 html, body { margin: 0; padding: 0; background: #fff; }
-body { box-sizing: border-box; }
+body { box-sizing: border-box; overflow-x: hidden; }
+.doc-content { margin-left: auto !important; margin-right: auto !important; }
 img { max-width: 100%; height: auto; }
 table { max-width: 100%; }
 @media (max-width: 720px) {
   body { overflow-wrap: anywhere; }
+  .doc-content { max-width: none !important; padding: 24px 16px !important; }
+  table { width: 100% !important; display: block; overflow-x: auto; }
 }
 """
-    head.append(style)
+    out.head.append(ravenforge_style)
 
-    return "<!doctype html>\n" + str(html_tag)
+    fragment = BeautifulSoup(str(content), "html.parser")
+    for child in list(fragment.contents):
+        out.body.append(child)
+
+    return "<!doctype html>\n" + str(out.html)
 
 
 def migrate_meta(meta_path: Path) -> bool:
@@ -102,13 +104,8 @@ def migrate_meta(meta_path: Path) -> bool:
         source_url = str(localized.get("sourceLink") or localized.get("link") or "").strip()
         if not source_url:
             raise RuntimeError(f"{meta_path}: missing {lang} source link")
-
-        # Once mirrored, preserve the original published Google Docs URL separately.
-        if localized.get("sourceLink"):
-            source_url = str(localized["sourceLink"]).strip()
-
         if not source_url.startswith("http"):
-            # Already local and no source URL remains: nothing to mirror.
+            # Already local and no archival source remains.
             continue
 
         source_html = fetch_published_doc(source_url)
