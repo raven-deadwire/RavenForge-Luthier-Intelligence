@@ -33,3 +33,5 @@ jobs:
           git add index.html
           git commit -m "Use GitHub-native research metadata with Sheet fallback"
           git push
+
+# Touch this workflow to trigger the one-time migration after installation.
