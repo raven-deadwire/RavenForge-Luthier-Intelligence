@@ -2,6 +2,7 @@
   "id": "A01",
   "date": "2026-09-05",
   "category": "sound",
+  "source": "migrated-from-google-sheet",
   "ko": {
     "title": "기계적 진동에서 전기 신호로",
     "excerpt": "전기 기타와 베이스의 출력 신호를 개별 부품의 ‘톤’ 합으로 설명하지 않고, 연주자의 가진에서 현–구조 결합, 픽업 위치의 spatial sampling, 자기회로의 flux modulation, coil 및 외부 부하의 electrical response로 이어지는 하나의 coupled signal system으로 정의한다. 이번 회차는 특정 pickup 위치나 pot 값의 정답을 확정하는 문서가 아니라, A02–A05와 C01–C02에서 각 변수를 분리·검증하기 위한 RavenForge 공통 reference model을 구축한다.",
