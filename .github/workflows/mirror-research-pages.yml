@@ -1,0 +1,43 @@
+name: Mirror research pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/mirror_research_pages.py'
+      - '.github/workflows/mirror-research-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install HTML migration dependencies
+        run: python -m pip install --disable-pip-version-check requests beautifulsoup4
+
+      - name: Mirror A01 as proof of concept
+        env:
+          ONLY_ID: A01
+        run: python tools/mirror_research_pages.py
+
+      - name: Rebuild research index
+        run: python tools/build_research_index.py
+
+      - name: Commit mirrored A01
+        shell: bash
+        run: |
+          if git diff --quiet -- research; then
+            echo "No mirror changes required."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research
+          git commit -m "Mirror A01 research pages to GitHub"
+          git push
