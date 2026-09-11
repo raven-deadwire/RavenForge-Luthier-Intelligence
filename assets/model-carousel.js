@@ -106,3 +106,13 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();
+
+/* Keep the profile refresh modular without expanding the legacy index.html further. */
+(() => {
+  if (document.querySelector('script[data-rf-profile-enhancements]')) return;
+  const script = document.createElement('script');
+  script.src = 'assets/profile-enhancements.js?v=20260912-profile';
+  script.defer = true;
+  script.dataset.rfProfileEnhancements = 'true';
+  document.head.append(script);
+})();
