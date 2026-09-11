@@ -1,4 +1,25 @@
 {
   "schemaVersion": 1,
-  "articles": []
+  "articles": [
+    {
+      "id": "A01",
+      "date": "2026-09-05",
+      "category": "sound",
+      "ko": {
+        "title": "기계적 진동에서 전기 신호로",
+        "excerpt": "전기 기타와 베이스의 출력 신호를 개별 부품의 ‘톤’ 합으로 설명하지 않고, 연주자의 가진에서 현–구조 결합, 픽업 위치의 spatial sampling, 자기회로의 flux modulation, coil 및 외부 부하의 electrical response로 이어지는 하나의 coupled signal system으로 정의한다. 이번 회차는 특정 pickup 위치나 pot 값의 정답을 확정하는 문서가 아니라, A02–A05와 C01–C02에서 각 변수를 분리·검증하기 위한 RavenForge 공통 reference model을 구축한다.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vT6XS9btB_YpJQL1ipbFx0IGi-HiObWCb3rzKiwTqlUGy0Z7oW8xApC9i02NWSObA/pub?embedded=true&rm=minimal"
+      },
+      "en": {
+        "title": "From Mechanical Vibration to Electrical Signal",
+        "excerpt": "Define the output signal of electric guitars and basses not as the sum of the ‘tone’ of individual components, but as one coupled signal system extending from player excitation through string–structure coupling, pickup-position spatial sampling, magnetic-circuit flux modulation, and the electrical response of the coil and external load. This entry does not establish a single correct pickup position or pot value; it builds a common RavenForge reference model for isolating and validating variables in A02–A05 and C01–C02.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vQqT7H_kIvExVkaaPVOBAdv71TVpgj8uHdPdDM7kZcVZSTD9BFBWoVxxm5O1KsKmQ/pub?embedded=true&rm=minimal"
+      },
+      "de": {
+        "title": "Von mechanischer Schwingung zum elektrischen Signal",
+        "excerpt": "Das Ausgangssignal von E-Gitarren und E-Bässen wird nicht als Summe des ‘Tons’ einzelner Bauteile beschrieben, sondern als ein gekoppeltes Signalsystem: von der Spieleranregung über Saiten-Struktur-Kopplung und räumliches Sampling an der Pickup-Position bis zur Flussmodulation im Magnetkreis sowie zur elektrischen Antwort von Spule und externer Last. Dieser Eintrag legt weder eine einzig richtige Pickup-Position noch einen bestimmten Potentiometerwert fest; er schafft ein gemeinsames RavenForge-Referenzmodell, um die Variablen in A02–A05 und C01–C02 getrennt zu prüfen und zu validieren.",
+        "link": "https://docs.google.com/document/d/e/2PACX-1vS5fccJrZ9dIshynfOx3v3d_3NVGOT5L5eEljCnRZ6vUb8yvjZraRD_EulGZLXvXQ/pub?embedded=true&rm=minimal"
+      }
+    }
+  ]
 }
