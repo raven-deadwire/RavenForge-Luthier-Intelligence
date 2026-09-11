@@ -1,0 +1,9 @@
+/* Small additions for the Home/About split; the existing RavenForge visual system remains authoritative. */
+#home > .rf-hero { margin-bottom: 0; }
+#home > .bg-white { margin-top: 1.5rem; }
+#home [data-home-intro-title] { margin-bottom: 1.5rem; }
+#home #personal-intro { margin-bottom: 3rem; }
+#home #ravenforge-identity { margin-top: 0; }
+@media (max-width: 640px) {
+  #home > .bg-white { margin-top: 1rem; padding: 1rem; }
+}
