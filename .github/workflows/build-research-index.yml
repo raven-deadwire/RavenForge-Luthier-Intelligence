@@ -6,7 +6,6 @@ on:
     paths:
       - 'research/**/meta.json'
       - 'tools/build_research_index.py'
-      - 'tools/import_research_sheet_metadata.py'
       - '.github/workflows/build-research-index.yml'
   workflow_dispatch:
 
@@ -20,21 +19,18 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: One-time legacy metadata import
-        run: python tools/import_research_sheet_metadata.py
-
       - name: Build research index
         run: python tools/build_research_index.py
 
-      - name: Commit migrated metadata and generated index
+      - name: Commit generated index
         shell: bash
         run: |
-          if git diff --quiet -- research; then
-            echo "Research metadata is already up to date."
+          if git diff --quiet -- research/research-index.json; then
+            echo "Research index is already up to date."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research
-          git commit -m "Migrate all legacy research metadata to GitHub"
+          git add research/research-index.json
+          git commit -m "Rebuild research metadata index"
           git push
