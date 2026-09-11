@@ -1,0 +1,35 @@
+name: Migrate research loader
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/migrate-research-loader.yml'
+      - 'tools/migrate_research_loader.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Patch research loader
+        run: python tools/migrate_research_loader.py
+
+      - name: Commit migration
+        shell: bash
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "No index.html changes required."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Use GitHub-native research metadata with Sheet fallback"
+          git push
