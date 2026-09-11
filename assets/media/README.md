@@ -1,0 +1,1 @@
+Local media used by the RavenForge portfolio. Profile and release artwork are source images supplied by Raven Cho; web delivery copies preserve the original artwork without generative alteration.
