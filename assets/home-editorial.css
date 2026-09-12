@@ -1,2 +1,6 @@
 @import url("./home-editorial-base.css?v=20260912-base-1");
 @import url("./home-pillar-media.css?v=20260912-reference-crops-1");
+#home #personal-intro{grid-template-columns:minmax(14rem,.62fr) minmax(0,1.38fr)!important;grid-template-rows:auto auto!important;min-height:0!important;align-items:stretch!important}
+#home #personal-intro>div>div:first-child{min-height:0!important;height:auto!important;align-self:stretch!important}
+#home #personal-intro>div>div:first-child img{min-height:0!important;height:100%!important;object-fit:cover!important;object-position:center 18%!important;filter:none!important}
+@media(max-width:640px){#home #personal-intro{grid-template-columns:1fr!important;grid-template-rows:21rem auto auto!important}}

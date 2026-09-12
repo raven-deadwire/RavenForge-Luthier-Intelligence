@@ -18,7 +18,7 @@
       materialBody: 'Tonewoods, laminates and alternative materials are studied for structural, tactile and musical roles, then selected according to the needs of each design.',
       soundTitle: 'SOUND',
       soundLead: 'Clarity. Depth. Character.',
-      soundBody: 'The goal is a useful musical voice: controlled lows, articulate mids and enough character to remain meaningful in the player’s actual context.',
+      soundBody: 'The goal is a useful musical sound: controlled lows, articulate mids and enough character to remain meaningful in the player’s actual context.',
       homeVisionEyebrow: 'OUR VISION',
       homeVisionTitle: 'Instruments for Deeper Expression',
       homeVisionBody: 'RavenForge explores instruments as a meeting point between musicianship, research and craft — tools that invite the player to go further rather than dictate a single answer.',
@@ -39,7 +39,7 @@
       materialBody: 'Tonhölzer, Laminate und alternative Materialien werden hinsichtlich Struktur, Haptik und musikalischer Funktion untersucht und passend zum jeweiligen Entwurf ausgewählt.',
       soundTitle: 'KLANG',
       soundLead: 'Klarheit. Tiefe. Charakter.',
-      soundBody: 'Ziel ist eine musikalisch brauchbare Stimme: kontrollierte Tiefen, artikulierte Mitten und genügend Charakter, um im tatsächlichen Spielkontext Bedeutung zu behalten.',
+      soundBody: 'Ziel ist ein musikalisch brauchbarer Klangcharakter: kontrollierte Tiefen, artikulierte Mitten und genügend Eigenständigkeit für den tatsächlichen Spielkontext.',
       homeVisionEyebrow: 'UNSERE VISION',
       homeVisionTitle: 'Instrumente für tieferen Ausdruck',
       homeVisionBody: 'RavenForge versteht Instrumente als Schnittpunkt von Musikalität, Forschung und Handwerk — Werkzeuge, die den Spieler weiterführen, statt ihm nur eine Antwort vorzugeben.',
@@ -60,7 +60,7 @@
       materialBody: '목재, 라미네이트와 대체 소재를 구조적·촉각적·음악적 역할로 나누어 연구하고, 각 설계가 요구하는 조건에 따라 선택합니다.',
       soundTitle: 'SOUND',
       soundLead: '명료함. 깊이. 캐릭터.',
-      soundBody: '목표는 실제 연주 맥락에서 유용한 목소리입니다. 통제된 저역, 분명한 중역과 악기 자체의 캐릭터 사이의 균형을 탐구합니다.',
+      soundBody: '목표는 실제 연주 맥락에서 유용한 사운드입니다. 통제된 저역, 분명한 중역, 그리고 악기 자체의 캐릭터가 균형을 이루도록 탐구합니다.',
       homeVisionEyebrow: 'OUR VISION',
       homeVisionTitle: '더 깊은 표현을 위한 악기',
       homeVisionBody: 'RavenForge는 악기를 연주 경험, 연구와 제작이 만나는 지점으로 바라봅니다. 하나의 정답을 강요하기보다 연주자가 더 멀리 탐구할 수 있게 하는 도구를 지향합니다.',
@@ -79,9 +79,48 @@
     if (document.querySelector('link[data-rf-home-editorial]')) return;
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = 'assets/home-editorial.css?v=20260912-home-editorial-3';
+    link.href = 'assets/home-editorial.css?v=20260912-home-editorial-5';
     link.dataset.rfHomeEditorial = 'true';
     document.head.append(link);
+  }
+
+  const profileParts = Array.from({ length: 6 }, (_, index) =>
+    `assets/profile/hq/part-${index}.txt?v=20260912-profile-hq-1`
+  );
+  let profileData = null;
+  let profilePromise = null;
+
+  function applyHighQualityProfile() {
+    if (!profileData) return;
+    const image = document.querySelector('#home #personal-intro img');
+    if (!image) return;
+    if (!image.src.startsWith('data:image/webp;base64,')) {
+      image.src = `data:image/webp;base64,${profileData}`;
+    }
+    image.alt = 'Raven Cho performing live';
+    image.loading = 'eager';
+    image.decoding = 'async';
+  }
+
+  function ensureHighQualityProfile() {
+    if (!profilePromise) {
+      profilePromise = Promise.all(profileParts.map(async url => {
+        const response = await fetch(url, { cache: 'force-cache' });
+        if (!response.ok) throw new Error(`${url}: ${response.status}`);
+        return (await response.text()).trim();
+      }))
+        .then(parts => {
+          profileData = parts.join('');
+          applyHighQualityProfile();
+          return profileData;
+        })
+        .catch(error => {
+          console.warn('RavenForge high-quality profile image could not be loaded.', error);
+          return null;
+        });
+    } else {
+      applyHighQualityProfile();
+    }
   }
 
   function ensureHomePillars() {
@@ -148,12 +187,20 @@
     setHtml('#about-content-intro [data-lang-key="visionContent"]', t.visionContent);
     setHtml('#about-content-bio [data-lang-key="bioEducationValue"]', t.education);
     renderHomePillars(t);
+    ensureHighQualityProfile();
   }
 
   function init() {
     ensureHomeEditorialStyles();
     render();
-    new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+    new MutationObserver(render).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['lang']
+    });
+    new MutationObserver(() => applyHighQualityProfile()).observe(document.body, {
+      childList: true,
+      subtree: true
+    });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
