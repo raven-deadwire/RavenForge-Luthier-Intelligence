@@ -3,76 +3,78 @@
   isolation: isolate;
 }
 
-/* FORM — an actual RavenForge instrument/body crop, not a drawn curve. */
+/* FORM — actual RavenForge instrument/body crop, close to the reference's sculpted-body detail. */
 #home [data-pillar="form"] .rf-home-pillar-visual {
   background-color: #090d0f !important;
   background-image:
-    linear-gradient(90deg, rgb(5 9 11 / .30), rgb(5 9 11 / .08) 48%, rgb(5 9 11 / .38)),
+    linear-gradient(90deg, rgb(5 9 11 / .32), rgb(5 9 11 / .06) 50%, rgb(5 9 11 / .36)),
     url("../Edda%20Prototype%20Design.png") !important;
   background-repeat: no-repeat, no-repeat !important;
   background-size: cover, 205% auto !important;
   background-position: center, 53% 78% !important;
-  filter: saturate(.48) brightness(.75) contrast(1.18);
+  filter: saturate(.46) brightness(.76) contrast(1.18);
 }
 #home [data-pillar="form"] .rf-home-pillar-visual > span {
   display: none !important;
 }
 #home [data-pillar="form"] .rf-home-pillar-visual::after {
-  z-index: 2;
-  background: linear-gradient(to top, rgb(5 9 11 / .48), transparent 58%) !important;
+  z-index: 3;
+  background: linear-gradient(to top, rgb(5 9 11 / .44), transparent 62%) !important;
 }
 
-/* MATERIAL — three narrow crops from real RavenForge model surfaces, treated as a material strip study. */
+/* MATERIAL — three photographic strips made from real RavenForge model surfaces. */
 #home [data-pillar="material"] .rf-home-pillar-visual {
   background-color: #0b0d0e !important;
   background-image:
-    linear-gradient(rgb(9 10 10 / .18), rgb(9 10 10 / .28)),
+    linear-gradient(rgb(8 9 9 / .12), rgb(8 9 9 / .20)),
     url("../ASKR%20Prototype%20Design.png") !important;
   background-repeat: no-repeat, no-repeat !important;
   background-size: cover, 300% auto !important;
   background-position: center, 15% 79% !important;
-  filter: sepia(.42) saturate(.68) brightness(.72) contrast(1.17);
+  filter: sepia(.34) saturate(.72) brightness(.76) contrast(1.14);
 }
 #home [data-pillar="material"] .rf-home-pillar-visual::before,
 #home [data-pillar="material"] .rf-home-pillar-visual > span {
   content: "";
   position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 33.34%;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 33.34% !important;
   z-index: 1;
   display: block !important;
   background-repeat: no-repeat !important;
   background-size: 300% auto !important;
+  mix-blend-mode: normal !important;
+  opacity: 1 !important;
 }
 #home [data-pillar="material"] .rf-home-pillar-visual::before {
-  left: 33.33%;
+  left: 33.33% !important;
+  right: auto !important;
   background-image:
-    linear-gradient(rgb(9 10 10 / .14), rgb(9 10 10 / .25)),
+    linear-gradient(rgb(8 9 9 / .10), rgb(8 9 9 / .18)),
     url("../EMBLA%20Prototype%20Design.png") !important;
   background-position: center, 49% 78% !important;
-  border-left: 1px solid rgb(230 220 201 / .14);
-  border-right: 1px solid rgb(230 220 201 / .14);
+  border-left: 1px solid rgb(230 220 201 / .16);
+  border-right: 1px solid rgb(230 220 201 / .16);
 }
 #home [data-pillar="material"] .rf-home-pillar-visual > span {
-  right: 0;
+  right: 0 !important;
   left: auto !important;
   height: auto !important;
   border: 0 !important;
   border-radius: 0 !important;
   transform: none !important;
-  opacity: 1 !important;
   background-image:
-    linear-gradient(rgb(9 10 10 / .16), rgb(9 10 10 / .27)),
+    linear-gradient(rgb(8 9 9 / .11), rgb(8 9 9 / .19)),
     url("../Edda%20Prototype%20Design.png") !important;
   background-position: center, 84% 78% !important;
 }
 #home [data-pillar="material"] .rf-home-pillar-visual::after {
-  z-index: 2;
-  background: linear-gradient(to top, rgb(5 8 10 / .44), transparent 56%) !important;
+  z-index: 3;
+  background: linear-gradient(to top, rgb(5 8 10 / .38), transparent 60%) !important;
 }
 
-/* SOUND — clean waveform image matching the reference composition. */
+/* SOUND — clean waveform graphic like the reference, replacing the previous clipped bars. */
 #home [data-pillar="sound"] .rf-home-pillar-visual {
   background-color: #06090a !important;
   background-image:
@@ -87,6 +89,6 @@
   display: none !important;
 }
 #home [data-pillar="sound"] .rf-home-pillar-visual::after {
-  z-index: 2;
-  background: linear-gradient(to top, rgb(4 7 8 / .28), transparent 62%) !important;
+  z-index: 3;
+  background: linear-gradient(to top, rgb(4 7 8 / .24), transparent 66%) !important;
 }
