@@ -1,1 +1,0 @@
-Ready to switch Home editorial stylesheet to base + real-media override.
