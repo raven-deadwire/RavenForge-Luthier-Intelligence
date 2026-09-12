@@ -1,0 +1,92 @@
+/* Reference-faithful Home pillar visuals: use RavenForge imagery instead of abstract CSS illustrations. */
+#home .rf-home-pillar-visual {
+  isolation: isolate;
+}
+
+/* FORM — an actual RavenForge instrument/body crop, not a drawn curve. */
+#home [data-pillar="form"] .rf-home-pillar-visual {
+  background-color: #090d0f !important;
+  background-image:
+    linear-gradient(90deg, rgb(5 9 11 / .30), rgb(5 9 11 / .08) 48%, rgb(5 9 11 / .38)),
+    url("../Edda%20Prototype%20Design.png") !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-size: cover, 205% auto !important;
+  background-position: center, 53% 78% !important;
+  filter: saturate(.48) brightness(.75) contrast(1.18);
+}
+#home [data-pillar="form"] .rf-home-pillar-visual > span {
+  display: none !important;
+}
+#home [data-pillar="form"] .rf-home-pillar-visual::after {
+  z-index: 2;
+  background: linear-gradient(to top, rgb(5 9 11 / .48), transparent 58%) !important;
+}
+
+/* MATERIAL — three narrow crops from real RavenForge model surfaces, treated as a material strip study. */
+#home [data-pillar="material"] .rf-home-pillar-visual {
+  background-color: #0b0d0e !important;
+  background-image:
+    linear-gradient(rgb(9 10 10 / .18), rgb(9 10 10 / .28)),
+    url("../ASKR%20Prototype%20Design.png") !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-size: cover, 300% auto !important;
+  background-position: center, 15% 79% !important;
+  filter: sepia(.42) saturate(.68) brightness(.72) contrast(1.17);
+}
+#home [data-pillar="material"] .rf-home-pillar-visual::before,
+#home [data-pillar="material"] .rf-home-pillar-visual > span {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 33.34%;
+  z-index: 1;
+  display: block !important;
+  background-repeat: no-repeat !important;
+  background-size: 300% auto !important;
+}
+#home [data-pillar="material"] .rf-home-pillar-visual::before {
+  left: 33.33%;
+  background-image:
+    linear-gradient(rgb(9 10 10 / .14), rgb(9 10 10 / .25)),
+    url("../EMBLA%20Prototype%20Design.png") !important;
+  background-position: center, 49% 78% !important;
+  border-left: 1px solid rgb(230 220 201 / .14);
+  border-right: 1px solid rgb(230 220 201 / .14);
+}
+#home [data-pillar="material"] .rf-home-pillar-visual > span {
+  right: 0;
+  left: auto !important;
+  height: auto !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  transform: none !important;
+  opacity: 1 !important;
+  background-image:
+    linear-gradient(rgb(9 10 10 / .16), rgb(9 10 10 / .27)),
+    url("../Edda%20Prototype%20Design.png") !important;
+  background-position: center, 84% 78% !important;
+}
+#home [data-pillar="material"] .rf-home-pillar-visual::after {
+  z-index: 2;
+  background: linear-gradient(to top, rgb(5 8 10 / .44), transparent 56%) !important;
+}
+
+/* SOUND — clean waveform image matching the reference composition. */
+#home [data-pillar="sound"] .rf-home-pillar-visual {
+  background-color: #06090a !important;
+  background-image:
+    radial-gradient(ellipse at center, rgb(171 158 128 / .13), transparent 48%),
+    url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20800%20260%22%3E%3Cpath%20d=%22M10%20125V135M26%20112V148M42%20107V153M58%20113V147M74%20123V137M90%20116V144M106%20117V143M121%20120V140M137%20120V140M153%20109V151M169%2096V164M185%2095V165M201%20114V146M217%2087V173M233%2068V192M249%2077V183M265%20108V152M281%2085V175M297%2078V182M312%2093V167M328%20108V152M344%20103V157M360%2084V176M376%2076V184M392%20100V160M408%2069V191M424%2039V221M440%2050V210M456%2097V163M472%2071V189M488%2056V204M503%2075V185M519%20105V155M535%20103V157M551%20110V150M567%20105V155M583%20111V149M599%20101V159M615%2086V174M631%2089V171M647%20111V149M663%20103V157M679%2093V167M694%20101V159M710%20117V143M726%20115V145M742%20115V145M758%20120V140M774%20124V136M790%20122V138%22%20stroke=%22%23d8d0bb%22%20stroke-width=%222%22%20stroke-linecap=%22round%22%20opacity=%22.72%22/%3E%3Cpath%20d=%22M0%20130H800%22%20stroke=%22%23d8d0bb%22%20stroke-width=%221%22%20opacity=%22.25%22/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #070a0c, #111618 52%, #06090a) !important;
+  background-repeat: no-repeat, no-repeat, no-repeat !important;
+  background-size: cover, 92% 76%, cover !important;
+  background-position: center, center, center !important;
+}
+#home [data-pillar="sound"] .rf-home-pillar-visual > span {
+  display: none !important;
+}
+#home [data-pillar="sound"] .rf-home-pillar-visual::after {
+  z-index: 2;
+  background: linear-gradient(to top, rgb(4 7 8 / .28), transparent 62%) !important;
+}
