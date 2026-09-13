@@ -1,11 +1,20 @@
-name: Build research index
+name: Build RavenForge site assets
 
 on:
   push:
     branches: [main]
     paths:
       - 'research/**/meta.json'
-      - 'tools/build_research_index.py'
+      - 'research/**/article-parts/**'
+      - 'research/**/references-fragment.html'
+      - 'concepts/**/meta.json'
+      - 'tools/**'
+      - 'EMBLA Prototype Design.png'
+      - 'ASKR Prototype Design.png'
+      - 'Edda Prototype Design.png'
+      - 'Body Structure.png'
+      - 'ravenforge.png'
+      - 'assets/concepts/*.png'
       - '.github/workflows/build-research-index.yml'
   workflow_dispatch:
 
@@ -18,19 +27,52 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Build research index
-        run: python tools/build_research_index.py
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-      - name: Commit generated index
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --disable-pip-version-check Pillow
+          npm install --no-save --no-package-lock jsdom@24
+
+      - name: Migrate and build Concept Lab metadata
+        run: |
+          node tools/migrate_concepts.mjs
+          python tools/optimize_site_images.py
+          python tools/build_concept_index.py
+          node tools/normalize_concept_runtime.mjs
+
+      - name: Build Research metadata and static pages
+        run: |
+          python tools/build_research_index.py
+          node tools/build_research_static.mjs
+
+      - name: Build site shell, SEO and sitemap
+        run: python tools/build_site.py
+
+      - name: Commit generated site assets
         shell: bash
         run: |
-          if git diff --quiet -- research/research-index.json; then
-            echo "Research index is already up to date."
-            exit 0
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html configurator.html robots.txt sitemap.xml
           git add research/research-index.json
-          git commit -m "Rebuild research metadata index"
+          git add research/*/*.html
+          git add concepts
+          git add assets/concept-lab.js assets/optimized assets/favicon.png assets/apple-touch-icon.png
+          if git diff --cached --quiet; then
+            echo "Generated site assets are already up to date."
+            exit 0
+          fi
+          git commit -m "Build static site assets and metadata"
           git push
