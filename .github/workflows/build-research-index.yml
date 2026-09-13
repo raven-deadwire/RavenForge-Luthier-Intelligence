@@ -58,7 +58,9 @@ jobs:
           node tools/build_research_static.mjs
 
       - name: Build site shell, SEO and sitemap
-        run: python tools/build_site.py
+        run: |
+          python tools/build_site.py
+          python tools/normalize_site_title.py
 
       - name: Commit generated site assets
         shell: bash
