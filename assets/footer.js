@@ -28,41 +28,30 @@ function chart(){
   const c=Chart.getChart(e);if(!c)return;
   const d=L().filter(x=>K==='all'||(x.entityType||'luthier')===K),m=new Map();
   d.forEach(x=>(x.tags||[]).forEach(t=>m.set(t,(m.get(t)||0)+1)));
-  const labels=[],values=[];(c.data.labels||[]).forEach((lab,i)=>{const key=lab;const v=m.get(key)||0;if(v>0){labels.push(lab);values.push(v);}});
+  const labels=[],values=[];(c.data.labels||[]).forEach(lab=>{const v=m.get(lab)||0;if(v>0){labels.push(lab);values.push(v);}});
   if(labels.length){c.data.labels=labels;c.data.datasets[0].data=values;c.update();}
 }
 function cards(){
-  const g=document.getElementById('luthier-grid');
-  if(!g)return;
+  const g=document.getElementById('luthier-grid');if(!g)return;
   const c=T[['en','de','ko'].includes(R.lang)?R.lang:'en'],m=new Map(L().map(x=>[x.name,x.entityType||'luthier']));
   let old=document.getElementById('rf-type-empty'),n=0,v=0;
   g.querySelectorAll(':scope>div').forEach(d=>{
-    const h=d.querySelector('h3');
-    if(!h)return;
-    n++;
+    const h=d.querySelector('h3');if(!h)return;n++;
     const k=m.get(h.textContent.trim())||'luthier',show=K==='all'||K===k;
-    d.style.display=show?'':'none';
-    if(show)v++;
-    let b=d.querySelector('.rf-kind');
-    if(!b){b=document.createElement('span');b.className='rf-kind';h.after(b);}
-    b.textContent=k==='technology'?c[4]:c[3];
+    d.style.display=show?'':'none';if(show)v++;
+    let b=d.querySelector('.rf-kind');if(!b){b=document.createElement('span');b.className='rf-kind';h.after(b);}b.textContent=k==='technology'?c[4]:c[3];
   });
-  if(n&&!v){
-    if(!old){old=document.createElement('p');old.id='rf-type-empty';old.className='col-span-full text-center text-slate-500 py-8';g.appendChild(old);}
-    old.textContent=c[5];
-  }else if(old)old.remove();
+  if(n&&!v){if(!old){old=document.createElement('p');old.id='rf-type-empty';old.className='col-span-full text-center text-slate-500 py-8';g.appendChild(old);}old.textContent=c[5];}else if(old)old.remove();
 }
 function apply(){tabs();chart();cards();}
 function ui(){
-  const a=document.getElementById('analysis'),h=a&&a.querySelector('h2');
-  if(!h||document.getElementById('analysis-type-filter'))return;
+  const a=document.getElementById('analysis'),h=a&&a.querySelector('h2');if(!h||document.getElementById('analysis-type-filter'))return;
   const w=document.createElement('div');w.id='analysis-type-filter';w.className='rf-type';
-  ['all','luthier','technology'].forEach(k=>{const b=document.createElement('button');b.type='button';b.dataset.k=k;b.onclick=()=>{K=k;apply();};w.appendChild(b);});
-  h.after(w);
+  ['all','luthier','technology'].forEach(k=>{const b=document.createElement('button');b.type='button';b.dataset.k=k;b.onclick=()=>{K=k;apply();};w.appendChild(b);});h.after(w);
   const s=document.createElement('style');s.textContent='.rf-type{display:flex;flex-wrap:wrap;gap:.55rem;margin:0 0 1.5rem}.rf-type button{min-height:42px;padding:.55rem 1rem;border:1px solid #cbd5e1;border-radius:3px;background:#fff;color:#334155;font-weight:600}.rf-type button.on{background:#1e293b;color:#fff;border-color:#1e293b}.rf-kind{display:inline-block;margin:.4rem 0 .55rem;padding:.18rem .48rem;border:1px solid #cbd5e1;border-radius:999px;color:#64748b;font-size:.72rem;font-weight:600}';document.head.appendChild(s);
   const g=document.getElementById('luthier-grid');if(g)new MutationObserver(cards).observe(g,{childList:true});apply();
 }
 function foot(){const l=F[R.lang]?R.lang:'en';document.querySelectorAll('[data-footer-key]').forEach(n=>{const k=n.dataset.footerKey;if(F[l][k])n.textContent=F[l][k];});}
 install();foot();document.readyState==='loading'?document.addEventListener('DOMContentLoaded',ui):ui();new MutationObserver(()=>{foot();setTimeout(apply);}).observe(R,{attributes:true,attributeFilter:['lang']});
-const review=document.createElement('script');review.src='assets/analysis-review.js?v=20260914s';review.async=false;document.body.appendChild(review);
+const review=document.createElement('script');review.src='assets/analysis-review.js?v=20260914u';review.async=false;document.body.appendChild(review);
 })();
