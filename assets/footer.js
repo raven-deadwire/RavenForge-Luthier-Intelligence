@@ -184,4 +184,5 @@ install();
 foot();
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',ui):ui();
 new MutationObserver(()=>{foot();setTimeout(apply);}).observe(R,{attributes:true,attributeFilter:['lang']});
+const review=document.createElement('script');review.src='assets/analysis-review.js?v=20260914';review.async=false;document.body.appendChild(review);
 })();
