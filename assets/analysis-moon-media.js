@@ -1,0 +1,1 @@
+(()=>{'use strict';window.RF_MOON_POSTS=['https://www.instagram.com/p/DWkycGrEauM/','https://www.instagram.com/p/DWs-e1EEXbR/'];})();
