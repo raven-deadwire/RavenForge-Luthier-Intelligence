@@ -20,5 +20,16 @@ const tuneContra=()=>{
   `;
   document.head.appendChild(s);
 };
-load('assets/analysis-review-core.js?v=20260914s',()=>load('assets/analysis-degier.js?v=20260914s',()=>load('assets/analysis-media.js?v=20260914s',()=>{tuneContra();load('assets/analysis-media-extra.js?v=20260914s',()=>load('assets/analysis-media-final.js?v=20260914s',()=>load('assets/analysis-media-extra-render.js?v=20260914s',()=>load('assets/analysis-order.js?v=20260914s',refreshCurrentLanguage))));})))
+load('assets/analysis-review-core.js?v=20260914t',()=>
+ load('assets/analysis-special-entities.js?v=20260914t',()=>
+ load('assets/analysis-special-nova.js?v=20260914t',()=>
+ load('assets/analysis-special-zuta.js?v=20260914t',()=>
+ load('assets/analysis-degier.js?v=20260914t',()=>
+ load('assets/analysis-media.js?v=20260914t',()=>{
+   tuneContra();
+   load('assets/analysis-media-extra.js?v=20260914t',()=>
+   load('assets/analysis-media-final.js?v=20260914t',()=>
+   load('assets/analysis-media-extra-render.js?v=20260914t',()=>
+   load('assets/analysis-order.js?v=20260914t',refreshCurrentLanguage))));
+ }))))))
 })();
