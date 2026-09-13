@@ -10,6 +10,7 @@
       visionTitle: 'Purpose & Current Direction',
       visionContent: `<p class="mb-4">RavenForge Luthier Intelligence is a working portfolio for instrument design, material and electronics research, CAD development and prototype planning. It documents decisions, open questions and evidence rather than presenting unbuilt concepts as finished products.</p><p class="mb-4">The immediate objective is to turn research into buildable prototypes, then evaluate them through fabrication, setup, playing and measurement. Existing high-end luthiers are studied as references, but their conventions are not treated as a checklist or proof in themselves.</p><p>The long-term brand vision remains important, but the present work is deliberately narrower: define requirements, develop the geometry and systems, build, measure, learn and revise.</p>`,
       education: 'B.A. in Philosophy, Yonsei University',
+      training: 'Berklee GT Repair — hands-on repair & setup apprenticeship<br>Moon Guitar — prototype development and lutherie training<br>Furniture Manufacturing Industrial Engineer training — 2026',
       formTitle: 'FORM',
       formLead: 'Ergonomics shaped by narrative.',
       formBody: 'Form is treated as both playing geometry and narrative structure. Ergonomics, balance and access come first; then each model’s mythic motif and character are translated into proportion, curves and form language so function and story can be read in the same silhouette.',
@@ -31,6 +32,7 @@
       visionTitle: 'Zweck & aktuelle Ausrichtung',
       visionContent: `<p class="mb-4">RavenForge Luthier Intelligence ist ein Arbeitsportfolio für Instrumentendesign, Material- und Elektronikforschung, CAD-Entwicklung und Prototypenplanung. Es dokumentiert Entscheidungen, offene Fragen und Belege, statt unfertige Konzepte als fertige Produkte darzustellen.</p><p class="mb-4">Das unmittelbare Ziel ist, Forschung in baubare Prototypen zu überführen und diese anschließend durch Fertigung, Setup, Spieltests und Messungen zu bewerten. High-End-Luthiers dienen als Referenzen, ihre Konventionen werden jedoch weder als Checkliste noch als Beweis an sich behandelt.</p><p>Die langfristige Markenvision bleibt bestehen; die aktuelle Arbeit ist bewusst konkreter: Anforderungen definieren, Geometrie und Systeme entwickeln, bauen, messen, lernen und überarbeiten.</p>`,
       education: 'B.A. Philosophie, Yonsei University',
+      training: 'Berklee GT Repair — praktische Reparatur- und Setup-Ausbildung<br>Moon Guitar — Prototypenentwicklung und Gitarrenbau-Ausbildung<br>Ausbildung zum Industrial Engineer für Möbelherstellung — 2026',
       formTitle: 'FORM',
       formLead: 'Form aus Ergonomie und Erzählung.',
       formBody: 'Form wird zugleich als Spielgeometrie und erzählerische Struktur verstanden. Ergonomie, Balance und Erreichbarkeit stehen zuerst; anschließend werden die mythischen Motive und der Charakter jedes Modells in Proportionen, Linien und Formensprache übersetzt, sodass Funktion und Geschichte in derselben Silhouette lesbar werden.',
@@ -52,6 +54,7 @@
       visionTitle: '목적과 현재 방향',
       visionContent: `<p class="mb-4">RavenForge Luthier Intelligence는 악기 설계, 재료·전자계 연구, CAD 개발과 프로토타입 기획을 기록하는 작업 포트폴리오입니다. 아직 제작되지 않은 개념을 완성품처럼 제시하기보다 설계 판단, 열린 질문과 근거를 남기는 것을 우선합니다.</p><p class="mb-4">현재의 목표는 연구를 실제 제작 가능한 프로토타입으로 전환하고, 제작·셋업·연주·측정을 통해 평가하는 것입니다. 기존 하이엔드 루씨어들의 사례는 중요한 참고 자료로 연구하지만, 그 관행 자체를 체크리스트나 증거로 받아들이지는 않습니다.</p><p>장기적인 브랜드 비전은 유지하되 지금의 작업은 더 구체적으로 정의합니다. 요구조건을 세우고, 기하 구조와 시스템을 개발하고, 제작하고, 측정하고, 배운 뒤 다시 수정하는 과정입니다.</p>`,
       education: '연세대학교 문과대학 철학과 학사',
+      training: 'Berklee GT Repair — 리페어·셋업 실무 견습<br>Moon Guitar — 프로토타입 개발 및 제작 수련<br>가구제작산업기사 과정 — 2026',
       formTitle: 'FORM',
       formLead: '연주성과 서사를 함께 만드는 형태.',
       formBody: '형태는 단순한 실루엣이 아니라 연주성과 서사를 함께 담는 구조로 봅니다. 인체공학, 밸런스와 접근성을 먼저 해결한 뒤 각 모델의 신화적 모티프와 성격을 비례, 곡선과 형태 언어로 번역해, 기능과 이야기가 하나의 실루엣 안에서 함께 읽히도록 설계합니다.',
@@ -186,6 +189,7 @@
     setHtml('#about-content-intro [data-lang-key="visionTitle"]', t.visionTitle);
     setHtml('#about-content-intro [data-lang-key="visionContent"]', t.visionContent);
     setHtml('#about-content-bio [data-lang-key="bioEducationValue"]', t.education);
+    setHtml('#about-content-bio [data-lang-key="bioTrainingValue"]', t.training);
     renderHomePillars(t);
     ensureHighQualityProfile();
   }
