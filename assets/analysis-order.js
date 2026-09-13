@@ -2,12 +2,19 @@
 const root=document.documentElement;
 const currentLang=()=>['en','de','ko'].includes(root.lang)?root.lang:'en';
 const german=new Set(['Germany','Deutschland','독일']);
+const pinned=['Marleaux Basses','Sandberg Guitars','Vincent Bass Guitars'];
+const pinRank=e=>{const i=pinned.indexOf(e.name);return i<0?999:i;};
 const rank=e=>german.has(e.country)?0:e.region==='europe'?1:e.region==='asia'?2:e.region==='usa'?4:3;
 function entryMap(){
   if(typeof translations!=='object')return new Map();
   const l=currentLang(),arr=translations[l]&&translations[l].luthierData||[];
   const collator=new Intl.Collator(l==='ko'?'ko-KR':l,{sensitivity:'base',numeric:true});
-  const sorted=[...arr].sort((a,b)=>rank(a)-rank(b)||collator.compare(a.country||'',b.country||'')||collator.compare(a.name||'',b.name||''));
+  const sorted=[...arr].sort((a,b)=>{
+    const ra=rank(a),rb=rank(b);
+    if(ra!==rb)return ra-rb;
+    if(ra===0){const pa=pinRank(a),pb=pinRank(b);if(pa!==pb)return pa-pb;}
+    return collator.compare(a.country||'',b.country||'')||collator.compare(a.name||'',b.name||'');
+  });
   return new Map(sorted.map((e,i)=>[e.name,i]));
 }
 function reorder(){
