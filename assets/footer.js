@@ -35,6 +35,11 @@
     translations.de.filterThemes.Methodology = 'Forschung & Methodik';
     translations.ko.filterThemes.Methodology = '연구 & 방법론';
 
+    // Keep the Quest introduction count-agnostic so future roadmap additions do not make it stale.
+    translations.en.questsDesc = "The strategic initiatives below form the long-term roadmap for my vision, 'RavenForge'. Their roots are connected to the philosophies and technologies of the luthiers I have studied, while the roadmap translates those lessons into testable directions for my own craft. Through this analytical and forward-looking approach, I aim to grow as a maker and contribute to the field of lutherie.";
+    translations.de.questsDesc = "Die folgenden strategischen Initiativen bilden die langfristige Roadmap für meine Vision 'RavenForge'. Ihre Wurzeln liegen in den Philosophien und Technologien der Gitarrenbauer, die ich studiert habe; die Roadmap übersetzt diese Erkenntnisse zugleich in überprüfbare Richtungen für mein eigenes Handwerk. Durch diesen analytischen und vorausschauenden Ansatz möchte ich als Instrumentenbauer wachsen und zum Gitarrenbau beitragen.";
+    translations.ko.questsDesc = "아래의 전략 과제들은 RavenForge를 위한 장기 로드맵입니다. 그 뿌리는 제가 연구해 온 제작가들의 철학과 기술에 닿아 있으며, 동시에 그 배움을 제 작업에서 검증 가능한 개발 방향으로 전환합니다. 이러한 분석적이고 미래지향적인 접근을 통해 제작자로서 성장하고 악기 제작의 세계에 기여하고자 합니다.";
+
     const entries = {
       en: {
         name: key,
