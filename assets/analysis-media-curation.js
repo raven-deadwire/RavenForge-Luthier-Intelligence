@@ -2,12 +2,12 @@
 const M=window.RF_ANALYSIS_EXTRA_MEDIA=window.RF_ANALYSIS_EXTRA_MEDIA||{};
 Object.assign(M,{
  'Anaconda Basses':{model:'Ultra J5 / Ultra PJ5',shots:[
-  {label:'Ultra J5',src:'https://lirp.cdn-website.com/7604c249/dms3rep/multi/opt/UJ5%2BJM%2BFull%2BHorz-1920w.JPG',pos:'50% 72%',zoom:1.0,origin:'50% 72%'},
-  {label:'Ultra PJ5',src:'https://img07.shop-pro.jp/PA01348/005/product/185959373.jpg?cmsp_timestamp=20250405142425',pos:'50% 76%',zoom:1.0,origin:'50% 76%'}
+  {label:'Ultra J5',src:'https://lirp.cdn-website.com/7604c249/dms3rep/multi/opt/UJ5%2BJM%2BFull%2BHorz-1920w.JPG',pos:'50% 50%',zoom:1.0,origin:'50% 50%',fit:'contain'},
+  {label:'Ultra PJ5',src:'https://img07.shop-pro.jp/PA01348/005/product/185959373.jpg?cmsp_timestamp=20250405142425',pos:'50% 50%',zoom:1.0,origin:'50% 50%',fit:'contain'}
  ],source:'https://www.anacondabasses.co.uk/'},
  'Maruszczyk Instruments':{model:'Elwood / Jake',shots:[
-  {label:'Elwood',src:'https://thebassgallery.com/cdn/shop/products/image_9fa6cb1c-16c8-48f7-ae43-e1a4c32bd65a_1600x.jpg?v=1641392596',pos:'50% 80%',zoom:1.0,origin:'50% 80%'},
-  {label:'Jake',src:'https://bassfreaks.net/cdn/shop/files/IMG_0322.jpg?v=1682799715',pos:'50% 78%',zoom:1.0,origin:'50% 78%'}
+  {label:'Elwood',src:'https://thebassgallery.com/cdn/shop/products/image_9fa6cb1c-16c8-48f7-ae43-e1a4c32bd65a_1600x.jpg?v=1641392596',pos:'50% 50%',zoom:1.0,origin:'50% 50%',fit:'contain'},
+  {label:'Jake',src:'https://bassfreaks.net/cdn/shop/files/IMG_0322.jpg?v=1682799715',pos:'50% 50%',zoom:1.0,origin:'50% 50%',fit:'contain'}
  ],source:'https://www.public-peace.de/'},
  'Wal Basses':{model:'Mk1 / Mk2',shots:[
   {label:'Mk1',src:'https://thebassgallery.com/cdn/shop/files/CF83CCF4-C248-4C61-8427-81AB4E8524E3_1600x.jpg?v=1758801987',pos:'50% 82%',zoom:1.0,origin:'50% 82%'},
