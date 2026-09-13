@@ -58,7 +58,7 @@ if INDEX.exists():
     <meta property="og:locale" content="en_US">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="RavenForge Luthier Intelligence">
-    <meta name="twitter:description" content="Instrument design, luthierie research and prototype studies by Raven Cho.">
+    <meta name="twitter:description" content="Instrument design, lutherie research and prototype studies by Raven Cho.">
     <meta name="twitter:image" content="{SITE}assets/model-backdrops/edda-wide.webp">
     <script type="application/ld+json">{json.dumps({
         '@context': 'https://schema.org',
