@@ -2,7 +2,20 @@
 const root=document.documentElement;
 const pinned=['Marleaux Basses','Sandberg Guitars','Vincent Bass Guitars'];
 const pinRank=e=>{const i=pinned.indexOf(e.name);return i<0?999:i;};
-const rank=e=>e.country==='Germany'?0:e.region==='europe'?1:e.region==='asia'?2:e.region==='usa'?4:3;
+const asiaCountries=new Set([
+  'Japan','일본','Japon','South Korea','Korea','Republic of Korea','대한민국','한국','Südkorea',
+  'China','중국','China (PRC)','Taiwan','대만','Taiwan (ROC)','Indonesia','인도네시아','Indonesien',
+  'Singapore','싱가포르','Singapur','Thailand','태국','Vietnam','베트남','Malaysia','말레이시아','Philippines','필리핀'
+]);
+const isAsia=e=>e.region==='asia'||asiaCountries.has(e.country);
+const rank=e=>e.country==='Germany'?0:e.region==='europe'?1:isAsia(e)?2:e.region==='usa'?4:3;
+function normalizeRegions(){
+  if(typeof translations!=='object')return;
+  ['en','de','ko'].forEach(l=>{
+    const arr=translations[l]&&translations[l].luthierData||[];
+    arr.forEach(e=>{if(isAsia(e))e.region='asia';});
+  });
+}
 function canonicalEntries(){
   if(typeof translations!=='object')return [];
   const master=translations.en&&translations.en.luthierData||[];
@@ -36,6 +49,7 @@ function reorder(){
   grid.insertBefore(frag,empty||null);
 }
 function bind(){
+  normalizeRegions();
   const grid=document.getElementById('luthier-grid');
   if(!grid)return;
   let queued=false;
@@ -43,7 +57,8 @@ function bind(){
   new MutationObserver(schedule).observe(grid,{childList:true});
   reorder();
   document.addEventListener('click',e=>{if(e.target.closest('#analysis select,#analysis button'))setTimeout(reorder,0);});
-  new MutationObserver(()=>setTimeout(reorder,0)).observe(root,{attributes:true,attributeFilter:['lang']});
+  new MutationObserver(()=>{normalizeRegions();setTimeout(reorder,0)}).observe(root,{attributes:true,attributeFilter:['lang']});
 }
+normalizeRegions();
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',bind):bind();
 })();
