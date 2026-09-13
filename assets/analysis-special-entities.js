@@ -1,0 +1,1 @@
+(()=>{'use strict';if(typeof translations!=='object')return;window.RF_SPECIAL_ANALYSIS=window.RF_SPECIAL_ANALYSIS||{};})();
