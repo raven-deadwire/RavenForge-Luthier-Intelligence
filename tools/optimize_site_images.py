@@ -1,6 +1,8 @@
 from pathlib import Path
 from PIL import Image
+import hashlib
 import json
+import re
 
 OUT = Path('assets/optimized')
 OUT.mkdir(parents=True, exist_ok=True)
@@ -29,6 +31,13 @@ def optimize(src: Path, dst: Path, max_px: int, quality: int):
         im.save(dst, 'WEBP', quality=quality, method=6)
         print(f'{src} -> {dst}: {dst.stat().st_size:,} bytes')
 
+
+def content_version(path: Path) -> str:
+    if not path.exists():
+        return 'missing'
+    return hashlib.sha256(path.read_bytes()).hexdigest()[:12]
+
+
 for job in JOBS:
     optimize(*job)
 
@@ -54,10 +63,13 @@ if gram_meta.exists() and (OUT / 'gram-superstrat-24f.webp').exists():
     gram_meta.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
 # Replace runtime references in the monolithic homepage without touching archival originals.
+# Optimized prototype URLs receive a content hash so GitHub Pages/CDN cannot keep serving
+# an older image after the source PNG is replaced under the same filename.
 index = Path('index.html')
 if index.exists():
     with index.open('r', encoding='utf-8', newline='') as fh:
         text = fh.read()
+
     replacements = {
         'EMBLA%20Prototype%20Design.png': 'assets/optimized/embla-prototype.webp',
         'ASKR%20Prototype%20Design.png': 'assets/optimized/askr-prototype.webp',
@@ -68,5 +80,25 @@ if index.exists():
     }
     for old, new in replacements.items():
         text = text.replace(old, new)
+
+    versioned_assets = {
+        'assets/optimized/embla-prototype.webp': OUT / 'embla-prototype.webp',
+        'assets/optimized/askr-prototype.webp': OUT / 'askr-prototype.webp',
+        'assets/optimized/edda-prototype.webp': OUT / 'edda-prototype.webp',
+    }
+    for url, path in versioned_assets.items():
+        versioned = f'{url}?v={content_version(path)}'
+        text = re.sub(re.escape(url) + r'(?:\?v=[^"\'\s<>)]+)?', versioned, text)
+
+    # The larger image popup still opens the archival PNG, so version that URL too.
+    popup_sources = {
+        'EMBLA Prototype Design.png': Path('EMBLA Prototype Design.png'),
+        'ASKR Prototype Design.png': Path('ASKR Prototype Design.png'),
+        'Edda Prototype Design.png': Path('Edda Prototype Design.png'),
+    }
+    for url, path in popup_sources.items():
+        versioned = f'{url}?v={content_version(path)}'
+        text = re.sub(re.escape(url) + r'(?:\?v=[^"\'\s<>)]+)?', versioned, text)
+
     with index.open('w', encoding='utf-8', newline='') as fh:
         fh.write(text)
