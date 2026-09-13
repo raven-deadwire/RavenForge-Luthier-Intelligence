@@ -60,6 +60,7 @@ jobs:
       - name: Build site shell, SEO and sitemap
         run: |
           python tools/build_site.py
+          python tools/restore_configurator_iframe.py
           python tools/normalize_site_title.py
 
       - name: Commit generated site assets
