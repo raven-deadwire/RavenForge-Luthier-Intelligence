@@ -58,7 +58,7 @@ if INDEX.exists():
     <meta property="og:locale" content="en_US">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="RavenForge Luthier Intelligence">
-    <meta name="twitter:description" content="Instrument design, lutherie research and prototype studies by Raven Cho.">
+    <meta name="twitter:description" content="Instrument design, luthierie research and prototype studies by Raven Cho.">
     <meta name="twitter:image" content="{SITE}assets/model-backdrops/edda-wide.webp">
     <script type="application/ld+json">{json.dumps({
         '@context': 'https://schema.org',
@@ -109,7 +109,7 @@ if INDEX.exists():
                 <a href="#about" data-page-link data-footer-key="contact" class="hover:text-white">Contact</a>
                 <a href="https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence" target="_blank" rel="noopener" class="hover:text-white">GitHub</a>
                 <a href="https://www.instagram.com/raven_deadwire/" target="_blank" rel="noopener" class="hover:text-white">Instagram</a>
-                <a href="https://www.youtube.com/watch?v=LKsgpo1rUFY" target="_blank" rel="noopener" class="hover:text-white">YouTube</a>
+                <a href="https://www.youtube.com/@raven_deadwire" target="_blank" rel="noopener" class="hover:text-white">YouTube</a>
             </nav>
             <p class="text-xs text-slate-400"><span data-footer-key="updated">Last Updated</span> · <time datetime="{updated}">{updated}</time></p>
         </div>
