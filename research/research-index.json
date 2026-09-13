@@ -2,6 +2,26 @@
   "schemaVersion": 1,
   "articles": [
     {
+      "id": "A05",
+      "date": "2026-09-14",
+      "category": "sound",
+      "ko": {
+        "title": "Active Buffers and Input Impedance — 패시브 고임피던스 소스와 후단 케이블·장비 사이의 electrical boundary를 어떻게 재구성하는가",
+        "excerpt": "A04의 passive pickup loading을 능동 인터페이스까지 확장한다. pickup이 직접 보는 Zin(f), buffer의 Av(f), Zout(f), downstream cable/load를 분리하고, onboard/pedal placement·noise·headroom·power·active/passive bypass를 하나의 측정 가능한 specification bundle로 정리한다. buffer는 loading을 제거하는 장치가 아니라 pickup-facing boundary를 정의하고 downstream load의 직접 결합을 통제하는 active interface로 다룬다.",
+        "link": "research/A05/ko.html"
+      },
+      "en": {
+        "title": "Active Buffers and Input Impedance — Restructuring the electrical boundary between a passive high-impedance source and downstream cable/equipment",
+        "excerpt": "Extend A04 passive-pickup loading into the active interface. Separate pickup-facing Zin(f), Av(f), Zout(f) and downstream cable/load, then treat onboard/pedal placement, noise, headroom, power and active/passive bypass as one measurable specification bundle. A buffer is framed not as a device that removes loading, but as an active interface that defines the pickup-facing boundary and controls direct coupling to downstream loads.",
+        "link": "research/A05/en.html"
+      },
+      "de": {
+        "title": "Active Buffers and Input Impedance — Neuordnung der elektrischen Grenzbedingung zwischen passiver hochohmiger Quelle und Kabel/Folgegerät",
+        "excerpt": "Das A04-Modell der passiven Pickup-Belastung wird auf die aktive Schnittstelle erweitert. Pickupseitiges Zin(f), Av(f), Zout(f) und Folgelast werden getrennt; Onboard-/Pedal-Position, Rauschen, Headroom, Versorgung und Aktiv/Passiv-Bypass werden als gemeinsames messbares Spezifikationspaket dokumentiert. Ein Buffer beseitigt Last nicht, sondern definiert die pickupseitige Grenze und kontrolliert die direkte Kopplung an Folgelasten.",
+        "link": "research/A05/de.html"
+      }
+    },
+    {
       "id": "C01",
       "date": "2026-09-12",
       "category": "sound",
