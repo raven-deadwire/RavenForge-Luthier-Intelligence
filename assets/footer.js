@@ -74,6 +74,17 @@
       else list.push(entry);
     });
 
+    // Sort the Explorer by localized country name, then by luthier name within each country.
+    const locales = { en: 'en', de: 'de', ko: 'ko-KR' };
+    ['en', 'de', 'ko'].forEach(lang => {
+      const collator = new Intl.Collator(locales[lang], { sensitivity: 'base', numeric: true });
+      const list = translations[lang].luthierData || [];
+      list.sort((a, b) => {
+        const countryOrder = collator.compare(a.country || '', b.country || '');
+        return countryOrder !== 0 ? countryOrder : collator.compare(a.name || '', b.name || '');
+      });
+    });
+
     // Replace the older mentor copy with the same evidence-based philosophy used in Explorer.
     translations.en.mentor2Name = 'Chanho Moon (Moon Guitar)';
     translations.en.mentor2Desc = '<p>Chanho Moon of Moon Guitar is one of the luthiers under whom Raven studies instrument making in practice. His teaching emphasizes that handcraft is not valuable merely because it is done by hand: a custom instrument should have a reason to exist, a sound and response that are not simply copies of an established brand. His process combines material observation, controlled comparison and accumulated build data, treating lutherie as a long-term discipline of testing and refinement.</p>';
