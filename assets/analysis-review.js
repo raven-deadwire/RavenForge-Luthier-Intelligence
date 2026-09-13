@@ -20,5 +20,5 @@ const tuneContra=()=>{
   `;
   document.head.appendChild(s);
 };
-load('assets/analysis-review-core.js?v=20260914q',()=>load('assets/analysis-degier.js?v=20260914q',()=>load('assets/analysis-media.js?v=20260914q',()=>{tuneContra();load('assets/analysis-order.js?v=20260914q',refreshCurrentLanguage);})))
+load('assets/analysis-review-core.js?v=20260914r',()=>load('assets/analysis-degier.js?v=20260914r',()=>load('assets/analysis-media.js?v=20260914r',()=>{tuneContra();load('assets/analysis-media-extra.js?v=20260914r',()=>load('assets/analysis-media-extra-render.js?v=20260914r',()=>load('assets/analysis-order.js?v=20260914r',refreshCurrentLanguage)));})))
 })();
