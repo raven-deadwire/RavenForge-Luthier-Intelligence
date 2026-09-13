@@ -20,14 +20,14 @@ const media={
 };
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function lang(){return UI[root.lang]?root.lang:'en'}
-function heroHtml(name,m){
- const u=UI[lang()],imgs=m.images.map((src,i)=>`<figure class="rf-featured-modal-item"><img src="${esc(src)}" alt="${esc(name+' '+m.model+(m.images.length>1?' '+(i+1):''))}" loading="lazy" referrerpolicy="no-referrer"></figure>`).join('');
+function heroHtml(name,m,l){
+ const u=UI[l]||UI.en,imgs=m.images.map((src,i)=>`<figure class="rf-featured-modal-item"><img src="${esc(src)}" alt="${esc(name+' '+m.model+(m.images.length>1?' '+(i+1):''))}" loading="lazy" referrerpolicy="no-referrer"></figure>`).join('');
  return `<section class="rf-featured-modal" data-rf-featured="1"><div class="rf-featured-modal-grid ${m.images.length>1?'is-multi':''}">${imgs}</div><div class="rf-featured-modal-caption"><span>${esc(u.label)}</span><strong>${esc(m.model)}</strong><a href="${esc(m.imageSource||m.source)}" target="_blank" rel="noopener noreferrer">${esc(u.source)}</a></div></section>`;
 }
 function installData(){
  ['en','de','ko'].forEach(l=>{
   const arr=translations[l]&&translations[l].luthierData||[];
-  arr.forEach(e=>{const m=media[e.name];if(!m)return;e.featuredModel=m.model;e.featuredImages=[...m.images];e.featuredSource=m.source;if(!String(e.details||'').includes('data-rf-featured="1"'))e.details=heroHtml(e.name,m)+(e.details||'');});
+  arr.forEach(e=>{const m=media[e.name];if(!m)return;e.featuredModel=m.model;e.featuredImages=[...m.images];e.featuredSource=m.source;if(!String(e.details||'').includes('data-rf-featured="1"'))e.details=heroHtml(e.name,m,l)+(e.details||'');});
  });
 }
 function decorateCards(){
