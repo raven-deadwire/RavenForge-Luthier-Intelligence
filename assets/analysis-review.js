@@ -9,5 +9,5 @@ const refreshCurrentLanguage=()=>{
   document.readyState==='loading'?document.addEventListener('DOMContentLoaded',()=>setTimeout(run,0),{once:true}):setTimeout(run,0);
 };
 const load=(src,done)=>{const s=document.createElement('script');s.src=src;s.async=false;if(done)s.onload=done;document.body.appendChild(s);};
-load('assets/analysis-review-core.js?v=20260914n',()=>load('assets/analysis-degier.js?v=20260914n',()=>load('assets/analysis-media.js?v=20260914n',()=>load('assets/analysis-media-tuning.js?v=20260914n',()=>load('assets/analysis-order.js?v=20260914n',refreshCurrentLanguage)))));
+load('assets/analysis-review-core.js?v=20260914o',()=>load('assets/analysis-degier.js?v=20260914o',()=>load('assets/analysis-media.js?v=20260914o',()=>load('assets/analysis-media-tuning.js?v=20260914o',()=>load('assets/analysis-order.js?v=20260914o',refreshCurrentLanguage)))));
 })();
