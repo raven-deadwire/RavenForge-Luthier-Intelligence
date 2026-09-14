@@ -7,30 +7,11 @@ const lang=()=>['en','de','ko'].includes(R.lang)?R.lang:'en';
 function L(){const l=lang();return (typeof translations==='object'&&translations[l]&&translations[l].luthierData)||[];}
 function install(){const a=document.getElementById('analysis');if(!a)return;const f=document.querySelector('footer');if(f&&!f.querySelector('[data-footer-key]'))f.innerHTML='<div class="max-w-7xl mx-auto px-4 py-8 text-center text-sm text-slate-500"><p data-footer-key="copyright"></p><p class="mt-2" data-footer-key="note"></p></div>'}
 function tabs(){const w=document.getElementById('analysis-type-filter');if(!w)return;const c=T[lang()];[...w.children].forEach((b,i)=>{b.textContent=c[i];b.classList.toggle('on',b.dataset.k===K)})}
-function chart(){
- const e=document.getElementById('innovationChart');
- if(!e||typeof Chart==='undefined'||!Chart.getChart)return;
- const c=Chart.getChart(e);if(!c)return;
- const l=lang(),t=(typeof translations==='object'&&translations[l])||{},labels=t.filterThemes||{};
- const keys=Object.keys(labels).filter(k=>k!=='all');
- const d=L().filter(x=>K==='all'||(x.entityType||'luthier')===K),counts=new Map();
- d.forEach(x=>(x.tags||[]).forEach(tag=>counts.set(tag,(counts.get(tag)||0)+1)));
- c.data.labels=keys.map(k=>labels[k]||k);
- if(c.data.datasets&&c.data.datasets[0]){
-  c.data.datasets[0].data=keys.map(k=>counts.get(k)||0);
-  if(t.chartLabel)c.data.datasets[0].label=t.chartLabel;
- }
- c.update();
- const a=document.getElementById('analysis');
- if(a&&a.classList.contains('active'))requestAnimationFrame(()=>{try{c.resize()}catch(_){}});
-}
+function chart(){const e=document.getElementById('innovationChart');if(!e||typeof Chart==='undefined'||!Chart.getChart)return;const c=Chart.getChart(e);if(!c)return;const l=lang(),t=(typeof translations==='object'&&translations[l])||{},labels=t.filterThemes||{},keys=Object.keys(labels).filter(k=>k!=='all'),d=L().filter(x=>K==='all'||(x.entityType||'luthier')===K),counts=new Map();d.forEach(x=>(x.tags||[]).forEach(tag=>counts.set(tag,(counts.get(tag)||0)+1)));c.data.labels=keys.map(k=>labels[k]||k);if(c.data.datasets&&c.data.datasets[0]){c.data.datasets[0].data=keys.map(k=>counts.get(k)||0);if(t.chartLabel)c.data.datasets[0].label=t.chartLabel}c.update();const a=document.getElementById('analysis');if(a&&a.classList.contains('active'))requestAnimationFrame(()=>{try{c.resize()}catch(_){}})}
 function cards(){const g=document.getElementById('luthier-grid');if(!g)return;const c=T[lang()],m=new Map(L().map(x=>[x.name,x.entityType||'luthier']));let old=document.getElementById('rf-type-empty'),n=0,v=0;g.querySelectorAll(':scope>div').forEach(d=>{const h=d.querySelector('h3');if(!h)return;n++;const k=m.get(h.textContent.trim())||'luthier',show=K==='all'||K===k;d.style.display=show?'':'none';if(show)v++;let b=d.querySelector('.rf-kind');if(!b){b=document.createElement('span');b.className='rf-kind';h.after(b)}b.textContent=k==='technology'?c[4]:c[3]});if(n&&!v){if(!old){old=document.createElement('p');old.id='rf-type-empty';old.className='col-span-full text-center text-slate-500 py-8';g.appendChild(old)}old.textContent=c[5]}else if(old)old.remove()}
 function apply(){tabs();chart();cards()}
-function ui(){const a=document.getElementById('analysis'),h=a&&a.querySelector('h2');if(!h)return;if(!document.getElementById('analysis-type-filter')){const w=document.createElement('div');w.id='analysis-type-filter';w.className='rf-type';['all','luthier','technology'].forEach(k=>{const b=document.createElement('button');b.type='button';b.dataset.k=k;b.onclick=()=>{K=k;apply()};w.appendChild(b)});h.after(w);const s=document.createElement('style');s.textContent='.rf-type{display:flex;flex-wrap:wrap;gap:.55rem;margin:0 0 1.5rem}.rf-type button{min-height:42px;padding:.55rem 1rem;border:1px solid #cbd5e1;border-radius:3px;background:#fff;color:#334155;font-weight:600}.rf-type button.on{background:#1e293b;color:#fff;border-color:#1e293b}.rf-kind{display:inline-block;margin:.4rem 0 .55rem;padding:.18rem .48rem;border:1px solid #cbd5e1;border-radius:999px;color:#64748b;font-size:.72rem;font-weight:600}';document.head.appendChild(s);const g=document.getElementById('luthier-grid');if(g)new MutationObserver(cards).observe(g,{childList:true})}
- if(!a.dataset.rfChartWatch){a.dataset.rfChartWatch='1';new MutationObserver(()=>{if(a.classList.contains('active'))setTimeout(chart,60)}).observe(a,{attributes:true,attributeFilter:['class']})}
- apply();
-}
+function ui(){const a=document.getElementById('analysis'),h=a&&a.querySelector('h2');if(!h)return;if(!document.getElementById('analysis-type-filter')){const w=document.createElement('div');w.id='analysis-type-filter';w.className='rf-type';['all','luthier','technology'].forEach(k=>{const b=document.createElement('button');b.type='button';b.dataset.k=k;b.onclick=()=>{K=k;apply()};w.appendChild(b)});h.after(w);const s=document.createElement('style');s.textContent='.rf-type{display:flex;flex-wrap:wrap;gap:.55rem;margin:0 0 1.5rem}.rf-type button{min-height:42px;padding:.55rem 1rem;border:1px solid #cbd5e1;border-radius:3px;background:#fff;color:#334155;font-weight:600}.rf-type button.on{background:#1e293b;color:#fff;border-color:#1e293b}.rf-kind{display:inline-block;margin:.4rem 0 .55rem;padding:.18rem .48rem;border:1px solid #cbd5e1;border-radius:999px;color:#64748b;font-size:.72rem;font-weight:600}';document.head.appendChild(s);const g=document.getElementById('luthier-grid');if(g)new MutationObserver(cards).observe(g,{childList:true})}if(!a.dataset.rfChartWatch){a.dataset.rfChartWatch='1';new MutationObserver(()=>{if(a.classList.contains('active'))setTimeout(chart,60)}).observe(a,{attributes:true,attributeFilter:['class']})}apply()}
 function foot(){const l=F[R.lang]?R.lang:'en';document.querySelectorAll('[data-footer-key]').forEach(n=>{const k=n.dataset.footerKey;if(F[l][k])n.textContent=F[l][k]})}
 install();foot();document.readyState==='loading'?document.addEventListener('DOMContentLoaded',ui):ui();new MutationObserver(()=>{foot();setTimeout(apply)}).observe(R,{attributes:true,attributeFilter:['lang']});
-const review=document.createElement('script');review.src='assets/analysis-review.js?v=20260914s16';review.async=false;document.body.appendChild(review);
+const review=document.createElement('script');review.src='assets/analysis-review.js?v=20260914s17';review.async=false;document.body.appendChild(review);
 })();
