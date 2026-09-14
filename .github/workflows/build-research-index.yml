@@ -15,11 +15,18 @@ on:
       - 'Body Structure.png'
       - 'ravenforge.png'
       - 'assets/concepts/*.png'
+      - 'assets/footer.js'
+      - 'assets/footer-core.js'
+      - 'assets/mentor-section.js'
+      - 'assets/mentors/**'
       - '.github/workflows/build-research-index.yml'
   workflow_dispatch:
 
 permissions:
   contents: write
+
+env:
+  SITE_ASSET_VERSION: '20260915s1'
 
 jobs:
   build:
@@ -62,6 +69,7 @@ jobs:
           python tools/build_site.py
           python tools/restore_configurator_iframe.py
           python tools/normalize_site_title.py
+          sed -i -E "s#assets/footer\\.js\\?v=[^\"]+#assets/footer.js?v=${SITE_ASSET_VERSION}#" index.html
 
       - name: Commit generated site assets
         shell: bash
