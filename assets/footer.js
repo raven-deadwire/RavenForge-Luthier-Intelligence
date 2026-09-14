@@ -32,5 +32,5 @@ function ui(){const a=document.getElementById('analysis'),h=a&&a.querySelector('
 }
 function foot(){const l=F[R.lang]?R.lang:'en';document.querySelectorAll('[data-footer-key]').forEach(n=>{const k=n.dataset.footerKey;if(F[l][k])n.textContent=F[l][k]})}
 install();foot();document.readyState==='loading'?document.addEventListener('DOMContentLoaded',ui):ui();new MutationObserver(()=>{foot();setTimeout(apply)}).observe(R,{attributes:true,attributeFilter:['lang']});
-const review=document.createElement('script');review.src='assets/analysis-review.js?v=20260914s14';review.async=false;document.body.appendChild(review);
+const review=document.createElement('script');review.src='assets/analysis-review.js?v=20260914s15';review.async=false;document.body.appendChild(review);
 })();
