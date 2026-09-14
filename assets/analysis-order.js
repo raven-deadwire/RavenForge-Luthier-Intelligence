@@ -2,18 +2,36 @@
 const root=document.documentElement;
 const pinned=['Marleaux Basses','Sandberg Guitars','Vincent Bass Guitars'];
 const pinRank=e=>{const i=pinned.indexOf(e.name);return i<0?999:i;};
-const asiaCountries=new Set([
+const asiaPacificCountries=new Set([
   'Japan','일본','Japon','South Korea','Korea','Republic of Korea','대한민국','한국','Südkorea',
   'China','중국','China (PRC)','Taiwan','대만','Taiwan (ROC)','Indonesia','인도네시아','Indonesien',
-  'Singapore','싱가포르','Singapur','Thailand','태국','Vietnam','베트남','Malaysia','말레이시아','Philippines','필리핀'
+  'Singapore','싱가포르','Singapur','Thailand','태국','Vietnam','베트남','Malaysia','말레이시아','Philippines','필리핀',
+  'Australia','호주','Australien','New Zealand','뉴질랜드','Neuseeland'
 ]);
-const isAsia=e=>e.region==='asia'||asiaCountries.has(e.country);
-const rank=e=>e.country==='Germany'?0:e.region==='europe'?1:isAsia(e)?2:e.region==='usa'?4:3;
+const northAmericaCountries=new Set([
+  'USA','United States','United States of America','미국','Vereinigte Staaten',
+  'Canada','캐나다','Kanada'
+]);
+const isAsiaPacific=e=>e.region==='asiaPacific'||e.region==='asia'||asiaPacificCountries.has(e.country);
+const isNorthAmerica=e=>e.region==='northAmerica'||e.region==='usa'||northAmericaCountries.has(e.country);
+const rank=e=>e.country==='Germany'||e.country==='Deutschland'||e.country==='독일'?0:e.region==='europe'?1:isAsiaPacific(e)?2:isNorthAmerica(e)?4:3;
 function normalizeRegions(){
   if(typeof translations!=='object')return;
+  const regionLabels={
+    en:{all:'All',europe:'Europe',northAmerica:'North America',asiaPacific:'Asia–Pacific'},
+    de:{all:'Alle',europe:'Europa',northAmerica:'Nordamerika',asiaPacific:'Asien–Pazifik'},
+    ko:{all:'전체',europe:'유럽',northAmerica:'북미',asiaPacific:'아시아·태평양'}
+  };
   ['en','de','ko'].forEach(l=>{
-    const arr=translations[l]&&translations[l].luthierData||[];
-    arr.forEach(e=>{if(isAsia(e))e.region='asia';});
+    const t=translations[l];
+    if(!t)return;
+    t.filterRegions=regionLabels[l];
+    const arr=t.luthierData||[];
+    arr.forEach(e=>{
+      if(isAsiaPacific(e))e.region='asiaPacific';
+      else if(isNorthAmerica(e))e.region='northAmerica';
+      else if(e.region==='europe')e.region='europe';
+    });
   });
 }
 function canonicalEntries(){
