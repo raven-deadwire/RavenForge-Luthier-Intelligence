@@ -8,7 +8,7 @@ from urllib.parse import urljoin
 SITE = 'https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/'
 INDEX = Path('index.html')
 CONFIG = Path('configurator.html')
-FOOTER_SCRIPT_VERSION = '20260914s15'
+FOOTER_SCRIPT_VERSION = '20260914s16'
 
 
 def read_preserve(path: Path) -> str:
@@ -78,7 +78,6 @@ if INDEX.exists():
     }, ensure_ascii=False)}</script>'''
     html = replace_marked(html, '<!-- RF:SEO START -->', '<!-- RF:SEO END -->', seo, '</head>')
 
-    # Replace the expensive embedded configurator with a lightweight launch panel.
     config_panel = '''                <div class="w-full bg-slate-50 rounded-xl border border-slate-200 px-6 py-10 text-center">
                     <a href="configurator.html" target="_blank" rel="noopener" class="inline-flex items-center justify-center bg-slate-800 text-white px-6 py-3 rounded-md font-semibold hover:bg-slate-700 transition" data-lang-key="configuratorOpenBtn"></a>
                 </div>'''
@@ -90,7 +89,6 @@ if INDEX.exists():
         flags=re.I,
     )
 
-    # Compile Concept Lab source metadata into the existing inline delivery slot.
     concept_index = Path('concepts/concept-index.json')
     if concept_index.exists():
         data = json.loads(concept_index.read_text(encoding='utf-8'))
@@ -152,7 +150,6 @@ Path('robots.txt').write_text(
     encoding='utf-8',
 )
 
-# Sitemap: homepage + standalone configurator + every localized Research URL.
 urls = [(SITE, updated), (urljoin(SITE, 'configurator.html'), updated)]
 research_index = Path('research/research-index.json')
 if research_index.exists():
