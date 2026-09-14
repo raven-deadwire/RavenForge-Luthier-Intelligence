@@ -1,0 +1,9 @@
+(()=>{'use strict';if(typeof translations!=='object')return;
+const N='Carl Thompson';
+const D={
+ en:{country:'United States',summary:'Carl Thompson represents an early branch of boutique bass design in which string count, scale length, carved form and player-specific construction were treated as variables rather than fixed conventions.',details:'<p>Carl Thompson has built custom instruments since 1974 and became closely associated with early extended-range bass development, piccolo basses, long-scale experiments and his distinctive set-neck heel-block construction.</p>'},
+ de:{country:'USA',summary:'Carl Thompson steht für eine frühe Linie des Boutique-Bassbaus, in der Saitenzahl, Mensur, skulpturale Form und spielerspezifische Konstruktion als veränderbare Parameter statt als feste Konventionen behandelt wurden.',details:'<p>Carl Thompson baut seit 1974 Custom-Instrumente und ist eng mit frühen Extended-Range-Bässen, Piccolo-Bässen, langen Mensuren und seiner charakteristischen Set-Neck-Heel-Block-Konstruktion verbunden.</p>'},
+ ko:{country:'미국',summary:'Carl Thompson은 현 수, 스케일 길이, 조형적 바디, 연주자 맞춤 구조를 고정된 관습이 아니라 설계 변수로 다룬 초기 부티크 베이스 제작의 중요한 계보입니다.',details:'<p>Carl Thompson은 1974년부터 커스텀 악기를 제작해 왔으며, 초기 확장현 베이스와 피콜로 베이스, 장스케일 실험, 독특한 set-neck heel-block 구조로 중요한 위치를 차지합니다.</p>'}
+};
+for(const l of ['en','de','ko']){const a=translations[l].luthierData||(translations[l].luthierData=[]),e={name:N,country:D[l].country,region:'usa',entityType:'luthier',tags:['Structure','Ergonomics','Wood','Customization','Aesthetics','Methodology'],summary:D[l].summary,details:D[l].details},i=a.findIndex(x=>x.name===N);i<0?a.push(e):Object.assign(a[i],e)}
+})();
