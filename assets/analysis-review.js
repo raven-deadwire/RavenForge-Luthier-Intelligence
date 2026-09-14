@@ -6,17 +6,20 @@ const refreshCurrentLanguage=()=>{
 const load=src=>new Promise(resolve=>{const s=document.createElement('script');s.src=src;s.async=false;s.onload=resolve;s.onerror=resolve;document.body.appendChild(s)});
 const tuneContra=()=>{let s=document.getElementById('rf-contra-focus');if(s)s.remove();s=document.createElement('style');s.id='rf-contra-focus';s.textContent='.rf-featured-card-image>.rf-bg-shot{background-size:460% !important;background-position:50% 85% !important}.rf-featured-modal-item>.rf-bg-shot{background-size:410% !important;background-position:50% 83% !important}';document.head.appendChild(s)};
 (async()=>{
- const v='20260914s15';
+ const v='20260914s16';
  await load(`assets/analysis-special-entities.js?v=${v}`);
  await load(`assets/analysis-special-nova.js?v=${v}`);
  await load(`assets/analysis-special-zuta.js?v=${v}`);
  await load(`assets/analysis-special-components.js?v=${v}`);
  await load(`assets/analysis-special-components-2.js?v=${v}`);
+ await load(`assets/analysis-special-amplification.js?v=${v}`);
  await load(`assets/analysis-technology-cleanup.js?v=${v}`);
  await load(`assets/analysis-review-core.js?v=${v}`);
  await load(`assets/analysis-degier.js?v=${v}`);
  await load(`assets/analysis-structure-normalize.js?v=${v}`);
+ await load(`assets/analysis-amplification-review.js?v=${v}`);
  await load(`assets/analysis-technology-sources.js?v=${v}`);
+ await load(`assets/analysis-amplification-sources.js?v=${v}`);
  await load(`assets/analysis-media.js?v=${v}`);
  tuneContra();
  await load(`assets/analysis-media-extra.js?v=${v}`);
@@ -26,6 +29,7 @@ const tuneContra=()=>{let s=document.getElementById('rf-contra-focus');if(s)s.re
  await load(`assets/analysis-components-media-pair-3.js?v=${v}`);
  await load(`assets/analysis-components-media-pair-4.js?v=${v}`);
  await load(`assets/analysis-components-media-pair-5.js?v=${v}`);
+ await load(`assets/analysis-components-media-pair-6.js?v=${v}`);
  await load(`assets/analysis-moon-media.js?v=${v}`);
  await load(`assets/analysis-media-hotfix.js?v=${v}`);
  await load(`assets/analysis-media-curation.js?v=${v}`);
