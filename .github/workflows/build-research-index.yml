@@ -19,6 +19,7 @@ on:
       - 'assets/footer-core.js'
       - 'assets/mentor-section.js'
       - 'assets/mentors/**'
+      - 'assets/analysis-*.js'
       - '.github/workflows/build-research-index.yml'
   workflow_dispatch:
 
@@ -26,7 +27,7 @@ permissions:
   contents: write
 
 env:
-  SITE_ASSET_VERSION: '20260915s1'
+  SITE_ASSET_VERSION: '20260915s4'
 
 jobs:
   build:
