@@ -8,6 +8,7 @@ from urllib.parse import urljoin
 SITE = 'https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/'
 INDEX = Path('index.html')
 CONFIG = Path('configurator.html')
+FOOTER_SCRIPT_VERSION = '20260914s15'
 
 
 def read_preserve(path: Path) -> str:
@@ -115,8 +116,18 @@ if INDEX.exists():
         </div>
     </footer>'''
     html = re.sub(r'<footer\b[\s\S]*?</footer>', footer, html, count=1, flags=re.I)
-    if 'assets/footer.js' not in html:
-        html = html.replace('</body>', '    <script src="assets/footer.js?v=20260913"></script>\n</body>', 1)
+
+    footer_script = f'<script src="assets/footer.js?v={FOOTER_SCRIPT_VERSION}"></script>'
+    if 'assets/footer.js' in html:
+        html = re.sub(
+            r'<script\s+src="assets/footer\.js(?:\?[^\"]*)?"></script>',
+            footer_script,
+            html,
+            count=1,
+            flags=re.I,
+        )
+    else:
+        html = html.replace('</body>', f'    {footer_script}\n</body>', 1)
 
     write_preserve(INDEX, html)
 
