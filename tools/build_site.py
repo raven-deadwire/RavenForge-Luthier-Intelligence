@@ -8,7 +8,7 @@ from urllib.parse import urljoin
 SITE = 'https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/'
 INDEX = Path('index.html')
 CONFIG = Path('configurator.html')
-FOOTER_SCRIPT_VERSION = '20260915s4'
+FOOTER_SCRIPT_VERSION = '20260915s5'
 
 
 def read_preserve(path: Path) -> str:
@@ -59,14 +59,14 @@ if INDEX.exists():
     <meta property="og:locale" content="en_US">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="RavenForge Luthier Intelligence">
-    <meta name="twitter:description" content="Instrument design, lutherie research and prototype studies by Raven Cho.">
+    <meta name="twitter:description" content="Instrument design, luthier research and prototype studies by Raven Cho.">
     <meta name="twitter:image" content="{SITE}assets/model-backdrops/edda-wide.webp">
     <script type="application/ld+json">{json.dumps({
         '@context': 'https://schema.org',
         '@type': 'WebSite',
         'name': 'RavenForge Luthier Intelligence',
         'url': SITE,
-        'description': 'Independent instrument-design, lutherie research and prototype portfolio.',
+        'description': 'Independent instrument-design, luthier research and prototype portfolio.',
         'creator': {
             '@type': 'Person',
             'name': 'Raven Cho',
