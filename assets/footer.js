@@ -4,6 +4,6 @@ const load=src=>new Promise(done=>{const s=document.createElement('script');s.sr
 (async()=>{
  await load('assets/footer-core.js?v=20260915s3');
  await load('assets/mentor-section.js?v=20260915s2');
- await load('assets/analysis-review.js?v=20260915s23');
+ await load('assets/analysis-review.js?v=20260915s24');
 })();
 })();
