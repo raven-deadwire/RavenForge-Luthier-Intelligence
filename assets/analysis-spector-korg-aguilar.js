@@ -22,4 +22,34 @@ for(const l of ['en','de','ko']){
  else d+=`<p data-rf-critical-review="1">${extra}</p>`;
  e.details=d;
 }
+
+const LABEL={en:'Critical review',de:'Kritische Einordnung',ko:'비판적 검토'};
+const BASS_FIRST={
+ 'Skervesen Guitars':{
+  en:'RavenForge’s comparative assessment is that Skervesen’s bass work shows excellent fabrication and extended-range custom capability, but the design logic often still feels guitar-first. Multiscale and extended-string options are present, yet scale choice, low-string response, pickup placement, mass distribution and electronics can read more like an expansion of modern metal-guitar language than a bass platform whose variables were developed as one integrated low-frequency system. This is not a criticism of workmanship; it is a criticism of how clearly bass-specific priorities are expressed compared with Skervesen’s much more mature guitar identity.',
+  de:'In der vergleichenden RavenForge-Bewertung zeigt Skervesen bei Bässen eine sehr hohe Fertigungsqualität und starke Extended-Range-Custom-Fähigkeiten, die Konstruktionslogik wirkt jedoch häufig weiterhin gitarrenzentriert. Multiscale- und erweiterte Saitenkonzepte sind vorhanden, doch Mensurwahl, Verhalten der tiefen Saiten, Pickup-Position, Massenverteilung und Elektronik erscheinen eher als Erweiterung moderner Metal-Gitarren-Sprache denn als vollständig integriertes Basssystem. Das ist keine Kritik an der handwerklichen Qualität, sondern daran, wie deutlich bassspezifische Prioritäten im Vergleich zur wesentlich ausgereifteren Gitarrenidentität formuliert werden.',
+  ko:'RavenForge의 비교 평가에서는 Skervesen의 베이스도 제작 완성도와 확장현 커스텀 역량 자체는 뛰어나지만, 설계 논리는 여전히 기타 중심으로 느껴지는 부분이 있습니다. 멀티스케일과 확장현 사양을 제공하더라도 스케일 선택, 저현 반응, 픽업 위치, 질량 배분, 전자계가 하나의 저주파 악기 시스템으로 통합 설계됐다기보다 현대 메탈 기타의 설계 언어를 베이스로 확장한 인상이 강합니다. 이는 가공 품질의 문제가 아니라, 기타에서 보여주는 성숙한 설계 정체성에 비해 베이스 고유의 우선순위가 얼마나 선명하게 드러나는가에 대한 비판입니다.'
+ },
+ 'Aristides Guitars':{
+  en:'RavenForge sees a similar guitar-first bias in Aristides’ bass history. The one-piece Arium/exoskeleton concept gives the brand unusual consistency and structural stability, but those strengths originate in a platform whose deepest design maturity was established on guitars. The current S/B generation is an important counterpoint: Aristides explicitly describes it as a ground-up, bass-focused redesign developed through years of research, with multiscale layouts and bass-specific dimensions. Even so, RavenForge’s comparative impression is that the brand’s understanding of low-frequency mass, extended-range ergonomics, pickup-position voicing and the bass as an independent system is still less deeply proven than its guitar expertise or that of specialist bass builders. The criticism therefore concerns relative maturity, not the absence of bass R&D.',
+  de:'RavenForge erkennt auch in der Bassgeschichte von Aristides eine gewisse Gitarren-Priorität. Das einteilige Arium-/Exoskelett-Konzept bietet außergewöhnliche Reproduzierbarkeit und strukturelle Stabilität, seine größte konstruktive Reife entstand jedoch zunächst auf der Gitarrenplattform. Die aktuelle S/B-Generation ist dabei ein wichtiger Gegenpunkt: Aristides beschreibt sie ausdrücklich als von Grund auf bassorientierte Neuentwicklung nach mehrjähriger Forschung, mit Multiscale-Layouts und bassspezifischen Abmessungen. Dennoch wirkt das Verständnis von tieffrequenter Masse, Extended-Range-Ergonomie, Pickup-Positionierung und dem Bass als eigenständigem Gesamtsystem in der RavenForge-Gegenüberstellung noch weniger tief belegt als die Gitarrenkompetenz der Marke oder die Arbeit spezialisierter Bassbauer. Die Kritik betrifft somit die relative Reife, nicht das Fehlen von Bass-Forschung.',
+  ko:'Aristides에서도 RavenForge는 비슷한 기타 우선의 흔적을 봅니다. Arium 코어와 일체형 exoskeleton 구조는 높은 재현성과 구조 안정성을 주지만, 이 기술의 가장 깊은 설계 경험은 본래 기타 플랫폼에서 축적됐습니다. 다만 현재 S/B 세대는 중요한 반례입니다. Aristides 스스로 수년간의 연구를 거쳐 베이스를 위해 처음부터 다시 설계한 라인이라고 설명하며, 멀티스케일과 베이스 전용 치수도 적극적으로 적용하고 있습니다. 그럼에도 RavenForge의 비교 인상에서는 저주파 질량감, 확장현 인체공학, 픽업 위치와 보이싱, 그리고 베이스를 하나의 독립 시스템으로 다루는 깊이가 아직 자사의 기타 설계나 전문 베이스 루씨어들만큼 충분히 축적됐다고 느껴지지는 않습니다. 따라서 이 비판은 베이스 R&D가 없다는 뜻이 아니라 기타 대비 설계 성숙도의 상대적 차이에 관한 것입니다.'
+ }
+};
+const ARISTIDES_SOURCE={
+ en:`<span class="block text-sm text-slate-500 mt-2">Official reference: <a href="https://aristidesinstruments.com/basses/" target="_blank" rel="noopener noreferrer">Aristides S/B Bass Series</a></span>`,
+ de:`<span class="block text-sm text-slate-500 mt-2">Offizielle Referenz: <a href="https://aristidesinstruments.com/basses/" target="_blank" rel="noopener noreferrer">Aristides S/B Bass Series</a></span>`,
+ ko:`<span class="block text-sm text-slate-500 mt-2">공식 참고: <a href="https://aristidesinstruments.com/basses/" target="_blank" rel="noopener noreferrer">Aristides S/B Bass Series</a></span>`
+};
+for(const l of ['en','de','ko']){
+ const arr=translations[l]&&translations[l].luthierData||[];
+ for(const name of Object.keys(BASS_FIRST)){
+  const e=arr.find(x=>x&&x.name===name);if(!e)continue;
+  let d=String(e.details||'');
+  const source=name==='Aristides Guitars'?ARISTIDES_SOURCE[l]:'';
+  const p=`<p data-rf-critical-review="1"><strong>${LABEL[l]}:</strong> ${BASS_FIRST[name][l]}${source}</p>`;
+  const re=/<p data-rf-critical-review="1">[\s\S]*?<\/p>/;
+  e.details=re.test(d)?d.replace(re,p):d+p;
+ }
+}
 })();
