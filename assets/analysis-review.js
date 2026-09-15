@@ -1,6 +1,6 @@
 (()=>{
 'use strict';
-const v='20260916s11';
+const v='20260916s12';
 const load=src=>new Promise(done=>{const s=document.createElement('script');s.src=src;s.async=false;s.onload=s.onerror=done;document.body.appendChild(s)});
 const files=[
 'analysis-theme-methodology.js','analysis-special-entities.js','analysis-special-carl-thompson.js','analysis-special-meta.js','analysis-special-nova.js','analysis-special-zuta.js','analysis-special-darkglass-mtd.js','analysis-special-components.js','analysis-special-components-2.js','analysis-special-amplification.js','analysis-technology-cleanup.js','analysis-review-core.js','analysis-degier.js','analysis-structure-normalize.js','analysis-special-fodera.js','analysis-carl-thompson-review.js','analysis-meta-review.js','analysis-amplification-review.js','analysis-technology-sources.js','analysis-amplification-sources.js','analysis-cautionary-alleva.js','analysis-cautionary-dingwall.js','analysis-critical-review-all.js','analysis-critical-review-specific.js','analysis-critical-review-mattisson-leadtime.js','analysis-critical-review-technology-specific.js','analysis-critical-review-lefay-order.js','analysis-critical-review-exclusions.js','analysis-media.js','analysis-media-extra.js','analysis-carl-thompson-media.js','analysis-meta-media.js','analysis-fodera-media.js','analysis-cautionary-alleva-media.js','analysis-components-media.js','analysis-components-media-pair-1.js','analysis-components-media-pair-2.js','analysis-components-media-pair-3.js','analysis-components-media-pair-4.js','analysis-components-media-pair-5.js','analysis-components-media-pair-6.js','analysis-moon-media.js','analysis-media-hotfix.js','analysis-media-curation.js','analysis-media-final.js','analysis-darkglass-mtd-media.js','analysis-media-extra-render.js','analysis-order.js'
@@ -8,8 +8,12 @@ const files=[
 const reveal=()=>{
  const root=document.documentElement;
  requestAnimationFrame(()=>requestAnimationFrame(()=>{
-  root.classList.remove('rf-analysis-loading');
-  root.classList.add('rf-analysis-ready');
+  setTimeout(()=>{
+   root.classList.remove('rf-analysis-loading');
+   root.classList.add('rf-analysis-ready');
+   const loader=document.getElementById('rf-analysis-loader');
+   if(loader){loader.setAttribute('aria-hidden','true');setTimeout(()=>loader.remove(),260)}
+  },90);
  }));
 };
 (async()=>{
@@ -25,7 +29,7 @@ const reveal=()=>{
   const id=lang==='ko'?'lang-kr-btn':`lang-${lang}-btn`;
   document.getElementById(id)?.click();
  }finally{
-  setTimeout(reveal,0);
+  reveal();
  }
 })();
 })();
