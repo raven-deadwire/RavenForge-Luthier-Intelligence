@@ -59,14 +59,14 @@ if INDEX.exists():
     <meta property="og:locale" content="en_US">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="RavenForge Luthier Intelligence">
-    <meta name="twitter:description" content="Instrument design, luthier research and prototype studies by Raven Cho.">
+    <meta name="twitter:description" content="Instrument design, luthiery research and prototype studies by Raven Cho.">
     <meta name="twitter:image" content="{SITE}assets/model-backdrops/edda-wide.webp">
     <script type="application/ld+json">{json.dumps({
         '@context': 'https://schema.org',
         '@type': 'WebSite',
         'name': 'RavenForge Luthier Intelligence',
         'url': SITE,
-        'description': 'Independent instrument-design, luthier research and prototype portfolio.',
+        'description': 'Independent instrument-design, luthiery research and prototype portfolio.',
         'creator': {
             '@type': 'Person',
             'name': 'Raven Cho',
