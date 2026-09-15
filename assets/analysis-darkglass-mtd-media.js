@@ -2,12 +2,12 @@
 window.RF_ANALYSIS_EXTRA_MEDIA=Object.assign(window.RF_ANALYSIS_EXTRA_MEDIA||{}, {
  'Darkglass Electronics':{
   pair:true,
-  model:'Alpha·Omega / Alpha·Omega 500',
+  model:'Anagram / Alpha·Omega 500',
   shots:[
-   {label:'Alpha·Omega',src:'https://www.darkglass.com/cdn/shop/files/Darkglass-Alpha-Omega-Gal-4.png?v=1749583648&width=1445',pos:'50% 50%',fit:'contain',modalFit:'contain'},
+   {label:'Anagram',src:'https://www.darkglass.com/cdn/shop/files/Anagram_Hero.png?v=1749152662&width=1946',pos:'50% 50%',fit:'contain',modalFit:'contain'},
    {label:'Alpha·Omega 500',src:'https://www.darkglass.com/cdn/shop/files/Darkglass-Alpha-Omega-500-Gal-3.png?v=1746051866&width=1445',pos:'50% 50%',fit:'contain',modalFit:'contain'}
   ],
-  source:'https://www.darkglass.com/'
+  source:'https://www.darkglass.com/products/anagram'
  },
  'Michael Tobias Design (MTD)':{
   pair:true,
