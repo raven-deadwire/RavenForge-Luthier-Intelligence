@@ -50,7 +50,7 @@ jobs:
 
       - name: Install build dependencies
         run: |
-          python -m pip install --disable-pip-check Pillow
+          python -m pip install --disable-pip-version-check Pillow
           npm install --no-save --no-package-lock jsdom@24
 
       - name: Migrate and build Concept Lab metadata
