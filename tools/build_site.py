@@ -8,7 +8,7 @@ from urllib.parse import urljoin
 SITE = 'https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/'
 INDEX = Path('index.html')
 CONFIG = Path('configurator.html')
-FOOTER_SCRIPT_VERSION = '20260916s2'
+FOOTER_SCRIPT_VERSION = '20260916s3'
 
 
 def read_preserve(path: Path) -> str:
@@ -44,7 +44,7 @@ updated = last_updated()
 if INDEX.exists():
     html = read_preserve(INDEX)
 
-    seo = f'''    <meta name="description" content="RavenForge Luthier Intelligence is an independent instrument-design, lutherie research and prototype portfolio by musician and instrument designer Raven Cho.">
+    seo = f'''    <meta name="description" content="RavenForge Luthier Intelligence is an independent instrument-design, luthiery research and prototype portfolio by musician and instrument designer Raven Cho.">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="theme-color" content="#101a20">
     <link rel="canonical" href="{SITE}">
