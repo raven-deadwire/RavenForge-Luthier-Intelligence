@@ -11,12 +11,12 @@ window.RF_ANALYSIS_EXTRA_MEDIA=Object.assign(window.RF_ANALYSIS_EXTRA_MEDIA||{},
  },
  'Michael Tobias Design (MTD)':{
   pair:true,
-  model:'535-24 / 535-24',
+  model:'735-24 Myrtle Burl / 635-24 Holly 10 Top',
   shots:[
-   {label:'535-24 — Sea Foam Green',src:'https://images.squarespace-cdn.com/content/v1/52db2345e4b02995f7e0a10f/c50f3c40-bae4-49fc-b49b-5570205efb98/FullSizeRender.jpeg',pos:'50% 50%',fit:'cover',modalFit:'contain'},
-   {label:'535-24 — Maple Burl',src:'https://images.squarespace-cdn.com/content/v1/52db2345e4b02995f7e0a10f/1448374894073-68EEO0G8JFTO93BVCG3I/image.jpg',pos:'50% 50%',fit:'cover',modalFit:'contain'}
+   {label:'735-24 — 7-string Myrtle Burl',src:'https://images.squarespace-cdn.com/content/v1/52db2345e4b02995f7e0a10f/1464151880001-W48GDNG6LNXCS2KC4HFM/image.jpg',pos:'50% 50%',fit:'cover',modalFit:'contain'},
+   {label:'635-24 — Holly 10 Top',src:'https://www.kurosawagakki.com/mtd/img/3909/03.jpg',fallback:'https://www.kurosawagakki.com/mtd/img/3909/01.jpg',pos:'50% 50%',fit:'cover',modalFit:'contain'}
   ],
-  source:'https://www.mtdbass.com/from-the-shop/'
+  source:'https://www.mtdbass.com/from-the-shop/2016/5/25/735-24'
  }
 });
 })();
