@@ -11,12 +11,12 @@ window.RF_ANALYSIS_EXTRA_MEDIA=Object.assign(window.RF_ANALYSIS_EXTRA_MEDIA||{},
  },
  'Michael Tobias Design (MTD)':{
   pair:true,
-  model:'Super 5 / USA Handmade 6-string',
+  model:'535-24 / 535-24',
   shots:[
-   {label:'Super 5',src:'https://images.squarespace-cdn.com/content/v1/52db2345e4b02995f7e0a10f/1578889423137-YEEC2NJBV5OSHNCTSPOI/mtd_super_5_web.jpg?format=1000w',fallback:'https://images.squarespace-cdn.com/content/v1/52db2345e4b02995f7e0a10f/1578889887822-BHSXU4NE84DHEY0EKLNY/mtd_nebula_web.jpg?format=1000w',pos:'50% 56%',fit:'cover',modalFit:'contain'},
-   {label:'USA Handmade 6-string',src:'https://images.squarespace-cdn.com/content/v1/52db2345e4b02995f7e0a10f/1578891366065-BO2G3AL102U7WNG6BHWI/mtd_brownsugar_6.jpg?format=1000w',fallback:'https://images.squarespace-cdn.com/content/v1/52db2345e4b02995f7e0a10f/1581301706807-UZ0WR863A2YFHL2L033R/MTD_NAMM_2020_BASS.jpg?format=1000w',pos:'50% 56%',fit:'cover',modalFit:'contain'}
+   {label:'535-24 — Sea Foam Green',src:'https://images.squarespace-cdn.com/content/v1/52db2345e4b02995f7e0a10f/c50f3c40-bae4-49fc-b49b-5570205efb98/FullSizeRender.jpeg',pos:'50% 50%',fit:'cover',modalFit:'contain'},
+   {label:'535-24 — Maple Burl',src:'https://images.squarespace-cdn.com/content/v1/52db2345e4b02995f7e0a10f/1448374894073-68EEO0G8JFTO93BVCG3I/image.jpg',pos:'50% 50%',fit:'cover',modalFit:'contain'}
   ],
-  source:'https://www.mtdbass.com/handmade-options'
+  source:'https://www.mtdbass.com/from-the-shop/'
  }
 });
 })();
