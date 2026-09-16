@@ -1,0 +1,20 @@
+{
+  "id": "L03",
+  "date": "2026-09-16",
+  "category": "liberal",
+  "ko": {
+    "title": "Affordance, Agency, and the Instrument — ecological affordance와 skilled intentionality에서 가능한 음악적 행동의 장까지",
+    "excerpt": "악기의 물질적 구조, 연주자의 skill, sensorimotor relation과 musical niche가 어떤 행동을 실제로 가능하고 relevant하게 만드는지 Gibson의 affordance와 Skilled Intentionality Framework를 통해 검토한다. 강한 비인간 agency 주장은 배제하고, specification을 action possibility와 연결하는 RavenForge의 player-relative design position을 정립한다.",
+    "link": "research/L03/ko.html"
+  },
+  "en": {
+    "title": "Affordance, Agency, and the Instrument — From ecological affordance and skilled intentionality to the field of possible musical action",
+    "excerpt": "Examine how material instrument structure, player skill, sensorimotor relations and the musical niche shape which actions become practically possible and relevant. Gibsonian affordance and the Skilled Intentionality Framework are used without adopting a strong non-human agency claim, establishing a RavenForge player-relative design position that links specification to action possibility.",
+    "link": "research/L03/en.html"
+  },
+  "de": {
+    "title": "Affordance, Agency, and the Instrument — Von ökologischen Affordanzen und Skilled Intentionality zum Feld möglicher musikalischer Handlungen",
+    "excerpt": "Untersucht wird, wie materielle Instrumentenstruktur, Skill, sensomotorische Beziehung und musical niche bestimmen, welche Handlungen praktisch möglich und relevant werden. Gibson und der Skilled Intentionality Framework werden genutzt, ohne dem Instrument starke nichtmenschliche Agency zuzuschreiben; Spezifikationen werden mit player-relativen Handlungsmöglichkeiten verbunden.",
+    "link": "research/L03/de.html"
+  }
+}
