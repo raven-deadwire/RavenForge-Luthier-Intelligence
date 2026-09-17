@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1988" height="812" viewBox="0 0 1988 812" role="img" aria-labelledby="title desc">
+<title id="title">A06 system boundary</title><desc id="desc">High-Z source-coupled domain transitions at the pickup-facing boundary into an actively controlled low-Z signal domain through isolation/mixing, gain/EQ, output driver, and downstream load.</desc>
+<rect width="1988" height="812" fill="#fff"/>
+<g font-family="Arial,'Noto Sans KR','Malgun Gothic',sans-serif" fill="#26313d">
+  <text x="72" y="148" font-size="31" fill="#a51419">High-Z / source-coupled domain</text>
+  <line x1="72" y1="174" x2="588" y2="174" stroke="#a51419" stroke-width="5"/>
+  <text x="736" y="148" font-size="31" fill="#315f96">Actively controlled low-Z signal domain</text>
+  <line x1="736" y1="174" x2="1584" y2="174" stroke="#315f96" stroke-width="5"/>
+  <g fill="#e9f0f7" stroke="#315f96" stroke-width="4">
+    <rect x="68" y="264" width="192" height="300" rx="8"/>
+    <rect x="398" y="264" width="192" height="300" rx="8"/>
+    <rect x="730" y="264" width="192" height="300" rx="8"/>
+    <rect x="1060" y="264" width="192" height="300" rx="8"/>
+    <rect x="1392" y="264" width="192" height="300" rx="8"/>
+    <rect x="1724" y="264" width="192" height="300" rx="8"/>
+  </g>
+  <g font-size="30" text-anchor="middle">
+    <text x="164" y="407"><tspan x="164" dy="0">Pickup</tspan><tspan x="164" dy="34">source</tspan></text>
+    <text x="494" y="391"><tspan x="494" dy="0">Pickup-facing</tspan><tspan x="494" dy="34">boundary</tspan><tspan x="494" dy="34">Zin(f)</tspan></text>
+    <text x="826" y="407"><tspan x="826" dy="0">Isolation /</tspan><tspan x="826" dy="34">Mixing</tspan></text>
+    <text x="1156" y="407"><tspan x="1156" dy="0">Gain / EQ</tspan><tspan x="1156" dy="34">network</tspan></text>
+    <text x="1488" y="390"><tspan x="1488" dy="0">Output</tspan><tspan x="1488" dy="34">driver</tspan><tspan x="1488" dy="34">Zout(f)</tspan></text>
+    <text x="1820" y="407"><tspan x="1820" dy="0">Jack / cable /</tspan><tspan x="1820" dy="34">downstream load</tspan></text>
+  </g>
+  <g stroke="#5c6874" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M270 414 H385 l-13 -10 M385 414 l-13 10"/>
+    <path d="M600 414 H715 l-13 -10 M715 414 l-13 10"/>
+    <path d="M932 414 H1047 l-13 -10 M1047 414 l-13 10"/>
+    <path d="M1262 414 H1377 l-13 -10 M1377 414 l-13 10"/>
+    <path d="M1594 414 H1709 l-13 -10 M1709 414 l-13 10"/>
+  </g>
+  <text x="72" y="696" font-size="29" fill="#61707f">A06의 설계 대상은 EQ 모듈 하나가 아니라, source boundary부터 output boundary까지 이어지는 전체 내부 signal path다.</text>
+</g>
+</svg>
