@@ -1,0 +1,194 @@
+<table class="purpose-table">
+<colgroup>
+<col style="width: 100%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Document purpose<br/>
+Treat passive guitar/bass electronics not as a collection of fixed
+recipes such as 250 kΩ / 500 kΩ pots or 0.022 / 0.047 µF capacitors, but
+as a tonal architecture built around the frequency-dependent
+magnetic-pickup source ZPU(f): resistive loading, capacitive shunt,
+series-capacitive bass cut, resonant notch, source reconfiguration,
+pickup mixing/routing, and bypass/reference state. The electrical models
+established in A03–A05 are translated into actual internal-circuit
+choices while clearly separating manufacturer description,
+circuit-theory inference, direct literature evidence, and RavenForge
+synthesis.</strong></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table><table class="meta">
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Code</th>
+<th>B03</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Focus</td>
+<td>passive tonal architecture · controlled loading · filtering · source
+reconfiguration · routing · reference state</td>
+</tr>
+<tr class="even">
+<td>Evidence</td>
+<td>JAES pickup modeling · circuit theory · manufacturer service
+documentation · patent / historical implementation</td>
+</tr>
+<tr class="odd">
+<td>RavenForge link</td>
+<td>B02 sonic intent → passive architecture → measurable response →
+component specification</td>
+</tr>
+<tr class="even">
+<td>Upstream logs</td>
+<td>B02 · A03 · A04 · A05</td>
+</tr>
+<tr class="odd">
+<td>Downstream logs</td>
+<td>C02 (experiment pending) · A06 · B06 · A08/C05 · A09/C06</td>
+</tr>
+<tr class="even">
+<td>Status</td>
+<td>Literature / technical verification complete · architecture
+framework established · prototype measurement pending</td>
+</tr>
+</tbody>
+</table><p><img class="doc-figure" loading="lazy" src="v2/en-image5.svg"/></p><p class="caption"><em>Figure 1. B03 system boundary. The design target of a passive
+circuit is not a single tone capacitor, but the entire loaded system
+from the pickup source to the external input.</em></p><h2 id="section-1"><strong>1. Research Question — Why are passive electronics an
+architectural problem rather than a component-value choice?</strong></h2><p>Passive instrument circuits are often reduced to choices such as “250
+kΩ or 500 kΩ” and “0.022 µF or 0.047 µF.” A magnetic pickup, however, is
+not a zero-impedance voltage source. It is a frequency-dependent source
+with R, L, and winding/self capacitance, while external pots,
+capacitors, cable, and amplifier input jointly alter its resonance and
+damping.</p><p>The same capacitor therefore cannot be expected to produce the same
+response when pickup inductance, coil resistance, self capacitance,
+control position, cable capacitance, or downstream input impedance
+changes. B03 does not ask “which component is best?” but rather “what
+impedance boundary should the pickup see in order to achieve the
+intended musical operation?”</p><table>
+<colgroup>
+<col style="width: 100%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>B03 Core Position<br/>
+Passive tone design is not the selection of isolated components. It is
+the intentional design of boundary conditions around a
+frequency-dependent source.</strong></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table><h2 id="section-2"><strong>2. Boundary Between A03–A05 and B03 — From explaining effects
+to designing structure</strong></h2><table>
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Log</th>
+<th>Core question</th>
+<th>Relationship to B03</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A03</td>
+<td>What are the pickup’s own RLC / ZPU(f)?</td>
+<td>source model</td>
+</tr>
+<tr class="even">
+<td>A04</td>
+<td>How does external R/C loading change response?</td>
+<td>loading mechanism</td>
+</tr>
+<tr class="odd">
+<td>A05</td>
+<td>How does a buffer separate source from downstream load?</td>
+<td>new electrical boundary</td>
+</tr>
+<tr class="even">
+<td>B03</td>
+<td>How should that load and routing be arranged intentionally?</td>
+<td>design architecture</td>
+</tr>
+</tbody>
+</table><p>Where A04 explains the consequences of loading, B03 treats loading as
+a design variable. Conventional tone, no-load, bass-cut, notch, pickup
+series/parallel, blend, and source reconfiguration are therefore
+classified not as unrelated component combinations, but as different
+electrical operations.</p><h2 id="section-3"><strong>3. Basic Circuit Model — A simple RC cutoff model is not
+sufficient</strong></h2><p>As a first-order approximation, the pickup can be represented by a
+source voltage VPU(f) and a frequency-dependent source impedance ZPU(f).
+If the external network is represented as ZLOAD(f), the output follows a
+voltage-divider relation of the following form.</p><table>
+<colgroup>
+<col style="width: 100%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>First-order loaded-source relation<br/>
+H(f) = ZLOAD(f) / [ ZPU(f) + ZLOAD(f) ]</strong></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table><p>Because ZPU(f) itself is shaped by coil resistance, inductance, and
+self/distributed capacitance, a conventional tone capacitor cannot be
+treated as an isolated first-order RC low-pass. The tone branch, cable
+capacitance, volume pot, and input resistance simultaneously alter
+pickup resonance frequency and damping. The JAES model by Paiva,
+Pakarinen, and Välimäki likewise treats linear resonant filtering and
+multiple-pickup mixing as core elements of magnetic-pickup behaviour
+[1].</p><p>A simplified tone branch is a frequency-dependent shunt to ground
+consisting of a capacitor and tone resistance in series. As tone
+resistance decreases, the capacitor couples more strongly to the source,
+and a new lower-frequency resonance may emerge through interaction with
+pickup inductance. However, no universal rule states that lowering the
+tone control must always raise or lower Q. Q and peak height depend on
+the complete damping condition.</p><p><img class="doc-figure" loading="lazy" src="v2/en-image6.svg"/></p><p class="caption"><em>Figure 2. Example response of a simplified RLC model. This is a
+conceptual simulation, not measured pickup data; it illustrates why the
+effect of a tone capacitor cannot be represented by one independent RC
+cutoff.</em></p><h2 id="section-4"><strong>4. Passive Tonal Architecture — Basic topology
+taxonomy</strong></h2><p><img class="doc-figure" loading="lazy" src="v2/en-image7.svg"/></p><p class="caption"><em>Figure 3. B03 topology taxonomy. Compensation networks such as
+treble-bleed are included within tonal architecture, but any claim that
+they “preserve” the original source tone requires a defined reference
+state and validation conditions.</em></p><p>The deeper review indicates that one additional category is useful. A
+treble-bleed or partial-compensation network that offsets high-frequency
+loss during volume reduction is an important source-loading architecture
+and is therefore treated as a separate “compensation network” category.
+Conversely, not every switching function is treated as a tone circuit;
+B03 includes switching only when it actually changes source impedance or
+filtering.</p><h2 id="section-5"><strong>5. Conventional Volume/Tone — More than a “treble-cut
+knob”</strong></h2><p>A conventional tone control adds a shunt path at the pickup output
+using a capacitor and variable resistance. As the control is lowered,
+the capacitor is coupled more directly to ground and high-frequency
+energy is reduced. Because the pickup is an inductive source, however,
+the result is not an isolated first-order low-pass but a resonant
+network formed by the pickup RLC and the external C/R load.</p><p>Practices such as “0.022 µF = humbucker” and “0.047 µF = single coil”
+may be useful starting points, but they are not design laws. In B03,
+capacitor value is specified together with source ZPU(f), load
+resistance, cable capacitance, and the intended endpoint response.</p><table>
+<colgroup>
+<col style="width: 100%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>B03 Design Rule 01<br/>
+Never specify a passive tone component without specifying the source and
+the load it is expected to interact with.</strong></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
