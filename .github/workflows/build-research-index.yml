@@ -7,6 +7,8 @@ on:
       - 'research/**/meta.json'
       - 'research/**/article-parts/**'
       - 'research/**/references-fragment.html'
+      - 'research/B03/source/**'
+      - 'research/B03/b03.css'
       - 'concepts/**/meta.json'
       - 'tools/**'
       - 'EMBLA Prototype Design.png'
@@ -62,6 +64,7 @@ jobs:
 
       - name: Build Research metadata and static pages
         run: |
+          python tools/build_b03_from_docx.py
           python tools/build_research_index.py
           node tools/build_research_static.mjs
 
@@ -80,6 +83,7 @@ jobs:
           git add index.html configurator.html robots.txt sitemap.xml
           git add research/research-index.json
           git add research/*/*.html
+          git add research/B03/assets research/B03/meta.json research/B03/source-manifest.json
           git add concepts
           git add assets/concept-lab.js assets/optimized assets/favicon.png assets/apple-touch-icon.png
           if git diff --cached --quiet; then
