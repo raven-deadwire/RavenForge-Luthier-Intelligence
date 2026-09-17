@@ -9,6 +9,10 @@ on:
       - 'research/**/references-fragment.html'
       - 'research/B03/source/**'
       - 'research/B03/b03.css'
+      - 'research/A06/source-static/**'
+      - 'research/A06/assemble.py'
+      - 'research/A06/a06.css'
+      - 'research/A06/assets/**'
       - 'concepts/**/meta.json'
       - 'tools/**'
       - 'EMBLA Prototype Design.png'
@@ -65,6 +69,7 @@ jobs:
       - name: Build Research metadata and static pages
         run: |
           python tools/build_b03_from_docx.py
+          python research/A06/assemble.py
           python tools/build_research_index.py
           node tools/build_research_static.mjs
 
