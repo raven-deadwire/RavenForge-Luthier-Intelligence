@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1988" height="1172" viewBox="0 0 1988 1172" role="img" aria-labelledby="title desc">
+<title id="title">RavenForge working taxonomy — signal path 기준 분류</title><desc id="desc">Five onboard-preamp signal-path types from post-mix active EQ through dual-path architecture.</desc>
+<rect width="1988" height="1172" fill="#fff"/>
+<g font-family="Arial,'Noto Sans KR','Malgun Gothic',sans-serif" fill="#26313d">
+  <text x="62" y="91" font-size="39">RavenForge working taxonomy — signal path 기준 분류</text>
+  <g stroke="#d6e2ee" stroke-width="2">
+    <rect x="70" y="166" width="1848" height="122" rx="5" fill="#e7eff8"/>
+    <rect x="70" y="307" width="1848" height="122" rx="5" fill="#f1f5f9"/>
+    <rect x="70" y="448" width="1848" height="122" rx="5" fill="#e7eff8"/>
+    <rect x="70" y="589" width="1848" height="122" rx="5" fill="#f1f5f9"/>
+    <rect x="70" y="730" width="1848" height="122" rx="5" fill="#e7eff8"/>
+  </g>
+  <g font-size="29">
+    <g fill="#315f96"><text x="118" y="232">Type I</text><text x="118" y="373">Type II</text><text x="118" y="514">Type III</text><text x="118" y="655">Type IV</text><text x="118" y="796">Type V</text></g>
+    <g><text x="305" y="232">Post-mix active EQ</text><text x="305" y="373">Buffered source</text><text x="305" y="514">Per-pickup active architecture</text><text x="305" y="655">Active-source architecture</text><text x="305" y="796">Dual-path architecture</text></g>
+    <g fill="#647383" font-size="27">
+      <text x="742" y="232">Passive PU → passive V/B → EQ/preamp → out</text>
+      <text x="742" y="373">Passive PU → buffer → controls/EQ → out</text>
+      <text x="742" y="514">PU A/B → individual buffers → active mix → EQ → out</text>
+      <text x="742" y="655">Active PU → controls/EQ → out</text>
+      <text x="742" y="796">PU → passive path    active path → switch/output</text>
+    </g>
+  </g>
+  <text x="84" y="911" font-size="27" fill="#61707f">이 분류는 업계의 공식 표준이 아니라, 어떤 loading과 interaction을 보존/격리하는지 비교하기 위한 RavenForge 분석 도구다.</text>
+</g>
+</svg>
