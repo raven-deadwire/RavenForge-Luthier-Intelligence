@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1988" height="826" viewBox="0 0 1988 826" role="img" aria-labelledby="title desc">
+<title id="title">A06 reference-state model</title><desc id="desc">Passive reference, active-flat reference, and EQ-modified state are separated to prevent the mistaken comparison flat equals passive.</desc>
+<rect width="1988" height="826" fill="#fff"/>
+<g font-family="Arial,'Noto Sans KR','Malgun Gothic',sans-serif" fill="#26313d">
+  <text x="85" y="116" font-size="33" fill="#a51419">Reference state를 분리하지 않으면 “flat = passive”라는 잘못된 비교가 발생한다.</text>
+  <g fill="#f0f4f8" stroke="#315f96" stroke-width="4">
+    <rect x="78" y="210" width="518" height="417" rx="7"/>
+    <rect x="666" y="210" width="518" height="417" rx="7" fill="#e7eff8"/>
+    <rect x="1258" y="210" width="518" height="417" rx="7"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="337" y="300" font-size="31">Passive reference</text>
+    <text x="925" y="300" font-size="31" fill="#315f96">Active-flat reference</text>
+    <text x="1517" y="300" font-size="31">EQ-modified state</text>
+    <g font-size="26" fill="#647383">
+      <text x="337" y="420">Active stage bypassed</text>
+      <text x="925" y="420">Active path engaged, EQ nominal flat</text>
+      <text x="1517" y="420">Active path + intentional EQ/gain</text>
+    </g>
+    <g font-size="25">
+      <text x="337" y="520"><tspan x="337">pickup/loading network가 직접</tspan><tspan x="337" dy="30">output을 정의</tspan></text>
+      <text x="925" y="520"><tspan x="925">Zin·noise·headroom·Zout는 이미</tspan><tspan x="925" dy="30">변경</tspan></text>
+      <text x="1517" y="520"><tspan x="1517">frequency response와 level을</tspan><tspan x="1517" dy="30">의도적으로 변경</tspan></text>
+    </g>
+  </g>
+  <g stroke="#5c6874" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M604 420 H652 l-13 -10 M652 420 l-13 10"/>
+    <path d="M1192 420 H1244 l-13 -10 M1244 420 l-13 10"/>
+  </g>
+</g>
+</svg>
