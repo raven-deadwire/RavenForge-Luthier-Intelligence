@@ -1,0 +1,20 @@
+{
+  "id": "B03",
+  "date": "2026-09-17",
+  "category": "sound",
+  "ko": {
+    "title": "Passive Tonal Architecture — 부품값의 레시피가 아니라 loading·filtering·routing 구조로 패시브 톤 시스템을 설계하기",
+    "excerpt": "패시브 기타·베이스 전자계를 pickup ZPU(f)를 둘러싼 controlled loading, filtering, routing, source reconfiguration, bypass/reference-state architecture로 재정의한다.",
+    "link": "research/B03/ko.html"
+  },
+  "en": {
+    "title": "Passive Tonal Architecture — Designing a passive tone system through loading, filtering, routing, and reference state",
+    "excerpt": "Reframe passive guitar/bass electronics as an architecture around frequency-dependent pickup ZPU(f): controlled loading, filtering, routing, source reconfiguration, and explicit reference states.",
+    "link": "research/B03/en.html"
+  },
+  "de": {
+    "title": "Passive Tonal Architecture — Passive Klangarchitektur durch Loading, Filtering, Routing und Referenzzustände",
+    "excerpt": "Passive Gitarren-/Bass-Elektronik wird als Architektur um die frequenzabhängige Pickup-Quelle ZPU(f) behandelt: Loading, Filtering, Routing, Source-Reconfiguration und definierte Referenzzustände.",
+    "link": "research/B03/de.html"
+  }
+}
