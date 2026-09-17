@@ -1,0 +1,20 @@
+{
+  "id": "A06",
+  "date": "2026-09-18",
+  "category": "sound",
+  "ko": {
+    "title": "Onboard Preamp Architecture — pickup-facing boundary 이후 gain·mixing·EQ·output을 하나의 low-Z signal system으로 설계하는 방법",
+    "excerpt": "온보드 프리앰프를 단순한 3-band EQ가 아니라 pickup-facing input boundary 이후 isolation, mixing, gain structure, filter law, output drive, power와 bypass/reference state를 포함하는 내부 signal architecture로 다룬다. Darkglass, ZUTA, Bartolini, Aguilar, EMG, John East의 공개 사양을 비교해 Zin·Zout·gain·EQ·supply를 하나의 measurable specification bundle로 재구성하고, active-flat과 true passive bypass, 9 V/18 V headroom에 대한 과도한 일반화를 분리한다.",
+    "link": "research/A06/ko.html"
+  },
+  "en": {
+    "title": "Onboard Preamp Architecture — Designing gain, mixing, EQ, and output after the pickup-facing boundary as one low-Z signal system",
+    "excerpt": "Treat the onboard preamp not as a generic three-band EQ but as the internal signal architecture spanning isolation, mixing, gain structure, filter law, output drive, power, and bypass/reference states after the pickup-facing input boundary. Published specifications from Darkglass, ZUTA, Bartolini, Aguilar, EMG, and John East are compared to build a measurable specification bundle while separating active-flat from true passive bypass and avoiding overgeneralizations about 9 V/18 V headroom.",
+    "link": "research/A06/en.html"
+  },
+  "de": {
+    "title": "Onboard Preamp Architecture — Gain, Mixing, EQ und Ausgang hinter der pickupseitigen Grenze als ein Low-Z-Signalsystem entwerfen",
+    "excerpt": "Der Onboard-Preamp wird nicht als generischer 3-Band-EQ, sondern als interne Signalarchitektur aus Isolation, Mixing, Gain-Struktur, Filtergesetz, Ausgangstreiber, Versorgung sowie Bypass-/Referenzzuständen nach der pickupseitigen Eingangsgrenze behandelt. Veröffentlichte Daten von Darkglass, ZUTA, Bartolini, Aguilar, EMG und John East werden zu einem messbaren Spezifikationspaket zusammengeführt; Active-flat und echter passiver Bypass sowie überzogene Verallgemeinerungen zu 9 V/18 V werden klar getrennt.",
+    "link": "research/A06/de.html"
+  }
+}
