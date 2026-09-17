@@ -1,0 +1,70 @@
+<h2 id="section-11"><strong>11. Peavey T-60 — A case where the tone control changes
+source topology</strong></h2><p>US Patent 4,164,163 describes a circuit that uses a center-tapped
+dual-coil pickup together with a capacitor/potentiometer network to
+change the pickup’s resonant frequency [7]. According to the patent
+description, the full-bass position operates as a full double-coil
+humbucking pickup with a lower resonant frequency; as the control moves
+toward treble, one coil is progressively grounded and the resonant
+frequency rises. At the extreme treble setting, the source approaches a
+single-coil state.</p><p>The important point is that “tone control = filter after the pickup”
+is not always a valid assumption. A single control can alter source
+topology and frequency response at the same time. A generalized
+electrical analysis of coil series/parallel/split configurations is
+nevertheless reserved for A08/C05.</p><h2 id="section-12"><strong>12. Pickup Mixing — Not simple voltage summing</strong></h2><p>Connecting two pickups is not equivalent to ideally summing two
+independent tracks. Each pickup has a finite, frequency-dependent source
+impedance, so selector, dual-volume, blend, and master-tone networks can
+make the pickups and shared load interact. The Paiva et al. model
+includes multiple pickups and series/parallel connection [1].</p><p>Under a simplified approximation of two identical coils with
+negligible mutual coupling, series connection increases R and L, while
+parallel connection lowers equivalent R/L. Real pickups, however, differ
+in physical position, winding, distributed capacitance, and magnetic
+coupling, so those simple equivalents should not be applied universally.
+B03 therefore prefers measuring actual Z(f) and loaded response over
+shorthand claims such as “series is always darker / parallel is always
+brighter.”</p><h2 id="section-13"><strong>13. Case Study Map — Brand circuits are architectural
+examples, not answers</strong></h2><p><img class="doc-figure" loading="lazy" src="v2/en-image8.svg"/></p><p class="caption"><em>Figure 4. Classification of the verified cases by electrical
+operation. These brand circuits are not ranked against one another; they
+are used as evidence that different passive operations have been
+implemented in real production or patented systems.</em></p><table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Case</th>
+<th>Primary operation</th>
+<th>Reference state</th>
+<th>Evidence level</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd"><td>Fender No-Load</td><td>tone branch removal</td><td>10 = branch removed</td><td>Strong / official</td></tr>
+<tr class="even"><td>G&amp;L PTB</td><td>independent treble/bass cut</td><td>model-specific</td><td>Strong / official function</td></tr>
+<tr class="odd"><td>Fender TBX</td><td>stacked detented loading network</td><td>5 = center detent</td><td>Strong / official function; transfer needs circuit analysis</td></tr>
+<tr class="even"><td>Greasebucket</td><td>modified tone-down damping / shaping</td><td>standard full-up remains loaded</td><td>Strong topology / official service diagram</td></tr>
+<tr class="odd"><td>Gibson Varitone</td><td>switched resonant notch</td><td>position 1 = true bypass</td><td>Strong / official archival</td></tr>
+<tr class="even"><td>Peavey T-60</td><td>progressive coil grounding + resonance shift</td><td>full humbucker ↔︎ near single-coil</td><td>Strong / patent</td></tr>
+</tbody></table><h2 id="section-14"><strong>14. Capacitor Type — Separating electrical parameters from
+marketing identity</strong></h2><p>B03 evaluates a capacitor first by capacitance, tolerance, leakage,
+ESR, parasitic behaviour, stability, and physical reliability. Names
+such as “PIO,” “Orange Drop,” “Vitamin Q,” and “ceramic” are not treated
+as independent tone parameters.</p><p>AES research on capacitor non-idealities and distortion exists, but
+results obtained in conditions such as loudspeaker crossovers or
+DC-biased preamps cannot automatically be generalized to passive
+guitar-pickup networks operating at tens to hundreds of millivolts.
+Claims of dielectric or brand superiority in passive guitar circuits
+therefore require controlled electrical and level-matched comparisons
+with capacitance and tolerance held constant.</p><table><colgroup><col style="width: 100%"/></colgroup><thead><tr class="header"><th><strong>RavenForge component rule<br/>Measure the component first. Name the dielectric second.</strong></th></tr></thead><tbody></tbody></table><h2 id="section-15"><strong>15. Control Law and Tolerance — Do not record nominal value
+alone</strong></h2><p>Even two 250 kΩ pots can produce different relationships between knob
+position and electrical state when taper, actual end-to-end resistance,
+and wiper law differ. Capacitor tolerance can likewise shift resonance
+or notch position. B03 specifications therefore record measured value,
+tolerance, taper, and reference position in addition to nominal
+value.</p><table><colgroup><col style="width: 33%"/><col style="width: 33%"/><col style="width: 33%"/></colgroup><thead><tr class="header"><th>Variable</th><th>Recorded item</th><th>Design consequence</th></tr></thead><tbody><tr class="odd"><td>Potentiometer</td><td>actual resistance · taper · wiper position</td><td>loading · control law · endpoint</td></tr><tr class="even"><td>Capacitor</td><td>measured C · tolerance</td><td>resonance / notch / transition</td></tr><tr class="odd"><td>Inductor</td><td>L · winding R · tolerance</td><td>notch frequency · Q · insertion loss</td></tr><tr class="even"><td>Cable</td><td>total capacitance (pF)</td><td>pickup resonance / HF response</td></tr><tr class="odd"><td>Input</td><td>Rin · Cin</td><td>effective load / damping</td></tr><tr class="even"><td>Switch / routing</td><td>contact topology · state definition</td><td>reference state / source interaction</td></tr></tbody></table><h2 id="section-16"><strong>16. RavenForge Passive Architecture Design
+Workflow</strong></h2><p><img class="doc-figure" loading="lazy" src="v2/en-image9.svg"/></p><p class="caption"><em>Figure 5. B03 design-validation loop. Architecture is derived
+from sonic intent and the source model rather than from a parts list,
+then topology or component range is revised when measurement disagrees
+with the model.</em></p><table><colgroup><col style="width: 33%"/><col style="width: 33%"/><col style="width: 33%"/></colgroup><thead><tr class="header"><th>Stage</th><th>Question</th><th>Output</th></tr></thead><tbody><tr class="odd"><td>1. Sonic intent</td><td>What is the intended musical change?</td><td>target operation</td></tr><tr class="even"><td>2. Source definition</td><td>What is ZPU(f)?</td><td>source model</td></tr><tr class="odd"><td>3. Reference state</td><td>What counts as unfiltered / baseline?</td><td>electrical reference</td></tr><tr class="even"><td>4. Architecture</td><td>Load / shunt / series / notch / routing?</td><td>topology</td></tr><tr class="odd"><td>5. Control law</td><td>What electrical state does the knob / switch produce?</td><td>R/C/L range + taper</td></tr><tr class="even"><td>6. Full-system model</td><td>What happens with cable and input included?</td><td>loaded transfer</td></tr><tr class="odd"><td>7. Interaction check</td><td>Does it conflict with another pickup/control state?</td><td>state matrix</td></tr><tr class="even"><td>8. Bench validation</td><td>Does the measured network match the model?</td><td>measured response</td></tr><tr class="odd"><td>9. Prototype validation</td><td>Does it match intended action in real playing?</td><td>design decision</td></tr></tbody></table>
