@@ -3,18 +3,18 @@
   "date": "2026-09-17",
   "category": "sound",
   "ko": {
-    "title": "B03 — Passive Tonal Architecture",
-    "excerpt": "부품값의 레시피가 아니라 loading · filtering · routing · reference state로 설계하는 패시브 톤 시스템",
+    "title": "Passive Tonal Architecture — 부품값의 레시피가 아니라 loading·filtering·routing·reference state로 설계하는 패시브 톤 시스템",
+    "excerpt": "패시브 기타·베이스 전자계를 pickup의 ZPU(f)와 외부 부하가 상호작용하는 tonal architecture로 다룬다. A03–A05의 전기적 모델을 바탕으로 resistive loading, treble/bass cut, resonant notch, source reconfiguration, pickup mixing과 bypass/reference state를 분류하고 실제 제조사 회로·특허 사례로 검토한다. Sonic intent를 topology·control law·interaction matrix·측정 조건으로 연결하는 RavenForge의 설계 절차를 정립한다.",
     "link": "research/B03/ko.html"
   },
   "en": {
-    "title": "B03 — Passive Tonal Architecture",
-    "excerpt": "Designing a passive tone system through loading · filtering · routing · reference state rather than component-value recipes",
+    "title": "Passive Tonal Architecture — Designing passive tone systems through loading, filtering, routing, and reference states",
+    "excerpt": "Translate the pickup-source, loading, and buffer models of A03–A05 into passive circuit design. Examine resistive loading, treble/bass cut, resonant notch, source reconfiguration, pickup mixing, and bypass/reference states through circuit theory, manufacturer documentation, and patent cases. Establish a RavenForge workflow that links sonic intent to topology, control law, an interaction matrix, and measurement conditions.",
     "link": "research/B03/en.html"
   },
   "de": {
-    "title": "B03 — Passive Tonal Architecture",
-    "excerpt": "Ein passives Klangsystem als Loading · Filtering · Routing · Reference State statt als Rezept aus Bauteilwerten entwerfen",
+    "title": "Passive Tonal Architecture — Passive Klangsysteme durch Loading, Filtering, Routing und Referenzzustände entwerfen",
+    "excerpt": "Die Pickup-, Last- und Buffer-Modelle aus A03–A05 werden in den Entwurf passiver Schaltungen übersetzt. Resistive Last, Höhen-/Bassabsenkung, resonante Notch-Filter, Quellen-Rekonfiguration, Pickup-Mischung und Bypass-/Referenzzustände werden anhand von Schaltungstheorie, Herstellerunterlagen und Patentbeispielen untersucht. Daraus entsteht ein RavenForge-Entwurfsprozess, der Klangabsicht mit Topologie, Regelkennlinie, Interaktionsmatrix und Messbedingungen verbindet.",
     "link": "research/B03/de.html"
   }
 }

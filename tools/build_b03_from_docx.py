@@ -222,21 +222,19 @@ def build(lang, css_version):
 </html>
 '''
     (ARTICLE / f"{lang}.html").write_text(page, encoding="utf-8")
-    return {"source": f"source/{lang}.docx", "sha256": source_hash, "blocks": len(expected), "sections": heading_count, "tables": table_count, "figures": images}, title, subtitle
+    return {"source": f"source/{lang}.docx", "sha256": source_hash, "blocks": len(expected), "sections": heading_count, "tables": table_count, "figures": images}
 
 
 def main():
     (ARTICLE / "assets").mkdir(exist_ok=True)
     css_version = sha256((ARTICLE / "b03.css").read_bytes()).hexdigest()[:12]
-    meta_path = ARTICLE / "meta.json"
-    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    # Research-card titles and excerpts are editorial metadata in meta.json.
+    # DOCX titles/subtitles describe the document, not its archive-card summary.
     manifest = {"schemaVersion": 1, "languages": {}}
     for lang in LANGS:
-        result, title, subtitle = build(lang, css_version)
+        result = build(lang, css_version)
         manifest["languages"][lang] = result
-        meta[lang] = {"title": title, "excerpt": subtitle, "link": f"research/B03/{lang}.html"}
         print(f"{lang}: {result['blocks']} source blocks verified, {result['sections']} sections, {result['tables']} tables, {len(result['figures'])} original figures")
-    meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (ARTICLE / "source-manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
