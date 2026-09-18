@@ -55,12 +55,17 @@ if INDEX.exists():
     <meta property="og:title" content="RavenForge Luthier Intelligence — Instrument Design, Research & Prototypes">
     <meta property="og:description" content="Instrument design, material and electronics research, CAD development and prototype studies shaped by musicianship, narrative and craft.">
     <meta property="og:url" content="{SITE}">
-    <meta property="og:image" content="{SITE}assets/model-backdrops/edda-wide.webp">
+    <meta property="og:image" content="{SITE}assets/optimized/ravenforge-social-preview.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="RavenForge emblem">
     <meta property="og:locale" content="en_US">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="RavenForge Luthier Intelligence">
     <meta name="twitter:description" content="Instrument design, luthiery research and prototype studies by Raven Cho.">
-    <meta name="twitter:image" content="{SITE}assets/model-backdrops/edda-wide.webp">
+    <meta name="twitter:image" content="{SITE}assets/optimized/ravenforge-social-preview.png">
+    <meta name="twitter:image:alt" content="RavenForge emblem">
     <script type="application/ld+json">{json.dumps({
         '@context': 'https://schema.org',
         '@type': 'WebSite',
@@ -141,7 +146,11 @@ if CONFIG.exists():
   <meta property="og:title" content="RavenForge Bass Configurator">
   <meta property="og:description" content="Explore RavenForge bass model, material, hardware and electronics configurations.">
   <meta property="og:url" content="{SITE}configurator.html">
-  <meta property="og:image" content="{SITE}assets/model-backdrops/embla-wide.webp">'''
+  <meta property="og:image" content="{SITE}assets/optimized/ravenforge-social-preview.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="RavenForge emblem">'''
     html = replace_marked(html, '<!-- RF:SEO START -->', '<!-- RF:SEO END -->', seo, '</head>')
     write_preserve(CONFIG, html)
 
