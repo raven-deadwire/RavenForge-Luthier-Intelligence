@@ -55,6 +55,27 @@ if logo.exists():
             canvas.alpha_composite(thumb, ((size-thumb.width)//2, (size-thumb.height)//2))
             canvas.save(Path('assets') / name, 'PNG', optimize=True)
 
+        # Dedicated Open Graph / social preview: use the emblem portion of the
+        # RavenForge brand asset instead of a prototype background photo.
+        social = im.copy()
+        if social.mode != 'RGBA':
+            social = social.convert('RGBA')
+        # The existing site deliberately treats the upper 3/4 of ravenforge.png
+        # as the emblem and the lower 1/4 as the wordmark.
+        social = social.crop((0, 0, social.width, max(1, round(social.height * 0.75))))
+        alpha = social.getchannel('A')
+        bbox = alpha.getbbox()
+        if bbox:
+            social = social.crop(bbox)
+        social.thumbnail((430, 430), Image.Resampling.LANCZOS)
+        social_canvas = Image.new('RGBA', (1200, 630), (16, 26, 32, 255))
+        social_canvas.alpha_composite(
+            social,
+            ((social_canvas.width - social.width) // 2, (social_canvas.height - social.height) // 2),
+        )
+        (OUT / 'ravenforge-social-preview.png').parent.mkdir(parents=True, exist_ok=True)
+        social_canvas.convert('RGB').save(OUT / 'ravenforge-social-preview.png', 'PNG', optimize=True)
+
 # Point concept source metadata at optimized GRAM media when available.
 gram_meta = Path('concepts/gram-superstrat-24f/meta.json')
 if gram_meta.exists() and (OUT / 'gram-superstrat-24f.webp').exists():
