@@ -7,17 +7,17 @@
       "category": "sound",
       "ko": {
         "title": "Rethinking the Internal Signal Path — Deep-research verification revision",
-        "excerpt": "ESH/Eshtronic의 현재 공식 사양과 역사적 routing evidence를 분리하고, EMG 35/40-series active pickup, passive piezo input boundary, B125 per-input buffering, low-Z control placement와 switching transient를 제조사·기술 자료로 재검증한다. 핵심 주장을 Confirmed / Partially confirmed / Unverified / Contradicted로 분류하고, 10 MΩ piezo와 25 kΩ active-control 같은 과잉 일반화를 수정하며 RavenForge routing taxonomy를 engineering synthesis로 명확히 구분한다.",
+        "excerpt": "ESH/Eshtronic의 현재 공식 사양과 역사적 routing evidence를 분리하고, EMG 35/40-series active pickup, passive piezo input boundary, B125 per-input buffering, low-Z control placement와 switching transient를 재검증한다. 여기에 McGrath 12-Way Rotary Selector를 3-pickup programmable relay-routing의 현행 사례로 추가해, favorite/previous recall, All-Parallel failsafe와 app-based state remap까지 포함한 programmable state selector를 RavenForge routing taxonomy에 편입한다.",
         "link": "research/B06/ko.html"
       },
       "en": {
         "title": "Rethinking the Internal Signal Path — Deep-research verification revision",
-        "excerpt": "Re-audit B06 against manufacturer and technical sources. Separate current ESH/Eshtronic specifications from historical routing evidence; verify EMG 35/40-series active pickup data, passive-piezo input boundaries, B125 per-input buffering, low-Z control placement and switching transients. Classify key claims by evidence status and correct overgeneralizations such as universal 10 MΩ piezo or 25 kΩ active-control rules.",
+        "excerpt": "Re-audit B06 against manufacturer and technical sources, separating current ESH/Eshtronic specifications from historical routing evidence while verifying active-pickup, passive-piezo, buffering, low-Z control and switching claims. The revision adds the McGrath 12-Way Rotary Selector as a current three-pickup programmable relay-routing case, extending the RavenForge taxonomy to cover recall, failsafe behavior and app-remapped routing states.",
         "link": "research/B06/en.html"
       },
       "de": {
         "title": "Rethinking the Internal Signal Path — Deep-Research-Verifikationsrevision",
-        "excerpt": "B06 wird anhand von Hersteller- und Technikquellen neu geprüft. Aktuelle ESH/Eshtronic-Spezifikationen werden von historischem Routing getrennt; EMG-35/40-Daten, passive Piezo-Grenzen, B125-Puffer, Low-Z-Reglerplatzierung und Switching-Transienten werden verifiziert. Kernaussagen erhalten Evidenzstatus, universalisierte 10-MΩ-/25-kΩ-Regeln werden korrigiert und die RavenForge-Taxonomie als Engineering-Synthese gekennzeichnet.",
+        "excerpt": "B06 trennt aktuelle ESH/Eshtronic-Spezifikationen von historischem Routing und prüft Active-Pickup-, Piezo-, Buffer-, Low-Z- und Switching-Aussagen erneut. Neu hinzu kommt der McGrath 12-Way Rotary Selector als aktuelles Beispiel für programmierbares Drei-Pickup-Relay-Routing; damit erweitert sich die RavenForge-Taxonomie um Recall, Failsafe-Verhalten und per App neu zugeordnete Routing-Zustände.",
         "link": "research/B06/de.html"
       }
     },
