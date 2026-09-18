@@ -3,122 +3,122 @@
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>B06 — Rethinking the Internal Signal Path · RavenForge</title><link rel="stylesheet" href="b06.css"></head>
 <body><main>
 <div class="page-navigation"><a href="../../index.html#research" target="_top">연구일지</a><nav class="languages" aria-label="언어"><a href="ko.html" lang="ko" hreflang="ko" aria-current="page">KO</a><a href="en.html" lang="en" hreflang="en">EN</a><a href="de.html" lang="de" hreflang="de">DE</a></nav></div>
-<details class="toc"><summary>목차</summary><nav aria-label="목차"><a href="#section-1">1. 연구 질문 — 악기 내부 전자계는 왜 하나의 직렬 chain으로 충분하지 않은가</a><a href="#section-2">2. Linear Chain에서 Routing Graph로 — 부품 순서보다 node와 state를 기록한다</a><a href="#section-3">3. Source Domain — passive magnetic, active magnetic, piezo는 같은 입력 신호가 아니다</a><a href="#section-4">4. Reference State — “bypass”라는 한 단어를 폐기한다</a><a href="#section-5">5. Routing Primitive — select, condition, merge, bypass, split을 분리한다</a><a href="#section-6">6. ESH / Eshtronic — 현재 공식 사양과 과거 routing evidence를 분리한다</a><a href="#section-7">7. Historical Eshtronic State Map — Mode Selector가 실제 signal graph를 바꾼 사례</a><a href="#section-8">8. Studio/Direct는 Passive가 아니다 — active pickup의 source electronics는 남아 있다</a><a href="#section-9">9. Piezo Boundary — 높은 input impedance가 왜 branch 설계의 출발점인가</a><a href="#section-10">10. Mixing — blend는 노브가 아니라 source isolation과 summing의 문제다</a><a href="#section-11">11. Control Placement — 같은 Volume/Tone도 어느 node에 있느냐에 따라 다른 회로다</a><a href="#section-12">12. Split Output — 내부 mix와 별도 source 출력은 서로 다른 design objective다</a><a href="#section-13">13. Switching Transient와 State Transition — mode 수가 늘수록 전환 자체를 설계해야 한다</a><a href="#section-14">14. Serviceability — 복잡한 routing은 기능 수가 아니라 진단 가능성으로 평가한다</a><a href="#section-15">15. Internal Routing Taxonomy — RavenForge가 사용할 다섯 가지 기본 구조</a><a href="#section-16">16. RavenForge Internal Routing Specification Bundle</a><a href="#section-17">17. ASKR · EMBLA · EDDA 적용 — 같은 “active electronics”라도 routing 목표가 다르다</a><a href="#section-18">18. Claim-by-Claim Evidence Matrix</a><a href="#section-19">19. 연구 경계와 다음 회차 — topology를 확정하고 headroom 측정은 넘긴다</a><a href="#section-20">20. Source Status / Interpretation Boundary</a><a href="#section-21">21. 현재 결론 — Internal electronics는 “회로 한 줄”이 아니라 명시적인 state machine이다</a><a href="#references">References</a></nav></details>
+<details class="toc"><summary>목차</summary><nav aria-label="목차"><a href="#section-1">1. 연구 질문과 검증 개정의 목적</a><a href="#section-2">2. 조사 방법과 Source Hierarchy</a><a href="#section-3">3. Executive Verification Summary — 핵심 주장별 상태</a><a href="#section-4">4. State-dependent Routing Graph — B06의 중심 모델</a><a href="#section-5">5. Source Domains — passive magnetic, active magnetic, piezo를 분리하는 근거</a><a href="#section-6">6. ESH / Eshtronic — 현재 사양과 역사적 routing을 분리한다</a><a href="#section-7">7. Studio/Direct — “Passive”가 아니라 Direct-source Reference</a><a href="#section-8">8. Piezo Boundary — 1 MΩ과 10 MΩ을 어떻게 읽어야 하는가</a><a href="#section-9">9. Mixing과 B125 — Blend knob가 아니라 isolation architecture</a><a href="#section-10">10. Control Placement — 25 kΩ 규칙을 과잉 일반화하지 않는다</a><a href="#section-11">11. Switching Transient — state 전환도 회로 동작이다</a><a href="#section-12">12. Split Output — 사실과 owner testimony의 경계</a><a href="#section-13">13. RavenForge Routing Taxonomy — 유용한 synthesis와 한계</a><a href="#section-14">14. Correction Required — 기존 초안에서 수정할 표현</a><a href="#section-15">15. RavenForge 모델 적용 — 사실이 아니라 설계 제안으로 명시한다</a><a href="#section-16">16. Prototype Measurement Protocol — 검증해야 할 것</a><a href="#section-17">17. 현재 결론 — 부품 목록보다 boundary와 state를 먼저 기록한다</a><a href="#references">References</a></nav></details>
 <article id="research-log">
 <p class="kicker"><strong>RAVENFORGE / SIGNAL & TRANSDUCTION RESEARCH LOG — B06</strong></p>
 <p class="brand"><strong>RAVENFORGE</strong></p><p class="series">Signal & Transduction / Electronics Architecture Research Log</p>
-<h1>B06 — Rethinking the Internal Signal Path</h1><p class="subtitle">source domain · reference state · routing graph로 악기 내부 전자계를 다시 설계하는 방법</p>
-<table class="callout"><tbody><tr><td><p><strong>문서 목적</strong><br>악기 내부 전자계를 “Pickup → Preamp → EQ → Output”이라는 하나의 직렬 chain으로 가정하지 않고, source마다 다른 electrical boundary와 player-selected state에 따라 경로가 바뀌는 routing graph로 재정의한다. ESH/Eshtronic의 현행 공식 사양과 과거에 문서화된 Direct/Studio·magnetic+piezo routing을 사례로 사용하되 세대별 회로를 동일시하지 않는다. Active magnetic, passive piezo, buffer, mixing, control placement, direct reference, split output와 switching transient를 하나의 specification language로 묶고, ASKR·EMBLA·EDDA의 내부 electronics 설계 규칙으로 연결한다.</p></td></tr></tbody></table>
-<table class="meta"><tbody><tr><th>Code</th><td>B06</td></tr><tr><th>Focus</th><td>internal routing · source domains · reference states · piezo/magnetic integration · selectable merge · split output · serviceability</td></tr><tr><th>Evidence</th><td>manufacturer documentation · historical product review · analog circuit application notes · secondary owner documentation · RavenForge synthesis</td></tr><tr><th>RavenForge link</th><td>B03 passive architecture → A06 active architecture → B06 internal routing → A07 headroom/power</td></tr><tr><th>Upstream logs</th><td>B03 · A05 · A06</td></tr><tr><th>Downstream logs</th><td>A07 · C03 · C04</td></tr><tr><th>Status</th><td>Literature / technical verification complete · routing framework established · prototype validation pending</td></tr><tr><th>Date</th><td>2026-09-19</td></tr></tbody></table>
-<h2 id="section-1">1. 연구 질문 — 악기 내부 전자계는 왜 하나의 직렬 chain으로 충분하지 않은가</h2>
-<p>A06은 pickup-facing boundary 이후의 isolation, mixing, gain, EQ와 output을 하나의 active signal architecture로 정의했다 [1]. B06은 그 다음 질문을 다룬다. 이 stage들을 언제나 <code>Pickup → Volume → Mix → EQ → Output</code> 순서로 직렬 배치해야 하는가? 결론부터 말하면 아니다. source의 종류, 필요한 input boundary, 사용자가 선택한 mode와 reference state에 따라 실제 signal path는 달라질 수 있다.</p>
-<p>특히 active magnetic pickup과 passive piezo처럼 electrical domain이 다른 source를 한 악기 안에서 다룰 때는 하나의 “preamp”라는 부품명보다 <strong>각 source가 어느 node에서 conditioning되고, 어느 node에서 합쳐지며, 어떤 control을 우회할 수 있는지</strong>가 더 중요하다. B06은 internal electronics를 parts list가 아니라 state-dependent routing graph로 기술하는 방법을 정립한다.</p>
-<h2 id="section-2">2. Linear Chain에서 Routing Graph로 — 부품 순서보다 node와 state를 기록한다</h2>
-<p>전통적인 schematic 설명은 stage를 왼쪽에서 오른쪽으로 나열하기 쉽다. 그러나 mode switch가 direct branch를 만들거나, piezo가 독립 buffer를 거쳐 magnetic branch와 합쳐지거나, 특정 상태에서 volume/tone이 완전히 제외되면 회로는 단일 chain이 아니라 graph가 된다.</p>
-<table class="callout"><tbody><tr><td><p><strong>B06 working model</strong><br>Source domain → source-specific boundary → routing state → control ownership/order → merge point → reference state → output boundary</p></td></tr></tbody></table>
-<figure><a href="assets/figure-01.svg"><img src="assets/figure-01.svg" alt="Linear chain and state-dependent routing graph"></a></figure><p class="caption"><em>Figure 1. Linear chain과 routing graph의 차이. Direct-reference branch나 source-specific conditioning이 들어오는 순간 signal path는 단순 직렬 구조로 설명되지 않는다.</em></p>
-<h2 id="section-3">3. Source Domain — passive magnetic, active magnetic, piezo는 같은 입력 신호가 아니다</h2>
-<p>Passive magnetic pickup은 A03–A05에서 다룬 것처럼 주파수 의존 source impedance와 외부 load가 직접 결합되는 RLC source다. 반면 EMG 35DC/40DC처럼 pickup 내부에 active electronics가 있는 source는 공식 문서상 output impedance가 10 kΩ이며 9 V 전원을 소비한다 [5]. 이 경우 pickup output은 이미 능동 conditioning을 거친 source다.</p>
-<p>Passive piezo는 또 다른 경계조건을 가진다. TI는 piezoelectric sensor를 높은 source impedance를 가진 source로 설명하며 JFET/CMOS처럼 high-input-impedance front end가 자연스러운 선택이라고 정리한다 [9]. Fishman 역시 passive piezo에서 10 MΩ impedance-matching buffer를 권장하고 1 MΩ에서는 bass response가 다소 줄 수 있다고 명시한다 [8]. 따라서 magnetic과 piezo를 물리적으로 한 악기에 넣었다는 이유만으로 동일한 input node에 바로 합치는 것은 설계 기준이 될 수 없다.</p>
-<h2 id="section-4">4. Reference State — “bypass”라는 한 단어를 폐기한다</h2>
-<p>Internal routing을 명확히 하려면 reference state를 세분해야 한다. <strong>Passive reference</strong>는 active stage를 실제로 우회하여 passive source가 외부 load를 다시 직접 보게 되는 상태다. <strong>Active-flat</strong>은 active path는 유지하되 EQ transfer만 nominal flat인 상태다. <strong>Direct-source reference</strong>는 pickup 자체의 active electronics는 남겨 둔 채 후단 volume/tone/EQ/routing electronics를 제외하는 상태다.</p>
-<div class="table-scroll"><table class="comparison"><thead><tr><th>State</th><th>남아 있는 active stage</th><th>외부 load와의 관계</th><th>용어</th></tr></thead><tbody>
-<tr><td>Passive reference</td><td>없음 또는 pickup 자체가 passive</td><td>pickup network가 cable/input을 직접 봄</td><td>Passive / true passive</td></tr>
-<tr><td>Active-flat</td><td>buffer/preamp/output stage</td><td>low-Z output 유지</td><td>Active-flat</td></tr>
-<tr><td>Direct-source reference</td><td>active pickup internal preamp 등 source electronics</td><td>후단 controls만 우회</td><td>Direct / Studio / EQ bypass</td></tr>
+<h1>B06 — Rethinking the Internal Signal Path</h1><p class="subtitle">Deep-research verification revision — source domain · reference state · routing graph</p>
+<table class="callout"><tbody><tr><td><p><strong>문서 목적</strong><br>기존 B06을 심층 자료 조사 결과에 맞춰 검증 개정한다. ESH/Eshtronic의 현재 공식 사양과 역사적 routing evidence를 분리하고, EMG 35/40-series active pickup, passive piezo input boundary, B125 per-input buffering, low-Z control placement와 switching transient에 대한 제조사/기술 자료를 다시 대조한다. 각 핵심 주장을 Confirmed / Partially confirmed / Unverified / Contradicted로 구분하고, RavenForge의 routing taxonomy와 ASKR·EMBLA·EDDA 적용부는 제조사 사실이 아닌 engineering synthesis임을 명시한다.</p></td></tr></tbody></table>
+<table class="meta"><tbody><tr><th>Code</th><td>B06</td></tr>
+<tr><th>Focus</th><td>internal routing · source domains · reference states · Eshtronic evidence audit · piezo/magnetic integration · switching · serviceability</td></tr>
+<tr><th>Evidence</th><td>manufacturer datasheets/manuals · current product pages · historical review · circuit application notes · owner-community secondary evidence</td></tr>
+<tr><th>Verification rule</th><td>current specification / historical implementation / RavenForge engineering inference를 분리하고, 불확실한 topology는 추정하지 않음</td></tr>
+<tr><th>RavenForge link</th><td>B03 passive architecture → A06 active architecture → B06 verified routing architecture → A07 headroom/power</td></tr>
+<tr><th>Status</th><td>Deep-research verification revision · literature/technical synthesis complete · prototype measurement pending</td></tr>
+<tr><th>Date</th><td>2026-09-19</td></tr></tbody></table>
+<h2 id="section-1">1. 연구 질문과 검증 개정의 목적</h2>
+<p>B06의 핵심 질문은 단순하다. 악기 내부 전자계를 항상 <code>Pickup → Volume → Preamp/EQ → Output</code>이라는 하나의 직렬 chain으로 설명해야 하는가? 심층 자료 검증 결과, 그렇게 일반화할 근거는 없다. 서로 다른 source는 서로 다른 input boundary를 요구할 수 있고, mode switch는 branch를 선택·우회·병합하며, 일부 state는 reference path를 별도로 만든다.</p>
+<p>이번 개정은 기존 B06의 설계 프레임을 유지하되, <strong>제조사 공식 사실 / 역사적 구현 / 사용자 커뮤니티 증언 / RavenForge의 engineering synthesis</strong>를 분리한다. 또한 “10 MΩ이 모든 piezo의 정답”, “25 kΩ이 모든 active pickup의 정답”, “현행 Eshtronic도 과거와 동일한 4-state routing”처럼 자료 범위를 넘어서는 문장은 제거하거나 조건부로 수정한다.</p>
+<h2 id="section-2">2. 조사 방법과 Source Hierarchy</h2>
+<div class="table-scroll"><table class="comparison"><thead><tr><th>Level</th><th>자료 유형</th><th>B06에서의 사용 방식</th></tr></thead><tbody>
+<tr><td>A</td><td>제조사 datasheet / installation manual / current product page</td><td>수치·현재 사양의 1차 근거</td></tr>
+<tr><td>B</td><td>전문 technical application note / circuit theory</td><td>source impedance, switching, conditioning 원리 검증</td></tr>
+<tr><td>C</td><td>당시 제품 리뷰 / archive</td><td>역사적 Eshtronic 구현을 세대 한정 사례로 사용</td></tr>
+<tr><td>D</td><td>Bassic / TalkBass owner testimony</td><td>반복되는 historical description의 보조 근거만 제공</td></tr>
+<tr><td>E</td><td>RavenForge synthesis</td><td>routing taxonomy와 specification framework; 제조사 사실로 표현하지 않음</td></tr>
 </tbody></table></div>
-<p>이 구분은 이후 ASKR에서 특히 중요하다. active pickup을 사용하는 악기에서 Tone Capsule을 우회했다고 해서 그 상태를 “passive”라 부르면 electrical boundary를 잘못 설명하게 된다.</p>
-<h2 id="section-5">5. Routing Primitive — select, condition, merge, bypass, split을 분리한다</h2>
-<p>B06은 복잡한 회로를 다섯 개의 primitive로 분해한다. <strong>Select</strong>는 source를 선택한다. <strong>Condition</strong>은 source가 보게 될 Zin, gain, bias와 Zout을 정의한다. <strong>Merge</strong>는 두 source를 합친다. <strong>Bypass</strong>는 특정 stage를 제외한다. <strong>Split</strong>은 내부에서 합치지 않고 별도 output으로 내보낸다.</p>
-<p>같은 rotary switch라도 이 다섯 기능 중 무엇을 하는지에 따라 의미가 달라진다. “4-way mode”라는 UI 정보만으로 회로를 설명할 수 없고, 각 position이 어떤 edge를 연결하고 어떤 node를 고립시키는지 state table로 기록해야 한다.</p>
-<h2 id="section-6">6. ESH / Eshtronic — 현재 공식 사양과 과거 routing evidence를 분리한다</h2>
-<p>현재 Esh Stinger II 공식 사양은 4현에서 EMG 35DC 두 개, 5현에서 40DC 두 개, Volume, Tone, Pickup selector, Mode selector, active Esh-tronic special electronics와 Esh Custom piezo bridge를 명시한다 [2]. Esh 홈페이지 역시 Eshtronic과 독자적 piezo system을 브랜드의 핵심 innovation으로 소개한다 [3].</p>
-<p>하지만 현재 공식 제품 페이지는 각 Mode Selector position의 내부 routing을 공개하지 않는다. 반면 과거 Stinger 리뷰에는 2006년 개정 Eshtronic의 4개 mode가 구체적으로 기술되어 있다 [4]. 따라서 B06은 이 routing을 <strong>historical documented implementation</strong>으로 사용하되, 현행 Stinger II가 내부적으로 완전히 동일하다고 단정하지 않는다. 세대별 회로도와 사용자 자료는 [11–12]에서 추가로 확인되지만 제조사 회로 문서와 같은 증거 수준으로 취급하지 않는다.</p>
-<h2 id="section-7">7. Historical Eshtronic State Map — Mode Selector가 실제 signal graph를 바꾼 사례</h2>
-<p>문서화된 과거 Eshtronic에서는 Position 1이 Direct/Studio로 선택된 active EMG pickup을 volume, tone 및 별도 preamp/control path 없이 output으로 보냈다. Position 2는 선택 magnetic pickup에 Volume/Tone을 적용했고, Position 3은 magnetic과 bridge piezo를 함께 사용하며 Volume/Tone을 거쳤다. Position 4는 piezo만 Volume/Tone을 통해 출력했다 [4].</p>
-<figure><a href="assets/figure-02.svg"><img src="assets/figure-02.svg" alt="Historical Eshtronic state map"></a></figure><p class="caption"><em>Figure 2. 과거 리뷰에 기록된 Eshtronic routing 개념도. 현재 제품의 동일성을 주장하는 도면이 아니라, 한 개의 Mode Selector가 signal graph 자체를 재구성한 역사적 사례다.</em></p>
-<p>이 사례가 중요한 이유는 “active/passive switch”가 아니라 <strong>reference path, controlled magnetic path, merged path, piezo-only path</strong>를 하나의 state machine으로 묶었다는 점이다. RavenForge가 참고할 것은 특정 4-position 배선을 복제하는 것이 아니라, source와 control의 ownership을 mode별로 명시하는 설계 방식이다.</p>
-<h2 id="section-8">8. Studio/Direct는 Passive가 아니다 — active pickup의 source electronics는 남아 있다</h2>
-<p>과거 Eshtronic의 Direct/Studio state를 “passive”라고 부르는 것은 부정확하다. 해당 리뷰는 active EMG를 source로 명시하며 [4], EMG의 35DC/40DC 공식 문서는 pickup 자체가 전원을 쓰고 10 kΩ output impedance를 갖는다고 공개한다 [5]. 후단 control board를 우회해도 pickup 내부 preamp는 그대로 동작한다.</p>
-<table class="callout"><tbody><tr><td><p><strong>Terminology rule</strong><br>Active pickup → controls bypass → jack = <strong>Direct-source reference</strong>. “Passive mode”라는 표현은 pickup 자체와 후단 active stage가 모두 passive boundary로 되돌아갈 때만 사용한다.</p></td></tr></tbody></table>
-<p>이 구분은 tone의 우열을 말하기 위한 것이 아니다. 어떤 electrical boundary를 comparison baseline으로 삼았는지를 재현 가능하게 기록하기 위한 것이다.</p>
-<h2 id="section-9">9. Piezo Boundary — 높은 input impedance가 왜 branch 설계의 출발점인가</h2>
-<p>단순화한 voltage-source model에서 piezo의 series capacitance를 <code>Cp</code>, 다음 stage input resistance를 <code>Rin</code>이라 두면 저역 경계는 대략 <code>fc ≈ 1/(2π·Rin·Cp)</code> 형태로 이동한다. 이것은 실제 piezo의 모든 loss와 mechanical resonance를 설명하는 완전한 모델은 아니지만, Rin이 낮아질수록 low-frequency loading이 커지는 방향을 명확하게 보여준다 [8–9].</p>
-<div class="table-scroll"><table class="comparison"><thead><tr><th>Illustrative Cp</th><th>Rin = 1 MΩ</th><th>Rin = 10 MΩ</th><th>주의</th></tr></thead><tbody><tr><td>5 nF</td><td>약 31.8 Hz</td><td>약 3.18 Hz</td><td>예시값이며 Esh bridge 실측값이 아님</td></tr><tr><td>10 nF</td><td>약 15.9 Hz</td><td>약 1.59 Hz</td><td>실제 bridge/preamplifier network는 더 복잡함</td></tr></tbody></table></div>
-<p>따라서 piezo branch의 첫 specification은 “piezo를 쓴다”가 아니라 <strong>sensor capacitance/출력 구조, pickup-facing Zin, buffer placement, gain과 output impedance</strong>가 되어야 한다.</p>
-<h2 id="section-10">10. Mixing — blend는 노브가 아니라 source isolation과 summing의 문제다</h2>
-<p>서로 다른 source를 한 node에 연결하면 각 source의 output impedance와 control network가 상대 source를 load할 수 있다. 이 때문에 “50:50 blend”라는 knob position만으로 실제 electrical mix를 정의할 수 없다. EMG B125는 두 input에 buffer를 두어 passive/passive, active/active, active/passive source를 혼합할 수 있다고 공식 설명한다 [6]. 이것은 mix 이전의 isolation이 architecture를 바꾸는 명확한 사례다.</p>
-<p>RavenForge에서 magnetic + piezo mix를 설계할 때는 <strong>source-specific conditioning → defined gain → summing</strong> 순서를 기본 검토안으로 삼는다. Piezo가 반드시 active summing이어야 한다는 절대 규칙은 아니지만, 서로 다른 source domain을 무정의 상태로 passive-parallel 연결하는 것은 피한다.</p>
-<h2 id="section-11">11. Control Placement — 같은 Volume/Tone도 어느 node에 있느냐에 따라 다른 회로다</h2>
-<p>Volume/Tone은 UI 이름이 같아도 source 앞·뒤, mix 전·후, buffer 전·후에 따라 loading과 control interaction이 달라진다. EMG B125는 low-Z output 뒤에 기존 250/500 kΩ control보다 25 kΩ control을 사용하도록 명시한다 [6]. BQS-HZ 문서도 ABC, EQ, Master Volume의 wiring order를 제시하면서 master volume과 EQ의 순서를 바꿀 수 있다고 설명한다 [7].</p>
-<p>따라서 B06에서는 control을 <strong>ownership</strong>과 <strong>position</strong>으로 기록한다. 예를 들어 “Tone”이 magnetic branch만 제어하는지, piezo도 포함한 merged bus를 제어하는지, direct reference에서는 제외되는지를 state별로 명시한다. 이것이 knob label보다 중요하다.</p>
-<h2 id="section-12">12. Split Output — 내부 mix와 별도 source 출력은 서로 다른 design objective다</h2>
-<p>일부 과거 Stinger II에 normal output과 direct piezo output이 별도로 존재했다는 사용자 기록이 있다 [11]. 이는 현재 전 제품의 공식 사양으로 일반화할 수 없지만, split-output architecture가 실제 연주/레코딩 workflow에서 어떤 의미를 갖는지 보여주는 사례다.</p>
-<p>Split output은 FOH나 recording에서 magnetic과 piezo를 외부에서 독립 processing할 수 있게 하지만 jack 수, switching, grounding, user error와 stage setup 복잡도를 늘린다. 반대로 internal merge는 사용자 조작이 단순해지는 대신 외부에서 source별 processing freedom을 잃는다. RavenForge에서는 “더 많은 output이 더 고급”이라는 기준을 버리고 사용 시나리오를 먼저 정의한다.</p>
-<h2 id="section-13">13. Switching Transient와 State Transition — mode 수가 늘수록 전환 자체를 설계해야 한다</h2>
-<p>Routing state가 서로 다른 bias point나 charged capacitance를 연결하면 switching 순간 transient가 발생할 수 있다. Analog Devices는 audio switch에서 click/pop을 줄이기 위해 break-before-make와 shunt discharge 같은 구조를 사용하는 사례를 설명한다 [10]. 악기 내부 mechanical rotary switch가 동일한 솔루션을 써야 한다는 뜻은 아니지만, “신호가 연결되기만 하면 된다”는 접근이 충분하지 않음을 보여준다.</p>
-<p>RavenForge validation에서는 mode별 steady-state frequency response뿐 아니라 <strong>전환 시 pop/click, level jump, mute interval, battery on/off state</strong>를 별도 항목으로 둔다. 실제 transient 크기는 prototype measurement로 남긴다.</p>
-<h2 id="section-14">14. Serviceability — 복잡한 routing은 기능 수가 아니라 진단 가능성으로 평가한다</h2>
-<p>Mode selector 하나에 많은 기능을 압축하면 외형은 단순해질 수 있지만 내부 fault isolation은 어려워진다. pickup source, piezo buffer, mode switch, volume/tone, merge node, output driver 중 어디에서 문제가 생겼는지 분리할 test node와 state table이 없으면 serviceability가 급격히 떨어진다.</p>
-<p>B06은 각 state에 대해 <code>selected source → active stage → controls → output</code>을 한 줄로 기록하고, 전원 상실 시 어떤 branch가 살아남는지도 기록한다. 사용자에게도 mode naming을 직관적으로 제공해야 하며, 제작자는 cavity 안에서 각 branch를 probe할 수 있어야 한다.</p>
-<h2 id="section-15">15. Internal Routing Taxonomy — RavenForge가 사용할 다섯 가지 기본 구조</h2>
-<div class="table-scroll"><table class="comparison"><thead><tr><th>Type</th><th>정의</th><th>장점</th><th>위험</th></tr></thead><tbody>
-<tr><td>Sequential</td><td>모든 source가 동일 stage chain 통과</td><td>단순, 서비스 용이</td><td>서로 다른 source boundary를 강제로 통일할 수 있음</td></tr>
-<tr><td>Direct-reference</td><td>후단 controls를 우회하는 기준 branch</td><td>A/B baseline, fault isolation</td><td>“passive”로 오기 쉬움, level mismatch 가능</td></tr>
-<tr><td>Source-specific parallel</td><td>source별 conditioning/filter branch</td><td>domain 최적화</td><td>부품/배선 증가</td></tr>
-<tr><td>Selectable merge</td><td>조건부로 branch들을 한 bus에 합침</td><td>single-output flexibility</td><td>gain/phase/state 관리 필요</td></tr>
-<tr><td>Split-output</td><td>source를 별도 jack/connector로 출력</td><td>외부 processing 자유</td><td>운용 복잡도 증가</td></tr>
+<p>심층 조사 중 B06과 직접 관련 없는 Stenback 자료가 검색 결과에 섞였지만, 내부 routing/electronics 검증 근거로는 채택하지 않았다. 관련성이 없는 자료를 근거 목록에서 배제하는 것도 evidence hygiene의 일부다.</p>
+<h2 id="section-3">3. Executive Verification Summary — 핵심 주장별 상태</h2>
+<div class="table-scroll"><table class="comparison"><thead><tr><th>주장</th><th>Status</th><th>검증 결과</th></tr></thead><tbody>
+<tr><td>EMG 35/40-series active bass pickups의 output impedance는 10 kΩ이다</td><td>Confirmed</td><td>EMG 공식 35/40 datasheet에서 확인 [5–6]</td></tr>
+<tr><td>ESH의 현행 Stinger 계열은 Eshtronic, Mode Selector, piezo bridge를 사용한다</td><td>Confirmed / option-dependent</td><td>ESH 공식 product pages에서 확인하되 세부 pickup 구성은 model/string-count option별로 기록 [2–3]</td></tr>
+<tr><td>과거 Eshtronic에는 Direct/Studio, magnetic+controls, magnetic+piezo, piezo-only 성격의 4-state 구현이 있었다</td><td>Partially confirmed</td><td>당시 리뷰와 복수 owner description이 일치하지만 현행 회로와 동일하다는 공식 근거는 없음 [4,11–12]</td></tr>
+<tr><td>EMG-equipped Studio/Direct state를 passive라고 부를 수 있다</td><td>Contradicted</td><td>pickup 내부 active electronics가 남으므로 direct-source reference가 더 정확함 [5–6]</td></tr>
+<tr><td>Piezo는 high-Z input이 중요하다</td><td>Confirmed</td><td>TI와 Fishman 자료가 원리를 지지 [8–9]</td></tr>
+<tr><td>모든 passive piezo에 정확히 10 MΩ이 필요하다</td><td>Contradicted as universal claim</td><td>10 MΩ은 특정 Fishman source의 권장값; 일반 원리는 source/network-specific high-Z matching</td></tr>
+<tr><td>B125는 pickup별 input buffer로 active/passive source 혼합을 지원한다</td><td>Confirmed</td><td>EMG 공식 시스템 문서 [7]</td></tr>
+<tr><td>일부 Esh에 separate/direct piezo output이 존재했다</td><td>Unverified for general use</td><td>owner-community evidence는 있으나 전 세대/현행 사양으로 일반화 불가 [11–12]</td></tr>
 </tbody></table></div>
-<h2 id="section-16">16. RavenForge Internal Routing Specification Bundle</h2>
-<p>A06의 electronics specification bundle에 B06은 graph/state 정보를 추가한다. 부품명을 기록하는 것만으로는 routing을 재현할 수 없으므로 아래 항목을 prototype spec의 필수 필드로 둔다.</p>
-<table class="meta"><tbody>
-<tr><th>Source domain</th><td>passive magnetic / active magnetic / piezo / auxiliary, source Z(f), nominal level</td></tr>
-<tr><th>Conditioning</th><td>pickup-facing Zin, gain, buffer location, Zout</td></tr>
-<tr><th>Routing state</th><td>switch position별 connected/disconnected branch</td></tr>
-<tr><th>Control ownership</th><td>각 volume/tone/filter가 어느 source/bus를 제어하는가</td></tr>
-<tr><th>Merge</th><td>passive parallel / buffered blend / active summing / none</td></tr>
-<tr><th>Reference state</th><td>passive / active-flat / direct-source / shaped</td></tr>
-<tr><th>Power dependency</th><td>9/18 V 상실 시 surviving path와 mute/failure behavior</td></tr>
-<tr><th>Output</th><td>main/split, Zout, jack switching, recommended load</td></tr>
-<tr><th>Transition</th><td>break/make behavior, click/pop, level jump, mute interval</td></tr>
-<tr><th>Validation</th><td>state별 response, level, noise, transient, test node와 acceptance criteria</td></tr>
-</tbody></table>
-<figure><a href="assets/figure-03.svg"><img src="assets/figure-03.svg" alt="RavenForge internal routing specification bundle"></a></figure><p class="caption"><em>Figure 3. RavenForge B06 specification bundle. 핵심은 부품 목록이 아니라 source부터 output까지의 graph와 state를 문서화하는 것이다.</em></p>
-<h2 id="section-17">17. ASKR · EMBLA · EDDA 적용 — 같은 “active electronics”라도 routing 목표가 다르다</h2>
-<h3>ASKR</h3><p>ASKR의 EMG 45TW 계열처럼 source 자체가 active인 구조에서는 Tone Capsule bypass를 true passive로 부르지 않는다. 가장 유용한 reference는 <strong>selected active pickup(s) → direct-source output</strong>과 <strong>selected pickup(s) → Tone Capsule → output</strong>의 A/B state다. TW의 coil-mode switching과 EQ bypass는 서로 다른 state dimension으로 문서화해야 한다.</p>
-<h3>EMBLA</h3><p>EMBLA가 passive pickup source와 ZUTA Bass Core를 조합하는 경우, pickup interaction을 preamp 앞에서 남길지 pickup별 buffer 이후에 blend할지부터 결정해야 한다. 3-pickup option을 열어 둘 경우에는 “preamp 호환”보다 branch count, selector logic, gain matching과 serviceability가 먼저다.</p>
-<h3>EDDA</h3><p>EDDA의 2 Volume / 2 Filter 개념은 B06의 source-specific parallel architecture와 직접 연결된다. 각 pickup의 filter를 summing 이전에 독립 branch로 둘 경우 global EQ와 다른 interaction이 생긴다. Alembic/Wal의 외형적 control count를 복제하는 것이 아니라 <strong>per-source processing before merge</strong>라는 원리를 명시적으로 설계하고 검증한다.</p>
-<h2 id="section-18">18. Claim-by-Claim Evidence Matrix</h2>
-<div class="table-scroll"><table class="comparison"><thead><tr><th>주장</th><th>근거</th><th>Evidence level</th><th>경계</th></tr></thead><tbody>
-<tr><td>현행 Stinger II는 magnetic + piezo + mode selector architecture를 사용한다</td><td>ESH 공식 사양 [2–3]</td><td>High</td><td>현재 page는 mode별 내부 routing 미공개</td></tr>
-<tr><td>과거 2006-revised Eshtronic에는 Direct/controlled/merged/piezo-only state가 있었다</td><td>당시 리뷰 [4]</td><td>Medium–High</td><td>현행 회로 동일성은 미확인</td></tr>
-<tr><td>35DC/40DC direct state는 passive가 아니다</td><td>EMG active pickup 사양 [5]</td><td>High</td><td>해당 pickup 기준</td></tr>
-<tr><td>piezo source는 high-Z input conditioning을 요구할 수 있다</td><td>TI/Fishman [8–9]</td><td>High</td><td>정확한 Rin은 sensor/network별 결정</td></tr>
-<tr><td>per-input buffer는 source 간 direct loading을 줄이고 active/passive mix를 가능하게 할 수 있다</td><td>EMG B125 [6]</td><td>High</td><td>B125 구현에 직접 확인되는 특성</td></tr>
-<tr><td>audio state switching은 click/pop transient를 고려해야 한다</td><td>Analog Devices [10]</td><td>High</td><td>RavenForge prototype effect size는 미측정</td></tr>
-<tr><td>일부 과거 Stinger II에 direct piezo second output이 있었다</td><td>owner-community 기록 [11]</td><td>Low–Medium</td><td>모든 세대/현행 모델로 일반화 금지</td></tr>
+<h2 id="section-4">4. State-dependent Routing Graph — B06의 중심 모델</h2>
+<p>검증 결과는 B06의 핵심 abstraction을 지지한다. 다만 <strong>state-dependent routing graph</strong>는 ESH나 EMG가 사용하는 공식 용어가 아니라 RavenForge가 여러 회로 사례를 설명하기 위해 도입한 engineering model이다. 이 모델에서 source, conditioning node, control, merge point, bypass branch와 output은 graph의 node/edge로 기록되며 switch state가 실제 경로를 결정한다.</p>
+<figure><a href="assets/figure-01.svg"><img src="assets/figure-01.svg" alt="Linear chain and state-dependent routing graph"></a></figure>
+<p class="caption"><em>Figure 1. B06 synthesis. Source-specific conditioning, direct-reference branch와 selectable merge가 존재하면 하나의 직렬 chain보다 state-dependent graph가 더 정확한 문서화 형식이 된다.</em></p>
+<h2 id="section-5">5. Source Domains — passive magnetic, active magnetic, piezo를 분리하는 근거</h2>
+<p>Passive magnetic pickup은 pickup의 Z(f)와 외부 pot/cable/input load가 직접 결합되는 source다. 반면 EMG 35/40-series active pickup은 전원과 내부 electronics를 사용하고 공식 output impedance가 10 kΩ으로 제시된다 [5–6]. 이 둘은 같은 “magnetic pickup”이라도 downstream loading에 대한 경계조건이 다르다.</p>
+<p>Piezo는 또 다른 경우다. TI는 piezo sensor의 높은 source impedance를 전제로 high-input-impedance JFET/CMOS front end를 다룬다 [9]. Fishman의 특정 passive piezo guidance에서는 10 MΩ에서 full response가 가장 잘 유지되고 1 MΩ에서도 사용 가능하나 bass가 다소 roll-off될 수 있다고 설명한다 [8]. 따라서 RavenForge는 source type을 단순 pickup 분류가 아니라 <strong>source Z, level, required Zin, buffering need</strong>로 기록한다.</p>
+<h2 id="section-6">6. ESH / Eshtronic — 현재 사양과 역사적 routing을 분리한다</h2>
+<p>현행 ESH product pages는 Stinger 계열에 Volume, Tone, Pickup Selector, Mode Selector, Esh-tronic active electronics와 Esh Custom piezo bridge가 존재함을 확인하는 데 사용할 수 있다 [2–3]. 다만 특정 모델·현수·옵션의 EMG 조합은 해당 option page에서 개별 확인해야 한다.</p>
+<p>반면 4-state routing의 상세는 historical evidence다. 과거 리뷰와 owner reports에서는 Studio/Direct, magnetic with controls, magnetic + piezo, piezo-only로 설명되는 구현이 반복적으로 나타난다 [4,11–12]. 이 일치는 역사적 implementation의 존재 가능성을 강하게 지지하지만, <strong>현행 Stinger II의 내부 switching topology가 동일하다는 공식 증거는 아니다.</strong></p>
+<figure><a href="assets/figure-02.svg"><img src="assets/figure-02.svg" alt="Historical Eshtronic routing map"></a></figure>
+<p class="caption"><em>Figure 2. Historical implementation model. 현행 Eshtronic의 공식 회로도로 제시하는 것이 아니라, 문서화된 과거 state description을 graph로 재구성한 것이다.</em></p>
+<h2 id="section-7">7. Studio/Direct — “Passive”가 아니라 Direct-source Reference</h2>
+<p>EMG-equipped configuration에서 Studio/Direct를 passive라 부르는 것은 맞지 않는다. Volume/Tone 또는 후단 board를 우회하더라도 EMG pickup 내부의 active electronics와 low-Z output condition은 남는다 [5–6]. 따라서 B06은 이를 <strong>Direct-source reference</strong>로 명명한다.</p>
+<table class="callout"><tbody><tr><td><p><strong>Terminology boundary</strong><br>Active pickup → downstream controls bypassed → jack = Direct-source reference. True passive라고 부르려면 해당 source 자체와 후단 boundary가 실제 passive network로 돌아가야 한다.</p></td></tr></tbody></table>
+<p>단, 과거 Eshtronic의 모든 세대가 EMG active pickup만 사용했다고 일반화해서는 안 된다. Bartolini 등 다른 source가 사용된 historical configuration은 그 source의 실제 electrical architecture를 별도로 확인해야 한다.</p>
+<h2 id="section-8">8. Piezo Boundary — 1 MΩ과 10 MΩ을 어떻게 읽어야 하는가</h2>
+<p>Fishman의 10 MΩ 권장은 “모든 piezo는 반드시 10 MΩ”이라는 universal rule이 아니다. 특정 passive piezo system에서 10 MΩ input이 full response를 가장 잘 보존하고 1 MΩ에서는 bass roll-off가 생길 수 있다는 manufacturer guidance다 [8]. 일반화 가능한 부분은 <strong>piezo source capacitance와 input resistance가 저역 boundary를 형성하므로 충분히 높은 Zin이 중요하다</strong>는 점이다 [9].</p>
+<p>단순 모델에서 <code>fc ≈ 1/(2π·Rin·Cp)</code>로 방향성을 볼 수 있지만, B06의 5 nF/10 nF 예시는 RavenForge의 illustrative calculation일 뿐 Esh piezo의 실측 capacitance가 아니다. 실제 설계값은 sensor/bridge network를 측정한 뒤 정해야 한다.</p>
+<h2 id="section-9">9. Mixing과 B125 — Blend knob가 아니라 isolation architecture</h2>
+<p>EMG B125 documentation은 각 pickup input에 buffer를 두고 passive/passive, active/active, active/passive source 조합을 지원한다고 설명한다 [7]. 이는 mixing 전에 source를 isolation하는 구조가 실제 commercial implementation에 존재한다는 강한 근거다.</p>
+<p>따라서 B06은 magnetic + piezo mixing을 단순 “50:50 blend”로 표현하지 않는다. source별 conditioning, gain, polarity/phase relation, summing node를 분리해 기록한다. 다만 B125가 모든 magnetic+piezo 조합의 정답이라는 의미는 아니며, piezo의 required Zin이 B125 input 조건과 맞는지는 별도 검토가 필요하다.</p>
+<h2 id="section-10">10. Control Placement — 25 kΩ 규칙을 과잉 일반화하지 않는다</h2>
+<p>EMG의 BTC-HZ/B125 시스템 문서는 low-output-impedance active control 뒤에서 25 kΩ Volume을 사용하고 기존 250/500 kΩ Volume/Tone을 사용하지 말라고 지시한다 [7]. 이는 <strong>해당 low-Z system</strong>에 대한 공식 wiring rule이다.</p>
+<p>따라서 “active pickup에는 무조건 25 kΩ”, “250/500 kΩ을 쓰면 반드시 loading imbalance가 발생한다”라고 일반화해서는 안 된다. pot value는 source Z, circuit topology, noise objective와 제조사 권장에 따라 정해야 한다. B06의 설계 원칙은 값 자체가 아니라 <strong>buffer 전/후, mix 전/후 어디에 control이 놓이는지</strong>를 기록하는 것이다.</p>
+<h2 id="section-11">11. Switching Transient — state 전환도 회로 동작이다</h2>
+<p>Analog Devices의 audio-switch 자료는 charge injection, DC offset 차이, break-before-make, shunt discharge가 click/pop에 영향을 줄 수 있음을 설명한다 [10]. 이 원리는 B06의 mode-switching validation 항목을 지지한다.</p>
+<p>하지만 이것이 현행 Eshtronic에서 특정 switch IC나 특정 anti-pop topology를 사용한다는 뜻은 아니다. ESH의 switch contact scheme은 미공개로 남겨 두고, RavenForge prototype에서는 <strong>steady-state response와 별개로 transition transient를 측정</strong>한다.</p>
+<h2 id="section-12">12. Split Output — 사실과 owner testimony의 경계</h2>
+<p>일부 과거 Esh/Stinger 사용자 자료에는 normal output과 direct piezo output을 함께 언급하는 사례가 있다 [11–12]. 그러나 제조사 current specification으로 충분히 고정할 1차 근거는 확보되지 않았다.</p>
+<p>따라서 B06에서 split-output은 “ESH의 보편적 사양”이 아니라 <strong>실제 악기 설계에서 가능한 routing primitive</strong>로만 사용한다. RavenForge가 이를 채택할 경우 별도 jack, grounding, cable workflow, stage/recording 목적을 자체 설계 요구사항으로 정당화해야 한다.</p>
+<h2 id="section-13">13. RavenForge Routing Taxonomy — 유용한 synthesis와 한계</h2>
+<div class="table-scroll"><table class="comparison"><thead><tr><th>Type</th><th>정의</th><th>근거/용도</th><th>한계</th></tr></thead><tbody>
+<tr><td>Sequential</td><td>모든 source가 공통 chain 통과</td><td>기본 topology 설명</td><td>서로 다른 source boundary를 숨길 수 있음</td></tr>
+<tr><td>Direct-reference</td><td>일부 controls/stages 우회</td><td>ESH historical case와 reference A/B</td><td>“passive”와 혼동 위험</td></tr>
+<tr><td>Source-specific parallel</td><td>source별 독립 conditioning/filter</td><td>piezo/magnetic, EDDA-like branch 설명</td><td>부품·배선·gain matching 증가</td></tr>
+<tr><td>Selectable merge</td><td>state에 따라 branch 병합</td><td>mode-based internal mixing 설명</td><td>phase/level/transient 관리 필요</td></tr>
+<tr><td>Split-output</td><td>source별 독립 output</td><td>외부 processing workflow</td><td>사용 복잡도 증가</td></tr>
 </tbody></table></div>
-<h2 id="section-19">19. 연구 경계와 다음 회차 — topology를 확정하고 headroom 측정은 넘긴다</h2>
-<p>B06은 internal routing의 topology, source boundary, reference state와 state documentation까지 다룬다. 각 branch의 maximum signal swing이나 clipping margin은 A07 — <strong>9 V vs. 18 V: Headroom and Dynamic Range</strong>에서 공급전압, bias, rail margin, gain, load와 함께 분리해 다룬다.</p>
-<p>C03에서는 preamp/filter frequency-response mapping, C04에서는 9/18 V headroom, THD+N과 clipping threshold를 실제 prototype에서 측정한다. B06에서 제안한 mode transition의 click/pop과 state별 level difference도 measurement protocol에 포함시키되, 아직 effect size를 주장하지 않는다.</p>
-<h2 id="section-20">20. Source Status / Interpretation Boundary</h2>
-<p>현행 ESH 제품 구조는 제조사 공식 page를 우선한다 [2–3]. Mode Selector의 정확한 state map은 현재 공식 page에서 공개되지 않았으므로 과거 리뷰 [4]를 역사적 사례로 사용한다. Bassic/TalkBass [11–12]의 회로·사용 경험은 세대 차이를 추적하는 데 유용하지만 1차 manufacturer specification이 아니며 증거 수준을 낮게 둔다.</p>
-<p>또한 piezo의 실제 capacitance, Esh Custom bridge의 내부 buffer topology, 현행 Eshtronic의 gain distribution과 switch contact scheme은 공개 근거 없이 추정하지 않는다. RavenForge model application은 설계 제안이며 실제 회로도와 prototype measurement로 후속 검증해야 한다.</p>
-<h2 id="section-21">21. 현재 결론 — Internal electronics는 “회로 한 줄”이 아니라 명시적인 state machine이다</h2>
-<table class="callout"><tbody><tr><td><p><strong>Current conclusion</strong><br>An instrument’s internal signal path should be specified as a state-dependent graph in which each source has an explicit electrical boundary, each control has a defined ownership and position, and every bypass/direct/merge state has a reproducible reference meaning.</p></td></tr></tbody></table>
-<p>ESH에서 RavenForge가 가져올 가치가 있는 것은 특정 4-way rotary 배선을 복제하는 것이 아니다. 중요한 것은 source별 경계를 나누고, 필요하면 direct reference를 만들며, piezo와 magnetic을 선택적으로 합치거나 분리하는 <strong>routing architecture의 사고방식</strong>이다. 반대로 mode가 많아질수록 user state visibility, transition noise, level consistency와 serviceability를 specification으로 끌어와야 한다. B06 이후 RavenForge의 electronics 문서는 “무슨 부품을 넣었는가”보다 “어떤 state에서 신호가 어디를 통과하는가”를 먼저 기록한다.</p>
+<p>이 다섯 분류는 표준 전자공학 taxonomy가 아니라 RavenForge documentation tool이다. 목적은 우열을 매기는 것이 아니라 schematic과 user state를 추적 가능한 언어로 만드는 것이다.</p>
+<h2 id="section-14">14. Correction Required — 기존 초안에서 수정할 표현</h2>
+<div class="table-scroll"><table class="comparison"><thead><tr><th>기존 표현/위험</th><th>수정</th></tr></thead><tbody>
+<tr><td>“현행 Eshtronic의 4-state routing은 과거와 동일하다”</td><td>삭제. Historical implementation과 current specification을 분리.</td></tr>
+<tr><td>“Studio mode = passive”</td><td>EMG-equipped configuration에서는 Direct-source reference로 수정.</td></tr>
+<tr><td>“Piezo는 10 MΩ 이상이 필요하다”</td><td>“High Zin이 중요하며 10 MΩ은 특정 Fishman example의 권장값”으로 수정.</td></tr>
+<tr><td>“Active pickup은 25 kΩ control을 써야 한다”</td><td>제품별 topology에 따라 다름. 25 kΩ은 EMG low-Z system 문맥으로 한정.</td></tr>
+<tr><td>“1 MΩ이면 수백 Hz에서 -3 dB” 같은 고정 예상치</td><td>삭제. Cp와 network를 측정하지 않은 상태에서 예측하지 않음.</td></tr>
+<tr><td>“Split piezo output은 Stinger II의 일반 사양”</td><td>삭제. owner testimony 기반 historical/variant possibility로 한정.</td></tr>
+<tr><td>관련 없는 Stenback 자료</td><td>B06 evidence set에서 제외.</td></tr>
+</tbody></table></div>
+<h2 id="section-15">15. RavenForge 모델 적용 — 사실이 아니라 설계 제안으로 명시한다</h2>
+<h3>ASKR</h3><p>ASKR의 active EMG source + Tone Capsule 구성에서는 EQ bypass를 passive라 부르지 않는다. <strong>Direct-source reference vs EQ path</strong>를 비교 가능한 두 state로 설계하는 것이 합리적이다. 다만 실제 level matching, switching transient와 battery-failure behavior는 prototype에서 검증해야 한다.</p>
+<h3>EMBLA</h3><p>Passive pickup + onboard preamp 구조에서는 pickup interaction을 preamp 앞에서 보존할지, pickup별 isolation 뒤에 blend할지를 먼저 결정한다. 3-pickup option을 고려한다면 selector logic, branch count, gain/polarity consistency, service access를 specification에 포함한다.</p>
+<h3>EDDA</h3><p>2 Volume / 2 Filter 구상은 per-source processing before merge라는 source-specific parallel architecture로 정리할 수 있다. 이는 Alembic/Wal을 복제했다는 사실 주장이 아니라 RavenForge의 설계 방향이다. 실제 filter law, interaction과 summing loss는 후속 회로/측정 단계에서 결정한다.</p>
+<h2 id="section-16">16. Prototype Measurement Protocol — 검증해야 할 것</h2>
+<div class="table-scroll"><table class="comparison"><thead><tr><th>항목</th><th>측정</th><th>목적</th></tr></thead><tbody>
+<tr><td>Source / input boundary</td><td>Zin sweep, source Z(f), piezo capacitance/equivalent response</td><td>branch별 conditioning 적합성 확인</td></tr>
+<tr><td>State response</td><td>mode별 gain/frequency response</td><td>Direct/controlled/merged state 차이 정량화</td></tr>
+<tr><td>Level matching</td><td>magnetic/piezo/merged output RMS &amp; peak</td><td>mode jump와 summing balance 확인</td></tr>
+<tr><td>Switch transient</td><td>oscilloscope/audio capture의 click/pop peak와 duration</td><td>state transition quality 검증</td></tr>
+<tr><td>Noise</td><td>mode별 output noise, bandwidth 명시</td><td>buffer/routing penalty 확인</td></tr>
+<tr><td>Power failure</td><td>battery sag/removal state</td><td>어떤 branch가 mute/fail/survive하는지 기록</td></tr>
+<tr><td>Serviceability</td><td>test node access와 fault isolation</td><td>실제 유지보수 가능성 검증</td></tr>
+</tbody></table></div>
+<p>측정 전에는 “Studio mode에서 몇 dB 상승”, “1 MΩ에서 정확히 어느 주파수부터 roll-off” 같은 effect size를 예측값처럼 기록하지 않는다.</p>
+<h2 id="section-17">17. 현재 결론 — 부품 목록보다 boundary와 state를 먼저 기록한다</h2>
+<table class="callout"><tbody><tr><td><p><strong>Verified B06 conclusion</strong><br>Internal instrument electronics are best documented as a state-dependent signal graph when sources, controls and reference paths do not share one fixed serial chain. Manufacturer facts define the electrical boundaries; historical evidence defines only generation-specific examples; RavenForge synthesis defines the design language.</p></td></tr></tbody></table>
+<p>심층 검증 후에도 B06의 방향은 유지된다. 다만 설계 언어와 제품 사실을 더 엄격하게 분리해야 한다. ESH에서 얻는 핵심은 “4-way switch를 그대로 복제하자”가 아니라, <strong>source마다 필요한 boundary를 분리하고, reference state를 명시하고, merge/split을 의도적으로 설계하며, 사용자가 현재 state를 이해할 수 있게 하자</strong>는 것이다. 이 프레임을 기준으로 A07에서는 supply voltage와 headroom을 독립 변수로 이어서 검증한다.</p>
 <h2 id="references">References</h2>
 <p class="reference">[1] RavenForge. “A06 — Onboard Preamp Architecture.” Signal &amp; Transduction Research Log, 2026-09-18.</p>
-<p class="reference">[2] Esh Basses. “Stinger II.” 현재 공식 사양: EMG 35DC/40DC, Volume, Tone, Pickup selector, Mode selector, Esh-tronic special active electronics, Esh Custom piezo bridge. https://www.esh-bass.com/products/32474-stinger-ii</p>
-<p class="reference">[3] Esh Basses. Official homepage. Eshtronic을 브랜드의 현대적·독자적 piezo system으로 설명. https://www.esh-bass.com/</p>
-<p class="reference">[4] Musiccraft24. “The Dark Side of Esh” / Stinger review. 2006년 개정 Eshtronic의 4-position Mode Selector를 Direct/Studio, magnetic + Volume/Tone, magnetic + piezo, piezo-only로 설명. https://www.musiccraft24.de/index.php?eID=dumpFile&f=8219&t=f&token=d7ee41d92e4bb2fabca7bf3e35be4ba8725803c4</p>
-<p class="reference">[5] EMG Pickups. “David Ellefson Signature Set — 35DC/35CS, 40DC/40CS.” 35DC/40DC output impedance 10 kΩ, current 235/230 µA @9 V, maximum supply 27 V. https://www.emgpickups.com/pub/media/Mageants/d/e/de_signature_set_instructions_0230-0351rb.pdf</p>
-<p class="reference">[6] EMG Pickups. “B125 Active Balance Control.” Pickup별 input buffer, active/passive source 혼합 가능, 500 kΩ input, 2 kΩ output; low-Z domain 이후 25 kΩ controls 권장. https://www.emgpickups.com/pub/media/Mageants/a/b/abc_0230-0095rl_1.pdf</p>
-<p class="reference">[7] EMG Pickups. “BQS-HZ System.” ABC → EQ → master volume 구조와 master/EQ order 교환 가능성, low-Z control domain을 공식 wiring note로 설명. https://www.emgpickups.com/pub/media/Mageants/h/z/hz_bqshz_system_0230-0214rm_2.pdf</p>
-<p class="reference">[8] Fishman. “M-100 / AG Series Installation Guide.” Passive piezo에 10 MΩ impedance-matching buffered preamp 권장; 1 MΩ에서도 bass roll-off가 발생할 수 있음을 명시. https://fishman.com/wp-content/uploads/2025/06/m_100_mandolin_pickup_installation_guide.pdf</p>
-<p class="reference">[9] Texas Instruments. “Signal Conditioning Piezoelectric Sensors,” SLOA033A. Piezoelectric sensor의 높은 source impedance와 high-input-impedance JFET/CMOS amplifier의 필요성을 설명. https://www.ti.com/lit/an/sloa033a/sloa033a.pdf</p>
-<p class="reference">[10] Analog Devices. “Selecting the Right CMOS Analog Switch.” Audio switching에서 transient click/pop, break-before-make와 shunt discharge의 역할을 설명. https://www.analog.com/en/resources/design-notes/selecting-the-right-cmos-analog-switch.html</p>
-<p class="reference">[11] Bassic.de. “Esh Bass Enthusiasten Heimat.” 세대별 Eshtronic 회로·모드와 일부 Stinger II의 second piezo output에 대한 장기 사용자 커뮤니티 자료. 제조사 1차 자료가 아니므로 보조 근거로만 사용. https://www.bassic.de/threads/esh-bass-enthusiasten-heimat.14856522/</p>
-<p class="reference">[12] TalkBass. “ESH bass club.” Eshtronic mode mapping에 대한 사용자 설명. 보조적 owner testimony. https://www.talkbass.com/threads/esh-bass-club.697883/page-3</p>
+<p class="reference">[2] Esh Basses. “Stinger II.” Current product page. Controls/electronics include Volume, Tone, Pickup Selector, Mode Selector, Esh-tronic active electronics and Esh Custom piezo bridge. https://www.esh-bass.com/products/32474-stinger-ii</p>
+<p class="reference">[3] Esh Basses. Current Stinger-family product/options pages. EMG 35/40-series pickup assignments vary by model/string-count option. https://www.esh-bass.com/</p>
+<p class="reference">[4] Musiccraft24. “The Dark Side of Esh” / historical Stinger review. Documents a four-state Eshtronic implementation and Direct/Studio concept; treated as historical, generation-specific evidence. https://www.musiccraft24.de/index.php?eID=dumpFile&f=8219&t=f&token=d7ee41d92e4bb2fabca7bf3e35be4ba8725803c4</p>
+<p class="reference">[5] EMG Pickups. “35 Bass Pickups” specification sheet. Output impedance 10 kΩ for the listed 35-series active models. https://www.emgpickups.com/pub/media/Mageants/3/5/35_bass_0230-0127rb.pdf</p>
+<p class="reference">[6] EMG Pickups. “40 Bass Pickups” specification sheet. Output impedance 10 kΩ for the listed 40-series active models. https://www.emgpickups.com/pub/media/Mageants/4/0/40_bass_0230-0128rb.pdf</p>
+<p class="reference">[7] EMG Pickups. B125 Active Balance / BTC-HZ system documentation. Per-input buffering, active/passive source mixing and low-Z downstream control guidance. https://www.emgpickups.com/pub/media/Mageants/h/z/hz_btchz_system_0230-0204re.pdf</p>
+<p class="reference">[8] Fishman. V-200 / passive piezo installation guidance: best response into 10 MΩ; usable at 1 MΩ with some bass roll-off. Legacy manufacturer guidance; archived/mirrored copies may be required for access.</p>
+<p class="reference">[9] Texas Instruments. “Signal Conditioning Piezoelectric Sensors,” SLOA033A. High source impedance and high-input-impedance JFET/CMOS front-end guidance. https://www.ti.com/lit/an/sloa033a/sloa033a.pdf</p>
+<p class="reference">[10] Analog Devices. “Selecting the Right CMOS Analog Switch.” Audio click/pop, charge injection, break-before-make and discharge considerations. https://www.analog.com/en/resources/design-notes/selecting-the-right-cmos-analog-switch.html</p>
+<p class="reference">[11] Bassic.de. “Eshtronic gegen passive Elektronik tauschen?” and related Esh discussions. Owner/community evidence for historical Studio-mode philosophy; secondary evidence only. https://www.bassic.de/threads/eshtronic-gegen-passive-elektronik-tauschen.14810494/</p>
+<p class="reference">[12] TalkBass. “ESH bass club” and related owner discussions. Repeated owner descriptions of piezo-only / piezo+magnetic / magnetic+controls / Studio routing; secondary evidence only. https://www.talkbass.com/threads/esh-bass-club.697883/page-3</p>
 <p class="reference">[13] RavenForge. “B03 — Passive Tonal Architecture.” Signal &amp; Transduction Research Log, 2026-09-17.</p>
 </article></main></body></html>
