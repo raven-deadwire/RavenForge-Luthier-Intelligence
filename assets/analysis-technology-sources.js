@@ -13,7 +13,8 @@ const sources={
  'KTS Musical Products — Titanium Reinforcement':'https://k-t-s.com/en/pages/kts-neck-support-rods',
  'Payson Bass — Multi-Scale Hardware':'https://www.paysonbass.com/',
  'Delano Pickup Systems':'https://www.delano.de/',
- 'Häussel Pickups':'https://www.haeussel.com/'
+ 'Häussel Pickups':'https://www.haeussel.com/',
+ 'McGrath Guitars — 12-Way Rotary Selector':'https://mcgrathguitars.com/blogs/news/12-way-rotary-selector'
 };
 const officialPara=/<p(?:\s+class="[^"]*")?>\s*<a\b[^>]*>(?:Official source|Offizielle Quelle|공식 자료)<\/a>\s*<\/p>/gi;
 const novaRefs=/<p>\s*<a\b[^>]*nova-pickups\.com[^>]*>Omnia B4 MM<\/a>\s*·\s*<a\b[^>]*nova-pickups\.com[^>]*>Omnia B4 PQ<\/a>\s*·\s*<a\b[^>]*nova-pickups\.com[^>]*>Flux \/ Apex \/ FRFR<\/a>\s*<\/p>/gi;
