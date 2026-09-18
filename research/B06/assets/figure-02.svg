@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="760" viewBox="0 0 1600 760">
+<defs><style>.t{font:26px Arial,sans-serif;fill:#27313a}.s{font:21px Arial,sans-serif;fill:#586674}.h{font:bold 34px Arial,sans-serif;fill:#376092}.c{fill:#eaf1f8;stroke:#376092;stroke-width:3}.w{fill:#fff;stroke:#9fb4c7;stroke-width:2}.a{stroke:#376092;stroke-width:4;fill:none;marker-end:url(#m)}</style><marker id="m" markerWidth="12" markerHeight="12" refX="10" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#376092"/></marker></defs>
+<text x="70" y="65" class="h">Historical Eshtronic routing example (documented review)</text>
+<text x="70" y="105" class="s">Generation-specific evidence; do not assume the current Stinger II uses the identical internal map.</text>
+<rect x="70" y="160" width="250" height="100" rx="14" class="c"/><text x="195" y="205" text-anchor="middle" class="t">Selected active</text><text x="195" y="238" text-anchor="middle" class="t">EMG pickup(s)</text>
+<rect x="70" y="500" width="250" height="100" rx="14" class="c"/><text x="195" y="545" text-anchor="middle" class="t">Bridge piezo</text><text x="195" y="578" text-anchor="middle" class="s">separate source domain</text>
+<rect x="430" y="140" width="250" height="90" rx="14" class="w"/><text x="555" y="194" text-anchor="middle" class="t">Direct / Studio</text>
+<rect x="430" y="280" width="250" height="90" rx="14" class="w"/><text x="555" y="334" text-anchor="middle" class="t">Vol + tone path</text>
+<rect x="430" y="420" width="250" height="90" rx="14" class="w"/><text x="555" y="474" text-anchor="middle" class="t">Mag + piezo merge</text>
+<rect x="430" y="560" width="250" height="90" rx="14" class="w"/><text x="555" y="614" text-anchor="middle" class="t">Piezo-only path</text>
+<rect x="850" y="250" width="270" height="120" rx="14" class="c"/><text x="985" y="300" text-anchor="middle" class="t">Volume / tone</text><text x="985" y="336" text-anchor="middle" class="s">when the mode includes them</text>
+<rect x="1270" y="315" width="250" height="110" rx="14" class="w"/><text x="1395" y="360" text-anchor="middle" class="t">Main output</text><text x="1395" y="394" text-anchor="middle" class="s">mode-dependent path</text>
+<path d="M320 205 H430 M680 185 C920 185 1080 260 1270 345" class="a"/>
+<path d="M320 220 C365 250 390 315 430 325 M680 325 H850 M1120 310 C1190 310 1200 350 1270 350" class="a"/>
+<path d="M320 230 C360 330 390 450 430 465 M320 550 C365 535 390 480 430 465 M680 465 C760 465 790 345 850 330" class="a"/>
+<path d="M320 550 H430 M680 605 C850 605 1060 500 1270 395" class="a"/>
+</svg>

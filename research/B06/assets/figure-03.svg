@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="720" viewBox="0 0 1600 720">
+<defs><style>.h{font:bold 34px Arial,sans-serif;fill:#376092}.t{font:25px Arial,sans-serif;fill:#27313a}.s{font:20px Arial,sans-serif;fill:#586674}.b{fill:#eaf1f8;stroke:#376092;stroke-width:3}.g{fill:#fff;stroke:#9fb4c7;stroke-width:2}.a{stroke:#376092;stroke-width:4;fill:none;marker-end:url(#m)}</style><marker id="m" markerWidth="12" markerHeight="12" refX="10" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#376092"/></marker></defs>
+<text x="70" y="65" class="h">RavenForge internal-routing specification bundle</text>
+<rect x="70" y="120" width="260" height="100" rx="14" class="b"/><text x="200" y="165" text-anchor="middle" class="t">Source domain</text><text x="200" y="198" text-anchor="middle" class="s">type · Z(f) · level</text>
+<rect x="390" y="120" width="260" height="100" rx="14" class="g"/><text x="520" y="165" text-anchor="middle" class="t">Conditioning</text><text x="520" y="198" text-anchor="middle" class="s">Zin · gain · isolation</text>
+<rect x="710" y="120" width="260" height="100" rx="14" class="g"/><text x="840" y="165" text-anchor="middle" class="t">Routing state</text><text x="840" y="198" text-anchor="middle" class="s">select · merge · bypass</text>
+<rect x="1030" y="120" width="260" height="100" rx="14" class="g"/><text x="1160" y="165" text-anchor="middle" class="t">Controls</text><text x="1160" y="198" text-anchor="middle" class="s">order · law · ownership</text>
+<rect x="1350" y="120" width="180" height="100" rx="14" class="b"/><text x="1440" y="165" text-anchor="middle" class="t">Output</text><text x="1440" y="198" text-anchor="middle" class="s">Zout · split</text>
+<path d="M330 170 H390 M650 170 H710 M970 170 H1030 M1290 170 H1350" class="a"/>
+<rect x="120" y="330" width="360" height="110" rx="14" class="g"/><text x="300" y="375" text-anchor="middle" class="t">Reference state</text><text x="300" y="410" text-anchor="middle" class="s">direct · active-flat · passive</text>
+<rect x="620" y="330" width="360" height="110" rx="14" class="g"/><text x="800" y="375" text-anchor="middle" class="t">Power dependency</text><text x="800" y="410" text-anchor="middle" class="s">what fails when supply disappears?</text>
+<rect x="1120" y="330" width="360" height="110" rx="14" class="g"/><text x="1300" y="375" text-anchor="middle" class="t">Service / validation</text><text x="1300" y="410" text-anchor="middle" class="s">state table · test node · acceptance</text>
+<rect x="310" y="535" width="980" height="110" rx="14" class="b"/><text x="800" y="580" text-anchor="middle" class="t">Document the graph, not just the parts list.</text><text x="800" y="615" text-anchor="middle" class="s">Every knob and switch must map to an explicit electrical boundary and a testable state.</text>
+</svg>

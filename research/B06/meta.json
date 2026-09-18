@@ -1,0 +1,20 @@
+{
+  "id": "B06",
+  "date": "2026-09-19",
+  "category": "sound",
+  "ko": {
+    "title": "Rethinking the Internal Signal Path — source domain·reference state·routing graph로 악기 내부 전자계를 다시 설계하는 방법",
+    "excerpt": "악기 내부 전자계를 하나의 직렬 chain이 아니라 source마다 다른 electrical boundary와 player-selected state에 따라 경로가 바뀌는 routing graph로 재정의한다. 현행 ESH/Eshtronic 공식 사양과 과거 Direct/Studio·magnetic+piezo routing을 구분해 검토하고, active magnetic·passive piezo·buffer·mixing·control placement·split output·switching transient를 하나의 specification language로 묶어 ASKR·EMBLA·EDDA에 적용한다.",
+    "link": "research/B06/ko.html"
+  },
+  "en": {
+    "title": "Rethinking the Internal Signal Path — Designing instrument electronics as source domains, reference states, and a routing graph",
+    "excerpt": "Reframe internal instrument electronics as a state-dependent routing graph rather than one serial chain. Separate current ESH/Eshtronic specifications from historically documented Direct/Studio and magnetic+piezo routing, then integrate active magnetic sources, passive piezo, buffering, mixing, control placement, split outputs and switching transitions into a RavenForge specification framework applied to ASKR, EMBLA and EDDA.",
+    "link": "research/B06/en.html"
+  },
+  "de": {
+    "title": "Rethinking the Internal Signal Path — Instrumentenelektronik als Quellendomänen, Referenzzustände und Routing-Graph",
+    "excerpt": "Die interne Instrumentenelektronik wird als zustandsabhängiger Routing-Graph statt als eine serielle Kette beschrieben. Aktuelle ESH/Eshtronic-Spezifikationen werden von historisch dokumentiertem Direct/Studio- und Magnet/Piezo-Routing getrennt; aktive Magnetquellen, passive Piezos, Buffering, Mixing, Reglerposition, Split Outputs und Schaltübergänge werden in einen RavenForge-Spezifikationsrahmen für ASKR, EMBLA und EDDA überführt.",
+    "link": "research/B06/de.html"
+  }
+}
