@@ -7,7 +7,7 @@
 <article id="research-log">
 <p class="kicker"><strong>RAVENFORGE / SIGNAL & TRANSDUCTION RESEARCH LOG — B06</strong></p>
 <p class="brand"><strong>RAVENFORGE</strong></p><p class="series">Signal & Transduction / Electronics Architecture Research Log</p>
-<h1>B06 — Rethinking the Internal Signal Path</h1><p class="subtitle">Deep-research verification revision — source domains, reference states, routing graphs, and programmable switching</p>
+<h1>B06 — Rethinking the Internal Signal Path</h1><p class="subtitle">Unified verification edition — stage order · impedance boundaries · source domains · routing states · programmable switching</p>
 <table class="callout"><tbody><tr><td><p><strong>Document purpose</strong><br>Revise B06 against a deep-research evidence audit. Separate current ESH/Eshtronic specifications from historical routing evidence, re-check EMG 35/40-series active pickup data, passive-piezo input boundaries, B125 per-input buffering, low-Z control placement and switching transients against manufacturer and technical sources, and add the McGrath 12-Way Rotary Selector as a current commercial example of programmable three-pickup relay routing. Classify major claims as Confirmed / Partially confirmed / Unverified / Contradicted, and explicitly mark the RavenForge routing taxonomy plus ASKR/EMBLA/EDDA applications as engineering synthesis rather than manufacturer fact.</p></td></tr></tbody></table>
 <table class="meta"><tbody><tr><th>Code</th><td>B06</td></tr>
 <tr><th>Focus</th><td>internal routing · source domains · reference states · Eshtronic evidence audit · piezo/magnetic integration · programmable switching · serviceability</td></tr>
@@ -15,7 +15,7 @@
 <tr><th>Verification rule</th><td>separate current specification, historical implementation and RavenForge engineering inference; do not infer unpublished topology</td></tr>
 <tr><th>RavenForge link</th><td>B03 passive architecture → A06 active architecture → B06 verified routing architecture → A07 headroom/power</td></tr>
 <tr><th>Status</th><td>Deep-research verification revision · literature/technical synthesis complete · prototype measurement pending</td></tr>
-<tr><th>Date</th><td>2026-09-19</td></tr></tbody></table>
+<tr><th>Date</th><td>2026-09-21</td></tr></tbody></table>
 <h2 id="section-1">1. Research question and purpose of the verification revision</h2>
 <p>B06 asks whether internal instrument electronics must always be described as one fixed <code>Pickup → Volume → Preamp/EQ → Output</code> chain. The deep-research review found no basis for that universal assumption. Different sources can require different input boundaries, mode switches can select, bypass and merge branches, and some states create explicit reference paths.</p><p>This revision preserves the B06 framework while separating <strong>manufacturer fact, historical implementation, owner-community testimony and RavenForge engineering synthesis</strong>. It also removes or qualifies claims that exceeded their evidence, such as treating 10 MΩ as a universal piezo rule, 25 kΩ as a universal active-pickup rule, or assuming that a historical Eshtronic state map is identical to the current circuit.</p>
 <h2 id="section-2">2. Method and source hierarchy</h2>
@@ -32,6 +32,46 @@
 <tr><td>B125 provides per-input buffering and supports active/passive source mixing</td><td>Confirmed</td><td>EMG official system documentation [7]</td></tr>
 <tr><td>Separate/direct piezo output was a universal Stinger II feature</td><td>Unverified</td><td>Owner evidence exists for some instruments; not generalizable [11–12]</td></tr>
 </tbody></table></div>
+<!-- MERGED_STAGE_ORDER_START -->
+<h2 id="section-3a">3A. Stage-order &amp; Impedance-Boundary Study — the second axis of B06</h2>
+<p>Source-domain and routing-state verification alone cannot describe the full onboard architecture. The same pickup, volume, tone and boost can behave differently depending on <strong>where the high-impedance pickup domain ends</strong>, whether volume is before, after or between active stages, and whether filtering happens before or after mixing. The unified B06 therefore records <strong>stage order / impedance boundary</strong> and <strong>state-dependent routing</strong> as two complementary axes.</p>
+<table class="callout"><tbody><tr><td><p><strong>Unified B06 question</strong><br>Under what electrical conditions does stage order matter, when can stages become effectively equivalent, and how do routing states alter the active signal graph?</p></td></tr></tbody></table>
+<h2 id="section-3a-theory">3A.1 Why stage order changes the circuit</h2>
+<p>Model a passive magnetic pickup as a source with frequency-dependent impedance <code>ZPU(f)</code>. The voltage delivered to the next stage is <code>Vin(f)=Vs(f)×Zin(f)/[ZPU(f)+Zin(f)]</code>. Moving an active stage or volume/tone network can therefore change the load seen by the pickup and alter loaded resonance and control interaction.</p>
+<p>If two stages are sufficiently isolated linear time-invariant blocks and mutual loading can be neglected, some reorderings can approach <code>H1(s)H2(s)=H2(s)H1(s)</code>. Real instruments add finite Zin/Zout, potentiometer loading, noise contribution, clipping/headroom, nonlinear stages, feedback, source summing and state-dependent switching, so physical order is not generally interchangeable.</p>
+<h2 id="section-3a-zuta">3A.2 ZUTA CORE — active boundary before master volume</h2>
+<p>The official ZUTA CORE installation manual conceptually recommends <strong>Pickup(s) → Selector / passive tone → CORE → Master Volume → Jack</strong> [17]. CORE is therefore not correctly described as a post-volume booster. It leaves passive selector/tone interaction upstream, establishes an active boundary, and places master volume after that boundary.</p>
+<p>Published 1 MΩ input / 1 kΩ output figures for ZUTA LUXE are model-specific [18] and are not automatically transferred to CORE.</p>
+<h2 id="section-3a-fender">3A.3 Fender Blackie / Elite MDX / Eric Clapton Signature — separate history from topology</h2>
+<p>The original Blackie was not an active-mid-boost guitar and must not be treated as electrically identical to the later Eric Clapton Signature system [20]. Fender’s Clapton service diagram officially confirms a 50 kΩ Audio Volume, 250 kΩ Mid Boost control, TBX-related dual control, circuit-board assembly and 9 V power [19].</p>
+<p>The interpretation <strong>first active stage → 50 kΩ volume → second mid-emphasis stage</strong> comes from secondary circuit reconstruction such as Aion FX, not from the Fender service layout itself [22]. Historical accounts connecting James Demeter and John Carruthers with the 1983 Elite MDX / Clapton lineage are likewise treated as secondary technical history [21].</p>
+<h2 id="section-3a-emg">3A.4 EMG SPC/RPC — a counterexample to “order always matters”</h2>
+<p>EMG SPC/RPC installation information presents series active-control wiring and, in its three-pickup examples, both <strong>Switch → Volume → Passive Tone → SPC → Jack</strong> and <strong>Switch → Passive Tone → SPC → Volume → Jack</strong> [23]. EMG states that the only difference is control order and that the result is the same.</p>
+<p>This is not a universal rule for every low-Z circuit. It is a manufacturer-specific equivalence under the documented control network, linearity and Zin/Zout conditions. The stronger B06 statement is: <strong>order matters when moving a stage changes loading, nonlinear operating level, summing law, filter interaction or state routing.</strong></p>
+<h2 id="section-3a-demeter">3A.5 Demeter MB-2 — function is primary evidence; universal onboard order remains unknown</h2>
+<p>Demeter describes the MB-2 as an onboard guitar midboost/buffer with variable mid boost and a low-impedance buffer [27]. The manufacturer material currently available does not establish a universal mandatory placement before or after master volume. The I/O order of the MB-2B pedal documentation is not transferred into a required onboard MB-2 topology [28]. Historical relation to the Fender MDX/Clapton story does not make the circuits identical.</p>
+<h2 id="section-3a-wal-east">3A.6 Wal and John East UNI-PRE — processing-before-mix and dual-path architecture</h2>
+<p>Wal officially describes its pickup mixer as combining <em>pre-EQ'd pickups</em>, each with its own electronic low-pass filter [24]. This is <strong>per-source filtering → mixing</strong>, not the same topology as mixing first and applying one master LPF.</p>
+<p>John East explicitly describes UNI-PRE as having independent active and passive signal paths, with an input buffer/amplifier and 0–12 dB gain trim for each pickup in the active path [25]. Active/passive switching therefore cannot be reduced to a simple EQ bypass.</p>
+<h2 id="section-3a-t60">3A.7 Peavey T-60 — one knob combining parameter and topology control</h2>
+<p>The Peavey T-60 circuit and related patent provide a passive example in which the tone control changes the relationship of a center-tapped pickup coil, combining single-coil/humbucking behavior with conventional tone action [26,29]. The phase switch becomes meaningful when both pickups are in use. A label such as “Tone” therefore does not uniquely describe the electrical operation.</p>
+<h2 id="section-3a-taxonomy">3A.8 Unified architecture taxonomy</h2>
+<div class="table-scroll" role="region" tabindex="0"><table class="comparison"><thead><tr><th>Axis</th><th>Type</th><th>Meaning</th><th>Verified example</th></tr></thead><tbody>
+<tr><td rowspan="6">Stage-order / boundary</td><td>A — Passive-domain processing → active boundary → post-boundary volume</td><td>retain selected passive interaction, then enter low-Z domain</td><td>ZUTA CORE</td></tr>
+<tr><td>B — Early active boundary → low-Z controls</td><td>source isolated early</td><td>active/buffered sources</td></tr>
+<tr><td>C — Inter-stage volume</td><td>level control between active stages</td><td>Fender MDX/Clapton reconstruction</td></tr>
+<tr><td>D — Passive volume/tone → active processing</td><td>pickup directly sees passive network first</td><td>selected onboard/EMG examples</td></tr>
+<tr><td>E — Per-source processing → mixing</td><td>source-specific filter/buffer before merge</td><td>Wal / UNI-PRE active path</td></tr>
+<tr><td>F — Dual-path</td><td>active and passive/reference paths remain separate</td><td>UNI-PRE</td></tr>
+<tr><td rowspan="6">State-routing</td><td>Sequential</td><td>all sources share one chain</td><td>baseline</td></tr>
+<tr><td>Direct-reference</td><td>bypass selected downstream controls/stages</td><td>historical Eshtronic</td></tr>
+<tr><td>Source-specific parallel</td><td>independent source conditioning/filtering</td><td>piezo/magnetic · EDDA-like</td></tr>
+<tr><td>Selectable merge</td><td>branches merge only in selected states</td><td>mode-based routing</td></tr>
+<tr><td>Split-output</td><td>sources leave through independent outputs</td><td>historical variants / design primitive</td></tr>
+<tr><td>Programmable state selector</td><td>relay/logic layer selects and recalls states</td><td>McGrath 12-Way</td></tr>
+</tbody></table></div>
+<p>The two taxonomies are complementary. The first describes <strong>stage order and impedance boundaries</strong>; the second describes <strong>branch/state behavior</strong>. Complex instruments often require both.</p>
+<!-- MERGED_STAGE_ORDER_END -->
 <h2 id="section-4">4. State-dependent routing graph — the core B06 model</h2>
 <p>The review supports the usefulness of the B06 abstraction, with one important boundary: <strong>state-dependent routing graph</strong> is RavenForge engineering language, not ESH or EMG manufacturer terminology. Sources, conditioning nodes, controls, merge points, bypass branches and outputs are documented as nodes/edges, while switch state determines the active path.</p><figure><a href="assets/figure-01.svg"><img src="assets/figure-01.svg" alt="Linear chain and state-dependent routing graph"></a></figure><p class="caption"><em>Figure 1. B06 synthesis. Once source-specific conditioning, direct-reference branches and selectable merge states exist, a graph documents the circuit more accurately than a single serial line.</em></p>
 <h2 id="section-5">5. Source domains — why passive magnetic, active magnetic and piezo must be distinguished</h2>
@@ -81,4 +121,17 @@
 <p class="reference">[14] McGrath Guitars. “McGrath 12 Way Rotary Pickup Selector.” 2026-06-28. Relay-switched three-pickup selector; twelve factory routing states, favorite/previous recall and All-Parallel power-failure fallback. https://mcgrathguitars.com/blogs/news/12-way-rotary-selector</p>
 <p class="reference">[15] McGrath Guitars. “We made an app!” 2026-08-01. Companion app supports fewer than twelve active positions and assignment of fourteen tonal possibilities to switch positions. https://mcgrathguitars.com/blogs/news/we-made-an-app</p>
 <p class="reference">[16] Fret Nation. “McGrath Guitars 12-Way Rotary Selector Switch.” Product page. Screw-down pickup terminals, 9 V/18 V supply, recall/reset behavior and All-Parallel failsafe. https://fretnation.com/products/mcgrath-guitars-12-way-rotary-selector-switch</p>
+<p class="reference">[17] ZUTA Group. “ZUTA CORE MANUAL.” Official installation manual. https://cdn.shopify.com/s/files/1/0318/3987/9307/files/ZUTA_CORE_MANUAL.pdf?v=1760376558</p>
+<p class="reference">[18] ZUTA Group. “ZUTA LUXE.” Official product page. https://zutagroup.com/products/zuta-luxe</p>
+<p class="reference">[19] Fender Musical Instruments Corp. “ERIC CLAPTON STRATOCASTER UPGRADE 0117602” Service Diagram. https://www.fmicassets.com/Damroot/Original/10002/011-7602A_SISD.pdf</p>
+<p class="reference">[20] Fender. “Iconic Mods: Eric Clapton’s ‘Blackie’ Stratocaster.” https://www.fender.com/articles/behind-the-scenes/iconic-mods-eric-claptons-blackie</p>
+<p class="reference">[21] Wacker, D. “The Fender Eric Clapton Active Mid-Boost.” Premier Guitar, 2010. https://www.premierguitar.com/diy/mod-garage/clapton-mid-boost</p>
+<p class="reference">[22] Aion FX. “Elite Boost/Preamp — Fender MDX/Clapton Mid-Boost.” Circuit reconstruction/build documentation. https://aionfx.com/project/elite-boost-preamp/</p>
+<p class="reference">[23] EMG Pickups. “SPC / RPC Installation Information 0230-0160rB.” https://www.emgpickups.com/pub/media/Mageants/s/p/spc_rpc_0230-0106rb.pdf</p>
+<p class="reference">[24] Wal Basses. “Components — Preamp.” Official manufacturer description. https://walbasses.co.uk/components/</p>
+<p class="reference">[25] East UK / John East. “UNI-PRE 5 Knob User Manual.” https://www.east-uk.com/2025/11/28/uni-pre-5-knob-user-manual/</p>
+<p class="reference">[26] Rhodes, O. J.; Peavey Electronics Corp. US4164163A, “Electric guitar circuitry.” https://patents.google.com/patent/US4164163A/en</p>
+<p class="reference">[27] Demeter Amplification. “MB-2 Midboost/Fat Control.” https://demeteramps.com/product/mb-2-midboost-fat-control/</p>
+<p class="reference">[28] Demeter Amplification. “MB-2B Midboost/Fat Control User’s Guide.” https://demeteramps.com/manuals/mb2busersguide.pdf</p>
+<p class="reference">[29] Peavey Electronics. “T-60/T-40 Owner’s Manual.” Original manual / archival reproduction; patent linkage US4164163A.</p>
 </article></main></body></html>
