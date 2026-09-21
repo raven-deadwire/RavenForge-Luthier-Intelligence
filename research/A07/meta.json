@@ -1,0 +1,20 @@
+{
+  "id": "A07",
+  "date": "2026-09-22",
+  "category": "sound",
+  "ko": {
+    "title": "9V vs. 18V: Headroom and Dynamic Range — 베이스 onboard preamp의 supply voltage가 usable signal range를 결정하는 방식",
+    "excerpt": "RavenForge Bass Configurator의 베이스용 onboard preamp/filter electronics 11종과 Bartolini·Aguilar·EMG reference case를 공식 사양 중심으로 재검증한다. 9V→18V가 언제 실제 headroom을 늘리고 언제 단순 compatibility 또는 engineering margin에 그치는지, headroom·dynamic range·noise·output level을 분리해 분석하고 Configurator의 전원 규칙을 product-specific supported range + RavenForge default + documented reason 체계로 개정한다. 실제 effect size는 C04 측정으로 이관한다.",
+    "link": "research/A07/ko.html"
+  },
+  "en": {
+    "title": "9V vs. 18V: Headroom and Dynamic Range — How supply voltage defines the usable signal range of bass onboard preamps",
+    "excerpt": "Re-audits all eleven bass onboard preamp/filter-electronics candidates in the RavenForge Configurator, with Bartolini, Aguilar and EMG as reference cases, using manufacturer documentation first. A07 separates headroom, dynamic range, noise and nominal output; identifies when 18V can enlarge the clean operating envelope; and replaces global voltage rules with product-specific supported range + RavenForge default + documented reason. Effect size is deferred to C04 bench measurement.",
+    "link": "research/A07/en.html"
+  },
+  "de": {
+    "title": "9V vs. 18V: Headroom and Dynamic Range — Wie die Versorgungsspannung den nutzbaren Signalbereich von Bass-Onboard-Preamps bestimmt",
+    "excerpt": "Alle elf Bass-Onboard-Preamp-/Filter-Electronics-Kandidaten des RavenForge Configurator werden zusammen mit Bartolini-, Aguilar- und EMG-Referenzfällen anhand primärer Herstellerunterlagen neu geprüft. A07 trennt Headroom, Dynamic Range, Noise und Nominaloutput, zeigt die Bedingungen für eine reale Erweiterung des Clean-Operating-Envelope bei 18 V und ersetzt globale Spannungsregeln durch produktspezifisch unterstützten Bereich + RavenForge-Default + dokumentierten Grund. Die Effektgröße wird in C04 gemessen.",
+    "link": "research/A07/de.html"
+  }
+}
