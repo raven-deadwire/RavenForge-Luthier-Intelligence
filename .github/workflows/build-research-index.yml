@@ -33,7 +33,7 @@ permissions:
   contents: write
 
 env:
-  SITE_ASSET_VERSION: '20260922s26'
+  SITE_ASSET_VERSION: '20260922s27'
 
 jobs:
   build:

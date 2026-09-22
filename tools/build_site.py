@@ -8,7 +8,7 @@ from urllib.parse import urljoin
 SITE = 'https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/'
 INDEX = Path('index.html')
 CONFIG = Path('configurator.html')
-FOOTER_SCRIPT_VERSION = '20260922s26'
+FOOTER_SCRIPT_VERSION = '20260922s27'
 
 
 def read_preserve(path: Path) -> str:
