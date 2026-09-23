@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chimera Amp Matrix Entwicklungslog Vol.1 — Drei Modi als drei Routing-Architekturen</title><style>
+:root{--ink:#1d2730;--muted:#66717a;--line:#d7dde1;--blue:#315f87;--red:#8d2f32;--paper:#fff;--soft:#eef4f8;--fail:#f9eeee;--dark:#202832}
+*{box-sizing:border-box}html,body{margin:0;background:#f3f4f3;color:var(--ink)}
+body{font-family:Inter,"Noto Sans KR","Noto Sans","Segoe UI",Arial,sans-serif;line-height:1.72}
+.doc{max-width:900px;margin:0 auto;background:var(--paper);padding:58px 64px 72px;box-shadow:0 0 0 1px #e2e5e7}
+.kicker{font-size:12px;letter-spacing:.14em;color:var(--muted);font-weight:700;text-align:right}
+.brand{font-size:18px;letter-spacing:.12em;color:var(--red);font-weight:800;margin-top:22px}
+h1{font-size:38px;line-height:1.16;margin:4px 0 8px;letter-spacing:-.025em}
+.subtitle{font-size:20px;color:#40515f;margin-bottom:28px}
+.purpose,.rule,.failure,.position{padding:17px 19px;margin:22px 0;border-left:4px solid var(--blue);background:var(--soft)}
+.failure{border-left-color:var(--red);background:var(--fail)}
+.position{background:var(--dark);color:#eef3f5;border-left-color:#9db9ce}
+.label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--blue);margin-bottom:5px}
+.failure .label{color:var(--red)}.position .label{color:#b9d3e5}
+.meta{width:100%;border-collapse:collapse;margin:22px 0 34px;font-size:14px}
+.meta th,.meta td{border:1px solid var(--line);padding:9px 11px;vertical-align:top}
+.meta th{width:24%;background:#edf1f4;text-align:left;color:#34495a}
+h2{font-size:25px;line-height:1.3;margin:42px 0 14px;color:#294f70}
+h3{font-size:18px;margin:26px 0 8px;color:#3d627f}
+p{margin:9px 0 14px}
+table.grid{width:100%;border-collapse:collapse;margin:18px 0 26px;font-size:14px}
+.grid th,.grid td{border:1px solid var(--line);padding:10px;vertical-align:top}
+.grid th{background:#e8eef3;text-align:left}
+.flow{font-family:"Cascadia Mono","SFMono-Regular",Consolas,monospace;font-size:13px;line-height:1.6;background:#151b21;color:#e8edf1;padding:17px 19px;overflow:auto;border-radius:2px;margin:18px 0}
+code{font-family:"Cascadia Mono","SFMono-Regular",Consolas,monospace;background:#f1f3f4;padding:.1em .35em}
+ul{padding-left:22px}li{margin:6px 0}
+a{color:#245f8d;text-decoration-thickness:1px;text-underline-offset:2px}
+.refs{font-size:13px;color:#4f5c65}.refs li{overflow-wrap:anywhere}
+.footer{text-align:center;color:#7c858c;font-size:12px;margin-top:48px}
+@media(max-width:720px){.doc{padding:30px 18px}h1{font-size:31px}.subtitle{font-size:17px}.meta,.grid{display:block;overflow-x:auto}}
+</style></head>
+<body><main class="doc">
+<div class="kicker">SPECTRALFORGE / BENCH NOTES — BN01</div>
+<div class="brand">SPECTRALFORGE</div>
+<h1>Chimera Amp Matrix Entwicklungslog Vol.1</h1>
+<div class="subtitle">Wie aus drei Modi drei tatsächliche Routing-Architekturen wurden</div>
+
+<div class="purpose"><div class="label">Dokumentzweck</div>
+Dies ist keine Vorstellung eines fertigen Plug-ins. Dokumentiert werden Entscheidungen, Fehlannahmen, Build-Fehler und Revisionen beim Aufbau des ersten
+Chimera-Amp-Matrix-1.0-Testbuilds. Der Umfang reicht vom ersten Routing-Konzept und Clean Rebuild über den ersten erfolgreichen Drei-OS-Build
+bis zur Neugestaltung des Matrix-EQ und der unmittelbar danach entstandenen Windows-UI-Regression.
+</div>
+
+<table class="meta">
+<tr><th>Code</th><td>BN01</td></tr>
+<tr><th>Projekt</th><td>SpectralForge — Chimera Amp Matrix</td></tr>
+<tr><th>Fokus</th><td>Routing-Architektur · JUCE / CMake · Classic / Dual / Matrix · LR4-Crossover · Matrix Band Tone · CI / Test-Artefakt</td></tr>
+<tr><th>Source of record</th><td>GitHub Repository · PR #2 <code>v1.0/rebuild</code> · GitHub Actions</td></tr>
+<tr><th>Status</th><td>1.0-Testbuild-Entwicklung. Run #111 auf allen Plattformen grün; im aktuellen Run #112 ist die Windows-UI-Verifikation noch offen.</td></tr>
+<tr><th>Datum</th><td>2026-09-23</td></tr>
+</table>
+
+<h2>1. Ausgangspunkt — Routing selbst zum Instrument machen, statt nur einen weiteren Amp hinzuzufügen</h2>
+<p>Chimera begann nicht mit dem Ziel, einfach mehr Amp-Modelle anzubieten. Entscheidend war, drei tatsächlich verschiedene Architekturen in einem Produkt abzubilden:
+ein konventionelles Full-Range-Rig, zwei vollständige Full-Range-Rigs parallel und ein frequenzgeteiltes System, in dem unterschiedliche Amp/Cab-Ketten unterschiedliche Spektralbereiche übernehmen.</p>
+<div class="flow">INPUT
+  → GLOBAL PRE FX
+  → [ CLASSIC | DUAL | MATRIX ]
+  → AMP / CAB LANE(S)
+  → ALIGN / MERGE
+  → POST FX
+  → OUTPUT</div>
+<p>Die erste 1.0-Frage lautete deshalb nicht „ist der Amp-Klang fertig?“, sondern <strong>implementieren die drei Modi wirklich unterschiedliche Signal-Topologien?</strong>
+Pre/Post FX, Voicing, Presets und IR-Workflows müssen auf diesem Vertrag aufbauen.</p>
+
+<h2>2. Classic, Dual und Matrix dürfen nicht nur drei unterschiedlich benannte Presets sein</h2>
+<table class="grid">
+<thead><tr><th>Mode</th><th>Signal</th><th>Lanes</th><th>Tone Control</th><th>Crossover</th></tr></thead>
+<tbody>
+<tr><td><strong>Classic</strong></td><td>Full-Range</td><td>1</td><td>Full-Range-Amp-EQ + Presence / Resonance</td><td>kein</td></tr>
+<tr><td><strong>Dual</strong></td><td>Full-Range × 2 parallel</td><td>2</td><td>Full-Range-Amp-EQ je Rig</td><td>kein</td></tr>
+<tr><td><strong>Matrix</strong></td><td>LOW / MID / HIGH Split</td><td>3</td><td>Drive · Level · bandbezogener Tone</td><td>LR4, 24 dB/Okt., zwei Übergänge</td></tr>
+</tbody></table>
+<p>Im aktuellen Engine läuft Classic über eine Full-Range-Lane. Dual kopiert dasselbe Eingangssignal in zwei Full-Range-Lanes und summiert sie parallel.
+Nur Matrix verwendet den Crossover. Die Default-Referenzpunkte liegen ungefähr bei 150 Hz und 1,2 kHz; beim Verschieben ändern sich die tatsächlichen Eingangsbereiche der LOW-, MID- und HIGH-Lanes.</p>
+
+<div class="rule"><div class="label">Design Rule 01</div>
+Ein Mode ist ein Vertrag über den Signalweg, kein Label auf der Oberfläche. Wenn Classic und Dual einen Crossover zu benötigen scheinen
+oder Matrix wie ein weiteres Full-Range-Rig wirkt, bildet die UI die Architektur falsch ab.
+</div>
+
+<h2>3. Erster UI-Fehler — verschiedene Engines wirken gleich, wenn die Oberfläche gleich aussieht</h2>
+<p>Die erste Testoberfläche stellte Funktionen schnell über wiederverwendbare Lane-Panels bereit. Dadurch sahen Classic, Dual und Matrix jedoch zu ähnlich aus.
+Es war nicht klar genug, welches Signal eine Lane erhält, wann ein Crossover überhaupt relevant ist und warum ein Single-Rig-Modus wie eine Matrix aussehen sollte.</p>
+<p>Die Revision zeigt in Classic ein <strong>FULL-RANGE RIG</strong>, in Dual <strong>FULL-RANGE RIG A/B</strong>
+und in Matrix <strong>LOW / MID / HIGH BAND</strong>. Crossover-Regler sind nur in Matrix sichtbar; jede Matrix-Lane zeigt zusätzlich ihren aktuell aus den Crossover-Werten abgeleiteten Eingangsbereich.</p>
+
+<div class="failure"><div class="label">Failure Case 01 — zu starke Wiederverwendung des Lane-Templates</div>
+Die Wiederverwendung einer DSP-Lane bedeutet nicht, dass jeder Mode dieselbe Panel-Struktur zeigen sollte.
+Seit der Revision hat die verständliche Signal-Topologie Vorrang vor der internen Klassenstruktur.
+</div>
+
+<h2>4. Warum Matrix zunächst den 4-Band-EQ erbte — und warum er wieder entfernt wurde</h2>
+<p>Die ersten Matrix-Lanes übernahmen fast den gesamten Classic/Dual-Amp-Strip: Drive, Level, Bass, Low Mid, High Mid, Treble, Presence und Resonance.
+Für die Implementierung war das bequem, weil die vorhandene Amp-Tone-Stage einfach weiterverwendet werden konnte.</p>
+<p>Matrix begrenzt eine Lane jedoch bereits am Eingang auf einen Spektralbereich. Ein Full-Range-4-Band-EQ auf einer reinen LOW-Lane erzeugt Regler für Energie,
+die möglicherweise gar nicht in die Lane gelangt, und verwischt die Rollen von Crossover und Klangformung.</p>
+
+<div class="failure"><div class="label">Failure Case 02 — mehr EQ mit mehr sinnvoller Kontrolle gleichsetzen</div>
+In Matrix ist die wichtigere Frage, wie die Balance <em>innerhalb des bereits zugewiesenen Bandes</em> vor dem Amp verschoben wird.
+Der Full-Range-EQ wird deshalb in Matrix ausgeblendet und im DSP umgangen.
+</div>
+
+<h3>4.1 Band Tone ist kein weiterer Crossover</h3>
+<p>Der Ersatzregler heißt <strong>Band Tone</strong>. Er ist weder ein zusätzlicher Bandpass noch ein dritter Übergangspunkt,
+sondern ein bandbezogener Tilt nach dem Split und vor der Amp-Verzerrung. Negative Werte verschieben die Balance dunkler, positive heller.</p>
+<p>Der Pivot folgt dem geometrischen Zentrum des durch die aktuellen Crossover-Werte definierten Bereichs und ist nicht auf eine feste Frequenz gesetzt.
+Dadurch ändert sich beim Verschieben des Crossovers sowohl der Eingangsbereich der Lane als auch der Referenzpunkt des Tone-Reglers.
+Die Full-Range-EQ-Parameter von Classic/Dual bleiben im State erhalten und werden in Matrix nur bypassed.</p>
+
+<div class="rule"><div class="label">Design Rule 02</div>
+Der Crossover definiert in Matrix die <strong>Band-Zuständigkeit</strong>. Band Tone verändert die <strong>Pre-Amp-Balance innerhalb dieses Bandes</strong>.
+Beide Regler erfüllen unterschiedliche Aufgaben.
+</div>
+
+<h2>5. Über „bei mir kompiliert es“ hinaus — auch die Build-Pipeline ist Teil des Produkts</h2>
+<p>Der erste Bootstrap-PR wurde verworfen; PR #2 startete sauber von <code>main</code> als <code>v1.0/rebuild</code>.
+Das Ziel war nicht nur Quellcode, sondern ein reproduzierbarer Prozess, der auf einer anderen Maschine ein testbares Artefakt erzeugt.</p>
+<table class="grid">
+<thead><tr><th>Layer</th><th>1.0-Testfundament</th></tr></thead>
+<tbody>
+<tr><td>Framework</td><td>JUCE 8.0.8 · C++20 · CMake 3.22+</td></tr>
+<tr><td>Formate</td><td>VST3 + Standalone · AU unter macOS</td></tr>
+<tr><td>CI</td><td>Windows / Ubuntu / macOS Matrix Build</td></tr>
+<tr><td>DSP-Verifikation</td><td><code>ChimeraTests</code> über CTest</td></tr>
+<tr><td>Windows-UI-Verifikation</td><td><code>ChimeraUITests</code> + gerenderte UI-Snapshots</td></tr>
+<tr><td>Distributionstest</td><td>Windows ZIP + SHA256-Manifest</td></tr>
+</tbody></table>
+<p>Unter Windows wurde außerdem das normale Warnverhalten für ein unsigniertes Development-Binary in Chrome/SmartScreen sichtbar.
+Der Testbuild wird deshalb ausdrücklich als unsigned gekennzeichnet und zusammen mit einem SHA256-Manifest ausgeliefert.</p>
+
+<h2>6. Erster vollständiger Checkpoint — Run #111</h2>
+<p>Run #111 bestand Build und CTest auf Windows, Ubuntu und macOS. Der Windows-Job erzeugte zusätzlich
+<code>Chimera-Amp-Matrix-1.0.0-test-win64.zip</code> und das zugehörige SHA256-Manifest.
+Damit existierte erstmals nicht nur Source, sondern ein reproduzierbares, getestetes und herunterladbares 1.0-Testartefakt.</p>
+
+<div class="position"><div class="label">Checkpoint — Run #111</div>
+Classic / Dual / Matrix Routing-Fundament · Amp/Cab-Verarbeitung · Cross-Platform-CI · automatisierte DSP-Tests · Windows-Paket liefen gemeinsam erfolgreich durch.
+Dieser Build ist ein stabiler Vergleichspunkt, kein fertiges Release.
+</div>
+
+<h2>7. Nach dem Erfolg wieder brechen — aktuelle Windows-Regression in Run #112</h2>
+<p>Nach #111 wurde der Full-Range-EQ in Matrix durch Band Tone ersetzt und die mode-spezifische Sichtbarkeit der Controls neu aufgebaut.
+Der aktuelle Code baut auf Ubuntu und macOS und besteht dort CTest. Auch Windows kompiliert erfolgreich und rendert die UI-Snapshots,
+aber <code>ChimeraUITests</code> scheitert mit <strong>„Wrong controls for routing mode“</strong>. Der Packaging-Schritt wird deshalb absichtlich nicht ausgeführt.</p>
+<p>Zum Zeitpunkt dieses Logs ist die Regression offen. <code>ChimeraTests</code> für den DSP bestehen,
+wodurch sich der Fehler auf den Vertrag zwischen neuer mode-spezifischer UI und den Windows-UI-Test-Erwartungen eingrenzen lässt.
+Der nächste Schritt ist die konkrete Visibility-/State-Abweichung zu beheben und nicht den Test zu umgehen.</p>
+
+<div class="failure"><div class="label">Failure Case 03 — ein grüner Build ist keine Ziellinie</div>
+#111 war vollständig grün, trotzdem war das falsche Matrix-Control-Modell eine Änderung wert. Diese Änderung erzeugte in #112 eine neue Regression.
+Bench Notes sollen genau diese Verbindung zwischen Designentscheidung und erneut ungültig gewordener Verifikation sichtbar halten.
+</div>
+
+<h2>8. Aktuelle Designposition und Übergabe an Vol.2</h2>
+<div class="position"><div class="label">Current Design Position — 2026-09-23</div>
+<strong>Classic</strong> = ein Full-Range-Rig. <strong>Dual</strong> = zwei Full-Range-Rigs parallel.
+<strong>Matrix</strong> = LOW / MID / HIGH Drei-Band-Split mit LR4 24 dB/Okt., eigenem Amp/Cab pro Band
+sowie Drive + Level + crossover-relativem Band Tone. Der Full-Range-Amp-EQ wird in Matrix umgangen, sein Classic/Dual-State bleibt erhalten.
+</div>
+<p>Vol.2 soll diesen Vertrag stabilisieren, bevor die Feature-Liste wächst:</p>
+<ul>
+<li>Windows-Regression in <code>ChimeraUITests</code> beheben und den nächsten vollständig grünen Build erreichen;</li>
+<li>automatisierte Tests für Crossover-Summe, Phase und Pegelkonsistenz bei bewegten Übergangspunkten erweitern;</li>
+<li>Lane-Latenz, Oversampling und Merge-Alignment verifizieren;</li>
+<li>Pre FX / Post FX als echte Modulkette ausbauen, ohne die Mode-Grenzen aufzuweichen;</li>
+<li>Amp/Cab-Voicing und IR-Workflow über wiederholbare Referenzen und A/B-Validierung statt nur über Modellanzahl entwickeln.</li>
+</ul>
+
+<h2>Source Links</h2>
+<ul class="refs">
+<li><a href="https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix">SpectralForge — Chimera Amp Matrix Repository</a></li>
+<li><a href="https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/pull/2">PR #2 — Chimera Amp Matrix 1.0 rebuild</a></li>
+<li><a href="https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/35830856454">GitHub Actions Run #111 — erster vollständig grüner Build/Package-Checkpoint</a></li>
+<li><a href="https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/35854137402">GitHub Actions Run #112 — aktuelle Windows-UI-Test-Regression</a></li>
+</ul>
+<div class="footer">Working development record · SpectralForge / Bench Notes · 2026.09.23</div>
+</main></body></html>
