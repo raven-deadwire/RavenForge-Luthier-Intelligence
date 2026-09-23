@@ -2,6 +2,26 @@
   "schemaVersion": 1,
   "articles": [
     {
+      "id": "BN01",
+      "date": "2026-09-23",
+      "category": "log",
+      "ko": {
+        "title": "Chimera Amp Matrix 개발기 Vol.1 — 세 가지 모드를 세 가지 라우팅으로 만들기까지",
+        "excerpt": "SpectralForge Chimera Amp Matrix의 첫 1.0 테스트 빌드를 만드는 과정을 기록한다. Classic·Dual·Matrix를 서로 다른 라우팅으로 분리하고, Matrix에 그대로 상속됐던 full-range EQ를 crossover-relative Band Tone으로 교체한 이유, Run #111의 첫 3-OS 성공과 최신 Run #112의 Windows UI 회귀 테스트까지 실패를 포함해 남긴다.",
+        "link": "research/BN01/ko.html"
+      },
+      "en": {
+        "title": "Chimera Amp Matrix Development Log Vol.1 — Turning Three Modes into Three Routing Architectures",
+        "excerpt": "Documents the first Chimera Amp Matrix 1.0 test-build cycle: separating Classic, Dual and Matrix into genuinely different routes, replacing Matrix's inherited full-range EQ with crossover-relative Band Tone, reaching the first three-OS green/package checkpoint in Run #111, and recording the current Windows UI regression in Run #112 rather than hiding it.",
+        "link": "research/BN01/en.html"
+      },
+      "de": {
+        "title": "Chimera Amp Matrix Entwicklungslog Vol.1 — Drei Modi als drei Routing-Architekturen",
+        "excerpt": "Dokumentiert den ersten 1.0-Testbuild-Zyklus von Chimera Amp Matrix: Classic, Dual und Matrix werden als tatsächlich verschiedene Signalwege getrennt, der geerbte Full-Range-EQ von Matrix durch crossover-relativen Band Tone ersetzt, Run #111 erreicht den ersten grünen Drei-OS-/Package-Checkpoint und die aktuelle Windows-UI-Regression in Run #112 bleibt als Teil des Entwicklungsverlaufs sichtbar.",
+        "link": "research/BN01/de.html"
+      }
+    },
+    {
       "id": "A07",
       "date": "2026-09-22",
       "category": "sound",
