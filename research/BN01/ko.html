@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chimera Amp Matrix 개발기 Vol.1 — 세 가지 모드를 세 가지 라우팅으로 만들기까지</title><style>
+:root{--ink:#1d2730;--muted:#66717a;--line:#d7dde1;--blue:#315f87;--red:#8d2f32;--paper:#fff;--soft:#eef4f8;--fail:#f9eeee;--dark:#202832}
+*{box-sizing:border-box}html,body{margin:0;background:#f3f4f3;color:var(--ink)}
+body{font-family:Inter,"Noto Sans KR","Noto Sans","Segoe UI",Arial,sans-serif;line-height:1.72}
+.doc{max-width:900px;margin:0 auto;background:var(--paper);padding:58px 64px 72px;box-shadow:0 0 0 1px #e2e5e7}
+.kicker{font-size:12px;letter-spacing:.14em;color:var(--muted);font-weight:700;text-align:right}
+.brand{font-size:18px;letter-spacing:.12em;color:var(--red);font-weight:800;margin-top:22px}
+h1{font-size:38px;line-height:1.16;margin:4px 0 8px;letter-spacing:-.025em}
+.subtitle{font-size:20px;color:#40515f;margin-bottom:28px}
+.purpose,.rule,.failure,.position{padding:17px 19px;margin:22px 0;border-left:4px solid var(--blue);background:var(--soft)}
+.failure{border-left-color:var(--red);background:var(--fail)}
+.position{background:var(--dark);color:#eef3f5;border-left-color:#9db9ce}
+.label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--blue);margin-bottom:5px}
+.failure .label{color:var(--red)}.position .label{color:#b9d3e5}
+.meta{width:100%;border-collapse:collapse;margin:22px 0 34px;font-size:14px}
+.meta th,.meta td{border:1px solid var(--line);padding:9px 11px;vertical-align:top}
+.meta th{width:24%;background:#edf1f4;text-align:left;color:#34495a}
+h2{font-size:25px;line-height:1.3;margin:42px 0 14px;color:#294f70}
+h3{font-size:18px;margin:26px 0 8px;color:#3d627f}
+p{margin:9px 0 14px}
+table.grid{width:100%;border-collapse:collapse;margin:18px 0 26px;font-size:14px}
+.grid th,.grid td{border:1px solid var(--line);padding:10px;vertical-align:top}
+.grid th{background:#e8eef3;text-align:left}
+.flow{font-family:"Cascadia Mono","SFMono-Regular",Consolas,monospace;font-size:13px;line-height:1.6;background:#151b21;color:#e8edf1;padding:17px 19px;overflow:auto;border-radius:2px;margin:18px 0}
+code{font-family:"Cascadia Mono","SFMono-Regular",Consolas,monospace;background:#f1f3f4;padding:.1em .35em}
+ul{padding-left:22px}li{margin:6px 0}
+a{color:#245f8d;text-decoration-thickness:1px;text-underline-offset:2px}
+.refs{font-size:13px;color:#4f5c65}.refs li{overflow-wrap:anywhere}
+.footer{text-align:center;color:#7c858c;font-size:12px;margin-top:48px}
+@media(max-width:720px){.doc{padding:30px 18px}h1{font-size:31px}.subtitle{font-size:17px}.meta,.grid{display:block;overflow-x:auto}}
+</style></head>
+<body><main class="doc">
+<div class="kicker">SPECTRALFORGE / BENCH NOTES — BN01</div>
+<div class="brand">SPECTRALFORGE</div>
+<h1>Chimera Amp Matrix 개발기 Vol.1</h1>
+<div class="subtitle">세 가지 모드를 하나의 UI가 아니라 세 가지 라우팅으로 만들기까지</div>
+
+<div class="purpose"><div class="label">Document Purpose</div>
+완성된 플러그인을 소개하는 글이 아니다. Chimera Amp Matrix의 첫 1.0 테스트 빌드를 만드는 동안 어떤 구조를 선택했고,
+무엇이 실제 빌드에서 틀렸으며, 사용 가능한 결과물이 나온 뒤에도 왜 다시 구조를 뜯어고쳤는지를 기록한다.
+이번 편의 범위는 초기 개념에서 clean rebuild, 첫 3-OS green build, Matrix EQ 재설계와 그 직후 발생한 Windows UI regression까지다.
+</div>
+
+<table class="meta">
+<tr><th>Code</th><td>BN01</td></tr>
+<tr><th>Project</th><td>SpectralForge — Chimera Amp Matrix</td></tr>
+<tr><th>Focus</th><td>routing architecture · JUCE / CMake · Classic / Dual / Matrix · LR4 crossover · Matrix Band Tone · CI / test artifact</td></tr>
+<tr><th>Source of record</th><td>GitHub repository · PR #2 <code>v1.0/rebuild</code> · GitHub Actions</td></tr>
+<tr><th>Status</th><td>1.0 test-build development. Run #111 all-platform green; latest Run #112 Windows UI verification regression open.</td></tr>
+<tr><th>Date</th><td>2026-09-23</td></tr>
+</table>
+
+<h2>1. 출발점 — “앰프를 하나 더 넣는 것”이 아니라 라우팅 자체를 악기로 만들기</h2>
+<p>Chimera의 출발점은 amp model의 개수를 늘리는 것이 아니었다. 기타와 베이스의 전체 신호를 한 앰프에 통과시키는 전통적인 구조,
+두 개의 완전한 rig를 병렬로 섞는 구조, 그리고 주파수 대역을 나눈 뒤 각 대역에 서로 다른 amp/cab을 배치하는 구조를
+하나의 제품 안에서 명확하게 전환할 수 있게 만드는 것이 핵심이었다.</p>
+<div class="flow">INPUT
+  → GLOBAL PRE FX
+  → [ CLASSIC | DUAL | MATRIX ]
+  → AMP / CAB LANE(S)
+  → ALIGN / MERGE
+  → POST FX
+  → OUTPUT</div>
+<p>따라서 1.0의 첫 번째 과제는 “좋은 앰프 소리”보다 먼저 <strong>세 모드가 실제로 다른 signal topology를 갖는가</strong>였다.
+Pre FX와 Post FX, amp voicing, IR workflow는 이 구조 위에 올라가야 한다. 라우팅 정의가 흔들리면 그 뒤의 모든 기능이 같이 흔들린다.</p>
+
+<h2>2. Classic, Dual, Matrix — 이름만 다른 세 프리셋이어서는 안 된다</h2>
+<table class="grid">
+<thead><tr><th>Mode</th><th>Signal</th><th>Lane</th><th>Tone control</th><th>Crossover</th></tr></thead>
+<tbody>
+<tr><td><strong>Classic</strong></td><td>full-range</td><td>1</td><td>full-range amp EQ + presence / resonance</td><td>없음</td></tr>
+<tr><td><strong>Dual</strong></td><td>full-range × 2 parallel</td><td>2</td><td>각 rig의 full-range amp EQ</td><td>없음</td></tr>
+<tr><td><strong>Matrix</strong></td><td>LOW / MID / HIGH split</td><td>3</td><td>Drive · Level · band-relative Tone</td><td>LR4, 24 dB/oct, 2 crossover points</td></tr>
+</tbody></table>
+<p>현재 구현에서 Classic은 한 개의 full-range lane, Dual은 같은 입력을 두 개의 full-range lane에 복제한 뒤 병렬 합산한다.
+Matrix만 crossover를 사용한다. 기본 crossover reference는 대략 150 Hz와 1.2 kHz이며, 사용자가 두 지점을 움직이면
+LOW / MID / HIGH의 실제 입력 범위가 함께 바뀐다.</p>
+
+<div class="rule"><div class="label">Design Rule 01</div>
+Mode는 화면에 붙은 이름이 아니라 signal path의 계약이다. Classic과 Dual에 crossover가 보이거나,
+Matrix가 full-range rig처럼 동작한다면 UI 문제가 아니라 architecture가 잘못 전달되고 있는 것이다.
+</div>
+
+<h2>3. 첫 번째 UI 실패 — 엔진은 달라도 화면이 같으면 사용자는 같은 시스템으로 읽는다</h2>
+<p>초기 테스트 UI는 세 개의 lane을 중심으로 빠르게 기능을 노출했다. 문제는 Classic, Dual, Matrix에서 화면 구조가 지나치게 비슷했다는 점이다.
+모드는 바뀌는데 각 lane이 무엇을 받고 있는지, crossover가 어느 모드에서만 의미가 있는지, 왜 Classic에서 세 개의 컬럼처럼 보이는지가 명확하지 않았다.
+기능은 들어 있었지만 <em>routing affordance</em>가 없었다.</p>
+<p>수정 방향은 단순했다. Classic에서는 하나의 <strong>FULL-RANGE RIG</strong>, Dual에서는
+<strong>FULL-RANGE RIG A/B</strong>, Matrix에서는 <strong>LOW / MID / HIGH BAND</strong>만 보이게 했다.
+Matrix에서는 각 band의 실제 입력 범위를 현재 crossover 값으로 표시하고, Classic/Dual에서는 crossover control 자체를 숨겼다.</p>
+
+<div class="failure"><div class="label">Failure Case 01 — 같은 lane template의 과도한 재사용</div>
+DSP에서 lane을 재사용할 수 있다는 사실을 UI까지 같은 형태로 보여줘야 한다는 뜻으로 받아들였다.
+결과적으로 “무엇이 공유되는가”보다 “무엇이 다른가”가 보이지 않았다. 이후 UI는 내부 class 구조가 아니라 사용자가 이해해야 할 signal topology를 우선한다.
+</div>
+
+<h2>4. Matrix에 4-band EQ를 그대로 넣었던 이유와, 결국 뺀 이유</h2>
+<p>초기 Matrix lane은 Classic/Dual의 amp control을 거의 그대로 상속했다. Drive와 Level뿐 아니라 Bass, Low Mid, High Mid, Treble,
+Presence, Resonance까지 각 band에 남아 있었다. 구현 면에서는 간단했다. 이미 존재하는 amp tone stage를 그대로 호출하면 됐기 때문이다.</p>
+<p>하지만 Matrix는 입력 단계에서 이미 스펙트럼을 세 구역으로 제한한다. 예를 들어 LOW band만 받은 lane에 full-range 4-band EQ를 그대로 제공하면,
+실제로 들어오지 않는 대역을 조절하는 knob가 생기고, crossover와 EQ의 역할도 화면에서 겹쳐 보인다. 컨트롤이 많아지는 것이 유연성처럼 보이지만,
+실제로는 사용자가 현재 lane의 책임 범위를 파악하기 어렵게 했다.</p>
+
+<div class="failure"><div class="label">Failure Case 02 — “더 많은 EQ = 더 많은 제어”라는 가정</div>
+Matrix에서는 전체 주파수 응답을 다시 그리는 EQ보다, 이미 잘린 band 안에서 amp로 들어가기 전의 무게중심을 조절하는 제어가 더 직접적이었다.
+Full-range EQ를 Matrix에서 보이지 않게 하고 DSP에서도 bypass하도록 바꿨다.
+</div>
+
+<h3>4.1 Band Tone — crossover를 하나 더 만드는 knob가 아니다</h3>
+<p>대체한 control이 <strong>Band Tone</strong>이다. 이것은 새로운 band-pass filter나 세 번째 crossover가 아니다.
+각 lane의 split 이후, amp distortion 이전에 놓이는 band-relative tilt다. 음수 방향은 band 내부의 균형을 어둡게,
+양수 방향은 밝게 이동시킨다.</p>
+<p>Tone pivot은 고정된 “500 Hz” 같은 숫자가 아니라 현재 crossover로 정의된 band의 기하평균 중심을 따라간다.
+따라서 crossover를 옮기면 LOW/MID/HIGH의 실제 범위뿐 아니라 Tone이 기준으로 삼는 pivot도 같이 이동한다.
+Classic/Dual의 기존 full-range EQ parameter는 지우지 않고 상태를 보존해, 모드를 왕복할 때 세팅이 소실되지 않도록 했다.</p>
+
+<div class="rule"><div class="label">Design Rule 02</div>
+Matrix에서 crossover는 <strong>band ownership</strong>을 결정하고, Band Tone은 그 band 내부의 <strong>pre-amp balance</strong>를 조정한다.
+두 control은 역할이 다르며 서로를 대신하지 않는다.
+</div>
+
+<h2>5. “내 PC에서 컴파일됨”을 넘어서 — 빌드 파이프라인도 제품의 일부로 만들기</h2>
+<p>첫 bootstrap PR은 폐기하고, <code>main</code>에서 다시 시작한 PR #2를 <code>v1.0/rebuild</code>로 만들었다.
+목표는 코드를 쌓는 것이 아니라 사용자가 실제로 실행할 수 있는 테스트 artifact까지 한 번에 재현하는 것이었다.</p>
+<table class="grid">
+<thead><tr><th>Layer</th><th>1.0 test foundation</th></tr></thead>
+<tbody>
+<tr><td>Framework</td><td>JUCE 8.0.8 · C++20 · CMake 3.22+</td></tr>
+<tr><td>Formats</td><td>VST3 + Standalone · AU on macOS</td></tr>
+<tr><td>CI</td><td>Windows / Ubuntu / macOS matrix build</td></tr>
+<tr><td>DSP verification</td><td><code>ChimeraTests</code> through CTest</td></tr>
+<tr><td>Windows UI verification</td><td><code>ChimeraUITests</code> + rendered UI snapshots</td></tr>
+<tr><td>Distribution test</td><td>Windows ZIP + SHA256 manifest</td></tr>
+</tbody></table>
+<p>Windows에서 unsigned development binary가 Chrome/SmartScreen에 경고되는 문제도 여기서 드러났다.
+이 단계에서 code signing까지 완료된 상용 배포물로 위장하지 않고, README에 unsigned test build임을 명시하고 SHA256을 함께 내보내도록 했다.</p>
+
+<h2>6. 첫 완전 성공 지점 — Run #111</h2>
+<p>Run #111에서 Windows, Ubuntu, macOS 세 job이 모두 build와 CTest를 통과했다.
+Windows에서는 VST3/Standalone을 묶은 <code>Chimera-Amp-Matrix-1.0.0-test-win64.zip</code>과 SHA256 manifest가 생성되었다.
+이 지점에서 처음으로 “소스가 있다”가 아니라 <strong>다른 머신에서 빌드되고, 테스트되고, 사용자가 내려받아 실행할 수 있는 1.0 test artifact가 있다</strong>고 말할 수 있게 됐다.</p>
+
+<div class="position"><div class="label">Checkpoint — Run #111</div>
+Classic / Dual / Matrix routing foundation · amp/cab processing · cross-platform CI · automated DSP tests · Windows packaged test artifact까지 한 번에 통과.
+이 빌드는 최종 제품이 아니라, 이후 구조 변경을 비교할 수 있는 첫 안정 기준점이다.
+</div>
+
+<h2>7. 성공 직후 다시 깨뜨리기 — 최신 Run #112의 Windows regression</h2>
+<p>#111 이후 Matrix의 full-range EQ를 Band Tone으로 바꾸고, mode별 control visibility와 label을 다시 설계했다.
+Ubuntu와 macOS에서는 최신 code가 build 및 CTest를 통과했고, Windows도 binary build와 UI snapshot 생성까지 성공했다.
+그러나 Windows의 <code>ChimeraUITests</code>가 <strong>“Wrong controls for routing mode”</strong>로 실패했다.
+그 결과 packaging step은 의도대로 중단됐다.</p>
+<p>이 실패는 현재 기록 시점에서 닫히지 않은 상태다. DSP smoke test인 <code>ChimeraTests</code>는 통과했기 때문에
+핵심 오디오 엔진이 컴파일되지 않는 문제가 아니라, 바뀐 mode-specific UI 계약과 Windows UI test의 기대 조건 사이에 회귀가 생긴 것으로 좁혀져 있다.
+다음 작업은 snapshot만 보고 넘기는 것이 아니라 어떤 control visibility/state expectation이 새 설계와 어긋났는지 수정한 뒤 다시 green build를 만드는 것이다.</p>
+
+<div class="failure"><div class="label">Failure Case 03 — green build는 종착점이 아니다</div>
+#111이 전부 통과했다고 해서 구조를 동결하지 않았다. 잘못된 Matrix control model을 고쳤고, 그 수정 때문에 #112에서 새 regression이 생겼다.
+Bench Notes에서 중요한 것은 실패를 숨기는 것이 아니라 <strong>어떤 설계 변경이 어떤 검증 항목을 다시 깨뜨렸는지 추적 가능하게 만드는 것</strong>이다.
+</div>
+
+<h2>8. 현재 설계 위치와 Vol.2로 넘길 것</h2>
+<div class="position"><div class="label">Current Design Position — 2026-09-23</div>
+<strong>Classic</strong> = 1 full-range rig. <strong>Dual</strong> = 2 full-range rigs in parallel.
+<strong>Matrix</strong> = LOW / MID / HIGH 3-band split, LR4 24 dB/oct crossover, amp/cab per band,
+Drive + Level + crossover-relative Band Tone. Matrix에서는 full-range amp EQ를 bypass하되 Classic/Dual state는 보존한다.
+</div>
+<p>Vol.2의 우선순위는 기능 목록을 더 늘리는 것이 아니라 현재 계약을 먼저 안정화하는 것이다.</p>
+<ul>
+<li>Windows <code>ChimeraUITests</code>의 routing-mode visibility regression 수정 및 #112 후속 green build 확보</li>
+<li>crossover 이동 시 band sum, phase, level consistency를 자동 측정하는 테스트 강화</li>
+<li>lane latency / oversampling / merge alignment 검증</li>
+<li>Pre FX / Post FX를 실제 module chain으로 확장하면서 mode별 책임 범위 유지</li>
+<li>amp/cab voicing과 IR workflow를 “모델 수”가 아니라 repeatable reference와 A/B validation 기준으로 발전</li>
+</ul>
+
+<h2>Source Links</h2>
+<ul class="refs">
+<li><a href="https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix">SpectralForge — Chimera Amp Matrix repository</a></li>
+<li><a href="https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/pull/2">PR #2 — Chimera Amp Matrix 1.0 rebuild</a></li>
+<li><a href="https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/35830856454">GitHub Actions Run #111 — first all-platform green/package checkpoint</a></li>
+<li><a href="https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/35854137402">GitHub Actions Run #112 — current Windows UI-test regression</a></li>
+</ul>
+<div class="footer">Working development record · SpectralForge / Bench Notes · 2026.09.23</div>
+</main></body></html>
