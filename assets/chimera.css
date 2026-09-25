@@ -1,0 +1,74 @@
+/* SpectralForge Chimera, scoped to the existing RavenForge section shell. */
+.rf-chimera { --chimera-gold: #d4b47b; --chimera-border: rgb(212 180 123 / .25); }
+.rf-chimera-hero { display: grid; grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr); align-items: center; gap: 2rem; padding: clamp(1.5rem,3.5vw,3rem); background: #121b1d; color: #f3f0e8; border: 1px solid var(--chimera-border); border-radius: 8px 8px 0 0; }
+.rf-chimera-copy { min-width: 0; }
+.rf-chimera-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; }
+.rf-chimera-meta .rf-eyebrow { color: var(--chimera-gold); font-size: .72rem; }
+.rf-chimera-badge { padding: .2rem .55rem; font-size: .75rem; color: #e5d3af; border: 1px solid var(--chimera-border); }
+.rf-chimera h2 { margin: 1.25rem 0 0; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2.65rem,5.8vw,5.6rem); line-height: 1.05; font-weight: 400; letter-spacing: .04em; color: #ead6af; }
+.rf-chimera-subtitle { margin: .55rem 0 1.8rem; color: #c3cbc8; font-size: .95rem; }
+.rf-chimera-copy h3 { margin: 0 0 .75rem; font-size: clamp(1.25rem,2.1vw,1.8rem); font-weight: 500; line-height: 1.45; letter-spacing: -.035em; }
+.rf-chimera-intro { margin: 0 0 1.5rem; color: #c3cbc8; font-size: 1rem; line-height: 1.8; word-break: keep-all; overflow-wrap: anywhere; }
+.rf-chimera-button { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: .7rem 1rem; background: #1d2a2e; color: #fff; border: 1px solid #1d2a2e; border-radius: 3px; font-size: .9rem; font-weight: 500; text-decoration: none; line-height: 1.5; text-align: center; }
+.rf-chimera-button:hover { background: #34494e; border-color: #34494e; }
+.rf-chimera-primary { background: var(--chimera-gold); border-color: var(--chimera-gold); color: #141d1d; }
+.rf-chimera-primary:hover { background: #ead3a9; border-color: #ead3a9; }
+.rf-chimera-version { margin: .75rem 0 0; color: #9eaaa6; font-size: .75rem; letter-spacing: .07em; }
+.rf-chimera-preview { min-width: 0; margin: 0; }
+.rf-chimera-preview a { display: block; border: 1px solid var(--chimera-border); box-shadow: 0 18px 36px rgb(0 0 0 / .25); }
+.rf-chimera-preview img { display: block; width: 100%; height: auto; }
+.rf-chimera-preview figcaption { margin-top: .7rem; color: #b4bfba; font-size: .8rem; text-align: right; }
+.rf-chimera-stats { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; border-top: 1px solid var(--chimera-border); padding-top: 1.5rem; margin: .25rem 0 0; }
+.rf-chimera-stats > div { display: flex; flex-direction: column-reverse; align-items: center; gap: .25rem; }
+.rf-chimera-stats > div + div { border-left: 1px solid var(--chimera-border); }
+.rf-chimera-stats dt { color: #c3cbc8; font-size: .9rem; text-align: center; }
+.rf-chimera-stats dd { margin: 0; color: var(--chimera-gold); font-family: Georgia, serif; font-size: 2.25rem; line-height: 1.1; }
+.rf-chimera-body { background: rgb(242 245 241 / .96); border: 1px solid rgb(218 210 185 / .45); border-top: 0; border-radius: 0 0 8px 8px; padding: 0 clamp(1.25rem,3.5vw,3rem); }
+.rf-chimera-block { padding: 2.5rem 0; border-bottom: 1px solid var(--rf-line); }
+.rf-chimera-body h3 { margin: 0 0 1rem; color: #202526; font-size: clamp(1.3rem,2.4vw,1.8rem); line-height: 1.4; font-weight: 500; letter-spacing: -.025em; }
+.rf-chimera-modes, .rf-chimera-downloads { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.5rem; }
+.rf-chimera-modes { margin: 1.75rem 0 1.5rem; }
+.rf-chimera-modes article { position: relative; padding-top: 1rem; border-top: 2px solid #ad8760; }
+.rf-chimera-number { float: right; color: #986338; font-size: .85rem; }
+.rf-chimera-body h4 { margin: 0 0 .65rem; color: #202526; font-size: 1.25rem; font-weight: 500; }
+.rf-chimera-modes p { margin: 0; color: #4f5a56; line-height: 1.8; word-break: keep-all; overflow-wrap: anywhere; }
+.rf-chimera-features { padding-top: 1.25rem; border-top: 1px solid var(--rf-line); margin: 0; color: #5c634f; font-size: .9rem; }
+.rf-chimera-muted { margin: 0 0 1.5rem; color: #586162; font-size: .95rem; }
+.rf-chimera-downloads article { display: flex; flex-direction: column; min-width: 0; padding: 1.35rem; border: 1px solid #cbd2c9; background: #f8faf6; border-radius: 4px; }
+.rf-chimera-downloads p { margin: 0 0 .6rem; color: #586162; font-size: .85rem; }
+.rf-chimera-downloads .rf-chimera-formats { margin-bottom: 1.4rem; color: #394844; font-weight: 500; }
+.rf-chimera-downloads .rf-chimera-button { margin-top: auto; }
+.rf-chimera-file { margin-top: .6rem; font-size: .75rem; color: #586162; text-align: center; }
+.rf-chimera-install-note { margin: 1rem 0 1.5rem; color: #586162; font-size: .85rem; line-height: 1.75; }
+.rf-chimera-resources { display: flex; align-items: flex-start; flex-wrap: wrap; gap: 1rem 2rem; }
+.rf-chimera-resources a, .rf-chimera-copyright a { display: inline-block; color: #714528; text-decoration: underline; text-underline-offset: .25em; font-weight: 500; }
+.rf-chimera-resources a { min-height: 32px; }
+.rf-chimera-resources a:hover, .rf-chimera-copyright a:hover { color: #a04e1b; }
+.rf-chimera-resources span { display: block; color: #586162; font-size: .8rem; }
+.rf-chimera-notices { padding: 2.5rem 0; }
+.rf-chimera-notices dl { margin: 0; display: grid; gap: 1.25rem; }
+.rf-chimera-notices dl > div { display: grid; grid-template-columns: minmax(0,.7fr) minmax(0,2.3fr); gap: 1.5rem; }
+.rf-chimera-notices dt { color: #35423d; font-size: .95rem; font-weight: 700; }
+.rf-chimera-notices dd { margin: 0; color: #586162; font-size: .95rem; line-height: 1.8; word-break: keep-all; overflow-wrap: anywhere; }
+.rf-chimera-copyright { border-top: 1px solid var(--rf-line); padding: 1.5rem 0; font-size: .75rem; color: #586162; }
+.rf-chimera-copyright p { margin: 0 0 .4rem; }
+.rf-chimera-copyright a { margin-top: .3rem; }
+@media (max-width: 1000px) {
+  .rf-chimera-hero { grid-template-columns: 1fr; gap: 1.75rem; }
+  .rf-chimera-copy { max-width: 46rem; }
+  .rf-chimera h2 { font-size: clamp(2.65rem,9vw,5rem); }
+  .rf-chimera-preview { width: 100%; }
+}
+@media (max-width: 640px) {
+  .rf-chimera-hero { padding: 1.25rem; gap: 1.5rem; }
+  .rf-chimera-body { padding: 0 1.25rem; }
+  .rf-chimera-subtitle { margin-bottom: 1.4rem; }
+  .rf-chimera-stats { gap: .5rem; }
+  .rf-chimera-stats dt { font-size: .75rem; overflow-wrap: anywhere; }
+  .rf-chimera-stats dd { font-size: 1.9rem; }
+  .rf-chimera-modes, .rf-chimera-downloads { grid-template-columns: 1fr; gap: 1.25rem; }
+  .rf-chimera-block, .rf-chimera-notices { padding: 1.75rem 0; }
+  .rf-chimera-notices dl > div { grid-template-columns: 1fr; gap: .35rem; }
+  .rf-chimera-resources { flex-direction: column; gap: .5rem; }
+  .rf-chimera-resources a { min-height: 44px; padding: .5rem 0; }
+}
