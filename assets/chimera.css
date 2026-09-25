@@ -72,3 +72,22 @@
   .rf-chimera-resources { flex-direction: column; gap: .5rem; }
   .rf-chimera-resources a { min-height: 44px; padding: .5rem 0; }
 }
+
+/* PRE and POST showcases keep screenshots legible and uncropped. */
+.rf-chimera-fx-gallery { display: grid; gap: 2.5rem; margin-top: 2rem; }
+.rf-chimera-fx-row { display: grid; grid-template-columns: minmax(0,1.6fr) minmax(0,1fr); gap: clamp(1.25rem,2.5vw,2.25rem); align-items: center; min-width: 0; }
+.rf-chimera-fx-image { min-width: 0; margin: 0; }
+.rf-chimera-fx-image a { display: block; border: 1px solid #38423e; border-radius: 4px; overflow: hidden; background: #121b1d; }
+.rf-chimera-fx-image img { display: block; width: 100%; height: auto; }
+.rf-chimera-fx-image figcaption { margin-top: .65rem; font-size: .8rem; color: #586162; }
+.rf-chimera-fx-copy { min-width: 0; }
+.rf-chimera-fx-copy h4 { font-size: clamp(1.25rem,2vw,1.6rem); line-height: 1.45; margin-bottom: .9rem; }
+.rf-chimera-fx-copy p { margin: 0 0 .9rem; color: #4f5a56; line-height: 1.8; word-break: keep-all; overflow-wrap: anywhere; }
+.rf-chimera-fx-copy .rf-chimera-fx-count { color: #855734; font-size: .8125rem; font-weight: 700; letter-spacing: .04em; margin-bottom: .5rem; }
+.rf-chimera-fx-copy .rf-chimera-fx-types { color: #35423d; font-size: .875rem; padding-block: .85rem; border-block: 1px solid var(--rf-line); }
+.rf-chimera-fx-copy .rf-chimera-fx-detail { font-size: .85rem; margin-bottom: .65rem; color: #586162; }
+@media (max-width: 1000px) {
+  .rf-chimera-fx-row { grid-template-columns: 1fr; gap: 1rem; }
+  .rf-chimera-fx-gallery { gap: 2rem; }
+  .rf-chimera-fx-row + .rf-chimera-fx-row { padding-top: 2rem; border-top: 1px solid var(--rf-line); }
+}

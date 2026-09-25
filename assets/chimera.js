@@ -36,7 +36,24 @@
     "update": "Updates are not installed automatically, and error reports are not sent automatically. Download and install new versions yourself, and report problems through GitHub Issues.",
     "fidelityHeading": "Modeling & hardware verification",
     "fidelity": "Not all reference hardware was available for direct DI matching or reamping. Some models were therefore developed through DSP simulation without that hardware verification and may be less faithful to the original tone and response.",
-    "thirdparty": "Third-party notices"
+    "thirdparty": "Third-party notices",
+    "fxTitle": "PRE pedalboard & POST rack",
+    "fxIntro": "Shape dynamics and drive before the amps, then add texture and space after the rigs are combined.",
+    "preTitle": "PRE · Before the amps",
+    "preCount": "5 categories · 25 models",
+    "preBody": "Shape playing response with envelope filtering and compression, then build the character driving your amps with fuzz, boost and overdrive.",
+    "preTypes": "Envelope · Compressor · Fuzz · Boost · Overdrive",
+    "preOrder": "Choose envelope before or after compression, and place boost before or after overdrive, with fuzz first in the gain section.",
+    "preLow": "In Matrix mode, the low band uses the signal before the gain pedals.",
+    "preCaption": "PRE pedalboard · Select image to enlarge",
+    "preAlt": "SpectralForge Chimera PRE interface with envelope, compressor, fuzz, boost and overdrive pedals",
+    "postTitle": "POST · After the rigs",
+    "postCount": "6 categories · 21 models",
+    "postBody": "Add weight and texture to the combined rigs with bus compression, preamp colour and EQ, then finish with modulation, delay and reverb for movement and space.",
+    "postTypes": "Bus compressor · Preamp · EQ · Modulation · Delay · Reverb",
+    "postOrder": "After the rigs are combined, processing follows BUS COMP → PREAMP → EQ → MODULATION → DELAY → REVERB.",
+    "postCaption": "POST effects rack · Select image to enlarge",
+    "postAlt": "SpectralForge Chimera POST interface with bus compressor, preamp, EQ, modulation, delay and reverb rack units"
   },
   "ko": {
     "status": "무료 오픈베타",
@@ -72,7 +89,24 @@
     "update": "자동 업데이트 설치와 자동 오류 전송은 지원하지 않습니다. 새 버전은 직접 내려받아 설치해 주시고, 문제는 GitHub Issues로 알려 주세요.",
     "fidelityHeading": "모델링과 실물 검증 범위",
     "fidelity": "모든 레퍼런스 장비를 확보하는 데 한계가 있어, 일부 모델은 실물 DI 매칭·리앰핑 검증 없이 DSP 시뮬레이션으로 구현했습니다. 해당 모델은 실제 장비와 음색·반응이 다를 수 있으며 재현도가 낮을 수 있습니다.",
-    "thirdparty": "서드파티 고지"
+    "thirdparty": "서드파티 고지",
+    "fxTitle": "PRE 페달보드와 POST 랙",
+    "fxIntro": "앰프 앞에서 연주 반응과 게인을 다듬고, 리그를 합친 뒤 질감과 공간을 완성합니다.",
+    "preTitle": "PRE · 앰프 앞의 페달보드",
+    "preCount": "5개 계열 · 25개 모델",
+    "preBody": "엔벨로프와 컴프레서로 연주 반응을 다듬고, 퍼즈·부스트·오버드라이브로 앰프를 밀어주는 게인 캐릭터를 구성합니다.",
+    "preTypes": "엔벨로프 · 컴프레서 · 퍼즈 · 부스트 · 오버드라이브",
+    "preOrder": "엔벨로프와 컴프레서의 앞뒤 순서를 바꾸거나, 퍼즈 뒤의 부스트와 오버드라이브 순서를 선택할 수 있습니다.",
+    "preLow": "Matrix의 저역은 게인 페달 이전 신호를 사용합니다.",
+    "preCaption": "PRE 페달보드 · 이미지를 눌러 확대",
+    "preAlt": "SpectralForge Chimera PRE 화면: 엔벨로프, 컴프레서, 퍼즈, 부스트, 오버드라이브 페달",
+    "postTitle": "POST · 리그 뒤의 이펙트 랙",
+    "postCount": "6개 계열 · 21개 모델",
+    "postBody": "리그가 합쳐진 신호에 버스 컴프레서·프리앰프·EQ로 밀도와 질감을 더하고, 모듈레이션·딜레이·리버브로 움직임과 공간감을 완성합니다.",
+    "postTypes": "버스 컴프레서 · 프리앰프 · EQ · 모듈레이션 · 딜레이 · 리버브",
+    "postOrder": "리그 합산 후 BUS COMP → PREAMP → EQ → MODULATION → DELAY → REVERB 순서로 처리합니다.",
+    "postCaption": "POST 이펙트 랙 · 이미지를 눌러 확대",
+    "postAlt": "SpectralForge Chimera POST 화면: 버스 컴프레서, 프리앰프, EQ, 모듈레이션, 딜레이, 리버브 랙"
   },
   "de": {
     "status": "Kostenlose offene Beta",
@@ -108,13 +142,33 @@
     "update": "Updates werden nicht automatisch installiert und Fehlerberichte nicht automatisch gesendet. Bitte laden Sie neue Versionen selbst herunter, installieren Sie diese und melden Sie Probleme über GitHub Issues.",
     "fidelityHeading": "Modellierung & Hardwareprüfung",
     "fidelity": "Nicht alle Referenzgeräte standen für einen direkten DI-Abgleich oder Reamping zur Verfügung. Einige Modelle wurden daher ausschließlich per DSP simuliert und nicht auf diese Weise mit Originalhardware geprüft. Klang und Ansprache können abweichen; die Vorlagentreue kann geringer sein.",
-    "thirdparty": "Hinweise zu Drittanbietern"
+    "thirdparty": "Hinweise zu Drittanbietern",
+    "fxTitle": "PRE-Pedalboard & POST-Rack",
+    "fxIntro": "Dynamik und Drive vor den Amps formen, danach den zusammengeführten Rigs Klangfarbe und Räumlichkeit verleihen.",
+    "preTitle": "PRE · Vor den Amps",
+    "preCount": "5 Kategorien · 25 Modelle",
+    "preBody": "Envelope-Filter und Kompressor formen die Spielreaktion. Fuzz, Boost und Overdrive bestimmen anschließend, mit welchem Gain-Charakter die Amps angesteuert werden.",
+    "preTypes": "Envelope-Filter · Kompressor · Fuzz · Boost · Overdrive",
+    "preOrder": "Der Envelope-Filter lässt sich vor oder hinter den Kompressor setzen. Im Gain-Bereich steht Fuzz zuerst; Boost und Overdrive können die Plätze tauschen.",
+    "preLow": "Im Matrix-Modus erhält das Bassband das Signal vor den Gain-Pedalen.",
+    "preCaption": "PRE-Pedalboard · Bild zum Vergrößern auswählen",
+    "preAlt": "SpectralForge Chimera PRE-Oberfläche mit Envelope-Filter, Kompressor, Fuzz, Boost und Overdrive",
+    "postTitle": "POST · Nach den Rigs",
+    "postCount": "6 Kategorien · 21 Modelle",
+    "postBody": "Bus-Kompressor, Preamp-Klangfarbe und EQ verleihen den zusammengeführten Rigs Dichte und Charakter. Modulation, Delay und Reverb ergänzen Bewegung und Räumlichkeit.",
+    "postTypes": "Bus-Kompressor · Preamp · EQ · Modulation · Delay · Reverb",
+    "postOrder": "Nach dem Zusammenführen der Rigs folgt die Verarbeitung BUS COMP → PREAMP → EQ → MODULATION → DELAY → REVERB.",
+    "postCaption": "POST-Effektrack · Bild zum Vergrößern auswählen",
+    "postAlt": "SpectralForge Chimera POST-Oberfläche mit Bus-Kompressor, Preamp, EQ, Modulation, Delay und Reverb"
   }
 };
   function translate() {
     const lang = Object.hasOwn(copy, document.documentElement.lang) ? document.documentElement.lang : 'en';
     document.querySelectorAll('[data-chimera-key]').forEach(node => {
       node.textContent = copy[lang][node.dataset.chimeraKey];
+    });
+    document.querySelectorAll('[data-chimera-alt]').forEach(node => {
+      node.alt = copy[lang][node.dataset.chimeraAlt];
     });
     document.querySelector('[data-chimera-story]').setAttribute('href', `research/BN01/${lang}.html`);
   }
