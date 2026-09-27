@@ -2,6 +2,26 @@
   "schemaVersion": 1,
   "articles": [
     {
+      "id": "L13",
+      "date": "2026-09-27",
+      "category": "liberal",
+      "ko": {
+        "title": "Technology as Mediation — 기술이 연주자의 지각·행동·판단을 조직하는 방식",
+        "excerpt": "Ihde·Verbeek의 기술적 매개를 L02의 신체적 편입과 L03의 행동 가능성에서 독립적으로 확장한다. 멀티스케일, 액티브 EQ·필터, Chimera의 라우팅·UI를 지각·행동·시간·참조·복구의 관계로 분석하고, 문헌 근거·설계 해석·미검증 가설을 구분한 Mediation Specification과 후속 검증 프로토콜을 제안한다.",
+        "link": "research/L13/ko.html"
+      },
+      "en": {
+        "title": "Technology as Mediation — How technology organizes a player’s perception, action, and judgment",
+        "excerpt": "Extends Ihde and Verbeek’s technological mediation beyond L02 bodily incorporation and L03 affordances. Multiscale geometry, active EQ/filters, and Chimera routing/UI are analyzed through perception, action, timing, reference, and recovery, with an evidence-separated mediation specification and proposed validation protocol.",
+        "link": "research/L13/en.html"
+      },
+      "de": {
+        "title": "Technology as Mediation — Wie Technik Wahrnehmung, Handeln und Urteil von Spielenden strukturiert",
+        "excerpt": "Entwickelt Ihdes und Verbeeks technische Mediation über L02s leibliche Integration und L03s Handlungsmöglichkeiten hinaus. Multiscale, aktive EQ/Filter und Chimeras Routing/UI werden anhand von Wahrnehmung, Handeln, Zeit, Referenz und Wiederherstellung analysiert. Evidenz, Entwurfsdeutung und ungeprüfte Hypothesen bleiben getrennt.",
+        "link": "research/L13/de.html"
+      }
+    },
+    {
       "id": "BN01",
       "date": "2026-09-23",
       "category": "log",
