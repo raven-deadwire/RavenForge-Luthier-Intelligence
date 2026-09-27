@@ -190,3 +190,12 @@
 #quest .rf-q-drawing .qv-reference-hardware{fill:#10232c;stroke:#a2b8a7;stroke-width:.6;vector-effect:non-scaling-stroke}
 #quest .rf-q-drawing .qv-reference-string{fill:none;stroke:#b8cbb9;stroke-width:.4;opacity:.8;vector-effect:non-scaling-stroke}
 #quest .rf-q-reference-note{display:block;padding:.5rem .65rem;border-top:1px solid #344c48;color:#b9cabb;font-size:.7rem;line-height:1.65}
+/* Equal collapsed cards; expanded details and narrow screens stay content-sized.
+   Fractional rows share the tallest natural card, never a clipping pixel height. */
+@media screen and (min-width:681px){
+  #quest .rf-q-grid{align-items:stretch;grid-auto-rows:1fr}
+  #quest .rf-q-grid:has(> .rf-q-card[open]){grid-auto-rows:auto}
+  #quest .rf-q-card:not([open])>summary{display:flex;flex-direction:column;height:100%}
+  #quest .rf-q-card:not([open])>summary>*{flex-shrink:0}
+  #quest .rf-q-card:not([open]) .rf-q-evidence{flex-grow:1}
+}
