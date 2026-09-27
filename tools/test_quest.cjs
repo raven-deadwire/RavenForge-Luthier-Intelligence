@@ -27,6 +27,16 @@ for (const lang of ['ko', 'en', 'de']) {
     assert.equal(svg.getAttribute('aria-hidden'), 'true');
     assert.equal(svg.querySelectorAll('image').length, 0, 'no raster infographic');
   }
+  const ergonomic = d.querySelector('#quest-ergonomics .rf-q-drawing');
+  const narrative = d.querySelector('#quest-narrative .rf-q-drawing');
+  assert.equal(ergonomic.querySelectorAll('[data-reference-model="EMBLA"]').length, 1);
+  assert.equal(ergonomic.querySelectorAll('.qv-reference-string').length, 5, 'continuous five-string reference');
+  assert.deepEqual([...narrative.querySelectorAll('[data-reference-model]')].map(n => n.dataset.referenceModel), ['EMBLA','ASKR','EDDA']);
+  assert.equal(d.querySelectorAll('.rf-q-reference-note').length, 2, 'localized source/scale notes');
+  for (const n of d.querySelectorAll('[data-source-artwork]')) assert.ok(fs.existsSync(path.join(ROOT, n.dataset.sourceArtwork)));
+  assert.equal(ergonomic.querySelector('[data-reference-model="EMBLA"] path').getAttribute('d'), narrative.querySelector('[data-reference-model="EMBLA"] path').getAttribute('d'), 'EMBLA is the same reference contour in both topics');
+  assert.ok(!narrative.innerHTML.includes('M302 28c-34'), 'remove invented body');
+  assert.ok(!ergonomic.innerHTML.includes('M207 116l92'), 'remove invented instrument');
   assert.equal(d.querySelector('.rf-q-shell').lang, lang);
   const ids = [...d.querySelectorAll('[id]')].map(n => n.id);
   assert.equal(ids.length, new Set(ids).size, 'duplicate IDs');

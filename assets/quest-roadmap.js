@@ -18,21 +18,21 @@
   const VISUAL = {
     ko: { nav: '여섯 갈래의 탐구', core: '하나의 악기', explore: '과제를 선택해 살펴보기', atlasNote: '서로 연결된 설계 질문 · 순서나 성능 등급이 아닙니다',
       titles: ['넥 구조', '재료 선택', '인체공학', '전자계', '서사와 형태', '제작·검수'],
-      tags: [['단면·기하', '보강·조정', '조인트'], ['목재 상태', '결·방향', '조달 이력'], ['자세', '리치', '밸런스'], ['픽업 부하', '신호 경로', '기준 상태'], ['서사', '형태·재료', '사용 경험'], ['도면·부품', '제작·조립', '검수·수리']],
+      tags: [['단면·기하', '보강·조정', '조인트'], ['목재 상태', '결·방향', '조달 이력'], ['자세', '리치', '밸런스'], ['픽업 부하', '신호 경로', '기준 상태'], ['EMBLA', 'ASKR', 'EDDA'], ['도면·부품', '제작·조립', '검수·수리']],
       drawings: '설계 질문을 도해로 읽기', drawingNote: '도해는 구조와 관계를 설명하는 개념도입니다. 실측 치수·응답 곡선·완성품의 설계도가 아닙니다.',
       mapTitle: '연구에서 과제로, 과제에서 악기로', mapIntro: '과제를 선택하면 연결된 연구 문서와 적용 모델이 함께 바뀝니다.',
       source: '연결된 연구', task: '설계 과제', models: '적용 모델', mapNote: '연결선은 공개 기록의 관계를 나타내며 성능 검증이나 제작 완료를 의미하지 않습니다.',
       open: '과제 상세 보기', proto: '프로토타입 설계', concept: '컨셉', loop: '관찰과 판단을 다음 리비전의 요구조건으로', update: '연구 문서와 적용 모델 연결을 표시했습니다.', revision: '페이지 내부에 과제별 SVG 도해, 클릭형 연구·모델 연결 맵과 반복 설계 흐름을 추가했습니다. 도해와 화면 문구는 한·영·독 언어 전환에 대응합니다.' },
     en: { nav: 'Six lines of inquiry', core: 'One instrument', explore: 'Choose a quest to explore', atlasNote: 'Connected questions, not a sequence or performance grade',
       titles: ['Neck structure', 'Materials', 'Ergonomics', 'Electronics', 'Narrative & form', 'Build & inspect'],
-      tags: [['Section & geometry', 'Reinforce & adjust', 'Neck joint'], ['Blank condition', 'Grain direction', 'Sourcing record'], ['Posture', 'Reach', 'Balance'], ['Pickup loading', 'Signal path', 'Reference state'], ['Narrative', 'Form & material', 'Playing experience'], ['Drawings & parts', 'Build & assemble', 'Inspect & service']],
+      tags: [['Section & geometry', 'Reinforce & adjust', 'Neck joint'], ['Blank condition', 'Grain direction', 'Sourcing record'], ['Posture', 'Reach', 'Balance'], ['Pickup loading', 'Signal path', 'Reference state'], ['EMBLA', 'ASKR', 'EDDA'], ['Drawings & parts', 'Build & assemble', 'Inspect & service']],
       drawings: 'Read the design questions visually', drawingNote: 'Schematic illustrations of structures and relationships—not measured dimensions, response curves or production drawings.',
       mapTitle: 'Research → questions → instruments', mapIntro: 'Select a quest to reveal its connected research and model applications.',
       source: 'Connected research', task: 'Design question', models: 'Model applications', mapNote: 'Lines show relationships in public records, not verified performance or completed builds.',
       open: 'Open this quest', proto: 'Prototype design', concept: 'Concept', loop: 'Feed observations and decisions into the next revision', update: 'Connected research and model applications updated.', revision: 'Added native SVG quest illustrations, an interactive research/model connection map and an iterative design flow inside this page. Visual labels support Korean, English and German.' },
     de: { nav: 'Sechs Forschungsrichtungen', core: 'Ein Instrument', explore: 'Aufgabe auswählen', atlasNote: 'Verbundene Fragen, keine Reihenfolge oder Leistungsbewertung',
       titles: ['Halsstruktur', 'Materialwahl', 'Ergonomie', 'Elektronik', 'Erzählung & Form', 'Bauen & prüfen'],
-      tags: [['Querschnitt', 'Verstärken & einstellen', 'Halsverbindung'], ['Rohlingzustand', 'Faserrichtung', 'Herkunft'], ['Haltung', 'Reichweite', 'Balance'], ['Pickup-Last', 'Signalweg', 'Referenzzustand'], ['Erzählung', 'Form & Material', 'Spielerfahrung'], ['Plan & Bauteile', 'Bau & Montage', 'Prüfung & Wartung']],
+      tags: [['Querschnitt', 'Verstärken & einstellen', 'Halsverbindung'], ['Rohlingzustand', 'Faserrichtung', 'Herkunft'], ['Haltung', 'Reichweite', 'Balance'], ['Pickup-Last', 'Signalweg', 'Referenzzustand'], ['EMBLA', 'ASKR', 'EDDA'], ['Plan & Bauteile', 'Bau & Montage', 'Prüfung & Wartung']],
       drawings: 'Entwurfsfragen visuell lesen', drawingNote: 'Schematische Darstellungen von Strukturen und Beziehungen – keine Messwerte, Übertragungskurven oder Fertigungszeichnungen.',
       mapTitle: 'Von Forschung zu Fragen zu Instrumenten', mapIntro: 'Eine Aufgabe auswählen, um verknüpfte Forschung und Modellbezüge zu sehen.',
       source: 'Verknüpfte Forschung', task: 'Entwurfsfrage', models: 'Modellbezüge', mapNote: 'Linien zeigen Beziehungen öffentlicher Unterlagen, keine bestätigte Leistung oder abgeschlossene Fertigung.',
@@ -44,6 +44,47 @@
   const callout = (x, y, n) => `<g class="qv-callout">${circle(x, y, 12)}<text x="${x}" y="${y + 4}" text-anchor="middle">${n}</text></g>`;
   const blueGrid = Array.from({ length: 15 }, (_, i) => line(`M${i * 40 + 20} 12V188`, 'qv-grid')).join('') + [30,70,110,150,190].map(y => line(`M12 ${y}H588`, 'qv-grid')).join('');
   const arrow = (x, y) => line(`M${x-6} ${y-5}l6 5-6 5`, 'qv-accent');
+
+  // Front-view contours traced from this site's published prototype artwork.
+  // Coordinates reference 1000 x 1000 display copies of the source images.
+  // These are concept-art outlines, not CAD geometry or measured ergonomics.
+  const REFERENCE_BODIES = {
+    EMBLA: {
+      source: 'assets/optimized/embla-prototype.webp',
+      d: 'M451 542C420 553 391 507 377 447C374 434 365 444 356 453C337 478 348 530 364 575C383 620 364 663 339 700C306 746 300 788 326 827C358 875 399 886 473 889C539 894 597 891 632 871C664 854 674 831 666 802C659 776 637 749 620 717C597 678 598 649 615 606C629 573 623 553 613 554C599 552 583 596 555 604C545 608 537 604 531 599L531 610L450 610Z',
+      centre: [490,665], height: 450
+    },
+    ASKR: {
+      source: 'assets/optimized/askr-prototype.webp',
+      d: 'M472 613C450 614 437 599 428 571C416 539 425 512 426 489C415 504 400 531 398 550C393 579 413 620 421 653C433 691 413 727 397 756C382 779 381 797 387 817C398 857 416 877 449 888C491 903 536 899 570 886C607 872 625 849 622 821C621 798 602 773 589 748C569 713 576 684 592 654C598 642 604 632 612 624C593 625 582 634 568 641C550 651 536 646 526 634L526 674L471 672Z',
+      centre: [502,694], height: 410
+    },
+    EDDA: {
+      source: 'assets/optimized/edda-prototype.webp',
+      d: 'M471 623C465 639 446 635 436 622C421 602 417 573 415 550C414 536 413 524 407 525C387 530 379 549 380 574C378 612 393 650 400 682C414 729 394 766 372 808C352 845 346 868 352 895C358 935 386 961 428 971C466 981 526 979 564 970C609 960 638 932 640 894C642 864 626 832 612 800C597 766 588 750 597 718C604 697 617 680 617 660C616 646 608 636 600 634C591 630 594 651 584 670C574 692 554 699 539 692C532 690 529 688 527 680L527 700L472 700Z',
+      centre: [495,750], height: 460
+    }
+  };
+  function referenceBody(model) {
+    const r = REFERENCE_BODIES[model];
+    return `<g data-reference-model="${model}" data-source-artwork="${r.source}" class="qv-reference-shape"><path d="${r.d}"/></g>`;
+  }
+  function emblaInstrument() {
+    // Keep the source's front-view orientation, continuous neck and 3+2 head.
+    const strings = [0,1,2,3,4].map(i => `<path d="M${485+i*9} 113L${429+i*23} 823" class="qv-reference-string"/>`).join('');
+    return referenceBody('EMBLA') +
+      '<path d="M482 111L524 113L532 603L450 601Z" class="qv-reference-neck"/>' +
+      '<path d="M482 111L469 101L463 88L475 61L479 40L497 34L524 42L531 51L533 84L542 99L524 113Z" class="qv-reference-neck"/>' +
+      '<path d="M479 62L461 61M472 79L452 81M469 98L450 98M531 66L545 66M538 99L554 101" class="qv-reference-hardware"/>' +
+      '<path d="M461 61l-9-8-6 15 12 1ZM452 81l-10-1-3 12 12-4ZM450 98l-11 0-3 10 13-2ZM545 66l10-7 4 11-12 4ZM554 101l13-8 3 16-15-2Z" class="qv-reference-neck"/>' +
+      '<path d="M426 678H544V714H423ZM424 725H546V761H421ZM425 790H543V838H420Z" class="qv-reference-hardware"/>' + strings;
+  }
+  const REFERENCE_COPY = {
+    ko: { ergonomics: 'EMBLA 공개 원화 기준 · 자세·리치·지지점 관계도', narrative: '공개 원화의 바디 윤곽 · 표시 높이 통일, 실측 비율 비교 아님' },
+    en: { ergonomics: 'Based on published EMBLA art · posture, reach & support', narrative: 'Bodies from published art · equal display height, not measured relative size' },
+    de: { ergonomics: 'Nach veröffentlichter EMBLA-Grafik · Haltung, Reichweite & Auflage', narrative: 'Korpusformen aus Entwurfsgrafiken · gleiche Anzeigehöhe, kein Größenvergleich' }
+  };
+
   const DRAWINGS = {
     neck: line('M35 131L455 64 548 86 128 157Z','qv-fill') + line('M35 131v15l93 26 420-72V86M128 157v15M48 137l80 21 408-69','qv-muted') +
       [0,1,2,3,4].map(i => line(`M${60+i*13} ${132+i*3}L${478+i*12} ${69+i*3}`,'qv-fine')).join('') +
@@ -58,12 +99,16 @@
       circle(374,106,62,'qv-muted') + [49,36,23,10].map(r=>`<ellipse cx="374" cy="106" rx="${r}" ry="${r*.78}" transform="rotate(-20 374 106)" class="qv-fine"/>`).join('') + line('M326 143l95-73','qv-accent') + arrow(421,70)+
       line('M477 53h55l25 25v96h-80ZM532 53v25h25M492 98h47M492 118h35M492 138h43','qv-muted') +
       line('M294 119h15M439 107h23','qv-dash') + callout(81,43,1)+callout(391,34,2)+callout(520,35,3),
-    ergonomics: circle(358,40,20,'qv-muted') + line('M339 61q-48 7-55 60l-11 65M375 60q40 10 52 66l19 54M306 83q-33 36-88 42M398 87q-24 30-79 40M316 79q-13 69-12 106M390 77q17 65 15 108','qv-muted') +
-      line('M207 116l92-17c2-28 24-31 36-12l21 23c19 4 36-6 42 5 12 29-18 58-48 59-27 1-47-20-48-40l-92 8Z','qv-fill') +
-      line('M205 122L54 57 35 66l166 76ZM49 75l14-12M69 84l13-12M91 94l12-12M114 104l11-12M136 114l11-12M160 124l11-12','qv-accent') +
-      line('M42 35Q200-12 280 63M215 172q-60-35-73-84M221 159q-39-31-40-65M293 104l45-39 42 57','qv-dash') +
-      circle(327,117,5,'qv-accent') + line('M317 117h20M327 107v20','qv-accent') + line('M440 69h67M451 69v91M436 160h80','qv-fine') +
-      callout(410,39,1)+callout(113,41,2)+callout(354,152,3),
+    ergonomics: circle(195,30,18,'qv-muted') +
+      line('M180 50Q154 53 142 80L124 120M211 50Q235 54 247 82L251 120M164 65L159 178M234 67L240 178','qv-muted') +
+      line('M116 183H265M201 67V175','qv-fine') +
+      line('M158 61L159 127M224 62L302 51','qv-dash') +
+      '<g transform="translate(225 112) rotate(75) scale(.34) translate(-490 -710)" data-instrument-orientation="source-front">' + emblaInstrument() + '</g>' +
+      line('M145 90Q125 119 190 133M241 85Q312 136 366 85','qv-muted') +
+      line('M340 88Q396 65 447 54','qv-dash') + arrow(447,54) +
+      circle(302,51,4,'qv-accent') + circle(159,127,4,'qv-accent') +
+      line('M103 55L158 64M503 55L434 65M101 155L152 132','qv-fine') +
+      callout(89,52,1)+callout(518,53,2)+callout(87,158,3),
     electronics: `<rect x="31" y="64" width="75" height="76" rx="11" class="qv-fill"/>` + [0,1,2,3].map(i=>circle(51,78+i*16,3,'qv-muted')+circle(85,78+i*16,3,'qv-muted')).join('') +
       line('M107 102h60','qv-accent')+arrow(167,102)+
       `<rect x="173" y="74" width="74" height="57" rx="4" class="qv-fill"/>` + line('M182 102h12l5-11 10 22 10-22 10 22 5-11h5','qv-accent')+
@@ -72,14 +117,12 @@
       line('M420 102h82','qv-accent')+arrow(502,102)+circle(532,102,19,'qv-fill')+circle(532,102,8,'qv-accent')+
       line('M129 102V36h341v66M144 102v64h325v-64','qv-dash')+circle(129,102,3)+circle(469,102,3)+
       callout(212,154,1)+callout(282,44,2)+callout(370,167,3),
-    narrative: line('M76 56h72l20 22v77H76ZM148 56v22h20M91 95h55M91 111h48M91 127h35','qv-muted')+
-      line('M192 102h45','qv-accent')+arrow(237,102)+
-      line('M302 28c-34 6-9 44-29 62-45-8-57 39-32 69 24 29 77 36 107 15 27-18 25-62-12-76-23-12 7-52 5-74l-21 43Z','qv-fill')+
-      [0,1,2,3,4].map(i=>line(`M${263+i*10} ${103+i*4}q-34 28 ${i*5} 59q${18+i*4} 9 50-8`,'qv-muted')).join('')+
-      `<ellipse cx="295" cy="130" rx="67" ry="49" class="qv-dash"/>`+line('M297 20v164M225 129h146','qv-grid')+
-      line('M377 102h50','qv-accent')+arrow(427,102)+
-      line('M459 147V88q0-14 10-14v40-62q0-13 11-13v65-50q0-13 10-10v62-43q0-12 10-9v67l10-18q10-13 17-3l-17 45q-13 29-32 20Z','qv-muted')+
-      callout(99,33,1)+callout(258,38,2)+callout(535,153,3),
+    narrative: [REFERENCE_BODIES.EMBLA, REFERENCE_BODIES.ASKR, REFERENCE_BODIES.EDDA].map((r,i) => {
+      const x = 112+i*188, scale = 164/r.height, model = ['EMBLA','ASKR','EDDA'][i];
+      return line(`M${x} 15V188`,'qv-grid') +
+        `<g transform="translate(${x} 105) scale(${scale}) translate(${-r.centre[0]} ${-r.centre[1]})">${referenceBody(model)}</g>` +
+        callout(x-73,29,i+1);
+    }).join(''),
     workflow: `<rect x="28" y="52" width="140" height="107" rx="4" class="qv-fill"/>`+line('M46 67v76h101M63 135l-4-39 32-17 35 24-10 29ZM52 88h83M88 67v78','qv-muted')+
       line('M179 105h49','qv-accent')+arrow(228,105)+
       line('M265 48h79v17h-79ZM277 65v52l-15 14v17h64v-17l-13-14V65M253 156h91M262 117l-14-36M337 117l16-36','qv-muted')+`<rect x="278" y="131" width="32" height="12" class="qv-glow"/>`+
@@ -89,7 +132,8 @@
   };
   function illustration(q, lang) {
     const index = QUEST_IDS.indexOf(q.id), c = VISUAL[lang];
-    return `<span class="rf-q-visual"><svg viewBox="0 0 600 200" aria-hidden="true" focusable="false" class="rf-q-drawing" xmlns="http://www.w3.org/2000/svg">${blueGrid}${DRAWINGS[q.id] || ''}</svg><span class="rf-q-visual-legend">${c.tags[index].map((tag,i)=>`<span><b>${i+1}</b>${esc(tag)}</span>`).join('')}</span></span>`;
+    const referenceNote = REFERENCE_COPY[lang][q.id];
+    return `<span class="rf-q-visual"${referenceNote ? ' data-geometry-version="20260927-reference-1"' : ''}><svg viewBox="0 0 600 200" aria-hidden="true" focusable="false" class="rf-q-drawing" xmlns="http://www.w3.org/2000/svg">${blueGrid}${DRAWINGS[q.id] || ''}</svg><span class="rf-q-visual-legend">${c.tags[index].map((tag,i)=>`<span><b>${i+1}</b>${esc(tag)}</span>`).join('')}</span>${referenceNote ? `<span class="rf-q-reference-note">${esc(referenceNote)}</span>` : ''}</span>`;
   }
   function atlas(data, lang) {
     const c = VISUAL[lang];
