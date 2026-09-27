@@ -53,7 +53,7 @@
       <div class="rf-q-grid">${cards}</div>
       <section class="rf-q-method"><p class="rf-q-eyebrow">RAVENFORGE / WORKING METHOD</p><h3>${esc(u('methodTitle'))}</h3><p>${esc(u('methodIntro'))}</p><ol class="rf-q-process">${u('steps').map((s, i) => `<li><span>${String(i + 1).padStart(2, '0')}</span>${esc(s)}</li>`).join('')}</ol><p class="rf-q-record">${esc(u('record'))}</p></section>
       <section class="rf-q-aspiration"><h3>${esc(u('aspiration'))}</h3><p>${esc(u('aspirationText'))}</p></section>
-      <footer class="rf-q-revision"><p><strong>${esc(u('revision'))}</strong> · <time datetime="${esc(data.updated)}">${esc(data.updated)}</time> · v${esc(data.version)}</p><p>${esc(u('revisionText'))}</p></footer>
+      <aside class="rf-q-revision"><p><strong>${esc(u('revision'))}</strong> · <time datetime="${esc(data.updated)}">${esc(data.updated)}</time> · v${esc(data.version)}</p><p>${esc(u('revisionText'))}</p></aside>
       <p class="rf-q-sr" role="status" aria-live="polite" data-quest-status></p>
     </div>`;
   }
