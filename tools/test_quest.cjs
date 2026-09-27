@@ -31,6 +31,7 @@ for (const lang of ['ko', 'en', 'de']) {
   }
 }
 assert.equal(staticDOM.window.document.querySelectorAll('#quest details').length, 6, 'static fallback');
+assert.ok(staticDOM.window.document.querySelector('footer').classList.contains('rf-site-footer'), 'the global footer selector still targets the site footer');
 assert.ok(!html.includes('function applyAccordionState()'), 'legacy index-based persistence removed');
 assert.ok(!html.includes('translations.ko.proposalsData = ['), 'obsolete final copy removed');
 staticDOM.window.close();
@@ -103,6 +104,8 @@ async function integration(url, brokenStorage = false) {
     d.querySelector('header .nav-link[href="#' + id + '"]').click();
     assert.ok(d.querySelector('#' + id + '.active'), id + ' remains navigable');
   }
+  assert.ok(d.querySelector('footer').classList.contains('rf-site-footer'));
+  assert.ok(d.querySelector('#quest .rf-q-revision time'), 'revision note survives the global footer script');
   assert.deepEqual(errors, [], 'No script errors during the tested interaction flow');
   closing = true;
   dom.window.close();
