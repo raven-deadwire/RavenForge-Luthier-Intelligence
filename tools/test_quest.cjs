@@ -1,4 +1,4 @@
-/* Regression tests: local assets only; no third-party network or real DSP. */
+/* Regression tests: local assets only; external resources and Chart are stubbed. */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -14,7 +14,7 @@ const renderer = require('../assets/quest-roadmap.js');
 const staticDOM = new JSDOM(html);
 const data = JSON.parse(staticDOM.window.document.querySelector('#rf-quest-data').textContent);
 for (const lang of ['ko', 'en', 'de']) {
-  const d = new JSDOM(renderer.markup(data, lang)).window.document;
+  const dom = new JSDOM(renderer.markup(data, lang)), d = dom.window.document;
   assert.equal(d.querySelectorAll('details').length, 6);
   assert.equal(d.querySelector('.rf-q-shell').lang, lang);
   const ids = [...d.querySelectorAll('[id]')].map(n => n.id);
@@ -26,25 +26,36 @@ for (const lang of ['ko', 'en', 'de']) {
   for (const card of d.querySelectorAll('details')) {
     assert.equal(card.querySelectorAll('.rf-q-checks li').length, 3);
     assert.equal(card.querySelectorAll('.rf-q-decision').length, 1);
-    const summary = card.querySelector('summary');
-    assert.ok(d.getElementById(summary.getAttribute('aria-controls')));
+    assert.ok(d.getElementById(card.querySelector('summary').getAttribute('aria-controls')));
   }
+  dom.window.close();
 }
 assert.equal(staticDOM.window.document.querySelectorAll('#quest details').length, 6, 'static fallback');
-assert.ok(staticDOM.window.document.querySelector('footer').classList.contains('rf-site-footer'), 'the global footer selector still targets the site footer');
-assert.ok(!html.includes('function applyAccordionState()'), 'legacy index-based persistence removed');
-assert.ok(!html.includes('translations.ko.proposalsData = ['), 'obsolete final copy removed');
+assert.ok(staticDOM.window.document.querySelector('footer').classList.contains('rf-site-footer'), 'global footer selector');
+assert.ok(!html.includes('function applyAccordionState()'));
+assert.ok(!html.includes('translations.ko.proposalsData = ['));
 staticDOM.window.close();
 class LocalResources extends ResourceLoader {
   fetch(url) {
     if (!url.startsWith(ORIGIN)) return null;
-    const relative = decodeURIComponent(new URL(url).pathname.replace('/RavenForge-Luthier-Intelligence/', ''));
-    const file = path.resolve(ROOT, relative);
-    if (!file.startsWith(ROOT + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) return null;
-    return Promise.resolve(fs.readFileSync(file));
+    const file = localPath(url);
+    return file ? Promise.resolve(fs.readFileSync(file)) : null;
   }
 }
+function localPath(url) {
+  const u = new URL(String(url), ORIGIN);
+  if (!u.href.startsWith(ORIGIN)) return null;
+  const file = path.resolve(ROOT, decodeURIComponent(u.pathname.replace('/RavenForge-Luthier-Intelligence/', '')));
+  return file.startsWith(ROOT + path.sep) && fs.existsSync(file) && fs.statSync(file).isFile() ? file : null;
+}
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+async function waitFor(predicate, diagnostics) {
+  const deadline = Date.now() + 3000;
+  while (!predicate()) {
+    if (Date.now() > deadline) throw new Error(diagnostics());
+    await delay(30);
+  }
+}
 async function integration(url, brokenStorage = false) {
   const errors = [], teardownWarnings = [];
   let closing = false;
@@ -64,18 +75,14 @@ async function integration(url, brokenStorage = false) {
         update() {} resize() {} destroy() { Chart.instances.delete(this.canvas); }
       }
       w.Chart = Chart;
-      w.fetch = async value => {
-        const u = new URL(String(value), ORIGIN);
-        if (!u.href.startsWith(ORIGIN)) return new Response('', { status: 404 });
-        const file = path.resolve(ROOT, decodeURIComponent(u.pathname.replace('/RavenForge-Luthier-Intelligence/', '')));
-        return file.startsWith(ROOT + path.sep) && fs.existsSync(file) && fs.statSync(file).isFile() ? new Response(fs.readFileSync(file)) : new Response('', { status: 404 });
-      };
+      w.fetch = async value => { const file = localPath(value); return file ? new Response(fs.readFileSync(file)) : new Response('', { status: 404 }); };
       if (brokenStorage) w.sessionStorage.setItem('rf.quest.open.v1', 'invalid json');
     }
   });
   await new Promise(resolve => dom.window.addEventListener('load', resolve, { once: true }));
   await delay(500);
   const w = dom.window, d = w.document;
+  const diagnostics = () => JSON.stringify({ href: w.location.href, active: [...d.querySelectorAll('.page-section.active')].map(n => n.id), errors });
   assert.ok(d.querySelector('#quest.active'));
   assert.equal(d.querySelectorAll('#quest details').length, 6);
   const linkedQuest = new URL(url).searchParams.get('quest');
@@ -87,14 +94,14 @@ async function integration(url, brokenStorage = false) {
     d.querySelector('#quest-neck').open = true;
   }
   d.querySelector('#lang-kr-btn').click(); await delay(30);
-  assert.ok(d.querySelector('#quest-neck').open, 'open state survives translation');
+  assert.ok(d.querySelector('#quest-neck').open, 'language preserves state');
   d.querySelector('#quest-neck [data-quest-target="neck"]').click();
   assert.equal(new URL(w.location.href).searchParams.get('quest'), 'neck');
   d.querySelector('#quest-neck [data-quest-model="EDDA"]').click();
   assert.ok(d.querySelector('#Prototype.active'));
   assert.ok(d.querySelector('#btn-spec-edda.active'));
-  w.history.back(); await delay(70);
-  assert.ok(d.querySelector('#quest.active'));
+  w.history.back();
+  await waitFor(() => w.location.hash === '#quest' && d.querySelector('#quest.active'), diagnostics);
   assert.ok(d.querySelector('#quest-neck').open);
   d.querySelector('#quest-neck [data-quest-builder="Marleaux Basses"]').click();
   assert.ok(d.querySelector('#analysis.active'));
@@ -105,11 +112,9 @@ async function integration(url, brokenStorage = false) {
     assert.ok(d.querySelector('#' + id + '.active'), id + ' remains navigable');
   }
   assert.ok(d.querySelector('footer').classList.contains('rf-site-footer'));
-  assert.ok(d.querySelector('#quest .rf-q-revision time'), 'revision note survives the global footer script');
+  assert.ok(d.querySelector('#quest .rf-q-revision time'), 'revision survives global footer code');
   assert.deepEqual(errors, [], 'No script errors during the tested interaction flow');
-  closing = true;
-  dom.window.close();
-  await delay(20);
+  closing = true; dom.window.close(); await delay(20);
   return { runtimeErrors: errors, teardownWarnings };
 }
 (async () => {
