@@ -16,6 +16,17 @@ const data = JSON.parse(staticDOM.window.document.querySelector('#rf-quest-data'
 for (const lang of ['ko', 'en', 'de']) {
   const dom = new JSDOM(renderer.markup(data, lang)), d = dom.window.document;
   assert.equal(d.querySelectorAll('details').length, 6);
+  assert.equal(d.querySelectorAll('.rf-q-drawing').length, 6, 'native topic diagrams');
+  assert.equal(d.querySelectorAll('.rf-q-atlas [data-quest-target]').length, 6, 'visual navigator');
+  assert.equal(d.querySelectorAll('[data-quest-map]').length, 6, 'research-map selectors');
+  assert.equal(d.querySelectorAll('.rf-q-visual-legend>span').length, 18, 'localized diagram keys');
+  assert.ok(d.querySelector('.rf-q-loop-back'), 'iteration loop');
+  assert.equal(d.querySelectorAll('#rf-q-map-body [data-map-source]').length, 5);
+  for (const svg of d.querySelectorAll('.rf-q-drawing')) {
+    assert.equal(svg.getAttribute('viewBox'), '0 0 600 200');
+    assert.equal(svg.getAttribute('aria-hidden'), 'true');
+    assert.equal(svg.querySelectorAll('image').length, 0, 'no raster infographic');
+  }
   assert.equal(d.querySelector('.rf-q-shell').lang, lang);
   const ids = [...d.querySelectorAll('[id]')].map(n => n.id);
   assert.equal(ids.length, new Set(ids).size, 'duplicate IDs');
@@ -93,7 +104,20 @@ async function integration(url, brokenStorage = false) {
     assert.equal(d.querySelector('#quest .rf-q-shell').lang, lang);
     d.querySelector('#quest-neck').open = true;
   }
+  for (const quest of data.quests) {
+    const btn = d.querySelector(`[data-quest-map="${quest.id}"]`);
+    btn.click();
+    assert.equal(btn.getAttribute('aria-pressed'), 'true');
+    assert.equal(d.querySelectorAll('[data-quest-map][aria-pressed="true"]').length, 1);
+    assert.equal(d.querySelectorAll('#rf-q-map-body [data-map-source]').length, quest.references.length);
+    assert.equal(d.querySelectorAll('#rf-q-map-body [data-quest-model]').length, quest.models.length);
+    for (const a of d.querySelectorAll('#rf-q-map-body [data-map-source]')) assert.ok(a.getAttribute('href').endsWith('/de.html'));
+  }
+  d.querySelector('[data-quest-map="narrative"]').click();
   d.querySelector('#lang-kr-btn').click(); await delay(30);
+  assert.equal(d.querySelector('[data-quest-map="narrative"]').getAttribute('aria-pressed'), 'true', 'map selection follows language');
+  assert.equal(d.querySelectorAll('#rf-q-map-body [data-quest-model]').length, 5);
+  for (const a of d.querySelectorAll('#rf-q-map-body [data-map-source]')) assert.ok(a.getAttribute('href').endsWith('/ko.html'));
   assert.ok(d.querySelector('#quest-neck').open, 'language preserves state');
   d.querySelector('#quest-neck [data-quest-target="neck"]').click();
   assert.equal(new URL(w.location.href).searchParams.get('quest'), 'neck');
@@ -120,5 +144,5 @@ async function integration(url, brokenStorage = false) {
 (async () => {
   const first = await integration(ORIGIN + '#quest');
   const second = await integration(ORIGIN + '?quest=electronics#quest', true);
-  console.log(JSON.stringify({ pass: true, languages: 3, quests: 6, uniqueSources: Object.keys(data.sources).length, staticFallback: true, idempotent: true, state: true, deepLinks: true, history: true, modelNavigation: true, builderModal: true, otherNavigation: true, corruptStorage: true, runtimeErrors: [...first.runtimeErrors, ...second.runtimeErrors], teardownWarnings: [...new Set([...first.teardownWarnings, ...second.teardownWarnings])], scope: 'Full local site scripts in JSDOM; Chart/canvas are stubs and external network is disabled. Layout is checked separately in Chromium.' }, null, 2));
+  console.log(JSON.stringify({ pass: true, nativeDiagrams: 6, visualNavigator: true, interactiveResearchMap: true, mapLanguageState: true, languages: 3, quests: 6, uniqueSources: Object.keys(data.sources).length, staticFallback: true, idempotent: true, state: true, deepLinks: true, history: true, modelNavigation: true, builderModal: true, otherNavigation: true, corruptStorage: true, runtimeErrors: [...first.runtimeErrors, ...second.runtimeErrors], teardownWarnings: [...new Set([...first.teardownWarnings, ...second.teardownWarnings])], scope: 'Full local site scripts in JSDOM; Chart/canvas are stubs and external network is disabled. Layout is checked separately in Chromium.' }, null, 2));
 })().catch(error => { console.error(error); process.exit(1); });
