@@ -16,6 +16,7 @@ const data = JSON.parse(staticDOM.window.document.querySelector('#rf-quest-data'
 for (const lang of ['ko', 'en', 'de']) {
   const dom = new JSDOM(renderer.markup(data, lang)), d = dom.window.document;
   assert.equal(d.querySelectorAll('details').length, 6);
+  assert.equal(d.querySelectorAll('details[open]').length, 0, 'static cards start collapsed');
   assert.equal(d.querySelectorAll('.rf-q-drawing').length, 6, 'native topic diagrams');
   assert.equal(d.querySelectorAll('.rf-q-atlas [data-quest-target]').length, 6, 'visual navigator');
   assert.equal(d.querySelectorAll('[data-quest-map]').length, 6, 'research-map selectors');
@@ -77,7 +78,7 @@ async function waitFor(predicate, diagnostics) {
     await delay(30);
   }
 }
-async function integration(url, brokenStorage = false) {
+async function integration(url, storageSeed = null) {
   const errors = [], teardownWarnings = [];
   let closing = false;
   const console = new VirtualConsole();
@@ -97,7 +98,7 @@ async function integration(url, brokenStorage = false) {
       }
       w.Chart = Chart;
       w.fetch = async value => { const file = localPath(value); return file ? new Response(fs.readFileSync(file)) : new Response('', { status: 404 }); };
-      if (brokenStorage) w.sessionStorage.setItem('rf.quest.open.v1', 'invalid json');
+      if (storageSeed !== null) w.sessionStorage.setItem('rf.quest.open.v1', storageSeed);
     }
   });
   await new Promise(resolve => dom.window.addEventListener('load', resolve, { once: true }));
@@ -106,14 +107,22 @@ async function integration(url, brokenStorage = false) {
   const diagnostics = () => JSON.stringify({ href: w.location.href, active: [...d.querySelectorAll('.page-section.active')].map(n => n.id), errors });
   assert.ok(d.querySelector('#quest.active'));
   assert.equal(d.querySelectorAll('#quest details').length, 6);
-  const linkedQuest = new URL(url).searchParams.get('quest');
-  if (linkedQuest) assert.ok(d.getElementById('quest-' + linkedQuest).open, 'initial deep link opens its card');
+  assert.equal(d.querySelectorAll('#quest details[open]').length, 0, 'first visit/reload ignores stored expansion and query links');
   for (const [lang, button] of [['ko', 'kr'], ['en', 'en'], ['de', 'de']]) {
     d.querySelector('#lang-' + button + '-btn').click();
     await delay(30);
     assert.equal(d.querySelector('#quest .rf-q-shell').lang, lang);
-    d.querySelector('#quest-neck').open = true;
+    assert.equal(d.querySelectorAll('#quest details[open]').length, 0, 'translation does not auto-open a query-linked card');
   }
+  for (const quest of data.quests) {
+    const card = d.getElementById('quest-' + quest.id);
+    card.querySelector('summary').click();
+    assert.ok(card.open, quest.code + ' opens on click');
+    card.querySelector('summary').click();
+    assert.ok(!card.open, quest.code + ' closes on click');
+  }
+  d.querySelector('.rf-q-atlas [data-quest-target="neck"]').click();
+  assert.ok(d.querySelector('#quest-neck').open, 'explicit in-page navigation opens a card');
   for (const quest of data.quests) {
     const btn = d.querySelector(`[data-quest-map="${quest.id}"]`);
     btn.click();
@@ -147,12 +156,14 @@ async function integration(url, brokenStorage = false) {
   }
   assert.ok(d.querySelector('footer').classList.contains('rf-site-footer'));
   assert.ok(d.querySelector('#quest .rf-q-revision time'), 'revision survives global footer code');
+  assert.equal(w.sessionStorage.getItem('rf.quest.open.v1'), storageSeed, 'expansion choices are not persisted');
   assert.deepEqual(errors, [], 'No script errors during the tested interaction flow');
   closing = true; dom.window.close(); await delay(20);
   return { runtimeErrors: errors, teardownWarnings };
 }
 (async () => {
   const first = await integration(ORIGIN + '#quest');
-  const second = await integration(ORIGIN + '?quest=electronics#quest', true);
-  console.log(JSON.stringify({ pass: true, nativeDiagrams: 6, visualNavigator: true, interactiveResearchMap: true, mapLanguageState: true, languages: 3, quests: 6, uniqueSources: Object.keys(data.sources).length, staticFallback: true, idempotent: true, state: true, deepLinks: true, history: true, modelNavigation: true, builderModal: true, otherNavigation: true, corruptStorage: true, runtimeErrors: [...first.runtimeErrors, ...second.runtimeErrors], teardownWarnings: [...new Set([...first.teardownWarnings, ...second.teardownWarnings])], scope: 'Full local site scripts in JSDOM; Chart/canvas are stubs and external network is disabled. Layout is checked separately in Chromium.' }, null, 2));
+  const second = await integration(ORIGIN + '?quest=neck#quest', JSON.stringify(data.quests.map(q => q.id)));
+  const third = await integration(ORIGIN + '?quest=workflow#quest', 'invalid json');
+  console.log(JSON.stringify({ pass: true, nativeDiagrams: 6, visualNavigator: true, interactiveResearchMap: true, mapLanguageState: true, languages: 3, quests: 6, uniqueSources: Object.keys(data.sources).length, staticFallback: true, idempotent: true, state: true, collapsedOnLoad: true, legacyStateIgnored: true, explicitDeepLinks: true, history: true, modelNavigation: true, builderModal: true, otherNavigation: true, corruptStorage: true, runtimeErrors: [...first.runtimeErrors, ...second.runtimeErrors, ...third.runtimeErrors], teardownWarnings: [...new Set([...first.teardownWarnings, ...second.teardownWarnings, ...third.teardownWarnings])], scope: 'Full local site scripts in JSDOM; Chart/canvas are stubs and external network is disabled. Layout is checked separately in Chromium.' }, null, 2));
 })().catch(error => { console.error(error); process.exit(1); });

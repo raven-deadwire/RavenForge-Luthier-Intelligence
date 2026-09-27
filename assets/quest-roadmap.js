@@ -7,7 +7,6 @@
 })(typeof window !== 'undefined' ? window : globalThis, function () {
   'use strict';
   const LANGS = ['ko', 'en', 'de'];
-  const KEY = 'rf.quest.open.v1';
   const esc = value => String(value == null ? '' : value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const language = value => LANGS.includes(value) ? value : 'en';
   const text = (value, lang) => value && value[lang] !== undefined ? value[lang] : '';
@@ -201,15 +200,12 @@
     </div>`;
   }
 
-  let data, section, lastLang, mounted = false, openIds, mapId = 'electronics';
-  const safeRead = () => {
-    try { const parsed = JSON.parse(sessionStorage.getItem(KEY) || '[]'); return new Set(Array.isArray(parsed) ? parsed.filter(id => data.quests.some(q => q.id === id)) : []); }
-    catch (_) { return new Set(); }
-  };
+  // Each document starts collapsed. Keep state in memory only so translation
+  // preserves an explicit choice without restoring it on a visit or reload.
+  let data, section, lastLang, mounted = false, openIds = new Set(), mapId = 'electronics';
   function remember() {
     if (!section) return;
     openIds = new Set([...section.querySelectorAll('details[open][data-quest-id]')].map(el => el.dataset.questId));
-    try { sessionStorage.setItem(KEY, JSON.stringify([...openIds])); } catch (_) { /* Private/blocked storage is optional. */ }
   }
   function route(shouldScroll) {
     if (!section || location.hash !== '#quest') return;
@@ -228,14 +224,12 @@
     const active = document.activeElement;
     const focusKey = active && section.contains(active) ? active.getAttribute('data-focus-key') : null;
     if (lastLang) remember();
-    if (!openIds) openIds = safeRead();
     section.innerHTML = markup(data, lang, mapId);
     section.querySelectorAll('details[data-quest-id]').forEach(card => {
       card.open = openIds.has(card.dataset.questId);
       card.addEventListener('toggle', remember);
     });
     lastLang = lang;
-    route(false);
     if (focusKey) {
       const target = [...section.querySelectorAll('[data-focus-key]')].find(el => el.dataset.focusKey === focusKey);
       if (target) target.focus({ preventScroll: true });
@@ -294,7 +288,8 @@
     new MutationObserver(() => render(document.documentElement.lang)).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
     window.addEventListener('popstate', () => route(true));
     window.addEventListener('hashchange', () => route(true));
-    const start = () => { render(document.documentElement.lang); route(true); };
+    // Query parameters may select the research map, but never expand cards on load.
+    const start = () => render(document.documentElement.lang);
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true }); else start();
   }
   return { markup, render, mount };
