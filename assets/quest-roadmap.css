@@ -67,7 +67,8 @@
 #quest .rf-q-method{padding:2rem;background:rgba(21,39,46,.97);color:#d6e0d7;border:1px solid #5b6e69;border-radius:5px;margin-top:1.5rem}
 #quest .rf-q-method .rf-q-eyebrow{margin-bottom:.6rem}
 #quest .rf-q-method h3{color:#edf2ed;margin-bottom:.7rem}
-#quest .rf-q-method>p{max-width:94ch;font-size:.94rem}
+#quest .rf-q-method>p{width:100%;max-width:none;font-size:.94rem}
+#quest .rf-q-method>p:lang(ko){word-break:keep-all}
 #quest .rf-q-process{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));list-style:none;gap:.65rem;margin:1.4rem 0;padding:0}
 #quest .rf-q-process li{position:relative;padding:1rem;border:1px solid #60786d;line-height:1.6;font-size:.87rem;background:#223c3e}
 #quest .rf-q-process span{display:block;color:#d2a584;font-size:.75rem;letter-spacing:.1em;margin-bottom:.35rem}
