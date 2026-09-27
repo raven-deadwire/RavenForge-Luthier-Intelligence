@@ -45,9 +45,10 @@ class LocalResources extends ResourceLoader {
 }
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 async function integration(url, brokenStorage = false) {
-  const errors = [];
+  const errors = [], teardownWarnings = [];
+  let closing = false;
   const console = new VirtualConsole();
-  console.on('jsdomError', e => { if (e.type !== 'css parsing') errors.push(e.message); });
+  console.on('jsdomError', e => { if (e.type !== 'css parsing') (closing ? teardownWarnings : errors).push(e.detail?.stack || e.message); });
   const dom = new JSDOM(html, {
     url, runScripts: 'dangerously', resources: new LocalResources(), pretendToBeVisual: true, virtualConsole: console,
     beforeParse(w) {
@@ -76,6 +77,8 @@ async function integration(url, brokenStorage = false) {
   const w = dom.window, d = w.document;
   assert.ok(d.querySelector('#quest.active'));
   assert.equal(d.querySelectorAll('#quest details').length, 6);
+  const linkedQuest = new URL(url).searchParams.get('quest');
+  if (linkedQuest) assert.ok(d.getElementById('quest-' + linkedQuest).open, 'initial deep link opens its card');
   for (const [lang, button] of [['ko', 'kr'], ['en', 'en'], ['de', 'de']]) {
     d.querySelector('#lang-' + button + '-btn').click();
     await delay(30);
@@ -100,12 +103,14 @@ async function integration(url, brokenStorage = false) {
     d.querySelector('header .nav-link[href="#' + id + '"]').click();
     assert.ok(d.querySelector('#' + id + '.active'), id + ' remains navigable');
   }
-  assert.ok(!errors.some(e => /quest|proposalsAccordion|applyAccordionState/i.test(e)), errors.join('\n'));
+  assert.deepEqual(errors, [], 'No script errors during the tested interaction flow');
+  closing = true;
   dom.window.close();
-  return errors;
+  await delay(20);
+  return { runtimeErrors: errors, teardownWarnings };
 }
 (async () => {
   const first = await integration(ORIGIN + '#quest');
   const second = await integration(ORIGIN + '?quest=electronics#quest', true);
-  console.log(JSON.stringify({ pass: true, languages: 3, quests: 6, uniqueSources: Object.keys(data.sources).length, staticFallback: true, idempotent: true, state: true, deepLinks: true, history: true, modelNavigation: true, builderModal: true, otherNavigation: true, corruptStorage: true, baselineWarnings: [...new Set([...first, ...second])], scope: 'Full local site scripts in JSDOM; Chart/canvas are stubs and external network is disabled. Layout is checked separately in Chromium.' }, null, 2));
-})().catch(error => { console.error(error); process.exitCode = 1; });
+  console.log(JSON.stringify({ pass: true, languages: 3, quests: 6, uniqueSources: Object.keys(data.sources).length, staticFallback: true, idempotent: true, state: true, deepLinks: true, history: true, modelNavigation: true, builderModal: true, otherNavigation: true, corruptStorage: true, runtimeErrors: [...first.runtimeErrors, ...second.runtimeErrors], teardownWarnings: [...new Set([...first.teardownWarnings, ...second.teardownWarnings])], scope: 'Full local site scripts in JSDOM; Chart/canvas are stubs and external network is disabled. Layout is checked separately in Chromium.' }, null, 2));
+})().catch(error => { console.error(error); process.exit(1); });
