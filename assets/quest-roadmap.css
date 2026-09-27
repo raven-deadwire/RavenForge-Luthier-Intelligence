@@ -74,7 +74,8 @@
 #quest .rf-q-record{font-size:.83rem!important;color:#bbcbbf;border-top:1px solid #496057;padding-top:1rem}
 #quest .rf-q-aspiration{margin-top:1.5rem;background:rgba(238,241,231,.97);padding:2rem;border-radius:5px;border-left:3px solid #c9956e}
 #quest .rf-q-aspiration h3{margin-bottom:.8rem}
-#quest .rf-q-aspiration p{max-width:95ch;font-size:1rem;line-height:1.9}
+#quest .rf-q-aspiration p{width:100%;max-width:none;font-size:1rem;line-height:1.9}
+#quest .rf-q-aspiration p:lang(ko){word-break:keep-all}
 #quest .rf-q-revision{margin-top:1rem;padding:1.2rem 1.5rem;background:rgba(17,30,37,.95);border:1px solid #4e615f;border-radius:5px;color:#c4d1c8;font-size:.79rem;line-height:1.8}
 #quest .rf-q-revision p+p{margin-top:.4rem}
 #quest .rf-q-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
