@@ -2,7 +2,7 @@ name: Build RavenForge site assets
 
 on:
   push:
-    branches: [main]
+    branches: [main, 'quest-roadmap-*']
     paths:
       - 'research/**/meta.json'
       - 'research/**/article-parts/**'
@@ -26,11 +26,16 @@ on:
       - 'assets/mentor-section.js'
       - 'assets/mentors/**'
       - 'assets/analysis-*.js'
+      - 'assets/quest-roadmap.*'
       - '.github/workflows/build-research-index.yml'
   workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: site-assets-${{ github.ref }}
+  cancel-in-progress: false
 
 env:
   SITE_ASSET_VERSION: '20260927mcgrath1'
@@ -38,6 +43,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -79,6 +85,10 @@ jobs:
           python tools/restore_configurator_iframe.py
           python tools/normalize_site_title.py
           sed -i -E "s#assets/footer\\.js\\?v=[^\"]+#assets/footer.js?v=${SITE_ASSET_VERSION}#" index.html
+          python tools/build_quest.py
+
+      - name: Validate Quest roadmap and navigation
+        run: timeout 90s node tools/test_quest.cjs
 
       - name: Commit generated site assets
         shell: bash
