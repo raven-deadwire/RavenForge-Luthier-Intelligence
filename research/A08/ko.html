@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A08 — Coil Topology · RavenForge</title>
+<meta name="description" content="Series, Parallel, Split을 단순 음색 선택이 아니라 pickup source topology의 재구성으로 분석한다. 결합 코일 1차 모델, split taxonomy, loading, hum cancellation과 후속 bench validation을 정리한 RavenForge A08 v0.9 문헌·기술 검증판.">
+<link rel="canonical" href="https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/research/A08/ko.html">
+<link rel="alternate" hreflang="ko" href="ko.html"><link rel="alternate" hreflang="en" href="en.html"><link rel="alternate" hreflang="de" href="de.html"><link rel="alternate" hreflang="x-default" href="en.html">
+<link rel="stylesheet" href="a08.css"></head><body><main>
+<div class="top"><div><div class="brand">RAVENFORGE</div><p class="kicker">사운드 연구일지 — A08</p></div><nav class="langs" aria-label="언어"><a href="ko.html" aria-current="page">KO</a><a href="en.html">EN</a><a href="de.html">DE</a></nav></div>
+<h1>A08 — Coil Topology</h1>
+<p class="sub">Series, Parallel, Split을 소스 재구성으로 정의하기</p>
+<p class="date">2026-10-06 · v0.9 · 문헌·수식·용어 검증 완료 / RavenForge specimen bench validation pending</p>
+
+<div class="purpose"><strong>문서 목적</strong>
+Series, Parallel, Split을 “두껍다·밝다·싱글코일 같다”는 음색 형용사로 먼저 분류하지 않는다. 같은 dual-coil magnetic pickup이라도 coil connection이 바뀌면 downstream 회로가 보는 source voltage와 frequency-dependent source impedance, hum-rejection 조건, sensing state가 함께 바뀔 수 있다. A08은 이 변화를 <b>source topology reconfiguration</b>으로 정의하고, 문헌에서 검증된 사실·1차 분석모델·RavenForge 설계 해석·실측 대기 항목을 분리한다. 특정 pickup specimen의 정량 결과는 이 판에 포함하지 않는다.</div>
+
+<div class="table-wrap"><table class="meta"><tbody>
+<tr><th>Code</th><td>A08 — Coil Topology</td></tr>
+<tr><th>Focus</th><td>Series · Parallel · Split · residual-coil · source impedance · resonance/loading · hum rejection · sensing state</td></tr>
+<tr><th>Evidence</th><td>Peer-reviewed pickup modeling · coupled-inductor circuit model · patents · manufacturer technical documentation</td></tr>
+<tr><th>Upstream logs</th><td>A03/A04 pickup &amp; loading model · B03 Passive Tonal Architecture · A06/B06 signal path · L13 evidence separation</td></tr>
+<tr><th>Experiment handoff</th><td>Coil Topology Bench Validation — <b>code pending C-series namespace normalization</b></td></tr>
+<tr><th>Downstream research</th><td>L04 — Epistemology of Craft</td></tr>
+<tr><th>Status</th><td>Literature / equation / terminology verification complete · RavenForge specimen measurement pending</td></tr>
+<tr><th>Date / revision</th><td>2026-10-06 / v0.9</td></tr>
+</tbody></table></div>
+
+<h2>1. 연구 질문과 경계</h2>
+<p>본 회차의 질문은 “어느 배선이 더 좋은 소리인가?”가 아니다. 질문은 다음과 같다.</p>
+<aside class="box"><strong>Research question</strong>
+동일한 dual-coil pickup의 두 coil을 Series, Parallel, Split 또는 residual-coil 상태로 재구성할 때, source voltage, complex source impedance, resonance/loading interaction, interference rejection과 spatial sensing 중 무엇이 달라지며, 어느 부분을 실제 specimen에서 별도로 측정해야 하는가?</aside>
+<p>Paiva·Pakarinen·Välimäki는 magnetic pickup을 위치와 sensing width, equivalent-circuit resonance, loading 및 pickup combination을 포함하는 주파수 의존 시스템으로 분석한다 [1]. 따라서 A08은 DCR 하나나 음색 형용사를 pickup의 전체 상태로 취급하지 않는다.</p>
+
+<h2>2. Evidence tag</h2>
+<div class="table-wrap"><table><thead><tr><th>Tag</th><th>의미</th><th>A08에서의 사용</th></tr></thead><tbody>
+<tr><td><span class="tag">LIT</span></td><td>학술 문헌</td><td>pickup equivalent circuit, sensing position/width, distributed capacitance</td></tr>
+<tr><td><span class="tag">PAT</span></td><td>원 특허</td><td>humbucking principle, parallel hum-cancelling implementation</td></tr>
+<tr><td><span class="tag">MFR</span></td><td>제조사 공식 자료</td><td>wiring terminology, DCR caveat, 제품 구조의 공개 범위</td></tr>
+<tr><td><span class="tag model">MODEL</span></td><td>명시된 가정 아래의 분석 모델</td><td>matched coupled-coil Series/Parallel 식</td></tr>
+<tr><td><span class="tag meas">MEAS</span></td><td>RavenForge 실측</td><td>v0.9에는 없음</td></tr>
+<tr><td><span class="tag infer">INFER</span></td><td>문헌·물리모델에서 도출한 설계 해석</td><td>Split A/B를 별도 sensing state로 기록하는 규칙</td></tr>
+<tr><td><span class="tag pending">PENDING</span></td><td>실측 전 가설</td><td>topology별 resonance 위치·output delta·hum attenuation의 effect size</td></tr>
+</tbody></table></div>
+
+<h2>3. Coil switch는 source를 다시 구성한다</h2>
+<p><span class="tag">LIT</span> magnetic pickup은 이상적인 voltage source 하나로 충분히 표현되지 않는다. 1차 모델에서도 coil <i>i</i>에는 induced EMF <i>E</i><sub>i</sub>(f), winding resistance <i>R</i><sub>i</sub>, self-inductance <i>L</i><sub>i</sub>가 필요하며, 실제 pickup에는 mutual inductance, distributed capacitance, magnetic/core loss와 eddy-current effect가 추가된다 [1,2].</p>
+<p>downstream 회로가 보는 상태를 Thevenin form으로 쓰면 다음과 같다.</p>
+<div class="eq"><i>V</i><sub>OUT</sub>(f) = <i>E</i><sub>TH</sub>(f) · <i>Z</i><sub>LOAD</sub>(f) / [<i>Z</i><sub>TH</sub>(f) + <i>Z</i><sub>LOAD</sub>(f)]</div>
+<p><span class="tag model">MODEL</span> 이 식은 topology switch가 volume pot, tone network, cable, buffer 또는 amplifier input보다 앞에서 <i>E</i><sub>TH</sub>(f)와 <i>Z</i><sub>TH</sub>(f)를 바꿀 수 있음을 보여 주는 경계 모델이다. 따라서 A08에서 Series/Parallel/Split은 단순한 “tone switch”가 아니라 <b>source reconfiguration</b>이다.</p>
+
+<h2>4. Matched coupled-coil 1차 분석모델</h2>
+<p><span class="tag model">MODEL</span> 아래 식은 실제 pickup의 제품 사양이 아니다. 두 coil이 전기적으로 동일하고, 동일한 string-induced EMF를 만들며, 결합이 대칭이고, dot/sign convention을 signal-aiding 방향으로 고정하고, distributed capacitance와 loss를 우선 무시하는 경우의 1차 baseline이다.</p>
+<div class="eq"><i>E</i><sub>1</sub>=<i>E</i><sub>2</sub>=e,&nbsp; <i>R</i><sub>1</sub>=<i>R</i><sub>2</sub>=R<sub>C</sub>,&nbsp; <i>L</i><sub>1</sub>=<i>L</i><sub>2</sub>=L<sub>C</sub>,&nbsp; mutual inductance = M</div>
+<h3>Series, signal-aiding</h3>
+<div class="eq"><i>V</i><sub>OC,S</sub> ≈ 2e &nbsp;&nbsp;·&nbsp;&nbsp; R<sub>S</sub>=2R<sub>C</sub> &nbsp;&nbsp;·&nbsp;&nbsp; L<sub>S</sub>=2(L<sub>C</sub>+M)</div>
+<h3>Parallel, signal-aiding</h3>
+<div class="eq"><i>V</i><sub>OC,P</sub> ≈ e &nbsp;&nbsp;·&nbsp;&nbsp; R<sub>P</sub>=R<sub>C</sub>/2 &nbsp;&nbsp;·&nbsp;&nbsp; L<sub>P</sub>≈(L<sub>C</sub>+M)/2</div>
+<p>Beller의 humbucking pickup 특허는 matched coil의 parallel 연결에서 combined impedance가 individual coil의 절반이 되는 이상적 관계를 직접 기술한다 [4]. 다만 실제 pickup의 <i>E</i><sub>1</sub>(f)와 <i>E</i><sub>2</sub>(f)는 sensing position, winding 및 magnetic structure 때문에 정확히 같다고 보장할 수 없다 [1].</p>
+<p>상호인덕턴스 부호는 terminal/dot convention에 의존한다. 위 식의 +M은 선택한 current/reference direction에서 signal-aiding coupling을 뜻한다. 다른 convention으로 쓰면 M의 부호가 바뀔 수 있으므로 문서에서 polarity와 lead definition을 함께 고정해야 한다.</p>
+
+<h2>5. Series — “항상 +6 dB”가 아니다</h2>
+<p><span class="tag model">MODEL</span> 위의 equal-EMF open-circuit 모델에서는 두 voltage가 더해져 single-coil 대비 2배, 즉 약 6.02 dB의 전압비가 나온다. 그러나 Series는 동시에 source resistance와 effective inductance를 바꾼다. 실제 load가 연결되면 output ratio는 주파수 의존적이므로 “Series = 항상 +6 dB”를 제품 규칙으로 사용할 수 없다.</p>
+<p><span class="tag pending">PENDING</span> 실제 RavenForge specimen에서의 broadband level delta, resonant peak와 transient 차이는 bench 결과가 나오기 전까지 수치화하지 않는다.</p>
+
+<h2>6. Parallel — 조용한 Split이 아니다</h2>
+<p><span class="tag">PAT</span> <span class="tag">MFR</span> Parallel에서는 두 coil이 모두 signal path에 남는다. Beller 특허는 parallel humbucking 구현을 명시하며 [4], 4-conductor humbucker wiring 문서는 각 coil의 lead에 접근해 series/parallel/single-coil state를 별개로 구성한다는 점을 보여 준다 [7].</p>
+<aside class="box"><strong>A08 distinction</strong>
+<b>Parallel</b> = two active sensing coils + topology-dependent lower equivalent source impedance.<br>
+<b>Split</b> = one selected sensing coil is the intended signal source; disabled-coil termination에 따라 세부 전기 상태가 달라질 수 있음.</aside>
+<p>따라서 Parallel과 Split이 특정 조건에서 비슷한 open-circuit level을 보이더라도 전기적으로 같은 source라고 볼 수 없다.</p>
+
+<h2>7. Split taxonomy — A/B와 termination을 같이 적는다</h2>
+<p>기존의 “Split” 한 단어만으로는 회로 상태가 충분히 정의되지 않는다. A08은 최소한 두 축을 기록한다.</p>
+<div class="table-wrap"><table><thead><tr><th>축</th><th>상태</th><th>의미</th></tr></thead><tbody>
+<tr><td>Surviving coil</td><td>Split A / Split B</td><td>어느 물리적 coil의 신호를 사용하는지 기록</td></tr>
+<tr><td>Disabled-coil termination</td><td>isolated/open</td><td>disabled coil이 유효 회로에서 개방·분리된 이상적 one-coil baseline</td></tr>
+<tr><td>Disabled-coil termination</td><td>shunted/shorted</td><td>disabled coil의 양단이 낮은 impedance로 묶이는 일반적 split 구현. mutual coupling에 의한 reflected loading 가능성을 별도 검토</td></tr>
+</tbody></table></div>
+<p><span class="tag model">MODEL</span> 다음 식은 <b>isolated split</b>에서 surviving coil 하나만 남는 1차 근사에만 적용한다.</p>
+<div class="eq"><i>V</i><sub>OC,SP</sub>≈e &nbsp;&nbsp;·&nbsp;&nbsp; R<sub>SP</sub>=R<sub>C</sub> &nbsp;&nbsp;·&nbsp;&nbsp; L<sub>SP</sub>=L<sub>C</sub></div>
+<p><span class="tag pending">PENDING</span> shunted/shorted split은 disabled winding에 유도전류가 흐를 수 있고 mutual coupling을 통해 surviving coil에 부하를 반사할 수 있으므로 위 isolated 식과 동일하다고 가정하지 않는다. 정확한 차이는 specimen의 complex-impedance measurement로 넘긴다.</p>
+
+<h2>8. Partial / resistive split — residual-coil topology</h2>
+<p><span class="tag">MFR</span> 제조사 wiring 자료에는 한 coil의 contribution을 potentiometer 등으로 blend하는 응용도 제시된다 [7]. finite resistor 또는 blend가 disabled coil을 완전히 제거하지 않는다면 hard split과 같은 회로가 아니다.</p>
+<p><span class="tag infer">INFER</span> RavenForge는 이를 문서상 <b>Residual-Coil / Partial-Split topology</b>로 별도 분류한다. 이 명칭은 회로 상태를 추적하기 위한 내부 engineering taxonomy이며 업계 표준 용어라고 주장하지 않는다. 보편적 “정답 resistor” 값도 두지 않는다.</p>
+
+<h2>9. Resonance와 loading — 순서를 법칙으로 만들지 않는다</h2>
+<p>단순 lumped model에서는 다음 관계를 쓸 수 있다.</p>
+<div class="eq">f<sub>r</sub> ≈ 1 / [2π√(L<sub>EQ</sub>C<sub>TOTAL</sub>)]</div>
+<p><span class="tag model">MODEL</span> 만약 외부와 내부의 유효 capacitance가 topology와 무관하게 고정된다고 가정하면 effective inductance 변화에서 resonance 이동 방향을 예상할 수 있다. 그러나 실제 coil reconnection은 distributed/effective capacitance, damping, mutual coupling과 loss 조건 자체를 바꿀 수 있다. Kotiuga는 pickup winding의 distributed capacitance 때문에 단순 lumped RLC만으로 모든 응답을 설명하기 어렵다는 점을 다룬다 [2]. Controlled experimental pickup 연구에서도 turn count와 wire gauge가 resonance와 peak에 영향을 주었다 [8].</p>
+<p><span class="tag pending">PENDING</span> 따라서 “Series → Split → Parallel 순으로 resonance가 반드시 올라간다”는 문장은 A08의 검증 사실이 아니다. topology별 resonance ordering은 <b>동일 specimen·정의된 load에서 검증할 hypothesis</b>로만 남긴다.</p>
+<p>모든 측정에는 volume/tone resistance, tone capacitance, cable capacitance, input impedance, buffer/bypass state를 함께 기록한다. source topology가 달라지면 같은 downstream component도 같은 비율로 작용한다고 가정할 수 없다.</p>
+
+<h2>10. Hum cancellation — Series 전용 특성이 아니다</h2>
+<p><span class="tag">PAT</span> Seth Lover의 원 특허는 외부 interference에 대한 두 coil의 유도 성분을 상쇄하면서 string-induced musical signal은 가산되도록 하는 humbucking 원리를 설명한다 [3]. Beller의 후속 특허는 두 coil을 <b>parallel</b>로 연결한 상태에서도 external noise cancellation과 musical-signal addition을 구현한다 [4].</p>
+<p>따라서 올바른 magnetic/electrical polarity, 충분한 matching 및 해당 interference field라는 조건 아래에서 <b>Series도, Parallel도 hum-cancelling일 수 있다.</b> conventional one-coil split은 원래 pair의 두-coil cancellation mechanism을 일반적으로 잃는다. 다만 surviving coil이 다른 pickup/coil과 새로운 hum-cancelling 조합을 만드는 경우까지 배제하는 표현은 사용하지 않는다.</p>
+<p><span class="tag pending">PENDING</span> RavenForge specimen에서 실제로 몇 dB의 hum reduction이 생기는지는 controlled field, orientation, bandwidth와 repeatability를 정의한 뒤 측정한다.</p>
+
+<h2>11. Split A/B는 spatial sensing 가설도 포함한다</h2>
+<p><span class="tag">LIT</span> pickup position과 sensitivity width는 string harmonic response의 sampling에 관여한다 [1]. side-by-side dual-coil 구조에서 두 coil은 정확히 같은 longitudinal coordinate를 차지하지 않는다.</p>
+<p><span class="tag infer">INFER</span> 따라서 어느 physical coil을 남기는지는 electrical source뿐 아니라 sensing region도 바꿀 수 있다. A08은 이를 <b>mechanism-supported hypothesis</b>로 기록한다. Split A와 Split B의 실제 spectral effect size는 <span class="tag pending">PENDING</span>이며 실측 전 음색 우열을 부여하지 않는다.</p>
+
+<h2>12. Coil split ≠ coil tap</h2>
+<p><span class="tag">MFR</span> manufacturer technical documentation은 coil split과 coil tap을 구분한다. split은 multi-coil pickup에서 한 coil을 끄거나 억제해 one-coil operation을 만드는 것이고, tap은 한 winding의 중간 접점을 선택해 active turns를 바꾸는 것이다 [6]. RavenForge 문서에서는 두 용어를 동의어로 사용하지 않는다.</p>
+
+<h2>13. RavenForge 설계 규칙과 SKAÐI 적용</h2>
+<div class="table-wrap"><table><thead><tr><th>Rule</th><th>설계 규칙</th></tr></thead><tbody>
+<tr><td>A08-01</td><td>음색 형용사보다 source topology를 먼저 기록한다.</td></tr>
+<tr><td>A08-02</td><td>Parallel을 “출력이 작은 Split”으로 취급하지 않는다.</td></tr>
+<tr><td>A08-03</td><td>DCR 하나로 output 또는 tonal response를 추론하지 않는다 [1,5].</td></tr>
+<tr><td>A08-04</td><td>Split에는 surviving physical coil과 disabled-coil termination을 함께 기록한다.</td></tr>
+<tr><td>A08-05</td><td>load boundary와 buffer/bypass state를 topology와 함께 기록한다.</td></tr>
+<tr><td>A08-06</td><td>resonance ordering과 effect size는 specimen measurement 전까지 hypothesis로 둔다.</td></tr>
+<tr><td>A08-07</td><td>literature fact, analytical model, RavenForge inference, bench observation, listening interpretation을 같은 evidence class로 섞지 않는다.</td></tr>
+</tbody></table></div>
+<p><span class="tag">MFR</span> 현재 SKAÐI 설계의 적용 후보인 DELANO THE XTENDER 5 HE/S는 제조사가 <b>dual coil humbucker</b>로 분류한다 [9]. DELANO는 별도의 4-conductor wiring guide에서 series/parallel switching 방법을 제공하지만 [10], A08은 THE XTENDER 5 HE/S 개별 specimen의 topology별 DCR, inductance, resonance, output delta 또는 hum attenuation 수치가 제조사에 의해 공개됐다고 가정하지 않는다.</p>
+<p><span class="tag pending">PENDING</span> 따라서 SKAÐI의 Series/Parallel 선택은 “fat/bright mode”라는 문구로 확정하지 않고, 정확한 lead version과 실제 onboard load/buffer boundary를 고정한 뒤 차이가 유효한지 bench에서 판단한다.</p>
+
+<h2>14. Claim-by-claim evidence matrix</h2>
+<div class="table-wrap"><table><thead><tr><th>Claim</th><th>판정</th><th>근거</th><th>주의</th></tr></thead><tbody>
+<tr><td>Topology switch는 source boundary를 바꾼다</td><td><span class="tag">검증</span></td><td>[1,4,7] + circuit model</td><td>actual effect size는 specimen dependent</td></tr>
+<tr><td>Matched Series: V≈2e, R=2R<sub>C</sub>, L=2(L<sub>C</sub>+M)</td><td><span class="tag model">조건부 모델</span></td><td>coupled-inductor theory</td><td>equal EMF, symmetry, sign convention 필요</td></tr>
+<tr><td>Matched Parallel: V≈e, R=R<sub>C</sub>/2, L≈(L<sub>C</sub>+M)/2</td><td><span class="tag model">조건부 모델</span></td><td>[4] + coupled-inductor theory</td><td>unequal coil·loss·C 포함 시 수정 필요</td></tr>
+<tr><td>Split: V≈e, R=R<sub>C</sub>, L=L<sub>C</sub></td><td><span class="tag model">isolated split만</span></td><td>one-coil baseline</td><td>shunted coil의 reflected loading 제외</td></tr>
+<tr><td>Parallel과 Split은 같은 상태가 아니다</td><td><span class="tag">검증</span></td><td>[4,7]</td><td>level similarity가 electrical equivalence를 뜻하지 않음</td></tr>
+<tr><td>Series와 Parallel 모두 hum cancellation 가능</td><td><span class="tag">검증</span></td><td>[3,4]</td><td>polarity, matching, field 조건 필요</td></tr>
+<tr><td>Split A/B는 spatially 다를 수 있다</td><td><span class="tag infer">기전 지지</span></td><td>[1]</td><td>effect size는 측정 대기</td></tr>
+<tr><td>DCR만으로 output/tone 예측</td><td><b>금지</b></td><td>[1,5]</td><td>wire gauge, geometry, L/C/loss/loading 분리</td></tr>
+<tr><td>Series→Split→Parallel resonance ordering</td><td><span class="tag pending">가설</span></td><td>[1,2,8]</td><td>보편 법칙으로 사용 금지</td></tr>
+<tr><td>Partial split을 hard split과 동일 취급</td><td><b>기각</b></td><td>[7] + circuit distinction</td><td>Residual-Coil은 RavenForge 내부 taxonomy</td></tr>
+</tbody></table></div>
+
+<h2>15. Bench validation handoff</h2>
+<p>후속 실험은 <b>동일 pickup specimen</b>을 topology만 바꿔 비교한다. specimen 교체로 생기는 제조 편차를 topology effect와 섞지 않는다.</p>
+<div class="table-wrap"><table><thead><tr><th>Measurement</th><th>Protocol requirement</th><th>Evidence class</th></tr></thead><tbody>
+<tr><td>Specimen freeze</td><td>serial/specimen ID, coil A/B orientation, lead map, magnet/sensing geometry, pickup height, temperature 기록</td><td><span class="tag meas">MEAS</span></td></tr>
+<tr><td>DCR</td><td>Coil A/B, Series, Parallel, Split A/B; thermal condition과 meter uncertainty 기록</td><td><span class="tag meas">MEAS</span></td></tr>
+<tr><td>Complex Z(f)</td><td>Re/Im, magnitude/phase frequency sweep; fixture calibration 및 raw CSV 보존</td><td><span class="tag meas">MEAS</span></td></tr>
+<tr><td>Loaded response</td><td>defined R/C load matrix, cable-C, input impedance, buffer bypass/engaged 동일 grid</td><td><span class="tag meas">MEAS</span></td></tr>
+<tr><td>Controlled transduction</td><td>repeatable string/mechanical/electromagnetic excitation, reference channel로 drift 기록</td><td><span class="tag meas">MEAS</span></td></tr>
+<tr><td>Hum rejection</td><td>controlled interference field, 동일 orientation/bandwidth, background run 포함</td><td><span class="tag meas">MEAS</span></td></tr>
+<tr><td>Repeatability / uncertainty</td><td>반복수, mean/SD 또는 적절한 분산 지표, instrument/fixture/environment uncertainty 기록</td><td><span class="tag meas">MEAS</span></td></tr>
+<tr><td>Raw-data provenance</td><td>configuration JSON/YAML, measurement CSV, lossless audio, analysis script와 commit hash 보존</td><td><span class="tag meas">MEAS</span></td></tr>
+</tbody></table></div>
+<p>Listening comparison은 electrical dataset을 freeze하고 level-matching rule을 선언한 뒤 별도 evidence class로 수행한다. loudness difference를 topology character와 혼동하지 않는다.</p>
+
+<h2>16. 현재 결론과 다음 연구</h2>
+<div class="chain">coil connection → E<sub>TH</sub>(f) → Z<sub>TH</sub>(f) → loading / resonance → interference rejection → sensing state</div>
+<p>A08 v0.9의 결론은 “Series가 가장 강하고 Parallel이 가장 밝다”가 아니다. <b>coil connection을 바꾸면 tone circuit가 시작되기 전에 pickup source의 경계 자체가 바뀐다</b>는 것이다. 그 차이의 크기와 음악적 유용성은 실제 instrument load boundary에서 측정해야 한다.</p>
+<aside class="box"><strong>RavenForge A08 Position</strong>
+A coil switch changes the pickup before the tone circuit begins. Document it as a source topology first; describe its tone only after measurement.</aside>
+<p>본 회차 이후 정규 연구 흐름은 L13에서 예고한 대로 <b>L04 — Epistemology of Craft</b>로 이어진다. A08의 measured revision은 Coil Topology Bench Validation 이후 <b>v1.0</b>으로 승격한다. 실험 코드는 현재 <b>C-series namespace normalization 전까지 미확정</b>으로 둔다.</p>
+
+<h2>References</h2>
+<div class="refs">
+<p id="ref-1">[1] Paiva, R. C. D.; Pakarinen, J.; Välimäki, V. “Acoustics and Modeling of Pickups.” <i>Journal of the Audio Engineering Society</i> 60(10), 768–782 (2012). AES E-Library ID 16551.<br><a href="https://aes2.org/publications/elibrary-page/?id=16551">AES E-Library</a></p>
+<p id="ref-2">[2] Kotiuga, P. R. “Inter-winding Distributed Capacitance and Guitar Pickup Transient Response.” <i>IEEE Transactions on Magnetics</i> 51(3) (2015). DOI: 10.1109/TMAG.2014.2364041.<br><a href="https://doi.org/10.1109/TMAG.2014.2364041">DOI</a> · <a href="https://arxiv.org/abs/1508.01246">author preprint</a></p>
+<p id="ref-3">[3] Lover, S. E. US2896491A, “Magnetic pickup for stringed musical instrument.”<br><a href="https://patents.google.com/patent/US2896491A/en">Google Patents</a></p>
+<p id="ref-4">[4] Beller, K. J. US5525750A, “Humbucking pickup for electric guitar.”<br><a href="https://patents.google.com/patent/US5525750A/en">Google Patents</a></p>
+<p id="ref-5">[5] Lollar Pickups. “DC Resistance, Magnets and Inductance.” Manufacturer technical information.<br><a href="https://www.lollarguitars.com/technical-information">Lollar technical information</a></p>
+<p id="ref-6">[6] Seymour Duncan. “What Is Coil Tapping?” Manufacturer technical article.<br><a href="https://www.seymourduncan.com/blog/tips-and-tricks/what-is-coil-tapping">Seymour Duncan</a></p>
+<p id="ref-7">[7] Seymour Duncan. “Single Conductor vs Four Conductor Cable Humbuckers.” Manufacturer wiring/technical article.<br><a href="https://www.seymourduncan.com/blog/tips-and-tricks/single-conductor-vs-four-conductor-cable-humbuckers">Seymour Duncan</a></p>
+<p id="ref-8">[8] Batchelor et al. “Guitar Pickups I: Analysis of the Effect of Winding and Wire Gauge on Single Coil Electric Guitar Pickups.” arXiv:2409.19782 (preprint).<br><a href="https://arxiv.org/abs/2409.19782">arXiv</a></p>
+<p id="ref-9">[9] DELANO pickup systems. “THE XTENDER Series — 5-String.” Manufacturer product listing; THE XTENDER 5 HE/S classified as dual coil humbucker.<br><a href="https://www.delano.de/pickup_overview/xt_5/xtender_5_listing.html">DELANO</a></p>
+<p id="ref-10">[10] DELANO pickup systems. “4-conductor cable wiring / Installation Guide.” Manufacturer wiring documentation.<br><a href="https://www.delano.de/downloads/installation_guide.pdf">DELANO installation guide</a></p>
+</div>
+<h3>Internal research lineage</h3>
+<div class="refs">
+<p>[R1] RavenForge. A03 — Magnetic Pickups as RLC Systems. <a href="../legacy-2026-09-09-sound/ko.html">KO</a></p>
+<p>[R2] RavenForge. A04 — Pickup Loading. <a href="../legacy-2026-09-10-sound/ko.html">KO</a></p>
+<p>[R3] RavenForge. B03 — Passive Tonal Architecture. <a href="../B03/ko.html">KO</a></p>
+<p>[R4] RavenForge. A06 — Onboard Preamp Architecture. <a href="../A06/ko.html">KO</a></p>
+<p>[R5] RavenForge. B06 — Rethinking the Internal Signal Path. <a href="../B06/ko.html">KO</a></p>
+<p>[R6] RavenForge. L13 — Technology as Mediation. <a href="../L13/ko.html">KO</a></p>
+</div>
+<p class="foot">A08 v0.9 separates literature evidence, analytical models, engineering inference and pending measurement. No unpublished specimen value is presented as measured fact.</p>
+</main></body></html>
