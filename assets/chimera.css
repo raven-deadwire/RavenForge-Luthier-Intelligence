@@ -91,3 +91,11 @@
   .rf-chimera-fx-gallery { gap: 2rem; }
   .rf-chimera-fx-row + .rf-chimera-fx-row { padding-top: 2rem; border-top: 1px solid var(--rf-line); }
 }
+
+/* The released Náströnd head stays fully visible at every screen width. */
+.rf-chimera-nastrond { margin: 1.75rem 0 2rem; min-width: 0; }
+.rf-chimera-nastrond a { display: block; padding: clamp(.5rem,2vw,1.75rem); background: radial-gradient(ellipse at center, #34302b 0%, #151c1d 75%); border: 1px solid #68573e; border-radius: 6px; }
+.rf-chimera-nastrond a:hover { border-color: #ad8760; }
+.rf-chimera-nastrond a:focus-visible { outline: 3px solid #855734; outline-offset: 4px; }
+.rf-chimera-nastrond img { display: block; width: 100%; max-width: 2172px; height: auto; margin: 0 auto; }
+.rf-chimera-nastrond figcaption { margin-top: .65rem; color: #586162; font-size: .8rem; line-height: 1.6; overflow-wrap: anywhere; }

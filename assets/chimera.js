@@ -70,7 +70,9 @@
     "newSettings": "Starting points: Thall Rhythm BLOOM 7.5 · Molten Lead ROT 7.5 · Slam Impact Low DI Comp 0.5 / DI–AMP Mix 75%.",
     "previewUpdate": "Using a 1.2 Preview test build? Download the installer below and update directly. Close Chimera and all DAWs before installation.",
     "presetUpdate": "Reload Factory / Signature presets to apply the new settings. Saved knob, channel and user IR settings are retained, while revised amp DSP can change the tone and level of existing projects.",
-    "manualUpdate": "Manual updated 5 October: Náströnd is listed under High-Gain with its current head artwork. This web update is available now; the app’s embedded manual will follow in the next build."
+    "manualUpdate": "Manual updated 5 October: Náströnd is listed under High-Gain with its current head artwork. This web update is available now; the app’s embedded manual will follow in the next build.",
+    "nastrondCaption": "Náströnd · SpectralForge Original high-gain amp · Select image to enlarge",
+    "nastrondAlt": "Náströnd amplifier head with raven and serpent artwork, five channel selectors and thirteen knobs"
   },
   "ko": {
     "status": "무료 오픈베타",
@@ -140,7 +142,9 @@
     "newSettings": "기본 설정: Thall Rhythm BLOOM 7.5 · Molten Lead ROT 7.5 · Slam Impact Low DI Comp 0.5 / DI–AMP Mix 75%.",
     "previewUpdate": "1.2 Preview 테스트판을 사용 중이라면 아래 설치 파일로 직접 업데이트해 주세요. 설치 전 Chimera와 모든 DAW를 종료하세요.",
     "presetUpdate": "새 설정을 적용하려면 Factory / Signature 프리셋을 다시 불러오세요. 저장된 노브·채널·사용자 IR 설정은 유지되며, 앰프 DSP 보정으로 기존 프로젝트의 음색과 음량은 달라질 수 있습니다.",
-    "manualUpdate": "10월 5일 매뉴얼 업데이트: 나스트론드를 High-Gain으로 분류하고 현재 헤드 이미지를 적용했습니다. 웹 매뉴얼에는 즉시 반영됐으며, 앱 내장 매뉴얼은 다음 빌드부터 적용됩니다."
+    "manualUpdate": "10월 5일 매뉴얼 업데이트: 나스트론드를 High-Gain으로 분류하고 현재 헤드 이미지를 적용했습니다. 웹 매뉴얼에는 즉시 반영됐으며, 앱 내장 매뉴얼은 다음 빌드부터 적용됩니다.",
+    "nastrondCaption": "Náströnd · SpectralForge 오리지널 하이게인 앰프 · 이미지를 눌러 확대",
+    "nastrondAlt": "까마귀와 뱀 장식, 다섯 채널 선택 버튼과 13개 노브가 있는 나스트론드 앰프 헤드"
   },
   "de": {
     "status": "Kostenlose offene Beta",
@@ -210,7 +214,9 @@
     "newSettings": "Startwerte: Thall Rhythm BLOOM 7,5 · Molten Lead ROT 7,5 · Slam Impact Low DI Comp 0,5 / DI–AMP Mix 75 %.",
     "previewUpdate": "Eine 1.2-Preview-Testversion bitte direkt mit dem Installer unten aktualisieren. Chimera und alle DAWs vor der Installation schließen.",
     "presetUpdate": "Factory / Signature-Presets erneut laden, um die neuen Einstellungen zu übernehmen. Gespeicherte Regler-, Kanal- und eigene IR-Einstellungen bleiben erhalten; die überarbeitete Amp-DSP kann Klang und Pegel bestehender Projekte verändern.",
-    "manualUpdate": "Handbuch-Update vom 5. Oktober: Náströnd steht unter High-Gain und zeigt die aktuelle Amp-Abbildung. Das Web-Handbuch ist aktualisiert; das eingebettete App-Handbuch folgt mit dem nächsten Build."
+    "manualUpdate": "Handbuch-Update vom 5. Oktober: Náströnd steht unter High-Gain und zeigt die aktuelle Amp-Abbildung. Das Web-Handbuch ist aktualisiert; das eingebettete App-Handbuch folgt mit dem nächsten Build.",
+    "nastrondCaption": "Náströnd · SpectralForge Original High-Gain-Amp · Bild zum Vergrößern auswählen",
+    "nastrondAlt": "Náströnd-Verstärker mit Raben- und Schlangenmotiven, fünf Kanalwahltasten und dreizehn Reglern"
   }
 };
   function translate() {
