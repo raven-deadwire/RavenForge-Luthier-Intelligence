@@ -2,6 +2,26 @@
   "schemaVersion": 1,
   "articles": [
     {
+      "id": "A08",
+      "date": "2026-10-06",
+      "category": "sound",
+      "ko": {
+        "title": "Coil Topology — Series, Parallel, Split을 소스 재구성으로 정의하기",
+        "excerpt": "v0.9 문헌·기술 검증판. Dual-coil magnetic pickup의 Series, Parallel, Split을 음색 형용사가 아니라 source topology reconfiguration으로 분석한다. matched coupled-coil 1차 모델의 성립 조건, isolated/shunted Split과 Split A/B, residual-coil topology, loading·resonance·hum cancellation을 구분하고, DCR-only inference와 보편적인 resonance 순서를 금지한다. 실제 effect size는 same-specimen Coil Topology Bench Validation으로 이관한다.",
+        "link": "research/A08/ko.html"
+      },
+      "en": {
+        "title": "Coil Topology — Defining Series, Parallel, and Split as source reconfiguration",
+        "excerpt": "v0.9 literature/technical verification edition. Treats Series, Parallel, and Split in a dual-coil magnetic pickup as source-topology reconfiguration rather than tonal shorthand. It bounds the matched coupled-coil first-order model, separates isolated/shunted Split and Split A/B, defines residual-coil topology, and keeps loading, resonance and hum cancellation conditional. Quantitative effect size is deferred to same-specimen Coil Topology Bench Validation.",
+        "link": "research/A08/en.html"
+      },
+      "de": {
+        "title": "Coil Topology — Series, Parallel und Split als Rekonfiguration der Quelle",
+        "excerpt": "v0.9 Literatur-/Technikprüfungsfassung. Series, Parallel und Split eines Dual-Coil-Magnetpickups werden als Rekonfiguration der Quelltopologie statt als Klangetiketten behandelt. Das Protokoll begrenzt das gekoppelte Spulenmodell erster Ordnung, trennt isolated/shunted Split und Split A/B, definiert Residual-Coil-Topologie und hält Loading, Resonanz sowie Brummunterdrückung konditional. Quantitative Effektgrößen werden an die Same-Specimen-Benchvalidierung übergeben.",
+        "link": "research/A08/de.html"
+      }
+    },
+    {
       "id": "L13",
       "date": "2026-09-27",
       "category": "liberal",
