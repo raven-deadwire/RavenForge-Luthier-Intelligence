@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A08 — Coil Topology · RavenForge</title>
+<meta name="description" content="Series, Parallel und Split werden als Rekonfiguration der Pickup-Quelle statt als Klangetiketten untersucht. RavenForge A08 v0.9 prüft das gekoppelte Spulenmodell, Split-Taxonomie, Belastung, Brummunterdrückung und den Übergang zur Bench-Validierung.">
+<link rel="canonical" href="https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/research/A08/de.html">
+<link rel="alternate" hreflang="ko" href="ko.html"><link rel="alternate" hreflang="en" href="en.html"><link rel="alternate" hreflang="de" href="de.html"><link rel="alternate" hreflang="x-default" href="en.html">
+<link rel="stylesheet" href="a08.css"></head><body><main>
+<div class="top"><div><div class="brand">RAVENFORGE</div><p class="kicker">Klangforschungsprotokoll — A08</p></div><nav class="langs" aria-label="Sprache"><a href="ko.html">KO</a><a href="en.html">EN</a><a href="de.html" aria-current="page">DE</a></nav></div>
+<h1>A08 — Coil Topology</h1>
+<p class="sub">Series, Parallel und Split als Rekonfiguration der Quelle</p>
+<p class="date">2026-10-06 · v0.9 · Literatur-, Gleichungs- und Terminologieprüfung abgeschlossen · RavenForge-Specimen-Benchvalidierung ausstehend</p>
+
+<div class="purpose"><strong>Zweck des Dokuments</strong>
+Series, Parallel und Split werden nicht zuerst mit Kurzbegriffen wie „fett“, „hell“ oder „single-coil-artig“ klassifiziert. Wird derselbe Dual-Coil-Magnetpickup anders verschaltet, können sich die Quellspannung und die frequenzabhängige Quellimpedanz für die nachfolgende Schaltung ebenso ändern wie die Bedingungen für Störunterdrückung und der Sensing-Zustand. A08 bezeichnet dies als <b>source topology reconfiguration</b> und trennt verifizierte Literatur, analytische Modelle erster Ordnung, RavenForge-Entwurfsinterpretation und ausstehende Messung. Diese Revision behauptet keine quantitativen Werte eines noch nicht gemessenen RavenForge-Pickup-Exemplars.</div>
+
+<div class="table-wrap"><table class="meta"><tbody>
+<tr><th>Code</th><td>A08 — Coil Topology</td></tr>
+<tr><th>Focus</th><td>Series · Parallel · Split · Residual-Coil · Quellimpedanz · Resonanz/Belastung · Brummunterdrückung · Sensing State</td></tr>
+<tr><th>Evidence</th><td>Peer-reviewtes Pickup-Modeling · gekoppelte Induktivitätsmodelle · Patente · technische Herstellerunterlagen</td></tr>
+<tr><th>Upstream logs</th><td>A03/A04 Pickup- und Loading-Modell · B03 Passive Tonal Architecture · A06/B06 Signalweg · L13 Evidenztrennung</td></tr>
+<tr><th>Experiment handoff</th><td>Coil Topology Bench Validation — <b>Code bis zur Normalisierung des C-Series-Namensraums offen</b></td></tr>
+<tr><th>Downstream research</th><td>L04 — Epistemology of Craft</td></tr>
+<tr><th>Status</th><td>Literatur / Gleichungen / Terminologie verifiziert · RavenForge-Specimen-Messung ausstehend</td></tr>
+<tr><th>Date / revision</th><td>2026-10-06 / v0.9</td></tr>
+</tbody></table></div>
+
+<h2>1. Forschungsfrage und Grenze</h2>
+<p>Dieses Protokoll fragt nicht, welche Verschaltung „besser klingt“. Die Frage lautet:</p>
+<aside class="box"><strong>Research question</strong>
+Wenn die beiden Spulen desselben Dual-Coil-Pickups als Series, Parallel, Split oder Residual-Coil-Zustand neu verschaltet werden: Was ändert sich an Quellspannung, komplexer Quellimpedanz, Resonanz-/Loading-Interaktion, Störunterdrückung und räumlichem Sensing, und welche Größen müssen am realen Exemplar separat gemessen werden?</aside>
+<p>Paiva, Pakarinen und Välimäki behandeln magnetische Pickups als frequenzabhängige Systeme mit Pickup-Position, Sensing Width, Ersatzschaltungsresonanz, Belastung und Pickup-Kombinationen [1]. A08 behandelt deshalb weder DCR noch ein Klangadjektiv als vollständige Zustandsbeschreibung.</p>
+
+<h2>2. Evidence Tags</h2>
+<div class="table-wrap"><table><thead><tr><th>Tag</th><th>Bedeutung</th><th>Verwendung in A08</th></tr></thead><tbody>
+<tr><td><span class="tag">LIT</span></td><td>Wissenschaftliche Literatur</td><td>Pickup-Ersatzschaltung, Position/Sensing Width, verteilte Kapazität</td></tr>
+<tr><td><span class="tag">PAT</span></td><td>Originalpatent</td><td>Humbucking-Prinzip, parallele hum-cancelling Implementierung</td></tr>
+<tr><td><span class="tag">MFR</span></td><td>Offizielle Herstellerunterlagen</td><td>Wiring-Terminologie, DCR-Hinweise, öffentlich dokumentierte Produktstruktur</td></tr>
+<tr><td><span class="tag model">MODEL</span></td><td>Analytisches Modell unter expliziten Annahmen</td><td>Matched-coupled-coil-Gleichungen für Series/Parallel</td></tr>
+<tr><td><span class="tag meas">MEAS</span></td><td>RavenForge-Messung</td><td>Keine in v0.9</td></tr>
+<tr><td><span class="tag infer">INFER</span></td><td>Entwurfsableitung aus Literatur und physikalischem Modell</td><td>Split A/B als getrennte Sensing States dokumentieren</td></tr>
+<tr><td><span class="tag pending">PENDING</span></td><td>Zu messende Hypothese</td><td>Topology-spezifische Resonanzlage, Pegeldifferenz, Brummdämpfung</td></tr>
+</tbody></table></div>
+
+<h2>3. Ein Coil-Switch rekonfiguriert die Quelle</h2>
+<p><span class="tag">LIT</span> Ein magnetischer Pickup lässt sich nicht vollständig als einzelne ideale Spannungsquelle beschreiben. Bereits ein Modell erster Ordnung benötigt die induzierte EMK <i>E</i><sub>i</sub>(f), den Wicklungswiderstand <i>R</i><sub>i</sub> und die Eigeninduktivität <i>L</i><sub>i</sub> jeder Spule. Reale Pickups ergänzen gegenseitige Induktivität, verteilte Kapazität, magnetische/Kernverluste und Wirbelstromeffekte [1,2].</p>
+<p>Die nachfolgende Schaltung kann die Quelle in Thevenin-Form lesen:</p>
+<div class="eq"><i>V</i><sub>OUT</sub>(f) = <i>E</i><sub>TH</sub>(f) · <i>Z</i><sub>LOAD</sub>(f) / [<i>Z</i><sub>TH</sub>(f) + <i>Z</i><sub>LOAD</sub>(f)]</div>
+<p><span class="tag model">MODEL</span> Ein Topology-Switch kann damit <i>E</i><sub>TH</sub>(f) und <i>Z</i><sub>TH</sub>(f) ändern, bevor Volume-Pot, Tone-Netzwerk, Kabel, Buffer oder Verstärkereingang wirken. A08 behandelt Series/Parallel/Split daher als <b>source reconfiguration</b> und nicht bloß als Tone-Switch hinter einer unveränderten Quelle.</p>
+
+<h2>4. Gekoppeltes Matched-Coil-Modell erster Ordnung</h2>
+<p><span class="tag model">MODEL</span> Die folgenden Gleichungen sind keine Produktspezifikationen. Sie gelten als Baseline für zwei elektrisch gleiche Spulen mit gleicher string-induced EMF, symmetrischer Kopplung, festgelegter Dot-/Vorzeichenkonvention in signal-addierender Richtung sowie zunächst vernachlässigter verteilter Kapazität und Verlusten.</p>
+<div class="eq"><i>E</i><sub>1</sub>=<i>E</i><sub>2</sub>=e,&nbsp; <i>R</i><sub>1</sub>=<i>R</i><sub>2</sub>=R<sub>C</sub>,&nbsp; <i>L</i><sub>1</sub>=<i>L</i><sub>2</sub>=L<sub>C</sub>,&nbsp; mutual inductance = M</div>
+<h3>Series, signal-aiding</h3>
+<div class="eq"><i>V</i><sub>OC,S</sub> ≈ 2e &nbsp;&nbsp;·&nbsp;&nbsp; R<sub>S</sub>=2R<sub>C</sub> &nbsp;&nbsp;·&nbsp;&nbsp; L<sub>S</sub>=2(L<sub>C</sub>+M)</div>
+<h3>Parallel, signal-aiding</h3>
+<div class="eq"><i>V</i><sub>OC,P</sub> ≈ e &nbsp;&nbsp;·&nbsp;&nbsp; R<sub>P</sub>=R<sub>C</sub>/2 &nbsp;&nbsp;·&nbsp;&nbsp; L<sub>P</sub>≈(L<sub>C</sub>+M)/2</div>
+<p>Bellers Humbucking-Pickup-Patent beschreibt für ideal angepasste Spulen ausdrücklich die Beziehung, dass die Parallelschaltung eine kombinierte Impedanz von ungefähr der Hälfte einer Einzelspule ergibt [4]. Bei realen Pickups müssen <i>E</i><sub>1</sub>(f) und <i>E</i><sub>2</sub>(f) wegen Position, Wicklung und Magnetstruktur jedoch nicht exakt gleich sein [1].</p>
+<p>Das Vorzeichen von M hängt von Anschluss- und Dot-Konvention ab. +M bezeichnet hier signal-addierende Kopplung für die gewählten Strom- und Referenzrichtungen. Bei anderer Konvention kann sich das algebraische Vorzeichen ändern; Polung und Lead-Definition müssen deshalb gemeinsam mit den Gleichungen dokumentiert werden.</p>
+
+<h2>5. Series — nicht „immer +6 dB“</h2>
+<p><span class="tag model">MODEL</span> In der Equal-EMF-Open-Circuit-Baseline addieren sich beide Quellspannungen. Gegenüber einer Spule ergibt sich ideal ein Verhältnis 2:1 bzw. etwa 6,02 dB. Series verändert aber gleichzeitig Quellwiderstand und effektive Induktivität. Mit realer Last wird das Ausgangsverhältnis frequenzabhängig. „Series = immer +6 dB“ ist deshalb keine gültige Produktregel.</p>
+<p><span class="tag pending">PENDING</span> Broadband-Pegeldifferenz, Resonanzpeak und Transientenunterschied eines RavenForge-Exemplars bleiben bis zur Bench-Messung unquantifiziert.</p>
+
+<h2>6. Parallel — nicht bloß ein leiserer Split</h2>
+<p><span class="tag">PAT</span> <span class="tag">MFR</span> Bei Parallel bleiben beide Spulen im Signalweg. Beller beschreibt ausdrücklich eine parallele Humbucking-Implementierung [4]; Herstellerunterlagen zu Vierleiter-Humbuckern führen Series, Parallel und Single-Coil als getrennte Schaltzustände [7].</p>
+<aside class="box"><strong>A08 distinction</strong>
+<b>Parallel</b> = zwei aktive Sensing-Coils + topology-abhängig niedrigere äquivalente Quellimpedanz.<br>
+<b>Split</b> = eine ausgewählte Sensing-Coil ist die beabsichtigte Quelle; der genaue elektrische Zustand hängt zusätzlich vom Abschluss der deaktivierten Spule ab.</aside>
+<p>Selbst wenn Parallel und Split unter bestimmten Bedingungen ähnliche Open-Circuit-Pegel liefern, sind sie deshalb keine elektrisch äquivalenten Quellen.</p>
+
+<h2>7. Split-Taxonomie — A/B und Abschluss gemeinsam dokumentieren</h2>
+<p>Das Wort „Split“ definiert die Schaltung nicht vollständig. A08 zeichnet mindestens zwei Achsen auf.</p>
+<div class="table-wrap"><table><thead><tr><th>Achse</th><th>Zustand</th><th>Bedeutung</th></tr></thead><tbody>
+<tr><td>Surviving coil</td><td>Split A / Split B</td><td>Welche physische Spule das beabsichtigte Signal liefert</td></tr>
+<tr><td>Disabled-coil termination</td><td>isolated/open</td><td>Ideale One-Coil-Baseline; ungenutzte Spule elektrisch offen/isoliert</td></tr>
+<tr><td>Disabled-coil termination</td><td>shunted/shorted</td><td>Häufige Split-Variante mit niederohmig abgeschlossener ungenutzter Wicklung; reflektierte Belastung durch magnetische Kopplung separat prüfen</td></tr>
+</tbody></table></div>
+<p><span class="tag model">MODEL</span> Die folgende Gleichung gilt nur für die <b>isolated-split</b>-Näherung erster Ordnung:</p>
+<div class="eq"><i>V</i><sub>OC,SP</sub>≈e &nbsp;&nbsp;·&nbsp;&nbsp; R<sub>SP</sub>=R<sub>C</sub> &nbsp;&nbsp;·&nbsp;&nbsp; L<sub>SP</sub>=L<sub>C</sub></div>
+<p><span class="tag pending">PENDING</span> In einer kurzgeschlossenen/shunted ungenutzten Wicklung kann induzierter Strom fließen und über mutual coupling eine Last auf die aktive Spule zurückreflektieren. Dieser Zustand wird daher nicht mit der obigen isolated-Gleichung gleichgesetzt. Die Effektgröße wird per komplexer Impedanzmessung am Exemplar bestimmt.</p>
+
+<h2>8. Partial / resistive split — Residual-Coil-Topologie</h2>
+<p><span class="tag">MFR</span> Hersteller-Wiring-Material zeigt auch Anwendungen, in denen der Beitrag einer Spule eingeblendet statt vollständig entfernt wird [7]. Lässt ein endlicher Widerstand oder Blend-Regler die zweite Spule teilweise beteiligt, ist dies nicht dieselbe Schaltung wie ein Hard Split.</p>
+<p><span class="tag infer">INFER</span> RavenForge dokumentiert dies separat als <b>Residual-Coil / Partial-Split topology</b>. Der Begriff dient der internen Engineering-Traceability und wird nicht als Branchenstandard behauptet. A08 legt bewusst keinen universellen „richtigen“ Widerstandswert fest.</p>
+
+<h2>9. Resonanz und Loading — keine Reihenfolge zum Naturgesetz machen</h2>
+<p>Ein vereinfachtes lumped model kann schreiben:</p>
+<div class="eq">f<sub>r</sub> ≈ 1 / [2π√(L<sub>EQ</sub>C<sub>TOTAL</sub>)]</div>
+<p><span class="tag model">MODEL</span> Würde die effektive Kapazität über alle Topologien konstant bleiben, ließe sich aus der effektiven Induktivität eine Richtung der Resonanzverschiebung erwarten. Reale Neuverschaltung kann jedoch auch effektive/verteilte Kapazität, Dämpfung, mutual coupling und Verlustbedingungen verändern. Kotiuga behandelt die verteilte Wicklungskapazität und die Grenzen zu einfacher lumped-RLC-Beschreibungen [2]. Kontrollierte experimentelle Pickup-Arbeit zeigt ebenfalls Einflüsse von Windungszahl und Drahtstärke auf Resonanz und Peak [8].</p>
+<p><span class="tag pending">PENDING</span> „Series → Split → Parallel ergibt immer zunehmend höhere Resonanz“ ist daher <b>kein</b> verifiziertes A08-Gesetz. Die Resonanzreihenfolge bleibt eine Hypothese, die am selben Exemplar unter definierter Last geprüft wird.</p>
+<p>Jede Messung dokumentiert Volume-/Tone-Widerstand, Tone-Kapazität, Kabelkapazität, Eingangsimpedanz und Buffer-/Bypass-Zustand. Bei geänderter Quelltopologie darf für dasselbe Downstream-Bauteil nicht derselbe proportionale Effekt vorausgesetzt werden.</p>
+
+<h2>10. Brummunterdrückung — nicht exklusiv für Series</h2>
+<p><span class="tag">PAT</span> Seth Lovers Originalpatent beschreibt das Humbucking-Prinzip: störinduzierte Komponenten beider Spulen werden gegeneinander aufgehoben, während der string-induced musikalische Anteil addiert wird [3]. Bellers späteres Patent implementiert dieses Ziel ausdrücklich bei <b>parallel</b> geschalteten Spulen [4].</p>
+<p>Unter passender magnetischer/elektrischer Polarität, ausreichendem Matching und einem geeigneten Störfeld können <b>sowohl Series als auch Parallel hum-cancelling sein.</b> Ein konventioneller One-Coil-Split verliert normalerweise den ursprünglichen Zwei-Spulen-Cancellation-Mechanismus. Dies schließt nicht aus, dass die verbleibende Spule mit einer anderen passend angeordneten Spule eine neue hum-cancelling Kombination bildet.</p>
+<p><span class="tag pending">PENDING</span> Die reale Brummdämpfung in dB eines RavenForge-Exemplars wird erst nach Definition von Feldstärke, Orientierung, Bandbreite, Background und Wiederholbarkeit gemessen.</p>
+
+<h2>11. Split A/B enthält auch eine Spatial-Sensing-Hypothese</h2>
+<p><span class="tag">LIT</span> Pickup-Position und Sensing Width beeinflussen die abgetastete Obertonantwort der Saite [1]. In einem Side-by-Side-Dual-Coil liegen beide Spulen nicht exakt an derselben longitudinalen Position.</p>
+<p><span class="tag infer">INFER</span> Welche physische Spule im Split aktiv bleibt, kann deshalb neben der elektrischen Quelle auch die erfasste Region ändern. A08 dokumentiert dies als <b>mechanism-supported hypothesis</b>. Die reale spektrale Effektgröße zwischen Split A und Split B bleibt <span class="tag pending">PENDING</span>; vor der Messung wird keine klangliche Rangfolge vergeben.</p>
+
+<h2>12. Coil split ≠ coil tap</h2>
+<p><span class="tag">MFR</span> Technische Herstellerunterlagen unterscheiden Coil Splitting und Coil Tapping. Beim Split wird eine Spule eines Multi-Coil-Pickups deaktiviert oder unterdrückt; beim Tap wird ein Zwischenabgriff einer Wicklung gewählt und damit die aktive Windungszahl verändert [6]. RavenForge verwendet beide Begriffe nicht synonym.</p>
+
+<h2>13. RavenForge-Entwurfsregeln und SKAÐI-Anwendung</h2>
+<div class="table-wrap"><table><thead><tr><th>Rule</th><th>Entwurfsregel</th></tr></thead><tbody>
+<tr><td>A08-01</td><td>Quelltopologie vor Klangadjektiven dokumentieren.</td></tr>
+<tr><td>A08-02</td><td>Parallel nicht als „leiseren Split“ behandeln.</td></tr>
+<tr><td>A08-03</td><td>Output oder Klangantwort nicht allein aus DCR ableiten [1,5].</td></tr>
+<tr><td>A08-04</td><td>Zum Split gehören aktive physische Spule und Abschluss der deaktivierten Spule.</td></tr>
+<tr><td>A08-05</td><td>Load boundary sowie Buffer-/Bypass-Zustand zusammen mit der Topologie dokumentieren.</td></tr>
+<tr><td>A08-06</td><td>Resonanzreihenfolge und Effektgröße bis zur Specimen-Messung als Hypothesen führen.</td></tr>
+<tr><td>A08-07</td><td>Literaturfakt, analytisches Modell, RavenForge-Inferenz, Bench-Beobachtung und Listening Interpretation nicht in eine Evidenzklasse mischen.</td></tr>
+</tbody></table></div>
+<p><span class="tag">MFR</span> DELANO klassifiziert den im aktuellen SKAÐI-Entwurf betrachteten THE XTENDER 5 HE/S als <b>dual coil humbucker</b> [9]. DELANO veröffentlicht außerdem separate Vierleiter-Unterlagen für Series/Parallel-Wiring [10]. A08 unterstellt nicht, dass DELANO für das konkrete THE XTENDER 5 HE/S-Exemplar topology-spezifische Werte für DCR, Induktivität, Resonanz, Ausgangsdifferenz oder Brummdämpfung veröffentlicht hat.</p>
+<p><span class="tag pending">PENDING</span> Die geplante Series/Parallel-Option von SKAÐI wird deshalb nicht als feste „fat/bright mode“-Aussage eingefroren. Zuerst werden Lead-Version und reale Onboard-Load-/Buffer-Grenze festgelegt; danach entscheidet die Bench-Messung, ob beide Zustände ausreichend verschieden und musikalisch brauchbar bleiben.</p>
+
+<h2>14. Claim-by-claim evidence matrix</h2>
+<div class="table-wrap"><table><thead><tr><th>Claim</th><th>Bewertung</th><th>Grundlage</th><th>Hinweis</th></tr></thead><tbody>
+<tr><td>Topology-Switch ändert die Quellgrenze</td><td><span class="tag">Verifiziert</span></td><td>[1,4,7] + Schaltungsmodell</td><td>Effektgröße bleibt specimen-abhängig</td></tr>
+<tr><td>Matched Series: V≈2e, R=2R<sub>C</sub>, L=2(L<sub>C</sub>+M)</td><td><span class="tag model">Bedingtes Modell</span></td><td>Coupled-inductor theory</td><td>Gleiche EMF, Symmetrie, Vorzeichenkonvention nötig</td></tr>
+<tr><td>Matched Parallel: V≈e, R=R<sub>C</sub>/2, L≈(L<sub>C</sub>+M)/2</td><td><span class="tag model">Bedingtes Modell</span></td><td>[4] + coupled-inductor theory</td><td>Ungleiche Spulen, Verluste und C erfordern erweitertes Modell</td></tr>
+<tr><td>Split: V≈e, R=R<sub>C</sub>, L=L<sub>C</sub></td><td><span class="tag model">Nur isolated split</span></td><td>One-coil baseline</td><td>Reflektierte Last einer shunted winding nicht enthalten</td></tr>
+<tr><td>Parallel und Split sind nicht derselbe Zustand</td><td><span class="tag">Verifiziert</span></td><td>[4,7]</td><td>Ähnlicher Pegel bedeutet keine elektrische Äquivalenz</td></tr>
+<tr><td>Series und Parallel können beide Brumm kompensieren</td><td><span class="tag">Verifiziert</span></td><td>[3,4]</td><td>Polung, Matching und Feldbedingungen erforderlich</td></tr>
+<tr><td>Split A/B können räumlich unterschiedlich sein</td><td><span class="tag infer">Mechanistisch gestützt</span></td><td>[1]</td><td>Effektgröße ausstehend</td></tr>
+<tr><td>Output/Klang allein aus DCR vorhersagen</td><td><b>Verworfen</b></td><td>[1,5]</td><td>Draht, Geometrie, L/C/Verlust/Loading getrennt betrachten</td></tr>
+<tr><td>Series→Split→Parallel Resonanzreihenfolge</td><td><span class="tag pending">Hypothese</span></td><td>[1,2,8]</td><td>Nicht als universelles Gesetz formulieren</td></tr>
+<tr><td>Partial Split = Hard Split</td><td><b>Verworfen</b></td><td>[7] + Schaltungsunterschied</td><td>Residual-Coil ist RavenForge-interne Taxonomie</td></tr>
+</tbody></table></div>
+
+<h2>15. Übergabe an die Bench-Validierung</h2>
+<p>Das Folgeexperiment verwendet für jede Topologie <b>dasselbe Pickup-Exemplar</b>. Fertigungsstreuung zwischen verschiedenen Exemplaren darf nicht mit dem Topology-Effekt vermischt werden.</p>
+<div class="table-wrap"><table><thead><tr><th>Messung</th><th>Protokollanforderung</th><th>Evidenzklasse</th></tr></thead><tbody>
+<tr><td>Specimen freeze</td><td>Serial/Specimen ID, Coil-A/B-Orientierung, Lead Map, Magnet-/Sensing-Geometrie, Pickup-Höhe, Temperatur</td><td><span class="tag meas">MEAS</span></td></tr>
+<tr><td>DCR</td><td>Coil A/B, Series, Parallel, Split A/B; Temperaturzustand und Messgeräteunsicherheit</td><td><span class="tag meas">MEAS</span></td></tr>
+<tr><td>Complex Z(f)</td><td>Re/Im und Betrag/Phase über Frequenz; Fixture-Kalibrierung und Raw CSV archivieren</td><td><span class="tag meas">MEAS</span></td></tr>
+<tr><td>Loaded response</td><td>Definierte R/C-Load-Matrix, Kabel-C, Eingangsimpedanz, Buffer bypass/engaged auf demselben Grid</td><td><span class="tag meas">MEAS</span></td></tr>
+<tr><td>Controlled transduction</td><td>Wiederholbare Saiten-/mechanische-/elektromagnetische Anregung mit Reference Channel für Drift</td><td><span class="tag meas">MEAS</span></td></tr>
+<tr><td>Hum rejection</td><td>Kontrolliertes Störfeld, identische Orientierung/Bandbreite, Background Run</td><td><span class="tag meas">MEAS</span></td></tr>
+<tr><td>Repeatability / uncertainty</td><td>Wiederholungszahl, Mittelwert/SD oder geeignete Streuungsgröße, Instrument-/Fixture-/Environment-Unsicherheit</td><td><span class="tag meas">MEAS</span></td></tr>
+<tr><td>Raw-data provenance</td><td>Configuration JSON/YAML, Measurement CSV, Lossless Audio, Analysis Script und Commit Hash archivieren</td><td><span class="tag meas">MEAS</span></td></tr>
+</tbody></table></div>
+<p>Listening-Vergleiche folgen erst nach Freeze des elektrischen Datensatzes und Definition einer Level-Matching-Regel. Lautheitsunterschiede werden nicht stillschweigend als Topology-Charakter umgedeutet.</p>
+
+<h2>16. Aktueller Schluss und nächste Forschung</h2>
+<div class="chain">coil connection → E<sub>TH</sub>(f) → Z<sub>TH</sub>(f) → loading / resonance → interference rejection → sensing state</div>
+<p>Die Schlussfolgerung von A08 v0.9 lautet nicht „Series ist am stärksten und Parallel am hellsten“. Sie lautet: <b>Eine Änderung der Coil-Verbindung verändert die Pickup-Quellgrenze, bevor die Tone-Schaltung beginnt.</b> Größe und musikalische Nützlichkeit dieser Differenz müssen an der realen Lastgrenze des Instruments gemessen werden.</p>
+<aside class="box"><strong>RavenForge A08 Position</strong>
+A coil switch changes the pickup before the tone circuit begins. Document it as a source topology first; describe its tone only after measurement.</aside>
+<p>Die reguläre Forschungsfolge geht wie in L13 angekündigt mit <b>L04 — Epistemology of Craft</b> weiter. A08 wird erst nach Coil Topology Bench Validation zur gemessenen <b>v1.0</b> erhoben. Der Experimentcode bleibt <b>bis zur Normalisierung des C-Series-Namensraums unzugewiesen</b>.</p>
+
+<h2>References</h2>
+<div class="refs">
+<p id="ref-1">[1] Paiva, R. C. D.; Pakarinen, J.; Välimäki, V. “Acoustics and Modeling of Pickups.” <i>Journal of the Audio Engineering Society</i> 60(10), 768–782 (2012). AES E-Library ID 16551.<br><a href="https://aes2.org/publications/elibrary-page/?id=16551">AES E-Library</a></p>
+<p id="ref-2">[2] Kotiuga, P. R. “Inter-winding Distributed Capacitance and Guitar Pickup Transient Response.” <i>IEEE Transactions on Magnetics</i> 51(3) (2015). DOI: 10.1109/TMAG.2014.2364041.<br><a href="https://doi.org/10.1109/TMAG.2014.2364041">DOI</a> · <a href="https://arxiv.org/abs/1508.01246">author preprint</a></p>
+<p id="ref-3">[3] Lover, S. E. US2896491A, “Magnetic pickup for stringed musical instrument.”<br><a href="https://patents.google.com/patent/US2896491A/en">Google Patents</a></p>
+<p id="ref-4">[4] Beller, K. J. US5525750A, “Humbucking pickup for electric guitar.”<br><a href="https://patents.google.com/patent/US5525750A/en">Google Patents</a></p>
+<p id="ref-5">[5] Lollar Pickups. “DC Resistance, Magnets and Inductance.” Manufacturer technical information.<br><a href="https://www.lollarguitars.com/technical-information">Lollar technical information</a></p>
+<p id="ref-6">[6] Seymour Duncan. “What Is Coil Tapping?” Manufacturer technical article.<br><a href="https://www.seymourduncan.com/blog/tips-and-tricks/what-is-coil-tapping">Seymour Duncan</a></p>
+<p id="ref-7">[7] Seymour Duncan. “Single Conductor vs Four Conductor Cable Humbuckers.” Manufacturer wiring/technical article.<br><a href="https://www.seymourduncan.com/blog/tips-and-tricks/single-conductor-vs-four-conductor-cable-humbuckers">Seymour Duncan</a></p>
+<p id="ref-8">[8] Batchelor et al. “Guitar Pickups I: Analysis of the Effect of Winding and Wire Gauge on Single Coil Electric Guitar Pickups.” arXiv:2409.19782 (preprint).<br><a href="https://arxiv.org/abs/2409.19782">arXiv</a></p>
+<p id="ref-9">[9] DELANO pickup systems. “THE XTENDER Series — 5-String.” Manufacturer product listing; THE XTENDER 5 HE/S classified as dual coil humbucker.<br><a href="https://www.delano.de/pickup_overview/xt_5/xtender_5_listing.html">DELANO</a></p>
+<p id="ref-10">[10] DELANO pickup systems. “4-conductor cable wiring / Installation Guide.” Manufacturer wiring documentation.<br><a href="https://www.delano.de/downloads/installation_guide.pdf">DELANO installation guide</a></p>
+</div>
+<h3>Internal research lineage</h3>
+<div class="refs">
+<p>[R1] RavenForge. A03 — Magnetic Pickups as RLC Systems. <a href="../legacy-2026-09-09-sound/de.html">DE</a></p>
+<p>[R2] RavenForge. A04 — Pickup Loading. <a href="../legacy-2026-09-10-sound/de.html">DE</a></p>
+<p>[R3] RavenForge. B03 — Passive Tonal Architecture. <a href="../B03/de.html">DE</a></p>
+<p>[R4] RavenForge. A06 — Onboard Preamp Architecture. <a href="../A06/de.html">DE</a></p>
+<p>[R5] RavenForge. B06 — Rethinking the Internal Signal Path. <a href="../B06/de.html">DE</a></p>
+<p>[R6] RavenForge. L13 — Technology as Mediation. <a href="../L13/de.html">DE</a></p>
+</div>
+<p class="foot">A08 v0.9 trennt Literaturevidenz, analytische Modelle, Engineering-Inferenz und ausstehende Messung. Kein unveröffentlichter Specimen-Wert wird als gemessene Tatsache dargestellt.</p>
+</main></body></html>
