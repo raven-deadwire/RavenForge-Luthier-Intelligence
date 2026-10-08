@@ -56,7 +56,7 @@
   Object.keys(modelDefaults).forEach(function (modelId) {
     cores[modelId] = {};
     geometryCategories.forEach(function (id) {
-      if (modelId === 'ASKR' && id === 'hardware_bridge') return;
+      if (modelId !== 'GRAMR' && id === 'hardware_bridge') return;
       cores[modelId][id] = modelDefaults[modelId][id];
     });
     if (modelId === 'GRAMR') cores[modelId].fret_type = modelDefaults[modelId].fret_type;
@@ -166,7 +166,7 @@
     if (bridgeGroup) {
       var novaSpec = 'Dingwall Retrofit; 18 mm spacing; black anodized aluminium; final saddle travel, mounting angle and screw positions to be confirmed';
       var novaBridge = {
-        id: 'nova_parts', label: 'Nova Parts 5-string multiscale bridge',
+        id: 'nova_parts', label: 'Nova Parts multiscale bridge',
         spec: novaSpec, specByModel: { ASKR: novaSpec },
         prices: { ASKR: -70 }, availableFor: ['ASKR']
       };
@@ -281,9 +281,6 @@
       ['neck_profile', 'guitar_profile_custom', 'Custom guitar neck profile', 'retain the 43 mm nut width and existing heel; describe the desired feel'],
       ['radius', 'guitar_radius_compound', 'Compound radius', 'specify preferred radii within the existing fretboard outline'],
       ['radius', 'guitar_radius_custom', 'Custom radius', 'specify the preferred fretboard radius'],
-      ['nut_material', 'guitar_brass_nut', 'Brass nut', '43 mm nut position; no zero fret'],
-      ['nut_material', 'guitar_graphite_nut', 'Graphite nut', '43 mm nut position; no zero fret'],
-      ['nut_material', 'guitar_custom_nut', 'Custom nut material', 'retain the existing nut position and width; no zero fret'],
       ['body_construction', 'guitar_body_1pc', '1-piece solid body', 'retain the existing outline, cavities and final body thickness'],
       ['body_construction', 'guitar_body_3pc', '3-piece solid body', 'retain the existing outline, cavities and final body thickness'],
       ['body_construction', 'guitar_body_chambered', 'Chambered body', 'planned internal chamber layout'],
@@ -338,8 +335,7 @@
       ['radius', 'guitar_radius_compound', 'rad_compound'],
       ['radius', 'guitar_radius_custom', 'rad_custom'],
       ['neck_profile', 'guitar_profile_custom', 'profile_custom'],
-      ['fretboard', 'guitar_indian_rosewood', 'rosewood'],
-      ['nut_material', 'guitar_custom_nut', 'nut_others']
+      ['fretboard', 'guitar_indian_rosewood', 'rosewood']
     ].forEach(function (mapping) {
       var target = option(data, mapping[0], mapping[1]);
       if (target) target.prices.GRAMR = commonBassPrice(option(data, mapping[0], mapping[2]));

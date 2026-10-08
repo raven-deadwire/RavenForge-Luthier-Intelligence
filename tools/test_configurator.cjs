@@ -240,14 +240,14 @@ async function run() {
         assert.doesNotMatch(await future.innerText(), noShortScale, 'Short scale cannot appear in future options');
         for (let number = 1; number <= 5; number++) {
           await step(number);
-          const modelFixed = fixedCategories.filter(category => !(model.id === 'ASKR' && category === 'hardware_bridge'));
+          const modelFixed = fixedCategories.filter(category => !(model.id !== 'GRAMR' && category === 'hardware_bridge'));
           for (const category of [...modelFixed, ...(model.id === 'GRAMR' ? ['fret_type'] : [])]) {
             assert.equal(await page.locator(`input[name="${category}"]:enabled, select[name="${category}"]:enabled`).count(), 0, `${model.id}: ${category} must not be selectable`);
           }
           const reopenByStep = {
-            2: ['neck', 'neck_profile', 'nut_material', 'radius'],
+            2: ['neck', 'neck_profile', ...(model.id === 'GRAMR' ? [] : ['nut_material']), 'radius'],
             3: ['body_construction'],
-            4: ['hardware_machine_head', ...(model.id === 'ASKR' ? ['hardware_bridge'] : [])],
+            4: ['hardware_machine_head', ...(model.id !== 'GRAMR' ? ['hardware_bridge'] : [])],
             5: ['pickups', 'electronics', 'control_layout'],
           };
           for (const category of reopenByStep[number] || []) {
@@ -336,9 +336,11 @@ async function run() {
       assert.equal(await option('radius', 'rad_compound').isChecked(), true);
       await step(5);
       await selectOption('control_layout', 'control_custom');
-      await selectOption('coil_switch', 'coil_2_pcts');
+      assert.equal(await option('coil_switch', 'coil_1_pcts').count(), 0);
+      assert.equal(await option('coil_switch', 'coil_2_pcts').count(), 0);
+      await selectOption('coil_switch', 'coil_2_ps');
       await summaryValue(/^(Control Layout|Controls & Wiring)/i, /custom/i);
-      await summaryValue(/^Select Coil Switch/i, /2.*parallel.*coil.*series/i);
+      await summaryValue(/^Select Coil Switch/i, /2.*parallel-series/i);
       await quotedAmount();
     });
 
@@ -416,7 +418,7 @@ async function run() {
       assert.equal(await quotedAmount(), 3200);
       assert.equal(await page.locator('[data-nova-hardware-color-note]').count(), 0);
       await selectOption('hardware_bridge', 'nova_parts');
-      await summaryValue(/^Hardware - Bridge/i, /Nova Parts 5-string multiscale bridge/i);
+      await summaryValue(/^Hardware - Bridge/i, /Nova Parts multiscale bridge/i);
       await summaryValue(/^Hardware - Bridge/i, /Dingwall Retrofit; 18 mm spacing; black anodized aluminium/i);
       await summaryValue(/^Hardware - Bridge/i, /-\s*€\s*70/);
       assert.match(await page.locator('[data-fixed-platform]').innerText(), /Nova/i);
@@ -523,7 +525,8 @@ async function run() {
       await step(2);
       await selectOption('neck', 'guitar_neck_custom');
       await selectOption('neck_profile', 'guitar_profile_custom');
-      await selectOption('nut_material', 'guitar_graphite_nut');
+      assert.equal(await page.locator('input[name="nut_material"]').count(), 1);
+      assert.equal(await option('nut_material', 'guitar_bone_nut').isChecked(), true);
       await selectOption('radius', 'guitar_radius_compound');
       await step(3);
       assert.equal(await option('color_top', 'top_oil').isChecked(), true);
@@ -540,7 +543,7 @@ async function run() {
       await selectOption('electronics', 'guitar_passive');
       await selectOption('control_layout', 'guitar_custom_wiring');
       await summaryValue(/^Neck$/i, /custom/i);
-      await summaryValue(/^Nut Material/i, /graphite/i);
+      await summaryValue(/^Nut Material/i, /buffalo bone nut/i);
       await summaryValue(/^Body Wood/i, /maple/i);
       await summaryValue(/^Pickups/i, /HH|humbucker/i);
       await summaryValue(/^Power Supply/i, /No battery/i);
@@ -558,7 +561,7 @@ async function run() {
       assert.equal(await option('electronics', 'guitar_passive').isChecked(), true);
       await chooseModel('EDDA');
       assertSpecs(await summary(), expectedModels[0]);
-      assert.doesNotMatch(await summary(), /Keep this custom guitar specification|Midnight blue body|Gotoh 510T-FE1|graphite|guitar humbuckers/i);
+      assert.doesNotMatch(await summary(), /Keep this custom guitar specification|Midnight blue body|Gotoh 510T-FE1|buffalo bone nut|guitar humbuckers/i);
       await step(3);
       assert.equal(await page.locator('input[data-finish-color]').inputValue(), '', 'Changing models clears the previous finish request');
     });
