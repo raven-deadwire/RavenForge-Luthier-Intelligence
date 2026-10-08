@@ -60,8 +60,8 @@
 <!-- RF:SEO END -->
 </head>
 <body>
-  <script src="./assets/configurator-platforms.js?v=20261008-5"></script>
-  <script src="./assets/configurator-ui.js?v=20261008-5"></script>
+  <script src="./assets/configurator-platforms.js?v=20261008-6"></script>
+  <script src="./assets/configurator-ui.js?v=20261008-6"></script>
   <!-- Root element for React App -->
   <div id="root"></div>
 
@@ -969,7 +969,7 @@
 
       const formatPrice = (price, isStd) => {
         if (price === 'request' || price === null || price === undefined) return ui.requestPrice;
-        if (price === 0) return selectedModel === 'GRAM' ? ui.standard : ui.included;
+        if (price === 0) return selectedModel === 'GRAM' && isStd ? ui.standard : ui.included;
         if (typeof price === 'number' && price < 0) return '- €' + Math.abs(price);
         return '+ €' + price;
       };

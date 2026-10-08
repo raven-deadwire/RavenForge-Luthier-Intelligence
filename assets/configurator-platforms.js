@@ -41,7 +41,7 @@
       pickup_configuration: 'guitar_hh', pickups: 'guitar_lundgren_m6',
       electronics: 'guitar_zuta_core', control_layout: 'guitar_controls',
       coil_switch: 'guitar_blade_selection',
-      color_top: 'top_gloss', color_back_side: 'back_gloss'
+      color_top: 'top_oil', color_back_side: 'back_oil'
     }
   };
   var geometryCategories = [
@@ -106,17 +106,27 @@
     var group = category(data, categoryId);
     if (!group) return;
     var existing = option(data, categoryId, id);
-    var entry = { id: id, label: label, spec: spec || '', prices: { GRAM: 'request' }, availableFor: ['GRAM'] };
+    var entry = { id: id, label: label, spec: spec || '', prices: { GRAM: standard !== false ? 0 : 'request' }, availableFor: ['GRAM'] };
     if (existing) Object.assign(existing, entry);
     else group.options.push(entry);
     if (standard !== false) setStandard(data, categoryId, id, 'GRAM');
+  }
+  function commonBassPrice(entry) {
+    if (!entry || !entry.prices) return 'request';
+    var values = ['EDDA', 'EMBLA', 'ASKR'].map(function (id) {
+      return entry.prices[id];
+    }).filter(function (value) { return value !== undefined && value !== null; });
+    if (!values.length || values.some(function (value) {
+      return value !== 'request' && (typeof value !== 'number' || !isFinite(value));
+    })) return 'request';
+    return values.every(function (value) { return value === values[0]; }) ? values[0] : 'request';
   }
   function shareGuitarOptions(data, categoryId, allowedIds, standardId) {
     var group = category(data, categoryId);
     if (!group) return;
     group.options.forEach(function (entry) {
       if (allowedIds && allowedIds.indexOf(entry.id) < 0) return;
-      entry.prices = Object.assign({}, entry.prices, { GRAM: 'request' });
+      entry.prices = Object.assign({}, entry.prices, { GRAM: commonBassPrice(entry) });
       if (entry.availableFor && entry.availableFor.indexOf('GRAM') < 0) entry.availableFor.push('GRAM');
     });
     if (standardId) setStandard(data, categoryId, standardId, 'GRAM');
@@ -298,24 +308,39 @@
     shareGuitarOptions(data, 'side_dot', null, 'sdot_std');
     shareGuitarOptions(data, 'fret_side', null, 'side_no');
     shareGuitarOptions(data, 'knob', null, 'knob_metal');
-    shareGuitarOptions(data, 'hardware_color', null, 'hw_gold');
+    shareGuitarOptions(data, 'hardware_color', null, 'hw_chrome');
     shareGuitarOptions(data, 'color_headstock', ['head_match', 'head_plate'], 'head_match');
-    shareGuitarOptions(data, 'color_top', ['top_oil', 'top_stain', 'top_tint', 'top_open', 'top_gloss'], 'top_gloss');
-    shareGuitarOptions(data, 'color_back_side', ['back_oil', 'back_stain', 'back_tint', 'back_open', 'back_gloss'], 'back_gloss');
+    shareGuitarOptions(data, 'color_top', ['top_oil', 'top_stain', 'top_tint', 'top_open', 'top_gloss'], 'top_oil');
+    shareGuitarOptions(data, 'color_back_side', ['back_oil', 'back_stain', 'back_tint', 'back_open', 'back_gloss'], 'back_oil');
     shareGuitarOptions(data, 'extra_finish_burst', null, 'burst_none');
     shareGuitarOptions(data, 'extra_finish_flake', null, 'flake_none');
     shareGuitarOptions(data, 'top_type', ['veneer', 'cap'], 'guitar_top_none');
 
-    // Top prices use veneer/cap keys in the legacy app. Separate IDs keep
-    // GRAM's unquoted amounts from inheriting the bass option prices.
+    // Separate guitar IDs retain the same veneer/cap prices as their source woods.
     var tops = category(data, 'top_wood_selection');
     if (tops) tops.options.slice().filter(function (entry) {
       return entry.availableFor && ['EDDA', 'EMBLA', 'ASKR'].every(function (id) { return entry.availableFor.indexOf(id) >= 0; });
     }).forEach(function (entry) {
       var id = 'guitar_top_' + entry.id;
-      var copy = { id: id, label: entry.label, spec: entry.spec || '', prices: { veneer: 'request', cap: 'request' }, availableFor: ['GRAM'], isStandard: [] };
+      var copy = { id: id, label: entry.label, spec: entry.spec || '', prices: Object.assign({}, entry.prices), availableFor: ['GRAM'], isStandard: [] };
       var present = tops.options.find(function (candidate) { return candidate.id === id; });
       if (present) Object.assign(present, copy); else tops.options.push(copy);
+    });
+    // Only explicitly equivalent materials and work share a price across IDs.
+    [
+      ['body_wood_single', 'guitar_body_maple', 'maple'],
+      ['body_wood_single', 'guitar_body_alder', 'alder'],
+      ['body_wood_single', 'guitar_body_limba', 'limba'],
+      ['body_wood_single', 'guitar_body_custom', 'others'],
+      ['body_construction', 'guitar_body_1pc', '1pc_solid'],
+      ['radius', 'guitar_radius_compound', 'rad_compound'],
+      ['radius', 'guitar_radius_custom', 'rad_custom'],
+      ['neck_profile', 'guitar_profile_custom', 'profile_custom'],
+      ['fretboard', 'guitar_indian_rosewood', 'rosewood'],
+      ['nut_material', 'guitar_custom_nut', 'nut_others']
+    ].forEach(function (mapping) {
+      var target = option(data, mapping[0], mapping[1]);
+      if (target) target.prices.GRAM = commonBassPrice(option(data, mapping[0], mapping[2]));
     });
     ['guitar_body_1pc', 'guitar_body_2pc', 'guitar_body_3pc', 'guitar_body_chambered'].forEach(function (id) {
       extendDependency(data, 'body_wood_single', 'body_construction', id);
@@ -326,16 +351,6 @@
     Object.keys(modelDefaults).forEach(function (modelId) {
       Object.keys(modelDefaults[modelId]).forEach(function (categoryId) {
         setStandard(data, categoryId, modelDefaults[modelId][categoryId], modelId);
-      });
-    });
-    // GRAM's base price includes its standard specification. Other options
-    // retain their separate-quote prices, including veneer/cap top selections.
-    data.categories.forEach(function (group) {
-      group.options.forEach(function (entry) {
-        if (entry.isStandard && entry.isStandard.indexOf('GRAM') >= 0 &&
-            entry.prices && Object.prototype.hasOwnProperty.call(entry.prices, 'GRAM')) {
-          entry.prices.GRAM = 0;
-        }
       });
     });
     return data;

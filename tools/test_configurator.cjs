@@ -434,13 +434,41 @@ async function run() {
       assert.match(text, /saddle travel, mounting angle and screw positions to be confirmed/i);
       assert.match(text, /-\s*€\s*70/);
       assert.ok(text.includes(novaNote), 'The other-hardware colour exception must be exported');
-      assert.match(text, /Estimated total\s*€\s*3,?030/i);
+      assert.match(text, /Estimated total\s*\(excl\. VAT\)\s*€\s*3,?030/i);
       assert.doesNotMatch(text, /Priced items subtotal|Price on request/i);
       report.novaPdf = { filename: path.basename(pdf), bytes: buffer.length };
       await page.getByRole('button', { name: /Save.*PDF/i }).waitFor();
       await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
       await page.screenshot({ path: path.join(output, 'askr-nova-desktop.png'), fullPage: true });
     }, { pdf: true });
+
+    await check('GRAM: shared option prices and top changes update the total once', async () => {
+      await freshModel('GRAM');
+      assert.match(await page.locator('[data-summary-total]').innerText(), /Estimated total\s*\(excl\. VAT\)\s*€\s*1,?900\b/i);
+      await step(3);
+      assert.equal(await option('color_top', 'top_oil').isChecked(), true);
+      assert.equal(await option('color_back_side', 'back_oil').isChecked(), true);
+      await step(4);
+      assert.equal(await option('hardware_color', 'hw_chrome').isChecked(), true);
+      await selectOption('hardware_color', 'hw_gold');
+      assert.match(await page.locator('[data-summary-total]').innerText(), /€\s*2,?050\b/);
+      await step(3);
+      await selectOption('color_top', 'top_gloss');
+      await selectOption('color_back_side', 'back_gloss');
+      assert.match(await page.locator('[data-summary-total]').innerText(), /€\s*2,?350\b/);
+      await selectOption('top_type', 'veneer');
+      await selectOption('top_wood_selection', 'guitar_top_flame_maple');
+      assert.match(await page.locator('[data-summary-total]').innerText(), /€\s*2,?400\b/);
+      await selectOption('top_type', 'cap');
+      assert.match(await page.locator('[data-summary-total]').innerText(), /€\s*2,?600\b/);
+      assert.doesNotMatch(await page.locator('[data-summary-total]').innerText(), /subtotal|on.request/i);
+      await selectOption('top_wood_selection', 'guitar_top_maple_burl');
+      const customTop = await page.locator('[data-summary-total]').innerText();
+      assert.match(customTop, /Priced items subtotal\s*\(excl\. VAT\)\s*€\s*2,?350\b/i);
+      assert.match(customTop, /on-request items.*confirmed separately/i);
+      await selectOption('top_type', 'guitar_top_none');
+      assert.match(await page.locator('[data-summary-total]').innerText(), /Estimated total\s*\(excl\. VAT\)\s*€\s*2,?350\b/i);
+    });
 
     await check('GRAM: passive HH, neck and material customization survives same-model selection', async () => {
       await freshModel('GRAM');
@@ -451,8 +479,8 @@ async function run() {
       await selectOption('nut_material', 'guitar_graphite_nut');
       await selectOption('radius', 'guitar_radius_compound');
       await step(3);
-      assert.equal(await option('color_top', 'top_gloss').isChecked(), true);
-      assert.equal(await option('color_back_side', 'back_gloss').isChecked(), true);
+      assert.equal(await option('color_top', 'top_oil').isChecked(), true);
+      assert.equal(await option('color_back_side', 'back_oil').isChecked(), true);
       assert.equal(await page.locator('input[value="guitar_inferno_red"]').count(), 0);
       const finish = 'Midnight blue body with a natural maple neck';
       await page.locator('input[data-finish-color]').fill(finish);
