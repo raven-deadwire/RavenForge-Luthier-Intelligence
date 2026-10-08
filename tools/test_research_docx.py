@@ -112,6 +112,13 @@ class ResearchTests(unittest.TestCase):
         self.assertIn('@media screen{', (self.output / 'article.css').read_text(encoding='utf-8'))
         self.assertEqual((self.repo / 'research/B03/b03.css').read_bytes(), original_css)
 
+    def test_explicit_korean_font_fallback_preserves_published_css(self):
+        original_css = (self.repo / 'research/B03/b03.css').read_bytes()
+        build(self.manifest_path, self.repo, self.output)
+        css = (self.output / 'article.css').read_text(encoding='utf-8')
+        self.assertIn('"Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif', css)
+        self.assertEqual((self.repo / 'research/B03/b03.css').read_bytes(), original_css)
+
     def test_empty_editorial_field(self):
         self.manifest['en']['excerpt'] = ' '; self.save()
         self.assertEqual(self.run_cli('--output', self.output), 1)

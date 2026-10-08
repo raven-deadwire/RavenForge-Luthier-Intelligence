@@ -465,6 +465,9 @@ def build(manifest_path, root, output, check_external=False):
     # Reuse B03's established responsive layout without coupling source articles.
     css = (root / 'research/B03/b03.css').read_text(encoding='utf-8')
     css += '\narticle img{max-width:100%;height:auto}ul,ol{padding-left:2em}h4,h5,h6{break-after:avoid}\n'
+    # Linux commonly installs Noto under its CJK family name. List it explicitly
+    # so generic sans-serif fallback does not select an unrelated CJK face.
+    css += 'body{font-family:Arial,"Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif}\n'
     # Generated pages only: do not change the published B03 stylesheet. Screen
     # tables keep readable columns; print retains the existing page-width fit.
     css += '@media screen{.table-scroll>table{min-width:calc(var(--docx-columns,1)*10rem)}.table-scroll>table.comparison{min-width:max(660px,calc(var(--docx-columns,1)*10rem))}}\n'

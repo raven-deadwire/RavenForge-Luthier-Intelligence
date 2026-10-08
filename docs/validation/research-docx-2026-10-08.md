@@ -27,7 +27,7 @@ metadata and the 26-entry index remain byte-identical. A04 is neither reused
 as test data nor rewritten. Its earlier private conversion evidence remains
 historical evidence, not a new A04 browser-validation claim.
 
-## Browser finding and correction
+## Browser findings and corrections
 
 The initial Chromium pass found no missing glyph, image decoding, link or
 horizontal page-overflow failures. Pixel inspection nevertheless exposed a
@@ -48,12 +48,24 @@ Before: [dense mobile table](research-docx-2026-10-08/before-ko-mobile-dense-tab
 After: [readable columns](research-docx-2026-10-08/ko-mobile-wide-table.png) and
 [reachable final column](research-docx-2026-10-08/ko-mobile-wide-table-end.png).
 
+The first remote browser run, [37769493618](https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/37769493618),
+passed all three 27-test Python jobs and all English/German browser cases, but
+failed the Korean font-selection checks at both sizes. Its preserved artifact
+`11546638244` was downloaded and SHA-256 verified. Chromium 131.0.6778.33 on
+Ubuntu selected **WenQuanYi Zen Hei** despite installed Noto CJK fonts, because
+the inherited CSS did not list Noto's Linux family name. The screenshot showed
+readable Hangul, so this was an unintended font fallback, **not proven missing
+glyphs**. Generated CSS now explicitly lists Noto Sans CJK KR and the existing
+Korean/macOS alternatives. The browser font requirement was retained, and an
+additional Python regression protects the explicit family list and original
+published CSS. That first CI browser failure is superseded, not reported as PASS.
+
 ## Results by evidence type
 
 | Evidence | Result |
 | --- | --- |
 | Existing converter / negative-publication contracts before correction | 26/26 PASS, local Linux; not browser tests |
-| Converter contracts after correction | 27/27 PASS, local Linux |
+| Converter contracts after both corrections | 28/28 PASS, local Linux |
 | Actual Chromium, KO/EN/DE × 1440×1080 and 390×844 | 6/6 combinations, 54/54 grouped checks PASS |
 | Table content/order in browser | All 9 tables per language match every expected cell |
 | Actual Korean font usage | CDP confirms Noto Sans CJK KR glyphs in title, body, table and references at both sizes |
@@ -75,7 +87,12 @@ report and screenshots as an Actions artifact.
 One intermediate post-fix run was invalidated by the archive guard when the
 research README was edited while it was running. It is **not** acceptance
 evidence. The final fresh run after edits completed passed all checks and the
-unchanged-archive assertion.
+unchanged-archive assertion. A later local iteration passed all 54 assertions
+but caught image requests aborted by the test's own rapid language switching.
+The runner now decodes every actual image before the next language click,
+rather than relying on network-idle timing;
+request failures remain fatal and include their browser error text. That
+superseded iteration is not counted as acceptance evidence.
 
 ## Reproduction and continuous checks
 

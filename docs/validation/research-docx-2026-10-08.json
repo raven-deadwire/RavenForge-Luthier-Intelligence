@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "browser": "131.0.6778.204",
   "testType": "actual Chromium; synthetic converted DOCX",
-  "started": "2026-10-08T11:17:03.721Z",
+  "started": "2026-10-08T11:29:24.118Z",
   "viewports": [
     {
       "name": "desktop",
@@ -30,23 +30,17 @@
           "result": "PASS"
         },
         {
-          "name": "real font used for Korean glyphs",
+          "name": "explicit Korean font used for glyphs",
           "result": "PASS",
           "detail": [
             {
               "selector": "h1",
               "fonts": [
                 {
-                  "familyName": "DejaVu Sans",
-                  "postScriptName": "DejaVuSans-Bold",
-                  "isCustomFont": false,
-                  "glyphCount": 14
-                },
-                {
                   "familyName": "Noto Sans CJK KR",
                   "postScriptName": "NotoSansCJKkr-Regular",
                   "isCustomFont": false,
-                  "glyphCount": 16
+                  "glyphCount": 30
                 }
               ]
             },
@@ -54,16 +48,10 @@
               "selector": "article > p",
               "fonts": [
                 {
-                  "familyName": "DejaVu Sans",
-                  "postScriptName": "DejaVuSans",
-                  "isCustomFont": false,
-                  "glyphCount": 18
-                },
-                {
                   "familyName": "Noto Sans CJK KR",
                   "postScriptName": "NotoSansCJKkr-Regular",
                   "isCustomFont": false,
-                  "glyphCount": 45
+                  "glyphCount": 63
                 }
               ]
             },
@@ -71,16 +59,10 @@
               "selector": "article td p",
               "fonts": [
                 {
-                  "familyName": "DejaVu Sans",
-                  "postScriptName": "DejaVuSans",
-                  "isCustomFont": false,
-                  "glyphCount": 10
-                },
-                {
                   "familyName": "Noto Sans CJK KR",
                   "postScriptName": "NotoSansCJKkr-Regular",
                   "isCustomFont": false,
-                  "glyphCount": 9
+                  "glyphCount": 19
                 }
               ]
             },
@@ -88,16 +70,10 @@
               "selector": "article .reference",
               "fonts": [
                 {
-                  "familyName": "DejaVu Sans",
-                  "postScriptName": "DejaVuSans",
-                  "isCustomFont": false,
-                  "glyphCount": 29
-                },
-                {
                   "familyName": "Noto Sans CJK KR",
                   "postScriptName": "NotoSansCJKkr-Regular",
                   "isCustomFont": false,
-                  "glyphCount": 4
+                  "glyphCount": 33
                 }
               ]
             }
@@ -289,16 +265,10 @@
           "selector": "h1",
           "fonts": [
             {
-              "familyName": "DejaVu Sans",
-              "postScriptName": "DejaVuSans-Bold",
-              "isCustomFont": false,
-              "glyphCount": 14
-            },
-            {
               "familyName": "Noto Sans CJK KR",
               "postScriptName": "NotoSansCJKkr-Regular",
               "isCustomFont": false,
-              "glyphCount": 16
+              "glyphCount": 30
             }
           ]
         },
@@ -306,16 +276,10 @@
           "selector": "article > p",
           "fonts": [
             {
-              "familyName": "DejaVu Sans",
-              "postScriptName": "DejaVuSans",
-              "isCustomFont": false,
-              "glyphCount": 18
-            },
-            {
               "familyName": "Noto Sans CJK KR",
               "postScriptName": "NotoSansCJKkr-Regular",
               "isCustomFont": false,
-              "glyphCount": 45
+              "glyphCount": 63
             }
           ]
         },
@@ -323,16 +287,10 @@
           "selector": "article td p",
           "fonts": [
             {
-              "familyName": "DejaVu Sans",
-              "postScriptName": "DejaVuSans",
-              "isCustomFont": false,
-              "glyphCount": 10
-            },
-            {
               "familyName": "Noto Sans CJK KR",
               "postScriptName": "NotoSansCJKkr-Regular",
               "isCustomFont": false,
-              "glyphCount": 9
+              "glyphCount": 19
             }
           ]
         },
@@ -340,16 +298,10 @@
           "selector": "article .reference",
           "fonts": [
             {
-              "familyName": "DejaVu Sans",
-              "postScriptName": "DejaVuSans",
-              "isCustomFont": false,
-              "glyphCount": 29
-            },
-            {
               "familyName": "Noto Sans CJK KR",
               "postScriptName": "NotoSansCJKkr-Regular",
               "isCustomFont": false,
-              "glyphCount": 4
+              "glyphCount": 33
             }
           ]
         }
@@ -476,7 +428,7 @@
           "result": "PASS"
         },
         {
-          "name": "real font used for Korean glyphs",
+          "name": "explicit Korean font used for glyphs",
           "result": "PASS",
           "detail": "not applicable"
         },
@@ -784,7 +736,7 @@
           "result": "PASS"
         },
         {
-          "name": "real font used for Korean glyphs",
+          "name": "explicit Korean font used for glyphs",
           "result": "PASS",
           "detail": "not applicable"
         },
@@ -1092,23 +1044,17 @@
           "result": "PASS"
         },
         {
-          "name": "real font used for Korean glyphs",
+          "name": "explicit Korean font used for glyphs",
           "result": "PASS",
           "detail": [
             {
               "selector": "h1",
               "fonts": [
                 {
-                  "familyName": "DejaVu Sans",
-                  "postScriptName": "DejaVuSans-Bold",
-                  "isCustomFont": false,
-                  "glyphCount": 14
-                },
-                {
                   "familyName": "Noto Sans CJK KR",
                   "postScriptName": "NotoSansCJKkr-Regular",
                   "isCustomFont": false,
-                  "glyphCount": 16
+                  "glyphCount": 30
                 }
               ]
             },
@@ -1116,16 +1062,10 @@
               "selector": "article > p",
               "fonts": [
                 {
-                  "familyName": "DejaVu Sans",
-                  "postScriptName": "DejaVuSans",
-                  "isCustomFont": false,
-                  "glyphCount": 16
-                },
-                {
                   "familyName": "Noto Sans CJK KR",
                   "postScriptName": "NotoSansCJKkr-Regular",
                   "isCustomFont": false,
-                  "glyphCount": 45
+                  "glyphCount": 62
                 }
               ]
             },
@@ -1133,16 +1073,10 @@
               "selector": "article td p",
               "fonts": [
                 {
-                  "familyName": "DejaVu Sans",
-                  "postScriptName": "DejaVuSans",
-                  "isCustomFont": false,
-                  "glyphCount": 9
-                },
-                {
                   "familyName": "Noto Sans CJK KR",
                   "postScriptName": "NotoSansCJKkr-Regular",
                   "isCustomFont": false,
-                  "glyphCount": 9
+                  "glyphCount": 18
                 }
               ]
             },
@@ -1150,16 +1084,10 @@
               "selector": "article .reference",
               "fonts": [
                 {
-                  "familyName": "DejaVu Sans",
-                  "postScriptName": "DejaVuSans",
-                  "isCustomFont": false,
-                  "glyphCount": 29
-                },
-                {
                   "familyName": "Noto Sans CJK KR",
                   "postScriptName": "NotoSansCJKkr-Regular",
                   "isCustomFont": false,
-                  "glyphCount": 4
+                  "glyphCount": 33
                 }
               ]
             }
@@ -1351,16 +1279,10 @@
           "selector": "h1",
           "fonts": [
             {
-              "familyName": "DejaVu Sans",
-              "postScriptName": "DejaVuSans-Bold",
-              "isCustomFont": false,
-              "glyphCount": 14
-            },
-            {
               "familyName": "Noto Sans CJK KR",
               "postScriptName": "NotoSansCJKkr-Regular",
               "isCustomFont": false,
-              "glyphCount": 16
+              "glyphCount": 30
             }
           ]
         },
@@ -1368,16 +1290,10 @@
           "selector": "article > p",
           "fonts": [
             {
-              "familyName": "DejaVu Sans",
-              "postScriptName": "DejaVuSans",
-              "isCustomFont": false,
-              "glyphCount": 16
-            },
-            {
               "familyName": "Noto Sans CJK KR",
               "postScriptName": "NotoSansCJKkr-Regular",
               "isCustomFont": false,
-              "glyphCount": 45
+              "glyphCount": 62
             }
           ]
         },
@@ -1385,16 +1301,10 @@
           "selector": "article td p",
           "fonts": [
             {
-              "familyName": "DejaVu Sans",
-              "postScriptName": "DejaVuSans",
-              "isCustomFont": false,
-              "glyphCount": 9
-            },
-            {
               "familyName": "Noto Sans CJK KR",
               "postScriptName": "NotoSansCJKkr-Regular",
               "isCustomFont": false,
-              "glyphCount": 9
+              "glyphCount": 18
             }
           ]
         },
@@ -1402,16 +1312,10 @@
           "selector": "article .reference",
           "fonts": [
             {
-              "familyName": "DejaVu Sans",
-              "postScriptName": "DejaVuSans",
-              "isCustomFont": false,
-              "glyphCount": 29
-            },
-            {
               "familyName": "Noto Sans CJK KR",
               "postScriptName": "NotoSansCJKkr-Regular",
               "isCustomFont": false,
-              "glyphCount": 4
+              "glyphCount": 33
             }
           ]
         }
@@ -1538,7 +1442,7 @@
           "result": "PASS"
         },
         {
-          "name": "real font used for Korean glyphs",
+          "name": "explicit Korean font used for glyphs",
           "result": "PASS",
           "detail": "not applicable"
         },
@@ -1846,7 +1750,7 @@
           "result": "PASS"
         },
         {
-          "name": "real font used for Korean glyphs",
+          "name": "explicit Korean font used for glyphs",
           "result": "PASS",
           "detail": "not applicable"
         },
@@ -2145,41 +2049,50 @@
   "archiveFiles": 342,
   "ignoreHTTPSErrors": false,
   "sourceHashes": {
-    "tools/research_docx.py": "52b2f3bfc0fad4743ce5cab5ae9536021d86094c99b063a365bbc16109951110",
+    "tools/research_docx.py": "3bf18dfaffa335f0a158a5f18f259be8aa4d5e9e8b246cebc1f5ae5f574039f2",
     "tools/research_browser_fixture.py": "b01e18a70e56467cbb2e04f282f39dc005ec892100c96157baf65c69a5f35b30",
-    "tools/test_research_browser.cjs": "0d48240b990241a7a1af138e8ce9d597d3b3c0f7c1a527ccb1d949dc45badf9f",
+    "tools/test_research_browser.cjs": "26a64f17ef6c655462949579513c40779be19be30cee3f1ebecff67079a9bf09",
     "research/B03/b03.css": "110c8d88f605b07f79b0e3a4b86d653590d4fb18f6e4fcf0da83cccb7d9da8d0",
-    "generated/ko.html": "313465cae349075cf0d0d4a9a86c754083e7933b6a64314b6bc10ee84aec5a8c",
-    "generated/en.html": "4bb3996082b1d01e338127837836855a75a1d1026d79b60c78c06a8e0f383ee2",
-    "generated/de.html": "d16a5eb9e6df4cdf9c0dc857e40f0eb56921b429505ba01fddc366962ccc3e03",
-    "generated/article.css": "7073695e2ee533c63b8fc58e5009c610cda1ffaa2e30435a778e8a79034399db"
+    "generated/ko.html": "5a3a9a04b3c4b3305619434de202f0fef59166dca78d84639ece58f7e9e69a0e",
+    "generated/en.html": "df05195d3ac5f192d00b404342fc7fe5783233573d0250c9a3f2fa3b65230fc3",
+    "generated/de.html": "df3456707a3d1afb3eda17d956b7724fb12c57204e7f9243edba959ef04dcf45",
+    "generated/article.css": "ca51915f16cace6ae477eaf50d78e4405f0ac0d21c21bf1dcecb22d406106357"
   },
   "archiveUnchanged": true,
   "result": "PASS",
-  "finished": "2026-10-08T11:18:25.931Z",
+  "finished": "2026-10-08T11:30:39.952Z",
   "baseMain": "41f66e6e4b66209e5f0a4ce55e7bae7e6c22b72d",
   "originalPRHead": "3efd149aa8173d19be54fe0f4d3ebc37bd201a2d",
-  "converterContracts": {
-    "type": "Python unit and negative-publication tests; not browser evidence",
-    "passed": 27,
-    "platform": "local Linux",
-    "indexEntries": 26,
-    "indexByteIdentical": true
-  },
   "visualReview": {
     "result": "PASS",
     "scope": "All six language/viewport title and reference views; Korean glyphs and before/after dense-table views; image edge markers and proportions. Automated geometry, source text and image hashes cover all tables/images.",
     "mobile": "Chromium viewport emulation, not physical-device testing"
   },
+  "converterContracts": {
+    "type": "Python unit and negative-publication tests; not browser evidence",
+    "passed": 28,
+    "platform": "local Linux",
+    "indexEntries": 26,
+    "indexByteIdentical": true
+  },
+  "ciFontFallbackIncident": {
+    "run": 37769493618,
+    "head": "563e3242d752e82a06c0919eaf06aa6dbf32328f",
+    "artifact": 11546638244,
+    "artifactSHA256": "cf014b41f08e77d307e6d71e59da2b7f22fdbbf0eabecd40284265cccdd5fcaf",
+    "observedFont": "WenQuanYi Zen Hei",
+    "missingGlyphsObserved": false,
+    "fix": "Explicit Noto Sans CJK KR in generated CSS; retain rendered-font assertion"
+  },
   "screenshots": {
     "before-ko-mobile-dense-table.png": "ca491f03629005baf9f603f7ee2e43a0140658c1cd7f3808b2c94d9f47791c40",
-    "de-desktop-title.png": "6d14277a322edcb0922643e7202635556f315416a0cf021debb109695a499c83",
-    "de-mobile-title.png": "95f5e40b973fd19eaeba0c7dee47eb1993298744144250dba25c4651e6080435",
-    "en-desktop-title.png": "953bf3f7551fe0bc4a057ac4358f3cc514b8acd418ab5c54bf4aab4a55073e9a",
-    "en-mobile-title.png": "859a14cd8c89e4bbc992a6a05491126fd07775bb5811fdde8507db724eda6559",
-    "ko-desktop-title.png": "682b1c889317e77291eb6f4d34f014cd482e4a23d7a2dd01185fd0967d966c94",
-    "ko-mobile-title.png": "ebf42a53f8db761818029f571d5514e051bc47f6d2905c7abf9f62d9a6ed88ae",
-    "ko-mobile-wide-table-end.png": "33c178de292622ef60134dbdd8e9e78130c2a1c83512ade51cb05687e7628a0b",
-    "ko-mobile-wide-table.png": "c115665cf69c714902d707b23acc5e3836a159de701e5bb475669a396985c678"
+    "de-desktop-title.png": "34372fe73b301957e7e3a4e6959f031b48200c028de7a096d4344990507b31db",
+    "de-mobile-title.png": "884d5a158bdce516cef8ad2affe7ce0715669593779883511de771366be7d8ed",
+    "en-desktop-title.png": "ad75577d615a1794ded53bd2aea3ee83fce216a8486d957a5705092427158021",
+    "en-mobile-title.png": "71b9b0441284db44371d7d69728563e1653c5eb0a75d52f3b986a022861414e0",
+    "ko-desktop-title.png": "c137aabd0db050088a22a07790a89873eea4ab57af644810f456696cb5698426",
+    "ko-mobile-title.png": "d82133f8bef33bd93a4af38ca7e6b723e58008fca63f190d4e1f847d904a7aa7",
+    "ko-mobile-wide-table-end.png": "fb06a4764e63b9d4581f055b8fc1d9aad0b48fe3ac402190bd875ff661dcb6b1",
+    "ko-mobile-wide-table.png": "c996f3b255d6ead724255a3a0ab14350b154ee79ef04ff599df97f719a90256d"
   }
 }

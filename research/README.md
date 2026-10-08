@@ -184,7 +184,9 @@ the production converter without `--publish`. Its local HTTP server overlays the
 temporary article at the real site path, leaving existing research untouched.
 Three languages at 1440×1080 and 390×844 cover titles, text, tables, images,
 bibliography, bookmarks, TOC clicks, language switching and existing local links.
-Korean glyphs must actually use a Korean-capable platform font (Chromium CDP).
+Korean glyphs must actually use an explicitly configured Korean platform font
+(Chromium CDP). Generated CSS includes Noto Sans CJK KR, as commonly named on
+Linux, alongside Noto Sans KR, Malgun Gothic and Apple SD Gothic Neo.
 Image decoding, byte hashes, proportions, page overflow, table cell width and
 access to the final column are checked. Generated screen tables reserve 10rem
 per column and scroll horizontally; existing article CSS and print layout stay

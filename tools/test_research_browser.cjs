@@ -75,7 +75,7 @@ async function main() {
       const page = await context.newPage();
       page.on('pageerror', e => item.errors.push('pageerror: '+e.message));
       page.on('console', m => {if(m.type()==='error') item.errors.push('console: '+m.text());});
-      page.on('requestfailed', r => item.errors.push('requestfailed: '+r.url()));
+      page.on('requestfailed', r => item.errors.push('requestfailed: '+r.url()+' '+r.failure()?.errorText));
       page.on('response', r => {if(r.status()>=400) item.errors.push(`HTTP ${r.status()} ${r.url()}`);});
       const check = async (name, action) => {
         try { const detail = await action(); item.checks.push({name,result:'PASS', ...(detail === undefined ? {} : {detail})}); }
@@ -97,7 +97,7 @@ async function main() {
           const expectedTables=[2,3,5,8,10,2,3,5,2].map((columns,index)=>Array.from({length:3},(_,row)=>Array.from({length:columns},(_,col)=>`${index+1}.${row}.${col} ${expected.text[lang].cell}`+(row===2&&col===columns-1?` END-COLUMN-${index+1}`:''))));
           assert.deepEqual(actualTables,expectedTables,'table text/order changed');
         });
-        await check('real font used for Korean glyphs',async()=>{
+        await check('explicit Korean font used for glyphs',async()=>{
           if(lang!=='ko') return 'not applicable';
           const cdp = await context.newCDPSession(page);
           await cdp.send('DOM.enable'); await cdp.send('CSS.enable');
@@ -106,7 +106,7 @@ async function main() {
             const {nodeId} = await cdp.send('DOM.querySelector',{nodeId:doc.nodeId,selector});
             const {fonts} = await cdp.send('CSS.getPlatformFontsForNode',{nodeId});
             item.platformFonts.push({selector,fonts});
-            assert(fonts.some(f=>/Noto Sans (CJK KR|KR)|Malgun|Apple SD Gothic/i.test(f.familyName) && f.glyphCount>0),`${selector}: no rendered Korean-capable font`);
+            assert(fonts.some(f=>/Noto Sans (CJK KR|KR)|Malgun|Apple SD Gothic/i.test(f.familyName) && f.glyphCount>0),`${selector}: configured Korean font is not used for rendered glyphs`);
           }
           await cdp.detach();
           return item.platformFonts;
@@ -191,6 +191,13 @@ async function main() {
           for(const target of ['ko','en','de',lang]){
             await page.locator(`.languages a[hreflang="${target}"]`).click();
             await page.waitForLoadState('load');
+            // Lazy images can still be in flight after load. Decode each actual
+            // image before navigating again; network-idle heuristics do not
+            // establish that lazy content is ready and can race with scrolling.
+            for(const img of await page.locator('article img').all()){
+              await img.scrollIntoViewIfNeeded();
+              await img.evaluate(el=>el.decode());
+            }
             assert.equal(await page.locator('html').getAttribute('lang'),target);
             assert.equal(await page.locator('.languages [aria-current="page"]').getAttribute('hreflang'),target);
             assert((await page.locator('h1').innerText()).includes(expected.text[target].title));
@@ -214,7 +221,7 @@ async function main() {
           assert.equal(new URL(page.url()).pathname,`${prefix}/research/B03/${lang}.html`);
         });
       } catch(e) {item.errors.push(e.stack);}
-      finally {item.result=item.errors.length?'FAIL':'PASS';await context.close();console.log(`${item.result}: ${key} (${item.checks.length} checks)`);}
+      finally {item.result=item.errors.length?'FAIL':'PASS';await context.close();console.log(`${item.result}: ${key} (${item.checks.length} checks)`);for(const error of item.errors) console.error(error);}
     }
     assert.deepEqual(await archiveInventory(),before,'Published research files changed');
     report.archiveUnchanged=true;
