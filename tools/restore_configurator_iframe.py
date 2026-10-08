@@ -10,7 +10,7 @@ with INDEX.open('r', encoding='utf-8', newline='') as fh:
     html = fh.read()
 
 embed = '''                <div class="w-full bg-slate-50 rounded-xl overflow-hidden border border-slate-200" style="height: 900px;">
-                    <iframe src="configurator.html" width="100%" height="100%" style="border: none;" title="RavenForge Bass Configurator" loading="lazy"></iframe>
+                    <iframe src="configurator.html" width="100%" height="100%" style="border: none;" title="RavenForge Instrument Configurator" loading="lazy"></iframe>
                 </div>'''
 
 if 'iframe src="configurator.html"' not in html:
