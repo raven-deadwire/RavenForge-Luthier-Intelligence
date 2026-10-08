@@ -45,9 +45,9 @@ class ResearchTests(unittest.TestCase):
         self.repo = self.base / 'repo'
         (self.repo / 'research/B03').mkdir(parents=True)
         shutil.copy(REPO / 'research/B03/b03.css', self.repo / 'research/B03/b03.css')
-        (self.repo / 'index.html').write_text('<main id="research"></main>')
+        (self.repo / 'index.html').write_text('<main id="research"></main>', encoding='utf-8')
         self.index = self.repo / 'research/research-index.json'
-        self.index.write_text('{"schemaVersion":1,"articles":[]}\n')
+        self.index.write_text('{"schemaVersion":1,"articles":[]}\n', encoding='utf-8')
         self.source = self.base / 'source'
         self.source.mkdir()
         self.manifest = {'id': 'A99', 'researchCode': 'A99', 'date': '2026-10-08', 'category': 'sound'}
@@ -62,7 +62,7 @@ class ResearchTests(unittest.TestCase):
         self.temp.cleanup()
 
     def save(self):
-        self.manifest_path.write_text(json.dumps(self.manifest))
+        self.manifest_path.write_text(json.dumps(self.manifest), encoding='utf-8')
 
     def run_cli(self, *args):
         with redirect_stdout(StringIO()):
@@ -73,9 +73,9 @@ class ResearchTests(unittest.TestCase):
         folder.mkdir()
         m = {'id': article_id, 'date': '2026-09-10', 'category': 'sound'}
         for lang in ('ko', 'en', 'de'):
-            (folder / (lang + '.html')).write_text(f'<p>{code} — Original</p>')
+            (folder / (lang + '.html')).write_text(f'<p>{code} — Original</p>', encoding='utf-8')
             m[lang] = {'title': 'Old', 'excerpt': 'Original', 'link': f'research/{article_id}/{lang}.html'}
-        (folder / 'meta.json').write_text(json.dumps(m))
+        (folder / 'meta.json').write_text(json.dumps(m), encoding='utf-8')
         return folder
 
     def test_content_order_formatting_tables_images_and_bibliography(self):
@@ -84,7 +84,7 @@ class ResearchTests(unittest.TestCase):
         self.assertTrue(r['conversion_passed'])
         self.assertFalse(r['publish_ready'])  # Remote link has not been verified.
         self.assertEqual(inventory(self.repo), before)
-        html = (self.output / 'ko.html').read_text()
+        html = (self.output / 'ko.html').read_text(encoding='utf-8')
         for text in ('<strong>', '<em>', '<sub>', 'colspan="2"', '<th', 'Nested', '[1] Bibliography ko', 'hreflang="de"', 'id="part"'):
             self.assertIn(text, html)
         self.assertEqual(r['languages']['ko']['tables'], 2)
@@ -150,9 +150,9 @@ class ResearchTests(unittest.TestCase):
         self.assertEqual(self.run_cli('--output', self.repo / 'preview'), 1)
 
     def test_dry_run_never_overwrites_preview(self):
-        self.output.mkdir(); (self.output / 'sentinel').write_text('keep')
+        self.output.mkdir(); (self.output / 'sentinel').write_text('keep', encoding='utf-8')
         self.assertEqual(self.run_cli('--output', self.output), 1)
-        self.assertEqual((self.output / 'sentinel').read_text(), 'keep')
+        self.assertEqual((self.output / 'sentinel').read_text(encoding='utf-8'), 'keep')
 
     def test_unsafe_id(self):
         self.manifest['id'] = '../escape'; self.save()
@@ -199,7 +199,7 @@ class ResearchTests(unittest.TestCase):
     def test_index_validation_does_not_replace_existing_index(self):
         folder = self.add_existing()
         old = self.index.read_bytes()
-        m = read_json(folder / 'meta.json'); del m['de']; (folder / 'meta.json').write_text(json.dumps(m))
+        m = read_json(folder / 'meta.json'); del m['de']; (folder / 'meta.json').write_text(json.dumps(m), encoding='utf-8')
         with self.assertRaises(Invalid):
             build_index(self.repo)
         self.assertEqual(self.index.read_bytes(), old)
@@ -211,7 +211,7 @@ class ResearchTests(unittest.TestCase):
         with self.assertRaises(Invalid):
             build_index(self.repo)
         self.assertEqual(self.index.read_bytes(), old)
-        (folder / 'de.html').write_text('original')
+        (folder / 'de.html').write_text('original', encoding='utf-8')
         duplicate = self.repo / 'research/duplicate'
         shutil.copytree(folder, duplicate)
         with self.assertRaises(Invalid):
@@ -219,11 +219,11 @@ class ResearchTests(unittest.TestCase):
         self.assertEqual(self.index.read_bytes(), old)
 
     def test_duplicate_json_keys_rejected(self):
-        self.manifest_path.write_text('{"id":"A99","id":"A100"}')
+        self.manifest_path.write_text('{"id":"A99","id":"A100"}', encoding='utf-8')
         self.assertEqual(self.run_cli('--output', self.output), 1)
 
     def test_lock_blocks_concurrent_publisher(self):
-        (self.repo / '.research-publication.lock').write_text('busy')
+        (self.repo / '.research-publication.lock').write_text('busy', encoding='utf-8')
         self.assertEqual(self.run_cli('--publish'), 1)
         self.assertTrue((self.repo / '.research-publication.lock').exists())
 
