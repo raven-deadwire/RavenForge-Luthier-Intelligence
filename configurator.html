@@ -60,8 +60,8 @@
 <!-- RF:SEO END -->
 </head>
 <body>
-  <script src="./assets/configurator-platforms.js?v=20261008-3"></script>
-  <script src="./assets/configurator-ui.js?v=20261008-3"></script>
+  <script src="./assets/configurator-platforms.js?v=20261008-4"></script>
+  <script src="./assets/configurator-ui.js?v=20261008-4"></script>
   <!-- Root element for React App -->
   <div id="root"></div>
 
@@ -629,6 +629,7 @@
       });
       const ui = window.RF_CONFIG_I18N[language] || window.RF_CONFIG_I18N.en;
       const categoryTitle = category => ui.categoryTitles[category.id] || category.title;
+      const optionLabel = option => ui.optionLabels?.[option.id] || option.label;
 
       const [selectedModel, setSelectedModel] = useState('EDDA');
       const [selectionState, setSelections] = useState({});
@@ -845,7 +846,10 @@
       const selections = normalizeSelections(selectedModel, selectionState);
       const isPassiveCircuit = ['passive', 'guitar_passive'].includes(selections.electronics);
       const hasNovaBridge = selectedModel === 'ASKR' && selections.hardware_bridge === 'nova_parts';
-      const selectedOptionLabel = categoryId => configData.categories.find(category => category.id === categoryId)?.options.find(option => option.id === selections[categoryId])?.label || '';
+      const selectedOptionLabel = categoryId => {
+        const option = configData.categories.find(category => category.id === categoryId)?.options.find(option => option.id === selections[categoryId]);
+        return option ? optionLabel(option) : '';
+      };
 
       const handleModelChange = modelId => {
         if (modelId === selectedModel) return;
@@ -892,7 +896,7 @@
               
               breakdown.push({
                 categoryTitle: categoryTitle(category),
-                label: option.label + recSuffix + (category.id === 'scale' && optionSpec(option) ? ' (' + optionSpec(option) + ')' : ''),
+                label: optionLabel(option) + recSuffix + (category.id === 'scale' && optionSpec(option) ? ' (' + optionSpec(option) + ')' : ''),
                 detail: category.id === 'hardware_color' && hasNovaBridge ? ui.novaHardwareColorNote : option.specByModel ? optionSpec(option) : '',
                 price: price,
                 isStandard: option.isStandard && option.isStandard.includes(selectedModel)
@@ -1264,7 +1268,7 @@ const handleOptionChange = (categoryId, optionId) => {
                       {fixedRows.map(({ category, option }) => (
                         <div key={category.id} data-category={category.id} data-fixed-category={category.id} className="min-w-0">
                           <dt className="text-xs text-slate-500 mb-1">{categoryTitle(category)} · {ui.fixedBadge}</dt>
-                          <dd className="text-sm font-semibold text-slate-800">{option.label}</dd>
+                          <dd className="text-sm font-semibold text-slate-800">{optionLabel(option)}</dd>
                           {optionSpec(option) && <dd className="text-xs text-slate-500 mt-1">{optionSpec(option)}</dd>}
                         </div>
                       ))}
@@ -1355,7 +1359,7 @@ const handleOptionChange = (categoryId, optionId) => {
                                           <div className="flex justify-between items-start">
                                             <div>
                                               <span className={`text-sm font-semibold ${isSelected ? 'text-red-700' : 'text-slate-700'}`}>
-                                                <FormattedText text={option.label} />
+                                                <FormattedText text={optionLabel(option)} />
                                               </span>
                                               {isStandardOpt && (
                                                 <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-white uppercase">
@@ -1410,7 +1414,7 @@ const handleOptionChange = (categoryId, optionId) => {
                                 <div className="flex flex-wrap gap-2">
                                   {group.options.map(option => (
                                     <span key={option.id} data-planned-option={option.id} aria-disabled="true" className="text-xs text-slate-500 border border-dashed border-slate-300 rounded-lg px-3 py-2 bg-white">
-                                      {option.label} · {ui.futureBadge}
+                                      {optionLabel(option)} · {ui.futureBadge}
                                     </span>
                                   ))}
                                 </div>
@@ -1623,7 +1627,7 @@ const handleOptionChange = (categoryId, optionId) => {
                     </div>
 
                     <div data-summary-total className="pt-4 border-t-2 border-slate-200">
-                      <div className="flex justify-between items-end mb-2">
+                      <div className="flex justify-between items-end gap-4 mb-2">
                         <span className="text-slate-500 font-bold uppercase text-xs">{summary.requiresRequest && selectedModel !== 'GRAM' ? ui.partialPrice : ui.total}</span>
                         <span className={"font-black text-slate-900 " + (typeof summary.totalPrice === 'number' ? 'text-3xl' : 'text-lg')}>
                           {typeof summary.totalPrice === 'number' ? '€' + summary.totalPrice : ui.requestPrice}
@@ -1636,6 +1640,9 @@ const handleOptionChange = (categoryId, optionId) => {
                           <p>{selectedModel === 'GRAM' ? ui.gramPriceNote : ui.requestNote}</p>
                         </div>
                       )}
+                      <p data-pricing-footnote className="text-[11px] text-slate-500 mt-4 leading-relaxed">
+                        {ui.pricingFootnote}
+                      </p>
                     </div>
 
                     <div id="quote-actions-area">
@@ -1647,9 +1654,6 @@ const handleOptionChange = (categoryId, optionId) => {
                       >
                         {isGeneratingPDF ? ui.generatingPDF : ui.savePDF}
                       </button>
-                      <p className="text-center text-[11px] text-slate-400 mt-4 leading-tight">
-                        {selectedModel === 'GRAM' ? ui.gramPriceNote : ui.pricingFootnote}
-                      </p>
                     </div>
                   </div>
                 </div>
