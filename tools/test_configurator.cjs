@@ -222,8 +222,8 @@ async function run() {
         assertSpecs(await summary(), model);
         if (model.id === 'ASKR') {
           assert.match(await page.locator('button[data-model="ASKR"]').innerText(), /€\s*3,?100/);
-          assert.match(await summary(), /Base Model\s*\(ASKR\)\s*€\s*2,?950/i);
-          assert.equal(await quotedAmount(), 3100, 'ASKR defaults include one Payson surcharge');
+          assert.match(await summary(), /Base Model\s*\(ASKR\)\s*€\s*3,?100/i);
+          assert.equal(await quotedAmount(), 3100, 'ASKR includes the standard Payson bridge in its base price');
         }
         if (model.id === 'GRAM') {
           const card = await page.locator('button[data-model="GRAM"]').innerText();
@@ -362,19 +362,85 @@ async function run() {
 
     await check('ASKR: Payson and Nova Parts pricing stays explicit', async () => {
       await freshModel('ASKR');
+      assert.match(await page.locator('button[data-model="ASKR"]').innerText(), /€\s*3,?100/);
+      assert.match(await summary(), /Base Model\s*\(ASKR\)\s*€\s*3,?100/i);
       await step(4);
       assert.equal(await option('hardware_bridge', 'payson').isChecked(), true);
       assert.equal(await quotedAmount(), 3100);
+      assert.equal(await page.locator('[data-nova-hardware-color-note]').count(), 0);
       await selectOption('hardware_bridge', 'nova_parts');
-      await summaryValue(/^Hardware - Bridge/i, /Nova/i);
+      await summaryValue(/^Hardware - Bridge/i, /Nova Parts 5-string multiscale bridge/i);
+      await summaryValue(/^Hardware - Bridge/i, /Dingwall Retrofit; 18 mm spacing; black anodized aluminium/i);
+      await summaryValue(/^Hardware - Bridge/i, /-\s*€\s*70/);
       assert.match(await page.locator('[data-fixed-platform]').innerText(), /Nova/i);
-      assert.equal(await quotedAmount(), 2950, 'Nova leaves the known base amount without inventing its price');
-      assert.match(await page.locator('[data-summary-total]').innerText(), /partial|known|confirmed|request/i,
-        'An unpriced Nova bridge must be shown as an incomplete quote');
+      assert.equal(await quotedAmount(), 3030, 'Nova reduces the included-bridge base price by €70');
+      assert.match(await page.locator('[data-summary-total]').innerText(), /Estimated total/i);
+      assert.doesNotMatch(await page.locator('[data-summary-total]').innerText(), /subtotal|on.request|quoted separately/i,
+        'The standard black Nova bridge must have a priced total');
+      const novaNote = await page.locator('[data-nova-hardware-color-note]').innerText();
+      assert.match(novaNote, /black anodized aluminium/i);
+      assert.match(novaNote, /selected hardware colour applies to the other hardware/i);
+      assert.ok((await summaryRows(/^Hardware Color/i).innerText()).includes(novaNote),
+        'The black bridge exception must also appear in the specification');
+      await selectOption('hardware_color', 'hw_gold');
+      await summaryValue(/^Hardware Color/i, /gold/i);
+      await summaryValue(/^Hardware - Bridge/i, /black anodized aluminium/i);
+      assert.equal(await quotedAmount(), 3180, 'The other hardware keeps its ordinary gold surcharge');
+      const before = await summary();
+      await chooseModel('ASKR');
+      assert.equal(await summary(), before, 'Reselecting ASKR must preserve the Nova bridge and other hardware colour');
+      await step(4);
+      assert.equal(await option('hardware_bridge', 'nova_parts').isChecked(), true);
+      assert.equal(await option('hardware_color', 'hw_gold').isChecked(), true);
+      await selectOption('hardware_color', 'hw_chrome');
+      assert.equal(await quotedAmount(), 3030);
+      const future = page.locator('[data-future-options]');
+      if (await future.getAttribute('open') === null) await future.locator('summary').click();
+      assert.ok(await future.locator('[data-planned-option]').count());
+      assert.equal(await future.locator('[data-planned-option]:not([aria-disabled="true"])').count(), 0);
+      assert.equal(await future.locator('input:enabled, select:enabled, button:enabled, textarea:enabled, a[href]').count(), 0);
+      assert.doesNotMatch(await future.innerText(), noShortScale);
       await selectOption('hardware_bridge', 'payson');
       assert.equal(await quotedAmount(), 3100);
       await summaryValue(/^Hardware - Bridge/i, /Payson/);
+      assert.equal(await page.locator('[data-nova-hardware-color-note]').count(), 0);
+      assert.doesNotMatch(await summaryRows(/^Hardware Color/i).innerText(), /Nova|other hardware|black anodized/i);
     });
+
+    await check('ASKR: Nova PDF includes its discount, fit specification and black bridge note', async () => {
+      await freshModel('ASKR');
+      await step(4);
+      await selectOption('hardware_bridge', 'nova_parts');
+      assert.equal(await quotedAmount(), 3030);
+      const novaNote = await page.locator('[data-nova-hardware-color-note]').innerText();
+      await observePdf();
+      const downloadPromise = page.waitForEvent('download', { timeout: 60000 });
+      await page.getByRole('button', { name: /Save.*PDF/i }).click();
+      const download = await downloadPromise;
+      assert.match(download.suggestedFilename(), /RavenForge_ASKR.*\.pdf/i);
+      const pdf = path.join(output, download.suggestedFilename());
+      await download.saveAs(pdf);
+      assert.equal(await download.failure(), null);
+      const buffer = await fs.readFile(pdf);
+      assert.equal(buffer.subarray(0, 5).toString(), '%PDF-');
+      assert.ok(buffer.length > 10000);
+      const inputs = await page.evaluate(() => window.__configuratorPdfInputs);
+      assert.equal(inputs.length, 1);
+      const text = inputs[0].text;
+      await fs.writeFile(path.join(output, 'askr-nova-pdf-source.txt'), text);
+      assertSpecs(text, { ...expectedModels[2], bridge: /Nova Parts/i });
+      assert.match(text, /Base Model\s*\(ASKR\)\s*€\s*3,?100/i);
+      assert.match(text, /Dingwall Retrofit; 18 mm spacing; black anodized aluminium/i);
+      assert.match(text, /saddle travel, mounting angle and screw positions to be confirmed/i);
+      assert.match(text, /-\s*€\s*70/);
+      assert.ok(text.includes(novaNote), 'The other-hardware colour exception must be exported');
+      assert.match(text, /Estimated total\s*€\s*3,?030/i);
+      assert.doesNotMatch(text, /Priced items subtotal|Price on request/i);
+      report.novaPdf = { filename: path.basename(pdf), bytes: buffer.length };
+      await page.getByRole('button', { name: /Save.*PDF/i }).waitFor();
+      await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+      await page.screenshot({ path: path.join(output, 'askr-nova-desktop.png'), fullPage: true });
+    }, { pdf: true });
 
     await check('GRAM: passive HH, neck and material customization survives same-model selection', async () => {
       await freshModel('GRAM');

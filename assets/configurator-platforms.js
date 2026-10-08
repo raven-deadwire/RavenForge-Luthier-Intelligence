@@ -139,9 +139,9 @@
       return entry.id !== 'short' && !/short[- ]?scale/i.test(entry.label);
     });
 
-    // Keep the 2650 + 300 multiscale platform separate from the chosen bridge.
+    // ASKR includes Payson; Nova is priced as a replacement adjustment.
     var askr = data.models.find(function (entry) { return entry.id === 'ASKR'; });
-    if (askr) { askr.basePrice = 2950; askr.startingPrice = 3100; }
+    if (askr) { askr.basePrice = 3100; askr.startingPrice = 3100; }
     var multi = option(data, 'scale', 'multi');
     if (multi) {
       multi.label = '37–34-inch multiscale';
@@ -149,18 +149,23 @@
       multi.prices.ASKR = 0;
     }
     var payson = option(data, 'hardware_bridge', 'payson');
-    if (payson) payson.prices.ASKR = 150;
+    if (payson) payson.prices.ASKR = 0;
     var bridgeGroup = category(data, 'hardware_bridge');
     if (bridgeGroup) {
+      var novaSpec = 'Dingwall Retrofit; 18 mm spacing; black anodized aluminium; final saddle travel, mounting angle and screw positions to be confirmed';
       var novaBridge = {
-        id: 'nova_parts', label: 'Nova Parts multiscale bridge',
-        spec: 'fixed 5-string multiscale bridge for a headed bass; final hardware specification to be confirmed',
-        prices: { ASKR: 'request' }, availableFor: ['ASKR']
+        id: 'nova_parts', label: 'Nova Parts 5-string multiscale bridge',
+        spec: novaSpec, specByModel: { ASKR: novaSpec },
+        prices: { ASKR: -70 }, availableFor: ['ASKR']
       };
       var currentNovaBridge = option(data, 'hardware_bridge', 'nova_parts');
       if (currentNovaBridge) Object.assign(currentNovaBridge, novaBridge);
       else bridgeGroup.options.push(novaBridge);
     }
+    var standardSpacing = option(data, 'string_spacing', 'spacing_std');
+    if (standardSpacing) standardSpacing.specByModel = Object.assign({}, standardSpacing.specByModel, {
+      ASKR: '18 mm bridge string spacing'
+    });
     var guide = option(data, 'nut_material', 'nut_brass');
     if (guide) {
       guide.label = 'brass zero-fret string guide';

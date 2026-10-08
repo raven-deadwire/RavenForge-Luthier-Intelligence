@@ -60,8 +60,8 @@
 <!-- RF:SEO END -->
 </head>
 <body>
-  <script src="./assets/configurator-platforms.js?v=20261008-2"></script>
-  <script src="./assets/configurator-ui.js?v=20261008-2"></script>
+  <script src="./assets/configurator-platforms.js?v=20261008-3"></script>
+  <script src="./assets/configurator-ui.js?v=20261008-3"></script>
   <!-- Root element for React App -->
   <div id="root"></div>
 
@@ -844,6 +844,7 @@
       const getDefaultSelections = modelId => normalizeSelections(modelId);
       const selections = normalizeSelections(selectedModel, selectionState);
       const isPassiveCircuit = ['passive', 'guitar_passive'].includes(selections.electronics);
+      const hasNovaBridge = selectedModel === 'ASKR' && selections.hardware_bridge === 'nova_parts';
       const selectedOptionLabel = categoryId => configData.categories.find(category => category.id === categoryId)?.options.find(option => option.id === selections[categoryId])?.label || '';
 
       const handleModelChange = modelId => {
@@ -892,7 +893,7 @@
               breakdown.push({
                 categoryTitle: categoryTitle(category),
                 label: option.label + recSuffix + (category.id === 'scale' && optionSpec(option) ? ' (' + optionSpec(option) + ')' : ''),
-                detail: option.specByModel ? optionSpec(option) : '',
+                detail: category.id === 'hardware_color' && hasNovaBridge ? ui.novaHardwareColorNote : option.specByModel ? optionSpec(option) : '',
                 price: price,
                 isStandard: option.isStandard && option.isStandard.includes(selectedModel)
               });
@@ -1315,6 +1316,7 @@ const handleOptionChange = (categoryId, optionId) => {
                                   {fixedSelections[category.id] && <span className="ml-2 text-xs font-medium text-slate-500">{ui.fixedBadge}</span>}
                                 </h3>
                                 {ui.categoryNotes?.[category.id] && <p className="text-xs text-slate-500 mt-2 leading-relaxed">{ui.categoryNotes[category.id]}</p>}
+                                {category.id === 'hardware_color' && hasNovaBridge && <p data-nova-hardware-color-note className="text-xs text-slate-600 mt-2 leading-relaxed">{ui.novaHardwareColorNote}</p>}
                               </div>
                               <div className="p-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
