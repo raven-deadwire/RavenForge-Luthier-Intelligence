@@ -98,7 +98,7 @@
       }
     },
     {
-      "id":"narrative","code":"Q05","updated":"2026-09-27","models":["EMBLA","ASKR","EDDA","SKADI","GRAM"],
+      "id":"narrative","code":"Q05","updated":"2026-09-27","models":["EMBLA","ASKR","EDDA","SKADI","GRAMR"],
       "references":[
         {"id":"legacy-2026-09-02-wood","role":{"ko":"EMBLA의 서사와 재료 선택을 연결한 설계 근거.","en":"Design rationale linking EMBLA’s narrative and material choices.","de":"Entwurfsbegründung für EMBLAs Erzählung und Materialwahl."}},
         {"id":"legacy-2026-09-03-wood","role":{"ko":"ASKR의 성격을 재료명보다 시스템 요구조건으로 다루는 기록.","en":"ASKR’s character interpreted as system requirements, not a species label.","de":"ASKRs Charakter als Systemanforderung statt Holzartetikett."}},

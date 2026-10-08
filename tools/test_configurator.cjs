@@ -45,10 +45,10 @@ const runtimeRequire = process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES
 const { chromium } = runtimeRequire('playwright');
 
 const expectedModels = [
-  { id: 'EDDA', strings: /\b4[ -]?strings?\b/i, scale: /\b34(?:["″”]|[ -]inch)/ },
-  { id: 'EMBLA', strings: /\b5[ -]?strings?\b/i, scale: /\b34(?:["″”]|[ -]inch)/ },
-  { id: 'ASKR', strings: /\b5[ -]?strings?\b/i, scale: /37["″”]?\s*[–—-]\s*34(?:["″”]|[ -]inch)/, bridge: /Payson/i },
-  { id: 'GRAM', strings: /\b6[ -]?(?:guitar )?strings?\b/i, scale: /25\.5(?:["″”]|[ -]inch)/, bridge: /Gotoh\s+510T-FE1/i },
+  { id: 'EDDA', basePrice: 2100, strings: /\b4[ -]?strings?\b/i, scale: /\b34(?:["″”]|[ -]inch)/ },
+  { id: 'EMBLA', basePrice: 2550, strings: /\b5[ -]?strings?\b/i, scale: /\b34(?:["″”]|[ -]inch)/ },
+  { id: 'ASKR', basePrice: 3200, strings: /\b5[ -]?strings?\b/i, scale: /37["″”]?\s*[–—-]\s*34(?:["″”]|[ -]inch)/, bridge: /Payson/i },
+  { id: 'GRAMR', basePrice: 2000, strings: /\b6[ -]?(?:guitar )?strings?\b/i, scale: /25\.5(?:["″”]|[ -]inch)/, bridge: /Gotoh\s+510T-FE1/i },
 ];
 const fixedCategories = ['orientation', 'strings', 'scale', 'nut_size', 'string_spacing', 'hardware_bridge', 'pickup_configuration', 'fretboard_extense'];
 const noShortScale = /short[ -]?scale|숏\s*스케일|\b(?:30|32|33)["″”]/i;
@@ -177,7 +177,7 @@ async function run() {
       const text = await page.locator('[data-summary-total]').innerText();
       assert.doesNotMatch(text, /€\s*(?:null|undefined|NaN)\b/);
       const match = text.match(/€\s*([\d,]+(?:\.\d+)?)/);
-      assert.ok(match, 'Known bass prices must retain a numeric amount');
+      assert.ok(match, 'Known instrument prices must retain a numeric amount');
       const amount = Number(match[1].replaceAll(',', ''));
       assert.ok(Number.isFinite(amount) && amount > 0);
       return amount;
@@ -209,9 +209,9 @@ async function run() {
       assert.match(text, model.strings, `${model.id} string count`);
       assert.match(text, model.scale, `${model.id} scale`);
       if (model.bridge) assert.match(text, model.bridge, `${model.id} bridge`);
-      if (model.id === 'GRAM') {
-        assert.match(text, /\b24[ -]?(?:frets?|F)\b|frets?\s*24\b/i, 'Gram must identify 24 frets');
-        if (fullSummary) assert.match(text, /\bHH\b|dual humbucker|2 humbuckers/i, 'Gram must retain its HH layout');
+      if (model.id === 'GRAMR') {
+        assert.match(text, /\b24[ -]?(?:frets?|F)\b|frets?\s*24\b/i, 'Gramr must identify 24 frets');
+        if (fullSummary) assert.match(text, /\bHH\b|dual humbucker|2 humbuckers/i, 'Gramr must retain its HH layout');
       }
     };
 
@@ -221,13 +221,13 @@ async function run() {
         assertSpecs(await page.locator('[data-fixed-platform]').innerText(), model, false);
         assertSpecs(await summary(), model);
         if (model.id === 'ASKR') {
-          assert.match(await page.locator('button[data-model="ASKR"]').innerText(), /€\s*3,?100/);
-          assert.match(await summary(), /Base Model\s*\(ASKR\)\s*€\s*3,?100/i);
-          assert.equal(await quotedAmount(), 3100, 'ASKR includes the standard Payson bridge in its base price');
+          assert.match(await page.locator('button[data-model="ASKR"]').innerText(), /€\s*3,?200/);
+          assert.match(await summary(), /Base Model\s*\(ASKR\)\s*€\s*3,?200/i);
+          assert.equal(await quotedAmount(), 3200, 'ASKR includes the standard Payson bridge in its base price');
         }
-        if (model.id === 'GRAM') {
-          const card = await page.locator('button[data-model="GRAM"]').innerText();
-          assert.match(card, /€\s*1,?900\b/, 'GRAM must show its €1,900 base price');
+        if (model.id === 'GRAMR') {
+          const card = await page.locator('button[data-model="GRAMR"]').innerText();
+          assert.match(card, /€\s*2,?000\b/, 'GRAMR must show its €2,000 base price');
           assert.doesNotMatch(card, /€\s*(?:0|null|undefined|NaN)\b/);
         }
         const future = page.locator('[data-future-options]');
@@ -241,7 +241,7 @@ async function run() {
         for (let number = 1; number <= 5; number++) {
           await step(number);
           const modelFixed = fixedCategories.filter(category => !(model.id === 'ASKR' && category === 'hardware_bridge'));
-          for (const category of [...modelFixed, ...(model.id === 'GRAM' ? ['fret_type'] : [])]) {
+          for (const category of [...modelFixed, ...(model.id === 'GRAMR' ? ['fret_type'] : [])]) {
             assert.equal(await page.locator(`input[name="${category}"]:enabled, select[name="${category}"]:enabled`).count(), 0, `${model.id}: ${category} must not be selectable`);
           }
           const reopenByStep = {
@@ -259,6 +259,53 @@ async function run() {
         assertSpecs(await summary(), model);
       });
     }
+
+    await check('All models: included gigbag and premium replacement keep one case and no duplicate charge', async () => {
+      for (const model of expectedModels) {
+        await freshModel(model.id);
+        const amountPattern = model.basePrice.toLocaleString('en-US').replace(',', ',?');
+        assert.match(await page.locator(`button[data-model="${model.id}"]`).innerText(),
+          new RegExp(`€\\s*${amountPattern}\\b`), `${model.id} card must include the gigbag budget in its base price`);
+        assert.match(await summary(), new RegExp(`Base Model\\s*\\(${model.id}\\)\\s*€\\s*${amountPattern}\\b`, 'i'));
+        assert.equal(await quotedAmount(), model.basePrice, `${model.id} must include its standard gigbag without a surcharge`);
+        await step(5);
+        assert.equal(await page.locator('input[type="radio"][name="case"]').count(), 2);
+        assert.equal(await option('case', 'case_standard').isChecked(), true);
+        assert.equal(await option('case', 'case_premium').isChecked(), false);
+        const caseRow = page.locator('[data-summary-category="case"]');
+        assert.equal(await caseRow.count(), 1, `${model.id} must have one case in its specification`);
+        const standardCase = await caseRow.innerText();
+        assert.match(standardCase, /Standard gigbag/i);
+        assert.match(standardCase, /included in the base price/i);
+
+        await selectOption('case', 'case_premium');
+        assert.equal(await option('case', 'case_standard').isChecked(), false);
+        assert.equal(await page.locator('input[type="radio"][name="case"]:checked').count(), 1);
+        assert.equal(await caseRow.count(), 1, 'A premium upgrade must replace the standard gigbag in the specification');
+        const premiumCase = await caseRow.innerText();
+        assert.match(premiumCase, /Premium gigbag.*Nube or equivalent/i);
+        assert.match(premiumCase, /replac.*standard gigbag/i);
+        assert.match(premiumCase, /upgrade|surcharge/i);
+        assert.match(premiumCase, /€\s*300\b/, 'The premium case detail must disclose its full price');
+        assert.match(premiumCase, /€\s*100\b/, 'The premium case detail must credit the included standard gigbag budget');
+        assert.equal(await quotedAmount(), model.basePrice + 200,
+          'The €300 premium case must add only €200 after the included €100 case budget');
+        const premiumTotal = await page.locator('[data-summary-total]').innerText();
+        assert.match(premiumTotal, /Estimated total\s*\(excl\. VAT\)/i);
+        assert.doesNotMatch(premiumTotal, /subtotal|on.request|quoted separately/i,
+          'The premium case has a confirmed surcharge and must not require a separate quote');
+
+        await selectOption('case', 'case_standard');
+        assert.equal(await option('case', 'case_premium').isChecked(), false);
+        assert.equal(await page.locator('input[type="radio"][name="case"]:checked').count(), 1);
+        assert.equal(await caseRow.count(), 1);
+        assert.equal(await caseRow.innerText(), standardCase);
+        assert.equal(await quotedAmount(), model.basePrice, 'Returning to the included case must restore the exact base total');
+        const restoredTotal = await page.locator('[data-summary-total]').innerText();
+        assert.match(restoredTotal, /Estimated total\s*\(excl\. VAT\)/i);
+        assert.doesNotMatch(restoredTotal, /subtotal|on-request items/i);
+      }
+    });
 
     await check('EDDA: neck customization and fretless dependencies remain available', async () => {
       await freshModel('EDDA');
@@ -362,18 +409,18 @@ async function run() {
 
     await check('ASKR: Payson and Nova Parts pricing stays explicit', async () => {
       await freshModel('ASKR');
-      assert.match(await page.locator('button[data-model="ASKR"]').innerText(), /€\s*3,?100/);
-      assert.match(await summary(), /Base Model\s*\(ASKR\)\s*€\s*3,?100/i);
+      assert.match(await page.locator('button[data-model="ASKR"]').innerText(), /€\s*3,?200/);
+      assert.match(await summary(), /Base Model\s*\(ASKR\)\s*€\s*3,?200/i);
       await step(4);
       assert.equal(await option('hardware_bridge', 'payson').isChecked(), true);
-      assert.equal(await quotedAmount(), 3100);
+      assert.equal(await quotedAmount(), 3200);
       assert.equal(await page.locator('[data-nova-hardware-color-note]').count(), 0);
       await selectOption('hardware_bridge', 'nova_parts');
       await summaryValue(/^Hardware - Bridge/i, /Nova Parts 5-string multiscale bridge/i);
       await summaryValue(/^Hardware - Bridge/i, /Dingwall Retrofit; 18 mm spacing; black anodized aluminium/i);
       await summaryValue(/^Hardware - Bridge/i, /-\s*€\s*70/);
       assert.match(await page.locator('[data-fixed-platform]').innerText(), /Nova/i);
-      assert.equal(await quotedAmount(), 3030, 'Nova reduces the included-bridge base price by €70');
+      assert.equal(await quotedAmount(), 3130, 'Nova reduces the included-bridge base price by €70');
       assert.match(await page.locator('[data-summary-total]').innerText(), /Estimated total/i);
       assert.doesNotMatch(await page.locator('[data-summary-total]').innerText(), /subtotal|on.request|quoted separately/i,
         'The standard black Nova bridge must have a priced total');
@@ -385,7 +432,7 @@ async function run() {
       await selectOption('hardware_color', 'hw_gold');
       await summaryValue(/^Hardware Color/i, /gold/i);
       await summaryValue(/^Hardware - Bridge/i, /black anodized aluminium/i);
-      assert.equal(await quotedAmount(), 3180, 'The other hardware keeps its ordinary gold surcharge');
+      assert.equal(await quotedAmount(), 3280, 'The other hardware keeps its ordinary gold surcharge');
       const before = await summary();
       await chooseModel('ASKR');
       assert.equal(await summary(), before, 'Reselecting ASKR must preserve the Nova bridge and other hardware colour');
@@ -393,7 +440,7 @@ async function run() {
       assert.equal(await option('hardware_bridge', 'nova_parts').isChecked(), true);
       assert.equal(await option('hardware_color', 'hw_gold').isChecked(), true);
       await selectOption('hardware_color', 'hw_chrome');
-      assert.equal(await quotedAmount(), 3030);
+      assert.equal(await quotedAmount(), 3130);
       const future = page.locator('[data-future-options]');
       if (await future.getAttribute('open') === null) await future.locator('summary').click();
       assert.ok(await future.locator('[data-planned-option]').count());
@@ -401,7 +448,7 @@ async function run() {
       assert.equal(await future.locator('input:enabled, select:enabled, button:enabled, textarea:enabled, a[href]').count(), 0);
       assert.doesNotMatch(await future.innerText(), noShortScale);
       await selectOption('hardware_bridge', 'payson');
-      assert.equal(await quotedAmount(), 3100);
+      assert.equal(await quotedAmount(), 3200);
       await summaryValue(/^Hardware - Bridge/i, /Payson/);
       assert.equal(await page.locator('[data-nova-hardware-color-note]').count(), 0);
       assert.doesNotMatch(await summaryRows(/^Hardware Color/i).innerText(), /Nova|other hardware|black anodized/i);
@@ -411,7 +458,7 @@ async function run() {
       await freshModel('ASKR');
       await step(4);
       await selectOption('hardware_bridge', 'nova_parts');
-      assert.equal(await quotedAmount(), 3030);
+      assert.equal(await quotedAmount(), 3130);
       const novaNote = await page.locator('[data-nova-hardware-color-note]').innerText();
       await observePdf();
       const downloadPromise = page.waitForEvent('download', { timeout: 60000 });
@@ -429,12 +476,12 @@ async function run() {
       const text = inputs[0].text;
       await fs.writeFile(path.join(output, 'askr-nova-pdf-source.txt'), text);
       assertSpecs(text, { ...expectedModels[2], bridge: /Nova Parts/i });
-      assert.match(text, /Base Model\s*\(ASKR\)\s*€\s*3,?100/i);
+      assert.match(text, /Base Model\s*\(ASKR\)\s*€\s*3,?200/i);
       assert.match(text, /Dingwall Retrofit; 18 mm spacing; black anodized aluminium/i);
       assert.match(text, /saddle travel, mounting angle and screw positions to be confirmed/i);
       assert.match(text, /-\s*€\s*70/);
       assert.ok(text.includes(novaNote), 'The other-hardware colour exception must be exported');
-      assert.match(text, /Estimated total\s*\(excl\. VAT\)\s*€\s*3,?030/i);
+      assert.match(text, /Estimated total\s*\(excl\. VAT\)\s*€\s*3,?130/i);
       assert.doesNotMatch(text, /Priced items subtotal|Price on request/i);
       report.novaPdf = { filename: path.basename(pdf), bytes: buffer.length };
       await page.getByRole('button', { name: /Save.*PDF/i }).waitFor();
@@ -442,37 +489,37 @@ async function run() {
       await page.screenshot({ path: path.join(output, 'askr-nova-desktop.png'), fullPage: true });
     }, { pdf: true });
 
-    await check('GRAM: shared option prices and top changes update the total once', async () => {
-      await freshModel('GRAM');
-      assert.match(await page.locator('[data-summary-total]').innerText(), /Estimated total\s*\(excl\. VAT\)\s*€\s*1,?900\b/i);
+    await check('GRAMR: shared option prices and top changes update the total once', async () => {
+      await freshModel('GRAMR');
+      assert.match(await page.locator('[data-summary-total]').innerText(), /Estimated total\s*\(excl\. VAT\)\s*€\s*2,?000\b/i);
       await step(3);
       assert.equal(await option('color_top', 'top_oil').isChecked(), true);
       assert.equal(await option('color_back_side', 'back_oil').isChecked(), true);
       await step(4);
       assert.equal(await option('hardware_color', 'hw_chrome').isChecked(), true);
       await selectOption('hardware_color', 'hw_gold');
-      assert.match(await page.locator('[data-summary-total]').innerText(), /€\s*2,?050\b/);
+      assert.match(await page.locator('[data-summary-total]').innerText(), /€\s*2,?150\b/);
       await step(3);
       await selectOption('color_top', 'top_gloss');
       await selectOption('color_back_side', 'back_gloss');
-      assert.match(await page.locator('[data-summary-total]').innerText(), /€\s*2,?350\b/);
+      assert.match(await page.locator('[data-summary-total]').innerText(), /€\s*2,?450\b/);
       await selectOption('top_type', 'veneer');
       await selectOption('top_wood_selection', 'guitar_top_flame_maple');
-      assert.match(await page.locator('[data-summary-total]').innerText(), /€\s*2,?400\b/);
+      assert.match(await page.locator('[data-summary-total]').innerText(), /€\s*2,?500\b/);
       await selectOption('top_type', 'cap');
-      assert.match(await page.locator('[data-summary-total]').innerText(), /€\s*2,?600\b/);
+      assert.match(await page.locator('[data-summary-total]').innerText(), /€\s*2,?700\b/);
       assert.doesNotMatch(await page.locator('[data-summary-total]').innerText(), /subtotal|on.request/i);
       await selectOption('top_wood_selection', 'guitar_top_maple_burl');
       const customTop = await page.locator('[data-summary-total]').innerText();
-      assert.match(customTop, /Priced items subtotal\s*\(excl\. VAT\)\s*€\s*2,?350\b/i);
+      assert.match(customTop, /Priced items subtotal\s*\(excl\. VAT\)\s*€\s*2,?450\b/i);
       assert.match(customTop, /on-request items.*confirmed separately/i);
       await selectOption('top_type', 'guitar_top_none');
-      assert.match(await page.locator('[data-summary-total]').innerText(), /Estimated total\s*\(excl\. VAT\)\s*€\s*2,?350\b/i);
+      assert.match(await page.locator('[data-summary-total]').innerText(), /Estimated total\s*\(excl\. VAT\)\s*€\s*2,?450\b/i);
     });
 
-    await check('GRAM: passive HH, neck and material customization survives same-model selection', async () => {
-      await freshModel('GRAM');
-      assert.doesNotMatch(await summary(), /Inferno Red/i, 'Gram must not assume a specific finish color');
+    await check('GRAMR: passive HH, neck and material customization survives same-model selection', async () => {
+      await freshModel('GRAMR');
+      assert.doesNotMatch(await summary(), /Inferno Red/i, 'Gramr must not assume a specific finish color');
       await step(2);
       await selectOption('neck', 'guitar_neck_custom');
       await selectOption('neck_profile', 'guitar_profile_custom');
@@ -502,7 +549,7 @@ async function run() {
       assert.doesNotMatch(await summary(), /€\s*(?:0|null|undefined|NaN)\b/);
       await page.locator('textarea').fill('Keep this custom guitar specification.');
       const before = await summary();
-      await chooseModel('GRAM');
+      await chooseModel('GRAMR');
       assert.equal(await summary(), before, 'Selecting the current model must preserve options and notes');
       await step(2);
       assert.equal(await option('neck', 'guitar_neck_custom').isChecked(), true);
@@ -516,18 +563,18 @@ async function run() {
       assert.equal(await page.locator('input[data-finish-color]').inputValue(), '', 'Changing models clears the previous finish request');
     });
 
-    await check('Model switching: bass configuration does not leak into Gram', async () => {
+    await check('Model switching: bass configuration does not leak into Gramr', async () => {
       await chooseModel('ASKR');
       await step(5);
       await page.getByRole('checkbox', { name: /Castle flight hard case/ }).check();
       await page.locator('textarea').fill('Bass-only setup: BEADG');
       assert.match(await summary(), /Castle flight hard case/);
-      await chooseModel('GRAM');
+      await chooseModel('GRAMR');
       const text = await summary();
       assertSpecs(text, expectedModels[3]);
       assert.doesNotMatch(text, /Payson|LHZ|Tone Capsule|Bass Core|Fluence 2 band|Lusithand|Cali Dub|BEADG|fretless|slap ramp|finger ramp|Castle flight hard case/i);
-      assert.match(text, /Estimated total\s*\(excl\. VAT\)\s*€\s*1,?900\b/i, 'Standard GRAM must total €1,900 before VAT');
-      assert.doesNotMatch(text, /€\s*(?:0(?:\.00)?|null|undefined|NaN)\b/, 'GRAM pricing must not render a zero or invalid total');
+      assert.match(text, /Estimated total\s*\(excl\. VAT\)\s*€\s*2,?000\b/i, 'Standard GRAMR must total €2,000 before VAT');
+      assert.doesNotMatch(text, /€\s*(?:0(?:\.00)?|null|undefined|NaN)\b/, 'GRAMR pricing must not render a zero or invalid total');
       await step(5);
       assert.equal(await page.locator('input[name="lhz_voltage"]').count(), 0);
       await chooseModel('EDDA');
@@ -563,19 +610,25 @@ async function run() {
       }
     });
 
-    await check('Actual Gram PDF exports the current specification and standard price', async () => {
-      await freshModel('GRAM');
+    await check('Actual Gramr PDF exports the premium gigbag and its net upgrade price', async () => {
+      await freshModel('GRAMR');
       await step(3);
       const finish = 'Graphite grey body with a natural maple neck';
       await page.locator('input[data-finish-color]').fill(finish);
       await step(5);
+      await selectOption('case', 'case_premium');
       const note = 'QA specification note: keep approved 6-string 25.5-inch platform.';
       await page.locator('textarea').fill(note);
+      const caseSummary = await page.locator('[data-summary-category="case"]').innerText();
+      assert.match(caseSummary, /Premium gigbag.*Nube or equivalent/i);
+      assert.match(caseSummary, /€\s*300\b/);
+      assert.match(caseSummary, /€\s*100\b/);
+      assert.equal(await quotedAmount(), 2200);
       await observePdf();
       const downloadPromise = page.waitForEvent('download', { timeout: 60000 });
       await page.getByRole('button', { name: /Save.*PDF/i }).click();
       const download = await downloadPromise;
-      assert.match(download.suggestedFilename(), /RavenForge_GRAM.*\.pdf/i);
+      assert.match(download.suggestedFilename(), /RavenForge_GRAMR.*\.pdf/i);
       const pdf = path.join(output, download.suggestedFilename());
       await download.saveAs(pdf);
       assert.equal(await download.failure(), null);
@@ -584,11 +637,15 @@ async function run() {
       assert.ok(buffer.length > 10000, 'PDF should contain rendered content');
       const inputs = await page.evaluate(() => window.__configuratorPdfInputs);
       assert.equal(inputs.length, 1);
-      await fs.writeFile(path.join(output, 'gram-pdf-source.txt'), inputs[0].text);
+      await fs.writeFile(path.join(output, 'gramr-pdf-source.txt'), inputs[0].text);
       assertSpecs(inputs[0].text, expectedModels[3]);
       assert.ok(inputs[0].text.includes(note), 'Current special instructions must be exported');
       assert.ok(inputs[0].text.includes(finish), 'Requested finish color must be exported');
-      assert.match(inputs[0].text, /Estimated total\s*\(excl\. VAT\)\s*€\s*1,?900\b/i, 'Standard GRAM PDF must total €1,900 before VAT');
+      assert.ok(inputs[0].text.replace(/\s+/g, ' ').includes(caseSummary.replace(/\s+/g, ' ')),
+        'The PDF must include the premium gigbag, its €300 price and the included €100 credit');
+      assert.match(inputs[0].text, /Estimated total\s*\(excl\. VAT\)\s*€\s*2,?200\b/i,
+        'GRAMR with the premium gigbag must total €2,200 before VAT');
+      assert.doesNotMatch(inputs[0].text, /Priced items subtotal|Price on request|on-request items/i);
       assert.doesNotMatch(inputs[0].text, /€\s*(?:0(?:\.00)?|null|undefined|NaN)\b|Payson|LHZ|BEADG/i);
       await page.getByRole('button', { name: /Save.*PDF/i }).waitFor();
       assert.equal(await page.locator('#ui-header').isVisible(), true, 'Web summary must be restored after export');
@@ -597,7 +654,7 @@ async function run() {
     }, { pdf: true });
 
     await check('PDF export keeps its original model when selection changes during generation', async () => {
-      await freshModel('GRAM');
+      await freshModel('GRAMR');
       await step(3);
       const finish = 'Metallic silver requested for the export snapshot';
       await page.locator('input[data-finish-color]').fill(finish);
@@ -609,30 +666,39 @@ async function run() {
       // A disabled selector or an immutable export snapshot are both valid.
       if (await edda.isEnabled()) await edda.click();
       const download = await downloadPromise;
-      assert.match(download.suggestedFilename(), /RavenForge_GRAM.*\.pdf/i);
+      assert.match(download.suggestedFilename(), /RavenForge_GRAMR.*\.pdf/i);
       await download.saveAs(path.join(output, 'race-' + download.suggestedFilename()));
       const inputs = await page.evaluate(() => window.__configuratorPdfInputs);
       assert.equal(inputs.length, 1);
-      await fs.writeFile(path.join(output, 'gram-pdf-during-model-switch.txt'), inputs[0].text);
+      await fs.writeFile(path.join(output, 'gramr-pdf-during-model-switch.txt'), inputs[0].text);
       assertSpecs(inputs[0].text, expectedModels[3]);
       assert.ok(inputs[0].text.includes(finish), 'Model changes during export must not remove its finish request');
       assert.doesNotMatch(inputs[0].text, /Base Model\s*\(EDDA\)|4 strings|34["″”]\s*\(long scale\)/i,
-        'Changing the live model must not put EDDA content in a GRAM-named PDF');
+        'Changing the live model must not put EDDA content in a GRAMR-named PDF');
     }, { pdf: true });
 
     await check('Mobile layout retains accessible model selection', async () => {
       await page.setViewportSize({ width: 390, height: 844 });
-      await chooseModel('GRAM');
+      await chooseModel('GRAMR');
       const future = page.locator('[data-future-options]');
       if (await future.getAttribute('open') !== null) await future.locator('summary').click();
       assertSpecs(await page.locator('[data-fixed-platform]').innerText(), expectedModels[3], false);
       const dimensions = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
       assert.ok(dimensions.scrollWidth <= dimensions.width + 1, `Mobile page must not overflow horizontally (${JSON.stringify(dimensions)})`);
       await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
-      await page.screenshot({ path: path.join(output, 'gram-mobile.png'), fullPage: true });
+      await page.screenshot({ path: path.join(output, 'gramr-mobile.png'), fullPage: true });
+      await step(5);
+      await selectOption('case', 'case_premium');
+      await page.locator('[data-category="case"]').scrollIntoViewIfNeeded();
+      const caseDimensions = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+      assert.ok(caseDimensions.scrollWidth <= caseDimensions.width + 1, 'Premium gigbag choices must fit the mobile viewport');
+      await page.screenshot({ path: path.join(output, 'gramr-gigbag-mobile.png'), fullPage: false });
       await page.setViewportSize({ width: 1440, height: 1080 });
+      await page.locator('[data-category="case"]').scrollIntoViewIfNeeded();
+      await page.screenshot({ path: path.join(output, 'gramr-gigbag-desktop.png'), fullPage: false });
+      await step(1);
       await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
-      await page.screenshot({ path: path.join(output, 'gram-desktop.png'), fullPage: true });
+      await page.screenshot({ path: path.join(output, 'gramr-desktop.png'), fullPage: true });
     });
 
     assert.ok(selectedChecks > 0, 'The requested test filter must select at least one check');

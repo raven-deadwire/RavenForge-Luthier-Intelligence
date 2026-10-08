@@ -60,8 +60,8 @@
 <!-- RF:SEO END -->
 </head>
 <body>
-  <script src="./assets/configurator-platforms.js?v=20261008-6"></script>
-  <script src="./assets/configurator-ui.js?v=20261008-6"></script>
+  <script src="./assets/configurator-platforms.js?v=20261008-gramr-gigbag300"></script>
+  <script src="./assets/configurator-ui.js?v=20261008-gramr-gigbag300"></script>
   <!-- Root element for React App -->
   <div id="root"></div>
 
@@ -112,9 +112,9 @@
 
     const configData = {
       models: [
-        { id: 'EDDA', name: 'EDDA', basePrice: 2000, desc: 'Classic & Punchy' },
-        { id: 'EMBLA', name: 'EMBLA', basePrice: 2450, desc: 'Modern & Versatile' },
-        { id: 'ASKR', name: 'ASKR', basePrice: 2650, desc: 'Premium & Aggressive' },
+        { id: 'EDDA', name: 'EDDA', basePrice: 2100, desc: 'Classic & Punchy' },
+        { id: 'EMBLA', name: 'EMBLA', basePrice: 2550, desc: 'Modern & Versatile' },
+        { id: 'ASKR', name: 'ASKR', basePrice: 3200, desc: 'Premium & Aggressive' },
       ],
       categories: [
         {
@@ -642,11 +642,11 @@
       const [pdfError, setPdfError] = useState('');
       const fixedSelections = RavenForgePlatforms.fixed(selectedModel);
       const platform = RavenForgePlatforms.summary(selectedModel);
-      const currentSpecialOptions = selectedModel === 'GRAM'
+      const currentSpecialOptions = selectedModel === 'GRAMR'
         ? specialOptionsList.filter(option => ['kill_switch', 'dual_tone'].includes(option.id))
         : specialOptionsList.filter(option => option.id !== 'locking_jack');
-      const optionSpec = (option, modelId = selectedModel) => option.specByModel?.[modelId] || option.spec || '';
-      const currentAccessories = selectedModel === 'GRAM'
+      const optionSpec = (option, modelId = selectedModel) => ui.optionSpecs?.[option.id] || option.specByModel?.[modelId] || option.spec || '';
+      const currentAccessories = selectedModel === 'GRAMR'
         ? accessoriesList.filter(option => option.id === 'leather_strap') : accessoriesList;
 
       useEffect(() => {
@@ -661,14 +661,14 @@
         { step: 2, title: ui.steps[1], categories: ['nut_size', 'nut_material', 'neck', 'neck_profile', 'fretboard', 'radius', 'fret_type', 'fret_material', 'fret_size', 'fretline', 'fret_side', 'inlay_type', 'inlay_oval_mat', 'inlay_dot_pos', 'inlay_dot_mat', 'inlay_custom_spec', 'side_dot', 'fretboard_extense'] },
         { step: 3, title: ui.steps[2], categories: ['body_construction', 'body_wood_single', 'body_core_wood', 'body_wing_wood', 'top_type', 'top_wood_selection', 'color_top', 'color_back_side', 'extra_finish_burst', 'extra_finish_flake', 'color_headstock'] },
         { step: 4, title: ui.steps[3], categories: ['hardware_bridge', 'hardware_machine_head', 'knob', 'hardware_color', 'finger_ramp'] },
-        { step: 5, title: ui.steps[4], categories: ['pickup_configuration', 'pickups', 'electronics', 'lhz_voltage', 'control_layout', 'coil_switch'] }
+        { step: 5, title: ui.steps[4], categories: ['pickup_configuration', 'pickups', 'electronics', 'lhz_voltage', 'control_layout', 'coil_switch', 'case'] }
       ];
 
 
       // Power supply is determined automatically from the selected electronics.
       const getAutomaticPowerSupply = (currentSelections, currentSpecialOptions = []) => {
         const eq = currentSelections?.electronics;
-        if (selectedModel === 'GRAM') {
+        if (selectedModel === 'GRAMR') {
           if (eq === 'guitar_passive') return { label: 'No battery', spec: 'passive guitar pickups and controls' };
           return { label: ui.supplyPending, spec: ui.plannedElectronicsNote };
         }
@@ -895,9 +895,10 @@
               const recSuffix = isRecommended ? " (*recommended)" : "";
               
               breakdown.push({
+                categoryId: category.id,
                 categoryTitle: categoryTitle(category),
                 label: optionLabel(option) + recSuffix + (category.id === 'scale' && optionSpec(option) ? ' (' + optionSpec(option) + ')' : ''),
-                detail: category.id === 'hardware_color' && hasNovaBridge ? ui.novaHardwareColorNote : option.specByModel ? optionSpec(option) : '',
+                detail: category.id === 'hardware_color' && hasNovaBridge ? ui.novaHardwareColorNote : (category.id === 'case' || option.specByModel) ? optionSpec(option) : '',
                 price: price,
                 isStandard: option.isStandard && option.isStandard.includes(selectedModel)
               });
@@ -969,7 +970,7 @@
 
       const formatPrice = (price, isStd) => {
         if (price === 'request' || price === null || price === undefined) return ui.requestPrice;
-        if (price === 0) return selectedModel === 'GRAM' && isStd ? ui.standard : ui.included;
+        if (price === 0) return selectedModel === 'GRAMR' && isStd ? ui.standard : ui.included;
         if (typeof price === 'number' && price < 0) return '- €' + Math.abs(price);
         return '+ €' + price;
       };
@@ -1243,6 +1244,7 @@ const handleOptionChange = (categoryId, optionId) => {
                             <div className="text-lg font-semibold text-slate-800">
                               {typeof model.basePrice === 'number' ? '€' + (model.startingPrice ?? model.basePrice) : ui.requestPrice}
                             </div>
+                            <p data-gigbag-included className="mt-1 text-sm text-slate-500">{ui.gigbagIncluded}</p>
                           </button>
                         ))}
                       </div>
@@ -1371,7 +1373,7 @@ const handleOptionChange = (categoryId, optionId) => {
                                               isStandardOpt || price === 0 ? 'text-slate-400' : 
                                               price === 'request' ? 'text-yellow-600 font-bold' : 'text-red-700'
                                             }`}>
-                                              {formatPrice(price, isStandardOpt)}
+                                              {category.id === 'case' && price === 0 ? ui.included : formatPrice(price, isStandardOpt)}
                                             </span>
                                           </div>
                                           {(optionSpec(option) || isRecommended) && (
@@ -1598,7 +1600,7 @@ const handleOptionChange = (categoryId, optionId) => {
                       {/* Breakdown List Container */}
                       <div id="quote-list-container" className="space-y-3">
                         {summary.breakdown.map((item, idx) => (
-                          <div key={idx} className="flex justify-between items-start py-0.5">
+                          <div key={idx} data-summary-category={item.categoryId} className="flex justify-between items-start py-0.5">
                             <div className="pr-2 text-slate-600">
                               <div className="text-[9px] text-slate-400 font-bold uppercase tracking-wider leading-none mb-0.5">{item.categoryTitle.split('(')[0].trim()}</div>
                               <div className="leading-tight text-xs mt-0.5">
@@ -1607,8 +1609,8 @@ const handleOptionChange = (categoryId, optionId) => {
                               </div>
                             </div>
                             <div className="shrink-0 text-slate-900 font-medium text-right text-xs">
-                              {item.price === 0 ? <span className="text-slate-300">-</span> :
-                               item.price === 'request' ? <span className="text-yellow-600 font-bold">Req</span> : 
+                              {item.price === 0 ? <span className="text-slate-400">{item.categoryId === 'case' ? ui.included : '-'}</span> :
+                               item.price === 'request' ? <span className="text-yellow-600 font-bold">{item.categoryId === 'case' ? ui.requestPrice : 'Req'}</span> :
                                item.price < 0 ? `-€${Math.abs(item.price)}` : `€${item.price}`}
                             </div>
                           </div>

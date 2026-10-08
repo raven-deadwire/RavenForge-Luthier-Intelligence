@@ -1,9 +1,17 @@
 window.RF_CONFIG_I18N = {
   en: {
-    optionLabels: { guitar_indian_rosewood: "rosewood" },
+    optionLabels: {
+      guitar_indian_rosewood: "rosewood",
+      case_standard: "Standard gigbag",
+      case_premium: "Premium gigbag — Nube or equivalent"
+    },
+    optionSpecs: {
+      case_standard: "Included in the base price. The manufacturer, model and fit for your instrument are subject to final confirmation.",
+      case_premium: "The €300 premium gigbag replaces the standard gigbag. After crediting the included standard gigbag at €100, the upgrade adds €200. The manufacturer, model and fit for your instrument are subject to final confirmation."
+    },
     title: "RavenForge Instrument Configurator",
     subtitle: "Choose your model and finish",
-    steps: ["Model & Core", "Neck & Fretboard", "Body & Finish", "Hardware", "Electronics & Notes"],
+    steps: ["Model & Core", "Neck & Fretboard", "Body & Finish", "Hardware", "Electronics & Gigbag"],
     selectModel: "Select model",
     coreSpecifications: "Core specifications",
     fixedSpecifications: "Initial model specifications",
@@ -15,6 +23,7 @@ window.RF_CONFIG_I18N = {
     futureNote: "These options are planned for later and cannot be added to the current specification.",
     futureBadge: "Planned",
     included: "Included",
+    gigbagIncluded: "Standard gigbag included",
     requestPrice: "Price on request",
     standard: "Standard",
     recommended: "Recommended",
@@ -52,6 +61,7 @@ window.RF_CONFIG_I18N = {
     statusLabel: "Status",
     modelLabel: "Model",
     categoryNotes: {
+      case: "A standard gigbag is included. The premium upgrade replaces it for an additional €200; only the selected gigbag is supplied.",
       neck: "Choose woods and laminations within the existing neck outline and heel.",
       neck_profile: "Choose the neck feel while retaining the model’s nut width and heel. Describe custom preferences in the notes.",
       radius: "Choose the fretboard curve within the existing fretboard outline.",
@@ -69,6 +79,7 @@ window.RF_CONFIG_I18N = {
       color_back_side: "Choose the finish method here and specify your desired colour separately."
     },
     categoryTitles: {
+      case: "Gigbag",
       orientation: "Orientation",
       strings: "Strings",
       factory_setup: "Factory Setup",
@@ -119,10 +130,18 @@ window.RF_CONFIG_I18N = {
     }
   },
   ko: {
-    optionLabels: { guitar_indian_rosewood: "rosewood" },
+    optionLabels: {
+      guitar_indian_rosewood: "rosewood",
+      case_standard: "기본 긱백",
+      case_premium: "프리미엄 긱백 — 누베 또는 동급"
+    },
+    optionSpecs: {
+      case_standard: "기본가에 포함됩니다. 제조사·모델과 악기 적합성은 최종 확인 후 확정합니다.",
+      case_premium: "€300 프리미엄 긱백으로 기본 긱백을 대체합니다. 기본가에 포함된 긱백 €100을 차감해 추가금은 €200입니다. 제조사·모델과 악기 적합성은 최종 확인 후 확정합니다."
+    },
     title: "RavenForge 악기 컨피규레이터",
     subtitle: "모델과 마감을 선택하세요",
-    steps: ["모델·기본 사양", "넥·지판", "바디·마감", "하드웨어", "전자회로·요청 사항"],
+    steps: ["모델·기본 사양", "넥·지판", "바디·마감", "하드웨어", "전자회로·긱백"],
     selectModel: "모델 선택",
     coreSpecifications: "기본 사양",
     fixedSpecifications: "모델별 초기 사양",
@@ -134,6 +153,7 @@ window.RF_CONFIG_I18N = {
     futureNote: "추후 추가할 예정인 옵션이며, 현재 사양에는 포함할 수 없습니다.",
     futureBadge: "추후 예정",
     included: "포함",
+    gigbagIncluded: "기본 긱백 포함",
     requestPrice: "별도 견적",
     standard: "기본",
     recommended: "추천",
@@ -171,6 +191,7 @@ window.RF_CONFIG_I18N = {
     statusLabel: "진행 상태",
     modelLabel: "모델",
     categoryNotes: {
+      case: "기본 긱백이 포함됩니다. 프리미엄 선택 시 €200을 추가해 기본 긱백을 대체하며, 선택한 긱백 한 개만 제공합니다.",
       neck: "기존 넥 외형과 힐을 유지하면서 목재와 라미네이트 구성을 선택합니다.",
       neck_profile: "모델의 너트 폭과 힐을 유지하면서 넥 그립을 선택합니다. 커스텀 선호는 요청 사항에 적어 주세요.",
       radius: "기존 지판 외형 안에서 지판 곡률을 선택합니다.",
@@ -188,6 +209,7 @@ window.RF_CONFIG_I18N = {
       color_back_side: "마감 방식은 여기서 고르고, 원하는 색상은 별도로 적어 주세요."
     },
     categoryTitles: {
+      case: "긱백",
       orientation: "오른손·왼손용",
       strings: "현수",
       factory_setup: "기본 셋업",
@@ -238,10 +260,18 @@ window.RF_CONFIG_I18N = {
     }
   },
   de: {
-    optionLabels: { guitar_indian_rosewood: "rosewood" },
+    optionLabels: {
+      guitar_indian_rosewood: "rosewood",
+      case_standard: "Standard-Gigbag",
+      case_premium: "Premium-Gigbag — Nube oder gleichwertig"
+    },
+    optionSpecs: {
+      case_standard: "Im Grundpreis enthalten. Hersteller, Modell und Passform für Ihr Instrument werden abschließend bestätigt.",
+      case_premium: "Das Premium-Gigbag für €300 ersetzt das Standard-Gigbag. Nach Anrechnung von €100 für das enthaltene Standard-Gigbag beträgt der Aufpreis €200. Hersteller, Modell und Passform für Ihr Instrument werden abschließend bestätigt."
+    },
     title: "RavenForge Instrumentenkonfigurator",
     subtitle: "Modell und Finish auswählen",
-    steps: ["Modell & Grunddaten", "Hals & Griffbrett", "Korpus & Finish", "Hardware", "Elektronik & Wünsche"],
+    steps: ["Modell & Grunddaten", "Hals & Griffbrett", "Korpus & Finish", "Hardware", "Elektronik & Gigbag"],
     selectModel: "Modell auswählen",
     coreSpecifications: "Grunddaten",
     fixedSpecifications: "Modellspezifikationen zum Start",
@@ -253,6 +283,7 @@ window.RF_CONFIG_I18N = {
     futureNote: "Diese Optionen sind für später vorgesehen und können der aktuellen Spezifikation noch nicht hinzugefügt werden.",
     futureBadge: "Geplant",
     included: "Enthalten",
+    gigbagIncluded: "Standard-Gigbag inklusive",
     requestPrice: "Preis auf Anfrage",
     standard: "Standard",
     recommended: "Empfohlen",
@@ -290,6 +321,7 @@ window.RF_CONFIG_I18N = {
     statusLabel: "Status",
     modelLabel: "Modell",
     categoryNotes: {
+      case: "Ein Standard-Gigbag ist enthalten. Das Premium-Gigbag ersetzt es gegen einen Aufpreis von €200; geliefert wird nur das gewählte Gigbag.",
       neck: "Wählen Sie Hölzer und Laminierung innerhalb der bestehenden Halskontur und des Halsfußes.",
       neck_profile: "Wählen Sie das Halsgefühl bei unveränderter Sattelbreite und unverändertem Halsfuß. Individuelle Wünsche können Sie in den Anmerkungen beschreiben.",
       radius: "Wählen Sie die Wölbung innerhalb der bestehenden Griffbrettkontur.",
@@ -307,6 +339,7 @@ window.RF_CONFIG_I18N = {
       color_back_side: "Wählen Sie hier die Oberflächenbehandlung und geben Sie die gewünschte Farbe separat an."
     },
     categoryTitles: {
+      case: "Gigbag",
       orientation: "Rechts-/Linkshänder",
       strings: "Saitenzahl",
       factory_setup: "Setup ab Werk",
