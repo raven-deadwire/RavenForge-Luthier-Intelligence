@@ -60,8 +60,8 @@
 <!-- RF:SEO END -->
 </head>
 <body>
-  <script src="./assets/configurator-platforms.js?v=20261008"></script>
-  <script src="./assets/configurator-ui.js?v=20261008"></script>
+  <script src="./assets/configurator-platforms.js?v=20261008-2"></script>
+  <script src="./assets/configurator-ui.js?v=20261008-2"></script>
   <!-- Root element for React App -->
   <div id="root"></div>
 
@@ -98,10 +98,10 @@
 
     // Instrument-specific options
     const specialOptionsList = [
-      { id: 'kill_switch', label: 'Kill switch', spec: '', price: 0 },
+      { id: 'kill_switch', label: 'Kill switch', spec: 'using an existing control position', price: 0 },
       { id: 'locking_jack', label: 'Locking output jack', spec: '', price: 0 },
-      { id: 'dual_tone', label: 'Dual tone capacity', price: 100, spec: '', requiresPassive: true },
-      { id: 'delano_buffer', label: 'Delano xPure buffer', spec: '(* passive electronics only; dedicated 9V power included)', price: 100, requiresPassive: true },
+      { id: 'dual_tone', label: 'Dual tone capacity', price: 100, spec: 'switched capacitor values using existing controls', requiresPassive: true },
+      { id: 'delano_buffer', label: 'Delano xPure buffer', spec: '(* passive electronics only; 9V battery and module accommodated in the existing control cavity)', price: 100, requiresPassive: true },
     ];
 
     // Accessories are kept separate from instrument specifications
@@ -635,13 +635,16 @@
       const [specialOptions, setSpecialOptions] = useState([]);
       const [accessories, setAccessories] = useState([]);
       const [specialInstructions, setSpecialInstructions] = useState('');
+      const [finishColor, setFinishColor] = useState('');
       const [currentStep, setCurrentStep] = useState(1);
       const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
       const [pdfError, setPdfError] = useState('');
       const fixedSelections = RavenForgePlatforms.fixed(selectedModel);
       const platform = RavenForgePlatforms.summary(selectedModel);
-      const currentSpecialOptions = selectedModel === 'EDDA'
-        ? specialOptionsList.filter(option => option.id === 'dual_tone') : [];
+      const currentSpecialOptions = selectedModel === 'GRAM'
+        ? specialOptionsList.filter(option => ['kill_switch', 'dual_tone'].includes(option.id))
+        : specialOptionsList.filter(option => option.id !== 'locking_jack');
+      const optionSpec = (option, modelId = selectedModel) => option.specByModel?.[modelId] || option.spec || '';
       const currentAccessories = selectedModel === 'GRAM'
         ? accessoriesList.filter(option => option.id === 'leather_strap') : accessoriesList;
 
@@ -665,11 +668,13 @@
       const getAutomaticPowerSupply = (currentSelections, currentSpecialOptions = []) => {
         const eq = currentSelections?.electronics;
         if (selectedModel === 'GRAM') {
+          if (eq === 'guitar_passive') return { label: 'No battery', spec: 'passive guitar pickups and controls' };
           return { label: ui.supplyPending, spec: ui.plannedElectronicsNote };
         }
         const hasXpureBuffer = currentSpecialOptions.includes('delano_buffer');
 
         if (!eq || eq === 'passive') {
+          if (currentSelections?.pickups === 'emg') return { label: '9V', spec: 'active EMG pickups with passive controls' };
           if (hasXpureBuffer) {
             return { label: '9V', spec: 'Delano xPure buffer power' };
           }
@@ -756,7 +761,7 @@
     }
     // ASKR 모델 & 멀티스케일 선택 시 특정 브릿지 4개만 허용
     if (modelId === 'ASKR' && currentSelections['scale'] === 'multi') {
-      const allowedAskrMultiBridges = ['ets_custom', 'hipshot_lock', 'babicz_solo', 'payson'];
+      const allowedAskrMultiBridges = ['payson', 'nova_parts'];
       if (!allowedAskrMultiBridges.includes(optionId)) return false;
     }
     // payson 브릿지는 멀티스케일이 아닐 경우 무조건 숨김
@@ -790,18 +795,12 @@
     return false;
   }
 
-  // Fishman Fluence 픽업은 Fishman Fluence 2-band EQ가 선택된 경우에만 노출
-  if (
-    categoryId === 'pickups' &&
-    optionId === 'fishman' &&
-    currentSelections['electronics'] !== 'fishman'
-  ) {
-    return false;
-  }
+  // Both Fishman selectors remain reachable; handleOptionChange pairs the pickup and EQ.
 
-  // Fretless는 guayacan nut만 허용
-  if (categoryId === 'nut_material' && currentSelections['fret_type'] === 'fretless' && optionId !== 'nut_guayacan') {
-    return false;
+  // Keep nut function compatible with the selected fret format; materials remain selectable.
+  if (categoryId === 'nut_material') {
+    if (currentSelections['fret_type'] === 'fretless' && ['nut_brass', 'nut_guide'].includes(optionId)) return false;
+    if (currentSelections['fret_type'] !== 'fretless' && optionId === 'nut_guayacan') return false;
   }
 
   // 3. 3 pickup 옵션 선택 시 특정 프리앰프, 픽업 및 별도 핑거램프 제한
@@ -822,7 +821,7 @@
 
       const normalizeSelections = (modelId, requested = {}) => {
         const fixed = RavenForgePlatforms.fixed(modelId);
-        const next = { ...requested, ...fixed };
+        const next = { ...RavenForgePlatforms.defaults(modelId), ...requested, ...fixed };
         // Resolve dependent categories using the same available options as the UI.
         for (let pass = 0; pass < 3; pass += 1) {
           configData.categories.forEach(category => {
@@ -844,6 +843,8 @@
       };
       const getDefaultSelections = modelId => normalizeSelections(modelId);
       const selections = normalizeSelections(selectedModel, selectionState);
+      const isPassiveCircuit = ['passive', 'guitar_passive'].includes(selections.electronics);
+      const selectedOptionLabel = categoryId => configData.categories.find(category => category.id === categoryId)?.options.find(option => option.id === selections[categoryId])?.label || '';
 
       const handleModelChange = modelId => {
         if (modelId === selectedModel) return;
@@ -853,6 +854,7 @@
         setSpecialOptions([]);
         setAccessories([]);
         setSpecialInstructions('');
+        setFinishColor('');
         setPdfError('');
       };
 
@@ -889,7 +891,8 @@
               
               breakdown.push({
                 categoryTitle: categoryTitle(category),
-                label: option.label + recSuffix + (category.id === 'scale' && option.spec ? ' (' + option.spec + ')' : ''),
+                label: option.label + recSuffix + (category.id === 'scale' && optionSpec(option) ? ' (' + optionSpec(option) + ')' : ''),
+                detail: option.specByModel ? optionSpec(option) : '',
                 price: price,
                 isStandard: option.isStandard && option.isStandard.includes(selectedModel)
               });
@@ -902,6 +905,10 @@
             }
           }
         });
+
+        if (finishColor.trim()) {
+          breakdown.push({ categoryTitle: ui.finishColorLabel, label: finishColor.trim(), price: 0, isStandard: false });
+        }
 
         // Automatic power supply summary
         const powerSupply = getAutomaticPowerSupply(selections, specialOptions);
@@ -921,7 +928,7 @@
         specialOptions.forEach(optId => {
           const opt = currentSpecialOptions.find(o => o.id === optId);
           // passive 의존성 조건 확인
-          if (opt && (!opt.requiresPassive || selections['electronics'] === 'passive')) {
+          if (opt && (!opt.requiresPassive || isPassiveCircuit)) {
              breakdown.push({
                categoryTitle: 'Instrument Options',
                label: opt.spec ? `${opt.label} ${opt.spec}` : opt.label,
@@ -953,11 +960,11 @@
           requiresRequest,
           breakdown
         };
-      }, [selectedModel, selections, specialOptions, accessories, language]);
+      }, [selectedModel, selections, specialOptions, accessories, language, finishColor]);
 
       const formatPrice = (price, isStd) => {
         if (price === 'request' || price === null || price === undefined) return ui.requestPrice;
-        if (isStd || price === 0) return selectedModel === 'GRAM' ? ui.standard : ui.included;
+        if (price === 0) return selectedModel === 'GRAM' ? ui.standard : ui.included;
         if (typeof price === 'number' && price < 0) return '- €' + Math.abs(price);
         return '+ €' + price;
       };
@@ -984,17 +991,17 @@ const handleOptionChange = (categoryId, optionId) => {
       if (optionId === 'multi') {
         if (selectedModel === 'ASKR') {
           // payson 추가
-          const allowedAskrMulti = ['ets_custom', 'hipshot_lock', 'babicz_solo', 'payson'];
+          const allowedAskrMulti = ['payson', 'nova_parts'];
           if (!allowedAskrMulti.includes(nextSelections['hardware_bridge'])) {
-            nextSelections['hardware_bridge'] = 'ets_custom';
+            nextSelections['hardware_bridge'] = RavenForgePlatforms.defaults(selectedModel).hardware_bridge;
           }
         } else if (nextSelections['hardware_bridge'] === 'kahler_2400') {
-          nextSelections['hardware_bridge'] = 'ets_custom';
+          nextSelections['hardware_bridge'] = RavenForgePlatforms.defaults(selectedModel).hardware_bridge;
         }
       } else {
         // [추가됨] 멀티스케일에서 다른 스케일로 바꿨는데 브릿지가 payson으로 남아있다면 기본값으로 리셋
         if (nextSelections['hardware_bridge'] === 'payson') {
-          nextSelections['hardware_bridge'] = 'ets_custom';
+          nextSelections['hardware_bridge'] = RavenForgePlatforms.defaults(selectedModel).hardware_bridge;
         }
       }
     }
@@ -1229,7 +1236,7 @@ const handleOptionChange = (categoryId, optionId) => {
                             <h3 className="text-xl font-bold text-slate-900">{model.name}</h3>
                             <p className="text-sm text-slate-500 mt-1 mb-4">{model.desc}</p>
                             <div className="text-lg font-semibold text-slate-800">
-                              {typeof model.basePrice === 'number' ? '€' + model.basePrice : ui.requestPrice}
+                              {typeof model.basePrice === 'number' ? '€' + (model.startingPrice ?? model.basePrice) : ui.requestPrice}
                             </div>
                           </button>
                         ))}
@@ -1243,7 +1250,7 @@ const handleOptionChange = (categoryId, optionId) => {
                       <span className="text-xs font-semibold bg-slate-800 text-white px-2 py-1 rounded">{ui.prototype}</span>
                     </div>
                     <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                      {[[ui.stringsLabel, platform.strings], [ui.scaleLabel, platform.scale], [ui.fretsLabel, platform.frets], [ui.bridgeLabel, platform.bridge]].map(([label, value]) => (
+                      {[[ui.stringsLabel, platform.strings], [ui.scaleLabel, platform.scale], [ui.fretsLabel, selectedOptionLabel('fret_type')], [ui.bridgeLabel, selectedOptionLabel('hardware_bridge')]].map(([label, value]) => (
                         <div key={label}><dt className="text-xs text-slate-500 mb-1">{label}</dt><dd className="font-semibold text-slate-800">{value}</dd></div>
                       ))}
                     </dl>
@@ -1257,7 +1264,7 @@ const handleOptionChange = (categoryId, optionId) => {
                         <div key={category.id} data-category={category.id} data-fixed-category={category.id} className="min-w-0">
                           <dt className="text-xs text-slate-500 mb-1">{categoryTitle(category)} · {ui.fixedBadge}</dt>
                           <dd className="text-sm font-semibold text-slate-800">{option.label}</dd>
-                          {option.spec && <dd className="text-xs text-slate-500 mt-1">{option.spec}</dd>}
+                          {optionSpec(option) && <dd className="text-xs text-slate-500 mt-1">{optionSpec(option)}</dd>}
                         </div>
                       ))}
                     </dl>
@@ -1307,6 +1314,7 @@ const handleOptionChange = (categoryId, optionId) => {
                                 <h3 className="text-lg font-bold text-slate-800">{categoryTitle(category)}
                                   {fixedSelections[category.id] && <span className="ml-2 text-xs font-medium text-slate-500">{ui.fixedBadge}</span>}
                                 </h3>
+                                {ui.categoryNotes?.[category.id] && <p className="text-xs text-slate-500 mt-2 leading-relaxed">{ui.categoryNotes[category.id]}</p>}
                               </div>
                               <div className="p-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -1360,9 +1368,9 @@ const handleOptionChange = (categoryId, optionId) => {
                                               {formatPrice(price, isStandardOpt)}
                                             </span>
                                           </div>
-                                          {(option.spec || isRecommended) && (
+                                          {(optionSpec(option) || isRecommended) && (
                                             <p className="text-xs text-slate-500 mt-1">
-                                              {option.spec && <FormattedText text={option.spec} />}
+                                              {optionSpec(option) && <FormattedText text={optionSpec(option)} />}
                                               {isRecommended && <FormattedText text=" (*recommended)" />}
                                             </p>
                                           )}
@@ -1377,6 +1385,17 @@ const handleOptionChange = (categoryId, optionId) => {
                         })}
                     </div>
                     
+                    {currentStep === 3 && (
+                      <div className="mt-6 rounded-xl border-2 border-slate-200 p-6">
+                        <label htmlFor="finish-color" className="block text-lg font-bold text-slate-800 mb-2">{ui.finishColorLabel}</label>
+                        <p className="text-xs text-slate-500 mb-3">{ui.finishColorNote}</p>
+                        <input id="finish-color" data-finish-color type="text" maxLength={300}
+                          value={finishColor} onChange={event => setFinishColor(event.target.value)}
+                          placeholder={ui.finishColorPlaceholder}
+                          className="w-full p-3 border-2 border-slate-200 rounded-lg focus:border-red-700 focus:outline-none text-sm" />
+                      </div>
+                    )}
+
                     {upcomingGroups.length > 0 && (
                       <details data-future-options className="mt-6 border-2 border-slate-200 rounded-xl bg-slate-50">
                         <summary className="cursor-pointer p-5 font-bold text-slate-700">{ui.futureTitle}</summary>
@@ -1432,7 +1451,7 @@ const handleOptionChange = (categoryId, optionId) => {
                           <div className={currentSpecialOptions.length ? "grid grid-cols-1 md:grid-cols-2 gap-3 mb-6" : "hidden"}>
                             {currentSpecialOptions.map(opt => {
                               // EQ가 passive가 아니면 passive 전용 옵션은 숨김
-                              if (opt.requiresPassive && selections['electronics'] !== 'passive') return null;
+                              if (opt.requiresPassive && !isPassiveCircuit) return null;
                               
                               const isSelected = specialOptions.includes(opt.id);
                               
@@ -1578,10 +1597,11 @@ const handleOptionChange = (categoryId, optionId) => {
                               <div className="text-[9px] text-slate-400 font-bold uppercase tracking-wider leading-none mb-0.5">{item.categoryTitle.split('(')[0].trim()}</div>
                               <div className="leading-tight text-xs mt-0.5">
                                 <FormattedText text={item.label} />
+                                {item.detail && <div className="text-[10px] text-slate-500 mt-1 leading-tight">{item.detail}</div>}
                               </div>
                             </div>
                             <div className="shrink-0 text-slate-900 font-medium text-right text-xs">
-                              {item.isStandard || item.price === 0 ? <span className="text-slate-300">-</span> : 
+                              {item.price === 0 || (item.isStandard && item.price === 'request' && selectedModel === 'GRAM') ? <span className="text-slate-300">-</span> :
                                item.price === 'request' ? <span className="text-yellow-600 font-bold">Req</span> : 
                                item.price < 0 ? `-€${Math.abs(item.price)}` : `€${item.price}`}
                             </div>

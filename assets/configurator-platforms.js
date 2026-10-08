@@ -9,7 +9,7 @@
   // Bass defaults follow the existing configurator. ASKR's 37–34/Payson
   // platform is the user's selected revision; GRAM follows its published concept.
   var activeData = null;
-  var bassCore = {
+  var bassDefaults = {
     orientation: 'right_hand', string_spacing: 'spacing_std', nut_size: 'nut_std',
     nut_material: 'nut_brass', radius: 'rad_std', fret_type: 'fret_24',
     fretboard_extense: 'extense_none', body_construction: '3pc_solid',
@@ -17,16 +17,16 @@
     pickup_configuration: 'pickup_2', control_layout: 'control_std',
     coil_switch: 'coil_1_ps'
   };
-  var cores = {
-    EDDA: Object.assign({}, bassCore, {
+  var modelDefaults = {
+    EDDA: Object.assign({}, bassDefaults, {
       strings: '4_strings', scale: '34', neck: '1pc',
       pickups: 'nova_mm', electronics: 'passive'
     }),
-    EMBLA: Object.assign({}, bassCore, {
+    EMBLA: Object.assign({}, bassDefaults, {
       strings: '5_strings', scale: '34', neck: '5pc',
       pickups: 'delano_sbc', electronics: 'zuta'
     }),
-    ASKR: Object.assign({}, bassCore, {
+    ASKR: Object.assign({}, bassDefaults, {
       strings: '5_strings', scale: 'multi', neck: '5pc',
       hardware_bridge: 'payson', pickups: 'fishman', electronics: 'fishman',
       coil_switch: 'coil_none'
@@ -40,30 +40,50 @@
       hardware_bridge: 'guitar_gotoh_510t', hardware_machine_head: 'guitar_gotoh_sg381',
       pickup_configuration: 'guitar_hh', pickups: 'guitar_lundgren_m6',
       electronics: 'guitar_zuta_core', control_layout: 'guitar_controls',
-      coil_switch: 'guitar_blade_selection'
+      coil_switch: 'guitar_blade_selection',
+      color_top: 'top_gloss', color_back_side: 'back_gloss'
     }
+  };
+  var geometryCategories = [
+    'orientation', 'strings', 'scale', 'nut_size', 'string_spacing',
+    'hardware_bridge', 'pickup_configuration', 'fretboard_extense'
+  ];
+  var cores = {};
+  Object.keys(modelDefaults).forEach(function (modelId) {
+    cores[modelId] = {};
+    geometryCategories.forEach(function (id) {
+      if (modelId === 'ASKR' && id === 'hardware_bridge') return;
+      cores[modelId][id] = modelDefaults[modelId][id];
+    });
+    if (modelId === 'GRAM') cores[modelId].fret_type = modelDefaults[modelId].fret_type;
+  });
+  var pickupOptions = {
+    EDDA: ['nova_mm', 'nova_custom', 'others', 'häussel_triple'],
+    EMBLA: ['delano_sbc', 'delano_ts', 'häussel_bar', 'nova_custom', 'others'],
+    ASKR: ['fishman', 'emg', 'askr_delano_sbc5_e', 'nova_custom', 'others'],
+    GRAM: ['guitar_lundgren_m6', 'guitar_hh_passive_custom']
   };
   var summaries = {
     EDDA: {
       strings: '4 strings', scale: '34-inch single scale',
       frets: '24 frets + zero fret', bridge: 'ETS Custom',
-      description: 'Heritage bass with a 1-piece maple neck and a solid 3-piece body.'
+      description: 'Four-string heritage bass with selectable materials, neck feel and electronics.'
     },
     EMBLA: {
       strings: '5 strings', scale: '34-inch single scale',
       frets: '24 frets + zero fret', bridge: 'ETS Custom',
-      description: 'Modern bass with a 5-piece laminated neck and a solid 3-piece body.'
+      description: 'Five-string session bass with selectable materials, neck feel and electronics.'
     },
     ASKR: {
       strings: '5 strings', scale: '37–34-inch multiscale',
       frets: '24 frets + zero fret', bridge: 'Payson Multi-Scale Bass Bridge',
-      description: 'Multiscale bass with a 5-piece laminated neck and a solid 3-piece body.'
+      description: 'Five-string multiscale bass with selectable materials, hardware and electronics.'
     },
     GRAM: {
       strings: '6 guitar strings', scale: '25.5-inch single scale',
       frets: '24 frets; no zero fret', bridge: 'Gotoh 510T-FE1',
       joint: 'Extended bolt-on deep tenon; 5 bolts in a 2-2-1 layout; threaded inserts; no neck plate',
-      description: 'Superstrat with a 2-piece swamp ash body, 5-piece laminated neck and Lundgren M6 HH package. Zuta Core is planned.'
+      description: 'Six-string 25.5-inch Superstrat with 24 frets and HH pickups. Materials and electronics are selectable; pricing is by request.'
     }
   };
 
@@ -119,9 +139,9 @@
       return entry.id !== 'short' && !/short[- ]?scale/i.test(entry.label);
     });
 
-    // Preserve the former 2650 + 300 multiscale + 150 Payson total.
+    // Keep the 2650 + 300 multiscale platform separate from the chosen bridge.
     var askr = data.models.find(function (entry) { return entry.id === 'ASKR'; });
-    if (askr) askr.basePrice = 3100;
+    if (askr) { askr.basePrice = 2950; askr.startingPrice = 3100; }
     var multi = option(data, 'scale', 'multi');
     if (multi) {
       multi.label = '37–34-inch multiscale';
@@ -129,12 +149,86 @@
       multi.prices.ASKR = 0;
     }
     var payson = option(data, 'hardware_bridge', 'payson');
-    if (payson) payson.prices.ASKR = 0;
+    if (payson) payson.prices.ASKR = 150;
+    var bridgeGroup = category(data, 'hardware_bridge');
+    if (bridgeGroup) {
+      var novaBridge = {
+        id: 'nova_parts', label: 'Nova Parts multiscale bridge',
+        spec: 'fixed 5-string multiscale bridge for a headed bass; final hardware specification to be confirmed',
+        prices: { ASKR: 'request' }, availableFor: ['ASKR']
+      };
+      var currentNovaBridge = option(data, 'hardware_bridge', 'nova_parts');
+      if (currentNovaBridge) Object.assign(currentNovaBridge, novaBridge);
+      else bridgeGroup.options.push(novaBridge);
+    }
     var guide = option(data, 'nut_material', 'nut_brass');
     if (guide) {
       guide.label = 'brass zero-fret string guide';
       guide.spec = 'the zero fret defines the open-string contact point';
     }
+
+    // Materials and internal functions remain selectable within each model's
+    // existing outlines, routing and control positions.
+    var standardControls = option(data, 'control_layout', 'control_std');
+    if (standardControls) standardControls.spec = 'model-standard control positions; functions follow the selected electronics';
+    var customControls = option(data, 'control_layout', 'control_custom');
+    if (customControls) {
+      customControls.label = 'Custom controls / wiring';
+      customControls.spec = 'choose functions, pots and wiring within the existing control holes and cavity; describe preferences in notes';
+    }
+    var tuners = category(data, 'hardware_machine_head');
+    var tunerNote = 'retain the model’s headstock layout; confirm shaft/bushing fit, fixing points and clearance';
+    if (tuners) tuners.options.forEach(function (entry) {
+      if ((entry.spec || '').indexOf(tunerNote) < 0) entry.spec = (entry.spec ? entry.spec + '; ' : '') + tunerNote;
+    });
+    var coilGroup = category(data, 'coil_switch');
+    var coilNote = 'use existing switch/pot positions; confirm functions and component fit';
+    if (coilGroup) coilGroup.options.forEach(function (entry) {
+      if ((entry.spec || '').indexOf(coilNote) < 0) entry.spec = (entry.spec ? entry.spec + '; ' : '') + coilNote;
+    });
+
+    var customPickupSpecs = {
+      EDDA: 'MM housing for the existing EDDA pickup routes; confirm outline, mounting ears and depth',
+      EMBLA: 'custom housing for the existing SBC 100 × 36 mm routes; confirm depth and mounting',
+      ASKR: 'custom housing for the existing 102 × 38 mm pickup routes; confirm depth and mounting'
+    };
+    ['nova_custom', 'others'].forEach(function (id) {
+      var entry = option(data, 'pickups', id);
+      if (entry) {
+        entry.spec = 'specify a pickup made for the selected model’s existing routes';
+        entry.specByModel = Object.assign({}, customPickupSpecs);
+      }
+    });
+    [
+      ['nova_mm', 'MM housing for the existing EDDA routes; confirm outline, mounting ears, depth and screws'],
+      ['häussel_triple', 'MM housing version for the existing EDDA routes; confirm outline and mounting ears'],
+      ['delano_sbc', 'SBC5 housing: 100 × 36 × 18.5 mm; confirm mounting and route depth'],
+      ['delano_ts', 'SBC-format housing for the existing EMBLA routes; confirm dimensions and mounting'],
+      ['häussel_bar', 'custom SBC 100 × 36 mm housing for EMBLA; confirm outline, depth and mounting'],
+      ['fishman', '5-string bass set; housing 102.11 × 37.89 × 18 mm; confirm cavity and mounting'],
+      ['emg', '40TWX housing for ASKR; confirm depth, mounting and wiring']
+    ].forEach(function (details) {
+      var entry = option(data, 'pickups', details[0]);
+      if (entry) entry.spec = details[1];
+    });
+    var emg = option(data, 'pickups', 'emg');
+    if (emg) emg.label = 'EMG 40TWX';
+    var pickupGroup = category(data, 'pickups');
+    if (pickupGroup) {
+      var delanoE = {
+        id: 'askr_delano_sbc5_e', label: 'Delano SBC5 HE/S-4 E',
+        spec: '102 × 38 × 22 mm E housing; confirm route depth, screw positions and wiring',
+        prices: { ASKR: 'request' }, availableFor: ['ASKR']
+      };
+      var existingDelanoE = option(data, 'pickups', delanoE.id);
+      if (existingDelanoE) Object.assign(existingDelanoE, delanoE);
+      else pickupGroup.options.push(delanoE);
+    }
+
+    // A prototype's individual colour is not a model-wide finish option.
+    data.categories.forEach(function (group) {
+      group.options = group.options.filter(function (entry) { return entry.id !== 'guitar_inferno_red'; });
+    });
 
     var gram = data.models.find(function (entry) { return entry.id === 'GRAM'; });
     if (!gram) { gram = { id: 'GRAM', name: 'GRAM' }; data.models.push(gram); }
@@ -149,21 +243,42 @@
       ['neck_profile', 'guitar_profile_reference', 'GRAM reference profile', 'profile and final dimensions to be confirmed'],
       ['radius', 'guitar_radius_16', '16-inch radius', ''],
       ['fret_type', 'guitar_fret_24', '24 frets; no zero fret', ''],
-      ['body_construction', 'guitar_body_2pc', '2-piece solid body', 'center-jointed swamp ash; 45.0 mm concept thickness'],
-      ['body_wood_single', 'guitar_swamp_ash', 'swamp ash', '2-piece center-jointed body'],
+      ['body_construction', 'guitar_body_2pc', '2-piece solid body', 'center-jointed body; 45.0 mm concept thickness'],
+      ['body_wood_single', 'guitar_swamp_ash', 'swamp ash', 'solid body within the existing outline'],
       ['fretboard', 'guitar_indian_rosewood', 'AAA Indian rosewood', ''],
-      ['top_type', 'guitar_top_none', 'no separate top', 'visible swamp ash grain'],
-      ['color_top', 'guitar_inferno_red', 'Transparent Inferno Red', 'grain-filled high gloss'],
-      ['color_back_side', 'guitar_inferno_red', 'Transparent Inferno Red', 'grain-filled high gloss'],
+      ['top_type', 'guitar_top_none', 'no separate top', 'visible body wood grain'],
       ['hardware_bridge', 'guitar_gotoh_510t', 'Gotoh 510T-FE1', 'right-handed; 42 mm block'],
       ['hardware_machine_head', 'guitar_gotoh_sg381', 'Gotoh SG381-07-MGT', '6-in-line; staggered'],
       ['pickup_configuration', 'guitar_hh', 'HH / 2 guitar humbuckers', ''],
       ['pickups', 'guitar_lundgren_m6', 'Lundgren M6 Neck + Bridge', 'black open-coil'],
       ['electronics', 'guitar_zuta_core', 'Zuta Core — planned', 'guitar electronics package; final wiring to be confirmed'],
       ['control_layout', 'guitar_controls', '1 Volume / 1 Tone / 5-way blade', 'CTS 500 kΩ D-curve pots; 0.022 µF tone capacitor'],
-      ['coil_switch', 'guitar_blade_selection', '5-way blade selection', 'part of the fixed GRAM control package'],
+      ['coil_switch', 'guitar_blade_selection', '5-way blade selection', 'uses the existing GRAM blade-switch opening'],
       ['factory_setup', 'guitar_setup_reference', 'standard guitar setup', 'tuning and string gauge to be confirmed']
     ].forEach(function (entry) { addGuitarOption.apply(null, [data].concat(entry)); });
+
+    [
+      ['neck', 'guitar_neck_1pc', '1-piece maple guitar neck', 'retains the existing neck outline, 43 mm nut width and heel'],
+      ['neck', 'guitar_neck_3pc', '3-piece maple guitar neck', 'retains the existing neck outline, 43 mm nut width and heel'],
+      ['neck', 'guitar_neck_custom', 'Custom laminated guitar neck', 'specify materials within the existing neck outline and heel'],
+      ['neck_profile', 'guitar_profile_custom', 'Custom guitar neck profile', 'retain the 43 mm nut width and existing heel; describe the desired feel'],
+      ['radius', 'guitar_radius_compound', 'Compound radius', 'specify preferred radii within the existing fretboard outline'],
+      ['radius', 'guitar_radius_custom', 'Custom radius', 'specify the preferred fretboard radius'],
+      ['nut_material', 'guitar_brass_nut', 'Brass nut', '43 mm nut position; no zero fret'],
+      ['nut_material', 'guitar_graphite_nut', 'Graphite nut', '43 mm nut position; no zero fret'],
+      ['nut_material', 'guitar_custom_nut', 'Custom nut material', 'retain the existing nut position and width; no zero fret'],
+      ['body_construction', 'guitar_body_1pc', '1-piece solid body', 'retain the existing outline, cavities and final body thickness'],
+      ['body_construction', 'guitar_body_3pc', '3-piece solid body', 'retain the existing outline, cavities and final body thickness'],
+      ['body_construction', 'guitar_body_chambered', 'Chambered body', 'planned internal chamber layout'],
+      ['body_wood_single', 'guitar_body_maple', 'Maple', 'solid body within the existing outline'],
+      ['body_wood_single', 'guitar_body_alder', 'Alder', 'solid body within the existing outline'],
+      ['body_wood_single', 'guitar_body_limba', 'Limba', 'solid body within the existing outline'],
+      ['body_wood_single', 'guitar_body_custom', 'Other body wood', 'specify the wood; subject to availability and suitability'],
+      ['hardware_machine_head', 'guitar_tuner_custom', 'Alternative guitar tuners', '6-in-line; specify the model and confirm shaft, bushing, fixing points and clearance within the existing headstock layout'],
+      ['pickups', 'guitar_hh_passive_custom', 'Custom passive HH set', 'specify neck and bridge pickup models for the existing HH routes; confirm housings, mounting ears, depth and wiring'],
+      ['electronics', 'guitar_passive', 'Passive guitar electronics', '1 Volume / 1 Tone / 5-way blade; no battery'],
+      ['control_layout', 'guitar_custom_wiring', 'Custom guitar wiring', 'choose functions and pots within the existing two pot holes, blade opening and cavity']
+    ].forEach(function (entry) { addGuitarOption(data, entry[0], entry[1], entry[2], entry[3], false); });
 
     shareGuitarOptions(data, 'orientation', ['right_hand'], 'right_hand');
     shareGuitarOptions(data, 'string_spacing', ['spacing_std'], 'spacing_std');
@@ -180,8 +295,8 @@
     shareGuitarOptions(data, 'knob', null, 'knob_metal');
     shareGuitarOptions(data, 'hardware_color', null, 'hw_gold');
     shareGuitarOptions(data, 'color_headstock', ['head_match', 'head_plate'], 'head_match');
-    shareGuitarOptions(data, 'color_top', ['top_oil', 'top_stain', 'top_tint', 'top_open', 'top_gloss'], 'guitar_inferno_red');
-    shareGuitarOptions(data, 'color_back_side', ['back_oil', 'back_stain', 'back_tint', 'back_open', 'back_gloss'], 'guitar_inferno_red');
+    shareGuitarOptions(data, 'color_top', ['top_oil', 'top_stain', 'top_tint', 'top_open', 'top_gloss'], 'top_gloss');
+    shareGuitarOptions(data, 'color_back_side', ['back_oil', 'back_stain', 'back_tint', 'back_open', 'back_gloss'], 'back_gloss');
     shareGuitarOptions(data, 'extra_finish_burst', null, 'burst_none');
     shareGuitarOptions(data, 'extra_finish_flake', null, 'flake_none');
     shareGuitarOptions(data, 'top_type', ['veneer', 'cap'], 'guitar_top_none');
@@ -197,19 +312,22 @@
       var present = tops.options.find(function (candidate) { return candidate.id === id; });
       if (present) Object.assign(present, copy); else tops.options.push(copy);
     });
-    extendDependency(data, 'body_wood_single', 'body_construction', 'guitar_body_2pc');
+    ['guitar_body_1pc', 'guitar_body_2pc', 'guitar_body_3pc', 'guitar_body_chambered'].forEach(function (id) {
+      extendDependency(data, 'body_wood_single', 'body_construction', id);
+    });
     extendDependency(data, 'fret_material', 'fret_type', 'guitar_fret_24');
     extendDependency(data, 'fret_size', 'fret_type', 'guitar_fret_24');
 
-    Object.keys(cores).forEach(function (modelId) {
-      Object.keys(cores[modelId]).forEach(function (categoryId) {
-        setStandard(data, categoryId, cores[modelId][categoryId], modelId);
+    Object.keys(modelDefaults).forEach(function (modelId) {
+      Object.keys(modelDefaults[modelId]).forEach(function (categoryId) {
+        setStandard(data, categoryId, modelDefaults[modelId][categoryId], modelId);
       });
     });
     return data;
   }
 
   function fixed(modelId) { return Object.assign({}, cores[modelId] || {}); }
+  function defaults(modelId) { return Object.assign({}, modelDefaults[modelId] || {}); }
   function supported(modelId, group, entry) {
     if (!entry || !group) return false;
     if (entry.availableFor && entry.availableFor.indexOf(modelId) < 0) return false;
@@ -222,8 +340,7 @@
     var entry = option(activeData, categoryId, optionId);
     if (!supported(modelId, group, entry)) return false;
     if (categoryId === 'scale' && optionId === 'short') return false;
-    if (categoryId === 'neck_profile' && optionId === 'profile_custom') return false;
-    if (categoryId === 'neck' && optionId === 'extra') return false;
+    if (isDeferred(modelId, categoryId, optionId)) return false;
     var core = cores[modelId];
     if (Object.prototype.hasOwnProperty.call(core, categoryId)) return core[categoryId] === optionId;
     if (group.dependsOn) {
@@ -234,6 +351,12 @@
     }
     return true;
   }
+  function isDeferred(modelId, categoryId, optionId) {
+    if (categoryId === 'body_construction' && /chambered/.test(optionId)) return true;
+    if (categoryId === 'pickups' && pickupOptions[modelId]) return pickupOptions[modelId].indexOf(optionId) < 0;
+    if (modelId === 'ASKR' && categoryId === 'hardware_bridge') return ['payson', 'nova_parts'].indexOf(optionId) < 0;
+    return false;
+  }
   function upcoming(modelId, data) {
     data = data || activeData;
     if (!data || !cores[modelId]) return [];
@@ -243,21 +366,28 @@
       var options = group.options.filter(function (entry) {
         if (!supported(modelId, group, entry)) return false;
         if (group.id === 'scale' && (entry.id === 'short' || /short[- ]?scale/i.test(entry.label))) return false;
-        return (locked && entry.id !== core[group.id]) || (group.id === 'neck_profile' && entry.id === 'profile_custom');
+        return (locked && entry.id !== core[group.id]) || isDeferred(modelId, group.id, entry.id);
       }).map(function (entry) { return { id: entry.id, label: entry.label }; });
       return { categoryId: group.id, title: group.title, options: options };
     }).filter(function (group) { return group.options.length; });
-    if (modelId === 'GRAM') groups.push({
-      categoryId: 'guitar_future_packages', title: 'Additional packages',
+    groups.push({
+      categoryId: 'control_geometry', title: 'New control layouts',
       options: [
-        { id: 'guitar_future_hardware', label: 'Additional hardware packages' },
-        { id: 'guitar_future_pickups', label: 'Additional pickup packages' },
-        { id: 'guitar_future_electronics', label: 'Additional electronics packages' }
+        { id: 'new_control_layout', label: 'New control positions or additional holes' },
+        { id: 'new_electronics_cavity', label: 'Additional or reshaped electronics cavities' }
+      ]
+    });
+    if (modelId === 'GRAM') groups.push({
+      categoryId: 'guitar_future_geometry', title: 'Additional guitar formats',
+      options: [
+        { id: 'guitar_future_strings', label: 'Additional guitar string counts' },
+        { id: 'guitar_future_scales', label: 'Additional guitar scale lengths' },
+        { id: 'guitar_future_routes', label: 'Alternative bridge and pickup layouts' }
       ]
     });
     return groups;
   }
   function summary(modelId) { return Object.assign({}, summaries[modelId] || {}); }
 
-  return { apply: apply, fixed: fixed, isInitialOption: isInitialOption, upcoming: upcoming, summary: summary };
+  return { apply: apply, fixed: fixed, defaults: defaults, isInitialOption: isInitialOption, upcoming: upcoming, summary: summary };
 }));
