@@ -1,6 +1,6 @@
 window.RF_CONFIG_I18N = {
   en: {
-    optionLabels: { guitar_indian_rosewood: "Rosewood" },
+    optionLabels: { guitar_indian_rosewood: "rosewood" },
     title: "RavenForge Instrument Configurator",
     subtitle: "Choose your model and finish",
     steps: ["Model & Core", "Neck & Fretboard", "Body & Finish", "Hardware", "Electronics & Notes"],
@@ -26,7 +26,6 @@ window.RF_CONFIG_I18N = {
     total: "Estimated total (excl. VAT)",
     partialPrice: "Priced items subtotal (excl. VAT)",
     requestNote: "Pricing for on-request items will be confirmed separately.",
-    gramPriceNote: "GRAM pricing has not been set. This specification is not a priced offer.",
     savePDF: "Save specification PDF",
     generatingPDF: "Creating PDF…",
     pdfError: "The PDF could not be created. Please try again.",
@@ -120,7 +119,7 @@ window.RF_CONFIG_I18N = {
     }
   },
   ko: {
-    optionLabels: { guitar_indian_rosewood: "로즈우드" },
+    optionLabels: { guitar_indian_rosewood: "rosewood" },
     title: "RavenForge 악기 컨피규레이터",
     subtitle: "모델과 마감을 선택하세요",
     steps: ["모델·기본 사양", "넥·지판", "바디·마감", "하드웨어", "전자회로·요청 사항"],
@@ -146,7 +145,6 @@ window.RF_CONFIG_I18N = {
     total: "예상 합계 (VAT 별도)",
     partialPrice: "가격 표시 항목 소계 (VAT 별도)",
     requestNote: "별도 견적 항목의 가격은 개별 확인 후 확정합니다.",
-    gramPriceNote: "GRAM의 가격은 아직 정해지지 않았습니다. 이 사양서는 금액이 확정된 견적서가 아닙니다.",
     savePDF: "사양서 PDF 저장",
     generatingPDF: "PDF 생성 중…",
     pdfError: "PDF를 생성하지 못했습니다. 다시 시도해 주세요.",
@@ -240,7 +238,7 @@ window.RF_CONFIG_I18N = {
     }
   },
   de: {
-    optionLabels: { guitar_indian_rosewood: "Palisander" },
+    optionLabels: { guitar_indian_rosewood: "rosewood" },
     title: "RavenForge Instrumentenkonfigurator",
     subtitle: "Modell und Finish auswählen",
     steps: ["Modell & Grunddaten", "Hals & Griffbrett", "Korpus & Finish", "Hardware", "Elektronik & Wünsche"],
@@ -266,7 +264,6 @@ window.RF_CONFIG_I18N = {
     total: "Geschätzter Gesamtpreis (zzgl. MwSt.)",
     partialPrice: "Zwischensumme mit Preisangabe (zzgl. MwSt.)",
     requestNote: "Preise für Positionen auf Anfrage werden gesondert bestätigt.",
-    gramPriceNote: "Der Preis für GRAM steht noch nicht fest. Diese Spezifikation ist kein Angebot mit Preisangabe.",
     savePDF: "Spezifikation als PDF speichern",
     generatingPDF: "PDF wird erstellt…",
     pdfError: "Die PDF konnte nicht erstellt werden. Bitte versuchen Sie es erneut.",

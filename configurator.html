@@ -60,8 +60,8 @@
 <!-- RF:SEO END -->
 </head>
 <body>
-  <script src="./assets/configurator-platforms.js?v=20261008-4"></script>
-  <script src="./assets/configurator-ui.js?v=20261008-4"></script>
+  <script src="./assets/configurator-platforms.js?v=20261008-5"></script>
+  <script src="./assets/configurator-ui.js?v=20261008-5"></script>
   <!-- Root element for React App -->
   <div id="root"></div>
 
@@ -1607,7 +1607,7 @@ const handleOptionChange = (categoryId, optionId) => {
                               </div>
                             </div>
                             <div className="shrink-0 text-slate-900 font-medium text-right text-xs">
-                              {item.price === 0 || (item.isStandard && item.price === 'request' && selectedModel === 'GRAM') ? <span className="text-slate-300">-</span> :
+                              {item.price === 0 ? <span className="text-slate-300">-</span> :
                                item.price === 'request' ? <span className="text-yellow-600 font-bold">Req</span> : 
                                item.price < 0 ? `-€${Math.abs(item.price)}` : `€${item.price}`}
                             </div>
@@ -1628,7 +1628,7 @@ const handleOptionChange = (categoryId, optionId) => {
 
                     <div data-summary-total className="pt-4 border-t-2 border-slate-200">
                       <div className="flex justify-between items-end gap-4 mb-2">
-                        <span className="text-slate-500 font-bold uppercase text-xs">{summary.requiresRequest && selectedModel !== 'GRAM' ? ui.partialPrice : ui.total}</span>
+                        <span className="text-slate-500 font-bold uppercase text-xs">{summary.requiresRequest ? ui.partialPrice : ui.total}</span>
                         <span className={"font-black text-slate-900 " + (typeof summary.totalPrice === 'number' ? 'text-3xl' : 'text-lg')}>
                           {typeof summary.totalPrice === 'number' ? '€' + summary.totalPrice : ui.requestPrice}
                         </span>
@@ -1637,7 +1637,7 @@ const handleOptionChange = (categoryId, optionId) => {
                       {summary.requiresRequest && (
                         <div className="flex items-start mt-4 p-3 bg-yellow-50 rounded-lg text-yellow-800 text-[12px] leading-relaxed border border-yellow-200">
                           <div className="mr-2 mt-0.5 shrink-0"><InfoIcon /></div>
-                          <p>{selectedModel === 'GRAM' ? ui.gramPriceNote : ui.requestNote}</p>
+                          <p>{ui.requestNote}</p>
                         </div>
                       )}
                       <p data-pricing-footnote className="text-[11px] text-slate-500 mt-4 leading-relaxed">
