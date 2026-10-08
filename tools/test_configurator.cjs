@@ -336,11 +336,11 @@ async function run() {
       assert.equal(await option('radius', 'rad_compound').isChecked(), true);
       await step(5);
       await selectOption('control_layout', 'control_custom');
-      assert.equal(await option('coil_switch', 'coil_1_pcts').count(), 0);
-      assert.equal(await option('coil_switch', 'coil_2_pcts').count(), 0);
-      await selectOption('coil_switch', 'coil_2_ps');
+      assert.equal(await page.locator('[data-category="coil_switch"]').count(), 0);
+      assert.equal(await page.locator('input[name="coil_switch"]').count(), 0);
+      assert.equal(await page.locator('[data-planned-option^="coil_"]').count(), 0);
       await summaryValue(/^(Control Layout|Controls & Wiring)/i, /custom/i);
-      await summaryValue(/^Select Coil Switch/i, /2.*parallel-series/i);
+      assert.equal(await summaryRows(/^Select Coil Switch/i).count(), 0);
       await quotedAmount();
     });
 
