@@ -74,3 +74,97 @@ Use one of the existing site category IDs:
 - Website Research loader: GitHub JSON only
 - Google Sheet runtime dependency: removed
 - Google Docs runtime dependency: removed
+
+## Generic DOCX publishing (create-only)
+
+`tools/research_docx.py` converts three authoritative DOCX manuscripts into the
+existing archive schema. Python 3.10+ and the standard library are sufficient.
+It reuses B03's source-text normalization, formatting-property helpers, block
+verifier and responsive CSS. B03's fixed title positions/counts and A06's
+hash-checked, preassembled HTML remain independent; neither article is changed.
+
+Prepare a private input folder **outside this checkout**:
+
+```text
+private-study/
+├── manifest.json
+├── ko.docx
+├── en.docx
+└── de.docx
+```
+
+Copy `tools/research-docx-manifest.example.json` as `manifest.json`. Set the new
+ID/research code, date, category and each language's editorial title/excerpt
+once. DOCX filenames are relative to the manifest, so the same command works
+for every study. These titles/excerpts describe archive cards; the manuscript's
+own title, subtitle and complete body remain intact. Optional `sourceLink`
+records provenance. The tool does not generate or verify the semantic accuracy
+of translations: three distinct, nonempty manuscripts are required.
+
+From the checkout root:
+
+```bash
+# Private dry-run; the output directory must be NEW and outside the checkout.
+python tools/research_docx.py ../private-study/manifest.json --output ../private-study/preview
+
+# Include live HTTP checks when the manuscript contains remote references.
+python tools/research_docx.py ../private-study/manifest.json --output ../private-study/preview-checked --check-external
+
+# Inspect the three pages and validation-report.json before preparing publication.
+# Create NEW research/<id>/ files. This is blocked for any existing/legacy identity.
+python tools/research_docx.py ../private-study/manifest.json --publish --check-external
+```
+
+Commit only the generated new article directory on a feature branch, review the
+PR, and merge it through the existing process. The current site workflow then
+rebuilds `research/research-index.json`. Neither dry-run nor `--publish` updates
+the index or pushes/deploys anything. No DOCX inputs or private dry-run files
+need to enter the public repository. The page CSS travels with the new article.
+
+### Preservation and validation
+
+- Every top-level paragraph/table is compared with parsed HTML for text and
+  order, including bibliography paragraphs and table cell content.
+- Heading styles/outline levels, bold/italic/subscript/superscript, paragraph
+  breaks, bookmarks, hyperlinks and literal HTTP URLs are preserved.
+- Tables preserve cell/row order, horizontal merges, nested tables and explicit
+  header rows. Embedded PNG/JPEG/GIF bytes are copied without recompression;
+  each occurrence and SHA-256 is recorded in the private report. Existing alt
+  text is retained; standalone figures use the following caption as fallback.
+- Each page has a localized archive title/description, canonical URL, reciprocal
+  KO/EN/DE navigation and hreflang links. `meta.json` is generated automatically.
+- All local page, image, stylesheet and fragment links must resolve against the
+  staged article plus the existing checkout. Remote links are `UNCHECKED` unless
+  requested; HTTP 404/410 is `BROKEN`, and access/rate/network failures are
+  `UNVERIFIED`. Any non-PASS remote result blocks `--publish`; it is not silently
+  accepted as a valid link. HTTP checks cannot validate remote page fragments.
+- Missing language metadata/files, identical DOCX translations, wrong manuscript
+  research codes, unsafe paths/URL schemes and duplicate JSON keys are rejected.
+- IDs are case-insensitive. Legacy entries are additionally identified from their
+  opening research-code/title paragraphs, not references to other studies.
+  Thus A04 already mapped to `legacy-2026-09-10-sound` can be dry-run tested but
+  cannot be republished under a new `A04` ID. Existing index IDs are also reserved.
+- An exclusive publication lock plus exclusive folder creation prevents duplicate
+  writers. Metadata is exposed last, after all pages/assets are ready; failed
+  copies remove only the new folder. Existing/empty folders and prior previews
+  are never overwritten. The metadata index generator validates every entry and
+  replaces the index atomically only after all entries pass.
+
+Unsupported features **stop conversion** rather than disappearing: vertical
+cell merges, nested/overridden or non-decimal list numbering, fields, footnotes/
+endnotes, tracked changes, content controls, embedded objects, native equations,
+VML/vector/linked images and comments. Resolve these in the manuscript or add a
+reviewed converter before publishing. Standard top-level decimal/bullet lists
+are supported; original page geometry, headers/footers and Word-specific visual
+styles are outside the web body conversion contract. Rendered HTML needs visual
+review, especially for large tables and figures.
+
+Run the public, synthetic regression suite:
+
+```bash
+python -m unittest discover -s tools -p test_research_docx.py -v
+```
+
+The read-only `research-docx-contract.yml` workflow runs these contracts on
+Linux/Windows/macOS. It never downloads private Drive manuscripts, publishes
+previews, or uploads their output as CI artifacts.

@@ -1,0 +1,21 @@
+{
+  "id": "A09",
+  "researchCode": "A09",
+  "date": "2026-10-08",
+  "category": "sound",
+  "ko": {
+    "docx": "ko.docx",
+    "title": "한국어 연구 제목",
+    "excerpt": "한국어 연구 요약"
+  },
+  "en": {
+    "docx": "en.docx",
+    "title": "English research title",
+    "excerpt": "English research summary"
+  },
+  "de": {
+    "docx": "de.docx",
+    "title": "Deutscher Forschungstitel",
+    "excerpt": "Deutsche Zusammenfassung"
+  }
+}

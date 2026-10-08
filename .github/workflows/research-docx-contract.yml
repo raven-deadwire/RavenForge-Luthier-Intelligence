@@ -1,0 +1,38 @@
+name: Research DOCX publication contract
+on:
+  pull_request:
+    paths:
+      - 'tools/research_docx.py'
+      - 'tools/test_research_docx.py'
+      - 'tools/build_research_index.py'
+      - 'tools/build_b03_from_docx.py'
+      - 'research/README.md'
+      - '.github/workflows/research-docx-contract.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/research_docx.py'
+      - 'tools/test_research_docx.py'
+      - 'tools/build_research_index.py'
+      - 'tools/build_b03_from_docx.py'
+      - '.github/workflows/research-docx-contract.yml'
+permissions:
+  contents: read
+jobs:
+  contract:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Conversion and create-only negative contracts
+        run: python -m unittest discover -s tools -p test_research_docx.py -v
+      - name: Existing index schema and legacy identity compatibility
+        run: python tools/build_research_index.py
+      - name: Assert no published research content changed
+        run: git diff --exit-code -- research
