@@ -24,7 +24,7 @@
   var modelDefaults = {
     EDDA: Object.assign({}, bassDefaults, {
       strings: '4_strings', scale: '34', neck: '1pc',
-      pickups: 'nova_mm', electronics: 'passive'
+      pickups: 'nova_mm', electronics: 'passive', coil_switch: 'coil_none'
     }),
     EMBLA: Object.assign({}, bassDefaults, {
       strings: '5_strings', scale: '34', neck: '5pc',
@@ -385,6 +385,7 @@
   function defaults(modelId) { return Object.assign({}, modelDefaults[modelId] || {}); }
   function supported(modelId, group, entry) {
     if (!entry || !group) return false;
+    if (modelId === 'EDDA' && group.id === 'coil_switch') return false;
     if (entry.availableFor && entry.availableFor.indexOf(modelId) < 0) return false;
     if (group.id === 'top_wood_selection') return !!entry.availableFor && entry.availableFor.indexOf(modelId) >= 0;
     return !!entry.prices && entry.prices[modelId] !== undefined && entry.prices[modelId] !== null;
