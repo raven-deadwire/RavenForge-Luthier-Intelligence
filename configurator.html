@@ -60,8 +60,8 @@
 <!-- RF:SEO END -->
 </head>
 <body>
-  <script src="./assets/configurator-platforms.js?v=20261008-gigbag-labels"></script>
-  <script src="./assets/configurator-ui.js?v=20261008-gigbag-labels"></script>
+  <script src="./assets/configurator-platforms.js?v=20261008-model-options"></script>
+  <script src="./assets/configurator-ui.js?v=20261008-model-options"></script>
   <!-- Root element for React App -->
   <div id="root"></div>
 
@@ -594,9 +594,9 @@
           title: 'Select Coil Switch',
           options: [
             { id: 'coil_1_ps', label: '1 × parallel-series', spec: 'operates both front/rear pickups with one switch', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'coil_1_pcts', label: '1 × parallel-coil tap-series', spec: 'operates both front/rear pickups with one switch', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
+            { id: 'coil_1_pcts', label: '1 × parallel-coil tap-series', spec: 'operates both front/rear pickups with one switch', prices: { EDDA: null, EMBLA: 0, ASKR: 0 } },
             { id: 'coil_2_ps', label: '2 × parallel-series', spec: 'assigned individually per pickup', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
-            { id: 'coil_2_pcts', label: '2 × parallel-coil tap-series', spec: 'assigned individually per pickup', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } },
+            { id: 'coil_2_pcts', label: '2 × parallel-coil tap-series', spec: 'assigned individually per pickup', prices: { EDDA: null, EMBLA: 0, ASKR: 0 } },
             { id: 'coil_none', label: 'none', spec: 'connected in series by default', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
           ]
         },
@@ -1244,7 +1244,6 @@ const handleOptionChange = (categoryId, optionId) => {
                             <div className="text-lg font-semibold text-slate-800">
                               {typeof model.basePrice === 'number' ? '€' + (model.startingPrice ?? model.basePrice) : ui.requestPrice}
                             </div>
-                            <p data-gigbag-included className="mt-1 text-sm text-slate-500">{ui.gigbagIncluded}</p>
                           </button>
                         ))}
                       </div>
