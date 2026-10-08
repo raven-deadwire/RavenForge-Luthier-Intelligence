@@ -1133,12 +1133,12 @@ const handleOptionChange = (categoryId, optionId) => {
         actionsArea.remove();
         uiHeader.remove();
         pdfHeader.style.display = 'flex';
-        pdfHeader.style.padding = '16px';
-        scrollArea.classList.remove('max-h-[calc(100vh-420px)]', 'min-h-[300px]', 'overflow-y-auto', 'custom-scrollbar', 'pr-2');
+        pdfHeader.style.padding = '12px';
+        scrollArea.classList.remove('mb-6', 'max-h-[calc(100vh-420px)]', 'min-h-[300px]', 'overflow-y-auto', 'custom-scrollbar', 'pr-2');
         Object.assign(scrollArea.style, { maxHeight: 'none', minHeight: '0', overflow: 'visible', paddingRight: '0' });
-        scrollArea.parentElement.style.padding = '16px';
+        scrollArea.parentElement.style.padding = '12px';
         listContainer.classList.remove('space-y-3');
-        Object.assign(listContainer.style, { display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px', rowGap: '4px' });
+        Object.assign(listContainer.style, { display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px', rowGap: '2px' });
         Array.from(listContainer.children).forEach(row => {
           row.classList.add('rf-pdf-row');
           row.style.breakInside = 'avoid';
@@ -1151,6 +1151,14 @@ const handleOptionChange = (categoryId, optionId) => {
         // The detached snapshot must not duplicate application element IDs.
         snapshot.removeAttribute('id');
         snapshot.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
+        // Materialize CSS uppercase in the export copy. html2canvas 1.x uses
+        // transformed text offsets against the original node; German ß -> SS
+        // otherwise exceeds the Range length (for example, Bundgröße).
+        snapshot.querySelectorAll('.uppercase').forEach(element => {
+          const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+          while (walker.nextNode()) walker.currentNode.data = walker.currentNode.data.toUpperCase();
+          element.style.textTransform = 'none';
+        });
         const opt = {
           margin: 10,
           filename: 'RavenForge_' + exportModel + '_Specification.pdf',

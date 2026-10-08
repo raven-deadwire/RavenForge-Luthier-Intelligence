@@ -1,0 +1,736 @@
+{
+  "date": "2026-10-08",
+  "base_commit": "cebf8b2c3244f996c20a6bd296def08254b0a18c",
+  "public_url": "https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/configurator.html",
+  "deployed": false,
+  "findings": [
+    "German CSS uppercase Unicode expansion breaks html2canvas Range offsets",
+    "Nearly blank trailing PDF page from export-copy spacing"
+  ],
+  "source_sha256": {
+    "configurator.html": "b56708c0a3fb674377d78fa11a7a0fe241dbc1e00e4733801dd6540e7b98ef6f",
+    "tools/test_configurator.cjs": "31de77c685f1c8dbd4f2cebb903fe2972e8e62e4a5db4709a0c0ca61225c5594",
+    "tools/test_configurator_contracts.cjs": "9cddc21e8ea1b2d3e53a237b2b5664f07c27648db2608f00e8f14a3a6654b728",
+    "tools/test_configurator_pdf_visual.py": "4fe47a5ca5722b1a431479c9c3981684d9e2dbe78ec0787e4750726004fbe09f"
+  },
+  "runs": {
+    "public_ui": {
+      "started": "2026-10-08T07:42:49.980Z",
+      "finished": "2026-10-08T07:44:37.915Z",
+      "result": "PASS",
+      "browser": "131.0.6778.204",
+      "url": "https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/configurator.html",
+      "ignoreHTTPSErrors": true,
+      "checks": [
+        {
+          "name": "bootstrap with actual page dependencies",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/desktop/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/desktop/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/desktop/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/desktop/GRAMR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/desktop/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/desktop/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/desktop/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/desktop/GRAMR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/desktop/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/desktop/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/desktop/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/desktop/GRAMR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/mobile/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/mobile/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/mobile/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/mobile/GRAMR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/mobile/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/mobile/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/mobile/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/mobile/GRAMR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/mobile/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/mobile/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/mobile/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/mobile/GRAMR",
+          "result": "PASS"
+        }
+      ],
+      "pdfs": []
+    },
+    "patched_ui": {
+      "started": "2026-10-08T07:45:46.210Z",
+      "finished": "2026-10-08T07:48:11.788Z",
+      "result": "PASS",
+      "browser": "131.0.6778.204",
+      "url": "http://127.0.0.1:34207/configurator.html",
+      "ignoreHTTPSErrors": true,
+      "checks": [
+        {
+          "name": "bootstrap with actual page dependencies",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/desktop/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/desktop/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/desktop/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/desktop/GRAMR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/desktop/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/desktop/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/desktop/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/desktop/GRAMR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/desktop/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/desktop/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/desktop/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/desktop/GRAMR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/mobile/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/mobile/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/mobile/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/mobile/GRAMR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/mobile/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/mobile/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/mobile/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/mobile/GRAMR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/mobile/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/mobile/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/mobile/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/mobile/GRAMR",
+          "result": "PASS"
+        }
+      ],
+      "pdfs": []
+    },
+    "patched_pdf_matrix": {
+      "started": "2026-10-08T07:47:34.568Z",
+      "finished": "2026-10-08T07:52:28.722Z",
+      "result": "PASS",
+      "browser": "131.0.6778.204",
+      "url": "http://127.0.0.1:34887/configurator.html",
+      "ignoreHTTPSErrors": true,
+      "checks": [
+        {
+          "name": "bootstrap with actual page dependencies",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/desktop/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/desktop/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/desktop/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/desktop/GRAMR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/desktop/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/desktop/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/desktop/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/desktop/GRAMR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/desktop/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/desktop/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/desktop/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/desktop/GRAMR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/mobile/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/mobile/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/mobile/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: ko/mobile/GRAMR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/mobile/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/mobile/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/mobile/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: en/mobile/GRAMR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/mobile/EDDA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/mobile/EMBLA",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/mobile/ASKR",
+          "result": "PASS"
+        },
+        {
+          "name": "Matrix: de/mobile/GRAMR",
+          "result": "PASS"
+        }
+      ],
+      "pdfs": [
+        {
+          "filename": "ko-desktop-EDDA.pdf",
+          "bytes": 345472,
+          "rows": 39
+        },
+        {
+          "filename": "ko-desktop-EMBLA.pdf",
+          "bytes": 352478,
+          "rows": 40
+        },
+        {
+          "filename": "ko-desktop-ASKR.pdf",
+          "bytes": 412518,
+          "rows": 39
+        },
+        {
+          "filename": "ko-desktop-GRAMR.pdf",
+          "bytes": 397091,
+          "rows": 39
+        },
+        {
+          "filename": "en-desktop-EDDA.pdf",
+          "bytes": 409669,
+          "rows": 39
+        },
+        {
+          "filename": "en-desktop-EMBLA.pdf",
+          "bytes": 417459,
+          "rows": 40
+        },
+        {
+          "filename": "en-desktop-ASKR.pdf",
+          "bytes": 497255,
+          "rows": 39
+        },
+        {
+          "filename": "en-desktop-GRAMR.pdf",
+          "bytes": 464198,
+          "rows": 39
+        },
+        {
+          "filename": "de-desktop-EDDA.pdf",
+          "bytes": 442714,
+          "rows": 39
+        },
+        {
+          "filename": "de-desktop-EMBLA.pdf",
+          "bytes": 450931,
+          "rows": 40
+        },
+        {
+          "filename": "de-desktop-ASKR.pdf",
+          "bytes": 531352,
+          "rows": 39
+        },
+        {
+          "filename": "de-desktop-GRAMR.pdf",
+          "bytes": 503084,
+          "rows": 39
+        },
+        {
+          "filename": "ko-mobile-EDDA.pdf",
+          "bytes": 344892,
+          "rows": 39
+        },
+        {
+          "filename": "ko-mobile-EMBLA.pdf",
+          "bytes": 352007,
+          "rows": 40
+        },
+        {
+          "filename": "ko-mobile-ASKR.pdf",
+          "bytes": 411995,
+          "rows": 39
+        },
+        {
+          "filename": "ko-mobile-GRAMR.pdf",
+          "bytes": 396742,
+          "rows": 39
+        },
+        {
+          "filename": "en-mobile-EDDA.pdf",
+          "bytes": 409559,
+          "rows": 39
+        },
+        {
+          "filename": "en-mobile-EMBLA.pdf",
+          "bytes": 417037,
+          "rows": 40
+        },
+        {
+          "filename": "en-mobile-ASKR.pdf",
+          "bytes": 496881,
+          "rows": 39
+        },
+        {
+          "filename": "en-mobile-GRAMR.pdf",
+          "bytes": 464125,
+          "rows": 39
+        },
+        {
+          "filename": "de-mobile-EDDA.pdf",
+          "bytes": 442465,
+          "rows": 39
+        },
+        {
+          "filename": "de-mobile-EMBLA.pdf",
+          "bytes": 450485,
+          "rows": 40
+        },
+        {
+          "filename": "de-mobile-ASKR.pdf",
+          "bytes": 530783,
+          "rows": 39
+        },
+        {
+          "filename": "de-mobile-GRAMR.pdf",
+          "bytes": 502651,
+          "rows": 39
+        }
+      ]
+    },
+    "patched_legacy": {
+      "started": "2026-10-08T07:50:51.136Z",
+      "finished": "2026-10-08T07:52:31.754Z",
+      "result": "PASS",
+      "browser": "131.0.6778.204",
+      "url": "http://127.0.0.1:38301/configurator.html",
+      "ignoreHTTPSErrors": true,
+      "checks": [
+        {
+          "name": "bootstrap with actual page dependencies",
+          "result": "PASS"
+        },
+        {
+          "name": "EDDA: fixed core and read-only future options",
+          "result": "PASS"
+        },
+        {
+          "name": "EMBLA: fixed core and read-only future options",
+          "result": "PASS"
+        },
+        {
+          "name": "ASKR: fixed core and read-only future options",
+          "result": "PASS"
+        },
+        {
+          "name": "GRAMR: fixed core and read-only future options",
+          "result": "PASS"
+        },
+        {
+          "name": "All models: included gigbag and premium replacement keep one case and no duplicate charge",
+          "result": "PASS"
+        },
+        {
+          "name": "EDDA: neck customization and fretless dependencies remain available",
+          "result": "PASS"
+        },
+        {
+          "name": "EMBLA: solid-body wood, tuner and EQ choices update independently",
+          "result": "PASS"
+        },
+        {
+          "name": "ASKR: electronics synchronization, EMG selection, power and prices",
+          "result": "PASS"
+        },
+        {
+          "name": "ASKR: Payson and Nova Parts pricing stays explicit",
+          "result": "PASS"
+        },
+        {
+          "name": "ASKR: Nova PDF includes its discount, fit specification and black bridge note",
+          "result": "PASS"
+        },
+        {
+          "name": "GRAMR: shared option prices and top changes update the total once",
+          "result": "PASS"
+        },
+        {
+          "name": "GRAMR: passive HH, neck and material customization survives same-model selection",
+          "result": "PASS"
+        },
+        {
+          "name": "Model switching: bass configuration does not leak into Gramr",
+          "result": "PASS"
+        },
+        {
+          "name": "Available appearance choices update the summary",
+          "result": "PASS"
+        },
+        {
+          "name": "Language changes preserve the configured instrument",
+          "result": "PASS"
+        },
+        {
+          "name": "Actual Gramr PDF exports the premium gigbag and its net upgrade price",
+          "result": "PASS"
+        },
+        {
+          "name": "PDF export keeps its original model when selection changes during generation",
+          "result": "PASS"
+        },
+        {
+          "name": "Mobile layout retains accessible model selection",
+          "result": "PASS"
+        }
+      ],
+      "pdfs": []
+    },
+    "actual_pdf_visual": {
+      "result": "PASS",
+      "pdfs": [
+        {
+          "filename": "de-desktop-ASKR.pdf",
+          "pages": 2,
+          "rendered_model": "ASKR",
+          "rendered_total": "3480",
+          "result": "PASS"
+        },
+        {
+          "filename": "de-desktop-EDDA.pdf",
+          "pages": 1,
+          "rendered_model": "EDDA",
+          "rendered_total": "2600",
+          "result": "PASS"
+        },
+        {
+          "filename": "de-desktop-EMBLA.pdf",
+          "pages": 1,
+          "rendered_model": "EMBLA",
+          "rendered_total": "3150",
+          "result": "PASS"
+        },
+        {
+          "filename": "de-desktop-GRAMR.pdf",
+          "pages": 1,
+          "rendered_model": "GRAMR",
+          "rendered_total": "2350",
+          "result": "PASS"
+        },
+        {
+          "filename": "de-mobile-ASKR.pdf",
+          "pages": 2,
+          "rendered_model": "ASKR",
+          "rendered_total": "3480",
+          "result": "PASS"
+        },
+        {
+          "filename": "de-mobile-EDDA.pdf",
+          "pages": 1,
+          "rendered_model": "EDDA",
+          "rendered_total": "2600",
+          "result": "PASS"
+        },
+        {
+          "filename": "de-mobile-EMBLA.pdf",
+          "pages": 1,
+          "rendered_model": "EMBLA",
+          "rendered_total": "3150",
+          "result": "PASS"
+        },
+        {
+          "filename": "de-mobile-GRAMR.pdf",
+          "pages": 1,
+          "rendered_model": "GRAMR",
+          "rendered_total": "2350",
+          "result": "PASS"
+        },
+        {
+          "filename": "en-desktop-ASKR.pdf",
+          "pages": 2,
+          "rendered_model": "ASKR",
+          "rendered_total": "3480",
+          "result": "PASS"
+        },
+        {
+          "filename": "en-desktop-EDDA.pdf",
+          "pages": 1,
+          "rendered_model": "EDDA",
+          "rendered_total": "2600",
+          "result": "PASS"
+        },
+        {
+          "filename": "en-desktop-EMBLA.pdf",
+          "pages": 1,
+          "rendered_model": "EMBLA",
+          "rendered_total": "3150",
+          "result": "PASS"
+        },
+        {
+          "filename": "en-desktop-GRAMR.pdf",
+          "pages": 1,
+          "rendered_model": "GRAMR",
+          "rendered_total": "2350",
+          "result": "PASS"
+        },
+        {
+          "filename": "en-mobile-ASKR.pdf",
+          "pages": 2,
+          "rendered_model": "ASKR",
+          "rendered_total": "3480",
+          "result": "PASS"
+        },
+        {
+          "filename": "en-mobile-EDDA.pdf",
+          "pages": 1,
+          "rendered_model": "EDDA",
+          "rendered_total": "2600",
+          "result": "PASS"
+        },
+        {
+          "filename": "en-mobile-EMBLA.pdf",
+          "pages": 1,
+          "rendered_model": "EMBLA",
+          "rendered_total": "3150",
+          "result": "PASS"
+        },
+        {
+          "filename": "en-mobile-GRAMR.pdf",
+          "pages": 1,
+          "rendered_model": "GRAMR",
+          "rendered_total": "2350",
+          "result": "PASS"
+        },
+        {
+          "filename": "ko-desktop-ASKR.pdf",
+          "pages": 1,
+          "rendered_model": "ASKR",
+          "rendered_total": "3480",
+          "result": "PASS"
+        },
+        {
+          "filename": "ko-desktop-EDDA.pdf",
+          "pages": 1,
+          "rendered_model": "EDDA",
+          "rendered_total": "2600",
+          "result": "PASS"
+        },
+        {
+          "filename": "ko-desktop-EMBLA.pdf",
+          "pages": 1,
+          "rendered_model": "EMBLA",
+          "rendered_total": "3150",
+          "result": "PASS"
+        },
+        {
+          "filename": "ko-desktop-GRAMR.pdf",
+          "pages": 1,
+          "rendered_model": "GRAMR",
+          "rendered_total": "2350",
+          "result": "PASS"
+        },
+        {
+          "filename": "ko-mobile-ASKR.pdf",
+          "pages": 1,
+          "rendered_model": "ASKR",
+          "rendered_total": "3480",
+          "result": "PASS"
+        },
+        {
+          "filename": "ko-mobile-EDDA.pdf",
+          "pages": 1,
+          "rendered_model": "EDDA",
+          "rendered_total": "2600",
+          "result": "PASS"
+        },
+        {
+          "filename": "ko-mobile-EMBLA.pdf",
+          "pages": 1,
+          "rendered_model": "EMBLA",
+          "rendered_total": "3150",
+          "result": "PASS"
+        },
+        {
+          "filename": "ko-mobile-GRAMR.pdf",
+          "pages": 1,
+          "rendered_model": "GRAMR",
+          "rendered_total": "2350",
+          "result": "PASS"
+        }
+      ]
+    },
+    "code_only_contracts": {
+      "result": "PASS",
+      "scope": "production normalization and option/pricing contracts; no browser"
+    }
+  }
+}

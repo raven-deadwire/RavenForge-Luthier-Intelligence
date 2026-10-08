@@ -8,6 +8,8 @@
  *   node tools/test_configurator.cjs --url http://localhost:8000/configurator.html
  *   node tools/test_configurator.cjs --bootstrap
  *   node tools/test_configurator.cjs --pdf-only
+ *   node tools/test_configurator.cjs --matrix
+ *   node tools/test_configurator.cjs --matrix-ui-only --url https://example.test/configurator.html
  *   node tools/test_configurator.cjs --case 'ASKR: electronics'
  *   node tools/test_configurator.cjs --from 'EDDA: neck'
  *
@@ -20,6 +22,10 @@
  * CONFIGURATOR_QA_DIR selects the output directory; the default is a temporary
  * directory outside the repository. Real CDN scripts and real PDF generation
  * are used. No application selections, prices or React state are mocked.
+ * The matrix covers ko/en/de, 1440x1080 and 390x844, and all four models.
+ * Install a Korean-capable system font (for example Noto Sans CJK KR) before
+ * rendering Korean screenshots/PDFs. PDF source comparisons do not prove glyph
+ * rendering; inspect the generated PDF pages separately.
  */
 
 const assert = require('node:assert/strict');
@@ -36,6 +42,8 @@ const arg = (name) => {
 };
 const bootstrapOnly = args.includes('--bootstrap');
 const pdfOnly = args.includes('--pdf-only');
+const matrixUiOnly = args.includes('--matrix-ui-only');
+const matrixOnly = args.includes('--matrix') || matrixUiOnly;
 const caseFilter = arg('--case');
 const fromFilter = arg('--from');
 const root = path.resolve(__dirname, '..');
@@ -89,7 +97,7 @@ async function run() {
   const output = process.env.CONFIGURATOR_QA_DIR || await fs.mkdtemp(path.join(os.tmpdir(), 'ravenforge-configurator-qa-'));
   await fs.mkdir(output, { recursive: true });
   const ignoreHTTPSErrors = process.env.CONFIGURATOR_IGNORE_HTTPS_ERRORS === '1';
-  const report = { started: new Date().toISOString(), bootstrapOnly, pdfOnly, caseFilter, fromFilter, ignoreHTTPSErrors, output, checks: [], pageErrors: [], failedRequests: [], consoleErrors: [] };
+  const report = { started: new Date().toISOString(), bootstrapOnly, pdfOnly, matrixOnly, matrixUiOnly, caseFilter, fromFilter, ignoreHTTPSErrors, output, checks: [], pageErrors: [], failedRequests: [], consoleErrors: [] };
   let server;
   let browser;
   let page;
@@ -129,6 +137,8 @@ async function run() {
     let selectedChecks = 0;
     let reachedFrom = !fromFilter;
     const check = async (name, action, { pdf = false } = {}) => {
+      if (matrixOnly && !name.startsWith('Matrix:')) return;
+      if (!matrixOnly && name.startsWith('Matrix:')) return;
       if (!reachedFrom && name.toLowerCase().includes(fromFilter.toLowerCase())) reachedFrom = true;
       if (!reachedFrom) return;
       if (pdfOnly && !pdf) return;
@@ -184,8 +194,16 @@ async function run() {
     };
     const observePdf = async () => page.evaluate(() => {
       window.__configuratorPdfInputs = [];
+      window.__configuratorPdfErrors = [];
       if (window.__configuratorPdfObserved) return;
       window.__configuratorPdfObserved = true;
+      const originalSave = html2pdf.Worker.prototype.save;
+      html2pdf.Worker.prototype.save = function (...args) {
+        return originalSave.apply(this, args).catch(error => {
+          window.__configuratorPdfErrors.push(error?.stack || String(error));
+          throw error;
+        });
+      };
       const originalFrom = html2pdf.Worker.prototype.from;
       html2pdf.Worker.prototype.from = function (source, ...rest) {
         let text = source?.innerText || '';
@@ -704,6 +722,110 @@ async function run() {
       await page.screenshot({ path: path.join(output, 'gramr-desktop.png'), fullPage: true });
     });
 
+    for (const viewport of [{ name: 'desktop', width: 1440, height: 1080 }, { name: 'mobile', width: 390, height: 844 }]) {
+      for (const language of ['ko', 'en', 'de']) {
+        for (const model of expectedModels) {
+          await check(`Matrix: ${language}/${viewport.name}/${model.id}`, async () => {
+            await page.setViewportSize({ width: viewport.width, height: viewport.height });
+            await page.locator(`button[data-language="${language}"]`).click();
+            assert.equal(await page.locator('html').getAttribute('lang'), language);
+            await freshModel(model.id);
+            assert.equal(await quotedAmount(), model.basePrice, 'Model change resets priced selections');
+            assert.equal(await page.locator('[data-summary-category="case"]').count(), 1);
+            for (let number = 1; number <= 5; number++) {
+              await step(number);
+              const dimensions = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+              assert.ok(dimensions.scrollWidth <= dimensions.width + 1, `${model.id} step ${number} horizontal overflow: ${JSON.stringify(dimensions)}`);
+              if (model.id === 'EDDA') {
+                assert.equal(await page.locator('[data-category="coil_switch"], input[name="coil_switch"], [data-planned-option^="coil_"]').count(), 0);
+                assert.equal(await page.locator('[data-summary-category="coil_switch"]').count(), 0);
+              }
+            }
+            await step(2);
+            if (model.id === 'GRAMR') {
+              assert.deepEqual(await page.locator('input[name="nut_material"]').evaluateAll(inputs => inputs.map(input => input.value)), ['guitar_bone_nut']);
+              await selectOption('nut_material', 'guitar_bone_nut');
+              assert.match(await page.locator('[data-summary-category="nut_material"]').innerText(), /buffalo bone/i);
+            }
+            await step(4);
+            const bridges = await page.locator('input[name="hardware_bridge"]').evaluateAll(inputs => inputs.map(input => input.value));
+            if (model.id === 'EDDA') assert.equal(bridges.length, 4);
+            if (model.id === 'EMBLA') assert.equal(bridges.length, 7);
+            if (model.id !== 'GRAMR') {
+              for (const bridge of bridges) {
+                await selectOption('hardware_bridge', bridge);
+                const label = await option('hardware_bridge', bridge).locator('..').innerText();
+                const row = await page.locator('[data-summary-category="hardware_bridge"]').innerText();
+                assert.ok(row.includes(label.split('\n')[0].split(' + ')[0]), `Selected bridge must appear in summary: ${bridge}`);
+              }
+            }
+            if (model.id === 'ASKR') {
+              assert.match(await page.locator('[data-summary-category="hardware_bridge"]').innerText(), /Nova Parts multiscale bridge/);
+              assert.doesNotMatch(await summary(), /Nova Parts 5-string multiscale bridge/);
+            }
+            await selectOption('hardware_color', 'hw_gold');
+            await step(5);
+            if (model.id === 'EMBLA') {
+              const coils = await page.locator('input[name="coil_switch"]').evaluateAll(inputs => inputs.map(input => input.value));
+              assert.ok(coils.length > 1, 'EMBLA keeps its own coil controls');
+              for (const coil of coils) await selectOption('coil_switch', coil);
+            }
+            assert.equal(await page.locator('input[name="case"]').count(), 2);
+            assert.equal(await option('case', 'case_standard').isChecked(), true);
+            const before = await quotedAmount();
+            await selectOption('case', 'case_premium');
+            assert.equal(await quotedAmount(), before + 200);
+            await selectOption('case', 'case_standard');
+            assert.equal(await quotedAmount(), before);
+            await selectOption('case', 'case_premium');
+            const note = `QA ${language} ${viewport.name} ${model.id}`;
+            await page.locator('textarea').fill(note);
+            const rows = await page.locator('#quote-list-container > div').evaluateAll(elements => elements.map(element => element.innerText));
+            const total = await page.locator('[data-summary-total]').innerText();
+            if (!matrixUiOnly) {
+              await observePdf();
+              const downloading = page.waitForEvent('download', { timeout: 60000 });
+              await page.locator('#quote-actions-area button').click();
+              const download = await Promise.race([
+                downloading,
+                page.waitForFunction(() => window.__configuratorPdfErrors?.length > 0, null, { timeout: 60000 })
+                  .then(async () => { throw new Error((await page.evaluate(() => window.__configuratorPdfErrors)).join('\n')); }),
+              ]);
+              const key = `${language}-${viewport.name}-${model.id}`;
+              const filename = `${key}.pdf`;
+              await download.saveAs(path.join(output, filename));
+              assert.equal(await download.failure(), null);
+              const buffer = await fs.readFile(path.join(output, filename));
+              assert.equal(buffer.subarray(0, 5).toString(), '%PDF-');
+              assert.ok(buffer.length > 10000);
+              const inputs = await page.evaluate(() => window.__configuratorPdfInputs);
+              assert.equal(inputs.length, 1);
+              const normalized = value => value.replace(/\s+/g, ' ').trim();
+              for (const row of rows) assert.ok(normalized(inputs[0].text).includes(normalized(row)), `PDF source must include summary row: ${row}`);
+              assert.ok(normalized(inputs[0].text).includes(normalized(total)), 'PDF total must match live summary');
+              assert.ok(inputs[0].text.includes(note));
+              await fs.writeFile(path.join(output, `${key}-pdf-source.txt`), inputs[0].text);
+              await page.screenshot({ path: path.join(output, `${key}.png`), fullPage: true });
+              report.matrixPdfs = [...(report.matrixPdfs || []), { filename, bytes: buffer.length, rows: rows.length }];
+            } else {
+              await page.screenshot({ path: path.join(output, `${language}-${viewport.name}-${model.id}.png`), fullPage: true });
+            }
+            // A real model transition clears premium case, notes, finish and hardware choices.
+            await chooseModel(model.id === 'EDDA' ? 'EMBLA' : 'EDDA');
+            await chooseModel(model.id);
+            await step(5);
+            assert.equal(await option('case', 'case_standard').isChecked(), true);
+            assert.equal(await page.locator('textarea').inputValue(), '');
+            assert.equal(await quotedAmount(), model.basePrice);
+            assert.doesNotMatch(await summary(), new RegExp(note));
+            await step(4);
+            assert.equal(await option('hardware_color', 'hw_chrome').isChecked(), true);
+            if (model.id !== 'GRAMR') assert.equal(await option('hardware_bridge', model.id === 'ASKR' ? 'payson' : 'ets_custom').isChecked(), true);
+          }, { pdf: true });
+        }
+      }
+    }
+
     assert.ok(selectedChecks > 0, 'The requested test filter must select at least one check');
     assert.deepEqual(report.pageErrors, [], 'No browser runtime errors during interaction');
     assert.deepEqual(report.failedRequests, [], 'All requested application assets must load');
@@ -712,6 +834,7 @@ async function run() {
     report.result = 'FAIL';
     report.checks.push({ name: activeCheck, result: 'FAIL', error: error.stack });
     if (page) {
+      report.pdfErrors = await page.evaluate(() => window.__configuratorPdfErrors || []).catch(() => []);
       await page.screenshot({ path: path.join(output, 'failure.png'), fullPage: true }).catch(() => {});
       await fs.writeFile(path.join(output, 'failure-body.txt'), await page.locator('body').innerText().catch(() => '')).catch(() => {});
     }
