@@ -250,7 +250,7 @@
       ['fret_type', 'guitar_fret_24', '24 frets; no zero fret', ''],
       ['body_construction', 'guitar_body_2pc', '2-piece solid body', 'center-jointed body; 45.0 mm concept thickness'],
       ['body_wood_single', 'guitar_swamp_ash', 'swamp ash', 'solid body within the existing outline'],
-      ['fretboard', 'guitar_indian_rosewood', 'AAA Indian rosewood', ''],
+      ['fretboard', 'guitar_indian_rosewood', 'Rosewood', ''],
       ['top_type', 'guitar_top_none', 'no separate top', 'visible body wood grain'],
       ['hardware_bridge', 'guitar_gotoh_510t', 'Gotoh 510T-FE1', 'right-handed; 42 mm block'],
       ['hardware_machine_head', 'guitar_gotoh_sg381', 'Gotoh SG381-07-MGT', '6-in-line; staggered'],
