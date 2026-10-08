@@ -3,11 +3,7 @@ window.RF_CONFIG_I18N = {
     optionLabels: {
       guitar_indian_rosewood: "rosewood",
       case_standard: "Standard gigbag",
-      case_premium: "Premium gigbag — Nube or equivalent"
-    },
-    optionSpecs: {
-      case_standard: "Included in the base price. The manufacturer, model and fit for your instrument are subject to final confirmation.",
-      case_premium: "The €300 premium gigbag replaces the standard gigbag. After crediting the included standard gigbag at €100, the upgrade adds €200. The manufacturer, model and fit for your instrument are subject to final confirmation."
+      case_premium: "Premium gigbag"
     },
     title: "RavenForge Instrument Configurator",
     subtitle: "Choose your model and finish",
@@ -61,7 +57,6 @@ window.RF_CONFIG_I18N = {
     statusLabel: "Status",
     modelLabel: "Model",
     categoryNotes: {
-      case: "A standard gigbag is included. The premium upgrade replaces it for an additional €200; only the selected gigbag is supplied.",
       neck: "Choose woods and laminations within the existing neck outline and heel.",
       neck_profile: "Choose the neck feel while retaining the model’s nut width and heel. Describe custom preferences in the notes.",
       radius: "Choose the fretboard curve within the existing fretboard outline.",
@@ -133,11 +128,7 @@ window.RF_CONFIG_I18N = {
     optionLabels: {
       guitar_indian_rosewood: "rosewood",
       case_standard: "기본 긱백",
-      case_premium: "프리미엄 긱백 — 누베 또는 동급"
-    },
-    optionSpecs: {
-      case_standard: "기본가에 포함됩니다. 제조사·모델과 악기 적합성은 최종 확인 후 확정합니다.",
-      case_premium: "€300 프리미엄 긱백으로 기본 긱백을 대체합니다. 기본가에 포함된 긱백 €100을 차감해 추가금은 €200입니다. 제조사·모델과 악기 적합성은 최종 확인 후 확정합니다."
+      case_premium: "프리미엄 긱백"
     },
     title: "RavenForge 악기 컨피규레이터",
     subtitle: "모델과 마감을 선택하세요",
@@ -191,7 +182,6 @@ window.RF_CONFIG_I18N = {
     statusLabel: "진행 상태",
     modelLabel: "모델",
     categoryNotes: {
-      case: "기본 긱백이 포함됩니다. 프리미엄 선택 시 €200을 추가해 기본 긱백을 대체하며, 선택한 긱백 한 개만 제공합니다.",
       neck: "기존 넥 외형과 힐을 유지하면서 목재와 라미네이트 구성을 선택합니다.",
       neck_profile: "모델의 너트 폭과 힐을 유지하면서 넥 그립을 선택합니다. 커스텀 선호는 요청 사항에 적어 주세요.",
       radius: "기존 지판 외형 안에서 지판 곡률을 선택합니다.",
@@ -263,11 +253,7 @@ window.RF_CONFIG_I18N = {
     optionLabels: {
       guitar_indian_rosewood: "rosewood",
       case_standard: "Standard-Gigbag",
-      case_premium: "Premium-Gigbag — Nube oder gleichwertig"
-    },
-    optionSpecs: {
-      case_standard: "Im Grundpreis enthalten. Hersteller, Modell und Passform für Ihr Instrument werden abschließend bestätigt.",
-      case_premium: "Das Premium-Gigbag für €300 ersetzt das Standard-Gigbag. Nach Anrechnung von €100 für das enthaltene Standard-Gigbag beträgt der Aufpreis €200. Hersteller, Modell und Passform für Ihr Instrument werden abschließend bestätigt."
+      case_premium: "Premium-Gigbag"
     },
     title: "RavenForge Instrumentenkonfigurator",
     subtitle: "Modell und Finish auswählen",
@@ -321,7 +307,6 @@ window.RF_CONFIG_I18N = {
     statusLabel: "Status",
     modelLabel: "Modell",
     categoryNotes: {
-      case: "Ein Standard-Gigbag ist enthalten. Das Premium-Gigbag ersetzt es gegen einen Aufpreis von €200; geliefert wird nur das gewählte Gigbag.",
       neck: "Wählen Sie Hölzer und Laminierung innerhalb der bestehenden Halskontur und des Halsfußes.",
       neck_profile: "Wählen Sie das Halsgefühl bei unveränderter Sattelbreite und unverändertem Halsfuß. Individuelle Wünsche können Sie in den Anmerkungen beschreiben.",
       radius: "Wählen Sie die Wölbung innerhalb der bestehenden Griffbrettkontur.",
