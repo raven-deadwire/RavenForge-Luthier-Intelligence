@@ -8,6 +8,8 @@
  *   node tools/test_configurator.cjs --url http://localhost:8000/configurator.html
  *   node tools/test_configurator.cjs --bootstrap
  *   node tools/test_configurator.cjs --pdf-only
+ *   node tools/test_configurator.cjs --case 'ASKR: electronics'
+ *   node tools/test_configurator.cjs --from 'EDDA: neck'
  *
  * Requires Playwright and Chromium (npx playwright install chromium).
  * CODEX_PRIMARY_RUNTIME_NODE_MODULES is supported for the workspace runtime.
@@ -34,6 +36,8 @@ const arg = (name) => {
 };
 const bootstrapOnly = args.includes('--bootstrap');
 const pdfOnly = args.includes('--pdf-only');
+const caseFilter = arg('--case');
+const fromFilter = arg('--from');
 const root = path.resolve(__dirname, '..');
 const runtimeRequire = process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES
   ? createRequire(path.join(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES, '__qa__.cjs'))
@@ -46,7 +50,7 @@ const expectedModels = [
   { id: 'ASKR', strings: /\b5[ -]?strings?\b/i, scale: /37["″”]?\s*[–—-]\s*34(?:["″”]|[ -]inch)/, bridge: /Payson/i },
   { id: 'GRAM', strings: /\b6[ -]?(?:guitar )?strings?\b/i, scale: /25\.5(?:["″”]|[ -]inch)/, bridge: /Gotoh\s+510T-FE1/i },
 ];
-const fixedCategories = ['orientation', 'strings', 'scale', 'nut_size', 'string_spacing', 'hardware_bridge', 'pickup_configuration', 'pickups', 'electronics'];
+const fixedCategories = ['orientation', 'strings', 'scale', 'nut_size', 'string_spacing', 'hardware_bridge', 'pickup_configuration', 'fretboard_extense'];
 const noShortScale = /short[ -]?scale|숏\s*스케일|\b(?:30|32|33)["″”]/i;
 
 function browserProxy() {
@@ -85,7 +89,7 @@ async function run() {
   const output = process.env.CONFIGURATOR_QA_DIR || await fs.mkdtemp(path.join(os.tmpdir(), 'ravenforge-configurator-qa-'));
   await fs.mkdir(output, { recursive: true });
   const ignoreHTTPSErrors = process.env.CONFIGURATOR_IGNORE_HTTPS_ERRORS === '1';
-  const report = { started: new Date().toISOString(), bootstrapOnly, pdfOnly, ignoreHTTPSErrors, output, checks: [], pageErrors: [], failedRequests: [], consoleErrors: [] };
+  const report = { started: new Date().toISOString(), bootstrapOnly, pdfOnly, caseFilter, fromFilter, ignoreHTTPSErrors, output, checks: [], pageErrors: [], failedRequests: [], consoleErrors: [] };
   let server;
   let browser;
   let page;
@@ -122,8 +126,14 @@ async function run() {
       return;
     }
 
+    let selectedChecks = 0;
+    let reachedFrom = !fromFilter;
     const check = async (name, action, { pdf = false } = {}) => {
+      if (!reachedFrom && name.toLowerCase().includes(fromFilter.toLowerCase())) reachedFrom = true;
+      if (!reachedFrom) return;
       if (pdfOnly && !pdf) return;
+      if (caseFilter && !name.toLowerCase().includes(caseFilter.toLowerCase())) return;
+      selectedChecks += 1;
       activeCheck = name;
       await action();
       report.checks.push({ name, result: 'PASS' });
@@ -137,8 +147,63 @@ async function run() {
       await page.locator(`button[data-model="${id}"]`).click();
       await page.waitForFunction(model => document.querySelector('#ui-header')?.textContent.includes(model), id);
     };
+    const freshModel = async id => {
+      await step(1);
+      if (await page.locator(`button[data-model="${id}"]`).getAttribute('aria-pressed') === 'true') {
+        await chooseModel(id === 'EDDA' ? 'EMBLA' : 'EDDA');
+      }
+      await chooseModel(id);
+    };
     const summary = () => page.locator('#quote-summary-card').innerText();
     const option = (category, value) => page.locator(`input[type="radio"][name="${category}"][value="${value}"]`);
+    const selectOption = async (category, value) => {
+      const input = option(category, value);
+      assert.ok(await input.count(), `${category}/${value} must be a current option`);
+      assert.equal(await input.isEnabled(), true, `${category}/${value} must be enabled`);
+      await input.check();
+      assert.equal(await input.isChecked(), true, `${category}/${value} selection must survive normalization`);
+      assert.equal(await page.locator(`[data-future-options] [data-planned-option="${value}"]`).count(), 0,
+        `${category}/${value} cannot also be presented as a future option`);
+    };
+    const summaryRows = pattern => page.locator('#quote-list-container > div').filter({
+      has: page.locator(':scope > div > div:first-child').filter({ hasText: pattern }),
+    });
+    const summaryValue = async (category, pattern) => {
+      const row = summaryRows(category);
+      assert.equal(await row.count(), 1, `Expected one summary row for ${category}`);
+      assert.match(await row.innerText(), pattern);
+    };
+    const quotedAmount = async () => {
+      const text = await page.locator('[data-summary-total]').innerText();
+      assert.doesNotMatch(text, /€\s*(?:null|undefined|NaN)\b/);
+      const match = text.match(/€\s*([\d,]+(?:\.\d+)?)/);
+      assert.ok(match, 'Known bass prices must retain a numeric amount');
+      const amount = Number(match[1].replaceAll(',', ''));
+      assert.ok(Number.isFinite(amount) && amount > 0);
+      return amount;
+    };
+    const observePdf = async () => page.evaluate(() => {
+      window.__configuratorPdfInputs = [];
+      if (window.__configuratorPdfObserved) return;
+      window.__configuratorPdfObserved = true;
+      const originalFrom = html2pdf.Worker.prototype.from;
+      html2pdf.Worker.prototype.from = function (source, ...rest) {
+        let text = source?.innerText || '';
+        // Observe a rendered copy of detached input without changing the input
+        // or mocking the renderer. This preserves its visible block separators.
+        if (source instanceof HTMLElement && !source.isConnected) {
+          const probe = source.cloneNode(true);
+          Object.assign(probe.style, { position: 'fixed', left: '-10000px', top: '0', opacity: '0', pointerEvents: 'none' });
+          probe.removeAttribute('id');
+          probe.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
+          document.body.appendChild(probe);
+          text = probe.innerText;
+          probe.remove();
+        }
+        window.__configuratorPdfInputs.push({ text, id: source?.id || '' });
+        return originalFrom.call(this, source, ...rest);
+      };
+    });
     const assertSpecs = (text, model, fullSummary = true) => {
       assert.match(text, new RegExp(`\\b${model.id}\\b`), `${model.id} must be identified`);
       assert.match(text, model.strings, `${model.id} string count`);
@@ -157,7 +222,8 @@ async function run() {
         assertSpecs(await summary(), model);
         if (model.id === 'ASKR') {
           assert.match(await page.locator('button[data-model="ASKR"]').innerText(), /€\s*3,?100/);
-          assert.match(await summary(), /Base Model\s*\(ASKR\)\s*€\s*3,?100/i);
+          assert.match(await summary(), /Base Model\s*\(ASKR\)\s*€\s*2,?950/i);
+          assert.equal(await quotedAmount(), 3100, 'ASKR defaults include one Payson surcharge');
         }
         if (model.id === 'GRAM') {
           const card = await page.locator('button[data-model="GRAM"]').innerText();
@@ -174,8 +240,19 @@ async function run() {
         assert.doesNotMatch(await future.innerText(), noShortScale, 'Short scale cannot appear in future options');
         for (let number = 1; number <= 5; number++) {
           await step(number);
-          for (const category of fixedCategories) {
+          const modelFixed = fixedCategories.filter(category => !(model.id === 'ASKR' && category === 'hardware_bridge'));
+          for (const category of [...modelFixed, ...(model.id === 'GRAM' ? ['fret_type'] : [])]) {
             assert.equal(await page.locator(`input[name="${category}"]:enabled, select[name="${category}"]:enabled`).count(), 0, `${model.id}: ${category} must not be selectable`);
+          }
+          const reopenByStep = {
+            2: ['neck', 'neck_profile', 'nut_material', 'radius'],
+            3: ['body_construction'],
+            4: ['hardware_machine_head', ...(model.id === 'ASKR' ? ['hardware_bridge'] : [])],
+            5: ['pickups', 'electronics', 'control_layout'],
+          };
+          for (const category of reopenByStep[number] || []) {
+            assert.ok(await page.locator(`input[name="${category}"]:enabled`).count() > 1,
+              `${model.id}: ${category} must expose its current customization choices`);
           }
           assert.doesNotMatch(await page.locator('body').innerText(), noShortScale, 'Short scale cannot appear in the configurator');
         }
@@ -183,30 +260,166 @@ async function run() {
       });
     }
 
-    await check('ASKR: Fishman package is matched and alternative electronics are future options', async () => {
-      await chooseModel('ASKR');
+    await check('EDDA: neck customization and fretless dependencies remain available', async () => {
+      await freshModel('EDDA');
+      await step(2);
+      await selectOption('neck', '3pc');
+      await selectOption('neck_profile', 'profile_custom');
+      await selectOption('radius', 'rad_compound');
+      await selectOption('fret_material', 'mat_stainless');
+      await summaryValue(/^Neck$/i, /3 piece maple/i);
+      await summaryValue(/^Neck Profile/i, /custom profile/i);
+      await summaryValue(/^Radius/i, /compound/i);
+      await selectOption('fret_type', 'fretless');
+      await summaryValue(/^Nut Material/i, /guayacan/i);
+      await summaryValue(/^Fret Type/i, /fretless/i);
+      assert.match(await page.locator('[data-fixed-platform]').innerText(), /fretless/i,
+        'The current specification overview must reflect fretless selection');
+      assert.equal(await page.locator('input[name="fret_material"], input[name="fret_size"]').count(), 0);
+      assert.equal(await summaryRows(/^Fret (Material|Size)/i).count(), 0);
+      await selectOption('fretline', 'line_yes');
+      await selectOption('fret_type', 'fret_24');
+      await summaryValue(/^Nut Material/i, /brass|zero.fret.*guide/i);
+      assert.ok(await page.locator('input[name="fret_material"]').count());
+      assert.ok(await page.locator('input[name="fret_size"]').count());
+      assert.equal(await page.locator('input[name="fretline"]').count(), 0);
+      assert.equal(await summaryRows(/^Fretline/i).count(), 0);
+      assert.equal(await option('neck', '3pc').isChecked(), true);
+      assert.equal(await option('neck_profile', 'profile_custom').isChecked(), true);
+      assert.equal(await option('radius', 'rad_compound').isChecked(), true);
       await step(5);
-      assert.match(await page.locator('[data-category="pickups"]').innerText(), /Fishman Fluence/);
-      assert.match(await page.locator('[data-category="electronics"]').innerText(), /Fishman Fluence 2 band/);
-      assert.equal(await page.locator('input[name="pickups"], input[name="electronics"]').count(), 0, 'Electronics package must stay fixed');
-      assert.equal(await page.locator('input[name="coil_switch"]').count(), 0, 'Dedicated Fishman voice controls replace generic coil switching');
+      await selectOption('control_layout', 'control_custom');
+      await selectOption('coil_switch', 'coil_2_pcts');
+      await summaryValue(/^(Control Layout|Controls & Wiring)/i, /custom/i);
+      await summaryValue(/^Select Coil Switch/i, /2.*parallel.*coil.*series/i);
+      await quotedAmount();
+    });
+
+    await check('EMBLA: solid-body wood, tuner and EQ choices update independently', async () => {
+      await freshModel('EMBLA');
+      const base = await quotedAmount();
+      await step(3);
+      await selectOption('body_construction', '1pc_solid');
+      await selectOption('body_wood_single', 'limba');
+      assert.equal(await page.locator('input[name="body_core_wood"], input[name="body_wing_wood"]').count(), 0);
+      assert.equal(await summaryRows(/^(Core Wood|Side Wing Wood)/i).count(), 0);
+      await summaryValue(/^Body Wood/i, /limba/i);
+      assert.equal(await quotedAmount(), base + 100, 'Solid body surcharge is counted once');
+      for (const id of ['1pc_chambered', '3pc_chambered']) {
+        assert.equal(await option('body_construction', id).count(), 0);
+        assert.equal(await page.locator(`[data-planned-option="${id}"]`).getAttribute('aria-disabled'), 'true');
+      }
+      await step(5);
+      await selectOption('electronics', 'underhill');
+      await summaryValue(/^Onboard EQ/i, /Underhill Cali Dub/i);
+      assert.equal(await quotedAmount(), base + 100 + 340);
+      await selectOption('electronics', 'noll');
+      await summaryValue(/^Onboard EQ/i, /Noll TCM-4XM/i);
+      assert.equal(await quotedAmount(), base + 100 + 250);
+      await step(4);
+      await selectOption('hardware_machine_head', 'gotoh_350');
+      await summaryValue(/^Hardware - Machine Head/i, /Gotoh GB350/i);
+      await summaryValue(/^Body Construction/i, /1 piece solid/i);
+      await summaryValue(/^Body Wood/i, /limba/i);
+      assert.equal(await quotedAmount(), base + 100 + 250 + 70);
+    });
+
+    await check('ASKR: electronics synchronization, EMG selection, power and prices', async () => {
+      await freshModel('ASKR');
+      const base = await quotedAmount();
+      await step(5);
+      assert.equal(await option('pickups', 'fishman').isChecked(), true);
+      assert.equal(await option('electronics', 'fishman').isChecked(), true);
       assert.match(await summary(), /Fishman Fluence/);
-      assert.match(await summary(), /9V/);
-      const future = page.locator('[data-future-options]');
-      if (await future.getAttribute('open') === null) await future.locator('summary').click();
-      const alternative = future.locator('[data-planned-option="darkglass"]');
-      assert.equal(await alternative.getAttribute('aria-disabled'), 'true');
-      const before = await summary();
-      await alternative.click({ force: true });
-      assert.equal(await summary(), before, 'Clicking a future option cannot change the quote');
-      await chooseModel('EMBLA');
+      await summaryValue(/^Power Supply/i, /9V/);
+      await selectOption('electronics', 'darkglass');
+      assert.notEqual(await page.locator('input[name="pickups"]:checked').inputValue(), 'fishman');
+      await selectOption('pickups', 'emg');
+      await summaryValue(/^Pickups/i, /EMG\s+40TWX/i);
+      await summaryValue(/^Power Supply/i, /18V/);
+      assert.equal(await quotedAmount(), base + 165 + 245);
+      await step(4);
+      await selectOption('hardware_color', 'hw_black');
       await step(5);
-      if (await future.getAttribute('open') === null) await future.locator('summary').click();
-      const underhill = future.locator('[data-planned-option="underhill"]');
-      assert.equal(await underhill.getAttribute('aria-disabled'), 'true');
-      const emblaBefore = await summary();
-      await underhill.click({ force: true });
-      assert.equal(await summary(), emblaBefore, 'Future Underhill package cannot override the current package');
+      assert.equal(await option('pickups', 'emg').isChecked(), true, 'An unrelated appearance change must retain EMG');
+      await selectOption('electronics', 'lhz');
+      assert.equal(await option('pickups', 'emg').isChecked(), true, 'Compatible EQ change must retain the selected pickup');
+      await summaryValue(/^Power Supply/i, /9V/);
+      await selectOption('lhz_voltage', 'lhz_18v');
+      await summaryValue(/^Power Supply/i, /18V/);
+      assert.equal(await quotedAmount(), base + 270 + 245);
+      await selectOption('electronics', 'fishman');
+      assert.equal(await option('pickups', 'fishman').isChecked(), true);
+      assert.equal(await page.locator('input[name="lhz_voltage"], input[name="coil_switch"]').count(), 0);
+      await summaryValue(/^Power Supply/i, /9V/);
+      assert.equal(await quotedAmount(), base);
+      await selectOption('pickups', 'emg');
+      assert.notEqual(await page.locator('input[name="electronics"]:checked').inputValue(), 'fishman',
+        'Choosing EMG directly must leave the dedicated Fishman EQ');
+      await summaryValue(/^Pickups/i, /EMG\s+40TWX/i);
+      await quotedAmount();
+    });
+
+    await check('ASKR: Payson and Nova Parts pricing stays explicit', async () => {
+      await freshModel('ASKR');
+      await step(4);
+      assert.equal(await option('hardware_bridge', 'payson').isChecked(), true);
+      assert.equal(await quotedAmount(), 3100);
+      await selectOption('hardware_bridge', 'nova_parts');
+      await summaryValue(/^Hardware - Bridge/i, /Nova/i);
+      assert.match(await page.locator('[data-fixed-platform]').innerText(), /Nova/i);
+      assert.equal(await quotedAmount(), 2950, 'Nova leaves the known base amount without inventing its price');
+      assert.match(await page.locator('[data-summary-total]').innerText(), /partial|known|confirmed|request/i,
+        'An unpriced Nova bridge must be shown as an incomplete quote');
+      await selectOption('hardware_bridge', 'payson');
+      assert.equal(await quotedAmount(), 3100);
+      await summaryValue(/^Hardware - Bridge/i, /Payson/);
+    });
+
+    await check('GRAM: passive HH, neck and material customization survives same-model selection', async () => {
+      await freshModel('GRAM');
+      assert.doesNotMatch(await summary(), /Inferno Red/i, 'Gram must not assume a specific finish color');
+      await step(2);
+      await selectOption('neck', 'guitar_neck_custom');
+      await selectOption('neck_profile', 'guitar_profile_custom');
+      await selectOption('nut_material', 'guitar_graphite_nut');
+      await selectOption('radius', 'guitar_radius_compound');
+      await step(3);
+      assert.equal(await option('color_top', 'top_gloss').isChecked(), true);
+      assert.equal(await option('color_back_side', 'back_gloss').isChecked(), true);
+      assert.equal(await page.locator('input[value="guitar_inferno_red"]').count(), 0);
+      const finish = 'Midnight blue body with a natural maple neck';
+      await page.locator('input[data-finish-color]').fill(finish);
+      await selectOption('body_construction', 'guitar_body_3pc');
+      await selectOption('body_wood_single', 'guitar_body_maple');
+      await step(4);
+      await selectOption('hardware_machine_head', 'guitar_tuner_custom');
+      await step(5);
+      await selectOption('pickups', 'guitar_hh_passive_custom');
+      await selectOption('electronics', 'guitar_passive');
+      await selectOption('control_layout', 'guitar_custom_wiring');
+      await summaryValue(/^Neck$/i, /custom/i);
+      await summaryValue(/^Nut Material/i, /graphite/i);
+      await summaryValue(/^Body Wood/i, /maple/i);
+      await summaryValue(/^Pickups/i, /HH|humbucker/i);
+      await summaryValue(/^Power Supply/i, /No battery/i);
+      assert.ok((await summary()).includes(finish), 'Requested color must appear in the specification');
+      assertSpecs(await summary(), expectedModels[3]);
+      assert.doesNotMatch(await summary(), /€\s*(?:0|null|undefined|NaN)\b/);
+      await page.locator('textarea').fill('Keep this custom guitar specification.');
+      const before = await summary();
+      await chooseModel('GRAM');
+      assert.equal(await summary(), before, 'Selecting the current model must preserve options and notes');
+      await step(2);
+      assert.equal(await option('neck', 'guitar_neck_custom').isChecked(), true);
+      await step(5);
+      assert.equal(await option('pickups', 'guitar_hh_passive_custom').isChecked(), true);
+      assert.equal(await option('electronics', 'guitar_passive').isChecked(), true);
+      await chooseModel('EDDA');
+      assertSpecs(await summary(), expectedModels[0]);
+      assert.doesNotMatch(await summary(), /Keep this custom guitar specification|Midnight blue body|Gotoh 510T-FE1|graphite|guitar humbuckers/i);
+      await step(3);
+      assert.equal(await page.locator('input[data-finish-color]').inputValue(), '', 'Changing models clears the previous finish request');
     });
 
     await check('Model switching: bass configuration does not leak into Gram', async () => {
@@ -240,43 +453,31 @@ async function run() {
     });
 
     await check('Language changes preserve the configured instrument', async () => {
+      await freshModel('EDDA');
+      await step(3);
+      const finish = 'Deep blue body, natural neck';
+      await page.locator('input[data-finish-color]').fill(finish);
+      await step(4);
+      await selectOption('hardware_color', 'hw_gold');
       for (const language of ['ko', 'de', 'en']) {
         await page.locator(`button[data-language="${language}"]`).click();
         assert.equal(await page.locator('html').getAttribute('lang'), language);
         assert.equal(await option('hardware_color', 'hw_gold').isChecked(), true);
         assertSpecs(await summary(), expectedModels[0]);
         assert.match(await summary(), /gold/i);
+        assert.ok((await summary()).includes(finish), 'Language changes must retain the finish request');
       }
     });
 
     await check('Actual Gram PDF exports the current specification and quote status', async () => {
-      await chooseModel('GRAM');
+      await freshModel('GRAM');
+      await step(3);
+      const finish = 'Graphite grey body with a natural maple neck';
+      await page.locator('input[data-finish-color]').fill(finish);
       await step(5);
       const note = 'QA specification note: keep approved 6-string 25.5-inch platform.';
       await page.locator('textarea').fill(note);
-      await page.evaluate(() => {
-        window.__configuratorPdfInputs = [];
-        // Observe the actual library boundary, then run the original export.
-        // This does not replace PDF rendering or change the application state.
-        const originalFrom = html2pdf.Worker.prototype.from;
-        html2pdf.Worker.prototype.from = function (source, ...rest) {
-          let text = source?.innerText || '';
-          // Detached snapshots have textContent-style innerText without block
-          // separators. Render an invisible copy briefly to read the text as
-          // the export renderer will, while leaving its original input intact.
-          if (source instanceof HTMLElement && !source.isConnected) {
-            const probe = source.cloneNode(true);
-            Object.assign(probe.style, { position: 'fixed', left: '-10000px', top: '0', opacity: '0', pointerEvents: 'none' });
-            probe.removeAttribute('id');
-            probe.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
-            document.body.appendChild(probe);
-            text = probe.innerText;
-            probe.remove();
-          }
-          window.__configuratorPdfInputs.push({ text, id: source?.id || '' });
-          return originalFrom.call(this, source, ...rest);
-        };
-      });
+      await observePdf();
       const downloadPromise = page.waitForEvent('download', { timeout: 60000 });
       await page.getByRole('button', { name: /Save.*PDF/i }).click();
       const download = await downloadPromise;
@@ -292,6 +493,7 @@ async function run() {
       await fs.writeFile(path.join(output, 'gram-pdf-source.txt'), inputs[0].text);
       assertSpecs(inputs[0].text, expectedModels[3]);
       assert.ok(inputs[0].text.includes(note), 'Current special instructions must be exported');
+      assert.ok(inputs[0].text.includes(finish), 'Requested finish color must be exported');
       assert.match(inputs[0].text, /price on request|pricing.*confirm|quote.*request/i);
       assert.doesNotMatch(inputs[0].text, /€\s*(?:0(?:\.00)?|null|undefined|NaN)\b|Payson|LHZ|BEADG/i);
       await page.getByRole('button', { name: /Save.*PDF/i }).waitFor();
@@ -301,8 +503,12 @@ async function run() {
     }, { pdf: true });
 
     await check('PDF export keeps its original model when selection changes during generation', async () => {
-      await chooseModel('GRAM');
-      await page.evaluate(() => { window.__configuratorPdfInputs = []; });
+      await freshModel('GRAM');
+      await step(3);
+      const finish = 'Metallic silver requested for the export snapshot';
+      await page.locator('input[data-finish-color]').fill(finish);
+      await step(1);
+      await observePdf();
       const downloadPromise = page.waitForEvent('download', { timeout: 60000 });
       await page.getByRole('button', { name: /Save.*PDF/i }).click();
       const edda = page.locator('button[data-model="EDDA"]');
@@ -315,9 +521,10 @@ async function run() {
       assert.equal(inputs.length, 1);
       await fs.writeFile(path.join(output, 'gram-pdf-during-model-switch.txt'), inputs[0].text);
       assertSpecs(inputs[0].text, expectedModels[3]);
+      assert.ok(inputs[0].text.includes(finish), 'Model changes during export must not remove its finish request');
       assert.doesNotMatch(inputs[0].text, /Base Model\s*\(EDDA\)|4 strings|34["″”]\s*\(long scale\)/i,
         'Changing the live model must not put EDDA content in a GRAM-named PDF');
-    });
+    }, { pdf: true });
 
     await check('Mobile layout retains accessible model selection', async () => {
       await page.setViewportSize({ width: 390, height: 844 });
@@ -334,6 +541,7 @@ async function run() {
       await page.screenshot({ path: path.join(output, 'gram-desktop.png'), fullPage: true });
     });
 
+    assert.ok(selectedChecks > 0, 'The requested test filter must select at least one check');
     assert.deepEqual(report.pageErrors, [], 'No browser runtime errors during interaction');
     assert.deepEqual(report.failedRequests, [], 'All requested application assets must load');
     report.result = 'PASS';
