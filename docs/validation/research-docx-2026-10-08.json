@@ -1,0 +1,2185 @@
+{
+  "schemaVersion": 1,
+  "browser": "131.0.6778.204",
+  "testType": "actual Chromium; synthetic converted DOCX",
+  "started": "2026-10-08T11:17:03.721Z",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "cases": [
+    {
+      "key": "ko-desktop",
+      "lang": "ko",
+      "viewport": {
+        "name": "desktop",
+        "width": 1440,
+        "height": 1080
+      },
+      "checks": [
+        {
+          "name": "language, title, body and formatting",
+          "result": "PASS"
+        },
+        {
+          "name": "real font used for Korean glyphs",
+          "result": "PASS",
+          "detail": [
+            {
+              "selector": "h1",
+              "fonts": [
+                {
+                  "familyName": "DejaVu Sans",
+                  "postScriptName": "DejaVuSans-Bold",
+                  "isCustomFont": false,
+                  "glyphCount": 14
+                },
+                {
+                  "familyName": "Noto Sans CJK KR",
+                  "postScriptName": "NotoSansCJKkr-Regular",
+                  "isCustomFont": false,
+                  "glyphCount": 16
+                }
+              ]
+            },
+            {
+              "selector": "article > p",
+              "fonts": [
+                {
+                  "familyName": "DejaVu Sans",
+                  "postScriptName": "DejaVuSans",
+                  "isCustomFont": false,
+                  "glyphCount": 18
+                },
+                {
+                  "familyName": "Noto Sans CJK KR",
+                  "postScriptName": "NotoSansCJKkr-Regular",
+                  "isCustomFont": false,
+                  "glyphCount": 45
+                }
+              ]
+            },
+            {
+              "selector": "article td p",
+              "fonts": [
+                {
+                  "familyName": "DejaVu Sans",
+                  "postScriptName": "DejaVuSans",
+                  "isCustomFont": false,
+                  "glyphCount": 10
+                },
+                {
+                  "familyName": "Noto Sans CJK KR",
+                  "postScriptName": "NotoSansCJKkr-Regular",
+                  "isCustomFont": false,
+                  "glyphCount": 9
+                }
+              ]
+            },
+            {
+              "selector": "article .reference",
+              "fonts": [
+                {
+                  "familyName": "DejaVu Sans",
+                  "postScriptName": "DejaVuSans",
+                  "isCustomFont": false,
+                  "glyphCount": 29
+                },
+                {
+                  "familyName": "Noto Sans CJK KR",
+                  "postScriptName": "NotoSansCJKkr-Regular",
+                  "isCustomFont": false,
+                  "glyphCount": 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "responsive geometry and complete table access",
+          "result": "PASS",
+          "detail": [
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 491.5
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 327.65625
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 196.59375
+            },
+            {
+              "width": 984,
+              "scrollWidth": 1280,
+              "scrollLeft": 296,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.875
+            },
+            {
+              "width": 984,
+              "scrollWidth": 1600,
+              "scrollLeft": 616,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.890625
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 491.5
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 327.65625
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 196.59375
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 491.5
+            }
+          ]
+        },
+        {
+          "name": "keyboard can scroll a wide table",
+          "result": "PASS"
+        },
+        {
+          "name": "all six images decoded, proportional and unclipped",
+          "result": "PASS",
+          "detail": [
+            {
+              "src": "assets/ko-7c688b8543069fbe08a493f8.png",
+              "alt": "그림 1 edge markers",
+              "naturalWidth": 1200,
+              "naturalHeight": 300,
+              "width": 984,
+              "height": 246,
+              "left": 228,
+              "right": 1212,
+              "parentWidth": 984
+            },
+            {
+              "src": "assets/ko-6e6a45e12766994fa2abbe76.png",
+              "alt": "그림 2 edge markers",
+              "naturalWidth": 320,
+              "naturalHeight": 480,
+              "width": 320,
+              "height": 480,
+              "left": 228,
+              "right": 548,
+              "parentWidth": 984
+            },
+            {
+              "src": "assets/ko-7d0984a16e5a4c31b71d35ee.png",
+              "alt": "그림 3 edge markers",
+              "naturalWidth": 900,
+              "naturalHeight": 600,
+              "width": 900,
+              "height": 600,
+              "left": 228,
+              "right": 1128,
+              "parentWidth": 984
+            },
+            {
+              "src": "assets/ko-ffd1a62243180c130a3d1b31.png",
+              "alt": "그림 4 edge markers",
+              "naturalWidth": 1400,
+              "naturalHeight": 240,
+              "width": 984,
+              "height": 168.671875,
+              "left": 228,
+              "right": 1212,
+              "parentWidth": 984
+            },
+            {
+              "src": "assets/ko-dd758e5101a5166abd394765.png",
+              "alt": "그림 5 edge markers",
+              "naturalWidth": 640,
+              "naturalHeight": 360,
+              "width": 640,
+              "height": 360,
+              "left": 228,
+              "right": 868,
+              "parentWidth": 984
+            },
+            {
+              "src": "assets/ko-0906e3f67abb03594179bf84.png",
+              "alt": "그림 6 edge markers",
+              "naturalWidth": 1000,
+              "naturalHeight": 500,
+              "width": 984,
+              "height": 492,
+              "left": 228,
+              "right": 1212,
+              "parentWidth": 984
+            }
+          ]
+        },
+        {
+          "name": "bibliography and internal bookmark navigation",
+          "result": "PASS"
+        },
+        {
+          "name": "local link responses and fragment targets",
+          "result": "PASS"
+        },
+        {
+          "name": "reciprocal language switching by real clicks",
+          "result": "PASS"
+        },
+        {
+          "name": "existing B03 link navigates without replacing its content",
+          "result": "PASS"
+        }
+      ],
+      "errors": [],
+      "platformFonts": [
+        {
+          "selector": "h1",
+          "fonts": [
+            {
+              "familyName": "DejaVu Sans",
+              "postScriptName": "DejaVuSans-Bold",
+              "isCustomFont": false,
+              "glyphCount": 14
+            },
+            {
+              "familyName": "Noto Sans CJK KR",
+              "postScriptName": "NotoSansCJKkr-Regular",
+              "isCustomFont": false,
+              "glyphCount": 16
+            }
+          ]
+        },
+        {
+          "selector": "article > p",
+          "fonts": [
+            {
+              "familyName": "DejaVu Sans",
+              "postScriptName": "DejaVuSans",
+              "isCustomFont": false,
+              "glyphCount": 18
+            },
+            {
+              "familyName": "Noto Sans CJK KR",
+              "postScriptName": "NotoSansCJKkr-Regular",
+              "isCustomFont": false,
+              "glyphCount": 45
+            }
+          ]
+        },
+        {
+          "selector": "article td p",
+          "fonts": [
+            {
+              "familyName": "DejaVu Sans",
+              "postScriptName": "DejaVuSans",
+              "isCustomFont": false,
+              "glyphCount": 10
+            },
+            {
+              "familyName": "Noto Sans CJK KR",
+              "postScriptName": "NotoSansCJKkr-Regular",
+              "isCustomFont": false,
+              "glyphCount": 9
+            }
+          ]
+        },
+        {
+          "selector": "article .reference",
+          "fonts": [
+            {
+              "familyName": "DejaVu Sans",
+              "postScriptName": "DejaVuSans",
+              "isCustomFont": false,
+              "glyphCount": 29
+            },
+            {
+              "familyName": "Noto Sans CJK KR",
+              "postScriptName": "NotoSansCJKkr-Regular",
+              "isCustomFont": false,
+              "glyphCount": 4
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "href": "https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/research/qa-docx-browser-a99999/ko.html",
+          "status": 200
+        },
+        {
+          "href": "ko.html",
+          "status": 200
+        },
+        {
+          "href": "en.html",
+          "status": 200
+        },
+        {
+          "href": "de.html",
+          "status": 200
+        },
+        {
+          "href": "article.css",
+          "status": 200
+        },
+        {
+          "href": "../../index.html#research",
+          "status": 200
+        },
+        {
+          "href": "#section-5",
+          "status": 200
+        },
+        {
+          "href": "#section-7",
+          "status": 200
+        },
+        {
+          "href": "#section-14",
+          "status": 200
+        },
+        {
+          "href": "#section-24",
+          "status": 200
+        },
+        {
+          "href": "#section-40",
+          "status": 200
+        },
+        {
+          "href": "#section-65",
+          "status": 200
+        },
+        {
+          "href": "#section-96",
+          "status": 200
+        },
+        {
+          "href": "#section-103",
+          "status": 200
+        },
+        {
+          "href": "#section-113",
+          "status": 200
+        },
+        {
+          "href": "#section-129",
+          "status": 200
+        },
+        {
+          "href": "#section-148",
+          "status": 200
+        },
+        {
+          "href": "#references",
+          "status": 200
+        },
+        {
+          "href": "assets/ko-7c688b8543069fbe08a493f8.png",
+          "status": 200
+        },
+        {
+          "href": "assets/ko-6e6a45e12766994fa2abbe76.png",
+          "status": 200
+        },
+        {
+          "href": "assets/ko-7d0984a16e5a4c31b71d35ee.png",
+          "status": 200
+        },
+        {
+          "href": "assets/ko-ffd1a62243180c130a3d1b31.png",
+          "status": 200
+        },
+        {
+          "href": "assets/ko-dd758e5101a5166abd394765.png",
+          "status": 200
+        },
+        {
+          "href": "assets/ko-0906e3f67abb03594179bf84.png",
+          "status": 200
+        },
+        {
+          "href": "#body",
+          "status": 200
+        },
+        {
+          "href": "../B03/ko.html",
+          "status": 200
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "key": "en-desktop",
+      "lang": "en",
+      "viewport": {
+        "name": "desktop",
+        "width": 1440,
+        "height": 1080
+      },
+      "checks": [
+        {
+          "name": "language, title, body and formatting",
+          "result": "PASS"
+        },
+        {
+          "name": "real font used for Korean glyphs",
+          "result": "PASS",
+          "detail": "not applicable"
+        },
+        {
+          "name": "responsive geometry and complete table access",
+          "result": "PASS",
+          "detail": [
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 491.5
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 327.65625
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 196.59375
+            },
+            {
+              "width": 984,
+              "scrollWidth": 1280,
+              "scrollLeft": 296,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.875
+            },
+            {
+              "width": 984,
+              "scrollWidth": 1600,
+              "scrollLeft": 616,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.890625
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 491.5
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 327.65625
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 196.59375
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 491.5
+            }
+          ]
+        },
+        {
+          "name": "keyboard can scroll a wide table",
+          "result": "PASS"
+        },
+        {
+          "name": "all six images decoded, proportional and unclipped",
+          "result": "PASS",
+          "detail": [
+            {
+              "src": "assets/en-7c688b8543069fbe08a493f8.png",
+              "alt": "Figure 1 edge markers",
+              "naturalWidth": 1200,
+              "naturalHeight": 300,
+              "width": 984,
+              "height": 246,
+              "left": 228,
+              "right": 1212,
+              "parentWidth": 984
+            },
+            {
+              "src": "assets/en-6e6a45e12766994fa2abbe76.png",
+              "alt": "Figure 2 edge markers",
+              "naturalWidth": 320,
+              "naturalHeight": 480,
+              "width": 320,
+              "height": 480,
+              "left": 228,
+              "right": 548,
+              "parentWidth": 984
+            },
+            {
+              "src": "assets/en-7d0984a16e5a4c31b71d35ee.png",
+              "alt": "Figure 3 edge markers",
+              "naturalWidth": 900,
+              "naturalHeight": 600,
+              "width": 900,
+              "height": 600,
+              "left": 228,
+              "right": 1128,
+              "parentWidth": 984
+            },
+            {
+              "src": "assets/en-ffd1a62243180c130a3d1b31.png",
+              "alt": "Figure 4 edge markers",
+              "naturalWidth": 1400,
+              "naturalHeight": 240,
+              "width": 984,
+              "height": 168.671875,
+              "left": 228,
+              "right": 1212,
+              "parentWidth": 984
+            },
+            {
+              "src": "assets/en-dd758e5101a5166abd394765.png",
+              "alt": "Figure 5 edge markers",
+              "naturalWidth": 640,
+              "naturalHeight": 360,
+              "width": 640,
+              "height": 360,
+              "left": 228,
+              "right": 868,
+              "parentWidth": 984
+            },
+            {
+              "src": "assets/en-0906e3f67abb03594179bf84.png",
+              "alt": "Figure 6 edge markers",
+              "naturalWidth": 1000,
+              "naturalHeight": 500,
+              "width": 984,
+              "height": 492,
+              "left": 228,
+              "right": 1212,
+              "parentWidth": 984
+            }
+          ]
+        },
+        {
+          "name": "bibliography and internal bookmark navigation",
+          "result": "PASS"
+        },
+        {
+          "name": "local link responses and fragment targets",
+          "result": "PASS"
+        },
+        {
+          "name": "reciprocal language switching by real clicks",
+          "result": "PASS"
+        },
+        {
+          "name": "existing B03 link navigates without replacing its content",
+          "result": "PASS"
+        }
+      ],
+      "errors": [],
+      "platformFonts": [],
+      "links": [
+        {
+          "href": "https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/research/qa-docx-browser-a99999/en.html",
+          "status": 200
+        },
+        {
+          "href": "ko.html",
+          "status": 200
+        },
+        {
+          "href": "en.html",
+          "status": 200
+        },
+        {
+          "href": "de.html",
+          "status": 200
+        },
+        {
+          "href": "article.css",
+          "status": 200
+        },
+        {
+          "href": "../../index.html#research",
+          "status": 200
+        },
+        {
+          "href": "#section-5",
+          "status": 200
+        },
+        {
+          "href": "#section-7",
+          "status": 200
+        },
+        {
+          "href": "#section-14",
+          "status": 200
+        },
+        {
+          "href": "#section-24",
+          "status": 200
+        },
+        {
+          "href": "#section-40",
+          "status": 200
+        },
+        {
+          "href": "#section-65",
+          "status": 200
+        },
+        {
+          "href": "#section-96",
+          "status": 200
+        },
+        {
+          "href": "#section-103",
+          "status": 200
+        },
+        {
+          "href": "#section-113",
+          "status": 200
+        },
+        {
+          "href": "#section-129",
+          "status": 200
+        },
+        {
+          "href": "#section-148",
+          "status": 200
+        },
+        {
+          "href": "#references",
+          "status": 200
+        },
+        {
+          "href": "assets/en-7c688b8543069fbe08a493f8.png",
+          "status": 200
+        },
+        {
+          "href": "assets/en-6e6a45e12766994fa2abbe76.png",
+          "status": 200
+        },
+        {
+          "href": "assets/en-7d0984a16e5a4c31b71d35ee.png",
+          "status": 200
+        },
+        {
+          "href": "assets/en-ffd1a62243180c130a3d1b31.png",
+          "status": 200
+        },
+        {
+          "href": "assets/en-dd758e5101a5166abd394765.png",
+          "status": 200
+        },
+        {
+          "href": "assets/en-0906e3f67abb03594179bf84.png",
+          "status": 200
+        },
+        {
+          "href": "#body",
+          "status": 200
+        },
+        {
+          "href": "../B03/en.html",
+          "status": 200
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "key": "de-desktop",
+      "lang": "de",
+      "viewport": {
+        "name": "desktop",
+        "width": 1440,
+        "height": 1080
+      },
+      "checks": [
+        {
+          "name": "language, title, body and formatting",
+          "result": "PASS"
+        },
+        {
+          "name": "real font used for Korean glyphs",
+          "result": "PASS",
+          "detail": "not applicable"
+        },
+        {
+          "name": "responsive geometry and complete table access",
+          "result": "PASS",
+          "detail": [
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 491.5
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 327.65625
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 196.59375
+            },
+            {
+              "width": 984,
+              "scrollWidth": 1280,
+              "scrollLeft": 296,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.875
+            },
+            {
+              "width": 984,
+              "scrollWidth": 1600,
+              "scrollLeft": 616,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.890625
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 491.5
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 327.65625
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 196.59375
+            },
+            {
+              "width": 984,
+              "scrollWidth": 984,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 491.5
+            }
+          ]
+        },
+        {
+          "name": "keyboard can scroll a wide table",
+          "result": "PASS"
+        },
+        {
+          "name": "all six images decoded, proportional and unclipped",
+          "result": "PASS",
+          "detail": [
+            {
+              "src": "assets/de-7c688b8543069fbe08a493f8.png",
+              "alt": "Abbildung 1 edge markers",
+              "naturalWidth": 1200,
+              "naturalHeight": 300,
+              "width": 984,
+              "height": 246,
+              "left": 228,
+              "right": 1212,
+              "parentWidth": 984
+            },
+            {
+              "src": "assets/de-6e6a45e12766994fa2abbe76.png",
+              "alt": "Abbildung 2 edge markers",
+              "naturalWidth": 320,
+              "naturalHeight": 480,
+              "width": 320,
+              "height": 480,
+              "left": 228,
+              "right": 548,
+              "parentWidth": 984
+            },
+            {
+              "src": "assets/de-7d0984a16e5a4c31b71d35ee.png",
+              "alt": "Abbildung 3 edge markers",
+              "naturalWidth": 900,
+              "naturalHeight": 600,
+              "width": 900,
+              "height": 600,
+              "left": 228,
+              "right": 1128,
+              "parentWidth": 984
+            },
+            {
+              "src": "assets/de-ffd1a62243180c130a3d1b31.png",
+              "alt": "Abbildung 4 edge markers",
+              "naturalWidth": 1400,
+              "naturalHeight": 240,
+              "width": 984,
+              "height": 168.671875,
+              "left": 228,
+              "right": 1212,
+              "parentWidth": 984
+            },
+            {
+              "src": "assets/de-dd758e5101a5166abd394765.png",
+              "alt": "Abbildung 5 edge markers",
+              "naturalWidth": 640,
+              "naturalHeight": 360,
+              "width": 640,
+              "height": 360,
+              "left": 228,
+              "right": 868,
+              "parentWidth": 984
+            },
+            {
+              "src": "assets/de-0906e3f67abb03594179bf84.png",
+              "alt": "Abbildung 6 edge markers",
+              "naturalWidth": 1000,
+              "naturalHeight": 500,
+              "width": 984,
+              "height": 492,
+              "left": 228,
+              "right": 1212,
+              "parentWidth": 984
+            }
+          ]
+        },
+        {
+          "name": "bibliography and internal bookmark navigation",
+          "result": "PASS"
+        },
+        {
+          "name": "local link responses and fragment targets",
+          "result": "PASS"
+        },
+        {
+          "name": "reciprocal language switching by real clicks",
+          "result": "PASS"
+        },
+        {
+          "name": "existing B03 link navigates without replacing its content",
+          "result": "PASS"
+        }
+      ],
+      "errors": [],
+      "platformFonts": [],
+      "links": [
+        {
+          "href": "https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/research/qa-docx-browser-a99999/de.html",
+          "status": 200
+        },
+        {
+          "href": "ko.html",
+          "status": 200
+        },
+        {
+          "href": "en.html",
+          "status": 200
+        },
+        {
+          "href": "de.html",
+          "status": 200
+        },
+        {
+          "href": "article.css",
+          "status": 200
+        },
+        {
+          "href": "../../index.html#research",
+          "status": 200
+        },
+        {
+          "href": "#section-5",
+          "status": 200
+        },
+        {
+          "href": "#section-7",
+          "status": 200
+        },
+        {
+          "href": "#section-14",
+          "status": 200
+        },
+        {
+          "href": "#section-24",
+          "status": 200
+        },
+        {
+          "href": "#section-40",
+          "status": 200
+        },
+        {
+          "href": "#section-65",
+          "status": 200
+        },
+        {
+          "href": "#section-96",
+          "status": 200
+        },
+        {
+          "href": "#section-103",
+          "status": 200
+        },
+        {
+          "href": "#section-113",
+          "status": 200
+        },
+        {
+          "href": "#section-129",
+          "status": 200
+        },
+        {
+          "href": "#section-148",
+          "status": 200
+        },
+        {
+          "href": "#references",
+          "status": 200
+        },
+        {
+          "href": "assets/de-7c688b8543069fbe08a493f8.png",
+          "status": 200
+        },
+        {
+          "href": "assets/de-6e6a45e12766994fa2abbe76.png",
+          "status": 200
+        },
+        {
+          "href": "assets/de-7d0984a16e5a4c31b71d35ee.png",
+          "status": 200
+        },
+        {
+          "href": "assets/de-ffd1a62243180c130a3d1b31.png",
+          "status": 200
+        },
+        {
+          "href": "assets/de-dd758e5101a5166abd394765.png",
+          "status": 200
+        },
+        {
+          "href": "assets/de-0906e3f67abb03594179bf84.png",
+          "status": 200
+        },
+        {
+          "href": "#body",
+          "status": 200
+        },
+        {
+          "href": "../B03/de.html",
+          "status": 200
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "key": "ko-mobile",
+      "lang": "ko",
+      "viewport": {
+        "name": "mobile",
+        "width": 390,
+        "height": 844
+      },
+      "checks": [
+        {
+          "name": "language, title, body and formatting",
+          "result": "PASS"
+        },
+        {
+          "name": "real font used for Korean glyphs",
+          "result": "PASS",
+          "detail": [
+            {
+              "selector": "h1",
+              "fonts": [
+                {
+                  "familyName": "DejaVu Sans",
+                  "postScriptName": "DejaVuSans-Bold",
+                  "isCustomFont": false,
+                  "glyphCount": 14
+                },
+                {
+                  "familyName": "Noto Sans CJK KR",
+                  "postScriptName": "NotoSansCJKkr-Regular",
+                  "isCustomFont": false,
+                  "glyphCount": 16
+                }
+              ]
+            },
+            {
+              "selector": "article > p",
+              "fonts": [
+                {
+                  "familyName": "DejaVu Sans",
+                  "postScriptName": "DejaVuSans",
+                  "isCustomFont": false,
+                  "glyphCount": 16
+                },
+                {
+                  "familyName": "Noto Sans CJK KR",
+                  "postScriptName": "NotoSansCJKkr-Regular",
+                  "isCustomFont": false,
+                  "glyphCount": 45
+                }
+              ]
+            },
+            {
+              "selector": "article td p",
+              "fonts": [
+                {
+                  "familyName": "DejaVu Sans",
+                  "postScriptName": "DejaVuSans",
+                  "isCustomFont": false,
+                  "glyphCount": 9
+                },
+                {
+                  "familyName": "Noto Sans CJK KR",
+                  "postScriptName": "NotoSansCJKkr-Regular",
+                  "isCustomFont": false,
+                  "glyphCount": 9
+                }
+              ]
+            },
+            {
+              "selector": "article .reference",
+              "fonts": [
+                {
+                  "familyName": "DejaVu Sans",
+                  "postScriptName": "DejaVuSans",
+                  "isCustomFont": false,
+                  "glyphCount": 29
+                },
+                {
+                  "familyName": "Noto Sans CJK KR",
+                  "postScriptName": "NotoSansCJKkr-Regular",
+                  "isCustomFont": false,
+                  "glyphCount": 4
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "responsive geometry and complete table access",
+          "result": "PASS",
+          "detail": [
+            {
+              "width": 354,
+              "scrollWidth": 354,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 176.5
+            },
+            {
+              "width": 354,
+              "scrollWidth": 660,
+              "scrollLeft": 306,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 219.65625
+            },
+            {
+              "width": 354,
+              "scrollWidth": 800,
+              "scrollLeft": 446,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.796875
+            },
+            {
+              "width": 354,
+              "scrollWidth": 1280,
+              "scrollLeft": 926,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.875
+            },
+            {
+              "width": 354,
+              "scrollWidth": 1600,
+              "scrollLeft": 1246,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.890625
+            },
+            {
+              "width": 354,
+              "scrollWidth": 354,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 176.5
+            },
+            {
+              "width": 354,
+              "scrollWidth": 660,
+              "scrollLeft": 306,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 219.65625
+            },
+            {
+              "width": 354,
+              "scrollWidth": 800,
+              "scrollLeft": 446,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.796875
+            },
+            {
+              "width": 354,
+              "scrollWidth": 354,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 176.5
+            }
+          ]
+        },
+        {
+          "name": "keyboard can scroll a wide table",
+          "result": "PASS"
+        },
+        {
+          "name": "all six images decoded, proportional and unclipped",
+          "result": "PASS",
+          "detail": [
+            {
+              "src": "assets/ko-7c688b8543069fbe08a493f8.png",
+              "alt": "그림 1 edge markers",
+              "naturalWidth": 1200,
+              "naturalHeight": 300,
+              "width": 354,
+              "height": 88.5,
+              "left": 18,
+              "right": 372,
+              "parentWidth": 354
+            },
+            {
+              "src": "assets/ko-6e6a45e12766994fa2abbe76.png",
+              "alt": "그림 2 edge markers",
+              "naturalWidth": 320,
+              "naturalHeight": 480,
+              "width": 320,
+              "height": 480,
+              "left": 18,
+              "right": 338,
+              "parentWidth": 354
+            },
+            {
+              "src": "assets/ko-7d0984a16e5a4c31b71d35ee.png",
+              "alt": "그림 3 edge markers",
+              "naturalWidth": 900,
+              "naturalHeight": 600,
+              "width": 354,
+              "height": 236,
+              "left": 18,
+              "right": 372,
+              "parentWidth": 354
+            },
+            {
+              "src": "assets/ko-ffd1a62243180c130a3d1b31.png",
+              "alt": "그림 4 edge markers",
+              "naturalWidth": 1400,
+              "naturalHeight": 240,
+              "width": 354,
+              "height": 60.671875,
+              "left": 18,
+              "right": 372,
+              "parentWidth": 354
+            },
+            {
+              "src": "assets/ko-dd758e5101a5166abd394765.png",
+              "alt": "그림 5 edge markers",
+              "naturalWidth": 640,
+              "naturalHeight": 360,
+              "width": 354,
+              "height": 199.125,
+              "left": 18,
+              "right": 372,
+              "parentWidth": 354
+            },
+            {
+              "src": "assets/ko-0906e3f67abb03594179bf84.png",
+              "alt": "그림 6 edge markers",
+              "naturalWidth": 1000,
+              "naturalHeight": 500,
+              "width": 354,
+              "height": 177,
+              "left": 18,
+              "right": 372,
+              "parentWidth": 354
+            }
+          ]
+        },
+        {
+          "name": "bibliography and internal bookmark navigation",
+          "result": "PASS"
+        },
+        {
+          "name": "local link responses and fragment targets",
+          "result": "PASS"
+        },
+        {
+          "name": "reciprocal language switching by real clicks",
+          "result": "PASS"
+        },
+        {
+          "name": "existing B03 link navigates without replacing its content",
+          "result": "PASS"
+        }
+      ],
+      "errors": [],
+      "platformFonts": [
+        {
+          "selector": "h1",
+          "fonts": [
+            {
+              "familyName": "DejaVu Sans",
+              "postScriptName": "DejaVuSans-Bold",
+              "isCustomFont": false,
+              "glyphCount": 14
+            },
+            {
+              "familyName": "Noto Sans CJK KR",
+              "postScriptName": "NotoSansCJKkr-Regular",
+              "isCustomFont": false,
+              "glyphCount": 16
+            }
+          ]
+        },
+        {
+          "selector": "article > p",
+          "fonts": [
+            {
+              "familyName": "DejaVu Sans",
+              "postScriptName": "DejaVuSans",
+              "isCustomFont": false,
+              "glyphCount": 16
+            },
+            {
+              "familyName": "Noto Sans CJK KR",
+              "postScriptName": "NotoSansCJKkr-Regular",
+              "isCustomFont": false,
+              "glyphCount": 45
+            }
+          ]
+        },
+        {
+          "selector": "article td p",
+          "fonts": [
+            {
+              "familyName": "DejaVu Sans",
+              "postScriptName": "DejaVuSans",
+              "isCustomFont": false,
+              "glyphCount": 9
+            },
+            {
+              "familyName": "Noto Sans CJK KR",
+              "postScriptName": "NotoSansCJKkr-Regular",
+              "isCustomFont": false,
+              "glyphCount": 9
+            }
+          ]
+        },
+        {
+          "selector": "article .reference",
+          "fonts": [
+            {
+              "familyName": "DejaVu Sans",
+              "postScriptName": "DejaVuSans",
+              "isCustomFont": false,
+              "glyphCount": 29
+            },
+            {
+              "familyName": "Noto Sans CJK KR",
+              "postScriptName": "NotoSansCJKkr-Regular",
+              "isCustomFont": false,
+              "glyphCount": 4
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "href": "https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/research/qa-docx-browser-a99999/ko.html",
+          "status": 200
+        },
+        {
+          "href": "ko.html",
+          "status": 200
+        },
+        {
+          "href": "en.html",
+          "status": 200
+        },
+        {
+          "href": "de.html",
+          "status": 200
+        },
+        {
+          "href": "article.css",
+          "status": 200
+        },
+        {
+          "href": "../../index.html#research",
+          "status": 200
+        },
+        {
+          "href": "#section-5",
+          "status": 200
+        },
+        {
+          "href": "#section-7",
+          "status": 200
+        },
+        {
+          "href": "#section-14",
+          "status": 200
+        },
+        {
+          "href": "#section-24",
+          "status": 200
+        },
+        {
+          "href": "#section-40",
+          "status": 200
+        },
+        {
+          "href": "#section-65",
+          "status": 200
+        },
+        {
+          "href": "#section-96",
+          "status": 200
+        },
+        {
+          "href": "#section-103",
+          "status": 200
+        },
+        {
+          "href": "#section-113",
+          "status": 200
+        },
+        {
+          "href": "#section-129",
+          "status": 200
+        },
+        {
+          "href": "#section-148",
+          "status": 200
+        },
+        {
+          "href": "#references",
+          "status": 200
+        },
+        {
+          "href": "assets/ko-7c688b8543069fbe08a493f8.png",
+          "status": 200
+        },
+        {
+          "href": "assets/ko-6e6a45e12766994fa2abbe76.png",
+          "status": 200
+        },
+        {
+          "href": "assets/ko-7d0984a16e5a4c31b71d35ee.png",
+          "status": 200
+        },
+        {
+          "href": "assets/ko-ffd1a62243180c130a3d1b31.png",
+          "status": 200
+        },
+        {
+          "href": "assets/ko-dd758e5101a5166abd394765.png",
+          "status": 200
+        },
+        {
+          "href": "assets/ko-0906e3f67abb03594179bf84.png",
+          "status": 200
+        },
+        {
+          "href": "#body",
+          "status": 200
+        },
+        {
+          "href": "../B03/ko.html",
+          "status": 200
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "key": "en-mobile",
+      "lang": "en",
+      "viewport": {
+        "name": "mobile",
+        "width": 390,
+        "height": 844
+      },
+      "checks": [
+        {
+          "name": "language, title, body and formatting",
+          "result": "PASS"
+        },
+        {
+          "name": "real font used for Korean glyphs",
+          "result": "PASS",
+          "detail": "not applicable"
+        },
+        {
+          "name": "responsive geometry and complete table access",
+          "result": "PASS",
+          "detail": [
+            {
+              "width": 354,
+              "scrollWidth": 354,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 176.5
+            },
+            {
+              "width": 354,
+              "scrollWidth": 660,
+              "scrollLeft": 306,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 219.65625
+            },
+            {
+              "width": 354,
+              "scrollWidth": 800,
+              "scrollLeft": 446,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.796875
+            },
+            {
+              "width": 354,
+              "scrollWidth": 1280,
+              "scrollLeft": 926,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.875
+            },
+            {
+              "width": 354,
+              "scrollWidth": 1600,
+              "scrollLeft": 1246,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.890625
+            },
+            {
+              "width": 354,
+              "scrollWidth": 354,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 176.5
+            },
+            {
+              "width": 354,
+              "scrollWidth": 660,
+              "scrollLeft": 306,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 219.65625
+            },
+            {
+              "width": 354,
+              "scrollWidth": 800,
+              "scrollLeft": 446,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.796875
+            },
+            {
+              "width": 354,
+              "scrollWidth": 354,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 176.5
+            }
+          ]
+        },
+        {
+          "name": "keyboard can scroll a wide table",
+          "result": "PASS"
+        },
+        {
+          "name": "all six images decoded, proportional and unclipped",
+          "result": "PASS",
+          "detail": [
+            {
+              "src": "assets/en-7c688b8543069fbe08a493f8.png",
+              "alt": "Figure 1 edge markers",
+              "naturalWidth": 1200,
+              "naturalHeight": 300,
+              "width": 354,
+              "height": 88.5,
+              "left": 18,
+              "right": 372,
+              "parentWidth": 354
+            },
+            {
+              "src": "assets/en-6e6a45e12766994fa2abbe76.png",
+              "alt": "Figure 2 edge markers",
+              "naturalWidth": 320,
+              "naturalHeight": 480,
+              "width": 320,
+              "height": 480,
+              "left": 18,
+              "right": 338,
+              "parentWidth": 354
+            },
+            {
+              "src": "assets/en-7d0984a16e5a4c31b71d35ee.png",
+              "alt": "Figure 3 edge markers",
+              "naturalWidth": 900,
+              "naturalHeight": 600,
+              "width": 354,
+              "height": 236,
+              "left": 18,
+              "right": 372,
+              "parentWidth": 354
+            },
+            {
+              "src": "assets/en-ffd1a62243180c130a3d1b31.png",
+              "alt": "Figure 4 edge markers",
+              "naturalWidth": 1400,
+              "naturalHeight": 240,
+              "width": 354,
+              "height": 60.671875,
+              "left": 18,
+              "right": 372,
+              "parentWidth": 354
+            },
+            {
+              "src": "assets/en-dd758e5101a5166abd394765.png",
+              "alt": "Figure 5 edge markers",
+              "naturalWidth": 640,
+              "naturalHeight": 360,
+              "width": 354,
+              "height": 199.125,
+              "left": 18,
+              "right": 372,
+              "parentWidth": 354
+            },
+            {
+              "src": "assets/en-0906e3f67abb03594179bf84.png",
+              "alt": "Figure 6 edge markers",
+              "naturalWidth": 1000,
+              "naturalHeight": 500,
+              "width": 354,
+              "height": 177,
+              "left": 18,
+              "right": 372,
+              "parentWidth": 354
+            }
+          ]
+        },
+        {
+          "name": "bibliography and internal bookmark navigation",
+          "result": "PASS"
+        },
+        {
+          "name": "local link responses and fragment targets",
+          "result": "PASS"
+        },
+        {
+          "name": "reciprocal language switching by real clicks",
+          "result": "PASS"
+        },
+        {
+          "name": "existing B03 link navigates without replacing its content",
+          "result": "PASS"
+        }
+      ],
+      "errors": [],
+      "platformFonts": [],
+      "links": [
+        {
+          "href": "https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/research/qa-docx-browser-a99999/en.html",
+          "status": 200
+        },
+        {
+          "href": "ko.html",
+          "status": 200
+        },
+        {
+          "href": "en.html",
+          "status": 200
+        },
+        {
+          "href": "de.html",
+          "status": 200
+        },
+        {
+          "href": "article.css",
+          "status": 200
+        },
+        {
+          "href": "../../index.html#research",
+          "status": 200
+        },
+        {
+          "href": "#section-5",
+          "status": 200
+        },
+        {
+          "href": "#section-7",
+          "status": 200
+        },
+        {
+          "href": "#section-14",
+          "status": 200
+        },
+        {
+          "href": "#section-24",
+          "status": 200
+        },
+        {
+          "href": "#section-40",
+          "status": 200
+        },
+        {
+          "href": "#section-65",
+          "status": 200
+        },
+        {
+          "href": "#section-96",
+          "status": 200
+        },
+        {
+          "href": "#section-103",
+          "status": 200
+        },
+        {
+          "href": "#section-113",
+          "status": 200
+        },
+        {
+          "href": "#section-129",
+          "status": 200
+        },
+        {
+          "href": "#section-148",
+          "status": 200
+        },
+        {
+          "href": "#references",
+          "status": 200
+        },
+        {
+          "href": "assets/en-7c688b8543069fbe08a493f8.png",
+          "status": 200
+        },
+        {
+          "href": "assets/en-6e6a45e12766994fa2abbe76.png",
+          "status": 200
+        },
+        {
+          "href": "assets/en-7d0984a16e5a4c31b71d35ee.png",
+          "status": 200
+        },
+        {
+          "href": "assets/en-ffd1a62243180c130a3d1b31.png",
+          "status": 200
+        },
+        {
+          "href": "assets/en-dd758e5101a5166abd394765.png",
+          "status": 200
+        },
+        {
+          "href": "assets/en-0906e3f67abb03594179bf84.png",
+          "status": 200
+        },
+        {
+          "href": "#body",
+          "status": 200
+        },
+        {
+          "href": "../B03/en.html",
+          "status": 200
+        }
+      ],
+      "result": "PASS"
+    },
+    {
+      "key": "de-mobile",
+      "lang": "de",
+      "viewport": {
+        "name": "mobile",
+        "width": 390,
+        "height": 844
+      },
+      "checks": [
+        {
+          "name": "language, title, body and formatting",
+          "result": "PASS"
+        },
+        {
+          "name": "real font used for Korean glyphs",
+          "result": "PASS",
+          "detail": "not applicable"
+        },
+        {
+          "name": "responsive geometry and complete table access",
+          "result": "PASS",
+          "detail": [
+            {
+              "width": 354,
+              "scrollWidth": 354,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 176.5
+            },
+            {
+              "width": 354,
+              "scrollWidth": 660,
+              "scrollLeft": 306,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 219.65625
+            },
+            {
+              "width": 354,
+              "scrollWidth": 800,
+              "scrollLeft": 446,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.796875
+            },
+            {
+              "width": 354,
+              "scrollWidth": 1280,
+              "scrollLeft": 926,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.875
+            },
+            {
+              "width": 354,
+              "scrollWidth": 1600,
+              "scrollLeft": 1246,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.890625
+            },
+            {
+              "width": 354,
+              "scrollWidth": 354,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 176.5
+            },
+            {
+              "width": 354,
+              "scrollWidth": 660,
+              "scrollLeft": 306,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 219.65625
+            },
+            {
+              "width": 354,
+              "scrollWidth": 800,
+              "scrollLeft": 446,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 159.796875
+            },
+            {
+              "width": 354,
+              "scrollWidth": 354,
+              "scrollLeft": 0,
+              "clippedCells": 0,
+              "lastCellAccessible": true,
+              "overflow": "auto",
+              "minimumCellWidth": 176.5
+            }
+          ]
+        },
+        {
+          "name": "keyboard can scroll a wide table",
+          "result": "PASS"
+        },
+        {
+          "name": "all six images decoded, proportional and unclipped",
+          "result": "PASS",
+          "detail": [
+            {
+              "src": "assets/de-7c688b8543069fbe08a493f8.png",
+              "alt": "Abbildung 1 edge markers",
+              "naturalWidth": 1200,
+              "naturalHeight": 300,
+              "width": 354,
+              "height": 88.5,
+              "left": 18,
+              "right": 372,
+              "parentWidth": 354
+            },
+            {
+              "src": "assets/de-6e6a45e12766994fa2abbe76.png",
+              "alt": "Abbildung 2 edge markers",
+              "naturalWidth": 320,
+              "naturalHeight": 480,
+              "width": 320,
+              "height": 480,
+              "left": 18,
+              "right": 338,
+              "parentWidth": 354
+            },
+            {
+              "src": "assets/de-7d0984a16e5a4c31b71d35ee.png",
+              "alt": "Abbildung 3 edge markers",
+              "naturalWidth": 900,
+              "naturalHeight": 600,
+              "width": 354,
+              "height": 236,
+              "left": 18,
+              "right": 372,
+              "parentWidth": 354
+            },
+            {
+              "src": "assets/de-ffd1a62243180c130a3d1b31.png",
+              "alt": "Abbildung 4 edge markers",
+              "naturalWidth": 1400,
+              "naturalHeight": 240,
+              "width": 354,
+              "height": 60.671875,
+              "left": 18,
+              "right": 372,
+              "parentWidth": 354
+            },
+            {
+              "src": "assets/de-dd758e5101a5166abd394765.png",
+              "alt": "Abbildung 5 edge markers",
+              "naturalWidth": 640,
+              "naturalHeight": 360,
+              "width": 354,
+              "height": 199.125,
+              "left": 18,
+              "right": 372,
+              "parentWidth": 354
+            },
+            {
+              "src": "assets/de-0906e3f67abb03594179bf84.png",
+              "alt": "Abbildung 6 edge markers",
+              "naturalWidth": 1000,
+              "naturalHeight": 500,
+              "width": 354,
+              "height": 177,
+              "left": 18,
+              "right": 372,
+              "parentWidth": 354
+            }
+          ]
+        },
+        {
+          "name": "bibliography and internal bookmark navigation",
+          "result": "PASS"
+        },
+        {
+          "name": "local link responses and fragment targets",
+          "result": "PASS"
+        },
+        {
+          "name": "reciprocal language switching by real clicks",
+          "result": "PASS"
+        },
+        {
+          "name": "existing B03 link navigates without replacing its content",
+          "result": "PASS"
+        }
+      ],
+      "errors": [],
+      "platformFonts": [],
+      "links": [
+        {
+          "href": "https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/research/qa-docx-browser-a99999/de.html",
+          "status": 200
+        },
+        {
+          "href": "ko.html",
+          "status": 200
+        },
+        {
+          "href": "en.html",
+          "status": 200
+        },
+        {
+          "href": "de.html",
+          "status": 200
+        },
+        {
+          "href": "article.css",
+          "status": 200
+        },
+        {
+          "href": "../../index.html#research",
+          "status": 200
+        },
+        {
+          "href": "#section-5",
+          "status": 200
+        },
+        {
+          "href": "#section-7",
+          "status": 200
+        },
+        {
+          "href": "#section-14",
+          "status": 200
+        },
+        {
+          "href": "#section-24",
+          "status": 200
+        },
+        {
+          "href": "#section-40",
+          "status": 200
+        },
+        {
+          "href": "#section-65",
+          "status": 200
+        },
+        {
+          "href": "#section-96",
+          "status": 200
+        },
+        {
+          "href": "#section-103",
+          "status": 200
+        },
+        {
+          "href": "#section-113",
+          "status": 200
+        },
+        {
+          "href": "#section-129",
+          "status": 200
+        },
+        {
+          "href": "#section-148",
+          "status": 200
+        },
+        {
+          "href": "#references",
+          "status": 200
+        },
+        {
+          "href": "assets/de-7c688b8543069fbe08a493f8.png",
+          "status": 200
+        },
+        {
+          "href": "assets/de-6e6a45e12766994fa2abbe76.png",
+          "status": 200
+        },
+        {
+          "href": "assets/de-7d0984a16e5a4c31b71d35ee.png",
+          "status": 200
+        },
+        {
+          "href": "assets/de-ffd1a62243180c130a3d1b31.png",
+          "status": 200
+        },
+        {
+          "href": "assets/de-dd758e5101a5166abd394765.png",
+          "status": 200
+        },
+        {
+          "href": "assets/de-0906e3f67abb03594179bf84.png",
+          "status": 200
+        },
+        {
+          "href": "#body",
+          "status": 200
+        },
+        {
+          "href": "../B03/de.html",
+          "status": 200
+        }
+      ],
+      "result": "PASS"
+    }
+  ],
+  "errors": [],
+  "archiveFiles": 342,
+  "ignoreHTTPSErrors": false,
+  "sourceHashes": {
+    "tools/research_docx.py": "52b2f3bfc0fad4743ce5cab5ae9536021d86094c99b063a365bbc16109951110",
+    "tools/research_browser_fixture.py": "b01e18a70e56467cbb2e04f282f39dc005ec892100c96157baf65c69a5f35b30",
+    "tools/test_research_browser.cjs": "0d48240b990241a7a1af138e8ce9d597d3b3c0f7c1a527ccb1d949dc45badf9f",
+    "research/B03/b03.css": "110c8d88f605b07f79b0e3a4b86d653590d4fb18f6e4fcf0da83cccb7d9da8d0",
+    "generated/ko.html": "313465cae349075cf0d0d4a9a86c754083e7933b6a64314b6bc10ee84aec5a8c",
+    "generated/en.html": "4bb3996082b1d01e338127837836855a75a1d1026d79b60c78c06a8e0f383ee2",
+    "generated/de.html": "d16a5eb9e6df4cdf9c0dc857e40f0eb56921b429505ba01fddc366962ccc3e03",
+    "generated/article.css": "7073695e2ee533c63b8fc58e5009c610cda1ffaa2e30435a778e8a79034399db"
+  },
+  "archiveUnchanged": true,
+  "result": "PASS",
+  "finished": "2026-10-08T11:18:25.931Z",
+  "baseMain": "41f66e6e4b66209e5f0a4ce55e7bae7e6c22b72d",
+  "originalPRHead": "3efd149aa8173d19be54fe0f4d3ebc37bd201a2d",
+  "converterContracts": {
+    "type": "Python unit and negative-publication tests; not browser evidence",
+    "passed": 27,
+    "platform": "local Linux",
+    "indexEntries": 26,
+    "indexByteIdentical": true
+  },
+  "visualReview": {
+    "result": "PASS",
+    "scope": "All six language/viewport title and reference views; Korean glyphs and before/after dense-table views; image edge markers and proportions. Automated geometry, source text and image hashes cover all tables/images.",
+    "mobile": "Chromium viewport emulation, not physical-device testing"
+  },
+  "screenshots": {
+    "before-ko-mobile-dense-table.png": "ca491f03629005baf9f603f7ee2e43a0140658c1cd7f3808b2c94d9f47791c40",
+    "de-desktop-title.png": "6d14277a322edcb0922643e7202635556f315416a0cf021debb109695a499c83",
+    "de-mobile-title.png": "95f5e40b973fd19eaeba0c7dee47eb1993298744144250dba25c4651e6080435",
+    "en-desktop-title.png": "953bf3f7551fe0bc4a057ac4358f3cc514b8acd418ab5c54bf4aab4a55073e9a",
+    "en-mobile-title.png": "859a14cd8c89e4bbc992a6a05491126fd07775bb5811fdde8507db724eda6559",
+    "ko-desktop-title.png": "682b1c889317e77291eb6f4d34f014cd482e4a23d7a2dd01185fd0967d966c94",
+    "ko-mobile-title.png": "ebf42a53f8db761818029f571d5514e051bc47f6d2905c7abf9f62d9a6ed88ae",
+    "ko-mobile-wide-table-end.png": "33c178de292622ef60134dbdd8e9e78130c2a1c83512ade51cb05687e7628a0b",
+    "ko-mobile-wide-table.png": "c115665cf69c714902d707b23acc5e3836a159de701e5bb475669a396985c678"
+  }
+}

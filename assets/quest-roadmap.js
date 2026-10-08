@@ -143,7 +143,7 @@
     return `<div class="rf-q-map-sources"><h4>${esc(c.source)} <span>${q.references.length}</span></h4><ul>${q.references.map((ref,i)=>{
       const source = data.sources[ref.id][lang];
       return `<li><a href="${esc(source.link)}" title="${esc(source.title)}" data-map-source="${esc(ref.id)}"><span>${/^[A-Z]+\d+$/.test(ref.id)?esc(ref.id):String(i+1).padStart(2,'0')}</span><strong>${esc(source.title.split(' — ')[0])}</strong><span aria-hidden="true">↗</span></a></li>`;
-    }).join('')}</ul></div><div class="rf-q-map-pivot"><span class="rf-q-map-direction" aria-hidden="true">→</span><div><p>${esc(c.task)}</p><span class="rf-q-map-code">${esc(q.code)}</span><h4>${esc(c.titles[QUEST_IDS.indexOf(q.id)])}</h4><p>${esc(q.copy[lang].stage)}</p><a href="${link(q.id)}" data-quest-target="${esc(q.id)}">${esc(c.open)} ↗</a></div><span class="rf-q-map-direction" aria-hidden="true">→</span></div><div class="rf-q-map-models"><h4>${esc(c.models)} <span>${q.models.length}</span></h4><ul>${q.models.map(model=>`<li><a href="#${['SKADI','GRAM'].includes(model)?'concept':'Prototype'}" data-quest-model="${esc(model)}"><strong>${esc(model)}</strong><span>${esc(['SKADI','GRAM'].includes(model)?c.concept:c.proto)}</span><span aria-hidden="true">↗</span></a></li>`).join('')}</ul></div>`;
+    }).join('')}</ul></div><div class="rf-q-map-pivot"><span class="rf-q-map-direction" aria-hidden="true">→</span><div><p>${esc(c.task)}</p><span class="rf-q-map-code">${esc(q.code)}</span><h4>${esc(c.titles[QUEST_IDS.indexOf(q.id)])}</h4><p>${esc(q.copy[lang].stage)}</p><a href="${link(q.id)}" data-quest-target="${esc(q.id)}">${esc(c.open)} ↗</a></div><span class="rf-q-map-direction" aria-hidden="true">→</span></div><div class="rf-q-map-models"><h4>${esc(c.models)} <span>${q.models.length}</span></h4><ul>${q.models.map(model=>`<li><a href="#${['SKADI','GRAMR'].includes(model)?'concept':'Prototype'}" data-quest-model="${esc(model)}"><strong>${esc(model)}</strong><span>${esc(['SKADI','GRAMR'].includes(model)?c.concept:c.proto)}</span><span aria-hidden="true">↗</span></a></li>`).join('')}</ul></div>`;
   }
   function relationships(data, lang, selectedId) {
     const c = VISUAL[lang], id = data.quests.some(q=>q.id===selectedId) ? selectedId : 'electronics';
@@ -165,7 +165,7 @@
         return local ? `<li><a href="${esc(local.link)}"><strong>${esc(local.title)}</strong><span aria-hidden="true"> ↗</span></a><p>${esc(text(ref.role, lang))}</p></li>` : `<li>${esc(u('missing'))}</li>`;
       }).join('');
       const modelLinks = q.models.map(model => {
-        const concept = ['SKADI', 'GRAM'].includes(model);
+        const concept = ['SKADI', 'GRAMR'].includes(model);
         return `<a href="#${concept ? 'concept' : 'Prototype'}" data-quest-model="${esc(model)}">${esc(model)}${concept ? ` <small>· ${esc(u('concept'))}</small>` : ''}</a>`;
       }).join('');
       return `<details class="rf-q-card" id="quest-${esc(q.id)}" data-quest-id="${esc(q.id)}">
@@ -261,7 +261,7 @@
     } else if (target.dataset.questModel) {
       event.preventDefault();
       const model = target.dataset.questModel;
-      const concept = ['SKADI', 'GRAM'].includes(model);
+      const concept = ['SKADI', 'GRAMR'].includes(model);
       goPage(concept ? 'concept' : 'Prototype');
       if (!concept) document.getElementById('btn-spec-' + model.toLowerCase())?.click();
     } else if (target.dataset.questBuilder) {

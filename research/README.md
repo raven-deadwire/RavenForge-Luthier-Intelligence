@@ -25,7 +25,7 @@ research/
 4. Commit/push to `main`.
 5. GitHub Actions validates the metadata and rebuilds `research/research-index.json` automatically.
 
-A future DOCX-to-HTML publishing step can generate the three HTML files and `meta.json`; the website itself no longer requires Google Docs or Google Sheets.
+The create-only DOCX publisher below generates the three HTML files and `meta.json`; the website itself no longer requires Google Docs or Google Sheets.
 
 ## Article schema
 
@@ -166,5 +166,33 @@ python -m unittest discover -s tools -p test_research_docx.py -v
 ```
 
 The read-only `research-docx-contract.yml` workflow runs these contracts on
-Linux/Windows/macOS. It never downloads private Drive manuscripts, publishes
-previews, or uploads their output as CI artifacts.
+Linux/Windows/macOS. It never downloads private Drive manuscripts or publishes
+previews. A separate Linux Chromium job uploads only generated synthetic test
+data and browser evidence, never private manuscripts.
+
+### Actual browser regression
+
+```bash
+# Requires Playwright and Chromium; install a Korean-capable system font.
+# Optional: RESEARCH_BROWSER_PATH=/path/to/chrome-headless-shell
+# Optional: RESEARCH_QA_DIR=/absolute/path/outside/the/checkout
+node tools/test_research_browser.cjs
+```
+
+The runner creates fresh KO/EN/DE DOCX fixtures outside the checkout and invokes
+the production converter without `--publish`. Its local HTTP server overlays the
+temporary article at the real site path, leaving existing research untouched.
+Three languages at 1440×1080 and 390×844 cover titles, text, tables, images,
+bibliography, bookmarks, TOC clicks, language switching and existing local links.
+Korean glyphs must actually use a Korean-capable platform font (Chromium CDP).
+Image decoding, byte hashes, proportions, page overflow, table cell width and
+access to the final column are checked. Generated screen tables reserve 10rem
+per column and scroll horizontally; existing article CSS and print layout stay
+unchanged. Screenshots still require visual inspection.
+
+`report.json` and screenshots are distinct browser evidence; Python converter
+contracts are not browser results. Mobile means viewport emulation, not a
+physical phone. The fixture contains local references only: remote HTTP failures
+remain covered by converter contracts, and real manuscripts still require live
+`--check-external` and editorial review. See
+`docs/validation/research-docx-2026-10-08.md` for the completed acceptance run.

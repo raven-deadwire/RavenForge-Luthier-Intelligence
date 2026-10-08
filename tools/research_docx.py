@@ -281,9 +281,12 @@ class Converter:
         first_row = table.find('w:tr', NS)
         if first_row is None:
             raise Invalid('Empty table')
-        columns = sum(int(s.get(W + 'val', '1')) if (s := c.find('w:tcPr/w:gridSpan', NS)) is not None else 1 for c in first_row.findall('w:tc', NS))
+        # A title/header row may span fewer cells than later data rows. Use the
+        # widest row so dense tables remain readable in a scrollable viewport.
+        columns = max(sum(int(s.get(W + 'val', '1')) if (s := c.find('w:tcPr/w:gridSpan', NS)) is not None else 1
+                          for c in row.findall('w:tc', NS)) for row in table.findall('w:tr', NS))
         kind = 'callout' if columns == 1 else 'meta' if columns == 2 else 'comparison'
-        parts = [f'<div class="table-scroll" tabindex="0" role="region" aria-label="{LABELS[self.lang][3]} {self.tables}"><table class="{kind}"{attrs}>']
+        parts = [f'<div class="table-scroll" tabindex="0" role="region" aria-label="{LABELS[self.lang][3]} {self.tables}"><table class="{kind}" style="--docx-columns:{columns}"{attrs}>']
         for row in table.findall('w:tr', NS):
             parts.append('<tr>')
             for cell in row.findall('w:tc', NS):
@@ -462,6 +465,9 @@ def build(manifest_path, root, output, check_external=False):
     # Reuse B03's established responsive layout without coupling source articles.
     css = (root / 'research/B03/b03.css').read_text(encoding='utf-8')
     css += '\narticle img{max-width:100%;height:auto}ul,ol{padding-left:2em}h4,h5,h6{break-after:avoid}\n'
+    # Generated pages only: do not change the published B03 stylesheet. Screen
+    # tables keep readable columns; print retains the existing page-width fit.
+    css += '@media screen{.table-scroll>table{min-width:calc(var(--docx-columns,1)*10rem)}.table-scroll>table.comparison{min-width:max(660px,calc(var(--docx-columns,1)*10rem))}}\n'
     (output / 'article.css').write_text(css, encoding='utf-8')
     meta = {k: manifest[k] for k in ('id', 'date', 'category')}
     if manifest.get('researchCode'):

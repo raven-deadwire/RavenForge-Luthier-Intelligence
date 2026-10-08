@@ -1,0 +1,852 @@
+#!/usr/bin/env node
+'use strict';
+
+/*
+ * Browser regression checks for the customer configurator.
+ *
+ *   node tools/test_configurator.cjs
+ *   node tools/test_configurator.cjs --url http://localhost:8000/configurator.html
+ *   node tools/test_configurator.cjs --bootstrap
+ *   node tools/test_configurator.cjs --pdf-only
+ *   node tools/test_configurator.cjs --matrix
+ *   node tools/test_configurator.cjs --matrix-ui-only --url https://example.test/configurator.html
+ *   node tools/test_configurator.cjs --case 'ASKR: electronics'
+ *   node tools/test_configurator.cjs --from 'EDDA: neck'
+ *
+ * Requires Playwright and Chromium (npx playwright install chromium).
+ * CODEX_PRIMARY_RUNTIME_NODE_MODULES is supported for the workspace runtime.
+ * CONFIGURATOR_BROWSER_PATH can select an existing Chromium executable.
+ * HTTPS_PROXY/HTTP_PROXY are honored for CDN access, with loopback bypassed.
+ * CONFIGURATOR_IGNORE_HTTPS_ERRORS=1 is available for a test proxy whose CA is
+ * absent from Chromium's trust store; this choice is recorded in report.json.
+ * CONFIGURATOR_QA_DIR selects the output directory; the default is a temporary
+ * directory outside the repository. Real CDN scripts and real PDF generation
+ * are used. No application selections, prices or React state are mocked.
+ * The matrix covers ko/en/de, 1440x1080 and 390x844, and all four models.
+ * Install a Korean-capable system font (for example Noto Sans CJK KR) before
+ * rendering Korean screenshots/PDFs. PDF source comparisons do not prove glyph
+ * rendering; inspect the generated PDF pages separately.
+ */
+
+const assert = require('node:assert/strict');
+const fs = require('node:fs/promises');
+const os = require('node:os');
+const path = require('node:path');
+const http = require('node:http');
+const { createRequire } = require('node:module');
+
+const args = process.argv.slice(2);
+const arg = (name) => {
+  const index = args.indexOf(name);
+  return index < 0 ? undefined : args[index + 1];
+};
+const bootstrapOnly = args.includes('--bootstrap');
+const pdfOnly = args.includes('--pdf-only');
+const matrixUiOnly = args.includes('--matrix-ui-only');
+const matrixOnly = args.includes('--matrix') || matrixUiOnly;
+const caseFilter = arg('--case');
+const fromFilter = arg('--from');
+const root = path.resolve(__dirname, '..');
+const runtimeRequire = process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES
+  ? createRequire(path.join(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES, '__qa__.cjs'))
+  : require;
+const { chromium } = runtimeRequire('playwright');
+
+const expectedModels = [
+  { id: 'EDDA', basePrice: 2100, strings: /\b4[ -]?strings?\b/i, scale: /\b34(?:["″”]|[ -]inch)/ },
+  { id: 'EMBLA', basePrice: 2550, strings: /\b5[ -]?strings?\b/i, scale: /\b34(?:["″”]|[ -]inch)/ },
+  { id: 'ASKR', basePrice: 3200, strings: /\b5[ -]?strings?\b/i, scale: /37["″”]?\s*[–—-]\s*34(?:["″”]|[ -]inch)/, bridge: /Payson/i },
+  { id: 'GRAMR', basePrice: 2000, strings: /\b6[ -]?(?:guitar )?strings?\b/i, scale: /25\.5(?:["″”]|[ -]inch)/, bridge: /Gotoh\s+510T-FE1/i },
+];
+const fixedCategories = ['orientation', 'strings', 'scale', 'nut_size', 'string_spacing', 'hardware_bridge', 'pickup_configuration', 'fretboard_extense'];
+const noShortScale = /short[ -]?scale|숏\s*스케일|\b(?:30|32|33)["″”]/i;
+
+function browserProxy() {
+  const value = process.env.CONFIGURATOR_PROXY || process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
+  if (!value) return undefined;
+  const url = new URL(value);
+  return {
+    server: `${url.protocol}//${url.host}`,
+    bypass: 'localhost,127.0.0.1,[::1]',
+    username: decodeURIComponent(url.username) || undefined,
+    password: decodeURIComponent(url.password) || undefined,
+  };
+}
+
+async function serve() {
+  const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.svg': 'image/svg+xml' };
+  const server = http.createServer(async (request, response) => {
+    try {
+      const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
+      const filename = path.resolve(root, '.' + pathname);
+      if (filename !== root && !filename.startsWith(root + path.sep)) {
+        response.writeHead(403).end();
+        return;
+      }
+      const data = await fs.readFile(filename);
+      response.writeHead(200, { 'Content-Type': types[path.extname(filename)] || 'application/octet-stream' }).end(data);
+    } catch {
+      response.writeHead(404).end();
+    }
+  });
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  return { server, url: `http://127.0.0.1:${server.address().port}/configurator.html` };
+}
+
+async function run() {
+  const output = process.env.CONFIGURATOR_QA_DIR || await fs.mkdtemp(path.join(os.tmpdir(), 'ravenforge-configurator-qa-'));
+  await fs.mkdir(output, { recursive: true });
+  const ignoreHTTPSErrors = process.env.CONFIGURATOR_IGNORE_HTTPS_ERRORS === '1';
+  const report = { started: new Date().toISOString(), bootstrapOnly, pdfOnly, matrixOnly, matrixUiOnly, caseFilter, fromFilter, ignoreHTTPSErrors, output, checks: [], pageErrors: [], failedRequests: [], consoleErrors: [] };
+  let server;
+  let browser;
+  let page;
+  let activeCheck = 'bootstrap';
+  try {
+    let url = arg('--url') || process.env.CONFIGURATOR_URL;
+    if (!url) ({ server, url } = await serve());
+    report.url = url;
+    browser = await chromium.launch({ headless: true, executablePath: process.env.CONFIGURATOR_BROWSER_PATH || undefined, proxy: browserProxy() });
+    report.browser = browser.version();
+    const context = await browser.newContext({ viewport: { width: 1440, height: 1080 }, acceptDownloads: true, ignoreHTTPSErrors });
+    page = await context.newPage();
+    page.setDefaultTimeout(10000);
+    page.on('pageerror', error => {
+      report.pageErrors.push(error.message);
+      console.error(`PAGE ERROR: ${error.message}`);
+    });
+    page.on('requestfailed', request => {
+      const failure = { url: request.url(), error: request.failure()?.errorText };
+      report.failedRequests.push(failure);
+      console.error(`REQUEST FAILED: ${failure.url} (${failure.error})`);
+    });
+    page.on('console', message => { if (message.type() === 'error') report.consoleErrors.push(message.text()); });
+    await page.goto(url, { waitUntil: 'load', timeout: 60000 });
+    await page.getByRole('button', { name: /EDDA/ }).waitFor({ timeout: 30000 });
+    assert.equal(await page.evaluate(() => typeof React), 'object', 'React must load from the actual page');
+    assert.equal(await page.evaluate(() => typeof html2pdf), 'function', 'PDF dependency must load from the actual page');
+    assert.equal(report.pageErrors.length, 0, 'Page must bootstrap without runtime errors');
+    report.checks.push({ name: 'bootstrap with actual page dependencies', result: 'PASS' });
+    console.log('PASS: bootstrap with actual page dependencies');
+    if (bootstrapOnly) {
+      await page.screenshot({ path: path.join(output, 'bootstrap.png'), fullPage: true });
+      report.result = 'BOOTSTRAP_PASS';
+      return;
+    }
+
+    let selectedChecks = 0;
+    let reachedFrom = !fromFilter;
+    const check = async (name, action, { pdf = false } = {}) => {
+      if (matrixOnly && !name.startsWith('Matrix:')) return;
+      if (!matrixOnly && name.startsWith('Matrix:')) return;
+      if (!reachedFrom && name.toLowerCase().includes(fromFilter.toLowerCase())) reachedFrom = true;
+      if (!reachedFrom) return;
+      if (pdfOnly && !pdf) return;
+      if (caseFilter && !name.toLowerCase().includes(caseFilter.toLowerCase())) return;
+      selectedChecks += 1;
+      activeCheck = name;
+      await action();
+      report.checks.push({ name, result: 'PASS' });
+      console.log(`PASS: ${name}`);
+    };
+    const step = async number => {
+      await page.locator(`button[data-step="${number}"]`).click();
+    };
+    const chooseModel = async id => {
+      await step(1);
+      await page.locator(`button[data-model="${id}"]`).click();
+      await page.waitForFunction(model => document.querySelector('#ui-header')?.textContent.includes(model), id);
+    };
+    const freshModel = async id => {
+      await step(1);
+      if (await page.locator(`button[data-model="${id}"]`).getAttribute('aria-pressed') === 'true') {
+        await chooseModel(id === 'EDDA' ? 'EMBLA' : 'EDDA');
+      }
+      await chooseModel(id);
+    };
+    const summary = () => page.locator('#quote-summary-card').innerText();
+    const option = (category, value) => page.locator(`input[type="radio"][name="${category}"][value="${value}"]`);
+    const selectOption = async (category, value) => {
+      const input = option(category, value);
+      assert.ok(await input.count(), `${category}/${value} must be a current option`);
+      assert.equal(await input.isEnabled(), true, `${category}/${value} must be enabled`);
+      await input.check();
+      assert.equal(await input.isChecked(), true, `${category}/${value} selection must survive normalization`);
+      assert.equal(await page.locator(`[data-future-options] [data-planned-option="${value}"]`).count(), 0,
+        `${category}/${value} cannot also be presented as a future option`);
+    };
+    const summaryRows = pattern => page.locator('#quote-list-container > div').filter({
+      has: page.locator(':scope > div > div:first-child').filter({ hasText: pattern }),
+    });
+    const summaryValue = async (category, pattern) => {
+      const row = summaryRows(category);
+      assert.equal(await row.count(), 1, `Expected one summary row for ${category}`);
+      assert.match(await row.innerText(), pattern);
+    };
+    const quotedAmount = async () => {
+      const text = await page.locator('[data-summary-total]').innerText();
+      assert.doesNotMatch(text, /€\s*(?:null|undefined|NaN)\b/);
+      const match = text.match(/€\s*([\d,]+(?:\.\d+)?)/);
+      assert.ok(match, 'Known instrument prices must retain a numeric amount');
+      const amount = Number(match[1].replaceAll(',', ''));
+      assert.ok(Number.isFinite(amount) && amount > 0);
+      return amount;
+    };
+    const observePdf = async () => page.evaluate(() => {
+      window.__configuratorPdfInputs = [];
+      window.__configuratorPdfErrors = [];
+      if (window.__configuratorPdfObserved) return;
+      window.__configuratorPdfObserved = true;
+      const originalSave = html2pdf.Worker.prototype.save;
+      html2pdf.Worker.prototype.save = function (...args) {
+        return originalSave.apply(this, args).catch(error => {
+          window.__configuratorPdfErrors.push(error?.stack || String(error));
+          throw error;
+        });
+      };
+      const originalFrom = html2pdf.Worker.prototype.from;
+      html2pdf.Worker.prototype.from = function (source, ...rest) {
+        let text = source?.innerText || '';
+        // Observe a rendered copy of detached input without changing the input
+        // or mocking the renderer. This preserves its visible block separators.
+        if (source instanceof HTMLElement && !source.isConnected) {
+          const probe = source.cloneNode(true);
+          Object.assign(probe.style, { position: 'fixed', left: '-10000px', top: '0', opacity: '0', pointerEvents: 'none' });
+          probe.removeAttribute('id');
+          probe.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
+          document.body.appendChild(probe);
+          text = probe.innerText;
+          probe.remove();
+        }
+        window.__configuratorPdfInputs.push({ text, id: source?.id || '' });
+        return originalFrom.call(this, source, ...rest);
+      };
+    });
+    const assertSpecs = (text, model, fullSummary = true) => {
+      assert.match(text, new RegExp(`\\b${model.id}\\b`), `${model.id} must be identified`);
+      assert.match(text, model.strings, `${model.id} string count`);
+      assert.match(text, model.scale, `${model.id} scale`);
+      if (model.bridge) assert.match(text, model.bridge, `${model.id} bridge`);
+      if (model.id === 'GRAMR') {
+        assert.match(text, /\b24[ -]?(?:frets?|F)\b|frets?\s*24\b/i, 'Gramr must identify 24 frets');
+        if (fullSummary) assert.match(text, /\bHH\b|dual humbucker|2 humbuckers/i, 'Gramr must retain its HH layout');
+      }
+    };
+
+    for (const model of expectedModels) {
+      await check(`${model.id}: fixed core and read-only future options`, async () => {
+        await chooseModel(model.id);
+        assertSpecs(await page.locator('[data-fixed-platform]').innerText(), model, false);
+        assertSpecs(await summary(), model);
+        if (model.id === 'ASKR') {
+          assert.match(await page.locator('button[data-model="ASKR"]').innerText(), /€\s*3,?200/);
+          assert.match(await summary(), /Base Model\s*\(ASKR\)\s*€\s*3,?200/i);
+          assert.equal(await quotedAmount(), 3200, 'ASKR includes the standard Payson bridge in its base price');
+        }
+        if (model.id === 'GRAMR') {
+          const card = await page.locator('button[data-model="GRAMR"]').innerText();
+          assert.match(card, /€\s*2,?000\b/, 'GRAMR must show its €2,000 base price');
+          assert.doesNotMatch(card, /€\s*(?:0|null|undefined|NaN)\b/);
+        }
+        const future = page.locator('[data-future-options]');
+        assert.ok(await future.count(), `${model.id} must disclose future options`);
+        if (await future.getAttribute('open') === null) await future.locator('summary').click();
+        assert.match(await future.innerText(), /추후\s*추가\s*예정|planned|future|coming/i);
+        assert.ok(await future.locator('[data-planned-option]').count(), 'Future options must be shown after expansion');
+        assert.equal(await future.locator('[data-planned-option]:not([aria-disabled="true"])').count(), 0, 'Every future option must be marked disabled');
+        assert.equal(await future.locator('input:enabled, select:enabled, button:enabled, textarea:enabled, a[href]').count(), 0, 'Future options cannot be configured');
+        assert.doesNotMatch(await future.innerText(), noShortScale, 'Short scale cannot appear in future options');
+        for (let number = 1; number <= 5; number++) {
+          await step(number);
+          const modelFixed = fixedCategories.filter(category => !(model.id !== 'GRAMR' && category === 'hardware_bridge'));
+          for (const category of [...modelFixed, ...(model.id === 'GRAMR' ? ['fret_type'] : [])]) {
+            assert.equal(await page.locator(`input[name="${category}"]:enabled, select[name="${category}"]:enabled`).count(), 0, `${model.id}: ${category} must not be selectable`);
+          }
+          const reopenByStep = {
+            2: ['neck', 'neck_profile', ...(model.id === 'GRAMR' ? [] : ['nut_material']), 'radius'],
+            3: ['body_construction'],
+            4: ['hardware_machine_head', ...(model.id !== 'GRAMR' ? ['hardware_bridge'] : [])],
+            5: ['pickups', 'electronics', 'control_layout'],
+          };
+          for (const category of reopenByStep[number] || []) {
+            assert.ok(await page.locator(`input[name="${category}"]:enabled`).count() > 1,
+              `${model.id}: ${category} must expose its current customization choices`);
+          }
+          assert.doesNotMatch(await page.locator('body').innerText(), noShortScale, 'Short scale cannot appear in the configurator');
+        }
+        assertSpecs(await summary(), model);
+      });
+    }
+
+    await check('All models: included gigbag and premium replacement keep one case and no duplicate charge', async () => {
+      for (const model of expectedModels) {
+        await freshModel(model.id);
+        const amountPattern = model.basePrice.toLocaleString('en-US').replace(',', ',?');
+        assert.match(await page.locator(`button[data-model="${model.id}"]`).innerText(),
+          new RegExp(`€\\s*${amountPattern}\\b`), `${model.id} card must include the gigbag budget in its base price`);
+        assert.match(await summary(), new RegExp(`Base Model\\s*\\(${model.id}\\)\\s*€\\s*${amountPattern}\\b`, 'i'));
+        assert.equal(await quotedAmount(), model.basePrice, `${model.id} must include its standard gigbag without a surcharge`);
+        await step(5);
+        assert.equal(await page.locator('input[type="radio"][name="case"]').count(), 2);
+        assert.equal(await option('case', 'case_standard').isChecked(), true);
+        assert.equal(await option('case', 'case_premium').isChecked(), false);
+        const caseRow = page.locator('[data-summary-category="case"]');
+        assert.equal(await caseRow.count(), 1, `${model.id} must have one case in its specification`);
+        const standardCase = await caseRow.innerText();
+        assert.match(standardCase, /Standard gigbag/i);
+        assert.doesNotMatch(standardCase, /manufacturer|final confirmation|€\s*(?:100|300)\b/i,
+          'The standard case summary must show only its name and included-price badge');
+
+        await selectOption('case', 'case_premium');
+        assert.equal(await option('case', 'case_standard').isChecked(), false);
+        assert.equal(await page.locator('input[type="radio"][name="case"]:checked').count(), 1);
+        assert.equal(await caseRow.count(), 1, 'A premium upgrade must replace the standard gigbag in the specification');
+        const premiumCase = await caseRow.innerText();
+        assert.match(premiumCase, /Premium gigbag/i);
+        assert.match(premiumCase, /€\s*200\b/);
+        assert.doesNotMatch(premiumCase, /Nube|equivalent|manufacturer|final confirmation|€\s*(?:100|300)\b/i,
+          'The premium case summary must show only its name and upgrade price');
+        assert.equal(await quotedAmount(), model.basePrice + 200,
+          'The €300 premium case must add only €200 after the included €100 case budget');
+        const premiumTotal = await page.locator('[data-summary-total]').innerText();
+        assert.match(premiumTotal, /Estimated total\s*\(excl\. VAT\)/i);
+        assert.doesNotMatch(premiumTotal, /subtotal|on.request|quoted separately/i,
+          'The premium case has a confirmed surcharge and must not require a separate quote');
+
+        await selectOption('case', 'case_standard');
+        assert.equal(await option('case', 'case_premium').isChecked(), false);
+        assert.equal(await page.locator('input[type="radio"][name="case"]:checked').count(), 1);
+        assert.equal(await caseRow.count(), 1);
+        assert.equal(await caseRow.innerText(), standardCase);
+        assert.equal(await quotedAmount(), model.basePrice, 'Returning to the included case must restore the exact base total');
+        const restoredTotal = await page.locator('[data-summary-total]').innerText();
+        assert.match(restoredTotal, /Estimated total\s*\(excl\. VAT\)/i);
+        assert.doesNotMatch(restoredTotal, /subtotal|on-request items/i);
+      }
+    });
+
+    await check('EDDA: neck customization and fretless dependencies remain available', async () => {
+      await freshModel('EDDA');
+      await step(2);
+      await selectOption('neck', '3pc');
+      await selectOption('neck_profile', 'profile_custom');
+      await selectOption('radius', 'rad_compound');
+      await selectOption('fret_material', 'mat_stainless');
+      await summaryValue(/^Neck$/i, /3 piece maple/i);
+      await summaryValue(/^Neck Profile/i, /custom profile/i);
+      await summaryValue(/^Radius/i, /compound/i);
+      await selectOption('fret_type', 'fretless');
+      await summaryValue(/^Nut Material/i, /guayacan/i);
+      await summaryValue(/^Fret Type/i, /fretless/i);
+      assert.match(await page.locator('[data-fixed-platform]').innerText(), /fretless/i,
+        'The current specification overview must reflect fretless selection');
+      assert.equal(await page.locator('input[name="fret_material"], input[name="fret_size"]').count(), 0);
+      assert.equal(await summaryRows(/^Fret (Material|Size)/i).count(), 0);
+      await selectOption('fretline', 'line_yes');
+      await selectOption('fret_type', 'fret_24');
+      await summaryValue(/^Nut Material/i, /brass|zero.fret.*guide/i);
+      assert.ok(await page.locator('input[name="fret_material"]').count());
+      assert.ok(await page.locator('input[name="fret_size"]').count());
+      assert.equal(await page.locator('input[name="fretline"]').count(), 0);
+      assert.equal(await summaryRows(/^Fretline/i).count(), 0);
+      assert.equal(await option('neck', '3pc').isChecked(), true);
+      assert.equal(await option('neck_profile', 'profile_custom').isChecked(), true);
+      assert.equal(await option('radius', 'rad_compound').isChecked(), true);
+      await step(5);
+      await selectOption('control_layout', 'control_custom');
+      assert.equal(await page.locator('[data-category="coil_switch"]').count(), 0);
+      assert.equal(await page.locator('input[name="coil_switch"]').count(), 0);
+      assert.equal(await page.locator('[data-planned-option^="coil_"]').count(), 0);
+      await summaryValue(/^(Control Layout|Controls & Wiring)/i, /custom/i);
+      assert.equal(await summaryRows(/^Select Coil Switch/i).count(), 0);
+      await quotedAmount();
+    });
+
+    await check('EMBLA: solid-body wood, tuner and EQ choices update independently', async () => {
+      await freshModel('EMBLA');
+      const base = await quotedAmount();
+      await step(3);
+      await selectOption('body_construction', '1pc_solid');
+      await selectOption('body_wood_single', 'limba');
+      assert.equal(await page.locator('input[name="body_core_wood"], input[name="body_wing_wood"]').count(), 0);
+      assert.equal(await summaryRows(/^(Core Wood|Side Wing Wood)/i).count(), 0);
+      await summaryValue(/^Body Wood/i, /limba/i);
+      assert.equal(await quotedAmount(), base + 100, 'Solid body surcharge is counted once');
+      for (const id of ['1pc_chambered', '3pc_chambered']) {
+        assert.equal(await option('body_construction', id).count(), 0);
+        assert.equal(await page.locator(`[data-planned-option="${id}"]`).getAttribute('aria-disabled'), 'true');
+      }
+      await step(5);
+      await selectOption('electronics', 'underhill');
+      await summaryValue(/^Onboard EQ/i, /Underhill Cali Dub/i);
+      assert.equal(await quotedAmount(), base + 100 + 340);
+      await selectOption('electronics', 'noll');
+      await summaryValue(/^Onboard EQ/i, /Noll TCM-4XM/i);
+      assert.equal(await quotedAmount(), base + 100 + 250);
+      await step(4);
+      await selectOption('hardware_machine_head', 'gotoh_350');
+      await summaryValue(/^Hardware - Machine Head/i, /Gotoh GB350/i);
+      await summaryValue(/^Body Construction/i, /1 piece solid/i);
+      await summaryValue(/^Body Wood/i, /limba/i);
+      assert.equal(await quotedAmount(), base + 100 + 250 + 70);
+    });
+
+    await check('ASKR: electronics synchronization, EMG selection, power and prices', async () => {
+      await freshModel('ASKR');
+      const base = await quotedAmount();
+      await step(5);
+      assert.equal(await option('pickups', 'fishman').isChecked(), true);
+      assert.equal(await option('electronics', 'fishman').isChecked(), true);
+      assert.match(await summary(), /Fishman Fluence/);
+      await summaryValue(/^Power Supply/i, /9V/);
+      await selectOption('electronics', 'darkglass');
+      assert.notEqual(await page.locator('input[name="pickups"]:checked').inputValue(), 'fishman');
+      await selectOption('pickups', 'emg');
+      await summaryValue(/^Pickups/i, /EMG\s+40TWX/i);
+      await summaryValue(/^Power Supply/i, /18V/);
+      assert.equal(await quotedAmount(), base + 165 + 245);
+      await step(4);
+      await selectOption('hardware_color', 'hw_black');
+      await step(5);
+      assert.equal(await option('pickups', 'emg').isChecked(), true, 'An unrelated appearance change must retain EMG');
+      await selectOption('electronics', 'lhz');
+      assert.equal(await option('pickups', 'emg').isChecked(), true, 'Compatible EQ change must retain the selected pickup');
+      await summaryValue(/^Power Supply/i, /9V/);
+      await selectOption('lhz_voltage', 'lhz_18v');
+      await summaryValue(/^Power Supply/i, /18V/);
+      assert.equal(await quotedAmount(), base + 270 + 245);
+      await selectOption('electronics', 'fishman');
+      assert.equal(await option('pickups', 'fishman').isChecked(), true);
+      assert.equal(await page.locator('input[name="lhz_voltage"], input[name="coil_switch"]').count(), 0);
+      await summaryValue(/^Power Supply/i, /9V/);
+      assert.equal(await quotedAmount(), base);
+      await selectOption('pickups', 'emg');
+      assert.notEqual(await page.locator('input[name="electronics"]:checked').inputValue(), 'fishman',
+        'Choosing EMG directly must leave the dedicated Fishman EQ');
+      await summaryValue(/^Pickups/i, /EMG\s+40TWX/i);
+      await quotedAmount();
+    });
+
+    await check('ASKR: Payson and Nova Parts pricing stays explicit', async () => {
+      await freshModel('ASKR');
+      assert.match(await page.locator('button[data-model="ASKR"]').innerText(), /€\s*3,?200/);
+      assert.match(await summary(), /Base Model\s*\(ASKR\)\s*€\s*3,?200/i);
+      await step(4);
+      assert.equal(await option('hardware_bridge', 'payson').isChecked(), true);
+      assert.equal(await quotedAmount(), 3200);
+      assert.equal(await page.locator('[data-nova-hardware-color-note]').count(), 0);
+      await selectOption('hardware_bridge', 'nova_parts');
+      await summaryValue(/^Hardware - Bridge/i, /Nova Parts multiscale bridge/i);
+      await summaryValue(/^Hardware - Bridge/i, /Dingwall Retrofit; 18 mm spacing; black anodized aluminium/i);
+      await summaryValue(/^Hardware - Bridge/i, /-\s*€\s*70/);
+      assert.match(await page.locator('[data-fixed-platform]').innerText(), /Nova/i);
+      assert.equal(await quotedAmount(), 3130, 'Nova reduces the included-bridge base price by €70');
+      assert.match(await page.locator('[data-summary-total]').innerText(), /Estimated total/i);
+      assert.doesNotMatch(await page.locator('[data-summary-total]').innerText(), /subtotal|on.request|quoted separately/i,
+        'The standard black Nova bridge must have a priced total');
+      const novaNote = await page.locator('[data-nova-hardware-color-note]').innerText();
+      assert.match(novaNote, /black anodized aluminium/i);
+      assert.match(novaNote, /selected hardware colour applies to the other hardware/i);
+      assert.ok((await summaryRows(/^Hardware Color/i).innerText()).includes(novaNote),
+        'The black bridge exception must also appear in the specification');
+      await selectOption('hardware_color', 'hw_gold');
+      await summaryValue(/^Hardware Color/i, /gold/i);
+      await summaryValue(/^Hardware - Bridge/i, /black anodized aluminium/i);
+      assert.equal(await quotedAmount(), 3280, 'The other hardware keeps its ordinary gold surcharge');
+      const before = await summary();
+      await chooseModel('ASKR');
+      assert.equal(await summary(), before, 'Reselecting ASKR must preserve the Nova bridge and other hardware colour');
+      await step(4);
+      assert.equal(await option('hardware_bridge', 'nova_parts').isChecked(), true);
+      assert.equal(await option('hardware_color', 'hw_gold').isChecked(), true);
+      await selectOption('hardware_color', 'hw_chrome');
+      assert.equal(await quotedAmount(), 3130);
+      const future = page.locator('[data-future-options]');
+      if (await future.getAttribute('open') === null) await future.locator('summary').click();
+      assert.ok(await future.locator('[data-planned-option]').count());
+      assert.equal(await future.locator('[data-planned-option]:not([aria-disabled="true"])').count(), 0);
+      assert.equal(await future.locator('input:enabled, select:enabled, button:enabled, textarea:enabled, a[href]').count(), 0);
+      assert.doesNotMatch(await future.innerText(), noShortScale);
+      await selectOption('hardware_bridge', 'payson');
+      assert.equal(await quotedAmount(), 3200);
+      await summaryValue(/^Hardware - Bridge/i, /Payson/);
+      assert.equal(await page.locator('[data-nova-hardware-color-note]').count(), 0);
+      assert.doesNotMatch(await summaryRows(/^Hardware Color/i).innerText(), /Nova|other hardware|black anodized/i);
+    });
+
+    await check('ASKR: Nova PDF includes its discount, fit specification and black bridge note', async () => {
+      await freshModel('ASKR');
+      await step(4);
+      await selectOption('hardware_bridge', 'nova_parts');
+      assert.equal(await quotedAmount(), 3130);
+      const novaNote = await page.locator('[data-nova-hardware-color-note]').innerText();
+      await observePdf();
+      const downloadPromise = page.waitForEvent('download', { timeout: 60000 });
+      await page.getByRole('button', { name: /Save.*PDF/i }).click();
+      const download = await downloadPromise;
+      assert.match(download.suggestedFilename(), /RavenForge_ASKR.*\.pdf/i);
+      const pdf = path.join(output, download.suggestedFilename());
+      await download.saveAs(pdf);
+      assert.equal(await download.failure(), null);
+      const buffer = await fs.readFile(pdf);
+      assert.equal(buffer.subarray(0, 5).toString(), '%PDF-');
+      assert.ok(buffer.length > 10000);
+      const inputs = await page.evaluate(() => window.__configuratorPdfInputs);
+      assert.equal(inputs.length, 1);
+      const text = inputs[0].text;
+      await fs.writeFile(path.join(output, 'askr-nova-pdf-source.txt'), text);
+      assertSpecs(text, { ...expectedModels[2], bridge: /Nova Parts/i });
+      assert.match(text, /Base Model\s*\(ASKR\)\s*€\s*3,?200/i);
+      assert.match(text, /Dingwall Retrofit; 18 mm spacing; black anodized aluminium/i);
+      assert.match(text, /saddle travel, mounting angle and screw positions to be confirmed/i);
+      assert.match(text, /-\s*€\s*70/);
+      assert.ok(text.includes(novaNote), 'The other-hardware colour exception must be exported');
+      assert.match(text, /Estimated total\s*\(excl\. VAT\)\s*€\s*3,?130/i);
+      assert.doesNotMatch(text, /Priced items subtotal|Price on request/i);
+      report.novaPdf = { filename: path.basename(pdf), bytes: buffer.length };
+      await page.getByRole('button', { name: /Save.*PDF/i }).waitFor();
+      await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+      await page.screenshot({ path: path.join(output, 'askr-nova-desktop.png'), fullPage: true });
+    }, { pdf: true });
+
+    await check('GRAMR: shared option prices and top changes update the total once', async () => {
+      await freshModel('GRAMR');
+      assert.match(await page.locator('[data-summary-total]').innerText(), /Estimated total\s*\(excl\. VAT\)\s*€\s*2,?000\b/i);
+      await step(3);
+      assert.equal(await option('color_top', 'top_oil').isChecked(), true);
+      assert.equal(await option('color_back_side', 'back_oil').isChecked(), true);
+      await step(4);
+      assert.equal(await option('hardware_color', 'hw_chrome').isChecked(), true);
+      await selectOption('hardware_color', 'hw_gold');
+      assert.match(await page.locator('[data-summary-total]').innerText(), /€\s*2,?150\b/);
+      await step(3);
+      await selectOption('color_top', 'top_gloss');
+      await selectOption('color_back_side', 'back_gloss');
+      assert.match(await page.locator('[data-summary-total]').innerText(), /€\s*2,?450\b/);
+      await selectOption('top_type', 'veneer');
+      await selectOption('top_wood_selection', 'guitar_top_flame_maple');
+      assert.match(await page.locator('[data-summary-total]').innerText(), /€\s*2,?500\b/);
+      await selectOption('top_type', 'cap');
+      assert.match(await page.locator('[data-summary-total]').innerText(), /€\s*2,?700\b/);
+      assert.doesNotMatch(await page.locator('[data-summary-total]').innerText(), /subtotal|on.request/i);
+      await selectOption('top_wood_selection', 'guitar_top_maple_burl');
+      const customTop = await page.locator('[data-summary-total]').innerText();
+      assert.match(customTop, /Priced items subtotal\s*\(excl\. VAT\)\s*€\s*2,?450\b/i);
+      assert.match(customTop, /on-request items.*confirmed separately/i);
+      await selectOption('top_type', 'guitar_top_none');
+      assert.match(await page.locator('[data-summary-total]').innerText(), /Estimated total\s*\(excl\. VAT\)\s*€\s*2,?450\b/i);
+    });
+
+    await check('GRAMR: passive HH, neck and material customization survives same-model selection', async () => {
+      await freshModel('GRAMR');
+      assert.doesNotMatch(await summary(), /Inferno Red/i, 'Gramr must not assume a specific finish color');
+      await step(2);
+      await selectOption('neck', 'guitar_neck_custom');
+      await selectOption('neck_profile', 'guitar_profile_custom');
+      assert.equal(await page.locator('input[name="nut_material"]').count(), 1);
+      assert.equal(await option('nut_material', 'guitar_bone_nut').isChecked(), true);
+      await selectOption('radius', 'guitar_radius_compound');
+      await step(3);
+      assert.equal(await option('color_top', 'top_oil').isChecked(), true);
+      assert.equal(await option('color_back_side', 'back_oil').isChecked(), true);
+      assert.equal(await page.locator('input[value="guitar_inferno_red"]').count(), 0);
+      const finish = 'Midnight blue body with a natural maple neck';
+      await page.locator('input[data-finish-color]').fill(finish);
+      await selectOption('body_construction', 'guitar_body_3pc');
+      await selectOption('body_wood_single', 'guitar_body_maple');
+      await step(4);
+      await selectOption('hardware_machine_head', 'guitar_tuner_custom');
+      await step(5);
+      await selectOption('pickups', 'guitar_hh_passive_custom');
+      await selectOption('electronics', 'guitar_passive');
+      await selectOption('control_layout', 'guitar_custom_wiring');
+      await summaryValue(/^Neck$/i, /custom/i);
+      await summaryValue(/^Nut Material/i, /buffalo bone nut/i);
+      await summaryValue(/^Body Wood/i, /maple/i);
+      await summaryValue(/^Pickups/i, /HH|humbucker/i);
+      await summaryValue(/^Power Supply/i, /No battery/i);
+      assert.ok((await summary()).includes(finish), 'Requested color must appear in the specification');
+      assertSpecs(await summary(), expectedModels[3]);
+      assert.doesNotMatch(await summary(), /€\s*(?:0|null|undefined|NaN)\b/);
+      await page.locator('textarea').fill('Keep this custom guitar specification.');
+      const before = await summary();
+      await chooseModel('GRAMR');
+      assert.equal(await summary(), before, 'Selecting the current model must preserve options and notes');
+      await step(2);
+      assert.equal(await option('neck', 'guitar_neck_custom').isChecked(), true);
+      await step(5);
+      assert.equal(await option('pickups', 'guitar_hh_passive_custom').isChecked(), true);
+      assert.equal(await option('electronics', 'guitar_passive').isChecked(), true);
+      await chooseModel('EDDA');
+      assertSpecs(await summary(), expectedModels[0]);
+      assert.doesNotMatch(await summary(), /Keep this custom guitar specification|Midnight blue body|Gotoh 510T-FE1|buffalo bone nut|guitar humbuckers/i);
+      await step(3);
+      assert.equal(await page.locator('input[data-finish-color]').inputValue(), '', 'Changing models clears the previous finish request');
+    });
+
+    await check('Model switching: bass configuration does not leak into Gramr', async () => {
+      await chooseModel('ASKR');
+      await step(5);
+      await page.getByRole('checkbox', { name: /Castle flight hard case/ }).check();
+      await page.locator('textarea').fill('Bass-only setup: BEADG');
+      assert.match(await summary(), /Castle flight hard case/);
+      await chooseModel('GRAMR');
+      const text = await summary();
+      assertSpecs(text, expectedModels[3]);
+      assert.doesNotMatch(text, /Payson|LHZ|Tone Capsule|Bass Core|Fluence 2 band|Lusithand|Cali Dub|BEADG|fretless|slap ramp|finger ramp|Castle flight hard case/i);
+      assert.match(text, /Estimated total\s*\(excl\. VAT\)\s*€\s*2,?000\b/i, 'Standard GRAMR must total €2,000 before VAT');
+      assert.doesNotMatch(text, /€\s*(?:0(?:\.00)?|null|undefined|NaN)\b/, 'GRAMR pricing must not render a zero or invalid total');
+      await step(5);
+      assert.equal(await page.locator('input[name="lhz_voltage"]').count(), 0);
+      await chooseModel('EDDA');
+      assertSpecs(await summary(), expectedModels[0]);
+      assert.doesNotMatch(await summary(), /25\.5|Gotoh\s+510T-FE1|LHZ|Payson/i);
+    });
+
+    await check('Available appearance choices update the summary', async () => {
+      await chooseModel('EDDA');
+      await step(4);
+      await option('hardware_color', 'hw_gold').check();
+      assert.equal(await option('hardware_color', 'hw_gold').isChecked(), true);
+      const row = page.locator('#quote-list-container > div').filter({ hasText: /Hardware Color/i });
+      assert.match(await row.innerText(), /gold/i);
+      assert.match(await row.innerText(), /150/);
+      assertSpecs(await summary(), expectedModels[0]);
+    });
+
+    await check('Language changes preserve the configured instrument', async () => {
+      await freshModel('EDDA');
+      await step(3);
+      const finish = 'Deep blue body, natural neck';
+      await page.locator('input[data-finish-color]').fill(finish);
+      await step(4);
+      await selectOption('hardware_color', 'hw_gold');
+      for (const language of ['ko', 'de', 'en']) {
+        await page.locator(`button[data-language="${language}"]`).click();
+        assert.equal(await page.locator('html').getAttribute('lang'), language);
+        assert.equal(await option('hardware_color', 'hw_gold').isChecked(), true);
+        assertSpecs(await summary(), expectedModels[0]);
+        assert.match(await summary(), /gold/i);
+        assert.ok((await summary()).includes(finish), 'Language changes must retain the finish request');
+      }
+    });
+
+    await check('Actual Gramr PDF exports the premium gigbag and its net upgrade price', async () => {
+      await freshModel('GRAMR');
+      await step(3);
+      const finish = 'Graphite grey body with a natural maple neck';
+      await page.locator('input[data-finish-color]').fill(finish);
+      await step(5);
+      await selectOption('case', 'case_premium');
+      const note = 'QA specification note: keep approved 6-string 25.5-inch platform.';
+      await page.locator('textarea').fill(note);
+      const caseSummary = await page.locator('[data-summary-category="case"]').innerText();
+      assert.match(caseSummary, /Premium gigbag/i);
+      assert.match(caseSummary, /€\s*200\b/);
+      assert.doesNotMatch(caseSummary, /Nube|equivalent|manufacturer|final confirmation|€\s*(?:100|300)\b/i);
+      assert.equal(await quotedAmount(), 2200);
+      await observePdf();
+      const downloadPromise = page.waitForEvent('download', { timeout: 60000 });
+      await page.getByRole('button', { name: /Save.*PDF/i }).click();
+      const download = await downloadPromise;
+      assert.match(download.suggestedFilename(), /RavenForge_GRAMR.*\.pdf/i);
+      const pdf = path.join(output, download.suggestedFilename());
+      await download.saveAs(pdf);
+      assert.equal(await download.failure(), null);
+      const buffer = await fs.readFile(pdf);
+      assert.equal(buffer.subarray(0, 5).toString(), '%PDF-');
+      assert.ok(buffer.length > 10000, 'PDF should contain rendered content');
+      const inputs = await page.evaluate(() => window.__configuratorPdfInputs);
+      assert.equal(inputs.length, 1);
+      await fs.writeFile(path.join(output, 'gramr-pdf-source.txt'), inputs[0].text);
+      assertSpecs(inputs[0].text, expectedModels[3]);
+      assert.ok(inputs[0].text.includes(note), 'Current special instructions must be exported');
+      assert.ok(inputs[0].text.includes(finish), 'Requested finish color must be exported');
+      assert.ok(inputs[0].text.replace(/\s+/g, ' ').includes(caseSummary.replace(/\s+/g, ' ')),
+        'The PDF must include the premium gigbag name and its €200 upgrade price');
+      assert.match(inputs[0].text, /Estimated total\s*\(excl\. VAT\)\s*€\s*2,?200\b/i,
+        'GRAMR with the premium gigbag must total €2,200 before VAT');
+      assert.doesNotMatch(inputs[0].text, /Priced items subtotal|Price on request|on-request items/i);
+      assert.doesNotMatch(inputs[0].text, /€\s*(?:0(?:\.00)?|null|undefined|NaN)\b|Payson|LHZ|BEADG/i);
+      await page.getByRole('button', { name: /Save.*PDF/i }).waitFor();
+      assert.equal(await page.locator('#ui-header').isVisible(), true, 'Web summary must be restored after export');
+      assert.equal(await page.locator('#pdf-header').isVisible(), false, 'PDF-only header must be hidden after export');
+      report.pdf = { filename: path.basename(pdf), bytes: buffer.length };
+    }, { pdf: true });
+
+    await check('PDF export keeps its original model when selection changes during generation', async () => {
+      await freshModel('GRAMR');
+      await step(3);
+      const finish = 'Metallic silver requested for the export snapshot';
+      await page.locator('input[data-finish-color]').fill(finish);
+      await step(1);
+      await observePdf();
+      const downloadPromise = page.waitForEvent('download', { timeout: 60000 });
+      await page.getByRole('button', { name: /Save.*PDF/i }).click();
+      const edda = page.locator('button[data-model="EDDA"]');
+      // A disabled selector or an immutable export snapshot are both valid.
+      if (await edda.isEnabled()) await edda.click();
+      const download = await downloadPromise;
+      assert.match(download.suggestedFilename(), /RavenForge_GRAMR.*\.pdf/i);
+      await download.saveAs(path.join(output, 'race-' + download.suggestedFilename()));
+      const inputs = await page.evaluate(() => window.__configuratorPdfInputs);
+      assert.equal(inputs.length, 1);
+      await fs.writeFile(path.join(output, 'gramr-pdf-during-model-switch.txt'), inputs[0].text);
+      assertSpecs(inputs[0].text, expectedModels[3]);
+      assert.ok(inputs[0].text.includes(finish), 'Model changes during export must not remove its finish request');
+      assert.doesNotMatch(inputs[0].text, /Base Model\s*\(EDDA\)|4 strings|34["″”]\s*\(long scale\)/i,
+        'Changing the live model must not put EDDA content in a GRAMR-named PDF');
+    }, { pdf: true });
+
+    await check('Mobile layout retains accessible model selection', async () => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await chooseModel('GRAMR');
+      const future = page.locator('[data-future-options]');
+      if (await future.getAttribute('open') !== null) await future.locator('summary').click();
+      assertSpecs(await page.locator('[data-fixed-platform]').innerText(), expectedModels[3], false);
+      const dimensions = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+      assert.ok(dimensions.scrollWidth <= dimensions.width + 1, `Mobile page must not overflow horizontally (${JSON.stringify(dimensions)})`);
+      await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+      await page.screenshot({ path: path.join(output, 'gramr-mobile.png'), fullPage: true });
+      await step(5);
+      await selectOption('case', 'case_premium');
+      await page.locator('[data-category="case"]').scrollIntoViewIfNeeded();
+      const caseDimensions = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+      assert.ok(caseDimensions.scrollWidth <= caseDimensions.width + 1, 'Premium gigbag choices must fit the mobile viewport');
+      await page.screenshot({ path: path.join(output, 'gramr-gigbag-mobile.png'), fullPage: false });
+      await page.setViewportSize({ width: 1440, height: 1080 });
+      await page.locator('[data-category="case"]').scrollIntoViewIfNeeded();
+      await page.screenshot({ path: path.join(output, 'gramr-gigbag-desktop.png'), fullPage: false });
+      await step(1);
+      await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+      await page.screenshot({ path: path.join(output, 'gramr-desktop.png'), fullPage: true });
+    });
+
+    for (const viewport of [{ name: 'desktop', width: 1440, height: 1080 }, { name: 'mobile', width: 390, height: 844 }]) {
+      for (const language of ['ko', 'en', 'de']) {
+        for (const model of expectedModels) {
+          await check(`Matrix: ${language}/${viewport.name}/${model.id}`, async () => {
+            await page.setViewportSize({ width: viewport.width, height: viewport.height });
+            await page.locator(`button[data-language="${language}"]`).click();
+            assert.equal(await page.locator('html').getAttribute('lang'), language);
+            await freshModel(model.id);
+            assert.equal(await quotedAmount(), model.basePrice, 'Model change resets priced selections');
+            assert.equal(await page.locator('[data-summary-category="case"]').count(), 1);
+            for (let number = 1; number <= 5; number++) {
+              await step(number);
+              const dimensions = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+              assert.ok(dimensions.scrollWidth <= dimensions.width + 1, `${model.id} step ${number} horizontal overflow: ${JSON.stringify(dimensions)}`);
+              if (model.id === 'EDDA') {
+                assert.equal(await page.locator('[data-category="coil_switch"], input[name="coil_switch"], [data-planned-option^="coil_"]').count(), 0);
+                assert.equal(await page.locator('[data-summary-category="coil_switch"]').count(), 0);
+              }
+            }
+            await step(2);
+            if (model.id === 'GRAMR') {
+              assert.deepEqual(await page.locator('input[name="nut_material"]').evaluateAll(inputs => inputs.map(input => input.value)), ['guitar_bone_nut']);
+              await selectOption('nut_material', 'guitar_bone_nut');
+              assert.match(await page.locator('[data-summary-category="nut_material"]').innerText(), /buffalo bone/i);
+            }
+            await step(4);
+            const bridges = await page.locator('input[name="hardware_bridge"]').evaluateAll(inputs => inputs.map(input => input.value));
+            if (model.id === 'EDDA') assert.equal(bridges.length, 4);
+            if (model.id === 'EMBLA') assert.equal(bridges.length, 7);
+            if (model.id !== 'GRAMR') {
+              for (const bridge of bridges) {
+                await selectOption('hardware_bridge', bridge);
+                const label = await option('hardware_bridge', bridge).locator('..').innerText();
+                const row = await page.locator('[data-summary-category="hardware_bridge"]').innerText();
+                assert.ok(row.includes(label.split('\n')[0].split(' + ')[0]), `Selected bridge must appear in summary: ${bridge}`);
+              }
+            }
+            if (model.id === 'ASKR') {
+              assert.match(await page.locator('[data-summary-category="hardware_bridge"]').innerText(), /Nova Parts multiscale bridge/);
+              assert.doesNotMatch(await summary(), /Nova Parts 5-string multiscale bridge/);
+            }
+            await selectOption('hardware_color', 'hw_gold');
+            await step(5);
+            if (model.id === 'EMBLA') {
+              const coils = await page.locator('input[name="coil_switch"]').evaluateAll(inputs => inputs.map(input => input.value));
+              assert.ok(coils.length > 1, 'EMBLA keeps its own coil controls');
+              for (const coil of coils) await selectOption('coil_switch', coil);
+            }
+            assert.equal(await page.locator('input[name="case"]').count(), 2);
+            assert.equal(await option('case', 'case_standard').isChecked(), true);
+            const before = await quotedAmount();
+            await selectOption('case', 'case_premium');
+            assert.equal(await quotedAmount(), before + 200);
+            await selectOption('case', 'case_standard');
+            assert.equal(await quotedAmount(), before);
+            await selectOption('case', 'case_premium');
+            const note = `QA ${language} ${viewport.name} ${model.id}`;
+            await page.locator('textarea').fill(note);
+            const rows = await page.locator('#quote-list-container > div').evaluateAll(elements => elements.map(element => element.innerText));
+            const total = await page.locator('[data-summary-total]').innerText();
+            if (!matrixUiOnly) {
+              await observePdf();
+              const downloading = page.waitForEvent('download', { timeout: 60000 });
+              await page.locator('#quote-actions-area button').click();
+              const download = await Promise.race([
+                downloading,
+                page.waitForFunction(() => window.__configuratorPdfErrors?.length > 0, null, { timeout: 60000 })
+                  .then(async () => { throw new Error((await page.evaluate(() => window.__configuratorPdfErrors)).join('\n')); }),
+              ]);
+              const key = `${language}-${viewport.name}-${model.id}`;
+              const filename = `${key}.pdf`;
+              await download.saveAs(path.join(output, filename));
+              assert.equal(await download.failure(), null);
+              const buffer = await fs.readFile(path.join(output, filename));
+              assert.equal(buffer.subarray(0, 5).toString(), '%PDF-');
+              assert.ok(buffer.length > 10000);
+              const inputs = await page.evaluate(() => window.__configuratorPdfInputs);
+              assert.equal(inputs.length, 1);
+              const normalized = value => value.replace(/\s+/g, ' ').trim();
+              for (const row of rows) assert.ok(normalized(inputs[0].text).includes(normalized(row)), `PDF source must include summary row: ${row}`);
+              assert.ok(normalized(inputs[0].text).includes(normalized(total)), 'PDF total must match live summary');
+              assert.ok(inputs[0].text.includes(note));
+              await fs.writeFile(path.join(output, `${key}-pdf-source.txt`), inputs[0].text);
+              await page.screenshot({ path: path.join(output, `${key}.png`), fullPage: true });
+              report.matrixPdfs = [...(report.matrixPdfs || []), { filename, bytes: buffer.length, rows: rows.length }];
+            } else {
+              await page.screenshot({ path: path.join(output, `${language}-${viewport.name}-${model.id}.png`), fullPage: true });
+            }
+            // A real model transition clears premium case, notes, finish and hardware choices.
+            await chooseModel(model.id === 'EDDA' ? 'EMBLA' : 'EDDA');
+            await chooseModel(model.id);
+            await step(5);
+            assert.equal(await option('case', 'case_standard').isChecked(), true);
+            assert.equal(await page.locator('textarea').inputValue(), '');
+            assert.equal(await quotedAmount(), model.basePrice);
+            assert.doesNotMatch(await summary(), new RegExp(note));
+            await step(4);
+            assert.equal(await option('hardware_color', 'hw_chrome').isChecked(), true);
+            if (model.id !== 'GRAMR') assert.equal(await option('hardware_bridge', model.id === 'ASKR' ? 'payson' : 'ets_custom').isChecked(), true);
+          }, { pdf: true });
+        }
+      }
+    }
+
+    assert.ok(selectedChecks > 0, 'The requested test filter must select at least one check');
+    assert.deepEqual(report.pageErrors, [], 'No browser runtime errors during interaction');
+    assert.deepEqual(report.failedRequests, [], 'All requested application assets must load');
+    report.result = 'PASS';
+  } catch (error) {
+    report.result = 'FAIL';
+    report.checks.push({ name: activeCheck, result: 'FAIL', error: error.stack });
+    if (page) {
+      report.pdfErrors = await page.evaluate(() => window.__configuratorPdfErrors || []).catch(() => []);
+      await page.screenshot({ path: path.join(output, 'failure.png'), fullPage: true }).catch(() => {});
+      await fs.writeFile(path.join(output, 'failure-body.txt'), await page.locator('body').innerText().catch(() => '')).catch(() => {});
+    }
+    console.error(`FAIL: ${activeCheck}\n${error.stack}`);
+    process.exitCode = 1;
+  } finally {
+    report.finished = new Date().toISOString();
+    await fs.writeFile(path.join(output, 'report.json'), JSON.stringify(report, null, 2) + '\n');
+    console.log(`Report: ${path.join(output, 'report.json')}`);
+    if (browser) await browser.close();
+    if (server) await new Promise(resolve => server.close(resolve));
+  }
+}
+
+run().catch(error => { console.error(error); process.exitCode = 1; });

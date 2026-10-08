@@ -98,6 +98,20 @@ class ResearchTests(unittest.TestCase):
         self.assertEqual(self.run_cli('--output', self.output), 1)
         self.assertFalse(self.output.exists())
 
+    def test_table_minimum_width_uses_widest_row_and_preserves_source_css(self):
+        original_css = (self.repo / 'research/B03/b03.css').read_bytes()
+        cells = ''.join(f'<w:tc><w:p><w:r><w:t>Column {i}</w:t></w:r></w:p></w:tc>' for i in range(10))
+        feature = '<w:tbl><w:tr><w:tc><w:p><w:r><w:t>Title</w:t></w:r></w:p></w:tc></w:tr><w:tr>' + cells + '</w:tr></w:tbl>'
+        for lang in ('ko', 'en', 'de'):
+            docx(self.source / (lang + '.docx'), lang, feature=feature, hyperlink='#part')
+        report = build(self.manifest_path, self.repo, self.output)
+        self.assertTrue(report['publish_ready'])
+        html = (self.output / 'ko.html').read_text(encoding='utf-8')
+        self.assertIn('class="comparison" style="--docx-columns:10"', html)
+        self.assertIn('style="--docx-columns:2"', html)  # merged header cells
+        self.assertIn('@media screen{', (self.output / 'article.css').read_text(encoding='utf-8'))
+        self.assertEqual((self.repo / 'research/B03/b03.css').read_bytes(), original_css)
+
     def test_empty_editorial_field(self):
         self.manifest['en']['excerpt'] = ' '; self.save()
         self.assertEqual(self.run_cli('--output', self.output), 1)

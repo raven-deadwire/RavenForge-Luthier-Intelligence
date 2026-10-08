@@ -4,8 +4,11 @@ on:
     paths:
       - 'tools/research_docx.py'
       - 'tools/test_research_docx.py'
+      - 'tools/research_browser_fixture.py'
+      - 'tools/test_research_browser.cjs'
       - 'tools/build_research_index.py'
       - 'tools/build_b03_from_docx.py'
+      - 'research/B03/b03.css'
       - 'research/README.md'
       - '.github/workflows/research-docx-contract.yml'
   push:
@@ -13,8 +16,11 @@ on:
     paths:
       - 'tools/research_docx.py'
       - 'tools/test_research_docx.py'
+      - 'tools/research_browser_fixture.py'
+      - 'tools/test_research_browser.cjs'
       - 'tools/build_research_index.py'
       - 'tools/build_b03_from_docx.py'
+      - 'research/B03/b03.css'
       - '.github/workflows/research-docx-contract.yml'
 permissions:
   contents: read
@@ -36,3 +42,36 @@ jobs:
         run: python tools/build_research_index.py
       - name: Assert no published research content changed
         run: git diff --exit-code -- research
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chromium 131 and Korean fonts
+        run: |
+          npm install --no-save --no-package-lock playwright@1.49.1
+          npx playwright install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Actual multilingual desktop and mobile browser checks
+        env:
+          RESEARCH_QA_DIR: ${{ runner.temp }}/research-browser
+        run: node tools/test_research_browser.cjs
+      - name: Assert published research remains unchanged
+        if: always()
+        run: git diff --exit-code -- research
+      - name: Preserve synthetic browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: research-docx-chromium-${{ github.event.pull_request.head.sha || github.sha }}
+          path: ${{ runner.temp }}/research-browser
+          if-no-files-found: error
+          retention-days: 30
