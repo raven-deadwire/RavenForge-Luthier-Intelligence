@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RavenForge Bass Configurator</title>
+  <title>RavenForge Instrument Configurator</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com/"></script>
@@ -42,14 +42,14 @@
     }
   </style>
 <!-- RF:SEO START -->
-  <meta name="description" content="RavenForge custom bass configurator for exploring compatible model, material, hardware and electronics options.">
+  <meta name="description" content="RavenForge bass and guitar configurator with initial model specifications, material and finish choices, and planned additions.">
   <meta name="robots" content="index,follow">
   <meta name="theme-color" content="#101a20">
   <link rel="canonical" href="https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/configurator.html">
   <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="RavenForge Bass Configurator">
+  <meta property="og:title" content="RavenForge Instrument Configurator">
   <meta property="og:description" content="Explore RavenForge bass model, material, hardware and electronics configurations.">
   <meta property="og:url" content="https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/configurator.html">
   <meta property="og:image" content="https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/assets/optimized/ravenforge-social-preview.png">
@@ -60,6 +60,8 @@
 <!-- RF:SEO END -->
 </head>
 <body>
+  <script src="./assets/configurator-platforms.js?v=20261008"></script>
+  <script src="./assets/configurator-ui.js?v=20261008"></script>
   <!-- Root element for React App -->
   <div id="root"></div>
 
@@ -68,7 +70,7 @@
     const { useState, useEffect, useMemo } = React;
 
     /**
-     * RavenForge Bass Configurator
+     * RavenForge Instrument Configurator
      */
 
     // Component to highlight text enclosed in (*...) with red bold formatting
@@ -618,27 +620,53 @@
       ]
     };
 
+    RavenForgePlatforms.apply(configData);
+
     const App = () => {
+      const [language, setLanguage] = useState(() => {
+        const requested = new URLSearchParams(window.location.search).get('lang');
+        return ['en', 'ko', 'de'].includes(requested) ? requested : 'en';
+      });
+      const ui = window.RF_CONFIG_I18N[language] || window.RF_CONFIG_I18N.en;
+      const categoryTitle = category => ui.categoryTitles[category.id] || category.title;
+
       const [selectedModel, setSelectedModel] = useState('EDDA');
-      const [selections, setSelections] = useState({});
+      const [selectionState, setSelections] = useState({});
       const [specialOptions, setSpecialOptions] = useState([]);
       const [accessories, setAccessories] = useState([]);
       const [specialInstructions, setSpecialInstructions] = useState('');
       const [currentStep, setCurrentStep] = useState(1);
       const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+      const [pdfError, setPdfError] = useState('');
+      const fixedSelections = RavenForgePlatforms.fixed(selectedModel);
+      const platform = RavenForgePlatforms.summary(selectedModel);
+      const currentSpecialOptions = selectedModel === 'EDDA'
+        ? specialOptionsList.filter(option => option.id === 'dual_tone') : [];
+      const currentAccessories = selectedModel === 'GRAM'
+        ? accessoriesList.filter(option => option.id === 'leather_strap') : accessoriesList;
+
+      useEffect(() => {
+        document.documentElement.lang = language;
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', language);
+        window.history.replaceState(null, '', url);
+      }, [language]);
 
       const stepConfig = [
-        { step: 1, title: 'Model & Core', categories: ['orientation', 'strings', 'factory_setup', 'scale', 'string_spacing'] },
-        { step: 2, title: 'Neck & Fretboard', categories: ['nut_size', 'nut_material', 'neck', 'neck_profile', 'fretboard', 'radius', 'fret_type', 'fret_material', 'fret_size', 'fretline', 'fret_side', 'inlay_type', 'inlay_oval_mat', 'inlay_dot_pos', 'inlay_dot_mat', 'inlay_custom_spec', 'side_dot', 'fretboard_extense'] },
-        { step: 3, title: 'Body & Finish', categories: ['body_construction', 'body_wood_single', 'body_core_wood', 'body_wing_wood', 'top_type', 'top_wood_selection', 'color_top', 'color_back_side', 'extra_finish_burst', 'extra_finish_flake', 'color_headstock'] },
-        { step: 4, title: 'Hardware', categories: ['hardware_bridge', 'hardware_machine_head', 'knob', 'hardware_color', 'finger_ramp'] },
-        { step: 5, title: 'Electronics', categories: ['pickup_configuration', 'pickups', 'electronics', 'lhz_voltage', 'control_layout', 'coil_switch'] }
+        { step: 1, title: ui.steps[0], categories: ['orientation', 'strings', 'factory_setup', 'scale', 'string_spacing'] },
+        { step: 2, title: ui.steps[1], categories: ['nut_size', 'nut_material', 'neck', 'neck_profile', 'fretboard', 'radius', 'fret_type', 'fret_material', 'fret_size', 'fretline', 'fret_side', 'inlay_type', 'inlay_oval_mat', 'inlay_dot_pos', 'inlay_dot_mat', 'inlay_custom_spec', 'side_dot', 'fretboard_extense'] },
+        { step: 3, title: ui.steps[2], categories: ['body_construction', 'body_wood_single', 'body_core_wood', 'body_wing_wood', 'top_type', 'top_wood_selection', 'color_top', 'color_back_side', 'extra_finish_burst', 'extra_finish_flake', 'color_headstock'] },
+        { step: 4, title: ui.steps[3], categories: ['hardware_bridge', 'hardware_machine_head', 'knob', 'hardware_color', 'finger_ramp'] },
+        { step: 5, title: ui.steps[4], categories: ['pickup_configuration', 'pickups', 'electronics', 'lhz_voltage', 'control_layout', 'coil_switch'] }
       ];
 
 
       // Power supply is determined automatically from the selected electronics.
       const getAutomaticPowerSupply = (currentSelections, currentSpecialOptions = []) => {
         const eq = currentSelections?.electronics;
+        if (selectedModel === 'GRAM') {
+          return { label: ui.supplyPending, spec: ui.plannedElectronicsNote };
+        }
         const hasXpureBuffer = currentSpecialOptions.includes('delano_buffer');
 
         if (!eq || eq === 'passive') {
@@ -707,6 +735,9 @@
   // 모델별 옵션 노출 제한
   const category = configData.categories.find(c => c.id === categoryId);
   const option = category?.options.find(o => o.id === optionId);
+  if (!option || !RavenForgePlatforms.isInitialOption(modelId, categoryId, optionId)) return false;
+  if (categoryId !== 'top_wood_selection' &&
+      (option.prices?.[modelId] === undefined || option.prices[modelId] === null)) return false;
 
   if (
     option?.availableFor &&
@@ -789,56 +820,46 @@
   return true;
 };
 
-      const getDefaultSelections = (modelId) => {
-        const defaults = {};
-        configData.categories.forEach(category => {
-          let stdOption = category.options.find(opt => {
-            const baseMatch = opt.isStandard && opt.isStandard.includes(modelId);
-            return baseMatch && isOptionVisible(category.id, opt.id, modelId, defaults);
+      const normalizeSelections = (modelId, requested = {}) => {
+        const fixed = RavenForgePlatforms.fixed(modelId);
+        const next = { ...requested, ...fixed };
+        // Resolve dependent categories using the same available options as the UI.
+        for (let pass = 0; pass < 3; pass += 1) {
+          configData.categories.forEach(category => {
+            if (Object.prototype.hasOwnProperty.call(fixed, category.id)) return;
+            if (!isCategoryVisible(category, next)) {
+              delete next[category.id];
+              return;
+            }
+            const available = category.options.filter(option =>
+              isOptionVisible(category.id, option.id, modelId, next));
+            if (!available.some(option => option.id === next[category.id])) {
+              const fallback = available.find(option => option.isStandard?.includes(modelId)) || available[0];
+              if (fallback) next[category.id] = fallback.id;
+              else delete next[category.id];
+            }
           });
+        }
+        return { ...next, ...fixed };
+      };
+      const getDefaultSelections = modelId => normalizeSelections(modelId);
+      const selections = normalizeSelections(selectedModel, selectionState);
 
-          if (!stdOption) {
-  stdOption = category.options.find(opt => {
-
-    if (category.id === 'top_wood_selection') {
-      return isOptionVisible(
-        category.id,
-        opt.id,
-        modelId,
-        defaults
-      );
-    }
-
-    const hasPrice =
-      opt.prices[modelId] !== undefined &&
-      opt.prices[modelId] !== null;
-
-    return (
-      hasPrice &&
-      isOptionVisible(
-        category.id,
-        opt.id,
-        modelId,
-        defaults
-      )
-    );
-  });
-}
-          if (stdOption) {
-            defaults[category.id] = stdOption.id;
-          }
-        });
-        return defaults;
+      const handleModelChange = modelId => {
+        if (modelId === selectedModel) return;
+        if (!configData.models.some(model => model.id === modelId)) return;
+        setSelectedModel(modelId);
+        setSelections(getDefaultSelections(modelId));
+        setSpecialOptions([]);
+        setAccessories([]);
+        setSpecialInstructions('');
+        setPdfError('');
       };
 
-      useEffect(() => {
-        setSelections(getDefaultSelections(selectedModel));
-      }, [selectedModel]);
-
       const summary = useMemo(() => {
-        const basePrice = configData.models.find(m => m.id === selectedModel)?.basePrice || 0;
+        const basePrice = configData.models.find(m => m.id === selectedModel)?.basePrice ?? null;
         let extraCosts = 0;
-        let requiresRequest = false;
+        let requiresRequest = typeof basePrice !== 'number';
         const breakdown = [];
 
         // 1. 카테고리별 옵션 요약
@@ -867,8 +888,8 @@
               const recSuffix = isRecommended ? " (*recommended)" : "";
               
               breakdown.push({
-                categoryTitle: category.title,
-                label: option.label + recSuffix,
+                categoryTitle: categoryTitle(category),
+                label: option.label + recSuffix + (category.id === 'scale' && option.spec ? ' (' + option.spec + ')' : ''),
                 price: price,
                 isStandard: option.isStandard && option.isStandard.includes(selectedModel)
               });
@@ -885,15 +906,20 @@
         // Automatic power supply summary
         const powerSupply = getAutomaticPowerSupply(selections, specialOptions);
         breakdown.push({
-          categoryTitle: 'Power Supply',
+          categoryTitle: ui.powerSupply,
           label: `${powerSupply.label} (${powerSupply.spec})`,
           price: 0,
           isStandard: true
         });
 
+        breakdown.unshift({ categoryTitle: ui.statusLabel, label: ui.prototype, price: 0, isStandard: true });
+        if (platform.joint) {
+          breakdown.push({ categoryTitle: ui.neckJointLabel, label: platform.joint, price: 0, isStandard: true });
+        }
+
         // 2. Instrument Options 요약 추가
         specialOptions.forEach(optId => {
-          const opt = specialOptionsList.find(o => o.id === optId);
+          const opt = currentSpecialOptions.find(o => o.id === optId);
           // passive 의존성 조건 확인
           if (opt && (!opt.requiresPassive || selections['electronics'] === 'passive')) {
              breakdown.push({
@@ -908,7 +934,7 @@
 
         // 3. Accessories 요약 추가
         accessories.forEach(optId => {
-          const opt = accessoriesList.find(o => o.id === optId);
+          const opt = currentAccessories.find(o => o.id === optId);
           if (opt) {
              breakdown.push({
                categoryTitle: 'Accessories',
@@ -923,20 +949,33 @@
         return {
           basePrice,
           extraCosts,
-          totalPrice: basePrice + extraCosts,
+          totalPrice: typeof basePrice === 'number' ? basePrice + extraCosts : null,
           requiresRequest,
           breakdown
         };
-      }, [selectedModel, selections, specialOptions, accessories]);
+      }, [selectedModel, selections, specialOptions, accessories, language]);
 
       const formatPrice = (price, isStd) => {
-        if (isStd || price === 0) return 'Included';
-        if (price === 'request') return 'Price on Request';
-        if (typeof price === 'number' && price < 0) return `- €${Math.abs(price)}`;
-        return `+ €${price}`;
+        if (price === 'request' || price === null || price === undefined) return ui.requestPrice;
+        if (isStd || price === 0) return selectedModel === 'GRAM' ? ui.standard : ui.included;
+        if (typeof price === 'number' && price < 0) return '- €' + Math.abs(price);
+        return '+ €' + price;
       };
+      const overviewCategories = ['strings', 'scale', 'fret_type', 'hardware_bridge'];
+      const fixedRows = configData.categories
+        .filter(category => stepConfig.find(step => step.step === currentStep).categories.includes(category.id))
+        .filter(category => fixedSelections[category.id] && !overviewCategories.includes(category.id) && isCategoryVisible(category, selections))
+        .map(category => ({ category, option: category.options.find(option => option.id === fixedSelections[category.id]) }))
+        .filter(row => row.option);
+      const upcomingGroups = RavenForgePlatforms.upcoming(selectedModel, configData);
+      const upcomingInstrumentOptions = specialOptionsList.filter(option =>
+        !currentSpecialOptions.some(current => current.id === option.id));
+      if (upcomingInstrumentOptions.length) upcomingGroups.push({
+        categoryId: 'instrument_options', title: ui.instrumentOptions, options: upcomingInstrumentOptions
+      });
 
 const handleOptionChange = (categoryId, optionId) => {
+  if (!isOptionVisible(categoryId, optionId, selectedModel, selections)) return;
   setSelections(prev => {
     const nextSelections = { ...prev, [categoryId]: optionId };
 
@@ -1046,87 +1085,101 @@ const handleOptionChange = (categoryId, optionId) => {
       }
     }
 
-    return nextSelections;
+    return normalizeSelections(selectedModel, nextSelections);
   });
 };
 
       const handleSpecialOptionToggle = (id) => {
+        if (!currentSpecialOptions.some(option => option.id === id)) return;
         setSpecialOptions(prev => 
           prev.includes(id) ? prev.filter(opt => opt !== id) : [...prev, id]
         );
       };
 
       const handleAccessoryToggle = (id) => {
+        if (!currentAccessories.some(option => option.id === id)) return;
         setAccessories(prev => 
           prev.includes(id) ? prev.filter(opt => opt !== id) : [...prev, id]
         );
       };
 
       const handleRequestQuote = async () => {
+        if (isGeneratingPDF) return;
+        setPdfError('');
         setIsGeneratingPDF(true);
-        const element = document.getElementById('quote-summary-card');
-        const scrollArea = document.getElementById('quote-scroll-area');
-        const actionsArea = document.getElementById('quote-actions-area');
-        const uiHeader = document.getElementById('ui-header');
-        const pdfHeader = document.getElementById('pdf-header');
-        const listContainer = document.getElementById('quote-list-container');
-
-        element.classList.remove('sticky', 'top-24');
-        scrollArea.classList.remove('max-h-[calc(100vh-420px)]', 'min-h-[300px]', 'overflow-y-auto', 'custom-scrollbar', 'pr-2');
-        actionsArea.style.display = 'none'; 
-        
-        uiHeader.style.display = 'none';
+        const exportModel = selectedModel;
+        // Capture a stable document before any asynchronous work or model changes.
+        const snapshot = document.getElementById('quote-summary-card').cloneNode(true);
+        snapshot.classList.remove('sticky', 'top-24', 'shadow-xl');
+        Object.assign(snapshot.style, { width: '190mm', maxWidth: 'none', background: '#fff', boxShadow: 'none' });
+        const scrollArea = snapshot.querySelector('#quote-scroll-area');
+        const actionsArea = snapshot.querySelector('#quote-actions-area');
+        const uiHeader = snapshot.querySelector('#ui-header');
+        const pdfHeader = snapshot.querySelector('#pdf-header');
+        const listContainer = snapshot.querySelector('#quote-list-container');
+        actionsArea.remove();
+        uiHeader.remove();
         pdfHeader.style.display = 'flex';
-        
+        pdfHeader.style.padding = '16px';
+        scrollArea.classList.remove('max-h-[calc(100vh-420px)]', 'min-h-[300px]', 'overflow-y-auto', 'custom-scrollbar', 'pr-2');
+        Object.assign(scrollArea.style, { maxHeight: 'none', minHeight: '0', overflow: 'visible', paddingRight: '0' });
+        scrollArea.parentElement.style.padding = '16px';
         listContainer.classList.remove('space-y-3');
-        listContainer.classList.add('grid', 'grid-cols-2', 'gap-x-4', 'gap-y-2');
-
-        await new Promise(resolve => setTimeout(resolve, 150));
-
+        Object.assign(listContainer.style, { display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px', rowGap: '4px' });
+        Array.from(listContainer.children).forEach(row => {
+          row.classList.add('rf-pdf-row');
+          row.style.breakInside = 'avoid';
+          row.style.pageBreakInside = 'avoid';
+        });
+        const total = snapshot.querySelector('[data-summary-total]');
+        total.classList.add('rf-pdf-total');
+        total.style.breakInside = 'avoid';
+        total.style.pageBreakInside = 'avoid';
+        // The detached snapshot must not duplicate application element IDs.
+        snapshot.removeAttribute('id');
+        snapshot.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
         const opt = {
-          margin:       10,
-          filename:     `RavenForge_${selectedModel}_Quote.pdf`,
-          image:        { type: 'jpeg', quality: 0.98 },
-          html2canvas:  { 
-            scale: 2, 
-            useCORS: true,
-            scrollY: 0
-          },
-          jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+          margin: 10,
+          filename: 'RavenForge_' + exportModel + '_Specification.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+          pagebreak: { mode: ['css', 'legacy'], avoid: ['.rf-pdf-row', '.rf-pdf-total'] },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
-
         try {
-          await html2pdf().set(opt).from(element).save();
+          await html2pdf().set(opt).from(snapshot).save();
+        } catch (error) {
+          setPdfError(ui.pdfError);
         } finally {
-          element.classList.add('sticky', 'top-24');
-          scrollArea.classList.add('max-h-[calc(100vh-420px)]', 'min-h-[300px]', 'overflow-y-auto', 'custom-scrollbar', 'pr-2');
-          actionsArea.style.display = 'block';
-          
-          uiHeader.style.display = 'block';
-          pdfHeader.style.display = 'none';
-          
-          listContainer.classList.add('space-y-3');
-          listContainer.classList.remove('grid', 'grid-cols-2', 'gap-x-4', 'gap-y-2');
-
+          snapshot.remove();
           setIsGeneratingPDF(false);
         }
       };
-      
+
       return (
         <div className="min-h-screen pb-20 font-sans text-slate-900">
           <header className="bg-slate-900 text-slate-50 sticky top-0 z-50 shadow-md">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <img src="./ravenforge.png" alt="RavenForge Logo" className="h-10 w-auto object-contain" />
-                <h1 className="text-xl font-bold tracking-tight">RavenForge Custom Configurator</h1>
+                <h1 className="text-base sm:text-xl leading-tight font-bold tracking-tight">{ui.title}</h1>
               </div>
               <div className="text-sm text-slate-400 hidden sm:block font-medium">
-                Build Your Dream Bass
+                {ui.subtitle}
               </div>
             </div>
           </header>
 
           <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <nav aria-label="Language" className="flex justify-end gap-2 mb-5">
+              {['en', 'ko', 'de'].map(lang => (
+                <button key={lang} data-language={lang} aria-pressed={language === lang}
+                  onClick={() => setLanguage(lang)}
+                  className={'px-3 py-2 rounded-lg text-sm font-semibold border ' + (language === lang ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-600 border-slate-300')}>
+                  {lang === 'ko' ? 'KR' : lang.toUpperCase()}
+                </button>
+              ))}
+            </nav>
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               
               <div className="lg:col-span-8 space-y-8">
@@ -1134,7 +1187,7 @@ const handleOptionChange = (categoryId, optionId) => {
                 <div className="flex justify-between items-center mb-4 bg-white rounded-xl p-2 shadow-sm border border-slate-200 overflow-x-auto custom-scrollbar">
                   {stepConfig.map(s => (
                     <button 
-                      key={s.step} 
+                      key={s.step} data-step={s.step}
                       onClick={() => { setCurrentStep(s.step); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
                       className={`flex-1 min-w-[110px] text-center pb-3 pt-3 px-2 border-b-4 transition-all duration-200 ${currentStep === s.step ? 'border-red-700 text-red-700' : 'border-transparent text-slate-400 hover:text-slate-600 hover:border-slate-300'}`}
                     >
@@ -1156,13 +1209,13 @@ const handleOptionChange = (categoryId, optionId) => {
                     <section className="mb-10">
                       <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center">
                         <span className="bg-slate-800 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs mr-2">1</span>
-                        Select Model
+                        {ui.selectModel}
                       </h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {configData.models.map(model => (
                           <button
-                            key={model.id}
-                            onClick={() => setSelectedModel(model.id)}
+                            key={model.id} data-model={model.id} aria-pressed={selectedModel === model.id}
+                            onClick={() => handleModelChange(model.id)}
                             className={`relative p-6 rounded-xl border-2 text-left transition-all duration-200 
                               ${selectedModel === model.id 
                                 ? 'border-red-700 bg-red-50 shadow-md' 
@@ -1176,7 +1229,7 @@ const handleOptionChange = (categoryId, optionId) => {
                             <h3 className="text-xl font-bold text-slate-900">{model.name}</h3>
                             <p className="text-sm text-slate-500 mt-1 mb-4">{model.desc}</p>
                             <div className="text-lg font-semibold text-slate-800">
-                              €{model.basePrice}
+                              {typeof model.basePrice === 'number' ? '€' + model.basePrice : ui.requestPrice}
                             </div>
                           </button>
                         ))}
@@ -1184,18 +1237,44 @@ const handleOptionChange = (categoryId, optionId) => {
                     </section>
                   )}
 
+                  <section data-fixed-platform className="mb-7 rounded-xl border-2 border-slate-200 bg-slate-50 p-5">
+                    <div className="flex flex-wrap gap-2 items-center justify-between mb-4">
+                      <h3 className="font-bold text-slate-900">{selectedModel} · {ui.fixedSpecifications}</h3>
+                      <span className="text-xs font-semibold bg-slate-800 text-white px-2 py-1 rounded">{ui.prototype}</span>
+                    </div>
+                    <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                      {[[ui.stringsLabel, platform.strings], [ui.scaleLabel, platform.scale], [ui.fretsLabel, platform.frets], [ui.bridgeLabel, platform.bridge]].map(([label, value]) => (
+                        <div key={label}><dt className="text-xs text-slate-500 mb-1">{label}</dt><dd className="font-semibold text-slate-800">{value}</dd></div>
+                      ))}
+                    </dl>
+                    <p className="text-xs text-slate-600 mt-4 leading-relaxed">{ui.customNote}</p>
+                    <p className="text-xs text-slate-500 mt-2 leading-relaxed">{ui.prototypeNote}</p>
+                  </section>
+
+                  {fixedRows.length > 0 && (
+                    <dl className="mb-7 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 rounded-xl border border-slate-200 p-5 bg-white">
+                      {fixedRows.map(({ category, option }) => (
+                        <div key={category.id} data-category={category.id} data-fixed-category={category.id} className="min-w-0">
+                          <dt className="text-xs text-slate-500 mb-1">{categoryTitle(category)} · {ui.fixedBadge}</dt>
+                          <dd className="text-sm font-semibold text-slate-800">{option.label}</dd>
+                          {option.spec && <dd className="text-xs text-slate-500 mt-1">{option.spec}</dd>}
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+
                   {/* Categories for Current Step */}
                   <section>
                     {currentStep === 1 && (
                       <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center">
                         <span className="bg-slate-800 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs mr-2">2</span>
-                        Core Specifications
+                        {ui.coreSpecifications}
                       </h3>
                     )}
                     <div className="space-y-6">
                       {configData.categories
                         .filter(cat => stepConfig.find(s => s.step === currentStep).categories.includes(cat.id))
-                        .filter(cat => isCategoryVisible(cat, selections))
+                        .filter(cat => isCategoryVisible(cat, selections) && !fixedSelections[cat.id])
                         .map(category => {
                           const availableOptions = category.options.filter(opt => {
 
@@ -1221,10 +1300,13 @@ const handleOptionChange = (categoryId, optionId) => {
   );
 });
 
+                          if (!availableOptions.length) return null;
                           return (
-                            <div key={category.id} className="bg-white rounded-xl border-2 border-slate-200 overflow-hidden shadow-sm">
+                            <div key={category.id} data-category={category.id} data-fixed-category={fixedSelections[category.id] ? category.id : undefined} className="bg-white rounded-xl border-2 border-slate-200 overflow-hidden shadow-sm">
                               <div className="bg-slate-100 px-6 py-4 border-b-2 border-slate-200">
-                                <h3 className="text-lg font-bold text-slate-800">{category.title}</h3>
+                                <h3 className="text-lg font-bold text-slate-800">{categoryTitle(category)}
+                                  {fixedSelections[category.id] && <span className="ml-2 text-xs font-medium text-slate-500">{ui.fixedBadge}</span>}
+                                </h3>
                               </div>
                               <div className="p-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -1241,14 +1323,15 @@ const handleOptionChange = (categoryId, optionId) => {
                                     }
                                     
                                     return (
-                                      <label 
+                                      <label
+                                        data-option={option.id}
                                         key={option.id}
                                         className={`flex items-start p-4 border-2 rounded-lg cursor-pointer transition-colors duration-200 
                                           ${isSelected 
                                             ? 'border-red-700 bg-red-50 shadow-sm' 
                                             : 'border-slate-200 hover:border-slate-400 hover:bg-slate-50'}`}
                                       >
-                                        <div className="flex items-center h-5">
+                                        {!fixedSelections[category.id] && <div className="flex items-center h-5">
                                           <input 
                                             type="radio" 
                                             name={category.id} 
@@ -1257,7 +1340,7 @@ const handleOptionChange = (categoryId, optionId) => {
                                             onChange={() => handleOptionChange(category.id, option.id)}
                                             className="w-4 h-4 text-red-700 border-slate-300 focus:ring-red-700"
                                           />
-                                        </div>
+                                        </div>}
                                         <div className="ml-3 flex-1">
                                           <div className="flex justify-between items-start">
                                             <div>
@@ -1266,7 +1349,7 @@ const handleOptionChange = (categoryId, optionId) => {
                                               </span>
                                               {isStandardOpt && (
                                                 <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-white uppercase">
-                                                  Standard
+                                                  {ui.standard}
                                                 </span>
                                               )}
                                             </div>
@@ -1294,13 +1377,36 @@ const handleOptionChange = (categoryId, optionId) => {
                         })}
                     </div>
                     
+                    {upcomingGroups.length > 0 && (
+                      <details data-future-options className="mt-6 border-2 border-slate-200 rounded-xl bg-slate-50">
+                        <summary className="cursor-pointer p-5 font-bold text-slate-700">{ui.futureTitle}</summary>
+                        <div className="px-5 pb-5">
+                          <p className="text-sm text-slate-600 mb-5">{ui.futureNote}</p>
+                          <div className="space-y-4">
+                            {upcomingGroups.map(group => (
+                              <div key={group.categoryId}>
+                                <h4 className="text-xs font-semibold text-slate-500 mb-2">{ui.categoryTitles[group.categoryId] || group.title}</h4>
+                                <div className="flex flex-wrap gap-2">
+                                  {group.options.map(option => (
+                                    <span key={option.id} data-planned-option={option.id} aria-disabled="true" className="text-xs text-slate-500 border border-dashed border-slate-300 rounded-lg px-3 py-2 bg-white">
+                                      {option.label} · {ui.futureBadge}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </details>
+                    )}
+
                     {/* Automatic Power Supply (Only visible in Step 5) */}
                     {currentStep === 5 && (() => {
                       const powerSupply = getAutomaticPowerSupply(selections, specialOptions);
                       return (
                         <div className="bg-white rounded-xl border-2 border-slate-200 overflow-hidden shadow-sm mt-6">
                           <div className="bg-slate-100 px-6 py-4 border-b-2 border-slate-200">
-                            <h3 className="text-lg font-bold text-slate-800">Power Supply <span className="text-xs font-medium text-slate-400 uppercase ml-1">Automatic</span></h3>
+                            <h3 className="text-lg font-bold text-slate-800">{ui.powerSupply} <span className="text-xs font-medium text-slate-400 uppercase ml-1">{ui.automatic}</span></h3>
                           </div>
                           <div className="p-6">
                             <div className="flex items-start justify-between p-4 border-2 border-red-200 bg-red-50 rounded-lg">
@@ -1308,9 +1414,9 @@ const handleOptionChange = (categoryId, optionId) => {
                                 <div className="text-sm font-bold text-red-700">{powerSupply.label}</div>
                                 <div className="text-xs text-slate-500 mt-1">{powerSupply.spec}</div>
                               </div>
-                              <span className="text-xs font-medium text-slate-400">Included</span>
+                              <span className="text-xs font-medium text-slate-400">{ui.included}</span>
                             </div>
-                            <p className="text-xs text-slate-500 mt-3">Power configuration is assigned automatically to match the selected pickups, onboard electronics and buffer options.</p>
+                            <p className="text-xs text-slate-500 mt-3">{ui.powerNote}</p>
                           </div>
                         </div>
                       );
@@ -1319,12 +1425,12 @@ const handleOptionChange = (categoryId, optionId) => {
                     {/* Special Options Area (Only visible in Step 5) */}
                     {currentStep === 5 && (
                       <div className="bg-white rounded-xl border-2 border-slate-200 overflow-hidden shadow-sm mt-6">
-                        <div className="bg-slate-100 px-6 py-4 border-b-2 border-slate-200">
-                          <h3 className="text-lg font-bold text-slate-800">Instrument Options</h3>
-                        </div>
+                        {currentSpecialOptions.length > 0 && <div className="bg-slate-100 px-6 py-4 border-b-2 border-slate-200">
+                          <h3 className="text-lg font-bold text-slate-800">{ui.instrumentOptions}</h3>
+                        </div>}
                         <div className="p-6">
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-                            {specialOptionsList.map(opt => {
+                          <div className={currentSpecialOptions.length ? "grid grid-cols-1 md:grid-cols-2 gap-3 mb-6" : "hidden"}>
+                            {currentSpecialOptions.map(opt => {
                               // EQ가 passive가 아니면 passive 전용 옵션은 숨김
                               if (opt.requiresPassive && selections['electronics'] !== 'passive') return null;
                               
@@ -1364,10 +1470,10 @@ const handleOptionChange = (categoryId, optionId) => {
                           </div>
 
                           {/* Accessories */}
-                          <div className="border-t-2 border-slate-100 pt-6 mt-2">
-                            <h4 className="text-sm font-bold text-slate-700 mb-3 uppercase tracking-wide">Accessories</h4>
+                          <div className={currentSpecialOptions.length ? "border-t-2 border-slate-100 pt-6 mt-2" : ""}>
+                            <h4 className="text-sm font-bold text-slate-700 mb-3 uppercase tracking-wide">{ui.accessories}</h4>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-                              {accessoriesList.map(opt => {
+                              {currentAccessories.map(opt => {
                                 const isSelected = accessories.includes(opt.id);
                                 return (
                                   <label 
@@ -1399,14 +1505,14 @@ const handleOptionChange = (categoryId, optionId) => {
                           
                           {/* Special Instructions */}
                           <div className="border-t-2 border-slate-100 pt-6">
-                            <label className="block text-sm font-semibold text-slate-700 mb-2">Special Instructions</label>
-                            <p className="text-xs text-slate-500 mb-3">Use this field for custom setup details, dimensions, tuning, control requests, or other build notes. On-request items and final pricing will be confirmed before the build is accepted.</p>
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">{ui.specialInstructions}</label>
+                            <p className="text-xs text-slate-500 mb-3">{ui.instructionsNote}</p>
                             <textarea
                               value={specialInstructions}
                               onChange={(e) => setSpecialInstructions(e.target.value)}
                               className="w-full p-4 border-2 border-slate-200 rounded-lg focus:border-red-700 focus:outline-none focus:ring-1 focus:ring-red-700 text-sm transition-colors duration-200 custom-scrollbar"
                               rows="4"
-                              placeholder="Type your special requests here..."
+                              placeholder={ui.instructionsPlaceholder}
                             ></textarea>
                           </div>
                         </div>
@@ -1422,7 +1528,7 @@ const handleOptionChange = (categoryId, optionId) => {
                       className={`px-6 py-3 rounded-xl font-bold text-sm uppercase tracking-wider transition-all duration-200 
                         ${currentStep === 1 ? 'opacity-0 cursor-default' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
                     >
-                      Previous
+                      {ui.previous}
                     </button>
                     <button
                       onClick={handleNext}
@@ -1430,7 +1536,7 @@ const handleOptionChange = (categoryId, optionId) => {
                       className={`px-8 py-3 rounded-xl font-bold text-sm uppercase tracking-wider transition-all duration-200 
                         ${currentStep === 5 ? 'opacity-0 cursor-default' : 'bg-slate-900 text-white hover:bg-slate-800 shadow-md hover:shadow-lg'}`}
                     >
-                      Next Step
+                      {ui.next}
                     </button>
                   </div>
                 </div>
@@ -1442,15 +1548,15 @@ const handleOptionChange = (categoryId, optionId) => {
                   
                   {/* Web UI Header */}
                   <div id="ui-header" className="bg-slate-900 p-6 text-white border-b-2 border-slate-800">
-                    <h3 className="text-xl font-bold uppercase tracking-tight">Summary</h3>
-                    <div className="text-slate-400 text-sm mt-1">{selectedModel} Custom Build</div>
+                    <h3 className="text-xl font-bold uppercase tracking-tight">{ui.summary}</h3>
+                    <div className="text-slate-400 text-sm mt-1">{selectedModel} · {ui.customBuild}</div>
                   </div>
                   
                   {/* PDF Only Header */}
                   <div id="pdf-header" style={{display: 'none'}} className="bg-slate-900 p-6 text-white border-b-2 border-slate-800 justify-between items-center">
                     <div>
-                      <h3 className="text-xl font-bold uppercase tracking-tight">Summary</h3>
-                      <div className="text-slate-400 text-xs mt-1">{selectedModel} Custom Build</div>
+                      <h3 className="text-xl font-bold uppercase tracking-tight">{ui.summary}</h3>
+                      <div className="text-slate-400 text-xs mt-1">{selectedModel} · {ui.customBuild}</div>
                     </div>
                     <div className="flex justify-end items-center">
                       <img src="./ravenforge.png" alt="RavenForge Logo" className="h-16 w-auto object-contain" />
@@ -1460,8 +1566,8 @@ const handleOptionChange = (categoryId, optionId) => {
                   <div className="p-6">
                     <div id="quote-scroll-area" className="mb-6 max-h-[calc(100vh-420px)] min-h-[300px] overflow-y-auto pr-2 text-sm custom-scrollbar">
                       <div className="flex justify-between pb-2 mb-4 border-b-2 border-slate-100">
-                        <span className="text-slate-500 font-bold uppercase text-xs">Base Model ({selectedModel})</span>
-                        <span className="text-slate-900 font-bold">€{summary.basePrice}</span>
+                        <span className="text-slate-500 font-bold uppercase text-xs">{ui.baseModel} ({selectedModel})</span>
+                        <span className="text-slate-900 font-bold">{typeof summary.basePrice === 'number' ? '€' + summary.basePrice : ui.requestPrice}</span>
                       </div>
                       
                       {/* Breakdown List Container */}
@@ -1486,7 +1592,7 @@ const handleOptionChange = (categoryId, optionId) => {
                       {/* Display Special Instructions in PDF/Summary Area */}
                       {specialInstructions.trim() && (
                         <div className="mt-4 pt-3 border-t-2 border-slate-100">
-                          <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">Special Instructions</div>
+                          <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">{ui.specialInstructions}</div>
                           <div className="text-xs text-slate-700 italic break-words whitespace-pre-wrap">
                             "{specialInstructions}"
                           </div>
@@ -1494,32 +1600,33 @@ const handleOptionChange = (categoryId, optionId) => {
                       )}
                     </div>
 
-                    <div className="pt-4 border-t-2 border-slate-200">
+                    <div data-summary-total className="pt-4 border-t-2 border-slate-200">
                       <div className="flex justify-between items-end mb-2">
-                        <span className="text-slate-500 font-bold uppercase text-xs">Total (RRP)</span>
-                        <span className="text-3xl font-black text-slate-900">
-                          €{summary.totalPrice}
+                        <span className="text-slate-500 font-bold uppercase text-xs">{summary.requiresRequest && selectedModel !== 'GRAM' ? ui.partialPrice : ui.total}</span>
+                        <span className={"font-black text-slate-900 " + (typeof summary.totalPrice === 'number' ? 'text-3xl' : 'text-lg')}>
+                          {typeof summary.totalPrice === 'number' ? '€' + summary.totalPrice : ui.requestPrice}
                         </span>
                       </div>
                       
                       {summary.requiresRequest && (
                         <div className="flex items-start mt-4 p-3 bg-yellow-50 rounded-lg text-yellow-800 text-[12px] leading-relaxed border border-yellow-200">
                           <div className="mr-2 mt-0.5 shrink-0"><InfoIcon /></div>
-                          <p>Some options are selected as <strong>'On Request'</strong>, so the final price will be confirmed before the build is accepted.</p>
+                          <p>{selectedModel === 'GRAM' ? ui.gramPriceNote : ui.requestNote}</p>
                         </div>
                       )}
                     </div>
 
                     <div id="quote-actions-area">
+                      {pdfError && <p role="alert" className="text-sm text-red-700 mt-3">{pdfError}</p>}
                       <button 
                         className={`w-full mt-6 text-white font-bold py-4 px-4 rounded-xl transition-all duration-200 shadow-lg flex justify-center items-center uppercase tracking-widest text-sm ${isGeneratingPDF ? 'bg-slate-400 cursor-wait' : 'bg-red-700 hover:bg-red-800 active:transform active:scale-95'}`}
                         onClick={handleRequestQuote}
                         disabled={isGeneratingPDF}
                       >
-                        {isGeneratingPDF ? 'Generating PDF...' : 'Save Quote PDF'}
+                        {isGeneratingPDF ? ui.generatingPDF : ui.savePDF}
                       </button>
                       <p className="text-center text-[11px] text-slate-400 mt-4 leading-tight">
-                        * The above amount is the RRP (Recommended Retail Price),<br/>and does not include customs duties and shipping fees.
+                        {selectedModel === 'GRAM' ? ui.gramPriceNote : ui.pricingFootnote}
                       </p>
                     </div>
                   </div>
