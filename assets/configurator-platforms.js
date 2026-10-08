@@ -361,13 +361,13 @@
       id: 'case', title: 'Gigbag', options: [
         {
           id: 'case_standard', label: 'Standard gigbag',
-          spec: 'Included in the base price. The manufacturer, model and instrument fit are confirmed before delivery.',
+          spec: '',
           prices: { EDDA: 0, EMBLA: 0, ASKR: 0, GRAMR: 0 },
           availableFor: ['EDDA', 'EMBLA', 'ASKR', 'GRAMR']
         },
         {
-          id: 'case_premium', label: 'Premium gigbag — Nube or equivalent',
-          spec: 'Premium gigbag: €300, less the included €100 standard gigbag. Upgrade surcharge: €200. The manufacturer, model and instrument fit are confirmed before delivery.',
+          id: 'case_premium', label: 'Premium gigbag',
+          spec: '',
           prices: { EDDA: premiumGigbagUpgrade, EMBLA: premiumGigbagUpgrade, ASKR: premiumGigbagUpgrade, GRAMR: premiumGigbagUpgrade },
           availableFor: ['EDDA', 'EMBLA', 'ASKR', 'GRAMR']
         }

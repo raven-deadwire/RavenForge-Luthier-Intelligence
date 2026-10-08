@@ -276,18 +276,18 @@ async function run() {
         assert.equal(await caseRow.count(), 1, `${model.id} must have one case in its specification`);
         const standardCase = await caseRow.innerText();
         assert.match(standardCase, /Standard gigbag/i);
-        assert.match(standardCase, /included in the base price/i);
+        assert.doesNotMatch(standardCase, /manufacturer|final confirmation|€\s*(?:100|300)\b/i,
+          'The standard case summary must show only its name and included-price badge');
 
         await selectOption('case', 'case_premium');
         assert.equal(await option('case', 'case_standard').isChecked(), false);
         assert.equal(await page.locator('input[type="radio"][name="case"]:checked').count(), 1);
         assert.equal(await caseRow.count(), 1, 'A premium upgrade must replace the standard gigbag in the specification');
         const premiumCase = await caseRow.innerText();
-        assert.match(premiumCase, /Premium gigbag.*Nube or equivalent/i);
-        assert.match(premiumCase, /replac.*standard gigbag/i);
-        assert.match(premiumCase, /upgrade|surcharge/i);
-        assert.match(premiumCase, /€\s*300\b/, 'The premium case detail must disclose its full price');
-        assert.match(premiumCase, /€\s*100\b/, 'The premium case detail must credit the included standard gigbag budget');
+        assert.match(premiumCase, /Premium gigbag/i);
+        assert.match(premiumCase, /€\s*200\b/);
+        assert.doesNotMatch(premiumCase, /Nube|equivalent|manufacturer|final confirmation|€\s*(?:100|300)\b/i,
+          'The premium case summary must show only its name and upgrade price');
         assert.equal(await quotedAmount(), model.basePrice + 200,
           'The €300 premium case must add only €200 after the included €100 case budget');
         const premiumTotal = await page.locator('[data-summary-total]').innerText();
@@ -620,9 +620,9 @@ async function run() {
       const note = 'QA specification note: keep approved 6-string 25.5-inch platform.';
       await page.locator('textarea').fill(note);
       const caseSummary = await page.locator('[data-summary-category="case"]').innerText();
-      assert.match(caseSummary, /Premium gigbag.*Nube or equivalent/i);
-      assert.match(caseSummary, /€\s*300\b/);
-      assert.match(caseSummary, /€\s*100\b/);
+      assert.match(caseSummary, /Premium gigbag/i);
+      assert.match(caseSummary, /€\s*200\b/);
+      assert.doesNotMatch(caseSummary, /Nube|equivalent|manufacturer|final confirmation|€\s*(?:100|300)\b/i);
       assert.equal(await quotedAmount(), 2200);
       await observePdf();
       const downloadPromise = page.waitForEvent('download', { timeout: 60000 });
@@ -642,7 +642,7 @@ async function run() {
       assert.ok(inputs[0].text.includes(note), 'Current special instructions must be exported');
       assert.ok(inputs[0].text.includes(finish), 'Requested finish color must be exported');
       assert.ok(inputs[0].text.replace(/\s+/g, ' ').includes(caseSummary.replace(/\s+/g, ' ')),
-        'The PDF must include the premium gigbag, its €300 price and the included €100 credit');
+        'The PDF must include the premium gigbag name and its €200 upgrade price');
       assert.match(inputs[0].text, /Estimated total\s*\(excl\. VAT\)\s*€\s*2,?200\b/i,
         'GRAMR with the premium gigbag must total €2,200 before VAT');
       assert.doesNotMatch(inputs[0].text, /Priced items subtotal|Price on request|on-request items/i);
