@@ -227,7 +227,7 @@ async function run() {
         }
         if (model.id === 'GRAM') {
           const card = await page.locator('button[data-model="GRAM"]').innerText();
-          assert.match(card, /price on request|quote/i);
+          assert.match(card, /€\s*1,?900\b/, 'GRAM must show its €1,900 base price');
           assert.doesNotMatch(card, /€\s*(?:0|null|undefined|NaN)\b/);
         }
         const future = page.locator('[data-future-options]');
@@ -498,8 +498,8 @@ async function run() {
       const text = await summary();
       assertSpecs(text, expectedModels[3]);
       assert.doesNotMatch(text, /Payson|LHZ|Tone Capsule|Bass Core|Fluence 2 band|Lusithand|Cali Dub|BEADG|fretless|slap ramp|finger ramp|Castle flight hard case/i);
-      assert.match(text, /price on request|pricing.*confirm|quote.*request/i, 'Gram requires a quote');
-      assert.doesNotMatch(text, /€\s*(?:0(?:\.00)?|null|undefined|NaN)\b/, 'Unknown Gram pricing must not render a zero or invalid total');
+      assert.match(text, /Estimated total\s*\(excl\. VAT\)\s*€\s*1,?900\b/i, 'Standard GRAM must total €1,900 before VAT');
+      assert.doesNotMatch(text, /€\s*(?:0(?:\.00)?|null|undefined|NaN)\b/, 'GRAM pricing must not render a zero or invalid total');
       await step(5);
       assert.equal(await page.locator('input[name="lhz_voltage"]').count(), 0);
       await chooseModel('EDDA');
@@ -535,7 +535,7 @@ async function run() {
       }
     });
 
-    await check('Actual Gram PDF exports the current specification and quote status', async () => {
+    await check('Actual Gram PDF exports the current specification and standard price', async () => {
       await freshModel('GRAM');
       await step(3);
       const finish = 'Graphite grey body with a natural maple neck';
@@ -560,7 +560,7 @@ async function run() {
       assertSpecs(inputs[0].text, expectedModels[3]);
       assert.ok(inputs[0].text.includes(note), 'Current special instructions must be exported');
       assert.ok(inputs[0].text.includes(finish), 'Requested finish color must be exported');
-      assert.match(inputs[0].text, /price on request|pricing.*confirm|quote.*request/i);
+      assert.match(inputs[0].text, /Estimated total\s*\(excl\. VAT\)\s*€\s*1,?900\b/i, 'Standard GRAM PDF must total €1,900 before VAT');
       assert.doesNotMatch(inputs[0].text, /€\s*(?:0(?:\.00)?|null|undefined|NaN)\b|Payson|LHZ|BEADG/i);
       await page.getByRole('button', { name: /Save.*PDF/i }).waitFor();
       assert.equal(await page.locator('#ui-header').isVisible(), true, 'Web summary must be restored after export');

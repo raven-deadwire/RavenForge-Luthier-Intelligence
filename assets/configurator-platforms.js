@@ -83,7 +83,7 @@
       strings: '6 guitar strings', scale: '25.5-inch single scale',
       frets: '24 frets; no zero fret', bridge: 'Gotoh 510T-FE1',
       joint: 'Extended bolt-on deep tenon; 5 bolts in a 2-2-1 layout; threaded inserts; no neck plate',
-      description: 'Six-string 25.5-inch Superstrat with 24 frets and HH pickups. Materials and electronics are selectable; pricing is by request.'
+      description: 'Six-string 25.5-inch Superstrat with 24 frets and HH pickups. Materials and electronics are selectable; custom option pricing is confirmed separately.'
     }
   };
 
@@ -237,7 +237,7 @@
 
     var gram = data.models.find(function (entry) { return entry.id === 'GRAM'; });
     if (!gram) { gram = { id: 'GRAM', name: 'GRAM' }; data.models.push(gram); }
-    Object.assign(gram, { basePrice: null, desc: 'Superstrat 24F · specification and pricing by request', instrument: 'guitar' });
+    Object.assign(gram, { basePrice: 1900, startingPrice: 1900, desc: 'Superstrat 24F · 6-string / 25.5-inch', instrument: 'guitar' });
 
     [
       ['strings', 'guitar_6', '6 guitar strings', ''],
@@ -250,7 +250,7 @@
       ['fret_type', 'guitar_fret_24', '24 frets; no zero fret', ''],
       ['body_construction', 'guitar_body_2pc', '2-piece solid body', 'center-jointed body; 45.0 mm concept thickness'],
       ['body_wood_single', 'guitar_swamp_ash', 'swamp ash', 'solid body within the existing outline'],
-      ['fretboard', 'guitar_indian_rosewood', 'Rosewood', ''],
+      ['fretboard', 'guitar_indian_rosewood', 'rosewood', ''],
       ['top_type', 'guitar_top_none', 'no separate top', 'visible body wood grain'],
       ['hardware_bridge', 'guitar_gotoh_510t', 'Gotoh 510T-FE1', 'right-handed; 42 mm block'],
       ['hardware_machine_head', 'guitar_gotoh_sg381', 'Gotoh SG381-07-MGT', '6-in-line; staggered'],
@@ -326,6 +326,16 @@
     Object.keys(modelDefaults).forEach(function (modelId) {
       Object.keys(modelDefaults[modelId]).forEach(function (categoryId) {
         setStandard(data, categoryId, modelDefaults[modelId][categoryId], modelId);
+      });
+    });
+    // GRAM's base price includes its standard specification. Other options
+    // retain their separate-quote prices, including veneer/cap top selections.
+    data.categories.forEach(function (group) {
+      group.options.forEach(function (entry) {
+        if (entry.isStandard && entry.isStandard.indexOf('GRAM') >= 0 &&
+            entry.prices && Object.prototype.hasOwnProperty.call(entry.prices, 'GRAM')) {
+          entry.prices.GRAM = 0;
+        }
       });
     });
     return data;
