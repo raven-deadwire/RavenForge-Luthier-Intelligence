@@ -7,15 +7,19 @@
   'use strict';
 
   // Bass defaults follow the existing configurator. ASKR's 37–34/Payson
-  // platform is the user's selected revision; GRAM follows its published concept.
+  // platform is the user's selected revision; GRAMR follows its published concept.
   var activeData = null;
+  var standardGigbagBudget = 100;
+  var premiumGigbagBudget = 300;
+  var premiumGigbagUpgrade = premiumGigbagBudget - standardGigbagBudget;
+  var instrumentBasePrices = { EDDA: 2000, EMBLA: 2450, ASKR: 3100, GRAMR: 1900 };
   var bassDefaults = {
     orientation: 'right_hand', string_spacing: 'spacing_std', nut_size: 'nut_std',
     nut_material: 'nut_brass', radius: 'rad_std', fret_type: 'fret_24',
     fretboard_extense: 'extense_none', body_construction: '3pc_solid',
     hardware_bridge: 'ets_custom', hardware_machine_head: 'gotoh_707',
     pickup_configuration: 'pickup_2', control_layout: 'control_std',
-    coil_switch: 'coil_1_ps'
+    coil_switch: 'coil_1_ps', case: 'case_standard'
   };
   var modelDefaults = {
     EDDA: Object.assign({}, bassDefaults, {
@@ -31,7 +35,7 @@
       hardware_bridge: 'payson', pickups: 'fishman', electronics: 'fishman',
       coil_switch: 'coil_none'
     }),
-    GRAM: {
+    GRAMR: {
       orientation: 'right_hand', strings: 'guitar_6', scale: 'guitar_25_5',
       string_spacing: 'spacing_std', nut_size: 'guitar_nut_43',
       nut_material: 'guitar_bone_nut', neck: 'guitar_neck_5pc',
@@ -41,7 +45,7 @@
       pickup_configuration: 'guitar_hh', pickups: 'guitar_lundgren_m6',
       electronics: 'guitar_zuta_core', control_layout: 'guitar_controls',
       coil_switch: 'guitar_blade_selection',
-      color_top: 'top_oil', color_back_side: 'back_oil'
+      color_top: 'top_oil', color_back_side: 'back_oil', case: 'case_standard'
     }
   };
   var geometryCategories = [
@@ -55,13 +59,13 @@
       if (modelId === 'ASKR' && id === 'hardware_bridge') return;
       cores[modelId][id] = modelDefaults[modelId][id];
     });
-    if (modelId === 'GRAM') cores[modelId].fret_type = modelDefaults[modelId].fret_type;
+    if (modelId === 'GRAMR') cores[modelId].fret_type = modelDefaults[modelId].fret_type;
   });
   var pickupOptions = {
     EDDA: ['nova_mm', 'nova_custom', 'others', 'häussel_triple'],
     EMBLA: ['delano_sbc', 'delano_ts', 'häussel_bar', 'nova_custom', 'others'],
     ASKR: ['fishman', 'emg', 'askr_delano_sbc5_e', 'nova_custom', 'others'],
-    GRAM: ['guitar_lundgren_m6', 'guitar_hh_passive_custom']
+    GRAMR: ['guitar_lundgren_m6', 'guitar_hh_passive_custom']
   };
   var summaries = {
     EDDA: {
@@ -79,7 +83,7 @@
       frets: '24 frets + zero fret', bridge: 'Payson Multi-Scale Bass Bridge',
       description: 'Five-string multiscale bass with selectable materials, hardware and electronics.'
     },
-    GRAM: {
+    GRAMR: {
       strings: '6 guitar strings', scale: '25.5-inch single scale',
       frets: '24 frets; no zero fret', bridge: 'Gotoh 510T-FE1',
       joint: 'Extended bolt-on deep tenon; 5 bolts in a 2-2-1 layout; threaded inserts; no neck plate',
@@ -106,10 +110,10 @@
     var group = category(data, categoryId);
     if (!group) return;
     var existing = option(data, categoryId, id);
-    var entry = { id: id, label: label, spec: spec || '', prices: { GRAM: standard !== false ? 0 : 'request' }, availableFor: ['GRAM'] };
+    var entry = { id: id, label: label, spec: spec || '', prices: { GRAMR: standard !== false ? 0 : 'request' }, availableFor: ['GRAMR'] };
     if (existing) Object.assign(existing, entry);
     else group.options.push(entry);
-    if (standard !== false) setStandard(data, categoryId, id, 'GRAM');
+    if (standard !== false) setStandard(data, categoryId, id, 'GRAMR');
   }
   function commonBassPrice(entry) {
     if (!entry || !entry.prices) return 'request';
@@ -126,10 +130,10 @@
     if (!group) return;
     group.options.forEach(function (entry) {
       if (allowedIds && allowedIds.indexOf(entry.id) < 0) return;
-      entry.prices = Object.assign({}, entry.prices, { GRAM: commonBassPrice(entry) });
-      if (entry.availableFor && entry.availableFor.indexOf('GRAM') < 0) entry.availableFor.push('GRAM');
+      entry.prices = Object.assign({}, entry.prices, { GRAMR: commonBassPrice(entry) });
+      if (entry.availableFor && entry.availableFor.indexOf('GRAMR') < 0) entry.availableFor.push('GRAMR');
     });
-    if (standardId) setStandard(data, categoryId, standardId, 'GRAM');
+    if (standardId) setStandard(data, categoryId, standardId, 'GRAMR');
   }
   function extendDependency(data, categoryId, dependencyId, value) {
     var group = category(data, categoryId);
@@ -150,8 +154,6 @@
     });
 
     // ASKR includes Payson; Nova is priced as a replacement adjustment.
-    var askr = data.models.find(function (entry) { return entry.id === 'ASKR'; });
-    if (askr) { askr.basePrice = 3100; askr.startingPrice = 3100; }
     var multi = option(data, 'scale', 'multi');
     if (multi) {
       multi.label = '37–34-inch multiscale';
@@ -245,17 +247,17 @@
       group.options = group.options.filter(function (entry) { return entry.id !== 'guitar_inferno_red'; });
     });
 
-    var gram = data.models.find(function (entry) { return entry.id === 'GRAM'; });
-    if (!gram) { gram = { id: 'GRAM', name: 'GRAM' }; data.models.push(gram); }
-    Object.assign(gram, { basePrice: 1900, startingPrice: 1900, desc: 'Superstrat 24F · 6-string / 25.5-inch', instrument: 'guitar' });
+    var gramr = data.models.find(function (entry) { return entry.id === 'GRAMR'; });
+    if (!gramr) { gramr = { id: 'GRAMR', name: 'GRAMR' }; data.models.push(gramr); }
+    Object.assign(gramr, { desc: 'Superstrat 24F · 6-string / 25.5-inch', instrument: 'guitar' });
 
     [
       ['strings', 'guitar_6', '6 guitar strings', ''],
       ['scale', 'guitar_25_5', '25.5-inch single scale', ''],
-      ['nut_size', 'guitar_nut_43', '43.0 mm', 'GRAM nut width'],
+      ['nut_size', 'guitar_nut_43', '43.0 mm', 'GRAMR nut width'],
       ['nut_material', 'guitar_bone_nut', 'buffalo bone nut', 'no zero fret'],
       ['neck', 'guitar_neck_5pc', '5-piece laminated guitar neck', 'Northern Hard Maple / Wenge / Purpleheart / Wenge / Northern Hard Maple'],
-      ['neck_profile', 'guitar_profile_reference', 'GRAM reference profile', 'profile and final dimensions to be confirmed'],
+      ['neck_profile', 'guitar_profile_reference', 'GRAMR reference profile', 'profile and final dimensions to be confirmed'],
       ['radius', 'guitar_radius_16', '16-inch radius', ''],
       ['fret_type', 'guitar_fret_24', '24 frets; no zero fret', ''],
       ['body_construction', 'guitar_body_2pc', '2-piece solid body', 'center-jointed body; 45.0 mm concept thickness'],
@@ -268,7 +270,7 @@
       ['pickups', 'guitar_lundgren_m6', 'Lundgren M6 Neck + Bridge', 'black open-coil'],
       ['electronics', 'guitar_zuta_core', 'Zuta Core — planned', 'guitar electronics package; final wiring to be confirmed'],
       ['control_layout', 'guitar_controls', '1 Volume / 1 Tone / 5-way blade', 'CTS 500 kΩ D-curve pots; 0.022 µF tone capacitor'],
-      ['coil_switch', 'guitar_blade_selection', '5-way blade selection', 'uses the existing GRAM blade-switch opening'],
+      ['coil_switch', 'guitar_blade_selection', '5-way blade selection', 'uses the existing GRAMR blade-switch opening'],
       ['factory_setup', 'guitar_setup_reference', 'standard guitar setup', 'tuning and string gauge to be confirmed']
     ].forEach(function (entry) { addGuitarOption.apply(null, [data].concat(entry)); });
 
@@ -322,7 +324,7 @@
       return entry.availableFor && ['EDDA', 'EMBLA', 'ASKR'].every(function (id) { return entry.availableFor.indexOf(id) >= 0; });
     }).forEach(function (entry) {
       var id = 'guitar_top_' + entry.id;
-      var copy = { id: id, label: entry.label, spec: entry.spec || '', prices: Object.assign({}, entry.prices), availableFor: ['GRAM'], isStandard: [] };
+      var copy = { id: id, label: entry.label, spec: entry.spec || '', prices: Object.assign({}, entry.prices), availableFor: ['GRAMR'], isStandard: [] };
       var present = tops.options.find(function (candidate) { return candidate.id === id; });
       if (present) Object.assign(present, copy); else tops.options.push(copy);
     });
@@ -340,13 +342,40 @@
       ['nut_material', 'guitar_custom_nut', 'nut_others']
     ].forEach(function (mapping) {
       var target = option(data, mapping[0], mapping[1]);
-      if (target) target.prices.GRAM = commonBassPrice(option(data, mapping[0], mapping[2]));
+      if (target) target.prices.GRAMR = commonBassPrice(option(data, mapping[0], mapping[2]));
     });
     ['guitar_body_1pc', 'guitar_body_2pc', 'guitar_body_3pc', 'guitar_body_chambered'].forEach(function (id) {
       extendDependency(data, 'body_wood_single', 'body_construction', id);
     });
     extendDependency(data, 'fret_material', 'fret_type', 'guitar_fret_24');
     extendDependency(data, 'fret_size', 'fret_type', 'guitar_fret_24');
+
+    // The standard gigbag is included once in each model's base price.
+    // A premium bag replaces it; only the difference between the two is added.
+    data.models.forEach(function (model) {
+      if (!Object.prototype.hasOwnProperty.call(instrumentBasePrices, model.id)) return;
+      model.basePrice = instrumentBasePrices[model.id] + standardGigbagBudget;
+      model.startingPrice = model.basePrice;
+    });
+    var gigbagCategory = {
+      id: 'case', title: 'Gigbag', options: [
+        {
+          id: 'case_standard', label: 'Standard gigbag',
+          spec: 'Included in the base price. The manufacturer, model and instrument fit are confirmed before delivery.',
+          prices: { EDDA: 0, EMBLA: 0, ASKR: 0, GRAMR: 0 },
+          availableFor: ['EDDA', 'EMBLA', 'ASKR', 'GRAMR']
+        },
+        {
+          id: 'case_premium', label: 'Premium gigbag — Nube or equivalent',
+          spec: 'Premium gigbag: €300, less the included €100 standard gigbag. Upgrade surcharge: €200. The manufacturer, model and instrument fit are confirmed before delivery.',
+          prices: { EDDA: premiumGigbagUpgrade, EMBLA: premiumGigbagUpgrade, ASKR: premiumGigbagUpgrade, GRAMR: premiumGigbagUpgrade },
+          availableFor: ['EDDA', 'EMBLA', 'ASKR', 'GRAMR']
+        }
+      ]
+    };
+    var existingGigbagCategory = category(data, 'case');
+    if (existingGigbagCategory) Object.assign(existingGigbagCategory, gigbagCategory);
+    else data.categories.push(gigbagCategory);
 
     Object.keys(modelDefaults).forEach(function (modelId) {
       Object.keys(modelDefaults[modelId]).forEach(function (categoryId) {
@@ -407,7 +436,7 @@
         { id: 'new_electronics_cavity', label: 'Additional or reshaped electronics cavities' }
       ]
     });
-    if (modelId === 'GRAM') groups.push({
+    if (modelId === 'GRAMR') groups.push({
       categoryId: 'guitar_future_geometry', title: 'Additional guitar formats',
       options: [
         { id: 'guitar_future_strings', label: 'Additional guitar string counts' },

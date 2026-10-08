@@ -12,7 +12,7 @@ JOBS = [
     (Path('ASKR Prototype Design.png'), OUT / 'askr-prototype.webp', 2000, 88),
     (Path('Edda Prototype Design.png'), OUT / 'edda-prototype.webp', 2000, 88),
     (Path('Body Structure.png'), OUT / 'body-structure.webp', 2200, 86),
-    (Path('assets/concepts/gram-superstrat-24f.png'), OUT / 'gram-superstrat-24f.webp', 1800, 88),
+    (Path('assets/concepts/gramr-superstrat-24f.png'), OUT / 'gramr-superstrat-24f.webp', 1800, 88),
     (Path('ravenforge.png'), OUT / 'ravenforge-logo.webp', 1200, 90),
 ]
 
@@ -76,12 +76,12 @@ if logo.exists():
         (OUT / 'ravenforge-social-preview.png').parent.mkdir(parents=True, exist_ok=True)
         social_canvas.convert('RGB').save(OUT / 'ravenforge-social-preview.png', 'PNG', optimize=True)
 
-# Point concept source metadata at optimized GRAM media when available.
-gram_meta = Path('concepts/gram-superstrat-24f/meta.json')
-if gram_meta.exists() and (OUT / 'gram-superstrat-24f.webp').exists():
-    data = json.loads(gram_meta.read_text(encoding='utf-8'))
-    data['image'] = 'assets/optimized/gram-superstrat-24f.webp'
-    gram_meta.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+# Point concept source metadata at optimized GRAMR media when available.
+gramr_meta = Path('concepts/gramr-superstrat-24f/meta.json')
+if gramr_meta.exists() and (OUT / 'gramr-superstrat-24f.webp').exists():
+    data = json.loads(gramr_meta.read_text(encoding='utf-8'))
+    data['image'] = 'assets/optimized/gramr-superstrat-24f.webp'
+    gramr_meta.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
 # Replace runtime references in the monolithic homepage without touching archival originals.
 # Optimized prototype URLs receive a content hash so GitHub Pages/CDN cannot keep serving
