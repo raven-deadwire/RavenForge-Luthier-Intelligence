@@ -1,0 +1,188 @@
+{
+  "schema": 1,
+  "version": "1.3.0-beta.1",
+  "tag": "v1.3.0-beta.1",
+  "source_sha": "aaa1330dd5cf7d51faf1c45a7cef633b9b118458",
+  "review_note": "Candidate source audited on 2026-10-10. This is not release approval. Re-audit and refresh the lock against the actual published tag before merging PR #19.",
+  "counts": {
+    "amps": 25,
+    "presets": 48,
+    "speakers": 14,
+    "microphones": 20,
+    "layouts": 9
+  },
+  "source_files": {
+    "Assets/Artwork/Cab/manifest.json": "417745776a4bed101eab03720ca020b3419b3ecb",
+    "COPYRIGHT.txt": "c8cd59c2a904b4cd7a40d5f041a17724d95abb85",
+    "Source/AmpCatalog.h": "e3f120864a4fa75d220cadca74ef4ab0cbea1068",
+    "Source/CabArtwork.h": "7334ac59683f26fce462d0817b4553cba33584cd",
+    "Source/CabExpansionModel.h": "1aa6e57132bc8f1e7eeebea9b2b2c8548dd87e37",
+    "Source/CabLayoutModel.h": "95a42ff73c1cf9cf6a787fc8b6848ebd8483f9ff",
+    "Source/CabPanel.h": "be6c5f266b0b2b7dc971656e8b0dda3a3104edb8",
+    "Source/CapturedCabArt.h": "d60c41aa25a4400161f2964fd629c713fe368bf7",
+    "Source/FactoryPresetLevels.h": "4f025eb37230e8e982ede344a98d3cdeed618e29",
+    "Source/FactoryPresets.h": "6b44a593dc9260b8364ce705d2acc340319228fb",
+    "Source/GuitarSignaturePresets.h": "12b12f5359e2606e0b0f7a84f3e0c300abff6488",
+    "Source/NiflheimrPresets.h": "a4e363e5a7db5d5275a6db401ebec78469d9326b",
+    "Source/OriginalPresets.h": "5fcd3d37d5b5527b8031ba43685dfdb1b0f5331d",
+    "Validation/release-policy.json": "97dd541390269fc076d77fef57cc2a425083e34b",
+    "docs/INSTALLATION.md": "4b5c70c56e5e5bcb26688574d15a8a0bd869b8d3",
+    "docs/MANUAL.html": "82a30060567ce8090a75ca90ca261e76e529e85b",
+    "docs/OPEN_BETA_RELEASE_NOTES.md": "1bdabbfe3b6ddd865d811919a54f649a07d7d5a5",
+    "docs/THIRD_PARTY_NOTICES.md": "1dfd52b31ac4c2ef41e2ef74e9a24afca7795d1e"
+  },
+  "assets": {
+    "SpectralForge-Chimera-1.3.0-beta.1-win64-Setup.exe": {
+      "kind": "package",
+      "linked": true
+    },
+    "SpectralForge-Chimera-1.3.0-beta.1-win64.zip": {
+      "kind": "package",
+      "linked": true
+    },
+    "SpectralForge-Chimera-1.3.0-beta.1-macos-universal.pkg": {
+      "kind": "package",
+      "linked": true
+    },
+    "SpectralForge-Chimera-1.3.0-beta.1-linux-x86_64.deb": {
+      "kind": "package",
+      "linked": true
+    },
+    "SpectralForge-Chimera-1.3.0-beta.1-linux-x86_64.tar.gz": {
+      "kind": "package",
+      "linked": true
+    },
+    "INSTALLATION.md": {
+      "kind": "document",
+      "linked": true,
+      "source_path": "docs/INSTALLATION.md"
+    },
+    "OPEN_BETA_RELEASE_NOTES.md": {
+      "kind": "document",
+      "linked": true,
+      "source_path": "docs/OPEN_BETA_RELEASE_NOTES.md"
+    },
+    "THIRD_PARTY_NOTICES.md": {
+      "kind": "document",
+      "linked": true,
+      "source_path": "docs/THIRD_PARTY_NOTICES.md"
+    },
+    "MANUAL.html": {
+      "kind": "document",
+      "linked": true,
+      "source_path": "docs/MANUAL.html"
+    },
+    "COPYRIGHT.txt": {
+      "kind": "document",
+      "linked": true,
+      "source_path": "COPYRIGHT.txt"
+    },
+    "SHA256SUMS.txt": {
+      "kind": "document",
+      "linked": true
+    },
+    "candidate-source.json": {
+      "kind": "document",
+      "linked": false
+    },
+    "update-beta.json": {
+      "kind": "document",
+      "linked": false
+    }
+  },
+  "images": {
+    "Assets/Artwork/Cab/cab-guitar-412.png": "26b12aacc35ed390c20dd19b254aafefc74fb10a",
+    "Assets/Artwork/Cab/mic-chimera-strike.png": "e7fbb4cd75163354f23938272fd6ec271054c8b3",
+    "Assets/Artwork/a515.jpg": "d58a727cae3525f2fafafa236b1765282e223b67",
+    "Assets/Artwork/abassman.jpg": "8bcd65b522b719679b4859a3fb58391bdded0e85",
+    "Assets/Artwork/abluestorm.jpg": "39b31605a7054e79a15d983503be0499619981aa",
+    "Assets/Artwork/abrit.jpg": "06717f7e2b0d152579fee0caee81ffe222c76d73",
+    "Assets/Artwork/achim30.jpg": "da703a9f7176a5f8c989e51a96fb26a2320bd51a",
+    "Assets/Artwork/acinder.jpg": "48115cfd301092ea55de8b787e1058548d7704fa",
+    "Assets/Artwork/aclassictube.jpg": "060755e1a8baeb977bda2fc60fe98687417c4d4a",
+    "Assets/Artwork/adumble.jpg": "a82cab4a1b7044c493e84697f374870afec3a13c",
+    "Assets/Artwork/aeich.jpg": "269d286e40c580f3dcca37c7511800fcb3d77af2",
+    "Assets/Artwork/afourfold.jpg": "869760572d697745cad7abf5b70fee5b7c1e9113",
+    "Assets/Artwork/agk.jpg": "e2a4c4c598fb08d6799fb417166e7e185347dd83",
+    "Assets/Artwork/aglass.jpg": "a1f6aa370bfd7a09dc5e3b99949820c748215cf3",
+    "Assets/Artwork/ahotlead.jpg": "2e0560cfba1bc90c7fdd5825e3e83e7cd7160a6c",
+    "Assets/Artwork/ahybrid.jpg": "6d2d1ef48db02273e3bd8b5ba5257eb4bd6188dd",
+    "Assets/Artwork/amark.jpg": "ed6279625b33486f34d89930f367125fec5ac84c",
+    "Assets/Artwork/amatchless.jpg": "80d9caf4550e00b485672e627eb50982b595a247",
+    "Assets/Artwork/amonolith.jpg": "5809d4396d31f832be38a5e15b132e6efb8bb7ee",
+    "Assets/Artwork/anastrond.png": "86bed5a068783624623f8653a33c927e36003e34",
+    "Assets/Artwork/aniflheimr.png": "9d4c1742999bdb31a6039eb07aede599860ff94a",
+    "Assets/Artwork/anightharvest.jpg": "387645c42bb698c781e0020dca18a10db63cdf1b",
+    "Assets/Artwork/aorange.jpg": "7d41db96874c66bbde1ff91716c4f0038f38283c",
+    "Assets/Artwork/arect.jpg": "fd4c9b8f4b586d33dce6e858631afb694bfaa87f",
+    "Assets/Artwork/aspecialedition.jpg": "94c2bfbc6fcb1ed2d52e864562c1e0f1f239898a",
+    "Assets/Artwork/asubway.jpg": "51168b3d1b24905f99f9f82c851b7a5e86180055",
+    "Assets/Artwork/asvt.jpg": "a894451c69e15ae836e1db1ad03b3c5353f7de28",
+    "Assets/Artwork/cmesa.jpg": "7ff44458a5c3f83d6396a0daa5210a60d0924a28",
+    "Assets/Artwork/p808.jpg": "02027dd1a7d301e393cc495f663a33eb48a10d2e",
+    "Assets/Artwork/paw3.jpg": "9b27ef1a9571c3c71bbe4ab2d77de45a76e21b70",
+    "Assets/Artwork/pb3k.jpg": "d887d7423402151f1376e179f919b6d9b5edc987",
+    "Assets/Artwork/pbddi.jpg": "1fdc536c661100351d8e50242e438ea37cea3459",
+    "Assets/Artwork/pbender.jpg": "7876742a9064e1109430383f43e046c031a815ee",
+    "Assets/Artwork/pcentaur.jpg": "17ae750462734af435987c55d49de0d7fbdff0f9",
+    "Assets/Artwork/pchorus.jpg": "8b544127fbdfb77a5f920bf306ef7a3c6a59b27c",
+    "Assets/Artwork/pdiamond.jpg": "0ab94bcdb63b5e6c6ad0b0dcdcdba877be994666",
+    "Assets/Artwork/pdimension.jpg": "577a1495161050f14894b4b82ba354dce279bc34",
+    "Assets/Artwork/pdualcircuit.jpg": "0a7d9000a71f39f479db7bab87cc30e8840cc8c3",
+    "Assets/Artwork/pdyna.jpg": "ef9e05f5faae6438b3792a184fdca585d6986f76",
+    "Assets/Artwork/pep.jpg": "85a3138232a6f18d03205c388a75b74ddd5b1d14",
+    "Assets/Artwork/pface.jpg": "855737e942995bb0fa6122ab2a58c350c7d94401",
+    "Assets/Artwork/pfactory.jpg": "ee9596253ea3bf0e775d67a559ff56bd2368388a",
+    "Assets/Artwork/pfet.jpg": "3b9e1486e21cc9d7326c3687fa6db7de522095f9",
+    "Assets/Artwork/pflange.jpg": "05dcb7f5fccb47317aec89ca999a67a7856fb6d3",
+    "Assets/Artwork/pgraphiceq.jpg": "c848b8d846ffb4ca7228b1d9aaf94211287d1024",
+    "Assets/Artwork/plpb.jpg": "ef7552f58d8ebb7fe1350fe5cf70fc3118f42755",
+    "Assets/Artwork/pm82.jpg": "5669ed50f9be6f096a56f01c181c0709692908f0",
+    "Assets/Artwork/pm87.jpg": "9d1720623f0063cd4f87d2e615c39e305cd0e6cc",
+    "Assets/Artwork/pmanualwah.jpg": "4b556048de3895ded1543ce844f2979ef2013e68",
+    "Assets/Artwork/pmicro.jpg": "9dbe418d5b284b6e2cb3977ad1c57251bac88a54",
+    "Assets/Artwork/pmonoctave.jpg": "de45d4583a36ba8193b94681d2f63a9a194624f1",
+    "Assets/Artwork/pmu.jpg": "b0668281cc3c954a085750a4860000ffbbeb453c",
+    "Assets/Artwork/pmuff.jpg": "6f0d840c5bf5620936fbf43e906c8ef27616e163",
+    "Assets/Artwork/pmutron.jpg": "916adcd27264ca55b5d4f2215e333d70c1adaa03",
+    "Assets/Artwork/pobsession.jpg": "c756ea66b76d48861a0002b79cea015f33cc7e7b",
+    "Assets/Artwork/pphase.jpg": "ab828eacfdfc93141cb168ce0166bbb600782824",
+    "Assets/Artwork/pplus.jpg": "f707a5d6fa58267efb3e4e09295f490d43cc774d",
+    "Assets/Artwork/pqtron.jpg": "40980ae1088bc105f47bc3501d3aabefb442feaf",
+    "Assets/Artwork/prange.jpg": "727b6246d5526da0cc0caa956538e3de1c759e62",
+    "Assets/Artwork/prat.jpg": "fd4480ab10d8a12c2c38e16f70b1dc7d004cc7df",
+    "Assets/Artwork/prc.jpg": "168b9a74cd4d77d8b3c13e8bb4736fd26e5fcdd4",
+    "Assets/Artwork/pspectraloctave.jpg": "ce0f61c7c706af00742a96bd326d6c26b3d353bb",
+    "Assets/Artwork/ptremolo.jpg": "bbf42f71588933a37b81ce124286a7d31465106a",
+    "Assets/Artwork/pvibrato.jpg": "3ecba91b744329be0b7f4dbb586ccc2eec059b83",
+    "Assets/Artwork/pwool.jpg": "01d4873a265199ac23fc98c852aa2f9c80b65015",
+    "Assets/Artwork/pyellowasym.jpg": "a345a8badbae90da258090a58e14bd83685e88e4",
+    "Assets/Artwork/r1176.jpg": "97133ed03faedadb0decb51165a3ee40e05dab12",
+    "Assets/Artwork/r2290.jpg": "9559fb9c017ad7a43ce987a1114acccee237083c",
+    "Assets/Artwork/rce2.jpg": "76788336810a76ec064791e76030c81b687ccf24",
+    "Assets/Artwork/rdimension.jpg": "b898c16bee37cc575e70f7a92130345fe259374f",
+    "Assets/Artwork/reddy.jpg": "a02a3bb56e44ac143b061f07c11024160ed3c567",
+    "Assets/Artwork/remt.jpg": "effe13bae28a6618f7f773dc7e77299a21c953ea",
+    "Assets/Artwork/risa.jpg": "d10982e379c6a6b81ee19b48477979ad872a51b0",
+    "Assets/Artwork/rla2a.jpg": "29f4f9b781734e48e5cfd0bb650b55f513f0e844",
+    "Assets/Artwork/rlex.jpg": "bb48b2bc02415583b0429299c574bae8626e3877",
+    "Assets/Artwork/rmemory.jpg": "759ef6748a306a580153fa65b2edc1362fc38259",
+    "Assets/Artwork/rmistress.jpg": "ed25968c7cb9272c1061b944568778b31cb0ea86",
+    "Assets/Artwork/rn73.jpg": "f056ca3e4b26699a99a95ec5c8bbb64ce21b5208",
+    "Assets/Artwork/rn73eq.jpg": "304a670edc422b8bb11a68f9518369a9a6cb80dc",
+    "Assets/Artwork/rpulsar.jpg": "94f3143203de3fba66239788fc0eaeb277476427",
+    "Assets/Artwork/rpultec.jpg": "04dbb064fa19693d4667184acd99d2e39240b979",
+    "Assets/Artwork/rre201.jpg": "5699c8d57c7eee2cf312e70225ddb64a02592b6c",
+    "Assets/Artwork/rspring.jpg": "4c2f8e288c3a7355286ba1ce4c50974712e2ffd6",
+    "Assets/Artwork/rssleq.jpg": "83e26b98f63e00085ef77a56045a0fed7b5fe72f",
+    "Assets/Artwork/rsslvca.jpg": "aceef8095443d5bb2f9f5abb1d80c97fdebefd58",
+    "Assets/Artwork/rstone.jpg": "17fb2ac894e3ca0f4e924bb2826848d7ed972eba",
+    "Assets/Artwork/rv5.jpg": "6b18f42aafd69a04eb1da1a81d0520dd8f299e77"
+  },
+  "reviewed_files": {
+    "assets/chimera.js": "514cb64ea33c2c1f423cca03b0fda5855e938991b437e758905cc98f8b493e86",
+    "assets/chimera.css": "700074bf7b97e0b814e3f98c237478dd3ac9ea2f7c633574a32f09cd5ab529be",
+    "manual/chimera.html": "727fbb5ca7a90bc5090e68f0d2ff29f520586e64b695f316684748105503ce56"
+  },
+  "product_markup_sha256": "1976d40446e355d9726298fe0505ee8eeb728e9697c030e23ec603a298004160"
+}

@@ -1,0 +1,61 @@
+{
+  "checked_at": "2026-10-10T13:49:22.498242+00:00",
+  "website_pr": 19,
+  "website_original_head": "245a7d0f16307c2b90c4dad6c0ad461048a8b5e6",
+  "live_main": "885a6ddac7b7a439b3e03bc5c239f57e9056b44e",
+  "audited_candidate_sha": "aaa1330dd5cf7d51faf1c45a7cef633b9b118458",
+  "public_1_3_release": "HTTP 404",
+  "public_1_3_tag": "HTTP 404",
+  "public_1_3_source_sha": null,
+  "published_1_2_source_sha": "d93560445c78552768a0ed592e5ec62c3c648fb6",
+  "public_validation": {
+    "checked_at": "2026-10-10T13:49:22.498242+00:00",
+    "mode": "public",
+    "public_verified": false,
+    "local": {
+      "rendered_languages": [
+        "en",
+        "ko",
+        "de"
+      ],
+      "remote_images": 87,
+      "linked_assets": 11
+    },
+    "status": "BLOCKED",
+    "error": "HTTPError: HTTP Error 404: Not Found"
+  },
+  "live_1_2_links": [
+    {
+      "url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/releases/download/v1.2.0-beta.1/INSTALLATION.md",
+      "status": 200,
+      "bytes": "7647"
+    },
+    {
+      "url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/releases/download/v1.2.0-beta.1/SpectralForge-Chimera-1.2.0-beta.1-linux-x86_64.deb",
+      "status": 200,
+      "bytes": "49787594"
+    },
+    {
+      "url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/releases/download/v1.2.0-beta.1/SpectralForge-Chimera-1.2.0-beta.1-macos-universal.pkg",
+      "status": 200,
+      "bytes": "150181221"
+    },
+    {
+      "url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/releases/download/v1.2.0-beta.1/SpectralForge-Chimera-1.2.0-beta.1-win64-Setup.exe",
+      "status": 200,
+      "bytes": "49670164"
+    },
+    {
+      "url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/releases/download/v1.2.0-beta.1/THIRD_PARTY_NOTICES.md",
+      "status": 200,
+      "bytes": "3617"
+    },
+    {
+      "url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/releases/tag/v1.2.0-beta.1",
+      "status": 200,
+      "bytes": null
+    }
+  ],
+  "website_merged": false,
+  "website_deployed": false
+}
