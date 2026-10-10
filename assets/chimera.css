@@ -110,3 +110,9 @@
 @media (max-width: 640px) {
   .rf-chimera-nastrond-channels, .rf-chimera-nastrond-features { grid-template-columns: 1fr; gap: 1.25rem; }
 }
+
+.rf-chimera-cab-art { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+.rf-chimera-cab-art figure { margin: 0; padding: 1rem; border: 1px solid var(--rf-line); border-radius: 8px; }
+.rf-chimera-cab-art img { display: block; width: 100%; height: 230px; object-fit: contain; }
+.rf-chimera-cab-art figcaption { margin-top: .75rem; font-size: .8rem; line-height: 1.5; }
+@media (max-width: 600px) { .rf-chimera-cab-art { grid-template-columns: 1fr; } }
