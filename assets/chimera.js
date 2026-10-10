@@ -19,8 +19,8 @@
     "dual": "Blend two independent rigs, or split the lows and highs between them.",
     "matrix": "Shape three frequency bands, with a DI/amp blend in the lows and independent mid/high rigs.",
     "features": "PRE / POST effects · Cabinet IR loading · Standalone & DAW plugins",
-    "download": "Download Open Beta 1.2",
-    "downloadNote": "Version 1.2.0-beta.1 · Released 5 October 2026 (KST). Choose the installer for your operating system.",
+    "download": "Download Open Beta 1.3",
+    "downloadNote": "Version 1.3.0-beta.1. Choose the installer for your operating system.",
     "win": "Windows 10/11 · x64",
     "mac": "macOS 12+ · Apple Silicon & Intel",
     "linux": "Debian / Ubuntu · x86_64 · glibc 2.35+",
@@ -60,9 +60,9 @@
     "newBody": "From tightly stopped low riffs to abrasive grind and long, spreading sustain. Náströnd is a SpectralForge Original high-gain amp designed for Thall, Slam and Sludge. Five channels offer distinct attack and saturation textures, letting you shape the weight around your playing.",
     "pitchHeading": "Transpose: current limits",
     "pitch": "Transpose adds about 43–46 ms of algorithmic delay. Bass B-string playing at −2 semitones can lose note body and attack separation. If this affects your part, turn Transpose off and retune. Further latency and sound-quality improvements remain planned.",
-    "previewUpdate": "Using a 1.2 Preview test build? Download the installer below and update directly. Close Chimera and all DAWs before installation.",
+    "previewUpdate": "Using an earlier beta or preview? Download the installer below and update directly. Close Chimera and all DAWs before installation.",
     "presetUpdate": "Reload Factory / Signature presets to apply the new settings. Saved knob, channel and user IR settings are retained, while revised amp DSP can change the tone and level of existing projects.",
-    "manualUpdate": "Manual updated 5 October: Náströnd is listed under High-Gain with its current head artwork. This web update is available now; the app’s embedded manual will follow in the next build.",
+    "manualUpdate": "The 1.3 manual covers Niflheimr, modeled cabinets, independent Mic A/B paths and captured IR loading.",
     "nastrondCaption": "Náströnd · SpectralForge Original high-gain amp · Select image to enlarge",
     "nastrondAlt": "Náströnd amplifier head with raven and serpent artwork, five channel selectors and thirteen knobs",
     "nastrondFenrir": "Fast attack and tightly controlled lows. Built for low-tuned palm mutes and closely articulated rhythm.",
@@ -74,7 +74,9 @@
     "nastrondShape": "Alongside GAIN and EQ, CLANK · CRUSH · IMPACT · ROT · BLOOM shape attack, saturation density, low-end impact and sustain response. Each channel remembers its knob settings as you move between sounds.",
     "nastrondRigsTitle": "From a riff to a complete rig",
     "nastrondRigs": "Start with Thall Rhythm, Molten Lead, Rotten Grind, Sludge Mass or Slam Impact. These five PRE / amp / cabinet / POST rigs give you starting points to make your own in Classic, Dual and Matrix.",
-    "nastrondManual": "Explore the channels and controls"
+    "nastrondManual": "Explore the channels and controls",
+    "cab13Title": "Open Beta 1.3 · Niflheimr & CAB",
+    "cab13Body": "Niflheimr adds five bass-amp channels and five complete rigs. Build your cabinet tone with 14 speakers, 20 microphones and nine layouts, including the six-driver bass 6×10. Mic A/B can use the modeled cabinet or independent captured IRs. The IR loader shows cabinet and microphone artwork; generic illustrations are labelled as examples when capture details are missing."
   },
   "ko": {
     "status": "무료 오픈베타",
@@ -93,8 +95,8 @@
     "dual": "독립적인 두 리그를 섞거나, 저역과 고역으로 나누어 구성합니다.",
     "matrix": "저역의 DI·앰프 블렌드와 독립적인 중역·고역 리그로 3개 대역을 다듬습니다.",
     "features": "PRE / POST 이펙트 · 캐비닛 IR 불러오기 · 단독 실행 및 DAW 플러그인",
-    "download": "Open Beta 1.2 다운로드",
-    "downloadNote": "버전 1.2.0-beta.1 · 2026년 10월 5일 공개 (한국 시간). 운영체제에 맞는 설치 파일을 선택해 주세요.",
+    "download": "Open Beta 1.3 다운로드",
+    "downloadNote": "버전 1.3.0-beta.1. 운영체제에 맞는 설치 파일을 선택해 주세요.",
     "win": "Windows 10/11 · x64",
     "mac": "macOS 12 이상 · Apple Silicon 및 Intel",
     "linux": "Debian / Ubuntu · x86_64 · glibc 2.35 이상",
@@ -134,9 +136,9 @@
     "newBody": "촘촘하게 끊는 저음 리프부터 거친 그라인드, 길게 번지는 서스테인까지. Náströnd는 Thall·Slam·Sludge를 위해 설계한 SpectralForge 오리지널 하이게인 앰프입니다. 다섯 채널의 서로 다른 어택과 포화 질감으로 연주에 맞는 무게를 만듭니다.",
     "pitchHeading": "Transpose의 현재 한계",
     "pitch": "Transpose는 약 43–46 ms의 알고리즘 지연을 추가합니다. 베이스 B현의 −2반음 연주에서 음의 몸통과 연속 어택이 뭉개질 수 있습니다. 해당 파트에서는 Transpose를 끄고 실제 튜닝을 사용하세요. 추가 저지연·음질 개선은 장기 과제로 남아 있습니다.",
-    "previewUpdate": "1.2 Preview 테스트판을 사용 중이라면 아래 설치 파일로 직접 업데이트해 주세요. 설치 전 Chimera와 모든 DAW를 종료하세요.",
+    "previewUpdate": "이전 베타나 프리뷰 버전을 사용 중이라면 아래 설치 파일로 직접 업데이트해 주세요. 설치 전 Chimera와 모든 DAW를 종료하세요.",
     "presetUpdate": "새 설정을 적용하려면 Factory / Signature 프리셋을 다시 불러오세요. 저장된 노브·채널·사용자 IR 설정은 유지되며, 앰프 DSP 보정으로 기존 프로젝트의 음색과 음량은 달라질 수 있습니다.",
-    "manualUpdate": "10월 5일 매뉴얼 업데이트: 나스트론드를 High-Gain으로 분류하고 현재 헤드 이미지를 적용했습니다. 웹 매뉴얼에는 즉시 반영됐으며, 앱 내장 매뉴얼은 다음 빌드부터 적용됩니다.",
+    "manualUpdate": "1.3 매뉴얼에는 Niflheimr, 모델링 캐비넷, 독립적인 Mic A/B 경로와 캡처 IR 불러오기 안내가 포함되어 있습니다.",
     "nastrondCaption": "Náströnd · SpectralForge 오리지널 하이게인 앰프 · 이미지를 눌러 확대",
     "nastrondAlt": "까마귀와 뱀 장식, 다섯 채널 선택 버튼과 13개 노브가 있는 나스트론드 앰프 헤드",
     "nastrondFenrir": "빠른 어택과 단단하게 정리된 저역. 낮은 튜닝의 팜뮤트와 촘촘한 리듬을 위한 채널입니다.",
@@ -148,7 +150,9 @@
     "nastrondShape": "GAIN과 EQ에 CLANK · CRUSH · IMPACT · ROT · BLOOM을 더해 어택, 포화의 밀도, 저역 충격과 서스테인 반응을 조절합니다. 채널마다 노브 값을 기억하므로 서로 다른 사운드를 오가며 다듬을 수 있습니다.",
     "nastrondRigsTitle": "리프에서 완성된 리그까지",
     "nastrondRigs": "Thall Rhythm, Molten Lead, Rotten Grind, Sludge Mass, Slam Impact로 바로 시작해 보세요. PRE·앰프·캐비닛·POST를 조합한 다섯 리그를 바탕으로 Classic·Dual·Matrix에서 원하는 사운드로 확장할 수 있습니다.",
-    "nastrondManual": "채널과 컨트롤 자세히 보기"
+    "nastrondManual": "채널과 컨트롤 자세히 보기",
+    "cab13Title": "Open Beta 1.3 · Niflheimr & CAB",
+    "cab13Body": "Niflheimr의 베이스 앰프 5채널과 완성형 리그 5개를 추가했습니다. 스피커 14종, 마이크 20종, 6개 유닛의 베이스 6×10을 포함한 캐비넷 9개 구성으로 톤을 만들 수 있습니다. Mic A/B는 모델링 캐비넷과 독립적인 캡처 IR을 선택할 수 있습니다. IR 로더에는 캐비넷·마이크 이미지를 표시하며, 수음 정보가 없는 경우 예시 이미지로 안내합니다."
   },
   "de": {
     "status": "Kostenlose offene Beta",
@@ -167,8 +171,8 @@
     "dual": "Zwei unabhängige Rigs mischen oder Tiefen und Höhen getrennt bearbeiten.",
     "matrix": "Drei Frequenzbänder mit DI/Amp-Mischung im Bassband sowie unabhängigen Mitten- und Höhen-Rigs.",
     "features": "PRE / POST-Effekte · Cabinet-IRs laden · Standalone & DAW-Plugins",
-    "download": "Open Beta 1.2 herunterladen",
-    "downloadNote": "Version 1.2.0-beta.1 · Veröffentlicht am 5. Oktober 2026 (KST). Wählen Sie das Installationspaket für Ihr Betriebssystem.",
+    "download": "Open Beta 1.3 herunterladen",
+    "downloadNote": "Version 1.3.0-beta.1. Wählen Sie das Installationspaket für Ihr Betriebssystem.",
     "win": "Windows 10/11 · x64",
     "mac": "macOS 12+ · Apple Silicon & Intel",
     "linux": "Debian / Ubuntu · x86_64 · glibc 2.35+",
@@ -208,9 +212,9 @@
     "newBody": "Von präzise gestoppten tiefen Riffs über rauen Grind bis zu lang ausklingendem Sustain. Náströnd ist ein SpectralForge Original High-Gain-Amp für Thall, Slam und Sludge. Fünf Kanäle verbinden unterschiedliche Anschlagsreaktionen und Sättigungstexturen mit der passenden Schwere für Ihr Spiel.",
     "pitchHeading": "Transpose: aktuelle Grenzen",
     "pitch": "Transpose fügt etwa 43–46 ms algorithmische Verzögerung hinzu. Bei der Bass-H-Saite und −2 Halbtönen können Tonkörper und Anschläge verschmieren. Bei hörbaren Problemen Transpose ausschalten und das Instrument umstimmen. Weitere Verbesserungen an Latenz und Klangqualität sind langfristig geplant.",
-    "previewUpdate": "Eine 1.2-Preview-Testversion bitte direkt mit dem Installer unten aktualisieren. Chimera und alle DAWs vor der Installation schließen.",
+    "previewUpdate": "Eine ältere Beta oder Preview bitte direkt mit dem Installer unten aktualisieren. Chimera und alle DAWs vor der Installation schließen.",
     "presetUpdate": "Factory / Signature-Presets erneut laden, um die neuen Einstellungen zu übernehmen. Gespeicherte Regler-, Kanal- und eigene IR-Einstellungen bleiben erhalten; die überarbeitete Amp-DSP kann Klang und Pegel bestehender Projekte verändern.",
-    "manualUpdate": "Handbuch-Update vom 5. Oktober: Náströnd steht unter High-Gain und zeigt die aktuelle Amp-Abbildung. Das Web-Handbuch ist aktualisiert; das eingebettete App-Handbuch folgt mit dem nächsten Build.",
+    "manualUpdate": "Das Handbuch für 1.3 beschreibt Niflheimr, modellierte Cabinets, unabhängige Mic-A/B-Pfade und den Capture-IR-Loader.",
     "nastrondCaption": "Náströnd · SpectralForge Original High-Gain-Amp · Bild zum Vergrößern auswählen",
     "nastrondAlt": "Náströnd-Verstärker mit Raben- und Schlangenmotiven, fünf Kanalwahltasten und dreizehn Reglern",
     "nastrondFenrir": "Schneller Anschlag und straff kontrollierte Bässe. Für tief gestimmte Palm Mutes und präzise artikulierte Rhythmen.",
@@ -222,7 +226,9 @@
     "nastrondShape": "Neben GAIN und EQ formen CLANK · CRUSH · IMPACT · ROT · BLOOM den Anschlag, die Sättigungsdichte, den Bassimpuls und das Sustain-Verhalten. Jeder Kanal behält seine Reglereinstellungen beim Wechsel zwischen den Sounds.",
     "nastrondRigsTitle": "Vom Riff zum vollständigen Rig",
     "nastrondRigs": "Mit Thall Rhythm, Molten Lead, Rotten Grind, Sludge Mass oder Slam Impact direkt loslegen. Die fünf Rigs aus PRE, Amp, Cabinet und POST bieten Ausgangspunkte für eigene Sounds in Classic, Dual und Matrix.",
-    "nastrondManual": "Kanäle und Regler entdecken"
+    "nastrondManual": "Kanäle und Regler entdecken",
+    "cab13Title": "Open Beta 1.3 · Niflheimr & CAB",
+    "cab13Body": "Niflheimr ergänzt fünf Bass-Amp-Kanäle und fünf vollständige Rigs. 14 Lautsprecher, 20 Mikrofone und neun Gehäusekonfigurationen stehen bereit, darunter das Bass-6×10 mit sechs Treibern. Mic A/B können das modellierte Cabinet oder unabhängige Capture-IRs verwenden. Der IR-Loader zeigt Cabinet- und Mikrofonbilder; bei fehlenden Aufnahmedetails sind allgemeine Abbildungen als Beispiele gekennzeichnet."
   }
 };
   function translate() {
