@@ -19,7 +19,7 @@
 .rf-chimera-preview img { display: block; width: 100%; height: auto; }
 .rf-chimera-preview figcaption { margin-top: .7rem; color: #b4bfba; font-size: .8rem; text-align: right; }
 .rf-chimera-stats { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; border-top: 1px solid var(--chimera-border); padding-top: 1.5rem; margin: .25rem 0 0; }
-.rf-chimera-stats > div { display: flex; flex-direction: column-reverse; align-items: center; gap: .25rem; }
+.rf-chimera-stats > div { display: flex; flex-direction: column-reverse; justify-content: flex-end; align-items: center; gap: .25rem; }
 .rf-chimera-stats > div + div { border-left: 1px solid var(--chimera-border); }
 .rf-chimera-stats dt { color: #c3cbc8; font-size: .9rem; text-align: center; }
 .rf-chimera-stats dd { margin: 0; color: var(--chimera-gold); font-family: Georgia, serif; font-size: 2.25rem; line-height: 1.1; }

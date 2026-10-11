@@ -3,7 +3,7 @@
   "version": "1.3.0-beta.1",
   "tag": "v1.3.0-beta.1",
   "source_sha": "7f692693f942a0f1dd1973062dc4d5d47b9be4ac",
-  "review_note": "2026-10-11: owner-approved final 1.3 product source 7f692693f942a0f1dd1973062dc4d5d47b9be4ac remains pinned. Existing public release/source/asset verification remains required. The owner’s latest homepage request selects a Matrix hero and exactly two AMP/RIGS images: Classic and Dual, demonstrating commercially modeled amps. Three new unedited 1.3.0 JUCE captures show Crom Cruach (Taste Punch / Modern Bass / Tight 515), Classic Crunch (Brit Edge), and Feel My Wrath (Fourfold / Tight 515). Source/Assets/CMake objects and production-library digest were reverified against the released product; see rigs-commercial-beta13-provenance.json. Native Windows CAB/IR captures and their provenance remain valid. EN/KO/DE captions and alt text match the actual selected models and routing; the original-amp product descriptions, cabinet/IR content and public download links remain intact. The required-content contract follows the new hero/gallery placement. Reviewed hashes below cover this owner-requested arrangement.",
+  "review_note": "2026-10-11: owner-approved final 1.3 product source 7f692693f942a0f1dd1973062dc4d5d47b9be4ac remains pinned. Existing public release/source/asset verification remains required. The owner’s latest homepage request selects a Matrix hero and exactly two AMP/RIGS images: Classic and Dual, demonstrating commercially modeled amps. Three new unedited 1.3.0 JUCE captures show Crom Cruach (Taste Punch / Modern Bass / Tight 515), Classic Crunch (Brit Edge), and Feel My Wrath (Fourfold / Tight 515). Source/Assets/CMake objects and production-library digest were reverified against the released product; see rigs-commercial-beta13-provenance.json. Native Windows CAB/IR captures and their provenance remain valid. EN/KO/DE captions and alt text match the actual selected models and routing; the original-amp product descriptions, cabinet/IR content and public download links remain intact. The required-content contract follows the new hero/gallery placement. Reviewed hashes below cover this owner-requested arrangement. 2026-10-11 responsive QA: actual Chromium verified 30 viewport/language combinations and 11 public download links. Only statistic-value vertical alignment is adjusted for wrapped mobile labels; product text, images, release source, image proportions and 760px gallery breakpoint remain unchanged.",
   "counts": {
     "amps": 25,
     "presets": 48,
@@ -184,7 +184,7 @@
   },
   "reviewed_files": {
     "assets/chimera.js": "96736fee146e00164d3b794ac10a8b35fcd6da32ba1b48b22e5e7b8c71f9b789",
-    "assets/chimera.css": "560138216bb4d206ef22dc5478c8bdbc532056937995aa97fb2f1df764852fd9",
+    "assets/chimera.css": "d548a6831984f89ddb016990f9601beb9f19a616594fb83953430f057161ecd7",
     "manual/chimera.html": "83d52d454f2ca05a9ecabf7cee0eccb03dc47af6ef8e5d82428dec333a1f70a2",
     "assets/chimera/dual-cabinet-beta13.png": "9b635d96d1a2140801fcad0125adf0a9102ef379325106b2fef39ca57a915fca",
     "assets/chimera/ir-loader-beta13.png": "e45b941c50c38f2459b9adb90a961cfc652a649ffe1e1b9e7852851a2e905f27",
