@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-10-11T08:33:08.821722+00:00",
+  "mode": "offline",
+  "public_verified": false,
+  "local": {
+    "rendered_languages": [
+      "en",
+      "ko",
+      "de"
+    ],
+    "remote_images": 85,
+    "linked_assets": 11
+  },
+  "status": "OFFLINE_PASS"
+}
