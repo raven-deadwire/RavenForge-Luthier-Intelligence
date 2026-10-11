@@ -3,7 +3,7 @@
   "version": "1.3.0-beta.1",
   "tag": "v1.3.0-beta.1",
   "source_sha": "7f692693f942a0f1dd1973062dc4d5d47b9be4ac",
-  "review_note": "2026-10-11: owner-approved final 1.3 source 7f692693 audited. Native Windows CAB/IR pictures are actual captures of the same final source 7f692693, from successful Windows job 114420009739 in run 38122520197 and checksum-verified artifact 11696851285. Approval remains recorded; existing CI and public release/assets verification remain required. Owner-requested public copy cleanup removes commercial reference labels and internal calibration/history narrative from the EN/KO/DE product section and online manual. Own model names, product features, usage limits, legal/IR attribution and actual screenshot provenance remain intact; release source and verification requirements are unchanged. The hero now shows the verified final-source Dual CAB image, replacing the older Matrix screenshot that visibly included commercial-reference labels. Online IR migration guidance omits unnecessary brand examples while preserving imported capture identities and attribution.",
+  "review_note": "2026-10-11: owner-approved final 1.3 source 7f692693 audited. Native Windows CAB/IR pictures are actual captures of the same final source 7f692693, from successful Windows job 114420009739 in run 38122520197 and checksum-verified artifact 11696851285. Approval remains recorded; existing CI and public release/assets verification remain required. Owner-requested public copy cleanup removes commercial reference labels and internal calibration/history narrative from the EN/KO/DE product section and online manual. Own model names, product features, usage limits, legal/IR attribution and actual screenshot provenance remain intact; release source and verification requirements are unchanged. The hero now shows the verified final-source Dual CAB image, replacing the older Matrix screenshot that visibly included commercial-reference labels. Online IR migration guidance omits unnecessary brand examples while preserving imported capture identities and attribution. 2026-10-11: restored a dedicated AMP/RIGS showcase with three unedited release-equivalent JUCE captures and retained all 1.3 product content. Aligned Niflheimr/Náströnd structure and copy in EN/KO/DE, removed owner-identified redundant cabinet/IR implementation prose, and added required-section regression coverage. See docs/validation/chimera-rigs-and-originals-2026-10-11.md and rigs screenshot provenance.",
   "counts": {
     "amps": 25,
     "presets": 48,
@@ -183,12 +183,17 @@
     "Assets/Artwork/rv5.jpg": "6b18f42aafd69a04eb1da1a81d0520dd8f299e77"
   },
   "reviewed_files": {
-    "assets/chimera.js": "294a82bf7aeb56f31067f49ce26972df356ae1593df8ed6c494b1bdda04382c2",
-    "assets/chimera.css": "fa06eb0f931830dac581266bc170bed386017422a6056fa4fc484361360dff45",
+    "assets/chimera.js": "e7ffff5a07fabbb79ae6a7bf41abd80559a49110a6752d350e36a55820fc1db0",
+    "assets/chimera.css": "67b89e66a59a81b438282d5022e8ba83e507147410bbc35d076dc3503a9c35b6",
     "manual/chimera.html": "83d52d454f2ca05a9ecabf7cee0eccb03dc47af6ef8e5d82428dec333a1f70a2",
     "assets/chimera/dual-cabinet-beta13.png": "9b635d96d1a2140801fcad0125adf0a9102ef379325106b2fef39ca57a915fca",
     "assets/chimera/ir-loader-beta13.png": "e45b941c50c38f2459b9adb90a961cfc652a649ffe1e1b9e7852851a2e905f27",
-    "assets/chimera/screens-beta13-provenance.json": "729d6f86eae2f0fc24de42b5f343fa4304b1d0edcadd0df41b0be534c9630bcc"
+    "assets/chimera/screens-beta13-provenance.json": "729d6f86eae2f0fc24de42b5f343fa4304b1d0edcadd0df41b0be534c9630bcc",
+    "assets/chimera/rigs-classic-beta13.png": "594247e6b1f4fae67a25228fdc3754fc36967e6351eea58ca65bc8ce37fae208",
+    "assets/chimera/rigs-dual-beta13.png": "22fbb42cc34a7f1c2cfbc57ed94d95969c8b07287cc9645a901126d802d8ec3a",
+    "assets/chimera/rigs-matrix-beta13.png": "a13e3d2b0259fc4623ca0f1e766a8538d69fcc1cc40db1c8723c988b06b7dc65",
+    "assets/chimera/rigs-screens-beta13-provenance.json": "14221a3af7cf05dd7293147ea44b17492002d4e2114a81396c617592baed4d27",
+    "docs/validation/chimera-rigs-capture-2026-10-11.cpp": "2f20dfd8ab82910ed1befe8cc4dc612df6885671673598a8db34a554ed8cc897"
   },
-  "product_markup_sha256": "07fb16ba394c6e9d89718ce1d2295140bb3917f04350123c8cedf372394995a0"
+  "product_markup_sha256": "ae78ec7c6531c7cc2f014cf8a7f84081b00b4a6b6d7e68f329d032e1dfdc28d3"
 }

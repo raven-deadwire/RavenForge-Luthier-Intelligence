@@ -1,6 +1,7 @@
 """Negative publication contracts. Synthetic fixtures do not approve Chimera."""
 import copy
 import json
+import subprocess
 import unittest
 from unittest.mock import patch
 from urllib.error import HTTPError
@@ -147,6 +148,45 @@ class LocalContentContract(unittest.TestCase):
         for path in ["assets/chimera/dual-cabinet-beta13.png", "assets/chimera/ir-loader-beta13.png"]:
             self.assertIn(path, self.lock["reviewed_files"])
             self.assertTrue(any(i["image"] and i["url"] == path for i in self.inventory[0]["links"]))
+
+    def test_removed_rigs_or_original_amp_content_is_blocked(self):
+        # Exercise removal from the rendered DOM, including the whole section
+        # that used to disappear while the surviving-node inventory still passed.
+        script = r"""
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const { JSDOM } = require('jsdom');
+const { validateProductContent } = require('./tools/chimera_page_inventory.cjs');
+const html = fs.readFileSync('index.html', 'utf8');
+const copy = fs.readFileSync('assets/chimera.js', 'utf8');
+const removed = [
+  '#chimera-rigs',
+  '#chimera-rigs img[data-chimera-alt="rigsDualAlt"]',
+  '#chimera-rigs [data-chimera-key="matrix"]',
+  '#chimera-rigs [data-chimera-key="rigsControls"]',
+  '#chimera-niflheimr',
+  '#chimera-niflheimr .rf-chimera-nastrond-features > article',
+  '#chimera-nastrond .rf-chimera-nastrond-channels > article',
+  '#chimera-nastrond [data-chimera-key="nastrondManual"]'
+];
+for (const lang of ['en', 'ko', 'de']) {
+  const dom = new JSDOM(html, {url: 'https://example.test/', runScripts: 'outside-only'});
+  dom.window.document.documentElement.lang = lang;
+  dom.window.eval(copy);
+  const product = dom.window.document.querySelector('#chimera');
+  validateProductContent(product, lang);
+  for (const selector of removed) {
+    const incomplete = product.cloneNode(true);
+    assert.ok(incomplete.querySelector(selector), `Missing fixture: ${selector}`);
+    incomplete.querySelector(selector).remove();
+    assert.throws(() => validateProductContent(incomplete, lang),
+                  /Expected one required product element|requires/, `${lang}: ${selector}`);
+  }
+  dom.window.close();
+}
+"""
+        run = subprocess.run(["node", "-e", script], cwd=check.ROOT, text=True, capture_output=True)
+        self.assertEqual(run.returncode, 0, run.stderr)
 
     def test_stale_content_hash_is_blocked(self):
         for path in ["manual/chimera.html", "assets/chimera/dual-cabinet-beta13.png", "assets/chimera/ir-loader-beta13.png"]:

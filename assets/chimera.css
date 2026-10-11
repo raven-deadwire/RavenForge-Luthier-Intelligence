@@ -117,3 +117,14 @@
 .rf-chimera-cab-art img { display: block; width: 100%; height: auto; }
 .rf-chimera-cab-art figcaption { margin-top: .75rem; font-size: .8rem; line-height: 1.5; }
 @media (max-width: 600px) { .rf-chimera-cab-art { grid-template-columns: 1fr; } }
+
+/* Rigs remain visible beside the cabinet and original-amp showcases. */
+.rf-chimera-rigs-gallery { display: grid; grid-template-columns: minmax(0,2fr) minmax(0,1fr); gap: 1.25rem; align-items: start; margin: 1.75rem 0 2rem; }
+.rf-chimera-rigs-main { grid-row: span 2; }
+.rf-chimera-rigs-gallery a:focus-visible { outline: 3px solid #855734; outline-offset: 4px; }
+.rf-chimera-rigs .rf-chimera-muted, .rf-chimera-original > .rf-chimera-muted { max-width: 74ch; line-height: 1.8; word-break: keep-all; overflow-wrap: anywhere; }
+.rf-chimera-release-resources { margin-top: 1rem; }
+@media (max-width: 760px) {
+  .rf-chimera-rigs-gallery { grid-template-columns: 1fr; }
+  .rf-chimera-rigs-main { grid-row: auto; }
+}
