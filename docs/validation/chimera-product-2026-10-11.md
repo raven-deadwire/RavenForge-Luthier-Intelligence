@@ -15,7 +15,7 @@ English, Korean and German product section accordingly.
 - Gives Niflheimr a dedicated product section with its five channels and
   14 controls. Retains Náströnd and the existing effect catalogue.
 - Replaces the historical shutdown-update paragraph with project/rig use.
-  Existing Beta 1.1 screenshots keep their explicit earlier-version captions.
+  Existing PRE/POST Beta 1.1 screenshots keep their earlier-version captions.
 
 The owner also requested concise public copy without original commercial amp
 names. The EN/KO/DE product section no longer includes the hardware-reference /
@@ -29,6 +29,13 @@ commercial preamp names. Product catalogue identities, counts, controls, genuine
 usage limits, legal notices, factory-IR attribution and imported 8×10 metadata
 remain intact. This is a website presentation edit; it does not alter the
 packaged product manual, release source, artwork or approval/CI requirements.
+The final live review also found commercial-reference labels inside the older
+Matrix hero screenshot. The hero now uses the already verified final-source
+Windows Dual CAB image, with 1.3 captions and image alternatives in EN/KO/DE.
+PRE/POST images are unchanged. IR migration guidance omits the unnecessary
+Ampeg/SVT brand example in all three languages; actual imported IR metadata,
+file names and attribution remain unchanged. This final homepage edit is based
+on main `900948d325fab7aaa4547ce6637d3c6d1500af59` and preserves its footer date.
 
 Code and artwork references are pinned to the owner-approved integrated 1.3 source
 `7f692693f942a0f1dd1973062dc4d5d47b9be4ac` on
