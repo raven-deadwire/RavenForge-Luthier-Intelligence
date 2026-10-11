@@ -184,9 +184,9 @@
     "Assets/Artwork/rv5.jpg": "6b18f42aafd69a04eb1da1a81d0520dd8f299e77"
   },
   "reviewed_files": {
-    "assets/chimera.js": "9343266b5ac107954d454a1021df7b45f69820cde68d579abe82db11b0ca1e8f",
+    "assets/chimera.js": "eb96b858334e5d04d50fb35c9556158285bb52fcb914e456e57dcb17fbca4e0f",
     "assets/chimera.css": "700074bf7b97e0b814e3f98c237478dd3ac9ea2f7c633574a32f09cd5ab529be",
     "manual/chimera.html": "96a6dafc9954ee3138544da25ff1d07224cbed5215ed2a369fdb311a1a37a4cf"
   },
-  "product_markup_sha256": "dccc9f75820a02f26850dcbc3e79ab13e4e417dfd8ceb424099f36c73f80e164"
+  "product_markup_sha256": "a5a6326a14736ea1202f803b5b8e13e9d475d402a8252f927f78460d870be968"
 }

@@ -8,7 +8,7 @@ English, Korean and German product section accordingly.
 
 - Introduces the 25 amp heads, 48 presets, Classic/Dual/Matrix routing and
   39 PRE / 21 POST effects as one product.
-- Explains nine cabinet configurations, 14 speakers, three tweeter models,
+- Explains nine cabinet configurations, 14 speakers, Chimera HF plus three additional tweeter designs,
   20 microphones, independent Mic A/B paths and the Dual/Matrix room.
 - Separates modeled six-driver bass 6×10 from external 8×10 IR metadata;
   explains EXAMPLE artwork without implying that it documents a capture session.
@@ -31,6 +31,9 @@ behavior; it is not a release acceptance receipt.
 - Source/content integrity lock covers the current product markup, JS, CSS,
   manual, source files and 87 pinned remote image references.
 - JavaScript syntax and whitespace checks pass.
+- GitHub run 38116696371 confirms the content/link job passes and the public
+  release/assets job blocks on HTTP 404. A desktop/mobile browser render was
+  not completed locally because the Chromium download was invalid.
 - `verify_chimera_release.py --offline` reports `OFFLINE_PASS`, explicitly
   `public_verified=false`. See the adjacent JSON report.
 
