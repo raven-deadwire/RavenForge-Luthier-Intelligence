@@ -1,0 +1,50 @@
+name: Chimera responsive browser QA
+on:
+  pull_request:
+    paths: ['index.html', 'assets/chimera*', 'assets/chimera/**', 'assets/ravenforge-design.css', 'tools/test_chimera_browser.cjs', '.github/workflows/chimera-browser.yml']
+  push:
+    branches: [main]
+    paths: ['index.html', 'assets/chimera*', 'assets/chimera/**', 'assets/ravenforge-design.css', 'tools/test_chimera_browser.cjs', '.github/workflows/chimera-browser.yml']
+  workflow_run:
+    workflows: ['pages build and deployment']
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  chromium:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.event.workflow_run.head_sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install browser and Korean fonts
+        run: |
+          npm install --no-save --no-package-lock --no-audit --no-fund playwright@1.49.1
+          npx playwright install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Render candidate at ten widths and three languages
+        if: github.event_name != 'workflow_run'
+        env:
+          CHIMERA_QA_DIR: ${{ runner.temp }}/chimera-browser
+        run: node tools/test_chimera_browser.cjs
+      - name: Recheck the live GitHub Pages deployment
+        if: github.event_name == 'workflow_run'
+        env:
+          CHIMERA_QA_DIR: ${{ runner.temp }}/chimera-browser
+        run: node tools/test_chimera_browser.cjs --public
+      - name: Preserve screenshots and measured browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chimera-browser-${{ github.event_name }}-${{ github.event.pull_request.head.sha || github.event.workflow_run.head_sha || github.sha }}
+          path: ${{ runner.temp }}/chimera-browser
+          if-no-files-found: error
+          retention-days: 30
