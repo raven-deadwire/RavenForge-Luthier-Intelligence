@@ -29,7 +29,7 @@ behavior; it is not a release acceptance receipt.
 - All 15 homepage release-contract tests pass.
 - EN/KO/DE DOM rendering, translations, catalogue counts and local links pass.
 - Source/content integrity lock covers the current product markup, JS, CSS,
-  manual, source files and 87 pinned remote image references.
+  manual, source files and 85 pinned remote image references plus two verified local CI screenshots.
 - JavaScript syntax and whitespace checks pass.
 - GitHub run 38116696371 confirms the content/link job passes and the public
   release/assets job blocks on HTTP 404. A desktop/mobile browser render was
@@ -45,3 +45,13 @@ and public-asset checks remain required: this PR must not publish 1.3 download
 links until the exact source has a verified public 1.3 release. Source changes
 require another source/content audit. This candidate does not mark CI,
 listening, DAW or historical acceptance checks as complete.
+
+## Actual CAB/IR screens
+
+The CAB section now links two byte-identical native macOS component snapshots
+from successful CAB CI run 38116435373, artifact 11694466617, exact source above.
+One shows the modeled 4×10 horn at tweeter 0%; the other shows factory IR cards
+with the shared enclosure depth/materials. These are actual product components,
+not mockups. Each caption identifies macOS. Artifact and image hashes are in
+`assets/chimera/screens-beta13-provenance.json`, itself covered by the content
+lock. These screenshots do not certify external IR recording equipment.

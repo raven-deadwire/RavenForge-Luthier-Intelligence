@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-11T06:09:56.911770+00:00",
+  "checked_at": "2026-10-11T06:23:58.521081+00:00",
   "mode": "offline",
   "public_verified": false,
   "local": {
@@ -8,7 +8,7 @@
       "ko",
       "de"
     ],
-    "remote_images": 87,
+    "remote_images": 85,
     "linked_assets": 11
   },
   "status": "OFFLINE_PASS"

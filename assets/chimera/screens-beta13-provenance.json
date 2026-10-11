@@ -1,0 +1,26 @@
+{
+  "source_sha": "621bd70e79720c36c8b484f292e9f9386848ecb8",
+  "run_id": 38116435373,
+  "run_attempt": 1,
+  "artifact_id": 11694466617,
+  "artifact_sha256": "df5bd00bd8e6436478d72cb791713830f706883dc6068b3221e498e7a35a7eac",
+  "platform": "macOS",
+  "workflow": "CAB Panel prototype contracts",
+  "job_conclusion": "success",
+  "kind": "Native product component snapshots; not mockups or capture-session photographs",
+  "files": {
+    "dual-cabinet-beta13.png": {
+      "artifact_path": "cab-visual-current-horn-zero-level.png",
+      "sha256": "08d729d66d42a9d4816712aa2d81a99e4bb41b1e0553db5f46eb8958ac653753"
+    },
+    "ir-loader-beta13.png": {
+      "artifact_path": "cab-visual-ir-images-factory.png",
+      "sha256": "a03435f6bd1a96a602eb7306bec2b162c7d7eca22d76f5fec7f7ae874cabdf6d"
+    }
+  },
+  "notes": [
+    "Bass 4x10 horn screenshot uses tweeter level 0%.",
+    "Factory IR metadata does not specify driver configurations; EXAMPLE is intentional.",
+    "The pictures are copied byte-for-byte from the checksum-verified CI artifact."
+  ]
+}

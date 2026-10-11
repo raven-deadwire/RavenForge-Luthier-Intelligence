@@ -143,12 +143,16 @@ class LocalContentContract(unittest.TestCase):
 
     def test_three_languages_render_and_all_local_links_exist(self):
         result = check.validate_local(self.lock, self.inventory)
-        self.assertEqual(result["remote_images"], 87)
+        self.assertEqual(result["remote_images"], 85)
+        for path in ["assets/chimera/dual-cabinet-beta13.png", "assets/chimera/ir-loader-beta13.png"]:
+            self.assertIn(path, self.lock["reviewed_files"])
+            self.assertTrue(any(i["image"] and i["url"] == path for i in self.inventory[0]["links"]))
 
     def test_stale_content_hash_is_blocked(self):
-        lock = copy.deepcopy(self.lock); lock["reviewed_files"]["manual/chimera.html"] = "0" * 64
-        with self.assertRaisesRegex(check.InvalidRelease, "changed since source review"):
-            check.validate_local(lock, self.inventory)
+        for path in ["manual/chimera.html", "assets/chimera/dual-cabinet-beta13.png", "assets/chimera/ir-loader-beta13.png"]:
+            lock = copy.deepcopy(self.lock); lock["reviewed_files"][path] = "0" * 64
+            with self.subTest(path=path), self.assertRaisesRegex(check.InvalidRelease, "changed since source review"):
+                check.validate_local(lock, self.inventory)
 
     def test_missing_or_mutable_image_reference_is_blocked(self):
         for url in ["missing-chimera-image.png", check.RAW + "main/Assets/Artwork/anastrond.png"]:

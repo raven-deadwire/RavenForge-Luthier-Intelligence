@@ -95,8 +95,6 @@
     }
   },
   "images": {
-    "Assets/Artwork/Cab/cab-guitar-412.png": "26b12aacc35ed390c20dd19b254aafefc74fb10a",
-    "Assets/Artwork/Cab/mic-chimera-strike.png": "e7fbb4cd75163354f23938272fd6ec271054c8b3",
     "Assets/Artwork/a515.jpg": "d58a727cae3525f2fafafa236b1765282e223b67",
     "Assets/Artwork/abassman.jpg": "8bcd65b522b719679b4859a3fb58391bdded0e85",
     "Assets/Artwork/abluestorm.jpg": "39b31605a7054e79a15d983503be0499619981aa",
@@ -184,9 +182,12 @@
     "Assets/Artwork/rv5.jpg": "6b18f42aafd69a04eb1da1a81d0520dd8f299e77"
   },
   "reviewed_files": {
-    "assets/chimera.js": "eb96b858334e5d04d50fb35c9556158285bb52fcb914e456e57dcb17fbca4e0f",
-    "assets/chimera.css": "700074bf7b97e0b814e3f98c237478dd3ac9ea2f7c633574a32f09cd5ab529be",
-    "manual/chimera.html": "96a6dafc9954ee3138544da25ff1d07224cbed5215ed2a369fdb311a1a37a4cf"
+    "assets/chimera.js": "9aebee2b64b970db415dbbf00dfad662fde8a6d8565aca14c56b502d405162b3",
+    "assets/chimera.css": "fa06eb0f931830dac581266bc170bed386017422a6056fa4fc484361360dff45",
+    "manual/chimera.html": "96a6dafc9954ee3138544da25ff1d07224cbed5215ed2a369fdb311a1a37a4cf",
+    "assets/chimera/dual-cabinet-beta13.png": "08d729d66d42a9d4816712aa2d81a99e4bb41b1e0553db5f46eb8958ac653753",
+    "assets/chimera/ir-loader-beta13.png": "a03435f6bd1a96a602eb7306bec2b162c7d7eca22d76f5fec7f7ae874cabdf6d",
+    "assets/chimera/screens-beta13-provenance.json": "e96285f73f009a5d31444649d2bca5a0b8613f2c4d33ae55e9716c0382534530"
   },
-  "product_markup_sha256": "a5a6326a14736ea1202f803b5b8e13e9d475d402a8252f927f78460d870be968"
+  "product_markup_sha256": "eb1e0edca10f1fc5a33044e5ab42fb3b89ac061a6f89276df400ed1d4f1a0fbd"
 }
