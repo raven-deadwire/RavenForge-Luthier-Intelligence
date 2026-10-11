@@ -38,11 +38,42 @@ async function main() {
   report.browser = browser.version();
   const context = await browser.newContext({reducedMotion:'reduce'});
   const page = await context.newPage();
+  const assetURLs={};
   page.on('pageerror',error=>report.errors.push(error.message));
+  // Pages' generated deployment workflow does not emit workflow_run here.
+  // Main-branch QA waits for public product bytes instead of a workflow name.
+  if(live) {
+    const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
+    const product=html=>html.match(/<section\b[^>]*\bid="chimera"[^>]*>[\s\S]*?<\/section>/)?.[0];
+    const localHTML=await fs.readFile(path.join(root,'index.html'),'utf8');
+    const expected={};
+    for(const file of ['assets/chimera.css','assets/chimera.js']) expected[file]=digest(await fs.readFile(path.join(root,file)));
+    const deadline=Date.now()+240000;
+    let ready=false,lastError;
+    while(Date.now()<deadline) {
+      try {
+        const htmlResponse=await context.request.get(base,{timeout:20000});
+        assert.equal(htmlResponse.status(),200);
+        const html=await htmlResponse.text();
+        assert.equal(product(html),product(localHTML),'Public product markup has not updated');
+        for(const file of Object.keys(expected)) {
+          const suffix=file.split('/').pop().replace('.','\\.');
+          const expression=new RegExp('(?:href|src)="([^"]*'+suffix+'[^"]*)"');
+          const url=html.match(expression)?.[1];assert(url,'Missing deployed '+file);
+          assetURLs[file]=new URL(url,base).href;
+          const response=await context.request.get(assetURLs[file],{timeout:20000});
+          assert.equal(response.status(),200);assert.equal(digest(await response.body()),expected[file],'Public asset has not updated: '+file);
+        }
+        ready=true;break;
+      } catch(e) {lastError=e.message;console.log('Waiting for Pages: '+lastError);await new Promise(resolve=>setTimeout(resolve,15000));}
+    }
+    assert(ready,'Pages readiness timeout: '+lastError);
+    report.deploymentReady=new Date().toISOString();
+  }
   // Verify which CSS/JS bytes the deployed browser actually receives.
   report.sourceHashes = {};
   for (const file of ['assets/chimera.css','assets/chimera.js']) {
-    const response = await context.request.get(new URL(file,base).href);
+    const response = await context.request.get(assetURLs[file] || new URL(file,base).href);
     assert.equal(response.status(),200,file);
     const bytes = await response.body();
     report.sourceHashes[file] = createHash('sha256').update(bytes).digest('hex');
