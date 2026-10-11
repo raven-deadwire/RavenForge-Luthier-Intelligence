@@ -17,20 +17,25 @@ English, Korean and German product section accordingly.
 - Replaces the historical shutdown-update paragraph with project/rig use.
   Existing Beta 1.1 screenshots keep their explicit earlier-version captions.
 
+The owner also requested concise public copy without original commercial amp
+names. The EN/KO/DE product section no longer includes the hardware-reference /
+NAM-calibration card, and its update instructions focus on the actions to take.
+The online manual displays only Chimera model names in model-card headings and
+image alternatives, with no commercial-reference captions. Its obsolete 1.1.2
+changelog and synthetic-test / listening-acceptance commentary have been removed;
+Náströnd now describes the current rigs rather than historical preset counts.
+Vocal guidance retains the actual interface/phantom-power limitation without
+commercial preamp names. Product catalogue identities, counts, controls, genuine
+usage limits, legal notices, factory-IR attribution and imported 8×10 metadata
+remain intact. This is a website presentation edit; it does not alter the
+packaged product manual, release source, artwork or approval/CI requirements.
+
 Code and artwork references are pinned to the owner-approved integrated 1.3 source
 `7f692693f942a0f1dd1973062dc4d5d47b9be4ac` on
 `release/1.3.0-preparation` and `release/open-beta-1.3.0`.
-The implementation source `621bd70e79720c36c8b484f292e9f9386848ecb8`
-([Chimera PR #43](https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/pull/43))
-improves captured-cabinet depth and keeps mounted bass 4×10 HF hardware visible
-at zero level. Subsequent commits finalize the manual/release notes and record
-owner approval. Source `8303c844` then makes the owner's requested
-narrow cabinet side-rail texture correction in `Source/CabEnclosureArtwork.h`,
-with corresponding enclosure material checks. It changes neither DSP nor
-presets; the packaged manual and release policy retain their reviewed blobs.
-Final release source `7f692693` changes only the enclosure material test and
-three Python CI encoding/test files. All production code, artwork, manual and
-approval-policy blobs remain identical to `8303c844`; no new capture is implied.
+This source includes the 2.5D IR illustrations, mounted bass 4×10 horn at
+zero level and corrected continuous guitar 4×12 side-rail texture. Both Windows
+CAB/IR screenshots now come directly from this exact final release source.
 All 108 audited source/artwork blobs match the final GitHub tree.
 
 The web manual now matches the final source documentation for all four tweeter
@@ -49,6 +54,9 @@ The product description itself does not certify public release availability.
 
 - All 15 homepage release-contract tests pass.
 - EN/KO/DE DOM rendering, translations, catalogue counts and local links pass.
+- Targeted copy checks confirm the product section has no commercial amp/NAM
+  narrative and the manual has no original-reference card captions or alt text.
+  All 85 own model names, 48 presets, IR credits and legal notices are retained.
 - Source/content integrity lock covers the current product markup, JS, CSS,
   manual, source files and 85 pinned remote image references plus two verified local CI screenshots.
 - JavaScript syntax and whitespace checks pass.
@@ -75,11 +83,15 @@ measurement reports.
 
 ## Actual CAB/IR screens
 
-The CAB section links two byte-identical native Windows component snapshots
-from successful Windows CAB job 114411441748 in run 38119610154,
-artifact 11695383097, source `8303c844c3dbf024cc1ffa56f9014a97e271af54`.
+The CAB section links two native Windows component snapshots from
+[successful Windows CAB job 114420009739](https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/38122520197/job/114420009739)
+in [run 38122520197](https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/38122520197),
+[artifact 11696851285](https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/38122520197/artifacts/11696851285),
+source `7f692693f942a0f1dd1973062dc4d5d47b9be4ac`.
 The artifact ZIP SHA-256 is
-`d565f0168a749ca5ac358bd645154fa0eb32b9297ca107a07781ee96dc8bce0a`.
+`a86473a75643d7a7115d074a8c78bb15b041d9aa0a9a78cc115d042d95c16d89`.
+The downloaded final-source ZIP and both extracted PNGs were checksum-verified;
+the website image bytes match those final-source PNGs exactly.
 
 Visual review confirms the guitar 4×12 side rail follows a continuous upper/lower
 texture at the bend, the bass 4×10 horn remains visible at tweeter 0%, and the IR
@@ -89,10 +101,7 @@ photographs. The Windows screenshots replace the earlier macOS images, and
 all three language captions now identify Windows. Their dimensions remain
 1040×780 and 1040×748, respectively.
 
-Artifact and image hashes are in `assets/chimera/screens-beta13-provenance.json`,
-itself covered by the content lock. This provenance identifies the successful
-Windows job; it does not assert success for the macOS job or entire CAB workflow.
-Final source `7f692693` changes only CI encoding and test files, preserving all
-production renderer code and artwork. These verified pictures therefore remain
-representative of that source, while their original capture identity stays
-`8303c844`. No additional approval or recapture requirement is introduced.
+Artifact and image hashes, exact source identity and run/job/artifact links are
+in `assets/chimera/screens-beta13-provenance.json`, itself covered by the content
+lock. The final-source captures use the existing image bytes, so no product
+markup, language copy, image pixels or release verification requirements change.
