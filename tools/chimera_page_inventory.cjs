@@ -31,16 +31,25 @@ function validateProductContent(product, lang) {
   require(rigs.querySelectorAll('.rf-chimera-modes > article').length === 3,
           'AMP / RIGS requires three mode cards');
   for (const mode of ['Classic', 'Dual', 'Matrix']) {
-    const name = mode.toLowerCase();
-    copy(one(rigs, '.rf-chimera-modes'), name);
-    const image = one(rigs, `img[data-chimera-alt="rigs${mode}Alt"]`);
-    const source = `assets/chimera/rigs-${name}-beta13.png`;
-    require(image.getAttribute('src') === source, `${mode} AMP / RIGS screenshot is missing or replaced`);
+    copy(one(rigs, '.rf-chimera-modes'), mode.toLowerCase());
+  }
+  const hero = one(product, '.rf-chimera-preview');
+  const gallery = one(rigs, '.rf-chimera-rigs-gallery');
+  require(gallery.querySelectorAll('figure').length === 2,
+          'AMP / RIGS requires exactly two screenshots: Classic and Dual');
+  for (const [scope, alt, caption, file, label] of [
+    [hero, 'screenAlt', 'screen', 'rigs-matrix-crom-cruach-beta13.png', 'Matrix hero'],
+    [gallery, 'rigsClassicAlt', 'rigsClassicCaption', 'rigs-classic-crunch-beta13.png', 'Classic'],
+    [gallery, 'rigsDualAlt', 'rigsDualCaption', 'rigs-dual-wrath-beta13.png', 'Dual']
+  ]) {
+    const image = one(scope, `img[data-chimera-alt="${alt}"]`);
+    const source = `assets/chimera/${file}`;
+    require(image.getAttribute('src') === source, `${label} screenshot is missing or replaced`);
     const figure = image.closest('figure');
-    require(figure && rigs.contains(figure), `${mode} AMP / RIGS screenshot requires a figure`);
-    copy(figure, `rigs${mode}Caption`);
+    require(figure && scope.contains(figure), `${label} screenshot requires a figure`);
+    copy(figure, caption);
     require(image.closest('a')?.getAttribute('href') === source,
-            `${mode} AMP / RIGS screenshot must link to its full-size image`);
+            `${label} screenshot must link to its full-size image`);
   }
 
   for (const [id, prefix, title, intro, channels] of [
