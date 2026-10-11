@@ -10,7 +10,7 @@ from pathlib import Path
 import struct
 import subprocess
 
-EXPECTED_SOURCE = "2b41386129290d7ad82034bc97ea53608fdc058e"
+EXPECTED_SOURCE = "079352aaf9f94c715a3533a06afa0b7a88ba30ce"
 VERSION = "1.3.1-beta.1"
 CONTROLLER_FILES = [
     ".github/workflows/chimera-native-homepage-capture.yml",
