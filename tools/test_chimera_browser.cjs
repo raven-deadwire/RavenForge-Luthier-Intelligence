@@ -97,6 +97,8 @@ async function main() {
       const captions = await page.locator('.rf-chimera-rigs-gallery figcaption').allTextContents();
       assert.equal(captions.length,2); assert(captions.every(x=>x.includes(markers[lang])));
       assert((await page.locator('.rf-chimera-preview figcaption').innerText()).includes('Matrix · Crom Cruach'));
+      assert(captions.every(x=>x.includes('1.3.1') && x.includes('Linux')));
+      assert((await page.locator('.rf-chimera-preview figcaption').innerText()).includes('1.3.1'));
       assert((await page.locator('[data-chimera-story]').getAttribute('href')).endsWith('/'+lang+'.html'));
       return captions;
     });
@@ -147,11 +149,41 @@ async function main() {
         opened.push(popup.url());await popup.close();
       }return opened;
     });
+    await check('native head images and original PNG links',async()=>{
+      const headImages = await page.locator('.rf-chimera-head-gallery img,#chimera-niflheimr figure img,#chimera-nastrond figure img').all();
+      assert.equal(headImages.length,4);
+      for(const image of headImages){
+        await image.scrollIntoViewIfNeeded();
+        await image.evaluate(img=>img.decode());
+        const info=await image.evaluate(img=>{
+          const rect=img.getBoundingClientRect();
+          return {natural:[img.naturalWidth,img.naturalHeight],width:rect.width,height:rect.height,
+                  alt:img.alt,src:img.getAttribute('src'),href:img.closest('a')?.getAttribute('href')};
+        });
+        assert.deepEqual(info.natural,[1440,780]);
+        assert(Math.abs(info.width/info.height-1440/780)<0.002,'Native head image proportions');
+        assert(info.alt.includes('1.3.1') && info.alt.includes('Linux'),'Native source caption missing');
+        assert.equal(info.href,info.src);
+      }
+      const captions=await page.locator('.rf-chimera-head-gallery figcaption').allTextContents();
+      assert.equal(captions.length,2);
+      assert(captions.every(text=>text.includes('1.3.1') && text.includes('Linux') && text.includes(markers[lang])));
+      if(width===1440){
+        for(const link of await page.locator('.rf-chimera-head-gallery a').all()){
+          const popupPromise=page.waitForEvent('popup');
+          await link.click();const popup=await popupPromise;
+          await popup.waitForLoadState('load');await popup.locator('img').evaluate(img=>img.decode());
+          assert.deepEqual(await popup.locator('img').evaluate(img=>[img.naturalWidth,img.naturalHeight]),[1440,780]);
+          await popup.close();
+        }
+      }
+      return {images:headImages.length,captions};
+    });
     if([1440,820,760,390,320].includes(width)) {
       // Capture from the top so the sticky header is not painted over section crops.
       await page.evaluate(()=>window.scrollTo(0,0));
       item.screenshotRegions={};
-      for(const [name,selector] of [['hero','.rf-chimera-hero'],['rigs','#chimera-rigs'],['downloads','.rf-chimera-downloads']]) item.screenshotRegions[name]=await page.locator(selector).boundingBox();
+      for(const [name,selector] of [['hero','.rf-chimera-hero'],['rigs','#chimera-rigs'],['editing','#chimera-editing'],['downloads','.rf-chimera-downloads']]) item.screenshotRegions[name]=await page.locator(selector).boundingBox();
       await page.screenshot({path:path.join(output,`${width}-${lang}-page.png`),fullPage:true,animations:'disabled'});
     }
     console.log(JSON.stringify({width,lang,errors:item.errors}));

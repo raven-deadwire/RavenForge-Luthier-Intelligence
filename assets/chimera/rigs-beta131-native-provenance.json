@@ -1,0 +1,1642 @@
+{
+  "schema": 1,
+  "source_sha": "7b20cd9d1f90e3e2969c250712b199e893cf50cd",
+  "product_version": "1.3.1",
+  "release_version": "1.3.1-beta.1",
+  "platform": "Linux",
+  "capture_kind": "Native Linux JUCE editor component snapshots; not a desktop framebuffer capture, DAW session or product acceptance test",
+  "controller_source_sha": "63c74e1e09e87445315110f61e41462cbb24771f",
+  "run_url": "https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/38176527827",
+  "artifact_url": "https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/38176527827/artifacts/11715884275",
+  "artifact_id": 11715884275,
+  "artifact_zip_sha256": "9e5232f23a1f73b4fb498476dfdd2a1d5fbd3ad95d23a4c9a13dcdf7e8df7e0a",
+  "artifact_zip_size_bytes": 2247778,
+  "capture_run_conclusion": "success",
+  "pixel_edits": false,
+  "product_acceptance": false,
+  "original_provenance_sha256": "1c9f25a17c43e7267d3db2d8847c0610dcf691bdf23db33c9915157b43738c3e",
+  "images": [
+    {
+      "file": "assets/chimera/rigs-classic-crunch-beta131.png",
+      "preset": "Classic Crunch",
+      "preset_index": 7,
+      "mode": 0,
+      "native_peer": true,
+      "width": 1180,
+      "height": 780,
+      "pixel_edits": false,
+      "audio_settling": {
+        "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+        "audio_thread": true,
+        "blocks": 2250,
+        "processed_audio_seconds": 12.0,
+        "wall_seconds": 12.000062701,
+        "callback_deadline_overruns": 0,
+        "maximum_callback_ms": 2.501231,
+        "initial_cpu_average_percent": 0.0,
+        "initial_cpu_peak_percent": 0.0,
+        "final_cpu_average_percent": 10.608116149902344,
+        "final_cpu_peak_percent": 12.543850898742676
+      },
+      "input_mode": 0.0,
+      "dual_type": 0.0,
+      "dual_blend": 0.5,
+      "x1_hz": 150.0,
+      "x2_hz": 1200.0,
+      "amps": [
+        {
+          "lane": 0,
+          "model_index": 1,
+          "name": "Brit Edge",
+          "channel_index": 0,
+          "input_route_index": 0
+        }
+      ],
+      "sha256": "7321cb8305e2d6e8fee08ce243fd52ae2720d22a46bf237006ad0e7315f096e9",
+      "size_bytes": 811436,
+      "artifact_path": "rigs-classic-crunch-beta131.png"
+    },
+    {
+      "file": "assets/chimera/rigs-dual-wrath-beta131.png",
+      "preset": "Feel My Wrath",
+      "preset_index": 35,
+      "mode": 1,
+      "native_peer": true,
+      "width": 1180,
+      "height": 780,
+      "pixel_edits": false,
+      "audio_settling": {
+        "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+        "audio_thread": true,
+        "blocks": 2250,
+        "processed_audio_seconds": 12.0,
+        "wall_seconds": 12.000060924,
+        "callback_deadline_overruns": 0,
+        "maximum_callback_ms": 2.262114,
+        "initial_cpu_average_percent": 0.0,
+        "initial_cpu_peak_percent": 0.0,
+        "final_cpu_average_percent": 20.734569549560547,
+        "final_cpu_peak_percent": 20.681249618530273
+      },
+      "input_mode": 0.0,
+      "dual_type": 0.0,
+      "dual_blend": 0.299999982118607,
+      "x1_hz": 160.0,
+      "x2_hz": 1500.0,
+      "amps": [
+        {
+          "lane": 0,
+          "model_index": 17,
+          "name": "Fourfold",
+          "channel_index": 2,
+          "input_route_index": 0
+        },
+        {
+          "lane": 1,
+          "model_index": 2,
+          "name": "Tight 515",
+          "channel_index": 1,
+          "input_route_index": 0
+        }
+      ],
+      "sha256": "b3563022152f0b8d072db2732e4b469f201a1d50209f52ac74d9d6cd17f92ede",
+      "size_bytes": 686731,
+      "artifact_path": "rigs-dual-wrath-beta131.png"
+    },
+    {
+      "file": "assets/chimera/rigs-matrix-crom-cruach-beta131.png",
+      "preset": "Crom Cruach",
+      "preset_index": 31,
+      "mode": 2,
+      "native_peer": true,
+      "width": 1180,
+      "height": 780,
+      "pixel_edits": false,
+      "audio_settling": {
+        "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+        "audio_thread": true,
+        "blocks": 2250,
+        "processed_audio_seconds": 12.0,
+        "wall_seconds": 12.000060337,
+        "callback_deadline_overruns": 0,
+        "maximum_callback_ms": 3.162541,
+        "initial_cpu_average_percent": 0.0,
+        "initial_cpu_peak_percent": 0.0,
+        "final_cpu_average_percent": 28.108875274658203,
+        "final_cpu_peak_percent": 27.73394012451172
+      },
+      "input_mode": 0.0,
+      "dual_type": 0.0,
+      "dual_blend": 0.5,
+      "x1_hz": 200.0,
+      "x2_hz": 1800.0,
+      "amps": [
+        {
+          "lane": 0,
+          "model_index": 14,
+          "name": "Taste Punch",
+          "channel_index": 0,
+          "input_route_index": 0
+        },
+        {
+          "lane": 1,
+          "model_index": 7,
+          "name": "Modern Bass",
+          "channel_index": 0,
+          "input_route_index": 0
+        },
+        {
+          "lane": 2,
+          "model_index": 2,
+          "name": "Tight 515",
+          "channel_index": 1,
+          "input_route_index": 0
+        }
+      ],
+      "sha256": "fb85d4bde14c087c80e0d7ae7ed1bff5cb7a5fdbbfc9b789ba8b216bf4bad774",
+      "size_bytes": 744350,
+      "artifact_path": "rigs-matrix-crom-cruach-beta131.png"
+    }
+  ],
+  "capture_provenance": {
+    "schema": 1,
+    "verified_at_utc": "2026-10-11T21:37:53.807080+00:00",
+    "source_sha": "7b20cd9d1f90e3e2969c250712b199e893cf50cd",
+    "product_repository": "raven-deadwire/SpectralForge-Chimera-Amp-Matrix",
+    "product_checkout_clean": true,
+    "source_objects": {
+      "Source": "da88a9710efaadac5da662bf048933365eb42aec",
+      "Assets": "7584d09f3bd94fde9bdf7dec1029951d8494d34c",
+      "CMakeLists.txt": "4e4c5c7a5e268d0f047f6997a631241256b410fe",
+      "cmake": "d304be802f465b9b2aaa333ef2b80224b59d824d",
+      "docs/MANUAL.html": "9a4b97faa36581041e46dd8ffb41013dbd8d4553"
+    },
+    "compiled_version": {
+      "product_version": "1.3.1",
+      "source_sha": "7b20cd9d1f90e3e2969c250712b199e893cf50cd",
+      "version": "1.3.1-beta.1"
+    },
+    "controller_source_sha": "63c74e1e09e87445315110f61e41462cbb24771f",
+    "controller_files": {
+      ".github/workflows/chimera-native-homepage-capture.yml": {
+        "sha256": "9ffd35d9243cf974438ddd48c2b2790f751f824eedfbc929c6c9d68defd50118",
+        "git_blob": "a21d94bba09453f9585130f78404448b0eb65987"
+      },
+      "tools/chimera-native-capture.cpp": {
+        "sha256": "2450c8824cd04a96cc24158d18ce16df1430c37964bdb5393091a10ba3d2abf2",
+        "git_blob": "bf59ce9cf06930f780703e3bbb637e44f9b7fdcc"
+      },
+      "tools/chimera-native-capture.cmake": {
+        "sha256": "65ca789442b9b5dab9799c91806ef89a756fe4f6132fa89ead17fa4ea6af48a1",
+        "git_blob": "f7aa958233746ab1167e62c97b4dca10d7f9bb68"
+      },
+      "tools/chimera_native_capture_provenance.py": {
+        "sha256": "400c4336e82f8de88a0069767cf495657dcdef99c9555aa43f7aa2e2d5bf25d0",
+        "git_blob": "4218430c4f74a9026b24ff20ae7b341807429903"
+      }
+    },
+    "run_url": "https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/38176527827",
+    "run_attempt": "1",
+    "runner_os": "Linux",
+    "native_environment": "Linux runner with Xvfb and Openbox via the unmodified product Tools/run_linux_ui_tests.py",
+    "capture_binary_sha256": "393c82b588cc250b8e24b84bf3c4fff16fb1552217619e6d61c4dd002ec6705c",
+    "production_library_sha256": {
+      "ChimeraAmpMatrix_artefacts/Release/libSpectralForge Chimera_SharedCode.a": "bdc1ec5dff4001602b21ac50ce45ac4a16cd9fbcd6cd0253ba8a04947f223856",
+      "libChimeraArtwork.a": "bcb345efc8f7069d736749a533d56fa21dcd6a9df2e6cd664e83bcb3bc5f663c",
+      "libChimeraManual.a": "1e95a6c545bd0a57cf8902a099387bc373cd81458a23a93ec0ea12efbc27857e",
+      "libChimeraIRs.a": "896dc9da5e6dd86ea583201689524df47089e24effe07ef1c55a2171845ddbf0"
+    },
+    "capture_log_sha256": "d555e47199b0d1446c35c34857a0fbf99b69b157b11b10dc51f38bd3a205d46c",
+    "observations_sha256": "6358f92facd62ccfb6005f686a29faecfb8dbf3ea7814b875edbd8bd08c01da0",
+    "build_version_sha256": "8b430c1e405051fc7a7a9b3f35258b14913f465c50f77da2c182e22bd926d521",
+    "capture": {
+      "schema": 1,
+      "product_version": "1.3.1",
+      "release_version": "1.3.1-beta.1",
+      "captured_at_utc": "2026-10-11T21:37:53.387Z",
+      "capture_kind": "Native Linux JUCE editor component snapshots; not a desktop framebuffer capture, DAW session or product acceptance test",
+      "sample_rate": 48000,
+      "block_size": 256,
+      "audio_input": "silence; fixed 2250 paced callbacks per preset (12 seconds of audio); separate worker with UI dispatch; no audio interface or real-time driver",
+      "parameter_overrides": [],
+      "images": [
+        {
+          "file": "rigs-classic-crunch-beta131.png",
+          "preset": "Classic Crunch",
+          "preset_index": 7,
+          "mode": 0,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.000062701,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 2.501231,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 10.608116149902344,
+            "final_cpu_peak_percent": 12.543850898742676
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.5,
+          "x1_hz": 150.0,
+          "x2_hz": 1200.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 1,
+              "name": "Brit Edge",
+              "channel_index": 0,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "7321cb8305e2d6e8fee08ce243fd52ae2720d22a46bf237006ad0e7315f096e9",
+          "size_bytes": 811436
+        },
+        {
+          "file": "rigs-dual-wrath-beta131.png",
+          "preset": "Feel My Wrath",
+          "preset_index": 35,
+          "mode": 1,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.000060924,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 2.262114,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 20.734569549560547,
+            "final_cpu_peak_percent": 20.681249618530273
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.299999982118607,
+          "x1_hz": 160.0,
+          "x2_hz": 1500.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 17,
+              "name": "Fourfold",
+              "channel_index": 2,
+              "input_route_index": 0
+            },
+            {
+              "lane": 1,
+              "model_index": 2,
+              "name": "Tight 515",
+              "channel_index": 1,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "b3563022152f0b8d072db2732e4b469f201a1d50209f52ac74d9d6cd17f92ede",
+          "size_bytes": 686731
+        },
+        {
+          "file": "rigs-matrix-crom-cruach-beta131.png",
+          "preset": "Crom Cruach",
+          "preset_index": 31,
+          "mode": 2,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.000060337,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 3.162541,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 28.108875274658203,
+            "final_cpu_peak_percent": 27.73394012451172
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.5,
+          "x1_hz": 200.0,
+          "x2_hz": 1800.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 14,
+              "name": "Taste Punch",
+              "channel_index": 0,
+              "input_route_index": 0
+            },
+            {
+              "lane": 1,
+              "model_index": 7,
+              "name": "Modern Bass",
+              "channel_index": 0,
+              "input_route_index": 0
+            },
+            {
+              "lane": 2,
+              "model_index": 2,
+              "name": "Tight 515",
+              "channel_index": 1,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "fb85d4bde14c087c80e0d7ae7ed1bff5cb7a5fdbbfc9b789ba8b216bf4bad774",
+          "size_bytes": 744350
+        }
+      ]
+    },
+    "product_acceptance": false,
+    "published": false,
+    "notes": [
+      "Unmodified production editor and real preset ComboBox on a native Linux component peer.",
+      "Component snapshots are not desktop framebuffer or Studio One screenshots.",
+      "No generated UI, pixel edits, sound parameter overrides or replacement test results.",
+      "A fixed 12 seconds of audio is processed with paced worker callbacks while UI messages are dispatched.",
+      "CPU fields are actual product observations; no reset, threshold-based waiting, suppression or retry is used.",
+      "Runner timing includes cold-start and scheduling effects; no audio interface or real-time driver is used, and this is not a benchmark.",
+      "This website evidence workflow does not run or replace the product acceptance gates.",
+      "The external CMake hook adds only the capture target; the product source checkout remains clean."
+    ]
+  },
+  "replacement_reason": "Fresh native artifact from the specified source and controller; original observations and all displayed PNG bytes are preserved without edits or an equality assumption about earlier captures.",
+  "previous_captures": [
+    {
+      "run_url": "https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/38147840181",
+      "artifact_url": "https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/38147840181/artifacts/11706380056",
+      "artifact_id": 11706380056,
+      "artifact_zip_sha256": "db874cbfa8c5e24cd41a565e63d73fc8f59e0a2e259d00aa1aae42b7f6c86923",
+      "controller_source_sha": "f3f05d0b6bd8b12ef9fe7ffcf313a43aa19acdf5",
+      "original_provenance_sha256": "0b77c241096878f84f1bbcfbb708f8b2c5948d00a8d6edcc2a994e87edcfebda",
+      "images": [
+        {
+          "artifact_path": "rigs-classic-crunch-beta131.png",
+          "sha256": "c8a3a8309e5e628ff3b3fe0a93fcd7f76822a3ef8d77d21a603491afd62f76ea",
+          "size_bytes": 811449
+        },
+        {
+          "artifact_path": "rigs-dual-wrath-beta131.png",
+          "sha256": "74b754dddc77fa0bff120883691e641aa55c83448839924ad26464a0e0a2bf66",
+          "size_bytes": 686735
+        },
+        {
+          "artifact_path": "rigs-matrix-crom-cruach-beta131.png",
+          "sha256": "72ea42be08a0e2c4a48c60779120e62d5c4790754ca46a51127de469ed7ed5b0",
+          "size_bytes": 744281
+        }
+      ],
+      "source_sha": "2bbb6554d514e6086c8f723f9ec52eba751a98a6"
+    },
+    {
+      "schema": 1,
+      "source_sha": "2bbb6554d514e6086c8f723f9ec52eba751a98a6",
+      "product_version": "1.3.1",
+      "release_version": "1.3.1-beta.1",
+      "platform": "Linux",
+      "capture_kind": "Native Linux JUCE editor component snapshots; not a desktop framebuffer capture, DAW session or product acceptance test",
+      "controller_source_sha": "9d0afd929aad7768b2a46b818aae34e8a399aca1",
+      "run_url": "https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/38148975945",
+      "artifact_url": "https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/38148975945/artifacts/11705911770",
+      "artifact_id": 11705911770,
+      "artifact_zip_sha256": "107d1d1c5e3182a3ba7e8021ead1ce403b3e141f1a32d847d8d1f5bebd99f0d7",
+      "artifact_zip_size_bytes": 2247914,
+      "capture_run_conclusion": "success",
+      "pixel_edits": false,
+      "product_acceptance": false,
+      "original_provenance_sha256": "d2c5688551eb9f0c1c19152c04131c57b20c2465f5ee66490dbd97ae903364b3",
+      "images": [
+        {
+          "file": "assets/chimera/rigs-classic-crunch-beta131.png",
+          "preset": "Classic Crunch",
+          "preset_index": 7,
+          "mode": 0,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.000074935,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 2.257237,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 12.270553588867188,
+            "final_cpu_peak_percent": 14.587499618530273
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.5,
+          "x1_hz": 150.0,
+          "x2_hz": 1200.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 1,
+              "name": "Brit Edge",
+              "channel_index": 0,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "41d456f5a040d6b222d7390efa890aff19773919cf37685c67801b0a4e8c399b",
+          "size_bytes": 811490,
+          "artifact_path": "rigs-classic-crunch-beta131.png"
+        },
+        {
+          "file": "assets/chimera/rigs-dual-wrath-beta131.png",
+          "preset": "Feel My Wrath",
+          "preset_index": 35,
+          "mode": 1,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.000073831,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 2.149574,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 24.236597061157227,
+            "final_cpu_peak_percent": 27.037500381469727
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.299999982118607,
+          "x1_hz": 160.0,
+          "x2_hz": 1500.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 17,
+              "name": "Fourfold",
+              "channel_index": 2,
+              "input_route_index": 0
+            },
+            {
+              "lane": 1,
+              "model_index": 2,
+              "name": "Tight 515",
+              "channel_index": 1,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "32347179202805e75d02e0d36c181edfca7b7be76086f96c7521f0af8f5da6e0",
+          "size_bytes": 686748,
+          "artifact_path": "rigs-dual-wrath-beta131.png"
+        },
+        {
+          "file": "assets/chimera/rigs-matrix-crom-cruach-beta131.png",
+          "preset": "Crom Cruach",
+          "preset_index": 31,
+          "mode": 2,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.000071414,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 3.695222,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 32.463417053222656,
+            "final_cpu_peak_percent": 34.52164077758789
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.5,
+          "x1_hz": 200.0,
+          "x2_hz": 1800.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 14,
+              "name": "Taste Punch",
+              "channel_index": 0,
+              "input_route_index": 0
+            },
+            {
+              "lane": 1,
+              "model_index": 7,
+              "name": "Modern Bass",
+              "channel_index": 0,
+              "input_route_index": 0
+            },
+            {
+              "lane": 2,
+              "model_index": 2,
+              "name": "Tight 515",
+              "channel_index": 1,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "035e2733c471bcd3650a3937fc664427fdd9bd77b123b0310675b327e7f490b6",
+          "size_bytes": 744399,
+          "artifact_path": "rigs-matrix-crom-cruach-beta131.png"
+        }
+      ]
+    },
+    {
+      "schema": 1,
+      "source_sha": "2b41386129290d7ad82034bc97ea53608fdc058e",
+      "product_version": "1.3.1",
+      "release_version": "1.3.1-beta.1",
+      "platform": "Linux",
+      "capture_kind": "Native Linux JUCE editor component snapshots; not a desktop framebuffer capture, DAW session or product acceptance test",
+      "controller_source_sha": "47a2d6e3906f1aaf51a8dc51332fad1a1b0693b2",
+      "run_url": "https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/38151647907",
+      "artifact_url": "https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/38151647907/artifacts/11707182096",
+      "artifact_id": 11707182096,
+      "artifact_zip_sha256": "a8cd2428faee875791c87c99ecb377f30a31a24e65dc9183b566db63127e199c",
+      "artifact_zip_size_bytes": 2247884,
+      "capture_run_conclusion": "success",
+      "pixel_edits": false,
+      "product_acceptance": false,
+      "original_provenance_sha256": "e6e60d8bcac3efcf3ce49f490632fa362a258f136432d050c0aacff8079b8692",
+      "images": [
+        {
+          "file": "assets/chimera/rigs-classic-crunch-beta131.png",
+          "preset": "Classic Crunch",
+          "preset_index": 7,
+          "mode": 0,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.000087094,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 1.990574,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 12.127420425415039,
+            "final_cpu_peak_percent": 13.674200057983398
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.5,
+          "x1_hz": 150.0,
+          "x2_hz": 1200.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 1,
+              "name": "Brit Edge",
+              "channel_index": 0,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "6f4e7d3c8249b983d6422a5d6acdd42e9237a9e59bdcaf6f3f7641b6425fd558",
+          "size_bytes": 811447,
+          "artifact_path": "rigs-classic-crunch-beta131.png"
+        },
+        {
+          "file": "assets/chimera/rigs-dual-wrath-beta131.png",
+          "preset": "Feel My Wrath",
+          "preset_index": 35,
+          "mode": 1,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.000069167,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 2.088547,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 22.43416404724121,
+            "final_cpu_peak_percent": 25.762500762939453
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.299999982118607,
+          "x1_hz": 160.0,
+          "x2_hz": 1500.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 17,
+              "name": "Fourfold",
+              "channel_index": 2,
+              "input_route_index": 0
+            },
+            {
+              "lane": 1,
+              "model_index": 2,
+              "name": "Tight 515",
+              "channel_index": 1,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "9f67af45735e9cfce56773d6b3f3963ee607fa0f7ec9d6421072957f4f7adff3",
+          "size_bytes": 686807,
+          "artifact_path": "rigs-dual-wrath-beta131.png"
+        },
+        {
+          "file": "assets/chimera/rigs-matrix-crom-cruach-beta131.png",
+          "preset": "Crom Cruach",
+          "preset_index": 31,
+          "mode": 2,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.000070639,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 2.946363,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 30.26491928100586,
+            "final_cpu_peak_percent": 32.05263137817383
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.5,
+          "x1_hz": 200.0,
+          "x2_hz": 1800.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 14,
+              "name": "Taste Punch",
+              "channel_index": 0,
+              "input_route_index": 0
+            },
+            {
+              "lane": 1,
+              "model_index": 7,
+              "name": "Modern Bass",
+              "channel_index": 0,
+              "input_route_index": 0
+            },
+            {
+              "lane": 2,
+              "model_index": 2,
+              "name": "Tight 515",
+              "channel_index": 1,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "a170a1dbbc65aebdc5698bbbf0a548347a69f3d728bc90298edc8c72e1df2f90",
+          "size_bytes": 744373,
+          "artifact_path": "rigs-matrix-crom-cruach-beta131.png"
+        }
+      ]
+    },
+    {
+      "schema": 1,
+      "source_sha": "079352aaf9f94c715a3533a06afa0b7a88ba30ce",
+      "product_version": "1.3.1",
+      "release_version": "1.3.1-beta.1",
+      "platform": "Linux",
+      "capture_kind": "Native Linux JUCE editor component snapshots; not a desktop framebuffer capture, DAW session or product acceptance test",
+      "controller_source_sha": "bc19f4599138f1d10d8a6001c0cda3843fb8774d",
+      "run_url": "https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/38155562757",
+      "artifact_url": "https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/38155562757/artifacts/11708488297",
+      "artifact_id": 11708488297,
+      "artifact_zip_sha256": "2aaefbc090d98561729969fc29e42957086ce11f9cbfcbe9dc7c694fd4fc130b",
+      "artifact_zip_size_bytes": 2248007,
+      "capture_run_conclusion": "success",
+      "pixel_edits": false,
+      "product_acceptance": false,
+      "original_provenance_sha256": "f3ce4299d1f75f848e683618e5053b7f79655801fcee15c736972c84b81412fa",
+      "images": [
+        {
+          "file": "assets/chimera/rigs-classic-crunch-beta131.png",
+          "preset": "Classic Crunch",
+          "preset_index": 7,
+          "mode": 0,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.000070965,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 1.897747,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 12.329051971435547,
+            "final_cpu_peak_percent": 13.782546997070312
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.5,
+          "x1_hz": 150.0,
+          "x2_hz": 1200.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 1,
+              "name": "Brit Edge",
+              "channel_index": 0,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "4b40a7183660d617037cb1a0beefb3c03602d711cca2f13d93f4a09c45fe46a2",
+          "size_bytes": 811526,
+          "artifact_path": "rigs-classic-crunch-beta131.png"
+        },
+        {
+          "file": "assets/chimera/rigs-dual-wrath-beta131.png",
+          "preset": "Feel My Wrath",
+          "preset_index": 35,
+          "mode": 1,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.000070607,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 2.152067,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 22.94767189025879,
+            "final_cpu_peak_percent": 25.804529190063477
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.299999982118607,
+          "x1_hz": 160.0,
+          "x2_hz": 1500.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 17,
+              "name": "Fourfold",
+              "channel_index": 2,
+              "input_route_index": 0
+            },
+            {
+              "lane": 1,
+              "model_index": 2,
+              "name": "Tight 515",
+              "channel_index": 1,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "b8272a8bd233da7b781bb54c965b4d55886b0989268dc4993dedccff81f9e997",
+          "size_bytes": 686805,
+          "artifact_path": "rigs-dual-wrath-beta131.png"
+        },
+        {
+          "file": "assets/chimera/rigs-matrix-crom-cruach-beta131.png",
+          "preset": "Crom Cruach",
+          "preset_index": 31,
+          "mode": 2,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.000071357,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 2.851675,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 30.047136306762695,
+            "final_cpu_peak_percent": 32.63796615600586
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.5,
+          "x1_hz": 200.0,
+          "x2_hz": 1800.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 14,
+              "name": "Taste Punch",
+              "channel_index": 0,
+              "input_route_index": 0
+            },
+            {
+              "lane": 1,
+              "model_index": 7,
+              "name": "Modern Bass",
+              "channel_index": 0,
+              "input_route_index": 0
+            },
+            {
+              "lane": 2,
+              "model_index": 2,
+              "name": "Tight 515",
+              "channel_index": 1,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "d9cc80071172f1cfc70f710657b79ed625cc316f25873b58118c7e5c3ac2f455",
+          "size_bytes": 744397,
+          "artifact_path": "rigs-matrix-crom-cruach-beta131.png"
+        }
+      ]
+    },
+    {
+      "schema": 1,
+      "source_sha": "7c782fda9e2d7cb255e70b6d1d1857fc78300c46",
+      "product_version": "1.3.1",
+      "release_version": "1.3.1-beta.1",
+      "platform": "Linux",
+      "capture_kind": "Native Linux JUCE editor component snapshots; not a desktop framebuffer capture, DAW session or product acceptance test",
+      "controller_source_sha": "a49a292ea8b0d270996ffc397d944749477251a6",
+      "run_url": "https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/38162308575",
+      "artifact_url": "https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/38162308575/artifacts/11711175777",
+      "artifact_id": 11711175777,
+      "artifact_zip_sha256": "99cf4b12741dd606841050c675d9a596b3c346544de5cd588acf3f62dd648bc4",
+      "artifact_zip_size_bytes": 2247954,
+      "capture_run_conclusion": "success",
+      "pixel_edits": false,
+      "product_acceptance": false,
+      "original_provenance_sha256": "1c25be4f224e3ba6a0a81a7f2c7bc562c3644378e5fda1b4592bfc2559638204",
+      "replacement_reason": "Fresh native build and capture at the candidate product source. The unchanged fixed 12-second paced capture policy records observed product values without reset, threshold, retry or pixel editing. Earlier captures remain separately attributed evidence.",
+      "images": [
+        {
+          "file": "assets/chimera/rigs-classic-crunch-beta131.png",
+          "preset": "Classic Crunch",
+          "preset_index": 7,
+          "mode": 0,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.000072665,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 2.195599,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 11.817201614379883,
+            "final_cpu_peak_percent": 13.233405113220215
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.5,
+          "x1_hz": 150.0,
+          "x2_hz": 1200.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 1,
+              "name": "Brit Edge",
+              "channel_index": 0,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "83cecfcc822e6830bc13cfb0cc8ec647e07562225fe086e287260605aa1b04b5",
+          "size_bytes": 811481,
+          "artifact_path": "rigs-classic-crunch-beta131.png"
+        },
+        {
+          "file": "assets/chimera/rigs-dual-wrath-beta131.png",
+          "preset": "Feel My Wrath",
+          "preset_index": 35,
+          "mode": 1,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.000070829,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 2.106041,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 23.352825164794922,
+            "final_cpu_peak_percent": 24.460847854614258
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.299999982118607,
+          "x1_hz": 160.0,
+          "x2_hz": 1500.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 17,
+              "name": "Fourfold",
+              "channel_index": 2,
+              "input_route_index": 0
+            },
+            {
+              "lane": 1,
+              "model_index": 2,
+              "name": "Tight 515",
+              "channel_index": 1,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "e0896ea7f00d334f163bf68a27b6e46241becc27f1d4991128bdf4df7357a340",
+          "size_bytes": 686803,
+          "artifact_path": "rigs-dual-wrath-beta131.png"
+        },
+        {
+          "file": "assets/chimera/rigs-matrix-crom-cruach-beta131.png",
+          "preset": "Crom Cruach",
+          "preset_index": 31,
+          "mode": 2,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.000065756,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 3.592419,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 29.095794677734375,
+            "final_cpu_peak_percent": 30.532072067260742
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.5,
+          "x1_hz": 200.0,
+          "x2_hz": 1800.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 14,
+              "name": "Taste Punch",
+              "channel_index": 0,
+              "input_route_index": 0
+            },
+            {
+              "lane": 1,
+              "model_index": 7,
+              "name": "Modern Bass",
+              "channel_index": 0,
+              "input_route_index": 0
+            },
+            {
+              "lane": 2,
+              "model_index": 2,
+              "name": "Tight 515",
+              "channel_index": 1,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "fd79588f096f87cc895f2e0950fda0c2304a6409c2e4b2f19e2e48db76a51af6",
+          "size_bytes": 744396,
+          "artifact_path": "rigs-matrix-crom-cruach-beta131.png"
+        }
+      ],
+      "capture_provenance": {
+        "schema": 1,
+        "verified_at_utc": "2026-10-11T18:14:20.367096+00:00",
+        "source_sha": "7c782fda9e2d7cb255e70b6d1d1857fc78300c46",
+        "product_repository": "raven-deadwire/SpectralForge-Chimera-Amp-Matrix",
+        "product_checkout_clean": true,
+        "source_objects": {
+          "Source": "d2372c632c3d987624282188110af39f408c4c7c",
+          "Assets": "7584d09f3bd94fde9bdf7dec1029951d8494d34c",
+          "CMakeLists.txt": "4e4c5c7a5e268d0f047f6997a631241256b410fe",
+          "cmake": "d304be802f465b9b2aaa333ef2b80224b59d824d",
+          "docs/MANUAL.html": "9a4b97faa36581041e46dd8ffb41013dbd8d4553"
+        },
+        "compiled_version": {
+          "product_version": "1.3.1",
+          "source_sha": "7c782fda9e2d7cb255e70b6d1d1857fc78300c46",
+          "version": "1.3.1-beta.1"
+        },
+        "controller_source_sha": "a49a292ea8b0d270996ffc397d944749477251a6",
+        "controller_files": {
+          ".github/workflows/chimera-native-homepage-capture.yml": {
+            "sha256": "718d1cd4658649855496c42abd8a7af0234733d6eed379d1fb26c95860658394",
+            "git_blob": "b715c85b813c662e62d1ae6fac7bfaf2076232c9"
+          },
+          "tools/chimera-native-capture.cpp": {
+            "sha256": "2450c8824cd04a96cc24158d18ce16df1430c37964bdb5393091a10ba3d2abf2",
+            "git_blob": "bf59ce9cf06930f780703e3bbb637e44f9b7fdcc"
+          },
+          "tools/chimera-native-capture.cmake": {
+            "sha256": "65ca789442b9b5dab9799c91806ef89a756fe4f6132fa89ead17fa4ea6af48a1",
+            "git_blob": "f7aa958233746ab1167e62c97b4dca10d7f9bb68"
+          },
+          "tools/chimera_native_capture_provenance.py": {
+            "sha256": "d8aecedd7c4f15ee00fba131a4fde4b9f6d150a9442f06abfda4d7ae8291e1a3",
+            "git_blob": "0a6589e01f792c85cba5cd6daafd44471adf3cff"
+          }
+        },
+        "run_url": "https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/38162308575",
+        "run_attempt": "1",
+        "runner_os": "Linux",
+        "native_environment": "Linux runner with Xvfb and Openbox via the unmodified product Tools/run_linux_ui_tests.py",
+        "capture_binary_sha256": "35eac42ee6a810bad298e83cd1a676bdc73b19b2569acbe93f5ec8c5012f2cd3",
+        "production_library_sha256": {
+          "ChimeraAmpMatrix_artefacts/Release/libSpectralForge Chimera_SharedCode.a": "eddbe6f89142e86819f982a689c573d82ead7b57361dfc2f9b38cceb86f5c656",
+          "libChimeraArtwork.a": "bcb345efc8f7069d736749a533d56fa21dcd6a9df2e6cd664e83bcb3bc5f663c",
+          "libChimeraManual.a": "1e95a6c545bd0a57cf8902a099387bc373cd81458a23a93ec0ea12efbc27857e",
+          "libChimeraIRs.a": "896dc9da5e6dd86ea583201689524df47089e24effe07ef1c55a2171845ddbf0"
+        },
+        "capture_log_sha256": "dbccf81068d53d7bd41ce47499c0bd4aecd71d247c7afa09f502dcc203e2922c",
+        "observations_sha256": "5cfbd7c005e6d9be249799a2d683404f1a5dedae7bb54c22c322e0baf06ae01f",
+        "build_version_sha256": "ab681552a9557fa6991ea04c2440025583331b4b884864acf358e0eff2291b88",
+        "capture": {
+          "schema": 1,
+          "product_version": "1.3.1",
+          "release_version": "1.3.1-beta.1",
+          "captured_at_utc": "2026-10-11T18:14:19.877Z",
+          "capture_kind": "Native Linux JUCE editor component snapshots; not a desktop framebuffer capture, DAW session or product acceptance test",
+          "sample_rate": 48000,
+          "block_size": 256,
+          "audio_input": "silence; fixed 2250 paced callbacks per preset (12 seconds of audio); separate worker with UI dispatch; no audio interface or real-time driver",
+          "parameter_overrides": [],
+          "images": [
+            {
+              "file": "rigs-classic-crunch-beta131.png",
+              "preset": "Classic Crunch",
+              "preset_index": 7,
+              "mode": 0,
+              "native_peer": true,
+              "width": 1180,
+              "height": 780,
+              "pixel_edits": false,
+              "audio_settling": {
+                "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+                "audio_thread": true,
+                "blocks": 2250,
+                "processed_audio_seconds": 12.0,
+                "wall_seconds": 12.000072665,
+                "callback_deadline_overruns": 0,
+                "maximum_callback_ms": 2.195599,
+                "initial_cpu_average_percent": 0.0,
+                "initial_cpu_peak_percent": 0.0,
+                "final_cpu_average_percent": 11.817201614379883,
+                "final_cpu_peak_percent": 13.233405113220215
+              },
+              "input_mode": 0.0,
+              "dual_type": 0.0,
+              "dual_blend": 0.5,
+              "x1_hz": 150.0,
+              "x2_hz": 1200.0,
+              "amps": [
+                {
+                  "lane": 0,
+                  "model_index": 1,
+                  "name": "Brit Edge",
+                  "channel_index": 0,
+                  "input_route_index": 0
+                }
+              ],
+              "sha256": "83cecfcc822e6830bc13cfb0cc8ec647e07562225fe086e287260605aa1b04b5",
+              "size_bytes": 811481
+            },
+            {
+              "file": "rigs-dual-wrath-beta131.png",
+              "preset": "Feel My Wrath",
+              "preset_index": 35,
+              "mode": 1,
+              "native_peer": true,
+              "width": 1180,
+              "height": 780,
+              "pixel_edits": false,
+              "audio_settling": {
+                "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+                "audio_thread": true,
+                "blocks": 2250,
+                "processed_audio_seconds": 12.0,
+                "wall_seconds": 12.000070829,
+                "callback_deadline_overruns": 0,
+                "maximum_callback_ms": 2.106041,
+                "initial_cpu_average_percent": 0.0,
+                "initial_cpu_peak_percent": 0.0,
+                "final_cpu_average_percent": 23.352825164794922,
+                "final_cpu_peak_percent": 24.460847854614258
+              },
+              "input_mode": 0.0,
+              "dual_type": 0.0,
+              "dual_blend": 0.299999982118607,
+              "x1_hz": 160.0,
+              "x2_hz": 1500.0,
+              "amps": [
+                {
+                  "lane": 0,
+                  "model_index": 17,
+                  "name": "Fourfold",
+                  "channel_index": 2,
+                  "input_route_index": 0
+                },
+                {
+                  "lane": 1,
+                  "model_index": 2,
+                  "name": "Tight 515",
+                  "channel_index": 1,
+                  "input_route_index": 0
+                }
+              ],
+              "sha256": "e0896ea7f00d334f163bf68a27b6e46241becc27f1d4991128bdf4df7357a340",
+              "size_bytes": 686803
+            },
+            {
+              "file": "rigs-matrix-crom-cruach-beta131.png",
+              "preset": "Crom Cruach",
+              "preset_index": 31,
+              "mode": 2,
+              "native_peer": true,
+              "width": 1180,
+              "height": 780,
+              "pixel_edits": false,
+              "audio_settling": {
+                "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+                "audio_thread": true,
+                "blocks": 2250,
+                "processed_audio_seconds": 12.0,
+                "wall_seconds": 12.000065756,
+                "callback_deadline_overruns": 0,
+                "maximum_callback_ms": 3.592419,
+                "initial_cpu_average_percent": 0.0,
+                "initial_cpu_peak_percent": 0.0,
+                "final_cpu_average_percent": 29.095794677734375,
+                "final_cpu_peak_percent": 30.532072067260742
+              },
+              "input_mode": 0.0,
+              "dual_type": 0.0,
+              "dual_blend": 0.5,
+              "x1_hz": 200.0,
+              "x2_hz": 1800.0,
+              "amps": [
+                {
+                  "lane": 0,
+                  "model_index": 14,
+                  "name": "Taste Punch",
+                  "channel_index": 0,
+                  "input_route_index": 0
+                },
+                {
+                  "lane": 1,
+                  "model_index": 7,
+                  "name": "Modern Bass",
+                  "channel_index": 0,
+                  "input_route_index": 0
+                },
+                {
+                  "lane": 2,
+                  "model_index": 2,
+                  "name": "Tight 515",
+                  "channel_index": 1,
+                  "input_route_index": 0
+                }
+              ],
+              "sha256": "fd79588f096f87cc895f2e0950fda0c2304a6409c2e4b2f19e2e48db76a51af6",
+              "size_bytes": 744396
+            }
+          ]
+        },
+        "product_acceptance": false,
+        "published": false,
+        "notes": [
+          "Unmodified production editor and real preset ComboBox on a native Linux component peer.",
+          "Component snapshots are not desktop framebuffer or Studio One screenshots.",
+          "No generated UI, pixel edits, sound parameter overrides or replacement test results.",
+          "A fixed 12 seconds of audio is processed with paced worker callbacks while UI messages are dispatched.",
+          "CPU fields are actual product observations; no reset, threshold-based waiting, suppression or retry is used.",
+          "Runner timing includes cold-start and scheduling effects; no audio interface or real-time driver is used, and this is not a benchmark.",
+          "This website evidence workflow does not run or replace the product acceptance gates.",
+          "The external CMake hook adds only the capture target; the product source checkout remains clean."
+        ]
+      }
+    },
+    {
+      "schema": 1,
+      "source_sha": "781d03dd49bba51d6cfa7b1c6a0ec8d9e75a0333",
+      "product_version": "1.3.1",
+      "release_version": "1.3.1-beta.1",
+      "platform": "Linux",
+      "capture_kind": "Native Linux JUCE editor component snapshots; not a desktop framebuffer capture, DAW session or product acceptance test",
+      "controller_source_sha": "2157e3b93f4d6b79f1a5a3761773637eca7b9cec",
+      "run_url": "https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/38169991654",
+      "artifact_url": "https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/38169991654/artifacts/11713922897",
+      "artifact_id": 11713922897,
+      "artifact_zip_sha256": "ec29870885b7ff4a05015c36cdaf746d350e5da53d8ae99e203b2f6be4870ee5",
+      "artifact_zip_size_bytes": 2247954,
+      "capture_run_conclusion": "success",
+      "pixel_edits": false,
+      "product_acceptance": false,
+      "original_provenance_sha256": "08dc6b14d002e3c49a4f3ed11db9193675b8c018068e7eab7a0958322fc9189e",
+      "images": [
+        {
+          "file": "assets/chimera/rigs-classic-crunch-beta131.png",
+          "preset": "Classic Crunch",
+          "preset_index": 7,
+          "mode": 0,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.000070327,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 2.370807,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 12.697103500366211,
+            "final_cpu_peak_percent": 13.893750190734863
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.5,
+          "x1_hz": 150.0,
+          "x2_hz": 1200.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 1,
+              "name": "Brit Edge",
+              "channel_index": 0,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "a44d1e380b45a185b6f98de95f42804f6a2ba27e26948e5f7f03a1f7b4deb7d6",
+          "size_bytes": 811487,
+          "artifact_path": "rigs-classic-crunch-beta131.png"
+        },
+        {
+          "file": "assets/chimera/rigs-dual-wrath-beta131.png",
+          "preset": "Feel My Wrath",
+          "preset_index": 35,
+          "mode": 1,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.000072453,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 2.215166,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 23.113399505615234,
+            "final_cpu_peak_percent": 26.33936882019043
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.299999982118607,
+          "x1_hz": 160.0,
+          "x2_hz": 1500.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 17,
+              "name": "Fourfold",
+              "channel_index": 2,
+              "input_route_index": 0
+            },
+            {
+              "lane": 1,
+              "model_index": 2,
+              "name": "Tight 515",
+              "channel_index": 1,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "01c384d0c6ab9abe94bed5fe8da22a753a6cabd7bfde5ff5fdc3870e03bd0d67",
+          "size_bytes": 686816,
+          "artifact_path": "rigs-dual-wrath-beta131.png"
+        },
+        {
+          "file": "assets/chimera/rigs-matrix-crom-cruach-beta131.png",
+          "preset": "Crom Cruach",
+          "preset_index": 31,
+          "mode": 2,
+          "native_peer": true,
+          "width": 1180,
+          "height": 780,
+          "pixel_edits": false,
+          "audio_settling": {
+            "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+            "audio_thread": true,
+            "blocks": 2250,
+            "processed_audio_seconds": 12.0,
+            "wall_seconds": 12.00007214,
+            "callback_deadline_overruns": 0,
+            "maximum_callback_ms": 3.156459,
+            "initial_cpu_average_percent": 0.0,
+            "initial_cpu_peak_percent": 0.0,
+            "final_cpu_average_percent": 30.036653518676758,
+            "final_cpu_peak_percent": 33.38236999511719
+          },
+          "input_mode": 0.0,
+          "dual_type": 0.0,
+          "dual_blend": 0.5,
+          "x1_hz": 200.0,
+          "x2_hz": 1800.0,
+          "amps": [
+            {
+              "lane": 0,
+              "model_index": 14,
+              "name": "Taste Punch",
+              "channel_index": 0,
+              "input_route_index": 0
+            },
+            {
+              "lane": 1,
+              "model_index": 7,
+              "name": "Modern Bass",
+              "channel_index": 0,
+              "input_route_index": 0
+            },
+            {
+              "lane": 2,
+              "model_index": 2,
+              "name": "Tight 515",
+              "channel_index": 1,
+              "input_route_index": 0
+            }
+          ],
+          "sha256": "dd50e18bf9a832d7b5517cbc0e4704eb83f7e6ca813b6c96c5b59ecbcdb8350d",
+          "size_bytes": 744400,
+          "artifact_path": "rigs-matrix-crom-cruach-beta131.png"
+        }
+      ],
+      "capture_provenance": {
+        "schema": 1,
+        "verified_at_utc": "2026-10-11T20:03:49.895433+00:00",
+        "source_sha": "781d03dd49bba51d6cfa7b1c6a0ec8d9e75a0333",
+        "product_repository": "raven-deadwire/SpectralForge-Chimera-Amp-Matrix",
+        "product_checkout_clean": true,
+        "source_objects": {
+          "Source": "d2372c632c3d987624282188110af39f408c4c7c",
+          "Assets": "7584d09f3bd94fde9bdf7dec1029951d8494d34c",
+          "CMakeLists.txt": "4e4c5c7a5e268d0f047f6997a631241256b410fe",
+          "cmake": "d304be802f465b9b2aaa333ef2b80224b59d824d",
+          "docs/MANUAL.html": "9a4b97faa36581041e46dd8ffb41013dbd8d4553"
+        },
+        "compiled_version": {
+          "product_version": "1.3.1",
+          "source_sha": "781d03dd49bba51d6cfa7b1c6a0ec8d9e75a0333",
+          "version": "1.3.1-beta.1"
+        },
+        "controller_source_sha": "2157e3b93f4d6b79f1a5a3761773637eca7b9cec",
+        "controller_files": {
+          ".github/workflows/chimera-native-homepage-capture.yml": {
+            "sha256": "3451051c301051a9b694e41384bbd9879680a92a7d46e593bec5f2bace9b2611",
+            "git_blob": "2c2b17d6e9e8af89b4fc38195bd2b3ca71330571"
+          },
+          "tools/chimera-native-capture.cpp": {
+            "sha256": "2450c8824cd04a96cc24158d18ce16df1430c37964bdb5393091a10ba3d2abf2",
+            "git_blob": "bf59ce9cf06930f780703e3bbb637e44f9b7fdcc"
+          },
+          "tools/chimera-native-capture.cmake": {
+            "sha256": "65ca789442b9b5dab9799c91806ef89a756fe4f6132fa89ead17fa4ea6af48a1",
+            "git_blob": "f7aa958233746ab1167e62c97b4dca10d7f9bb68"
+          },
+          "tools/chimera_native_capture_provenance.py": {
+            "sha256": "ecd8af21a7079497658be03abccbccb18b937ecd2d97c26b37cb12633f658c1e",
+            "git_blob": "85cac06bb74b6d505fa479bf4969fd17c3a42e0f"
+          }
+        },
+        "run_url": "https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/38169991654",
+        "run_attempt": "1",
+        "runner_os": "Linux",
+        "native_environment": "Linux runner with Xvfb and Openbox via the unmodified product Tools/run_linux_ui_tests.py",
+        "capture_binary_sha256": "10b358ba1cc44c2632322754f51d9d5bbe641cd56924f404ce1545d61cbe4211",
+        "production_library_sha256": {
+          "ChimeraAmpMatrix_artefacts/Release/libSpectralForge Chimera_SharedCode.a": "b3768bc5fd8f5c8fb6d9956fe7710395f895d1d30710ea012bccd2e10c0f9507",
+          "libChimeraArtwork.a": "bcb345efc8f7069d736749a533d56fa21dcd6a9df2e6cd664e83bcb3bc5f663c",
+          "libChimeraManual.a": "1e95a6c545bd0a57cf8902a099387bc373cd81458a23a93ec0ea12efbc27857e",
+          "libChimeraIRs.a": "896dc9da5e6dd86ea583201689524df47089e24effe07ef1c55a2171845ddbf0"
+        },
+        "capture_log_sha256": "03f1bd2faa9b3f6d80bebf6b71af6af8481a63e41d86baf0097e49b116264124",
+        "observations_sha256": "d9fa137e898033e7aa99dbeca3ccc83770c9dd4080e0aa8ca18d0a19c82d9a5a",
+        "build_version_sha256": "ce36c05ff895769469c4607c5438ec1989a5f48d4f513d96ba5987de2997ab5b",
+        "capture": {
+          "schema": 1,
+          "product_version": "1.3.1",
+          "release_version": "1.3.1-beta.1",
+          "captured_at_utc": "2026-10-11T20:03:49.494Z",
+          "capture_kind": "Native Linux JUCE editor component snapshots; not a desktop framebuffer capture, DAW session or product acceptance test",
+          "sample_rate": 48000,
+          "block_size": 256,
+          "audio_input": "silence; fixed 2250 paced callbacks per preset (12 seconds of audio); separate worker with UI dispatch; no audio interface or real-time driver",
+          "parameter_overrides": [],
+          "images": [
+            {
+              "file": "rigs-classic-crunch-beta131.png",
+              "preset": "Classic Crunch",
+              "preset_index": 7,
+              "mode": 0,
+              "native_peer": true,
+              "width": 1180,
+              "height": 780,
+              "pixel_edits": false,
+              "audio_settling": {
+                "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+                "audio_thread": true,
+                "blocks": 2250,
+                "processed_audio_seconds": 12.0,
+                "wall_seconds": 12.000070327,
+                "callback_deadline_overruns": 0,
+                "maximum_callback_ms": 2.370807,
+                "initial_cpu_average_percent": 0.0,
+                "initial_cpu_peak_percent": 0.0,
+                "final_cpu_average_percent": 12.697103500366211,
+                "final_cpu_peak_percent": 13.893750190734863
+              },
+              "input_mode": 0.0,
+              "dual_type": 0.0,
+              "dual_blend": 0.5,
+              "x1_hz": 150.0,
+              "x2_hz": 1200.0,
+              "amps": [
+                {
+                  "lane": 0,
+                  "model_index": 1,
+                  "name": "Brit Edge",
+                  "channel_index": 0,
+                  "input_route_index": 0
+                }
+              ],
+              "sha256": "a44d1e380b45a185b6f98de95f42804f6a2ba27e26948e5f7f03a1f7b4deb7d6",
+              "size_bytes": 811487
+            },
+            {
+              "file": "rigs-dual-wrath-beta131.png",
+              "preset": "Feel My Wrath",
+              "preset_index": 35,
+              "mode": 1,
+              "native_peer": true,
+              "width": 1180,
+              "height": 780,
+              "pixel_edits": false,
+              "audio_settling": {
+                "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+                "audio_thread": true,
+                "blocks": 2250,
+                "processed_audio_seconds": 12.0,
+                "wall_seconds": 12.000072453,
+                "callback_deadline_overruns": 0,
+                "maximum_callback_ms": 2.215166,
+                "initial_cpu_average_percent": 0.0,
+                "initial_cpu_peak_percent": 0.0,
+                "final_cpu_average_percent": 23.113399505615234,
+                "final_cpu_peak_percent": 26.33936882019043
+              },
+              "input_mode": 0.0,
+              "dual_type": 0.0,
+              "dual_blend": 0.299999982118607,
+              "x1_hz": 160.0,
+              "x2_hz": 1500.0,
+              "amps": [
+                {
+                  "lane": 0,
+                  "model_index": 17,
+                  "name": "Fourfold",
+                  "channel_index": 2,
+                  "input_route_index": 0
+                },
+                {
+                  "lane": 1,
+                  "model_index": 2,
+                  "name": "Tight 515",
+                  "channel_index": 1,
+                  "input_route_index": 0
+                }
+              ],
+              "sha256": "01c384d0c6ab9abe94bed5fe8da22a753a6cabd7bfde5ff5fdc3870e03bd0d67",
+              "size_bytes": 686816
+            },
+            {
+              "file": "rigs-matrix-crom-cruach-beta131.png",
+              "preset": "Crom Cruach",
+              "preset_index": 31,
+              "mode": 2,
+              "native_peer": true,
+              "width": 1180,
+              "height": 780,
+              "pixel_edits": false,
+              "audio_settling": {
+                "policy": "fixed 2250 paced callbacks; no CPU threshold, reset or retry",
+                "audio_thread": true,
+                "blocks": 2250,
+                "processed_audio_seconds": 12.0,
+                "wall_seconds": 12.00007214,
+                "callback_deadline_overruns": 0,
+                "maximum_callback_ms": 3.156459,
+                "initial_cpu_average_percent": 0.0,
+                "initial_cpu_peak_percent": 0.0,
+                "final_cpu_average_percent": 30.036653518676758,
+                "final_cpu_peak_percent": 33.38236999511719
+              },
+              "input_mode": 0.0,
+              "dual_type": 0.0,
+              "dual_blend": 0.5,
+              "x1_hz": 200.0,
+              "x2_hz": 1800.0,
+              "amps": [
+                {
+                  "lane": 0,
+                  "model_index": 14,
+                  "name": "Taste Punch",
+                  "channel_index": 0,
+                  "input_route_index": 0
+                },
+                {
+                  "lane": 1,
+                  "model_index": 7,
+                  "name": "Modern Bass",
+                  "channel_index": 0,
+                  "input_route_index": 0
+                },
+                {
+                  "lane": 2,
+                  "model_index": 2,
+                  "name": "Tight 515",
+                  "channel_index": 1,
+                  "input_route_index": 0
+                }
+              ],
+              "sha256": "dd50e18bf9a832d7b5517cbc0e4704eb83f7e6ca813b6c96c5b59ecbcdb8350d",
+              "size_bytes": 744400
+            }
+          ]
+        },
+        "product_acceptance": false,
+        "published": false,
+        "notes": [
+          "Unmodified production editor and real preset ComboBox on a native Linux component peer.",
+          "Component snapshots are not desktop framebuffer or Studio One screenshots.",
+          "No generated UI, pixel edits, sound parameter overrides or replacement test results.",
+          "A fixed 12 seconds of audio is processed with paced worker callbacks while UI messages are dispatched.",
+          "CPU fields are actual product observations; no reset, threshold-based waiting, suppression or retry is used.",
+          "Runner timing includes cold-start and scheduling effects; no audio interface or real-time driver is used, and this is not a benchmark.",
+          "This website evidence workflow does not run or replace the product acceptance gates.",
+          "The external CMake hook adds only the capture target; the product source checkout remains clean."
+        ]
+      },
+      "replacement_reason": "Fresh native artifact from the specified source and controller; original observations and all displayed PNG bytes are preserved without edits or an equality assumption about earlier captures."
+    }
+  ]
+}

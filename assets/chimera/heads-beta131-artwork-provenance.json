@@ -1,0 +1,271 @@
+{
+  "schema": 1,
+  "source_sha": "7b20cd9d1f90e3e2969c250712b199e893cf50cd",
+  "source_provenance": "Assets/Artwork/HeadShells/provenance.json",
+  "kind": "AI-created production enclosure artwork; not screenshots",
+  "copy_method": "Source PNG bytes inspected locally and hashed unchanged; no crops, resizing, cleanup or recompression",
+  "active_models": 25,
+  "retired_model_excluded": 16,
+  "images": [
+    {
+      "model_index": 0,
+      "name": "Glass",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-00.png",
+      "source_git_blob": "b829e896b95f9bb7511f950b0de42d0a9d32c883",
+      "sha256": "5aeb81a5d2fb725e04c1084ab04271c094183b88c71d3e7936f481631ed4e768",
+      "size_bytes": 2821428,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-00.png"
+    },
+    {
+      "model_index": 1,
+      "name": "Brit Edge",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-01.png",
+      "source_git_blob": "a7f15521f06f74e006a9de16d90452e7657ac817",
+      "sha256": "8715603b1eff5092026480e3baaf8ed7e8318a89ab69b358b0dc0afd1266075c",
+      "size_bytes": 2181327,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-01.png"
+    },
+    {
+      "model_index": 2,
+      "name": "Tight 515",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-02.png",
+      "source_git_blob": "e7389d111ca624a592471916e02fb6704fa774c1",
+      "sha256": "fcc564e82cc2a3f93194e2ca78945f9c20dd222b36e9dce87b736e1648184305",
+      "size_bytes": 2162742,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-02.png"
+    },
+    {
+      "model_index": 3,
+      "name": "Wide Rect",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-03.png",
+      "source_git_blob": "13e42c127faea6592f188edfe129db56fcf7d7fa",
+      "sha256": "5fdbbe32baf3f2561fb22f91fa08fe90a1ddf4fd8e6c870225981f1a2a800b3d",
+      "size_bytes": 2326189,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-03.png"
+    },
+    {
+      "model_index": 4,
+      "name": "Liquid Lead",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-04.png",
+      "source_git_blob": "016f07addb38ec91227851bf990d8e654581767c",
+      "sha256": "7fd7a821476868fab83e6f126a084053e75d8df8a50329381a43a18b4d2ac360",
+      "size_bytes": 1968583,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-04.png"
+    },
+    {
+      "model_index": 5,
+      "name": "Iron Tube",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-05.png",
+      "source_git_blob": "5ea23d436c9f790ffe6b5d14d3d328d6c0fe5188",
+      "sha256": "836363598f49c4529743287313ba758ed91b8e6fe75563effce74a18eb86f17e",
+      "size_bytes": 2287049,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-05.png"
+    },
+    {
+      "model_index": 6,
+      "name": "Solid Punch",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-06.png",
+      "source_git_blob": "e59c7a0f8b821dd457afdcb422bac7f1c172ec3d",
+      "sha256": "994b47bad382004ccde12be91cc0d4accb940a569944990c678ca6b959e497b5",
+      "size_bytes": 1508741,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-06.png"
+    },
+    {
+      "model_index": 7,
+      "name": "Modern Bass",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-07.png",
+      "source_git_blob": "4761806a330259479bece654178babbf52a6b874",
+      "sha256": "37dfaa1ddb8e3538c363867307dac6f9c9a4d5386e60c2a539edf5be1696ab00",
+      "size_bytes": 1406124,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-07.png"
+    },
+    {
+      "model_index": 8,
+      "name": "Chime 30",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-08.png",
+      "source_git_blob": "d8540e755639be54033c47ecdc00135e7be79053",
+      "sha256": "c2cad53c955e3dc71204681e44bd3bdd7bcf138334e8228ede7cbb056ca1e7b7",
+      "size_bytes": 2896807,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-08.png"
+    },
+    {
+      "model_index": 9,
+      "name": "Orange Crown",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-09.png",
+      "source_git_blob": "cfd67cd80e8756fa044b0b68885b9ebf61175cd6",
+      "sha256": "3da833a6e56d89568bfc013f2ce6d6c071504f0cef18d2e7e114f47e1eda02a3",
+      "size_bytes": 2932368,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-09.png"
+    },
+    {
+      "model_index": 10,
+      "name": "Vintage Valve",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-10.png",
+      "source_git_blob": "377b93938a397d50e132584fbdf6cbebb28211d8",
+      "sha256": "d1edbd0831b50dd9f50b857ea5e2bdc1448478c495c25f26853697b7e2d34f35",
+      "size_bytes": 1992434,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-10.png"
+    },
+    {
+      "model_index": 11,
+      "name": "Metro Clean",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-11.png",
+      "source_git_blob": "43dea1a21c5dbcc12f3aa1ddea5c6358f5444c21",
+      "sha256": "0e69e999f00a377e17b85fc2dda4db6d01df220ad0e2525ff4478997ff723066",
+      "size_bytes": 982659,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-11.png"
+    },
+    {
+      "model_index": 12,
+      "name": "Prism Chime",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-12.png",
+      "source_git_blob": "ec003d4f36199082e2e6d6e1c359b8e2bf27cd7e",
+      "sha256": "ab267d9e1b0587bf388202907d3b44e48059be1b9d741c30ec20bdf3c38a9be9",
+      "size_bytes": 3000788,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-12.png"
+    },
+    {
+      "model_index": 13,
+      "name": "Silk Lead",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-13.png",
+      "source_git_blob": "bc69542d22bb591701f726f2f753040433bfb8a9",
+      "sha256": "0ae18406f32023a16f26e805f41f7f0983701e5dc8e6120f0b5602b37c7648c1",
+      "size_bytes": 2338938,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-13.png"
+    },
+    {
+      "model_index": 14,
+      "name": "Taste Punch",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-14.png",
+      "source_git_blob": "2d89a54022d4b645ac6b35bbf8f516d6df2df9d0",
+      "sha256": "d85744042227a48695c4433e252a5be079e35bef8406063294557a63d73450ef",
+      "size_bytes": 825128,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-14.png"
+    },
+    {
+      "model_index": 15,
+      "name": "Cinder 120",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-15.png",
+      "source_git_blob": "ee883180ab45d4a18164f87c4d2fac437258312d",
+      "sha256": "fbf7e9d13184b2c100a3b382a0e14be94ef04b0eabd1477236fbcc8b1f55d9c1",
+      "size_bytes": 2258583,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-15.png"
+    },
+    {
+      "model_index": 17,
+      "name": "Fourfold",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-17.png",
+      "source_git_blob": "9a50f6a5935b882379ac654ea3691d6f044fd61a",
+      "sha256": "0c676731f4bd7d6f219de60ceced505b4f475607c7e4795394fcfc03356ef300",
+      "size_bytes": 2272478,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-17.png"
+    },
+    {
+      "model_index": 18,
+      "name": "Classic Tube",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-18.png",
+      "source_git_blob": "75aa0189a3059c91ee67930e8053f7e2bc31f629",
+      "sha256": "1b010c2b664f9ed43a198c65e3b85a256023c2ebac0aa55e17daaf6cf50dbec2",
+      "size_bytes": 2130470,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-18.png"
+    },
+    {
+      "model_index": 19,
+      "name": "Monolith",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-19.png",
+      "source_git_blob": "8f3fd2dab10db6073c3842637c668978482be22f",
+      "sha256": "db0fcf8cad4d11fb45287e8245744146dfc337157ba979226f687d55c763a3c0",
+      "size_bytes": 2316273,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-19.png"
+    },
+    {
+      "model_index": 20,
+      "name": "Night Harvest",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-20.png",
+      "source_git_blob": "ca5352207d5c59f07b08eee24b5db7eb693a923f",
+      "sha256": "9c0bb713ce1291f9f3c17e25021cab206c5d5c9eb6ba5a80520cfad67d0cb15a",
+      "size_bytes": 1343450,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-20.png"
+    },
+    {
+      "model_index": 21,
+      "name": "Hot Lead",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-21.png",
+      "source_git_blob": "b4e670840c733effc9605128deb12ecc8b6f930d",
+      "sha256": "98e68405a61e79a475b50f16b4dcd151f4b80d9ee57df44b3b8f5ade85576f9e",
+      "size_bytes": 1432906,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-21.png"
+    },
+    {
+      "model_index": 22,
+      "name": "Blue Storm",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-22.png",
+      "source_git_blob": "c30bd157a98b84dd8e1e0af903e808e9e16f8d29",
+      "sha256": "2530f33825a8fdc58396a1f44a4fff3a399cb47e466697bbe9e708b633dccf28",
+      "size_bytes": 1523968,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-22.png"
+    },
+    {
+      "model_index": 23,
+      "name": "Special Edition",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-23.png",
+      "source_git_blob": "4ffe79f99d9d5e2d8b5d761251364bf7199f104b",
+      "sha256": "96613c58aec73894c51ec11a5ce7c1869a932cb7af0acfb7fb3674c259606b3e",
+      "size_bytes": 2018969,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-23.png"
+    },
+    {
+      "model_index": 24,
+      "name": "Náströnd",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-24.png",
+      "source_git_blob": "4dd44a51ac44f1272271519f5c458630ff4d656e",
+      "sha256": "f066b27412641ca6d4ae92d7630ae8514cb3704765c6774bcd40017b96655173",
+      "size_bytes": 2721222,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-24.png"
+    },
+    {
+      "model_index": 25,
+      "name": "Niflheimr",
+      "source_path": "Assets/Artwork/HeadShells/head-shell-25.png",
+      "source_git_blob": "b1f53a9d567fb0cfe0dd3d3f9a9b38bdf966ce80",
+      "sha256": "7c9ee0f7ace49f4d8c8b1c4a0c837c2655302442539d7205e0fae83d3280d42a",
+      "size_bytes": 2525373,
+      "pixel_edits": false,
+      "website_url": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-25.png"
+    }
+  ],
+  "delivery": "Unmodified production PNGs served from immutable full-source-SHA raw URLs; no duplicate website binaries",
+  "previous_source_sha": "781d03dd49bba51d6cfa7b1c6a0ec8d9e75a0333",
+  "source_update_note": "Production artwork bytes and source blobs were independently read from this commit. Changed artwork, if any, is listed in the source audit for visual review. These are artwork assets, not native captures.",
+  "source_history": [
+    "2bbb6554d514e6086c8f723f9ec52eba751a98a6",
+    "2b41386129290d7ad82034bc97ea53608fdc058e",
+    "079352aaf9f94c715a3533a06afa0b7a88ba30ce",
+    "7c782fda9e2d7cb255e70b6d1d1857fc78300c46",
+    "781d03dd49bba51d6cfa7b1c6a0ec8d9e75a0333"
+  ]
+}

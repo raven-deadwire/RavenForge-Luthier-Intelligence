@@ -2,7 +2,7 @@
 
 This manual-only workflow produces website illustration evidence from the
 unchanged Chimera product source
-`7c782fda9e2d7cb255e70b6d1d1857fc78300c46`. It does not publish images, update
+`7b20cd9d1f90e3e2969c250712b199e893cf50cd`. It does not publish images, update
 the website, run product acceptance, merge product changes or create a release.
 
 The product is checked out clean at the full SHA. An external CMake hook adds
@@ -29,10 +29,13 @@ deadlines are recorded and rebased rather than followed by a catch-up burst.
 This is host-like callback pacing on an ordinary runner thread, with no audio
 interface or real-time driver; CPU readings are incidental, not benchmarks.
 
-The original 80-block capture covered only 0.427 seconds of audio. The product
-updates its peak meter as `max(callbackLoad, previousPeak * exp(-blockSeconds))`,
-so its first-callback cold-start peak remained visible. There is no user-facing
-CPU-peak reset. Idle wall-time waiting does not advance this meter's decay.
+The original 80-block capture covered only 0.427 seconds of audio, leaving
+little time for startup meter smoothing. Its Classic image reads CPU 4.4% and
+PK 27.5%; an initial visual reading of PK 4427.5% was incorrect. The product
+updates its peak as `max(callbackLoad, previousPeak * exp(-blockSeconds))` and
+its average with the same audio-time decay. There is no user-facing CPU-peak
+reset. Idle wall-time waiting does not advance these meters. The fixed interval
+improves the capture conditions; it is not evidence of a product CPU-spike fix.
 The new fixed interval lets the unchanged product meter settle naturally while
 processing real callbacks. No metric is assigned, reset, hidden, clamped or used
 as a capture threshold; the native image is captured after the fixed interval

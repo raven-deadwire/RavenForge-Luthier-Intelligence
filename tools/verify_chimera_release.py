@@ -63,6 +63,32 @@ def product_markup(root):
     return match.group(0)
 
 
+def validate_native_preset_observations(lock, rigs):
+    capture = rigs["capture_provenance"]
+    require(rigs["source_sha"] == capture["source_sha"]
+            == capture["compiled_version"]["source_sha"] == lock["source_sha"]
+            and rigs["release_version"] == capture["compiled_version"]["version"] == lock["version"]
+            and rigs["controller_source_sha"] == capture["controller_source_sha"]
+            and rigs["run_url"] == capture["run_url"]
+            and capture["product_checkout_clean"] is True
+            and capture["capture"]["parameter_overrides"] == [], "Native preset source identity differs")
+    observations = capture["capture"]["images"]
+    observed = {record["file"]: record for record in observations}
+    require(len(observed) == len(observations) == len(rigs["images"])
+            and {record["artifact_path"] for record in rigs["images"]} == set(observed),
+            "Capture report preset inventory differs")
+    for record in rigs["images"]:
+        artifact_path = record["artifact_path"]
+        require(record["file"] == "assets/chimera/" + artifact_path,
+                "Native preset website path differs: " + artifact_path)
+        # The website adds only its path prefix and the original artifact path.
+        # Preserve every other observed field, including nested amp/timing data.
+        original = {key: value for key, value in record.items() if key != "artifact_path"}
+        original["file"] = artifact_path
+        require(original == observed[artifact_path],
+                "Native preset observation differs from capture: " + artifact_path)
+
+
 def validate_local(lock, inventory, root=ROOT):
     require(lock.get("schema") == 1 and re.fullmatch(r"[0-9a-f]{40}", lock.get("source_sha", "")), "Invalid source lock")
     require(lock["tag"] == "v" + lock["version"], "Tag/version mismatch")
@@ -73,6 +99,70 @@ def validate_local(lock, inventory, root=ROOT):
                 f"Content changed since source review; re-audit and update lock: {file}")
     require(hashlib.sha256(product_markup(root)).hexdigest() == lock["product_markup_sha256"],
             "Product markup changed since source review")
+    # Keep raw production artwork distinct from actual native UI evidence.
+    for name, expected_kind in [
+        ("heads-beta131-artwork-provenance.json", "artwork"),
+        ("heads-beta131-native-provenance.json", "native")
+    ]:
+        provenance_path = "assets/chimera/" + name
+        require(provenance_path in lock["reviewed_files"], "Unreviewed head image provenance")
+        provenance = json.loads((root / provenance_path).read_text())
+        require(provenance["source_sha"] == lock["source_sha"], "Head images have a different source")
+        records = provenance["images"]
+        require(len(records) == (25 if expected_kind == "artwork" else 3), "Incomplete head image evidence")
+        if expected_kind == "artwork":
+            require({record["model_index"] for record in records} == set(range(26)) - {16},
+                    "Artwork must cover every active amp exactly once")
+        else:
+            require({record["file"] for record in records} == {
+                "assets/chimera/head-brit-edge-beta131.png",
+                "assets/chimera/head-niflheimr-beta131.png",
+                "assets/chimera/head-nastrond-beta131.png"}, "Unexpected native head evidence")
+        for record in records:
+            require(record["pixel_edits"] is False, "Head image has unreviewed pixel edits")
+            if expected_kind == "artwork":
+                path = record["source_path"]
+                require(record["website_url"] == RAW + lock["source_sha"] + "/" + path
+                        and lock["source_files"].get(path) == record["source_git_blob"]
+                        and lock["images"].get(path) == record["source_git_blob"],
+                        "Head artwork URL is not the locked unchanged production PNG")
+                require(re.fullmatch(r"[0-9a-f]{64}", record["sha256"]) and record["size_bytes"] > 0,
+                        "Missing inspected source artwork digest")
+            else:
+                filename = record["file"]
+                contents = (root / filename).read_bytes()
+                require(len(contents) == record["size_bytes"]
+                        and hashlib.sha256(contents).hexdigest() == record["sha256"]
+                        and lock["reviewed_files"].get(filename) == record["sha256"],
+                        "Head image bytes differ from reviewed evidence: " + filename)
+    rig_provenance_path = "assets/chimera/rigs-beta131-native-provenance.json"
+    require(rig_provenance_path in lock["reviewed_files"], "Unreviewed native preset provenance")
+    rigs = json.loads((root / rig_provenance_path).read_text())
+    validate_native_preset_observations(lock, rigs)
+    expected_rigs = {
+        "rigs-classic-crunch-beta131.png": (7, "Classic Crunch", 0, [1]),
+        "rigs-dual-wrath-beta131.png": (35, "Feel My Wrath", 1, [17, 2]),
+        "rigs-matrix-crom-cruach-beta131.png": (31, "Crom Cruach", 2, [14, 7, 2]),
+    }
+    require(len(rigs["images"]) == 3 and {record["artifact_path"] for record in rigs["images"]} == set(expected_rigs),
+            "Incomplete native preset evidence")
+    for record in rigs["images"]:
+        settling = record["audio_settling"]
+        require(settling["policy"] == "fixed 2250 paced callbacks; no CPU threshold, reset or retry"
+                and settling["audio_thread"] is True and settling["blocks"] == 2250
+                and settling["processed_audio_seconds"] == 12.0 and settling["wall_seconds"] >= 11.99,
+                "Native presets require the reviewed fixed audio settling interval")
+        filename = record["file"]
+        contents = (root / filename).read_bytes()
+        require(filename == "assets/chimera/" + record["artifact_path"]
+                and (record["preset_index"], record["preset"], record["mode"],
+                     [amp["model_index"] for amp in record["amps"]]) == expected_rigs[record["artifact_path"]]
+                and record["native_peer"] is True and record["pixel_edits"] is False
+                and (record["width"], record["height"]) == (1180, 780)
+                and len(contents) == record["size_bytes"]
+                and hashlib.sha256(contents).hexdigest() == record["sha256"]
+                and lock["reviewed_files"].get(filename) == record["sha256"],
+                "Native preset PNG differs from reviewed evidence: " + filename)
     download = WEB + "/releases/download/" + lock["tag"] + "/"
     image_prefix = RAW + lock["source_sha"] + "/"
     linked_assets, images = set(), set()
@@ -209,12 +299,19 @@ def validate_public(lock):
             {RAW + ref["sha"] + "/Assets/Artwork/", RAW + lock["tag"] + "/Assets/Artwork/"},
             "Published manual artwork must be pinned to the released source or tag")
 
+    artwork = json.loads((ROOT / "assets/chimera/heads-beta131-artwork-provenance.json").read_text())
+    inspected_artwork = {record["source_path"]: record for record in artwork["images"]}
+
     def verify_image(item):
         path, digest = item
         body, headers = fetch(RAW + ref["sha"] + "/" + path)
         headers = {k.lower(): v for k, v in headers.items()}
         require(headers.get("content-type", "").startswith("image/") and blob_sha(body) == digest,
                 f"Image bytes do not match released source: {path}")
+        if path in inspected_artwork:
+            record = inspected_artwork[path]
+            require(len(body) == record["size_bytes"] and hashlib.sha256(body).hexdigest() == record["sha256"],
+                    "Head artwork differs from inspected source bytes: " + path)
     with ThreadPoolExecutor(max_workers=6) as pool:
         list(pool.map(verify_image, lock["images"].items()))
     return {"tag": lock["tag"], "source_sha": ref["sha"], "release_id": release["id"], "published_at": release["published_at"],

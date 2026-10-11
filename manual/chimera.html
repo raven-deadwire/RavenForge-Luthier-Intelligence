@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SpectralForge Chimera — Open Beta 1.3.0 Manual</title>
+<title>SpectralForge Chimera — Open Beta 1.3.1 Manual</title>
 <style>
 :root{color-scheme:dark;--bg:#0d1115;--panel:#171d23;--panel2:#202831;--fg:#edf1f4;--muted:#aeb9c2;--line:#34414c;--gold:#d9bd7d;--blue:#a9d2e8;--warn:#e5bc75}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.68 system-ui,-apple-system,"Segoe UI","Noto Sans KR",sans-serif}
@@ -27,18 +27,18 @@ footer{border-top:1px solid var(--line);margin-top:58px;padding-top:22px;color:v
 </style>
 </head>
 <body><main>
-<header><div class="topbar"><div><div class="eyebrow">SPECTRALFORGE · RAVENFORGE LUTHIER INTELLIGENCE</div><h1>CHIMERA</h1><p class="lead" data-k="subtitle"></p><p class="small">Open Beta 1.3.0 · <code>1.3.0-beta.1</code> · <span data-k="counts"></span></p></div>
+<header><div class="topbar"><div><div class="eyebrow">SPECTRALFORGE · RAVENFORGE LUTHIER INTELLIGENCE</div><h1>CHIMERA</h1><p class="lead" data-k="subtitle"></p><p class="small">Open Beta 1.3.1 · <code>1.3.1-beta.1</code> · <span data-k="counts"></span></p></div>
 <div class="languages" aria-label="Language"><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="de">DE</button><button class="lang-btn" data-lang="ko">KR</button></div></div></header>
 <nav><a href="#quick" data-k="navQuick"></a><a href="#install" data-x="navInstall"></a><a href="#operation" data-x="navOperation"></a><a href="#signal" data-k="navSignal"></a><a href="#compare" data-k="navCompare"></a><a href="#pre" data-k="navPre"></a><a href="#amps" data-k="navAmp"></a><a href="#post" data-k="navPost"></a><a href="#ir" data-k="navIr"></a><a href="#workflows" data-k="navWorkflow"></a><a href="#preset" data-k="navPreset"></a><a href="#global" data-k="navGlobal"></a><a href="#host" data-x="navHost"></a><a href="#diag" data-k="navDiag"></a><a href="#limits" data-k="navLimits"></a></nav>
 <p class="note" data-k="referenceNote"></p>
 <section id="release13"><h2 id="release13Title"></h2><div id="release13Body"></div></section>
 <section id="quick"><h2 data-k="quickTitle"></h2><div id="quickBody"></div></section>
 <section id="install"><h2 data-x="installTitle"></h2><div id="installBody"></div><h3 data-x="requirementsTitle"></h3><p class="section-intro" data-x="requirementsNote"></p><div id="requirementsBody"></div><h3 data-x="performanceTitle"></h3><div id="performanceBody"></div><p class="tip" data-x="performanceTip"></p></section>
-<section id="operation"><h2 data-x="operationTitle"></h2><p class="section-intro" data-x="operationIntro"></p><h3 data-x="boardTitle"></h3><div id="boardBody"></div><h3 data-x="stateTitle"></h3><div id="stateBody"></div><h3 data-x="supportTitle"></h3><div id="supportBody"></div></section>
-<section id="signal"><h2 data-k="signalTitle"></h2><p class="flow">INPUT → Gate / Transpose → 5-slot PRE → Rig(s) + Cabinet/IR → Merge → POST Gate → POST Rack → Doubler → OUTPUT</p><div id="modeTable"></div></section>
+<section id="operation"><h2 data-x="operationTitle"></h2><p class="section-intro" data-x="operationIntro"></p><h3 data-x="boardTitle"></h3><div id="boardBody"></div><h3 data-x="stateTitle"></h3><div id="stateBody"></div><h3 data-x="supportTitle"></h3><div id="supportBody"></div><h3 id="headControlTitle"></h3><div id="headControlBody"></div></section>
+<section id="signal"><h2 data-k="signalTitle"></h2><p class="flow">INPUT → Gate / Transpose → 5-slot PRE → Rig(s) + Cabinet/IR → Merge → POST Gate → TONE EQ → POST Rack → Doubler / Click → FINAL EQ → Output trim / Tuner mute</p><div id="modeTable"></div><h3 id="signalNavigationTitle"></h3><div id="signalNavigationBody"></div><h3 id="graphicalEQTitle"></h3><div id="graphicalEQBody"></div></section>
 <section id="compare"><h2 data-k="compareTitle"></h2><p class="section-intro" data-k="compareIntro"></p><h3 data-k="preFamilyTitle"></h3><div id="preFamilyTable"></div><h3 data-k="ampFamilyTitle"></h3><div id="ampFamilyTable"></div><h3 data-k="postFamilyTitle"></h3><div id="postFamilyTable"></div><h3 data-k="stageTitle"></h3><div id="stageTable"></div></section>
 <section id="pre"><h2 data-k="preTitle"></h2><p class="section-intro" data-k="preIntro"></p><div id="preModels"></div></section>
-<section id="amps"><h2 data-k="ampTitle"></h2><p class="section-intro" data-k="ampIntro"></p><div id="ampModels"></div><h3 data-x="ampRouteTitle"></h3><div id="ampRouteBody"></div></section>
+<section id="amps"><h2 data-k="ampTitle"></h2><p class="section-intro" data-k="ampIntro"></p><p class="small" id="headArtworkNote"></p><div id="ampModels"></div><h3 data-x="ampRouteTitle"></h3><div id="ampRouteBody"></div></section>
 <section id="post"><h2 data-k="postTitle"></h2><p class="flow">BUS COMP → PREAMP → EQ → MODULATION → DELAY → REVERB</p><p class="section-intro" data-k="postIntro"></p><div id="postModels"></div></section>
 <section id="ir"><h2 data-k="irTitle"></h2><div id="irBody"></div><h3 data-x="irLibraryTitle"></h3><div id="irDetailBody"></div><h3 data-x="irCreditsTitle"></h3><div id="irCreditsBody"></div></section>
 <section id="workflows"><h2 data-k="workflowTitle"></h2><div id="workflowBody" class="workflow-grid"></div></section>
@@ -46,15 +46,45 @@ footer{border-top:1px solid var(--line);margin-top:58px;padding-top:22px;color:v
 <section id="nastrond"><h2>Náströnd</h2><div id="nastrondBody"></div></section>
 <section id="candidate111"><h2>Guitar signatures</h2><div id="candidate111Body"></div></section>
 <section id="global"><h2 data-k="globalTitle"></h2><div id="globalBody"></div></section>
-<section id="host"><h2 data-x="hostTitle"></h2><p class="section-intro" data-x="hostIntro"></p><h3 data-x="hostCheckTitle"></h3><div id="hostCheckBody"></div><h3 data-x="updateTitle"></h3><div id="updateBody"></div><h3 data-x="bugTitle"></h3><div id="bugBody"></div></section>
+<section id="host"><h2 data-x="hostTitle"></h2><p class="section-intro" data-x="hostIntro"></p><h3 data-x="hostCheckTitle"></h3><div id="hostCheckBody"></div><h3 data-x="updateTitle"></h3><div id="updateBody"></div><p><a id="productDownloadLink" href="../index.html#chimera"></a></p><h3 data-x="bugTitle"></h3><div id="bugBody"></div></section>
 <section id="diag"><h2 data-k="diagTitle"></h2><div id="diagBody"></div></section>
 <section id="limits"><h2 data-k="limitsTitle"></h2><div id="limitsBody"></div></section>
-<footer><p>SpectralForge Chimera · Open Beta 1.3.0 · <code>1.3.0-beta.1</code><br>Copyright © 2026 RavenForge Luthier Intelligence. All rights reserved.<br><span data-k="footer"></span></p></footer>
+<footer><p>SpectralForge Chimera · Open Beta 1.3.1 · <code>1.3.1-beta.1</code><br>Copyright © 2026 RavenForge Luthier Intelligence. All rights reserved.<br><span data-k="footer"></span></p></footer>
 </main>
 <script>
 (function(){
 'use strict';
-const ASSET='https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7f692693f942a0f1dd1973062dc4d5d47b9be4ac/Assets/Artwork/';
+const ASSET='https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/';
+const HEAD_ARTWORK={
+  "aglass.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-00.png",
+  "abrit.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-01.png",
+  "a515.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-02.png",
+  "arect.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-03.png",
+  "amark.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-04.png",
+  "asvt.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-05.png",
+  "agk.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-06.png",
+  "ahybrid.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-07.png",
+  "achim30.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-08.png",
+  "aorange.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-09.png",
+  "abassman.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-10.png",
+  "asubway.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-11.png",
+  "amatchless.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-12.png",
+  "adumble.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-13.png",
+  "aeich.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-14.png",
+  "acinder.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-15.png",
+  "afourfold.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-17.png",
+  "aclassictube.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-18.png",
+  "amonolith.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-19.png",
+  "anightharvest.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-20.png",
+  "ahotlead.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-21.png",
+  "abluestorm.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-22.png",
+  "aspecialedition.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-23.png",
+  "anastrond.png": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-24.png",
+  "aniflheimr.png": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/7b20cd9d1f90e3e2969c250712b199e893cf50cd/Assets/Artwork/HeadShells/head-shell-25.png"
+};
+function imageSource(file){return HEAD_ARTWORK[file] || ASSET+encodeURIComponent(file).replace(/%2F/g,'/');}
+function imageAlt(file,name){return name+(HEAD_ARTWORK[file]?' · '+({en:'Head enclosure artwork',ko:'헤드 외장 아트워크',de:'Amp-Gehäuse-Artwork'}[lang]):'');}
+const HEAD_ARTWORK_NOTE={en:'Amp images show production enclosure artwork. Actual control screens appear on the product page.',ko:'앰프 이미지는 제품에 사용하는 헤드 외장 아트워크입니다. 실제 조작 화면은 상품 페이지에서 볼 수 있습니다.',de:'Die Amp-Bilder zeigen das Gehäuse-Artwork des Produkts. Die tatsächlichen Bedienoberflächen stehen auf der Produktseite.'};
 const L={
 en:{
 subtitle:'Detailed user manual · Guitar & bass amp matrix / effects suite',counts:'25 active amp models · 39 PRE models · 21 POST models = 85 models · 48 factory & signature presets',
@@ -168,7 +198,7 @@ requirements:[
 ['Display','The editor is 1180 × 780 at 100%. 75% mode is approximately 885 × 585; 1280 × 800 or larger is a practical minimum display recommendation, with 1920 × 1080 or larger preferred.'],
 ['Memory','No certified hard RAM minimum has been established. 8 GB system RAM is a practical baseline; 16 GB or more is recommended for normal DAW projects, multiple Chimera instances and large sample-based sessions.'],
 ['CPU recommendation','A modern 64-bit CPU with strong single-core performance and 4 or more cores is a practical baseline. 6–8 or more cores provide more session headroom for multiple plugin instances; macOS Intel remains supported, while Apple Silicon generally offers more real-time headroom.'],
-['Storage','Open Beta 1.3.0 installer sizes are listed on the release download page. Keep additional free space for installation, update copies, user IRs and DAW projects; 500 MB free beyond the installer is a practical minimum reserve.'],
+['Storage','Open Beta 1.3.1 installer sizes are listed on the release download page. Keep additional free space for installation, update copies, user IRs and DAW projects; 500 MB free beyond the installer is a practical minimum reserve.'],
 ['Audio I/O','For live guitar/bass/vocal input, use an audio interface or system audio device with a stable low-latency driver/API. Physical microphone gain and +48 V remain functions of the interface, not Chimera.']
 ],
 performance:[
@@ -273,6 +303,7 @@ hostChecks:[
 updates:[
 ['Hosted VST3/AU','CHECK FOR UPDATES opens the official Releases page in the browser. The plugin host does not own a background updater.'],
 ['Standalone','Can check the official beta channel and explicitly download a compatible installer. Downloads are limited and verified against the release manifest by exact size and SHA-256.'],
+["1.3.1-preview → 1.3.1-beta.1", "Using 1.3.1-preview? Download and install 1.3.1-beta.1 manually from the Chimera product page: that preview may not identify beta.1 as a newer update. Earlier beta users can also use the product page installers. Close Chimera and all DAWs before installation."],
 ['Automatic checks','Off by default. If opted in, Standalone checks at most once per 24 hours per saved settings file. A manual check is still available.'],
 ['Privacy','No additional telemetry is sent. GitHub receives normal connection information such as IP address and the Chimera product/version user-agent when a check is made.'],
 ['Installation','Chimera never silently replaces a loaded plugin or launches the installer. SHOW INSTALLER reveals the verified file; close all DAWs and Standalone before running it. SHA-256 verification is not a substitute for publisher code signing/notarization.']
@@ -305,7 +336,7 @@ requirements:[
 ['Display','Editorgröße bei 100 %: 1180 × 780. Bei 75 % etwa 885 × 585. Praktisch mindestens 1280 × 800, bevorzugt 1920 × 1080 oder größer.'],
 ['Arbeitsspeicher','Kein zertifiziertes hartes RAM-Minimum. 8 GB sind eine praktische Basis; 16 GB oder mehr werden für normale DAW-Projekte, mehrere Chimera-Instanzen und große Sample-Sessions empfohlen.'],
 ['CPU-Empfehlung','Moderner 64-Bit-Prozessor mit guter Single-Core-Leistung und mindestens 4 Kernen als praktische Basis. 6–8 oder mehr Kerne bieten mehr Reserve für mehrere Instanzen; Intel-macOS bleibt unterstützt, Apple Silicon bietet in der Regel mehr Echtzeitreserve.'],
-['Speicherplatz','Die Downloadgrößen von Open Beta 1.3.0 stehen auf der Release-Seite. Zusätzlich Platz für Installation, Updates, User-IRs und Projekte vorsehen; 500 MB Reserve über den Installer hinaus sind ein praktischer Mindestpuffer.'],
+['Speicherplatz','Die Downloadgrößen von Open Beta 1.3.1 stehen auf der Release-Seite. Zusätzlich Platz für Installation, Updates, User-IRs und Projekte vorsehen; 500 MB Reserve über den Installer hinaus sind ein praktischer Mindestpuffer.'],
 ['Audio-I/O','Für Live-Gitarre/Bass/Vocal ein Audiointerface oder System-Audiogerät mit stabilem Low-Latency-Treiber/API verwenden. Physischer Mic-Gain und +48 V gehören zum Interface, nicht zu Chimera.']
 ],
 performance:[
@@ -410,6 +441,7 @@ hostChecks:[
 updates:[
 ['Hosted VST3/AU','CHECK FOR UPDATES öffnet die offizielle Releases-Seite. Der Host besitzt keinen Background-Updater.'],
 ['Standalone','Kann den offiziellen Beta-Kanal prüfen und nach Bestätigung einen kompatiblen Installer laden. Größe und SHA-256 werden gegen das Manifest geprüft.'],
+["1.3.1-preview → 1.3.1-beta.1", "Bei 1.3.1-preview bitte 1.3.1-beta.1 auf der Chimera-Produktseite manuell herunterladen und installieren: Diese Preview erkennt beta.1 möglicherweise nicht als neueres Update. Auch ältere Betas lassen sich mit den Installern auf der Produktseite aktualisieren. Vorher Chimera und alle DAWs schließen."],
 ['Automatische Checks','Standardmäßig aus. Nach Opt-in höchstens einmal pro 24 Stunden pro Settings-Datei; manueller Check bleibt möglich.'],
 ['Datenschutz','Keine zusätzliche Telemetrie. Bei einem Check erhält GitHub übliche Verbindungsdaten wie IP und Chimera-Produkt/Versions-User-Agent.'],
 ['Installation','Kein stiller Austausch geladener Plugins, kein automatischer Installerstart. SHOW INSTALLER zeigt die verifizierte Datei; vorher DAWs und Standalone schließen. SHA-256 ersetzt keine Code-Signatur/Notarisierung.']
@@ -442,7 +474,7 @@ requirements:[
 ['화면','100% UI는 1180 × 780, 75%는 약 885 × 585입니다. 실사용 기준 최소 1280 × 800 정도를 권장하고, 1920 × 1080 이상이면 가장 편합니다.'],
 ['메모리','공식적으로 인증된 최소 RAM은 아직 정하지 않았습니다. 시스템 RAM 8 GB를 실사용 기준선으로 보고, 일반 DAW 프로젝트·다중 Chimera 인스턴스·샘플 기반 작업에는 16 GB 이상을 권장합니다.'],
 ['CPU 권장','강한 single-core 성능을 가진 현대적인 64-bit CPU와 4코어 이상을 실사용 기준선으로 봅니다. 여러 Chimera 인스턴스를 사용할 경우 6–8코어 이상이 유리합니다. macOS Intel도 지원하지만 실시간 여유는 대체로 Apple Silicon 쪽이 더 큽니다.'],
-['저장공간','Open Beta 1.3.0 다운로드 크기는 릴리즈 페이지의 파일별 표시를 확인하세요. 설치·업데이트 복사본·User IR·DAW 프로젝트를 위해 installer 외에 최소 약 500 MB 이상의 여유 공간을 두는 것을 권장합니다.'],
+['저장공간','Open Beta 1.3.1 다운로드 크기는 릴리즈 페이지의 파일별 표시를 확인하세요. 설치·업데이트 복사본·User IR·DAW 프로젝트를 위해 installer 외에 최소 약 500 MB 이상의 여유 공간을 두는 것을 권장합니다.'],
 ['오디오 I/O','기타·베이스·보컬을 실시간 입력하려면 안정적인 저지연 드라이버/API를 지원하는 오디오 인터페이스 또는 시스템 오디오 장치를 사용합니다. 실제 마이크 게인과 +48 V는 Chimera가 아니라 인터페이스가 담당합니다.']
 ],
 performance:[
@@ -547,6 +579,7 @@ hostChecks:[
 updates:[
 ['Hosted VST3/AU','CHECK FOR UPDATES는 공식 GitHub Releases 페이지를 브라우저로 엽니다. DAW 호스트 안에서는 background updater를 만들지 않습니다.'],
 ['Standalone','공식 beta channel을 확인하고 사용자가 명시적으로 요청하면 호환 installer를 다운로드합니다. 파일 크기와 SHA-256을 release manifest와 대조합니다.'],
+["1.3.1-preview → 1.3.1-beta.1", "1.3.1-preview 사용자는 Chimera 상품 페이지에서 1.3.1-beta.1을 직접 내려받아 설치해 주세요. 해당 프리뷰는 beta.1을 새 업데이트로 표시하지 않을 수 있습니다. 이전 베타도 상품 페이지의 설치 파일로 업데이트할 수 있습니다. 설치 전 Chimera와 모든 DAW를 종료하세요."],
 ['자동 확인','기본값은 OFF입니다. 사용자가 opt-in하면 settings file 기준 최대 24시간에 한 번 확인하며 수동 check는 언제든 가능합니다.'],
 ['개인정보','추가 telemetry는 없습니다. 업데이트 확인을 하면 GitHub에는 일반적인 연결 IP와 Chimera product/version user-agent가 전달됩니다.'],
 ['설치','로드된 플러그인을 자동 교체하거나 installer를 자동 실행하지 않습니다. SHOW INSTALLER는 검증 파일 위치만 열며 실행 전 모든 DAW와 Standalone을 종료해야 합니다. SHA-256 검증은 publisher code signing/notarization을 대체하지 않습니다.']
@@ -1264,7 +1297,7 @@ function renderModels(target,data){
  document.querySelector(target).innerHTML=groups.map(g=>{
    const rows=data.filter(x=>x[0]===g);
    return '<div class="model-group"><h3>'+esc(g)+' <span class="group-count">· '+rows.length+'</span></h3><div class="model-grid">'+rows.map(x=>
-   '<article class="model-card">'+(x[3]?'<img loading="lazy" decoding="async" src="'+ASSET+encodeURIComponent(x[3]).replace(/%2F/g,'/')+'" alt="'+esc(x[1])+'">':'<div style="height:110px;display:grid;place-content:center;background:#202522;color:#b9cbb7;text-align:center;letter-spacing:3px">NÁSTRÖND<br><small>SPECTRALFORGE ORIGINAL</small></div>')+'<div><h4>'+esc(x[1])+'</h4><dl>'+
+   '<article class="model-card">'+(x[3]?'<img loading="lazy" decoding="async" src="'+imageSource(x[3])+'" alt="'+esc(imageAlt(x[3],x[1]))+'">':'<div style="height:110px;display:grid;place-content:center;background:#202522;color:#b9cbb7;text-align:center;letter-spacing:3px">NÁSTRÖND<br><small>SPECTRALFORGE ORIGINAL</small></div>')+'<div><h4>'+esc(x[1])+'</h4><dl>'+
    '<dt>'+esc(L[lang].labels.role)+'</dt><dd>'+esc(loc(x[4]))+'</dd>'+
    '<dt>'+esc(L[lang].labels.character)+'</dt><dd>'+esc(loc(x[5]))+'</dd>'+
    '<dt>'+esc(L[lang].labels.use)+'</dt><dd>'+esc(loc(x[6]))+'</dd>'+
@@ -1618,33 +1651,208 @@ const RELEASE13={
   "en": {
     "title": "1.3 · CAB expansion and Original bass rigs",
     "items": [
-      "Version 1.3.0-beta.1 provides 25 active amps, 39 PRE models and 21 POST models: 85 models across those sections. The preset bank contains 48 entries: 31 Factory, 3 Bass Signature, 4 Guitar Signature, 5 Náströnd and 5 Niflheimr rigs.",
+      "Version 1.3.1-beta.1 provides 25 active amps, 39 PRE models and 21 POST models: 85 models across those sections. The preset bank contains 48 entries: 31 Factory, 3 Bass Signature, 4 Guitar Signature, 5 Náströnd and 5 Niflheimr rigs.",
       "CABINET offers 14 speaker designs (8 guitar, 6 bass), 20 microphones (9 dynamic, 3 ribbon, 8 condenser), Chimera HF plus three additional tweeter designs (Silk HF, Metal HF and Air HF) and 9 explicit layouts. Select a compatible cabinet/speaker pair, then choose Mic A/B and their target units independently.",
       "Dual and Matrix show the active rigs together; select a cabinet to work on it in detail. All hardware retains one shared physical scale. Matrix LOW blends DI with AMP+CAB, while the cabinet Mic A/B blend controls the two captures.",
-      "Niflheimr adds five bass channels with 14 controls: Hrímfaxi, Garmr, Nidavellir, Ymir and Hel. Use the amplifier control panel to edit the head and the CAB panel to edit its speakers and microphones."
+      "Niflheimr provides five bass channels with 14 directly adjustable head controls: Hrímfaxi, Garmr, Nidavellir, Ymir and Hel. Select the head to edit the amp, or the cabinet to edit speakers and microphones."
     ]
   },
   "de": {
     "title": "1.3 · CAB-Erweiterung und Original-Bass-Rigs",
     "items": [
-      "Version 1.3.0-beta.1 bietet 25 aktive Amps, 39 PRE- und 21 POST-Modelle: insgesamt 85 Modelle in diesen Bereichen. Die Preset-Bank enthält 48 Einträge: 31 Factory-, 3 Bass-Signature-, 4 Guitar-Signature-, 5 Náströnd- und 5 Niflheimr-Rigs.",
+      "Version 1.3.1-beta.1 bietet 25 aktive Amps, 39 PRE- und 21 POST-Modelle: insgesamt 85 Modelle in diesen Bereichen. Die Preset-Bank enthält 48 Einträge: 31 Factory-, 3 Bass-Signature-, 4 Guitar-Signature-, 5 Náströnd- und 5 Niflheimr-Rigs.",
       "CABINET bietet 14 Lautsprechermodelle (8 Gitarre, 6 Bass), 20 Mikrofone (9 dynamische, 3 Bändchen, 8 Kondensatormikrofone), Chimera HF mit drei weiteren Hochtönerdesigns (Silk HF, Metal HF und Air HF) und 9 konkrete Anordnungen. Zuerst eine passende Kombination aus Box und Lautsprecher, dann Mic A/B und die jeweiligen Ziele unabhängig wählen.",
       "Dual und Matrix zeigen die aktiven Rigs gemeinsam; eine Box auswählen, um sie im Detail zu bearbeiten. Alle Geräte behalten einen gemeinsamen physischen Maßstab. Matrix LOW mischt DI mit AMP+CAB, während der Mic-A/B-Blend die zwei Abnahmen mischt.",
-      "Niflheimr ergänzt fünf Basskanäle mit 14 Reglern: Hrímfaxi, Garmr, Nidavellir, Ymir und Hel. Den Amp über sein Bedienfeld, Lautsprecher und Mikrofone über das CAB-Panel einstellen."
+      "Niflheimr bietet fünf Basskanäle mit 14 direkt bedienbaren Head-Reglern: Hrímfaxi, Garmr, Nidavellir, Ymir und Hel. Für den Amp den Head, für Lautsprecher und Mikrofone das Cabinet auswählen."
     ]
   },
   "ko": {
     "title": "1.3 · CAB 확장과 Original 베이스 리그",
     "items": [
-      "1.3.0-beta.1은 활성 앰프 25종·PRE 39종·POST 21종으로 세 섹션에 총 85종을 제공합니다. 프리셋은 Factory 31개·Bass Signature 3개·Guitar Signature 4개·Náströnd 5개·Niflheimr 5개로 총 48개입니다.",
+      "1.3.1-beta.1은 활성 앰프 25종·PRE 39종·POST 21종으로 세 섹션에 총 85종을 제공합니다. 프리셋은 Factory 31개·Bass Signature 3개·Guitar Signature 4개·Náströnd 5개·Niflheimr 5개로 총 48개입니다.",
       "CABINET은 스피커 14종(기타 8·베이스 6), 마이크 20종(다이나믹 9·리본 3·콘덴서 8), Chimera HF와 추가 트위터 Silk HF·Metal HF·Air HF 3종, 명시적인 레이아웃 9개를 제공합니다. 호환되는 캐비넷·스피커를 고른 뒤 Mic A/B의 종류와 수음 유닛을 각각 지정합니다.",
       "Dual·Matrix에서는 활성 리그를 함께 보고 캐비넷을 선택해 상세 조작 화면으로 들어갑니다. 장비는 하나의 공통 물리 치수 기준으로 표시됩니다. Matrix LOW는 DI와 AMP+CAB을 혼합하고, CAB의 Mic A/B 블렌드는 두 수음 경로를 혼합합니다.",
-      "Niflheimr에는 Hrímfaxi·Garmr·Nidavellir·Ymir·Hel의 베이스 채널 5개와 컨트롤 14개가 있습니다. 앰프는 기존 AMP 컨트롤 패널에서, 스피커와 마이크는 CAB 패널에서 조절합니다."
+      "Niflheimr에는 Hrímfaxi·Garmr·Nidavellir·Ymir·Hel의 베이스 채널 5개와 헤드에서 직접 조절하는 컨트롤 14개가 있습니다. 앰프는 헤드를, 스피커와 마이크는 캐비넷을 선택해 조절합니다."
+    ]
+  }
+};
+
+const EDITING131 = {
+  "en": {
+    "headTitle": "Direct amp-head controls",
+    "head": [
+      [
+        "Open a head",
+        "Select the head in Classic AMP / RIGS or in the Dual / Matrix room to open the enlarged controls for that rig. Select the cabinet separately to work on speakers and microphones."
+      ],
+      [
+        "Adjust a knob",
+        "Drag to adjust, hold Shift for finer movement, or double-click / press Enter to enter a value. Control names are visible while idle. Adjusting a knob or entering a value temporarily replaces that control name with its numeric readout."
+      ],
+      [
+        "Channels and input routes",
+        "Choose the displayed channel or input route. Each model exposes its own available controls; Niflheimr has 14 knobs and five channels, while Brit Edge has six knobs and five input routes."
+      ],
+      [
+        "DETAILS and BACK",
+        "DETAILS opens the full amplifier controls. BACK returns to the previous view. Head controls and the existing control panel edit the same saved and automatable parameters."
+      ]
+    ],
+    "signalTitle": "Signal-path navigation",
+    "signal": [
+      "The compact signal path follows the current routing mode. PATH + expands it; select a stage to open its existing editor or focus its control.",
+      "PRE, amp, CAB, Tone EQ, POST and Final EQ provide direct navigation. The graph includes bypass state, crossovers and the Matrix LOW DI/AMP blend. Selecting a block does not change the sound.",
+      "The graph displays the signal route. Reordering by dragging blocks is not available; PRE pedal order is changed in the pedalboard."
+    ],
+    "eqTitle": "Tone EQ and Final EQ · 12 bands each",
+    "eq": [
+      [
+        "Position",
+        "Tone EQ follows rig summing and the optional post-rig gate, before POST. Final EQ follows POST, doubler and click, before output trim and tuner mute. Both process the combined rigs."
+      ],
+      [
+        "Enable",
+        "New states and existing factory presets start with the modules bypassed and bands disabled. Turn off BYPASS and enable BAND ON for the selected band."
+      ],
+      [
+        "Edit",
+        "Select Band 1–12. Drag its graph node for frequency/gain, use the wheel for Q or type values into the controls. The selector keeps overlapping nodes accessible."
+      ],
+      [
+        "Filters",
+        "Bell, low/high shelf, 12 dB/octave high/low pass, notch and band pass. Gain applies to bell and shelving filters; other types use frequency and Q."
+      ],
+      [
+        "FFT IN / OUT",
+        "Blue shows the input spectrum; gold shows the output. The display helps compare the signal before and after each EQ."
+      ],
+      [
+        "Save and automate",
+        "Both EQ banks are saved with projects and A/B states and expose host automation. They are independent of the PRE Graphic EQ pedal and the POST character EQ."
+      ]
+    ]
+  },
+  "ko": {
+    "headTitle": "앰프 헤드 직접 조작",
+    "head": [
+      [
+        "헤드 열기",
+        "Classic AMP / RIGS 또는 Dual·Matrix 룸에서 헤드를 선택하면 해당 리그의 확대 조작 화면을 엽니다. 스피커와 마이크를 조절하려면 캐비넷을 선택합니다."
+      ],
+      [
+        "노브 조절",
+        "드래그로 조절하고 Shift로 미세 조절합니다. 더블클릭하거나 Enter를 누르면 수치를 입력할 수 있습니다. 평소에는 컨트롤 이름을 표시합니다. 노브를 조절하거나 수치를 직접 입력하는 동안 해당 이름이 수치로 잠시 바뀝니다."
+      ],
+      [
+        "채널과 입력 경로",
+        "표시된 채널이나 입력 경로를 선택합니다. 모델별로 사용할 수 있는 컨트롤을 표시하며, Niflheimr에는 노브 14개와 5개 채널, Brit Edge에는 노브 6개와 5개 입력 경로가 있습니다."
+      ],
+      [
+        "DETAILS와 BACK",
+        "DETAILS는 전체 앰프 컨트롤을 열고 BACK은 이전 화면으로 돌아갑니다. 헤드와 기존 조작 패널은 같은 파라미터를 편집하며 저장과 호스트 자동화에 함께 반영됩니다."
+      ]
+    ],
+    "signalTitle": "신호 경로 탐색",
+    "signal": [
+      "작은 신호 경로 표시줄은 현재 라우팅 모드를 따릅니다. PATH +로 확대하고 각 단계를 선택하면 해당 편집 화면이나 컨트롤로 이동합니다.",
+      "PRE·앰프·CAB·Tone EQ·POST·Final EQ로 바로 이동할 수 있습니다. 그래프에는 바이패스 상태, 크로스오버, Matrix LOW의 DI·AMP 블렌드도 표시합니다. 블록을 선택하는 것만으로 소리가 바뀌지는 않습니다.",
+      "그래프는 신호 경로를 표시합니다. 블록을 드래그해 처리 순서를 바꾸는 기능은 없으며 PRE 페달 순서는 페달보드에서 조절합니다."
+    ],
+    "eqTitle": "Tone EQ·Final EQ · 각각 12개 밴드",
+    "eq": [
+      [
+        "처리 위치",
+        "Tone EQ는 리그 합산과 선택적 POST Gate 뒤, POST 앞에 있습니다. Final EQ는 POST·Doubler·Click 뒤에서 OUTPUT trim과 Tuner mute 앞에 있습니다. 두 EQ 모두 합쳐진 리그 신호를 처리합니다."
+      ],
+      [
+        "켜기",
+        "새 상태와 기존 팩토리 프리셋에서는 EQ 모듈이 바이패스되고 밴드가 꺼져 있습니다. BYPASS를 해제하고 선택한 밴드의 BAND ON을 켭니다."
+      ],
+      [
+        "조절",
+        "Band 1–12 중 하나를 선택합니다. 그래프 노드를 드래그해 주파수·게인을 조절하고 휠로 Q를 조절하거나 수치를 입력합니다. 노드가 겹쳐도 밴드 선택 메뉴로 각각 조절할 수 있습니다."
+      ],
+      [
+        "필터",
+        "Bell, Low/High Shelf, 12 dB/oct High/Low Pass, Notch, Band Pass를 제공합니다. 게인은 Bell과 Shelf에 적용하며 나머지는 주파수와 Q를 사용합니다."
+      ],
+      [
+        "FFT IN / OUT",
+        "파란색은 입력, 금색은 출력 스펙트럼입니다. 각 EQ의 처리 전후 신호를 비교할 수 있습니다."
+      ],
+      [
+        "저장과 자동화",
+        "두 EQ의 설정은 프로젝트와 A/B 상태에 저장되며 호스트 자동화를 지원합니다. PRE Graphic EQ 페달과 POST의 캐릭터 EQ와는 독립적으로 동작합니다."
+      ]
+    ]
+  },
+  "de": {
+    "headTitle": "Amp-Heads direkt bedienen",
+    "head": [
+      [
+        "Head öffnen",
+        "In Classic AMP / RIGS oder im Dual-/Matrix-Raum den Head wählen, um die vergrößerten Regler dieses Rigs zu öffnen. Für Lautsprecher und Mikrofone das Cabinet separat auswählen."
+      ],
+      [
+        "Regler einstellen",
+        "Ziehen zum Einstellen, Shift für Feineinstellung; per Doppelklick oder Enter einen Wert eingeben. Im Ruhezustand sind die Reglernamen sichtbar. Beim Einstellen oder direkten Eingeben wird der jeweilige Name vorübergehend durch den Zahlenwert ersetzt."
+      ],
+      [
+        "Kanäle und Eingänge",
+        "Den angezeigten Kanal oder Eingang wählen. Jedes Modell zeigt seine verfügbaren Regler: Niflheimr bietet 14 Regler und fünf Kanäle, Brit Edge sechs Regler und fünf Eingangswege."
+      ],
+      [
+        "DETAILS und BACK",
+        "DETAILS öffnet alle Amp-Regler; BACK kehrt zur vorherigen Ansicht zurück. Head und bisheriges Bedienfeld bearbeiten dieselben gespeicherten und automatisierbaren Parameter."
+      ]
+    ],
+    "signalTitle": "Navigation im Signalweg",
+    "signal": [
+      "Die kompakte Signalanzeige folgt dem aktuellen Routing. PATH + vergrößert sie. Eine Stufe auswählen, um ihren Editor zu öffnen oder den zugehörigen Regler zu fokussieren.",
+      "PRE, Amp, CAB, Tone EQ, POST und Final EQ sind direkt erreichbar. Die Ansicht zeigt Bypass, Crossovers und den DI/AMP-Blend von Matrix LOW. Die Auswahl eines Blocks verändert den Klang nicht.",
+      "Der Graph zeigt den Signalweg. Blöcke lassen sich nicht per Ziehen umsortieren; die PRE-Reihenfolge wird im Pedalboard geändert."
+    ],
+    "eqTitle": "Tone EQ und Final EQ · jeweils zwölf Bänder",
+    "eq": [
+      [
+        "Position",
+        "Tone EQ liegt nach Rig-Summe und optionalem Post-Rig-Gate, vor POST. Final EQ folgt POST, Doubler und Click, vor Output-Trim und Tuner-Mute. Beide bearbeiten das gemeinsame Rig-Signal."
+      ],
+      [
+        "Aktivieren",
+        "Neue Zustände und bestehende Werks-Presets starten mit überbrückten EQ-Modulen und deaktivierten Bändern. BYPASS ausschalten und BAND ON für das gewählte Band aktivieren."
+      ],
+      [
+        "Einstellen",
+        "Band 1–12 auswählen. Den Knoten für Frequenz/Gain ziehen, Q per Mausrad ändern oder Werte eingeben. Über die Bandauswahl bleiben überlappende Knoten einzeln erreichbar."
+      ],
+      [
+        "Filter",
+        "Bell, Low/High Shelf, High/Low Pass mit 12 dB/Oktave, Notch und Band Pass. Gain wirkt bei Bell und Shelves; die anderen Filter verwenden Frequenz und Q."
+      ],
+      [
+        "FFT IN / OUT",
+        "Blau zeigt das Eingangs-, Gold das Ausgangsspektrum. So lässt sich das Signal vor und nach jedem EQ vergleichen."
+      ],
+      [
+        "Speichern und Automation",
+        "Beide EQ-Bänke werden mit Projekten und A/B gespeichert und unterstützen Host-Automation. Sie sind unabhängig vom PRE-Graphic-EQ-Pedal und vom POST-Charakter-EQ."
+      ]
     ]
   }
 };
 
 function render(){
+ document.getElementById("headArtworkNote").textContent=HEAD_ARTWORK_NOTE[lang];
+ document.getElementById("productDownloadLink").textContent=({en:"Open the Chimera product page for downloads",ko:"Chimera 상품 페이지에서 다운로드",de:"Chimera-Produktseite mit Downloads öffnen"})[lang];
+ const editing=EDITING131[lang];
+ const editHeaders=lang==='ko'?['조작','동작']:lang==='de'?['Bedienung','Funktion']:['Control','Behaviour'];
+ document.getElementById('headControlTitle').textContent=editing.headTitle;
+ document.getElementById('headControlBody').innerHTML=table(editHeaders,editing.head,false);
+ document.getElementById('signalNavigationTitle').textContent=editing.signalTitle;
+ document.getElementById('signalNavigationBody').innerHTML=bullets(editing.signal);
+ document.getElementById('graphicalEQTitle').textContent=editing.eqTitle;
+ document.getElementById('graphicalEQBody').innerHTML=table(editHeaders,editing.eq,false);
  document.getElementById("release13Title").textContent=RELEASE13[lang].title;
  document.getElementById("release13Body").innerHTML=bullets(RELEASE13[lang].items);
  const candidate=CANDIDATE111[lang];
@@ -1696,7 +1904,7 @@ function render(){
    lang==='ko'?['모델','채널','입력 경로']:lang==='de'?['Modell','Kanäle','Eingangswege']:['Model','Channels','Input routes'],AMP_ROUTES);
  document.getElementById('irBody').innerHTML=bullets(L[lang].ir);
  // Website clarification, audited against the pinned 1.3 source.
- const webCabNotes={"en": ["Niflheimr adds five bass-amp channels and five complete rigs. Shape your tone with 14 speakers, 20 microphones and nine cabinet layouts, including a six-driver bass 6×10. Each Mic A/B path can use the modeled cabinet or a captured IR. Switching the CABINET / IR LOADER view preserves the current sound; selecting an IR changes that microphone path to the chosen capture.", "IR-loader images are illustrations based on available metadata, not photographs or records of a capture session. Missing cabinet or microphone details use labelled example images. Artwork does not verify the recording setup or change the IR audio.", "The 12-band Tone EQ / Final EQ, FFT analyser, signal-path navigation and direct controls on the illustrated amp head are not included in 1.3.0."], "ko": ["Niflheimr의 베이스 앰프 5채널과 완성형 리그 5개를 추가했습니다. 스피커 14종, 마이크 20종, 6유닛 베이스 6×10을 포함한 캐비넷 9종으로 톤을 만듭니다. Mic A/B는 각각 모델링 캐비넷 또는 캡처 IR을 사용할 수 있습니다. CABINET / IR LOADER 화면을 전환해도 현재 소리는 유지되며, IR을 선택하면 해당 마이크 경로가 선택한 캡처로 바뀝니다.", "IR 로더 이미지는 제공된 메타데이터를 바탕으로 한 일러스트이며, 실물 사진이나 실제 수음 세션의 기록이 아닙니다. 캐비넷·마이크 정보가 없으면 예시 이미지로 표시합니다. 그림은 녹음 장비를 검증하거나 IR 오디오를 변경하지 않습니다.", "12밴드 Tone EQ / Final EQ, FFT 분석기, 신호 경로 탐색과 헤드 그림 위의 직접 노브 조작은 1.3.0에 포함되지 않습니다."], "de": ["Niflheimr ergänzt fünf Bass-Amp-Kanäle und fünf vollständige Rigs. 14 Lautsprecher, 20 Mikrofone und neun Gehäusekonfigurationen stehen bereit, darunter ein Bass-6×10 mit sechs Treibern. Jeder Mic-A/B-Pfad kann das modellierte Cabinet oder eine Capture-IR verwenden. Der Wechsel zwischen CABINET und IR LOADER erhält den aktuellen Klang; die Auswahl einer IR schaltet den jeweiligen Mikrofonpfad auf diese Aufnahme um.", "Die Bilder im IR-Loader sind Illustrationen anhand vorhandener Metadaten, keine Fotos oder Dokumentationen einer Aufnahmesitzung. Fehlende Boxen- oder Mikrofonangaben werden durch gekennzeichnete Beispielbilder ersetzt. Die Abbildungen bestätigen weder den Aufnahmeaufbau noch verändern sie die IR-Audiodaten.", "12-Band Tone EQ / Final EQ, FFT-Analyse, Signalpfad-Navigation und direkte Regler auf der Amp-Abbildung sind in 1.3.0 nicht enthalten."]};
+ const webCabNotes={"en": ["Niflheimr adds five bass-amp channels and five complete rigs. Shape your tone with 14 speakers, 20 microphones and nine cabinet layouts, including a six-driver bass 6×10. Each Mic A/B path can use the modeled cabinet or a captured IR. Switching the CABINET / IR LOADER view preserves the current sound; selecting an IR changes that microphone path to the chosen capture.", "IR-loader images are illustrations based on available metadata, not photographs or records of a capture session. Missing cabinet or microphone details use labelled example images. Artwork does not verify the recording setup or change the IR audio.", "Version 1.3.1 adds direct amp-head controls, signal-path navigation, two twelve-band EQs and their input/output spectrum displays."], "ko": ["Niflheimr의 베이스 앰프 5채널과 완성형 리그 5개를 추가했습니다. 스피커 14종, 마이크 20종, 6유닛 베이스 6×10을 포함한 캐비넷 9종으로 톤을 만듭니다. Mic A/B는 각각 모델링 캐비넷 또는 캡처 IR을 사용할 수 있습니다. CABINET / IR LOADER 화면을 전환해도 현재 소리는 유지되며, IR을 선택하면 해당 마이크 경로가 선택한 캡처로 바뀝니다.", "IR 로더 이미지는 제공된 메타데이터를 바탕으로 한 일러스트이며, 실물 사진이나 실제 수음 세션의 기록이 아닙니다. 캐비넷·마이크 정보가 없으면 예시 이미지로 표시합니다. 그림은 녹음 장비를 검증하거나 IR 오디오를 변경하지 않습니다.", "1.3.1에는 헤드 직접 조작, 신호 경로 탐색, 12밴드 EQ 두 개와 각각의 입출력 스펙트럼 표시가 포함됩니다."], "de": ["Niflheimr ergänzt fünf Bass-Amp-Kanäle und fünf vollständige Rigs. 14 Lautsprecher, 20 Mikrofone und neun Gehäusekonfigurationen stehen bereit, darunter ein Bass-6×10 mit sechs Treibern. Jeder Mic-A/B-Pfad kann das modellierte Cabinet oder eine Capture-IR verwenden. Der Wechsel zwischen CABINET und IR LOADER erhält den aktuellen Klang; die Auswahl einer IR schaltet den jeweiligen Mikrofonpfad auf diese Aufnahme um.", "Die Bilder im IR-Loader sind Illustrationen anhand vorhandener Metadaten, keine Fotos oder Dokumentationen einer Aufnahmesitzung. Fehlende Boxen- oder Mikrofonangaben werden durch gekennzeichnete Beispielbilder ersetzt. Die Abbildungen bestätigen weder den Aufnahmeaufbau noch verändern sie die IR-Audiodaten.", "Version 1.3.1 ergänzt direkte Amp-Head-Regler, Signalpfad-Navigation, zwei Zwölfband-EQs und deren Ein-/Ausgangsspektren."]};
  document.getElementById('irBody').innerHTML+=bullets(webCabNotes[lang]);
  document.getElementById('irDetailBody').innerHTML=table(
    lang==='ko'?['항목','내용']:lang==='de'?['Bereich','Details']:['Item','Details'],X[lang].irDetail,false);
@@ -1799,7 +2007,7 @@ function render(){
  const factoryCabExamples=[["Clean Sustain", "1×12 · OPEN", "Silver 12", "Prism 414"], ["Tight Rhythm", "4×12 · CLOSED", "Ember 30", "Needle 57"], ["Finger Round", "1×15 · CLOSED", "Monolith 15", "Anchor 20"], ["Pick Punch", "4×10 · CLOSED", "Alloy 10", "Needle 57"], ["Modern Grind", "6×10 · CLOSED", "Foundry 10", "Hammer 421"], ["Thall Rhythm", "4×12 · CLOSED", "Chimera Ruin 12", "Chimera Strike"]];
  document.getElementById('irBody').innerHTML+='<h4>'+esc(factoryCabHelp[lang].title)+'</h4>'+bullets(factoryCabHelp[lang].items)+table(factoryCabHelp[lang].headers,factoryCabExamples,false);
  const renderWorkflow=w=>{
-   const media=w.images.map(img=>'<figure class="workflow-asset"><img loading="lazy" decoding="async" src="'+ASSET+encodeURIComponent(img[0])+'" alt="'+esc(img[1])+'"><figcaption>'+esc(img[1])+'</figcaption></figure>').join('');
+   const media=w.images.map(img=>'<figure class="workflow-asset"><img loading="lazy" decoding="async" src="'+imageSource(img[0])+'" alt="'+esc(imageAlt(img[0],img[1]))+'"><figcaption>'+esc(img[1])+'</figcaption></figure>').join('');
    const steps=w.steps.map(step=>'<div class="workflow-step"><strong>'+esc(step[0])+'</strong><span>'+esc(step[1])+'</span></div>').join('');
    return '<article class="workflow"><div class="workflow-head"><div><h4>'+esc(w.title)+'</h4><p class="workflow-goal">'+esc(w.goal)+'</p></div><div class="workflow-chain">'+media+'</div></div><div class="workflow-steps">'+steps+'</div></article>';
  };

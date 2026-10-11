@@ -1,0 +1,471 @@
+{
+  "schema": 1,
+  "source_sha": "7b20cd9d1f90e3e2969c250712b199e893cf50cd",
+  "product_version": "1.3.1",
+  "release_version": "1.3.1-beta.1",
+  "platform": "Linux",
+  "capture_kind": "native JUCE component snapshots; not desktop framebuffer or Studio One captures",
+  "run_url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/38175545640",
+  "artifact_url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/38175545640/artifacts/11715902814",
+  "artifact_id": 11715902814,
+  "artifact_zip_sha256": "1f0c142548a46ba3296d7f04fbeb4504e24380dd9f04f4d858dcd80d8d3bb461",
+  "artifact_zip_size_bytes": 344719547,
+  "native_test_conclusion": "success",
+  "compiled_version": {
+    "product_version": "1.3.1",
+    "source_sha": "7b20cd9d1f90e3e2969c250712b199e893cf50cd",
+    "version": "1.3.1-beta.1"
+  },
+  "images": [
+    {
+      "file": "assets/chimera/head-brit-edge-beta131.png",
+      "artifact_path": "amp-head-snapshots/workspace-1440-model1.png",
+      "width": 1440,
+      "height": 780,
+      "sha256": "20c7f662306f536d221be40a9e65c6cbb15caf7cb3be362f35f780faff00697d",
+      "size_bytes": 1455877,
+      "pixel_edits": false
+    },
+    {
+      "file": "assets/chimera/head-niflheimr-beta131.png",
+      "artifact_path": "amp-head-snapshots/workspace-1440-model25.png",
+      "width": 1440,
+      "height": 780,
+      "sha256": "67d25548a1091496568e5b640b319f0150798df310e063a2ba6e191419e7d3c8",
+      "size_bytes": 1473744,
+      "pixel_edits": false
+    },
+    {
+      "file": "assets/chimera/head-nastrond-beta131.png",
+      "artifact_path": "amp-head-snapshots/all-model-24-channel-0-1440.png",
+      "width": 1440,
+      "height": 780,
+      "sha256": "7c266df61c2602fe1ee1fc3a214fa2f4769f3adc6c11551271a5379546b09e92",
+      "size_bytes": 1610355,
+      "pixel_edits": false
+    }
+  ],
+  "capture_verification": {
+    "native_tests": [
+      {
+        "name": "ChimeraPackagingVersionTests",
+        "seconds": 0.200018
+      },
+      {
+        "name": "ChimeraAmpHeadControlTests",
+        "seconds": 154.866
+      }
+    ],
+    "failures": 0,
+    "skipped": 0,
+    "decoded_png_count": 252,
+    "native_interaction_log_verified": true,
+    "hardware_profile_gate_verified": true
+  },
+  "replacement_reason": "Fresh native artifact verified for the specified source. Every displayed PNG is copied byte-for-byte from that artifact; older captures remain separately attributed.",
+  "notes": [
+    "No PNG pixels have been changed.",
+    "Product acceptance and public release verification remain separate."
+  ],
+  "previous_captures": [
+    {
+      "schema": 1,
+      "source_sha": "2bbb6554d514e6086c8f723f9ec52eba751a98a6",
+      "product_version": "1.3.1",
+      "release_version": "1.3.1-beta.1",
+      "platform": "Linux",
+      "capture_kind": "native JUCE component snapshots; not desktop framebuffer or Studio One captures",
+      "run_url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/38146502654",
+      "artifact_url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/38146502654/artifacts/11704983167",
+      "artifact_id": 11704983167,
+      "artifact_zip_sha256": "89a77f6e6f8abdbb9e1244a26988e79bd375666a04a2a5d18b60447db54499c6",
+      "native_test_conclusion": "success",
+      "notes": [
+        "These native component views include the production enclosure artwork and live JUCE controls.",
+        "No PNG pixels have been changed.",
+        "Product acceptance and release publication remain separate."
+      ],
+      "images": [
+        {
+          "file": "assets/chimera/head-brit-edge-beta131.png",
+          "artifact_path": "amp-head-snapshots/workspace-1440-model1.png",
+          "width": 1440,
+          "height": 780,
+          "sha256": "20c7f662306f536d221be40a9e65c6cbb15caf7cb3be362f35f780faff00697d",
+          "size_bytes": 1455877,
+          "pixel_edits": false
+        },
+        {
+          "file": "assets/chimera/head-niflheimr-beta131.png",
+          "artifact_path": "amp-head-snapshots/workspace-1440-model25.png",
+          "width": 1440,
+          "height": 780,
+          "sha256": "67d25548a1091496568e5b640b319f0150798df310e063a2ba6e191419e7d3c8",
+          "size_bytes": 1473744,
+          "pixel_edits": false
+        },
+        {
+          "file": "assets/chimera/head-nastrond-beta131.png",
+          "artifact_path": "amp-head-snapshots/all-model-24-channel-0-1440.png",
+          "width": 1440,
+          "height": 780,
+          "sha256": "7c266df61c2602fe1ee1fc3a214fa2f4769f3adc6c11551271a5379546b09e92",
+          "size_bytes": 1610355,
+          "pixel_edits": false
+        }
+      ]
+    },
+    {
+      "schema": 1,
+      "source_sha": "2b41386129290d7ad82034bc97ea53608fdc058e",
+      "product_version": "1.3.1",
+      "release_version": "1.3.1-beta.1",
+      "platform": "Linux",
+      "capture_kind": "native JUCE component snapshots; not desktop framebuffer or Studio One captures",
+      "run_url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/38151288362",
+      "artifact_url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/38151288362/artifacts/11707420406",
+      "artifact_id": 11707420406,
+      "artifact_zip_sha256": "1a9f78dc0b8162ff24e6a1a6d0667fefa8a1b92cb68a7cbbda236ae2d9b74f6e",
+      "native_test_conclusion": "success",
+      "notes": [
+        "These native component views include the production enclosure artwork and live JUCE controls.",
+        "No PNG pixels have been changed.",
+        "Product acceptance and release publication remain separate."
+      ],
+      "images": [
+        {
+          "file": "assets/chimera/head-brit-edge-beta131.png",
+          "artifact_path": "amp-head-snapshots/workspace-1440-model1.png",
+          "width": 1440,
+          "height": 780,
+          "sha256": "20c7f662306f536d221be40a9e65c6cbb15caf7cb3be362f35f780faff00697d",
+          "size_bytes": 1455877,
+          "pixel_edits": false
+        },
+        {
+          "file": "assets/chimera/head-niflheimr-beta131.png",
+          "artifact_path": "amp-head-snapshots/workspace-1440-model25.png",
+          "width": 1440,
+          "height": 780,
+          "sha256": "67d25548a1091496568e5b640b319f0150798df310e063a2ba6e191419e7d3c8",
+          "size_bytes": 1473744,
+          "pixel_edits": false
+        },
+        {
+          "file": "assets/chimera/head-nastrond-beta131.png",
+          "artifact_path": "amp-head-snapshots/all-model-24-channel-0-1440.png",
+          "width": 1440,
+          "height": 780,
+          "sha256": "7c266df61c2602fe1ee1fc3a214fa2f4769f3adc6c11551271a5379546b09e92",
+          "size_bytes": 1610355,
+          "pixel_edits": false
+        }
+      ],
+      "artifact_zip_size_bytes": 344722628,
+      "compiled_version": {
+        "product_version": "1.3.1",
+        "source_sha": "2b41386129290d7ad82034bc97ea53608fdc058e",
+        "version": "1.3.1-beta.1"
+      },
+      "capture_verification": {
+        "native_tests": [
+          {
+            "name": "ChimeraPackagingVersionTests",
+            "seconds": 0.271809
+          },
+          {
+            "name": "ChimeraAmpHeadControlTests",
+            "seconds": 153.676
+          }
+        ],
+        "failures": 0,
+        "skipped": 0,
+        "decoded_png_count": 252,
+        "native_interaction_log_verified": true,
+        "hardware_profile_gate_verified": true
+      },
+      "replacement_reason": "Fresh native build and screenshots at the final packaging-corrected source. The three selected PNGs independently match the earlier capture bytes and decoded pixels; the current source is established by this newly downloaded artifact, not by relabeling earlier images.",
+      "selected_image_comparison": [
+        {
+          "file": "workspace-1440-model1.png",
+          "new_sha256": "20c7f662306f536d221be40a9e65c6cbb15caf7cb3be362f35f780faff00697d",
+          "previous_sha256": "20c7f662306f536d221be40a9e65c6cbb15caf7cb3be362f35f780faff00697d",
+          "byte_identical": true,
+          "pixel_identical": true
+        },
+        {
+          "file": "workspace-1440-model25.png",
+          "new_sha256": "67d25548a1091496568e5b640b319f0150798df310e063a2ba6e191419e7d3c8",
+          "previous_sha256": "67d25548a1091496568e5b640b319f0150798df310e063a2ba6e191419e7d3c8",
+          "byte_identical": true,
+          "pixel_identical": true
+        },
+        {
+          "file": "all-model-24-channel-0-1440.png",
+          "new_sha256": "7c266df61c2602fe1ee1fc3a214fa2f4769f3adc6c11551271a5379546b09e92",
+          "previous_sha256": "7c266df61c2602fe1ee1fc3a214fa2f4769f3adc6c11551271a5379546b09e92",
+          "byte_identical": true,
+          "pixel_identical": true
+        }
+      ]
+    },
+    {
+      "schema": 1,
+      "source_sha": "079352aaf9f94c715a3533a06afa0b7a88ba30ce",
+      "product_version": "1.3.1",
+      "release_version": "1.3.1-beta.1",
+      "platform": "Linux",
+      "capture_kind": "native JUCE component snapshots; not desktop framebuffer or Studio One captures",
+      "run_url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/38155028220",
+      "artifact_url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/38155028220/artifacts/11708188220",
+      "artifact_id": 11708188220,
+      "artifact_zip_sha256": "87bf4583c1f92d20c0d421c807389be21d593c5bd7b681010b83ed67c7363924",
+      "native_test_conclusion": "success",
+      "notes": [
+        "These native component views include the production enclosure artwork and live JUCE controls.",
+        "No PNG pixels have been changed.",
+        "Product acceptance and release publication remain separate."
+      ],
+      "images": [
+        {
+          "file": "assets/chimera/head-brit-edge-beta131.png",
+          "artifact_path": "amp-head-snapshots/workspace-1440-model1.png",
+          "width": 1440,
+          "height": 780,
+          "sha256": "20c7f662306f536d221be40a9e65c6cbb15caf7cb3be362f35f780faff00697d",
+          "size_bytes": 1455877,
+          "pixel_edits": false
+        },
+        {
+          "file": "assets/chimera/head-niflheimr-beta131.png",
+          "artifact_path": "amp-head-snapshots/workspace-1440-model25.png",
+          "width": 1440,
+          "height": 780,
+          "sha256": "67d25548a1091496568e5b640b319f0150798df310e063a2ba6e191419e7d3c8",
+          "size_bytes": 1473744,
+          "pixel_edits": false
+        },
+        {
+          "file": "assets/chimera/head-nastrond-beta131.png",
+          "artifact_path": "amp-head-snapshots/all-model-24-channel-0-1440.png",
+          "width": 1440,
+          "height": 780,
+          "sha256": "7c266df61c2602fe1ee1fc3a214fa2f4769f3adc6c11551271a5379546b09e92",
+          "size_bytes": 1610355,
+          "pixel_edits": false
+        }
+      ],
+      "artifact_zip_size_bytes": 344720120,
+      "compiled_version": {
+        "product_version": "1.3.1",
+        "source_sha": "079352aaf9f94c715a3533a06afa0b7a88ba30ce",
+        "version": "1.3.1-beta.1"
+      },
+      "capture_verification": {
+        "native_tests": [
+          {
+            "name": "ChimeraPackagingVersionTests",
+            "seconds": 0.178963
+          },
+          {
+            "name": "ChimeraAmpHeadControlTests",
+            "seconds": 152.922
+          }
+        ],
+        "failures": 0,
+        "skipped": 0,
+        "decoded_png_count": 252,
+        "native_interaction_log_verified": true,
+        "hardware_profile_gate_verified": true
+      },
+      "replacement_reason": "Fresh native build and screenshots at the candidate source, copied without pixel editing. Earlier source/run/artifact evidence is retained separately; unchanged image bytes, where observed, do not replace evidence from this newly downloaded artifact.",
+      "selected_image_comparison": [
+        {
+          "file": "workspace-1440-model1.png",
+          "new_sha256": "20c7f662306f536d221be40a9e65c6cbb15caf7cb3be362f35f780faff00697d",
+          "previous_sha256": "20c7f662306f536d221be40a9e65c6cbb15caf7cb3be362f35f780faff00697d",
+          "byte_identical": true,
+          "pixel_identical": true
+        },
+        {
+          "file": "workspace-1440-model25.png",
+          "new_sha256": "67d25548a1091496568e5b640b319f0150798df310e063a2ba6e191419e7d3c8",
+          "previous_sha256": "67d25548a1091496568e5b640b319f0150798df310e063a2ba6e191419e7d3c8",
+          "byte_identical": true,
+          "pixel_identical": true
+        },
+        {
+          "file": "all-model-24-channel-0-1440.png",
+          "new_sha256": "7c266df61c2602fe1ee1fc3a214fa2f4769f3adc6c11551271a5379546b09e92",
+          "previous_sha256": "7c266df61c2602fe1ee1fc3a214fa2f4769f3adc6c11551271a5379546b09e92",
+          "byte_identical": true,
+          "pixel_identical": true
+        }
+      ]
+    },
+    {
+      "schema": 1,
+      "source_sha": "7c782fda9e2d7cb255e70b6d1d1857fc78300c46",
+      "product_version": "1.3.1",
+      "release_version": "1.3.1-beta.1",
+      "platform": "Linux",
+      "capture_kind": "native JUCE component snapshots; not desktop framebuffer or Studio One captures",
+      "run_url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/38162034504",
+      "artifact_url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/38162034504/artifacts/11710173349",
+      "artifact_id": 11710173349,
+      "artifact_zip_sha256": "03330f31cfce5cf549066fcaed85c0fcf2601ad8eb9362458bf52d815e1bc537",
+      "native_test_conclusion": "success",
+      "notes": [
+        "These native component views include the production enclosure artwork and live JUCE controls.",
+        "No PNG pixels have been changed.",
+        "Product acceptance and release publication remain separate."
+      ],
+      "images": [
+        {
+          "file": "assets/chimera/head-brit-edge-beta131.png",
+          "artifact_path": "amp-head-snapshots/workspace-1440-model1.png",
+          "width": 1440,
+          "height": 780,
+          "sha256": "20c7f662306f536d221be40a9e65c6cbb15caf7cb3be362f35f780faff00697d",
+          "size_bytes": 1455877,
+          "pixel_edits": false
+        },
+        {
+          "file": "assets/chimera/head-niflheimr-beta131.png",
+          "artifact_path": "amp-head-snapshots/workspace-1440-model25.png",
+          "width": 1440,
+          "height": 780,
+          "sha256": "67d25548a1091496568e5b640b319f0150798df310e063a2ba6e191419e7d3c8",
+          "size_bytes": 1473744,
+          "pixel_edits": false
+        },
+        {
+          "file": "assets/chimera/head-nastrond-beta131.png",
+          "artifact_path": "amp-head-snapshots/all-model-24-channel-0-1440.png",
+          "width": 1440,
+          "height": 780,
+          "sha256": "7c266df61c2602fe1ee1fc3a214fa2f4769f3adc6c11551271a5379546b09e92",
+          "size_bytes": 1610355,
+          "pixel_edits": false
+        }
+      ],
+      "artifact_zip_size_bytes": 344720107,
+      "compiled_version": {
+        "product_version": "1.3.1",
+        "source_sha": "7c782fda9e2d7cb255e70b6d1d1857fc78300c46",
+        "version": "1.3.1-beta.1"
+      },
+      "capture_verification": {
+        "native_tests": [
+          {
+            "name": "ChimeraPackagingVersionTests",
+            "seconds": 0.170296
+          },
+          {
+            "name": "ChimeraAmpHeadControlTests",
+            "seconds": 151.876
+          }
+        ],
+        "failures": 0,
+        "skipped": 0,
+        "decoded_png_count": 252,
+        "native_interaction_log_verified": true,
+        "hardware_profile_gate_verified": true
+      },
+      "replacement_reason": "Fresh native build and screenshots at the candidate source, copied without pixel editing. Earlier source/run/artifact evidence is retained separately; unchanged image bytes, where observed, do not replace evidence from this newly downloaded artifact.",
+      "selected_image_comparison": [
+        {
+          "file": "workspace-1440-model1.png",
+          "new_sha256": "20c7f662306f536d221be40a9e65c6cbb15caf7cb3be362f35f780faff00697d",
+          "previous_sha256": "20c7f662306f536d221be40a9e65c6cbb15caf7cb3be362f35f780faff00697d",
+          "byte_identical": true,
+          "pixel_identical": true
+        },
+        {
+          "file": "workspace-1440-model25.png",
+          "new_sha256": "67d25548a1091496568e5b640b319f0150798df310e063a2ba6e191419e7d3c8",
+          "previous_sha256": "67d25548a1091496568e5b640b319f0150798df310e063a2ba6e191419e7d3c8",
+          "byte_identical": true,
+          "pixel_identical": true
+        },
+        {
+          "file": "all-model-24-channel-0-1440.png",
+          "new_sha256": "7c266df61c2602fe1ee1fc3a214fa2f4769f3adc6c11551271a5379546b09e92",
+          "previous_sha256": "7c266df61c2602fe1ee1fc3a214fa2f4769f3adc6c11551271a5379546b09e92",
+          "byte_identical": true,
+          "pixel_identical": true
+        }
+      ]
+    },
+    {
+      "schema": 1,
+      "source_sha": "781d03dd49bba51d6cfa7b1c6a0ec8d9e75a0333",
+      "product_version": "1.3.1",
+      "release_version": "1.3.1-beta.1",
+      "platform": "Linux",
+      "capture_kind": "native JUCE component snapshots; not desktop framebuffer or Studio One captures",
+      "run_url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/38169467595",
+      "artifact_url": "https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/actions/runs/38169467595/artifacts/11713827477",
+      "artifact_id": 11713827477,
+      "artifact_zip_sha256": "96fae523f387249cd907a50c99b4860a25cbf0520ef8b2d7677cce7f2fc9ecf5",
+      "artifact_zip_size_bytes": 344719808,
+      "native_test_conclusion": "success",
+      "compiled_version": {
+        "product_version": "1.3.1",
+        "source_sha": "781d03dd49bba51d6cfa7b1c6a0ec8d9e75a0333",
+        "version": "1.3.1-beta.1"
+      },
+      "images": [
+        {
+          "file": "assets/chimera/head-brit-edge-beta131.png",
+          "artifact_path": "amp-head-snapshots/workspace-1440-model1.png",
+          "width": 1440,
+          "height": 780,
+          "sha256": "20c7f662306f536d221be40a9e65c6cbb15caf7cb3be362f35f780faff00697d",
+          "size_bytes": 1455877,
+          "pixel_edits": false
+        },
+        {
+          "file": "assets/chimera/head-niflheimr-beta131.png",
+          "artifact_path": "amp-head-snapshots/workspace-1440-model25.png",
+          "width": 1440,
+          "height": 780,
+          "sha256": "67d25548a1091496568e5b640b319f0150798df310e063a2ba6e191419e7d3c8",
+          "size_bytes": 1473744,
+          "pixel_edits": false
+        },
+        {
+          "file": "assets/chimera/head-nastrond-beta131.png",
+          "artifact_path": "amp-head-snapshots/all-model-24-channel-0-1440.png",
+          "width": 1440,
+          "height": 780,
+          "sha256": "7c266df61c2602fe1ee1fc3a214fa2f4769f3adc6c11551271a5379546b09e92",
+          "size_bytes": 1610355,
+          "pixel_edits": false
+        }
+      ],
+      "capture_verification": {
+        "native_tests": [
+          {
+            "name": "ChimeraPackagingVersionTests",
+            "seconds": 0.244462
+          },
+          {
+            "name": "ChimeraAmpHeadControlTests",
+            "seconds": 159.536
+          }
+        ],
+        "failures": 0,
+        "skipped": 0,
+        "decoded_png_count": 252,
+        "native_interaction_log_verified": true,
+        "hardware_profile_gate_verified": true
+      },
+      "replacement_reason": "Fresh native artifact verified for the specified source. Every displayed PNG is copied byte-for-byte from that artifact; older captures remain separately attributed.",
+      "notes": [
+        "No PNG pixels have been changed.",
+        "Product acceptance and public release verification remain separate."
+      ]
+    }
+  ]
+}
