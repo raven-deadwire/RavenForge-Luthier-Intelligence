@@ -17,23 +17,30 @@ English, Korean and German product section accordingly.
 - Replaces the historical shutdown-update paragraph with project/rig use.
   Existing Beta 1.1 screenshots keep their explicit earlier-version captions.
 
-Code and artwork references are pinned to the integrated 1.3 source
-`f56dc9d65c83a5d8dc29710ed29242032d34e235` on
+Code and artwork references are pinned to the owner-approved integrated 1.3 source
+`8303c844c3dbf024cc1ffa56f9014a97e271af54` on
 `release/1.3.0-preparation` and `release/open-beta-1.3.0`.
-Its parent `621bd70e79720c36c8b484f292e9f9386848ecb8`
+The implementation source `621bd70e79720c36c8b484f292e9f9386848ecb8`
 ([Chimera PR #43](https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/pull/43))
 improves captured-cabinet depth and keeps mounted bass 4×10 HF hardware visible
-at zero level. The final commit changes only the packaged manual and release
-notes. All 107 audited source/artwork blobs match the final GitHub tree.
+at zero level. Subsequent commits finalize the manual/release notes and record
+owner approval. The latest source `8303c844` then makes the owner's requested
+narrow cabinet side-rail texture correction in `Source/CabEnclosureArtwork.h`,
+with corresponding enclosure material checks. It changes neither DSP nor
+presets; the packaged manual and release policy retain their reviewed blobs.
+All 108 audited source/artwork blobs match the final GitHub tree.
 
 The web manual now matches the final source documentation for all four tweeter
 choices, OUTPUT 0 dB preset recall, the mounted 4×10 horn at zero level,
 metadata-based 2.5D IR illustrations, EXAMPLE and view/source selection behavior.
 The packaged manual pins artwork to `v1.3.0-beta.1`; the web manual uses the exact
-source SHA. Release notes describe the product without certifying publication or
-completed acceptance. The source policy remains `release_approved=false`.
-The product copy describes the resulting behavior; it is not a release
-acceptance receipt.
+source SHA. The owner reported checking the downloaded test file and expressly
+approved release and homepage publication. The source policy now records
+`release_approved=true`, `publication_authorized=true` and
+`OWNER_APPROVED_CI_VERIFICATION_PENDING`. No additional general approval or
+tested-file identification is requested. Owner acceptance does not fabricate
+individual test measurements or replace independently evaluated CI evidence.
+The product description itself does not certify public release availability.
 
 ## Local validation
 
@@ -52,20 +59,25 @@ acceptance receipt.
 
 ## Publication dependency
 
-The owner has authorized publication after the fixes and product release.
-No additional authorization is requested here. The existing release acceptance
-and public-asset checks remain required: this PR must not publish 1.3 download
-links until the exact source has a verified public 1.3 release. Source changes
-require another source/content audit. This candidate does not mark CI,
-listening, DAW or historical acceptance checks as complete.
+Owner acceptance and publication authorization are recorded in the approved
+source. No additional general approval or tested-file identification is required.
+The individual CI/source-evidence and public-asset checks remain unchanged:
+this PR must not publish 1.3 download links until the exact source has a verified
+public 1.3 release. The two CAB/IR pictures must also be replaced with verified
+final-source CI captures before this page is published. Source changes require
+another source/content audit.
+Owner acceptance does not synthesize individual CI, listening, DAW or historical
+measurement reports.
 
 ## Actual CAB/IR screens
 
 The CAB section now links two byte-identical native macOS component snapshots
 from the successful macOS job in CAB CI run 38116435373, artifact 11694466617,
 source `621bd70e79720c36c8b484f292e9f9386848ecb8`. Their original provenance stays
-unchanged: the final source `f56dc9d` changes documentation only, with identical
-CAB/IR code and artwork. These are not relabelled as captures of a later build.
+unchanged. They document IR depth and the mounted 4×10 horn before the new
+`8303c844` side-rail correction and are not relabelled as captures of that fix.
+Replacement final-source captures are pending CAB CI run 38119610154; neither
+that run's completion nor an updated screenshot is claimed here.
 One shows the modeled 4×10 horn at tweeter 0%; the other shows factory IR cards
 with the shared enclosure depth/materials. These are actual product components,
 not mockups. Each caption identifies macOS. Artifact and image hashes are in
