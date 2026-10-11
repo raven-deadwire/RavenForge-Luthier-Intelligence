@@ -2,7 +2,7 @@
 
 This manual-only workflow produces website illustration evidence from the
 unchanged Chimera product source
-`7c782fda9e2d7cb255e70b6d1d1857fc78300c46`. It does not publish images, update
+`7b20cd9d1f90e3e2969c250712b199e893cf50cd`. It does not publish images, update
 the website, run product acceptance, merge product changes or create a release.
 
 The product is checked out clean at the full SHA. An external CMake hook adds

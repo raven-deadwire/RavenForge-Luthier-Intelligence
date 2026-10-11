@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
-      PRODUCT_SHA: 7c782fda9e2d7cb255e70b6d1d1857fc78300c46
+      PRODUCT_SHA: 7b20cd9d1f90e3e2969c250712b199e893cf50cd
     steps:
       - name: Check out the capture controller
         uses: actions/checkout@v5
