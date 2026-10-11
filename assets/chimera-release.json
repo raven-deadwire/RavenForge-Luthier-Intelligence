@@ -3,7 +3,7 @@
   "version": "1.3.0-beta.1",
   "tag": "v1.3.0-beta.1",
   "source_sha": "7f692693f942a0f1dd1973062dc4d5d47b9be4ac",
-  "review_note": "2026-10-11: owner-approved final 1.3 source 7f692693 audited. Native Windows CAB/IR pictures are actual captures of the same final source 7f692693, from successful Windows job 114420009739 in run 38122520197 and checksum-verified artifact 11696851285. Approval remains recorded; existing CI and public release/assets verification remain required. Owner-requested public copy cleanup removes commercial reference labels and internal calibration/history narrative from the EN/KO/DE product section and online manual. Own model names, product features, usage limits, legal/IR attribution and actual screenshot provenance remain intact; release source and verification requirements are unchanged. The hero now shows the verified final-source Dual CAB image, replacing the older Matrix screenshot that visibly included commercial-reference labels. Online IR migration guidance omits unnecessary brand examples while preserving imported capture identities and attribution. 2026-10-11: restored a dedicated AMP/RIGS showcase with three unedited release-equivalent JUCE captures and retained all 1.3 product content. Aligned Niflheimr/Náströnd structure and copy in EN/KO/DE, removed owner-identified redundant cabinet/IR implementation prose, and added required-section regression coverage. See docs/validation/chimera-rigs-and-originals-2026-10-11.md and rigs screenshot provenance.",
+  "review_note": "2026-10-11: owner-approved final 1.3 product source 7f692693f942a0f1dd1973062dc4d5d47b9be4ac remains pinned. Existing public release/source/asset verification remains required. The owner’s latest homepage request selects a Matrix hero and exactly two AMP/RIGS images: Classic and Dual, demonstrating commercially modeled amps. Three new unedited 1.3.0 JUCE captures show Crom Cruach (Taste Punch / Modern Bass / Tight 515), Classic Crunch (Brit Edge), and Feel My Wrath (Fourfold / Tight 515). Source/Assets/CMake objects and production-library digest were reverified against the released product; see rigs-commercial-beta13-provenance.json. Native Windows CAB/IR captures and their provenance remain valid. EN/KO/DE captions and alt text match the actual selected models and routing; the original-amp product descriptions, cabinet/IR content and public download links remain intact. The required-content contract follows the new hero/gallery placement. Reviewed hashes below cover this owner-requested arrangement.",
   "counts": {
     "amps": 25,
     "presets": 48,
@@ -183,8 +183,8 @@
     "Assets/Artwork/rv5.jpg": "6b18f42aafd69a04eb1da1a81d0520dd8f299e77"
   },
   "reviewed_files": {
-    "assets/chimera.js": "e7ffff5a07fabbb79ae6a7bf41abd80559a49110a6752d350e36a55820fc1db0",
-    "assets/chimera.css": "67b89e66a59a81b438282d5022e8ba83e507147410bbc35d076dc3503a9c35b6",
+    "assets/chimera.js": "96736fee146e00164d3b794ac10a8b35fcd6da32ba1b48b22e5e7b8c71f9b789",
+    "assets/chimera.css": "560138216bb4d206ef22dc5478c8bdbc532056937995aa97fb2f1df764852fd9",
     "manual/chimera.html": "83d52d454f2ca05a9ecabf7cee0eccb03dc47af6ef8e5d82428dec333a1f70a2",
     "assets/chimera/dual-cabinet-beta13.png": "9b635d96d1a2140801fcad0125adf0a9102ef379325106b2fef39ca57a915fca",
     "assets/chimera/ir-loader-beta13.png": "e45b941c50c38f2459b9adb90a961cfc652a649ffe1e1b9e7852851a2e905f27",
@@ -193,7 +193,14 @@
     "assets/chimera/rigs-dual-beta13.png": "22fbb42cc34a7f1c2cfbc57ed94d95969c8b07287cc9645a901126d802d8ec3a",
     "assets/chimera/rigs-matrix-beta13.png": "a13e3d2b0259fc4623ca0f1e766a8538d69fcc1cc40db1c8723c988b06b7dc65",
     "assets/chimera/rigs-screens-beta13-provenance.json": "14221a3af7cf05dd7293147ea44b17492002d4e2114a81396c617592baed4d27",
-    "docs/validation/chimera-rigs-capture-2026-10-11.cpp": "2f20dfd8ab82910ed1befe8cc4dc612df6885671673598a8db34a554ed8cc897"
+    "docs/validation/chimera-rigs-capture-2026-10-11.cpp": "2f20dfd8ab82910ed1befe8cc4dc612df6885671673598a8db34a554ed8cc897",
+    "assets/chimera/rigs-classic-crunch-beta13.png": "3825f5ce7393bedb56d580c8684efc42c970c979432ccd9298212e0ff1545d32",
+    "assets/chimera/rigs-matrix-crom-cruach-beta13.png": "88c33e3501ce05f637f72c99daf79f958fddf93cca42ab378cf378b727894f54",
+    "assets/chimera/rigs-dual-wrath-beta13.png": "1ca70f1f573debeb5188cf6433c4c6aa916556fdfc301aff2036f12f3008bd28",
+    "assets/chimera/rigs-commercial-beta13-provenance.json": "922d2b647b2827048399930b522c5e3d0612920eec718008b70587b8dbc1c934",
+    "docs/validation/chimera-commercial-rigs-capture-2026-10-11.cpp": "6e341c38801ce9a448d262fad53578eedd463293d925212a250fd20a1bd98dc3",
+    "docs/validation/chimera-commercial-rigs-capture-2026-10-11.log": "392464a125c78c2c38d08e5c5830c62116f701433a8b7960990921dc05f752cb",
+    "tools/chimera_page_inventory.cjs": "97e376863dcab5319ad681b528b9223a1a0be6b7d645f0e5cae8dbb83545d303"
   },
-  "product_markup_sha256": "ae78ec7c6531c7cc2f014cf8a7f84081b00b4a6b6d7e68f329d032e1dfdc28d3"
+  "product_markup_sha256": "d4ae9e632eda26e274975c7b1e6a2d8667f96a893ac43c8a5081c995263c26b0"
 }

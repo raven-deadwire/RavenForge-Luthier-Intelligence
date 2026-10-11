@@ -1,0 +1,12 @@
+rigs-classic-crunch-beta13 | preset=Classic Crunch | presetIndex=7 | mode=0 | size=1180x780
+  dualtype=0 | dualblend=0.5 | x1=150 | x2=1200 | inputmode=0
+  lane=0 | model=1 | name=Brit Edge | reference=Marshall JTM45 | channel=SINGLE | route=HIGH TREBLE HIGH
+rigs-dual-wrath-beta13 | preset=Feel My Wrath | presetIndex=35 | mode=1 | size=1180x780
+  dualtype=0 | dualblend=0.3 | x1=160 | x2=1500 | inputmode=0
+  lane=0 | model=17 | name=Fourfold | reference=Diezel VH4 | channel=CH3 / MEGA | route=INPUT
+  lane=1 | model=2 | name=Tight 515 | reference=Peavey 6505 / 5150 family | channel=LEAD | route=HIGH GAIN INPUT
+rigs-matrix-crom-cruach-beta13 | preset=Crom Cruach | presetIndex=31 | mode=2 | size=1180x780
+  dualtype=0 | dualblend=0.5 | x1=200 | x2=1800 | inputmode=0
+  lane=0 | model=14 | name=Taste Punch | reference=EICH T900 | channel=SINGLE | route=INPUT
+  lane=1 | model=7 | name=Modern Bass | reference=Darkglass B7K Ultra + Aguilar DB751 | channel=SINGLE | route=INPUT
+  lane=2 | model=2 | name=Tight 515 | reference=Peavey 6505 / 5150 family | channel=LEAD | route=HIGH GAIN INPUT
