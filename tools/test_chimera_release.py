@@ -136,6 +136,70 @@ class PublicReleaseContract(unittest.TestCase):
                     check.validate_public(lock)
 
 
+class NativePresetObservationContract(unittest.TestCase):
+    def setUp(self):
+        self.rigs = json.loads((check.ROOT / "assets/chimera/rigs-beta131-native-provenance.json").read_text())
+        # The public release lock intentionally stays at the published version
+        # during preparation. These comparison tests use the recorded capture.
+        self.lock = {"source_sha": self.rigs["source_sha"], "version": self.rigs["release_version"]}
+
+    def test_recorded_capture_observations_match_without_mutation(self):
+        original = copy.deepcopy(self.rigs)
+        check.validate_native_preset_observations(self.lock, self.rigs)
+        self.assertEqual(self.rigs, original)
+
+    def test_stale_compiled_source_is_blocked(self):
+        self.rigs["capture_provenance"]["compiled_version"]["source_sha"] = "0" * 40
+        with self.assertRaisesRegex(check.InvalidRelease, "source identity"):
+            check.validate_native_preset_observations(self.lock, self.rigs)
+
+    def test_stale_embedded_image_or_route_observations_are_blocked(self):
+        mutations = [
+            ("sha256", "0" * 64), ("size_bytes", 1), ("width", 1),
+            ("preset_index", -1), ("preset", "Stale preset"), ("mode", -1),
+            ("input_mode", -1), ("native_peer", False), ("pixel_edits", True),
+        ]
+        for field, value in mutations:
+            with self.subTest(field=field):
+                stale = copy.deepcopy(self.rigs)
+                stale["capture_provenance"]["capture"]["images"][0][field] = value
+                with self.assertRaisesRegex(check.InvalidRelease, "observation differs"):
+                    check.validate_native_preset_observations(self.lock, stale)
+        for field in ("model_index", "channel_index", "input_route_index"):
+            with self.subTest(amp_field=field):
+                stale = copy.deepcopy(self.rigs)
+                stale["capture_provenance"]["capture"]["images"][0]["amps"][0][field] = -1
+                with self.assertRaisesRegex(check.InvalidRelease, "observation differs"):
+                    check.validate_native_preset_observations(self.lock, stale)
+        stale = copy.deepcopy(self.rigs)
+        stale["images"][0]["audio_settling"]["final_cpu_peak_percent"] += 1
+        with self.assertRaisesRegex(check.InvalidRelease, "observation differs"):
+            check.validate_native_preset_observations(self.lock, stale)
+
+    def test_missing_added_or_duplicate_observation_fields_are_blocked(self):
+        for side in ("website", "capture"):
+            for operation in ("missing", "added"):
+                with self.subTest(side=side, operation=operation):
+                    stale = copy.deepcopy(self.rigs)
+                    record = (stale["images"] if side == "website"
+                              else stale["capture_provenance"]["capture"]["images"])[0]
+                    if operation == "missing":
+                        del record["input_mode"]
+                    else:
+                        record["unrecorded_annotation"] = "changed"
+                    with self.assertRaisesRegex(check.InvalidRelease, "observation differs"):
+                        check.validate_native_preset_observations(self.lock, stale)
+        self.rigs["capture_provenance"]["capture"]["images"].append(
+            copy.deepcopy(self.rigs["capture_provenance"]["capture"]["images"][0]))
+        with self.assertRaisesRegex(check.InvalidRelease, "inventory differs"):
+            check.validate_native_preset_observations(self.lock, self.rigs)
+
+    def test_website_path_cannot_replace_artifact_identity(self):
+        self.rigs["images"][0]["file"] = "assets/chimera/unrelated.png"
+        with self.assertRaisesRegex(check.InvalidRelease, "website path differs"):
+            check.validate_native_preset_observations(self.lock, self.rigs)
+
+
 class LocalContentContract(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -164,6 +228,12 @@ const removed = [
   '#chimera-rigs img[data-chimera-alt="rigsDualAlt"]',
   '#chimera-rigs [data-chimera-key="matrix"]',
   '#chimera-rigs [data-chimera-key="rigsControls"]',
+  '#chimera-editing',
+  '#chimera-editing [data-chimera-key="headBody"]',
+  '#chimera-editing [data-chimera-key="knobBody"]',
+  '#chimera-editing [data-chimera-key="signalBody"]',
+  '#chimera-editing [data-chimera-key="eqBody"]',
+  '#chimera-editing .rf-chimera-head-gallery',
   '#chimera-niflheimr',
   '#chimera-niflheimr .rf-chimera-nastrond-features > article',
   '#chimera-nastrond .rf-chimera-nastrond-channels > article',
