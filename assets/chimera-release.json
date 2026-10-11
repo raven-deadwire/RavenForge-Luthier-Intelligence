@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.3.0-beta.1",
   "tag": "v1.3.0-beta.1",
-  "source_sha": "aaa1330dd5cf7d51faf1c45a7cef633b9b118458",
-  "review_note": "Candidate source audited on 2026-10-10. This is not release approval. Re-audit and refresh the lock against the actual published tag before merging PR #19.",
+  "source_sha": "621bd70e79720c36c8b484f292e9f9386848ecb8",
+  "review_note": "2026-10-11: full 1.3 product description, IR depth and mounted 4x10 horn candidate. Not release approval. Public publication and exact-source acceptance remain required.",
   "counts": {
     "amps": 25,
     "presets": 48,
@@ -16,10 +16,10 @@
     "COPYRIGHT.txt": "c8cd59c2a904b4cd7a40d5f041a17724d95abb85",
     "Source/AmpCatalog.h": "e3f120864a4fa75d220cadca74ef4ab0cbea1068",
     "Source/CabArtwork.h": "7334ac59683f26fce462d0817b4553cba33584cd",
-    "Source/CabExpansionModel.h": "1aa6e57132bc8f1e7eeebea9b2b2c8548dd87e37",
-    "Source/CabLayoutModel.h": "95a42ff73c1cf9cf6a787fc8b6848ebd8483f9ff",
-    "Source/CabPanel.h": "be6c5f266b0b2b7dc971656e8b0dda3a3104edb8",
-    "Source/CapturedCabArt.h": "d60c41aa25a4400161f2964fd629c713fe368bf7",
+    "Source/CabExpansionModel.h": "a2c3e77f3ad3182ab5db6e5ddae8b02c0221e757",
+    "Source/CabLayoutModel.h": "f5b07f473e62575b5bff28d3c25616fca9b3a932",
+    "Source/CabPanel.h": "bc95f587b18e3ea6fb38da5aff465e3c58fbb6c3",
+    "Source/CapturedCabArt.h": "8ba10120bf9c15a88cf49a60c72c5367a136617d",
     "Source/FactoryPresetLevels.h": "4f025eb37230e8e982ede344a98d3cdeed618e29",
     "Source/FactoryPresets.h": "6b44a593dc9260b8364ce705d2acc340319228fb",
     "Source/GuitarSignaturePresets.h": "12b12f5359e2606e0b0f7a84f3e0c300abff6488",
@@ -29,7 +29,11 @@
     "docs/INSTALLATION.md": "4b5c70c56e5e5bcb26688574d15a8a0bd869b8d3",
     "docs/MANUAL.html": "82a30060567ce8090a75ca90ca261e76e529e85b",
     "docs/OPEN_BETA_RELEASE_NOTES.md": "1bdabbfe3b6ddd865d811919a54f649a07d7d5a5",
-    "docs/THIRD_PARTY_NOTICES.md": "1dfd52b31ac4c2ef41e2ef74e9a24afca7795d1e"
+    "docs/THIRD_PARTY_NOTICES.md": "1dfd52b31ac4c2ef41e2ef74e9a24afca7795d1e",
+    "Source/CabLayoutView.h": "12f3ed4645d42bee3428a8e09f6d5c511fe860bf",
+    "Source/CabRoom.h": "128d9a84548691c9416bfa9bfc089541d9c2eaac",
+    "Source/IRBrowserPanel.h": "aab2e404810a6dab2d6bb899886784f0fd779b24",
+    "Source/NiflheimrDefinition.h": "b1e9d170ed9a80662fe542fb08714c794e2d8a78"
   },
   "assets": {
     "SpectralForge-Chimera-1.3.0-beta.1-win64-Setup.exe": {
@@ -180,9 +184,9 @@
     "Assets/Artwork/rv5.jpg": "6b18f42aafd69a04eb1da1a81d0520dd8f299e77"
   },
   "reviewed_files": {
-    "assets/chimera.js": "514cb64ea33c2c1f423cca03b0fda5855e938991b437e758905cc98f8b493e86",
+    "assets/chimera.js": "9343266b5ac107954d454a1021df7b45f69820cde68d579abe82db11b0ca1e8f",
     "assets/chimera.css": "700074bf7b97e0b814e3f98c237478dd3ac9ea2f7c633574a32f09cd5ab529be",
-    "manual/chimera.html": "727fbb5ca7a90bc5090e68f0d2ff29f520586e64b695f316684748105503ce56"
+    "manual/chimera.html": "96a6dafc9954ee3138544da25ff1d07224cbed5215ed2a369fdb311a1a37a4cf"
   },
-  "product_markup_sha256": "1976d40446e355d9726298fe0505ee8eeb728e9697c030e23ec603a298004160"
+  "product_markup_sha256": "dccc9f75820a02f26850dcbc3e79ab13e4e417dfd8ceb424099f36c73f80e164"
 }
