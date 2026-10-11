@@ -3,10 +3,15 @@
 #include "PluginEditor.h"
 #include "GuitarSignaturePresets.h"
 #include "ChimeraBuildVersion.h"
+#include <algorithm>
 #include <array>
+#include <atomic>
+#include <chrono>
+#include <exception>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
+#include <thread>
 
 namespace {
 void require(bool value, const char* message) {
@@ -49,6 +54,71 @@ float raw(ChimeraProcessor& processor, const char* id) {
     require(parameter != nullptr, "Required route parameter missing");
     return parameter->load();
 }
+// A fixed interval, selected before measuring; never wait for a desired CPU value.
+// Product peak decay depends on processed audio seconds, not idle wall time.
+constexpr int warmupBlocks = 2250; // 12 seconds at 48 kHz / 256 samples.
+juce::var settleAudio(ChimeraProcessor& processor) {
+    using Clock = std::chrono::steady_clock;
+    const auto period = std::chrono::duration_cast<Clock::duration>(std::chrono::duration<double>(256.0 / 48000.0));
+    const auto initialAverage = processor.cpuLoad(), initialPeak = processor.cpuPeakLoad();
+    std::atomic<bool> finished{false};
+    std::exception_ptr failure;
+    int processed = 0, overruns = 0;
+    double wallSeconds = 0.0, maxCallbackMs = 0.0;
+    std::thread audio([&] {
+        try {
+            juce::Thread::setCurrentThreadName("ChimeraWebsiteAudio");
+            juce::AudioBuffer<float> buffer(2, 256);
+            juce::MidiBuffer midi;
+            const auto started = Clock::now();
+            auto deadline = started;
+            for (int block = 0; block < warmupBlocks; ++block) {
+                buffer.clear();
+                const auto callbackStarted = Clock::now();
+                processor.processBlock(buffer, midi);
+                const auto callbackEnded = Clock::now();
+                maxCallbackMs = std::max(maxCallbackMs,
+                    std::chrono::duration<double, std::milli>(callbackEnded - callbackStarted).count());
+                ++processed;
+                deadline += period;
+                if (callbackEnded > deadline) {
+                    ++overruns;
+                    deadline = callbackEnded; // Do not issue a burst of catch-up callbacks.
+                }
+                std::this_thread::sleep_until(deadline);
+            }
+            wallSeconds = std::chrono::duration<double>(Clock::now() - started).count();
+        } catch (...) {
+            failure = std::current_exception();
+        }
+        finished.store(true, std::memory_order_release);
+    });
+    try {
+        while (!finished.load(std::memory_order_acquire)) pump(10);
+    } catch (...) {
+        audio.join();
+        throw;
+    }
+    audio.join();
+    if (failure) std::rethrow_exception(failure);
+    require(processed == warmupBlocks, "Incomplete fixed audio settling interval");
+    auto* stats = new juce::DynamicObject();
+    stats->setProperty("policy", "fixed 2250 paced callbacks; no CPU threshold, reset or retry");
+    stats->setProperty("audio_thread", true);
+    stats->setProperty("blocks", processed);
+    stats->setProperty("processed_audio_seconds", double(processed) * 256.0 / 48000.0);
+    stats->setProperty("wall_seconds", wallSeconds);
+    stats->setProperty("callback_deadline_overruns", overruns);
+    stats->setProperty("maximum_callback_ms", maxCallbackMs);
+    stats->setProperty("initial_cpu_average_percent", initialAverage);
+    stats->setProperty("initial_cpu_peak_percent", initialPeak);
+    stats->setProperty("final_cpu_average_percent", processor.cpuLoad());
+    stats->setProperty("final_cpu_peak_percent", processor.cpuPeakLoad());
+    std::cout << "Fixed audio settling: blocks=" << processed << " | wall_seconds=" << wallSeconds
+              << " | deadline_overruns=" << overruns << " | max_callback_ms=" << maxCallbackMs
+              << " | actual_cpu=" << processor.cpuLoad() << " | actual_peak=" << processor.cpuPeakLoad() << '\n';
+    return juce::var(stats);
+}
 struct Scene {
     int preset, mode;
     const char* name;
@@ -87,13 +157,8 @@ juce::var capture(const juce::File& directory, const Scene& scene) {
     require(int(raw(*processor, "mode")) == scene.mode, "Preset restored the wrong routing mode");
     if (scene.mode != 0) require(toggle->isShowing() && toggle->getButtonText() == "CABINET ROOM",
                                  "The native rig-controls view did not open");
-    juce::AudioBuffer<float> buffer(2, 256);
-    juce::MidiBuffer midi;
-    for (int block = 0; block < 80; ++block) {
-        buffer.clear();
-        processor->processBlock(buffer, midi);
-        pump(5);
-    }
+    const auto audioSettling = settleAudio(*processor);
+    pump();
     nativePeer(*editor);
     require(editor->getWidth() == 1180 && editor->getHeight() == 780, "Editor dimensions changed");
     require(picker->getSelectedId() == scene.preset + 1, "Preset selection became custom during capture");
@@ -106,6 +171,7 @@ juce::var capture(const juce::File& directory, const Scene& scene) {
     item->setProperty("width", editor->getWidth());
     item->setProperty("height", editor->getHeight());
     item->setProperty("pixel_edits", false);
+    item->setProperty("audio_settling", audioSettling);
     item->setProperty("input_mode", raw(*processor, "inputmode"));
     item->setProperty("dual_type", raw(*processor, "dualtype"));
     item->setProperty("dual_blend", raw(*processor, "dualblend"));
@@ -163,7 +229,7 @@ int main(int argc, char** argv) {
         report->setProperty("capture_kind", "Native Linux JUCE editor component snapshots; not a desktop framebuffer capture, DAW session or product acceptance test");
         report->setProperty("sample_rate", 48000);
         report->setProperty("block_size", 256);
-        report->setProperty("audio_input", "silence; 80 blocks per preset; no audio interface");
+        report->setProperty("audio_input", "silence; fixed 2250 paced callbacks per preset (12 seconds of audio); separate worker with UI dispatch; no audio interface or real-time driver");
         report->setProperty("parameter_overrides", juce::Array<juce::var>{});
         report->setProperty("images", images);
         const auto json = juce::JSON::toString(juce::var(report));

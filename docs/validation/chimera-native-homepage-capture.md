@@ -22,8 +22,23 @@ checks model identities and captures 1180 × 780 component images:
 | `rigs-matrix-crom-cruach-beta131.png` | 31 | Crom Cruach | Matrix · Taste Punch / Modern Bass / Tight 515 |
 
 No sound parameter override, generated UI, pixel modification or screenshot
-compositing is performed. Silence is processed for 80 blocks per scene at
-48 kHz / 256 samples. CPU readings are incidental and are not benchmarks.
+compositing is performed. Silence is processed for a fixed 2,250 callbacks per
+scene at 48 kHz / 256 samples: exactly 12 seconds of audio. A separate worker
+uses a steady-clock cadence while the UI dispatches messages. Missed callback
+deadlines are recorded and rebased rather than followed by a catch-up burst.
+This is host-like callback pacing on an ordinary runner thread, with no audio
+interface or real-time driver; CPU readings are incidental, not benchmarks.
+
+The original 80-block capture covered only 0.427 seconds of audio. The product
+updates its peak meter as `max(callbackLoad, previousPeak * exp(-blockSeconds))`,
+so its first-callback cold-start peak remained visible. There is no user-facing
+CPU-peak reset. Idle wall-time waiting does not advance this meter's decay.
+The new fixed interval lets the unchanged product meter settle naturally while
+processing real callbacks. No metric is assigned, reset, hidden, clamped or used
+as a capture threshold; the native image is captured after the fixed interval
+and UI refresh even if its measured load is high. The report preserves initial/final average and peak,
+maximum callback duration, deadline overruns and actual elapsed wall time.
+The original run `38147840181` and its PNGs remain untouched evidence.
 These are native JUCE component snapshots, not desktop framebuffer or Studio
 One captures. The website may use them only after the run succeeds and the
 images are inspected; an artifact from a failed run is diagnostic evidence.

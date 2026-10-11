@@ -4,6 +4,7 @@ import argparse
 from datetime import datetime, timezone
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import struct
@@ -74,6 +75,16 @@ def main():
                 "Captured preset/model identity differs: " + image["file"])
         require(image["native_peer"] is True and image["pixel_edits"] is False,
                 "Native untouched component capture required")
+        settling = image["audio_settling"]
+        require(settling["policy"] == "fixed 2250 paced callbacks; no CPU threshold, reset or retry"
+                and settling["audio_thread"] is True and settling["blocks"] == 2250
+                and settling["processed_audio_seconds"] == 12.0 and settling["wall_seconds"] >= 11.99,
+                "Fixed paced native audio settling interval is missing")
+        for field in ("wall_seconds", "maximum_callback_ms", "initial_cpu_average_percent", "initial_cpu_peak_percent",
+                      "final_cpu_average_percent", "final_cpu_peak_percent"):
+            require(math.isfinite(settling[field]) and settling[field] >= 0, "Invalid observed timing: " + field)
+        require(isinstance(settling["callback_deadline_overruns"], int)
+                and 0 <= settling["callback_deadline_overruns"] <= 2250, "Invalid callback deadline count")
         file = output / image["file"]
         with file.open("rb") as source:
             header = source.read(24)
@@ -118,6 +129,9 @@ def main():
             "Unmodified production editor and real preset ComboBox on a native Linux component peer.",
             "Component snapshots are not desktop framebuffer or Studio One screenshots.",
             "No generated UI, pixel edits, sound parameter overrides or replacement test results.",
+            "A fixed 12 seconds of audio is processed with paced worker callbacks while UI messages are dispatched.",
+            "CPU fields are actual product observations; no reset, threshold-based waiting, suppression or retry is used.",
+            "Runner timing includes cold-start and scheduling effects; no audio interface or real-time driver is used, and this is not a benchmark.",
             "This website evidence workflow does not run or replace the product acceptance gates.",
             "The external CMake hook adds only the capture target; the product source checkout remains clean.",
         ],
