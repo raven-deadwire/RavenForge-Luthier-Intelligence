@@ -48,7 +48,7 @@ async function main() {
     report.sourceHashes[file] = createHash('sha256').update(bytes).digest('hex');
     if(live) assert.equal(report.sourceHashes[file],createHash('sha256').update(await fs.readFile(path.join(root,file))).digest('hex'),'Deployed asset differs: '+file);
   }
-  await page.goto(base+'#chimera',{waitUntil:'load'});
+  await page.goto(base+'#chimera',{waitUntil:'domcontentloaded',timeout:60000});
   await page.locator('#chimera').waitFor({state:'visible'});
   for (const width of widths) for (const [lang,label] of Object.entries(languages)) {
     const item = {width,lang,checks:[],errors:[]}; report.cases.push(item);
