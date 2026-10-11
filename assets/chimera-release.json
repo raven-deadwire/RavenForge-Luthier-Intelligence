@@ -2,8 +2,8 @@
   "schema": 1,
   "version": "1.3.0-beta.1",
   "tag": "v1.3.0-beta.1",
-  "source_sha": "8303c844c3dbf024cc1ffa56f9014a97e271af54",
-  "review_note": "2026-10-11: owner-approved 1.3 candidate with the requested narrow cabinet side-rail texture correction audited. Approval remains recorded; individual CI and public release/assets checks remain required. The currently staged native screenshots still carry actual 621bd70 CI provenance and do not demonstrate the new rail correction. Replace both with verified final-source captures before publishing this page.",
+  "source_sha": "7f692693f942a0f1dd1973062dc4d5d47b9be4ac",
+  "review_note": "2026-10-11: owner-approved final 1.3 source 7f692693 audited. Native Windows CAB/IR pictures retain actual source 8303c844, successful Windows job and checksum-verified artifact provenance. The final commit changes only CI encoding and tests; all production UI/source/artwork are identical to 8303c844. Approval remains recorded; existing CI and public release/assets verification remain required.",
   "counts": {
     "amps": 25,
     "presets": 48,
@@ -183,12 +183,12 @@
     "Assets/Artwork/rv5.jpg": "6b18f42aafd69a04eb1da1a81d0520dd8f299e77"
   },
   "reviewed_files": {
-    "assets/chimera.js": "9aebee2b64b970db415dbbf00dfad662fde8a6d8565aca14c56b502d405162b3",
+    "assets/chimera.js": "cff890f2166b8120d7d7a6862635795082e8c69f94278e9a46fef7471f010a1b",
     "assets/chimera.css": "fa06eb0f931830dac581266bc170bed386017422a6056fa4fc484361360dff45",
-    "manual/chimera.html": "7a10337145012558ebfa1b362ee7178a61408c05ba7c3883797edf5f374de643",
-    "assets/chimera/dual-cabinet-beta13.png": "08d729d66d42a9d4816712aa2d81a99e4bb41b1e0553db5f46eb8958ac653753",
-    "assets/chimera/ir-loader-beta13.png": "a03435f6bd1a96a602eb7306bec2b162c7d7eca22d76f5fec7f7ae874cabdf6d",
-    "assets/chimera/screens-beta13-provenance.json": "e96285f73f009a5d31444649d2bca5a0b8613f2c4d33ae55e9716c0382534530"
+    "manual/chimera.html": "dcfd26540957e82bf996325a71c2d0cd76fd51d497f9aa29d3acedbfe074341f",
+    "assets/chimera/dual-cabinet-beta13.png": "9b635d96d1a2140801fcad0125adf0a9102ef379325106b2fef39ca57a915fca",
+    "assets/chimera/ir-loader-beta13.png": "e45b941c50c38f2459b9adb90a961cfc652a649ffe1e1b9e7852851a2e905f27",
+    "assets/chimera/screens-beta13-provenance.json": "42d04f3b9e9f56e2470a83733a3e5f2118a73065e778eeb5a5ba9a52d0a4e331"
   },
-  "product_markup_sha256": "f6538abef82111b36f45821c67e5f58941b86d79b9d22b85c41ce67c59b4ef66"
+  "product_markup_sha256": "7dad7937049e612fd813a812e38c25be7903351208cb4f70bfa5fd7180146dd6"
 }

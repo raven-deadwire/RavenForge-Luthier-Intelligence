@@ -18,16 +18,19 @@ English, Korean and German product section accordingly.
   Existing Beta 1.1 screenshots keep their explicit earlier-version captions.
 
 Code and artwork references are pinned to the owner-approved integrated 1.3 source
-`8303c844c3dbf024cc1ffa56f9014a97e271af54` on
+`7f692693f942a0f1dd1973062dc4d5d47b9be4ac` on
 `release/1.3.0-preparation` and `release/open-beta-1.3.0`.
 The implementation source `621bd70e79720c36c8b484f292e9f9386848ecb8`
 ([Chimera PR #43](https://github.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/pull/43))
 improves captured-cabinet depth and keeps mounted bass 4×10 HF hardware visible
 at zero level. Subsequent commits finalize the manual/release notes and record
-owner approval. The latest source `8303c844` then makes the owner's requested
+owner approval. Source `8303c844` then makes the owner's requested
 narrow cabinet side-rail texture correction in `Source/CabEnclosureArtwork.h`,
 with corresponding enclosure material checks. It changes neither DSP nor
 presets; the packaged manual and release policy retain their reviewed blobs.
+Final release source `7f692693` changes only the enclosure material test and
+three Python CI encoding/test files. All production code, artwork, manual and
+approval-policy blobs remain identical to `8303c844`; no new capture is implied.
 All 108 audited source/artwork blobs match the final GitHub tree.
 
 The web manual now matches the final source documentation for all four tweeter
@@ -49,9 +52,9 @@ The product description itself does not certify public release availability.
 - Source/content integrity lock covers the current product markup, JS, CSS,
   manual, source files and 85 pinned remote image references plus two verified local CI screenshots.
 - JavaScript syntax and whitespace checks pass.
-- GitHub run 38118045844 for the preceding website head `e571a4d` confirms
+- GitHub run 38119822329 for the preceding website head `035cbde` confirms
   the content/link job passes and the public release/assets job blocks on HTTP
-  404 (2026-10-11 06:31 UTC). This final-source lock update has passed local
+  404 (2026-10-11 07:01 UTC). This native screenshot update has passed local
   checks; no new website CI result is claimed here. A desktop/mobile browser
   render was not completed locally because the Chromium download was invalid.
 - `verify_chimera_release.py --offline` reports `OFFLINE_PASS`, explicitly
@@ -63,23 +66,33 @@ Owner acceptance and publication authorization are recorded in the approved
 source. No additional general approval or tested-file identification is required.
 The individual CI/source-evidence and public-asset checks remain unchanged:
 this PR must not publish 1.3 download links until the exact source has a verified
-public 1.3 release. The two CAB/IR pictures must also be replaced with verified
-final-source CI captures before this page is published. Source changes require
-another source/content audit.
+public 1.3 release. The two CAB/IR pictures now use verified captures of the
+corrected production renderer. Source changes require another source/content
+audit; documentation, pipeline or test-only changes do not relabel the capture
+source or require new screenshots when product UI code and artwork are identical.
 Owner acceptance does not synthesize individual CI, listening, DAW or historical
 measurement reports.
 
 ## Actual CAB/IR screens
 
-The CAB section now links two byte-identical native macOS component snapshots
-from the successful macOS job in CAB CI run 38116435373, artifact 11694466617,
-source `621bd70e79720c36c8b484f292e9f9386848ecb8`. Their original provenance stays
-unchanged. They document IR depth and the mounted 4×10 horn before the new
-`8303c844` side-rail correction and are not relabelled as captures of that fix.
-Replacement final-source captures are pending CAB CI run 38119610154; neither
-that run's completion nor an updated screenshot is claimed here.
-One shows the modeled 4×10 horn at tweeter 0%; the other shows factory IR cards
-with the shared enclosure depth/materials. These are actual product components,
-not mockups. Each caption identifies macOS. Artifact and image hashes are in
-`assets/chimera/screens-beta13-provenance.json`, itself covered by the content
-lock. These screenshots do not certify external IR recording equipment.
+The CAB section links two byte-identical native Windows component snapshots
+from successful Windows CAB job 114411441748 in run 38119610154,
+artifact 11695383097, source `8303c844c3dbf024cc1ffa56f9014a97e271af54`.
+The artifact ZIP SHA-256 is
+`d565f0168a749ca5ac358bd645154fa0eb32b9297ca107a07781ee96dc8bce0a`.
+
+Visual review confirms the guitar 4×12 side rail follows a continuous upper/lower
+texture at the bend, the bass 4×10 horn remains visible at tweeter 0%, and the IR
+cards retain enclosure depth, microphone placement and intentional EXAMPLE
+labels. These are actual product components, not mockups or capture-session
+photographs. The Windows screenshots replace the earlier macOS images, and
+all three language captions now identify Windows. Their dimensions remain
+1040×780 and 1040×748, respectively.
+
+Artifact and image hashes are in `assets/chimera/screens-beta13-provenance.json`,
+itself covered by the content lock. This provenance identifies the successful
+Windows job; it does not assert success for the macOS job or entire CAB workflow.
+Final source `7f692693` changes only CI encoding and test files, preserving all
+production renderer code and artwork. These verified pictures therefore remain
+representative of that source, while their original capture identity stays
+`8303c844`. No additional approval or recapture requirement is introduced.

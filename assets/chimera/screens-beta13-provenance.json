@@ -1,26 +1,28 @@
 {
-  "source_sha": "621bd70e79720c36c8b484f292e9f9386848ecb8",
-  "run_id": 38116435373,
+  "source_sha": "8303c844c3dbf024cc1ffa56f9014a97e271af54",
+  "run_id": 38119610154,
   "run_attempt": 1,
-  "artifact_id": 11694466617,
-  "artifact_sha256": "df5bd00bd8e6436478d72cb791713830f706883dc6068b3221e498e7a35a7eac",
-  "platform": "macOS",
+  "artifact_id": 11695383097,
+  "artifact_sha256": "d565f0168a749ca5ac358bd645154fa0eb32b9297ca107a07781ee96dc8bce0a",
+  "platform": "Windows",
   "workflow": "CAB Panel prototype contracts",
   "job_conclusion": "success",
   "kind": "Native product component snapshots; not mockups or capture-session photographs",
   "files": {
     "dual-cabinet-beta13.png": {
       "artifact_path": "cab-visual-current-horn-zero-level.png",
-      "sha256": "08d729d66d42a9d4816712aa2d81a99e4bb41b1e0553db5f46eb8958ac653753"
+      "sha256": "9b635d96d1a2140801fcad0125adf0a9102ef379325106b2fef39ca57a915fca"
     },
     "ir-loader-beta13.png": {
       "artifact_path": "cab-visual-ir-images-factory.png",
-      "sha256": "a03435f6bd1a96a602eb7306bec2b162c7d7eca22d76f5fec7f7ae874cabdf6d"
+      "sha256": "e45b941c50c38f2459b9adb90a961cfc652a649ffe1e1b9e7852851a2e905f27"
     }
   },
   "notes": [
-    "Bass 4x10 horn screenshot uses tweeter level 0%.",
-    "Factory IR metadata does not specify driver configurations; EXAMPLE is intentional.",
-    "The pictures are copied byte-for-byte from the checksum-verified CI artifact."
-  ]
+    "The successful Windows CAB job generated both native component snapshots at source 8303c844c3dbf024cc1ffa56f9014a97e271af54.",
+    "The guitar 4x12 side rails include the continuous texture correction. The bass 4x10 horn screenshot uses tweeter level 0%.",
+    "Factory IR metadata does not specify driver configurations; EXAMPLE is intentional. The illustrations do not verify capture-session hardware.",
+    "The pictures are copied byte-for-byte from the checksum-verified CI artifact. This identifies the successful Windows job, not a claim that every job in the workflow passed."
+  ],
+  "job_id": 114411441748
 }
