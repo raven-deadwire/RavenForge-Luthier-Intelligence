@@ -1,0 +1,70 @@
+name: Chimera native homepage capture
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native-capture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      PRODUCT_SHA: 2bbb6554d514e6086c8f723f9ec52eba751a98a6
+    steps:
+      - name: Check out the capture controller
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Check out the exact product source
+        uses: actions/checkout@v5
+        with:
+          repository: raven-deadwire/SpectralForge-Chimera-Amp-Matrix
+          ref: ${{ env.PRODUCT_SHA }}
+          path: product
+          persist-credentials: false
+      - name: Require the clean pinned source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C product rev-parse HEAD)" = "$PRODUCT_SHA"
+          test -z "$(git -C product status --porcelain=v1)"
+      - name: Install the native build and display dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev libcurl4-openssl-dev libfreetype6-dev libfontconfig1-dev libx11-dev libxcomposite-dev libxcursor-dev libxext-dev libxinerama-dev libxrandr-dev libxrender-dev libgl1-mesa-dev xvfb openbox x11-utils
+      - name: Build the separate capture executable
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmake -S product -B "$RUNNER_TEMP/chimera-capture-build" -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_PROJECT_ChimeraAmpMatrix_INCLUDE="$GITHUB_WORKSPACE/tools/chimera-native-capture.cmake" \
+            -DCHIMERA_WEBSITE_CAPTURE_SOURCE="$GITHUB_WORKSPACE/tools/chimera-native-capture.cpp"
+          cmake --build "$RUNNER_TEMP/chimera-capture-build" --config Release --target ChimeraWebsiteCapture --parallel 2
+          test -z "$(git -C product status --porcelain=v1)"
+      - name: Capture the actual native preset views
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/chimera-native-homepage"
+          capture_binary="$(cat "$RUNNER_TEMP/chimera-capture-build/chimera-capture-binary-Release.txt")"
+          python3 product/Tools/run_linux_ui_tests.py -- "$capture_binary" "$RUNNER_TEMP/chimera-native-homepage" \
+            2>&1 | tee "$RUNNER_TEMP/chimera-native-homepage/capture.log"
+      - name: Verify source identity and record capture provenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "$RUNNER_TEMP/chimera-capture-build/chimera-build-version.json" "$RUNNER_TEMP/chimera-native-homepage/"
+          python3 tools/chimera_native_capture_provenance.py \
+            --product product --controller . \
+            --build "$RUNNER_TEMP/chimera-capture-build" \
+            --output "$RUNNER_TEMP/chimera-native-homepage"
+      - name: Preserve captures and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: Chimera-homepage-native-${{ env.PRODUCT_SHA }}-${{ github.sha }}-attempt-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/chimera-native-homepage/
+          if-no-files-found: error
+          retention-days: 30

@@ -1,0 +1,40 @@
+# Native homepage capture controller
+
+This manual-only workflow produces website illustration evidence from the
+unchanged Chimera product source
+`2bbb6554d514e6086c8f723f9ec52eba751a98a6`. It does not publish images, update
+the website, run product acceptance, merge product changes or create a release.
+
+The product is checked out clean at the full SHA. An external CMake hook adds
+one console target at the end of the existing product configure. It links the
+production `ChimeraAmpMatrix`, artwork and manual targets. No product source,
+test, compiler setting, existing target or CI gate is rewritten.
+
+The Linux runner uses the product's unchanged Xvfb/Openbox wrapper. The harness
+requires a display, a visible native peer and its real native handle. It selects
+presets through the actual preset ComboBox, navigates through existing controls,
+checks model identities and captures 1180 × 780 component images:
+
+| File | Preset index | Preset | Mode and heads |
+| --- | ---: | --- | --- |
+| `rigs-classic-crunch-beta131.png` | 7 | Classic Crunch | Classic · Brit Edge |
+| `rigs-dual-wrath-beta131.png` | 35 | Feel My Wrath | Dual Blend · Fourfold / Tight 515 |
+| `rigs-matrix-crom-cruach-beta131.png` | 31 | Crom Cruach | Matrix · Taste Punch / Modern Bass / Tight 515 |
+
+No sound parameter override, generated UI, pixel modification or screenshot
+compositing is performed. Silence is processed for 80 blocks per scene at
+48 kHz / 256 samples. CPU readings are incidental and are not benchmarks.
+These are native JUCE component snapshots, not desktop framebuffer or Studio
+One captures. The website may use them only after the run succeeds and the
+images are inspected; an artifact from a failed run is diagnostic evidence.
+
+`provenance.json` records the exact product/controller SHAs, clean source tree
+objects, compiled version, controller file hashes, production static-library
+hashes, capture executable/log hashes, preset/model observations and all three
+PNG hashes and dimensions. `SHA256SUMS.txt` covers the evidence files. Product
+acceptance and publication are explicitly false in this illustration record.
+
+The workflow has only `workflow_dispatch` and read-only repository permission.
+Its sole remote write is the normal Actions evidence artifact. A separate
+website content change must update product images, captions, release lock and
+browser checks after public product release verification.
