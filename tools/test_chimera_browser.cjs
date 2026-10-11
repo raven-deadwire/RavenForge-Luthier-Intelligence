@@ -98,6 +98,10 @@ async function main() {
       });
       assert(result.scroll<=result.viewport+1,JSON.stringify(result));assert.equal(result.overflow.length,0,JSON.stringify(result.overflow));return result;
     });
+    await check('aligned product statistics',async()=>{
+      const tops=await page.locator('.rf-chimera-stats dd').evaluateAll(nodes=>nodes.map(e=>e.getBoundingClientRect().top));
+      assert(Math.max(...tops)-Math.min(...tops)<1,'Statistic values drift with wrapped labels: '+tops);return tops;
+    });
     await check('three original-image popup links',async()=>{
       const links = await page.locator('.rf-chimera-preview a,.rf-chimera-rigs-gallery a').all();
       const opened=[];
@@ -112,9 +116,12 @@ async function main() {
         opened.push(popup.url());await popup.close();
       }return opened;
     });
-    if([1440,820,760,390,320].includes(width)) for(const [name,selector] of [['hero','.rf-chimera-hero'],['rigs','#chimera-rigs'],['downloads','.rf-chimera-downloads']]) {
-      const node=page.locator(selector);await node.scrollIntoViewIfNeeded();
-      await node.screenshot({path:path.join(output,`${width}-${lang}-${name}.png`),animations:'disabled'});
+    if([1440,820,760,390,320].includes(width)) {
+      // Capture from the top so the sticky header is not painted over section crops.
+      await page.evaluate(()=>window.scrollTo(0,0));
+      item.screenshotRegions={};
+      for(const [name,selector] of [['hero','.rf-chimera-hero'],['rigs','#chimera-rigs'],['downloads','.rf-chimera-downloads']]) item.screenshotRegions[name]=await page.locator(selector).boundingBox();
+      await page.screenshot({path:path.join(output,`${width}-${lang}-page.png`),fullPage:true,animations:'disabled'});
     }
     console.log(JSON.stringify({width,lang,errors:item.errors}));
   }
