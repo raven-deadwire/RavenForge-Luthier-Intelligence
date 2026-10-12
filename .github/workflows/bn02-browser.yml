@@ -1,0 +1,57 @@
+name: BN02 publication browser QA
+
+on:
+  pull_request:
+    paths: ['research/BN02/**', 'research/research-index.json', 'index.html', 'tools/test_bn02_browser.cjs', '.github/workflows/bn02-browser.yml']
+  push:
+    branches: [main]
+    paths: ['research/BN02/**', 'research/research-index.json', 'index.html', 'tools/test_bn02_browser.cjs', '.github/workflows/bn02-browser.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bn02-browser-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  chromium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install Chromium 131 and Korean fonts
+        run: |
+          npm install --no-save --no-package-lock --no-audit --no-fund playwright@1.49.1
+          npx playwright install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Render candidate articles and archive at four viewport widths
+        if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main')
+        env:
+          BN02_QA_DIR: ${{ runner.temp }}/bn02-browser
+        run: node tools/test_bn02_browser.cjs
+      - name: Compare and inspect the public GitHub Pages deployment
+        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
+        env:
+          BN02_QA_DIR: ${{ runner.temp }}/bn02-browser
+          BN02_COMPARE_BASE: ${{ github.event.before }}
+        run: node tools/test_bn02_browser.cjs --public
+      - name: Assert published research stays unchanged during verification
+        if: always()
+        run: git diff --exit-code -- research
+      - name: Preserve browser screenshots and measured evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bn02-browser-${{ github.event_name }}-${{ github.event.pull_request.head.sha || github.sha }}
+          path: ${{ runner.temp }}/bn02-browser
+          if-no-files-found: error
+          retention-days: 30
