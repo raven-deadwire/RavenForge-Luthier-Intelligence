@@ -1,0 +1,20 @@
+{
+  "id": "BN02",
+  "date": "2026-10-12",
+  "category": "log",
+  "ko": {
+    "title": "SpectralForge Chimera 개발기 Part 2",
+    "excerpt": "Náströnd·Niflheimr 채널 설계, NAM 학습의 한계, 캐비넷·마이크 모델과 실시간 처리 기준을 실제 UI 및 인포그래픽으로 기록한 Chimera 개발기 2편.",
+    "link": "research/BN02/ko.html"
+  },
+  "en": {
+    "title": "SpectralForge Chimera Development Log Part 2",
+    "excerpt": "Chimera Part 2 documents Náströnd and Niflheimr channel design, NAM training limits, cabinet and microphone models, and real-time criteria with actual UI captures and infographics.",
+    "link": "research/BN02/en.html"
+  },
+  "de": {
+    "title": "SpectralForge Chimera Entwicklungstagebuch Teil 2",
+    "excerpt": "Chimera Teil 2 dokumentiert das Kanaldesign von Náströnd und Niflheimr, Grenzen des NAM-Trainings, Boxen- und Mikrofonmodelle sowie Echtzeitkriterien mit tatsächlichen UI-Aufnahmen und Infografiken.",
+    "link": "research/BN02/de.html"
+  }
+}
