@@ -107,7 +107,8 @@ def validate_local(lock, inventory, root=ROOT):
         provenance_path = "assets/chimera/" + name
         require(provenance_path in lock["reviewed_files"], "Unreviewed head image provenance")
         provenance = json.loads((root / provenance_path).read_text())
-        require(provenance["source_sha"] == lock["source_sha"], "Head images have a different source")
+        image_source = lock["source_sha"] if expected_kind == "artwork" else lock.get("native_capture", lock)["source_sha"]
+        require(provenance["source_sha"] == image_source, "Head images have a different source")
         records = provenance["images"]
         require(len(records) == (25 if expected_kind == "artwork" else 3), "Incomplete head image evidence")
         if expected_kind == "artwork":
@@ -138,7 +139,7 @@ def validate_local(lock, inventory, root=ROOT):
     rig_provenance_path = "assets/chimera/rigs-beta131-native-provenance.json"
     require(rig_provenance_path in lock["reviewed_files"], "Unreviewed native preset provenance")
     rigs = json.loads((root / rig_provenance_path).read_text())
-    validate_native_preset_observations(lock, rigs)
+    validate_native_preset_observations(lock.get("native_capture", lock), rigs)
     expected_rigs = {
         "rigs-classic-crunch-beta131.png": (7, "Classic Crunch", 0, [1]),
         "rigs-dual-wrath-beta131.png": (35, "Feel My Wrath", 1, [17, 2]),
@@ -222,6 +223,33 @@ def validate_provenance(lock, candidate, run):
             and run.get("status") == "completed" and run.get("conclusion") == "success", "Candidate build has not succeeded for this source")
 
 
+def validate_weekly_publication(lock, documents, run):
+    """Check the published source-bound receipt, not preparation-time approval flags."""
+    body = documents["publication-decision.json"].encode("utf-8")
+    require(hashlib.sha256(body).hexdigest() == lock["publication"]["decision_sha256"],
+            "Published approval receipt differs from reviewed digest")
+    decision = json.loads(body)
+    candidate = json.loads(documents["candidate-source.json"])
+    require(decision.get("schema") == "spectralforge.chimera.weekly-publication-decision"
+            and decision.get("schema_version") == 1
+            and decision.get("version") == lock["version"]
+            and decision.get("revision", {}).get("commit_sha") == lock["source_sha"]
+            and str(decision["revision"].get("run_id")) == str(candidate.get("runId"))
+            and str(decision["revision"].get("run_attempt")) == str(candidate.get("runAttempt")),
+            "Published approval source/build identity differs")
+    require(all(decision.get(field) is True for field in
+                ("publication_allowed", "release_approved", "publication_authorized")),
+            "Published approval does not authorize this beta")
+    acceptance = decision.get("owner_acceptance", {})
+    require(decision.get("decision") == "OWNER_ACCEPTED_BETA_WITH_VALIDATION_GAPS"
+            and all(acceptance.get(field) is True for field in
+                    ("approved", "publication_authorized", "validation_gaps_accepted")),
+            "Published beta validation gaps were not accepted")
+    require(str(run.get("id")) == str(lock["publication"]["run_id"])
+            and run.get("status") == "completed" and run.get("conclusion") == "success",
+            "Publication workflow has not succeeded")
+
+
 def parse_sums(text):
     result = {}
     for line in text.splitlines():
@@ -265,8 +293,10 @@ def validate_public(lock):
     for path, digest in {**lock["source_files"], **lock["images"]}.items():
         require(blobs.get(path) == digest, f"Reviewed source/artwork differs at released tag: {path}")
     policy = public_json(RAW + ref["sha"] + "/Validation/release-policy.json")["release_scope"]
-    require(policy.get("version") == lock["version"] and policy.get("release_approved") is True
-            and policy.get("publication_authorized") is True, "Release source acceptance is not approved")
+    require(policy.get("version") == lock["version"], "Release source version differs")
+    if not lock.get("publication"):
+        require(policy.get("release_approved") is True and policy.get("publication_authorized") is True,
+                "Release source acceptance is not approved")
     documents = {}
     for name, spec in lock["assets"].items():
         url = assets[name]["browser_download_url"]
@@ -286,6 +316,9 @@ def validate_public(lock):
     require(str(candidate.get("runId", "")).isdigit(), "Missing candidate run ID")
     run = public_json(API + "/actions/runs/" + str(candidate["runId"]))
     validate_provenance(lock, candidate, run)
+    if lock.get("publication"):
+        publication_run = public_json(API + "/actions/runs/" + str(lock["publication"]["run_id"]))
+        validate_weekly_publication(lock, documents, publication_run)
     sums = parse_sums(documents["SHA256SUMS.txt"])
     packages = {name for name, spec in lock["assets"].items() if spec["kind"] == "package"}
     require(set(sums) == packages, "Checksums must cover exactly five packages")
@@ -295,9 +328,23 @@ def validate_public(lock):
     require(not any(marker in documents["OPEN_BETA_RELEASE_NOTES.md"] for marker in
                     ("release preparation", "릴리즈 준비본", "The release remains in preparation")), "Public release notes still describe an unpublished candidate")
     manual_base = re.search(r"const ASSET=['\"]([^'\"]+)['\"]", documents["MANUAL.html"])
+    manual_refs = {ref["sha"], lock["tag"]}
+    if lock.get("published_manual_artwork_ref"):
+        # The packaged manual retains a previous immutable art tag. Verify those
+        # bytes also exist unchanged in the released product; never accept main.
+        art_ref = lock["published_manual_artwork_ref"]
+        require(re.fullmatch(r"v\d+\.\d+\.\d+-beta\.\d+", art_ref), "Mutable manual artwork reference")
+        art_tree = public_json(API + "/git/trees/" + art_ref + "?recursive=1")
+        require(not art_tree.get("truncated"), "Incomplete manual artwork tree")
+        old_art = {e["path"]: e["sha"] for e in art_tree["tree"]
+                   if e["type"] == "blob" and e["path"].startswith("Assets/Artwork/")
+                   and e["path"].lower().endswith((".jpg", ".png", ".webp"))}
+        require(old_art and all(blobs.get(path) == digest for path, digest in old_art.items()),
+                "Packaged manual artwork differs from released product")
+        manual_refs.add(art_ref)
     require(manual_base is not None and manual_base[1] in
-            {RAW + ref["sha"] + "/Assets/Artwork/", RAW + lock["tag"] + "/Assets/Artwork/"},
-            "Published manual artwork must be pinned to the released source or tag")
+            {RAW + value + "/Assets/Artwork/" for value in manual_refs},
+            "Published manual artwork must match verified immutable source")
 
     artwork = json.loads((ROOT / "assets/chimera/heads-beta131-artwork-provenance.json").read_text())
     inspected_artwork = {record["source_path"]: record for record in artwork["images"]}

@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "version": "1.3.1-beta.1",
-  "tag": "v1.3.1-beta.1",
-  "source_sha": "7b20cd9d1f90e3e2969c250712b199e893cf50cd",
-  "review_note": "Reviewed exact 7b20 source, six native PNGs and actual public release/tag/build/document receipts; beta acceptance is qualified by the published decision, validation-scope disclosure and native performance notes.",
+  "version": "1.3.1-beta.2",
+  "tag": "v1.3.1-beta.2",
+  "source_sha": "6033236cb81820a43679cbbd34be020804f9658d",
+  "review_note": "Published beta.2 source, package and approval receipt verified. Online copy/manual use the released product names and routes. Native screenshots retain beta.1 source identity and are labeled beta.1; their bytes are unchanged.",
   "counts": {
     "amps": 25,
     "presets": 48,
@@ -42,82 +42,82 @@
     "Assets/Artwork/HeadShells/head-shell-24.png": "4dd44a51ac44f1272271519f5c458630ff4d656e",
     "Assets/Artwork/HeadShells/head-shell-25.png": "b1f53a9d567fb0cfe0dd3d3f9a9b38bdf966ce80",
     "Assets/Artwork/HeadShells/provenance.json": "7b80228e91a56d54f37deb28528e345ff1f41226",
-    "CMakeLists.txt": "4e4c5c7a5e268d0f047f6997a631241256b410fe",
+    "CMakeLists.txt": "bb73556036a8e2f47ad47091ba4acf84720167a7",
     "COPYRIGHT.txt": "c8cd59c2a904b4cd7a40d5f041a17724d95abb85",
-    "Source/AmpCatalog.h": "e3f120864a4fa75d220cadca74ef4ab0cbea1068",
+    "Source/AmpCatalog.h": "6faad11b904b6b4274417d55f95f2844d1342c1e",
     "Source/AmpHeadControlView.h": "2e06a9f0982ee3437381b3c160a756fe973e1ed7",
     "Source/AmpHeadKnobLook.h": "0c87b51c32108bfc34f41391afc81433c408b577",
-    "Source/AmpHeadLayout.h": "eb3e673dd92e2a2cb237421905ac07c6834167de",
+    "Source/AmpHeadLayout.h": "441293ed21a951a866b551e20264122783e51f6f",
     "Source/AmpHeadOverview.h": "f22cd478c58a1ac2d7b61d8a836272480def6eea",
-    "Source/AmpHeadShellMetadata.h": "c0960341effb2497f8add4ea43cf7eacc68d347e",
-    "Source/CabArtwork.h": "7334ac59683f26fce462d0817b4553cba33584cd",
-    "Source/CabEnclosureArtwork.h": "b835b083ada713d3aa70c659fb31694d8193dbfc",
+    "Source/AmpHeadShellMetadata.h": "ccc6697a3d47620f971b2e984cf982253d28d388",
+    "Source/CabArtwork.h": "d82e031ed563004ff2453fb3751f865feba8ca43",
+    "Source/CabEnclosureArtwork.h": "363ce1f1bce43af0a69270015b871fb21be90049",
     "Source/CabExpansionModel.h": "a2c3e77f3ad3182ab5db6e5ddae8b02c0221e757",
-    "Source/CabHeadDimensions.h": "2d449bd3846da14b9201417ab1ca6ab9c857f4f0",
+    "Source/CabHeadDimensions.h": "edeebf6f8122e728d96c3f607abed24631e8d244",
     "Source/CabHeadView.h": "d624b8a5ecbbad5916a2db3cea14c12c60dde2c8",
     "Source/CabLayoutModel.h": "f5b07f473e62575b5bff28d3c25616fca9b3a932",
     "Source/CabLayoutView.h": "12f3ed4645d42bee3428a8e09f6d5c511fe860bf",
-    "Source/CabPanel.h": "bd2c2c559db3304a739aa13a036e1cda5f1f93a0",
-    "Source/CabRoom.h": "92d1cb5dc366e83526aaf16f75500b4d9132eb12",
+    "Source/CabPanel.h": "fb6575bc0cff92471f74dd68e87d1fbec340c635",
+    "Source/CabRoom.h": "003bd41c81c86ceb4c2da1b574549eac395bce46",
     "Source/CapturedCabArt.h": "8ba10120bf9c15a88cf49a60c72c5367a136617d",
-    "Source/FactoryPresetLevels.h": "4f025eb37230e8e982ede344a98d3cdeed618e29",
-    "Source/FactoryPresets.h": "6b44a593dc9260b8364ce705d2acc340319228fb",
+    "Source/FactoryPresetLevels.h": "ee4ad1a955c457420f19c13f4ad2e640e66c08af",
+    "Source/FactoryPresets.h": "b9c4506e66f63a298394605e6be86a353a9f0274",
     "Source/GraphicalEQ.h": "3b7109584cb4023f09ff03cd8c77e13f962b9920",
     "Source/GraphicalEQPanel.h": "026d3bc8823d907f2535f11706758475b645d11d",
-    "Source/GuitarSignaturePresets.h": "12b12f5359e2606e0b0f7a84f3e0c300abff6488",
-    "Source/IRBrowserPanel.h": "aab2e404810a6dab2d6bb899886784f0fd779b24",
+    "Source/GuitarSignaturePresets.h": "96bd2b7509fd19db6e620a95b44d5dded93dae5e",
+    "Source/IRBrowserPanel.h": "6807d57b68cceb4e39dda69dcc486b0cad068dd4",
     "Source/NiflheimrDefinition.h": "b1e9d170ed9a80662fe542fb08714c794e2d8a78",
-    "Source/NiflheimrPresets.h": "a4e363e5a7db5d5275a6db401ebec78469d9326b",
-    "Source/OriginalPresets.h": "5fcd3d37d5b5527b8031ba43685dfdb1b0f5331d",
-    "Source/PluginEditor.cpp": "ad21b16a696877ea639b43147c6d60ae2601a155",
+    "Source/NiflheimrPresets.h": "e51c82740647ba4e8fb1ecc1b910d2f5c4eaf574",
+    "Source/OriginalPresets.h": "e30d6dcc925f257e66788ae6d1697ba31e9d090e",
+    "Source/PluginEditor.cpp": "16bc56b07f5f358d7e9b711ca1a42f8a86a562df",
     "Source/PluginEditor.h": "ddaf56978af266404ee1a0b97c89d77aa72522bf",
     "Source/PluginProcessor.cpp": "c8560425cb038ba9f2490df6874d1801ca09d10b",
     "Source/PluginProcessor.h": "068d8ae38145c24f57fd30eebf698f359a1d506d",
     "Source/SignalPath.h": "04db03fd47d5999aff06c0947c4f0fe7ef2bb83f",
     "Source/SignalPathView.h": "097db212a600b486c8f8e8986ca211edd92eef5e",
     "Tests/CabDriverVisualTests.h": "5825f1368a9d446e9fea7024d52d5c2b4ef72427",
-    "Tests/CabSceneUITests.h": "7c786fe43db5ae6c4e336902d19cf0e717afba63",
+    "Tests/CabSceneUITests.h": "e0095010f419be63d2177c418d6ffbfa63d43e51",
     "Tests/NativeFocusTests.cpp": "37d5f62692aaac4dead1bebf3fb4a80f944b846f",
-    "Tests/NativeMessageLoop.mm": "bf059e183bba35b944a804d534185b056881c270",
+    "Tests/NativeMessageLoop.mm": "bcce828e21e26890ce9ed3782348a5b7ba9e2e51",
     "Tests/SignalPathUITests.h": "cf8b72750891b8814daffa049caa846eca54bcbb",
-    "Tools/package_installer_candidate.py": "31cc1f4be61f48f7605ffbbb2eaec306d80b973f",
-    "Tools/package_release.py": "c4bc32732f5d8535bc201b25944d8329aff3452e",
+    "Tools/package_installer_candidate.py": "65ebef55b435a069c66114c7fdbfa3adb5bbbab5",
+    "Tools/package_release.py": "c12ff9c05c8a938a520644af13e11b4faf7b6943",
     "Tools/publish_beta131.py": "b87139d50c2ad81d3b16ea624ea121ecbc246ead",
-    "Tools/publish_open_beta.py": "8a663c37b2b01970db48b61e96fe61854af42cc0",
+    "Tools/publish_open_beta.py": "f67304fdf1ccd09ebd128c916c122ce5dbea97e9",
     "Tools/run_cab_realtime_ci.py": "d0f338938a9495e6776ecb664a61ad49e78cb933",
     "Tools/test_cab_timing_evidence.py": "ecbe6f571b319a85753db1cc724a35fafab7adfb",
     "Tools/test_candidate_transfer.py": "602cd210eaa7bd80b5d0a87878ac261d8a4f8c9f",
-    "Tools/test_publish_beta131.py": "990a577319adbb9244686dac328dec4c70a1bd90",
-    "Validation/release-policy.json": "5dc112f2007bb16732c68554d593b06c33ca85e8",
-    "cmake/ChimeraVersion.cmake": "d8614dee2a2f441947e26942e9b0407122796d5a",
+    "Tools/test_publish_beta131.py": "5ef5029c45749252ddfdf3b7228ef28659bf9792",
+    "Validation/release-policy.json": "c3694e13f19c5b6c540fb365b0cbc3b706499e3c",
+    "cmake/ChimeraVersion.cmake": "1d9f5873306eb29f393e67c125da59102ca79628",
     "cmake/JuceLinuxFocus.cmake": "1486c76f92f2e06b8e3fbf80af11ecc65f7447e9",
-    "docs/INSTALLATION.md": "ac33f3a0a5524e4c79b634d5a724416d2e25ac3e",
-    "docs/MANUAL.html": "9a4b97faa36581041e46dd8ffb41013dbd8d4553",
-    "docs/OPEN_BETA_RELEASE_NOTES.md": "6f8ca041f9b335822577c3febb5556706689f6b3",
-    "docs/RELEASE_CHECKLIST.md": "932e0144c1a37ebf24b993b763c1bf20e10101e7",
-    "docs/THIRD_PARTY_NOTICES.md": "1dfd52b31ac4c2ef41e2ef74e9a24afca7795d1e",
-    "docs/UPDATES.md": "41f124a5f9b6bf3c81e7e837057bbc47f65bff7a",
+    "docs/INSTALLATION.md": "3da625052cf7640e524bbc952d338c6d6efbe4fe",
+    "docs/MANUAL.html": "c0ac0136af81cbd22b1b2ce80fa9252574af2c4d",
+    "docs/OPEN_BETA_RELEASE_NOTES.md": "fed586602ed9b6346ac07c01f1c575aac90c99dc",
+    "docs/RELEASE_CHECKLIST.md": "2682a888e022d077fe9ad0eeb144efe798b358e7",
+    "docs/THIRD_PARTY_NOTICES.md": "60c10ec4ddcfb2fded7a5679c49f8644f800ba87",
+    "docs/UPDATES.md": "b1b23225c57de1491a004aeba79fbd75f98565a3",
     "docs/WINDOWS_INSTALL.txt": "70d1c49b62c81dd896541ba10f138de9656ecfd2",
     "docs/WINDOWS_MSIX.md": "f3f83bddce2c3f96e5021f3b4560f45fcc0a9bc2"
   },
   "assets": {
-    "SpectralForge-Chimera-1.3.1-beta.1-win64-Setup.exe": {
+    "SpectralForge-Chimera-1.3.1-beta.2-win64-Setup.exe": {
       "kind": "package",
       "linked": true
     },
-    "SpectralForge-Chimera-1.3.1-beta.1-win64.zip": {
+    "SpectralForge-Chimera-1.3.1-beta.2-win64.zip": {
       "kind": "package",
       "linked": true
     },
-    "SpectralForge-Chimera-1.3.1-beta.1-macos-universal.pkg": {
+    "SpectralForge-Chimera-1.3.1-beta.2-macos-universal.pkg": {
       "kind": "package",
       "linked": true
     },
-    "SpectralForge-Chimera-1.3.1-beta.1-linux-x86_64.deb": {
+    "SpectralForge-Chimera-1.3.1-beta.2-linux-x86_64.deb": {
       "kind": "package",
       "linked": true
     },
-    "SpectralForge-Chimera-1.3.1-beta.1-linux-x86_64.tar.gz": {
+    "SpectralForge-Chimera-1.3.1-beta.2-linux-x86_64.tar.gz": {
       "kind": "package",
       "linked": true
     },
@@ -155,6 +155,10 @@
       "linked": false
     },
     "update-beta.json": {
+      "kind": "document",
+      "linked": false
+    },
+    "publication-decision.json": {
       "kind": "document",
       "linked": false
     }
@@ -248,12 +252,12 @@
   },
   "reviewed_files": {
     "assets/chimera.css": "d548a6831984f89ddb016990f9601beb9f19a616594fb83953430f057161ecd7",
-    "assets/chimera.js": "05fcafbd7ca261d66d64908272f2809932d8af2506ffa4cbc18d93fe4298a237",
+    "assets/chimera.js": "964b7ae679b2bf10f21fdbe4028ffd0f5d4e21960fa1888dee3cfc7d0de8bf74",
     "assets/chimera/dual-cabinet-beta13.png": "9b635d96d1a2140801fcad0125adf0a9102ef379325106b2fef39ca57a915fca",
     "assets/chimera/head-brit-edge-beta131.png": "20c7f662306f536d221be40a9e65c6cbb15caf7cb3be362f35f780faff00697d",
     "assets/chimera/head-nastrond-beta131.png": "7c266df61c2602fe1ee1fc3a214fa2f4769f3adc6c11551271a5379546b09e92",
     "assets/chimera/head-niflheimr-beta131.png": "67d25548a1091496568e5b640b319f0150798df310e063a2ba6e191419e7d3c8",
-    "assets/chimera/heads-beta131-artwork-provenance.json": "add69a992a5e00afc41ddcdc80c4e31426612dd4c79443f1d0854fc24c06b087",
+    "assets/chimera/heads-beta131-artwork-provenance.json": "fb335231d8de228ddbd416e250dc34a5ff9dcd4b7d00e8e2f22e6162f6c72b3e",
     "assets/chimera/heads-beta131-native-provenance.json": "b3cf9c5b2c09c505b40d3803921f3c533e8a3866a519028fe09e2e046fc10679",
     "assets/chimera/ir-loader-beta13.png": "e45b941c50c38f2459b9adb90a961cfc652a649ffe1e1b9e7852851a2e905f27",
     "assets/chimera/rigs-beta131-native-provenance.json": "c841db6ea252e18655ae3eae5f8e51dcd073c247ec96bc71494511595d9f10c6",
@@ -273,8 +277,17 @@
     "docs/validation/chimera-commercial-rigs-capture-2026-10-11.cpp": "6e341c38801ce9a448d262fad53578eedd463293d925212a250fd20a1bd98dc3",
     "docs/validation/chimera-commercial-rigs-capture-2026-10-11.log": "392464a125c78c2c38d08e5c5830c62116f701433a8b7960990921dc05f752cb",
     "docs/validation/chimera-rigs-capture-2026-10-11.cpp": "2f20dfd8ab82910ed1befe8cc4dc612df6885671673598a8db34a554ed8cc897",
-    "manual/chimera.html": "75767a9d4dea4292e3f86dddf072774af49c6c9bd79caed4eb358dc5516aeffb",
+    "manual/chimera.html": "1f7f5f53d257bd61aa4765f687da81e4239a654bbd7d075e7b52f384f488da79",
     "tools/chimera_page_inventory.cjs": "e1a7e5912e224126add41dd12b7a8500decf52c97277fabc9f76a54703420b65"
   },
-  "product_markup_sha256": "8526884d5ffb1d13549f9218bb637c293db52ce5b773426705db7a950c07b201"
+  "product_markup_sha256": "1ffd4cf546388769697d1a31a08b0f95203263c7453dbdce5ede07670b0788a6",
+  "native_capture": {
+    "source_sha": "7b20cd9d1f90e3e2969c250712b199e893cf50cd",
+    "version": "1.3.1-beta.1"
+  },
+  "publication": {
+    "decision_sha256": "2c89c1a79110e03da591b0f3c45d321373434e3098584bc38653ff2254e96f96",
+    "run_id": 38361769014
+  },
+  "published_manual_artwork_ref": "v1.3.1-beta.1"
 }

@@ -22,7 +22,35 @@ class PublicReleaseContract(unittest.TestCase):
         return check.validate_release_metadata(self.lock, self.release, self.sha)
 
     def test_complete_synthetic_metadata_is_accepted(self):
-        self.assertEqual(len(self.verify()), 13)
+        self.assertEqual(len(self.verify()), 14)
+
+    def publication_fixture(self, lock):
+        return {"schema": "spectralforge.chimera.weekly-publication-decision", "schema_version": 1,
+                "version": lock["version"], "revision": {"commit_sha": self.sha, "run_id": "42", "run_attempt": "1"},
+                "decision": "OWNER_ACCEPTED_BETA_WITH_VALIDATION_GAPS", "publication_allowed": True,
+                "release_approved": True, "publication_authorized": True,
+                "owner_acceptance": {"approved": True, "publication_authorized": True, "validation_gaps_accepted": True}}
+
+    def test_weekly_approval_rejects_wrong_source_missing_consent_or_failed_publish(self):
+        lock = copy.deepcopy(self.lock)
+        candidate = {"runId": 42, "runAttempt": "1"}
+        valid = self.publication_fixture(lock)
+        run = {"id": lock["publication"]["run_id"], "status": "completed", "conclusion": "success"}
+        def verify(decision, publication_run=run, pin=True):
+            body = json.dumps(decision)
+            if pin:
+                lock["publication"]["decision_sha256"] = check.hashlib.sha256(body.encode()).hexdigest()
+            check.validate_weekly_publication(lock, {"publication-decision.json": body,
+                "candidate-source.json": json.dumps(candidate)}, publication_run)
+        verify(valid)
+        wrong = copy.deepcopy(valid); wrong["revision"]["commit_sha"] = "0" * 40
+        with self.assertRaisesRegex(check.InvalidRelease, "identity differs"): verify(wrong)
+        wrong = copy.deepcopy(valid); wrong["publication_authorized"] = False
+        with self.assertRaisesRegex(check.InvalidRelease, "does not authorize"): verify(wrong)
+        wrong = copy.deepcopy(valid); wrong["owner_acceptance"]["validation_gaps_accepted"] = False
+        with self.assertRaisesRegex(check.InvalidRelease, "not accepted"): verify(wrong)
+        with self.assertRaisesRegex(check.InvalidRelease, "not succeeded"): verify(valid, {**run, "conclusion": "failure"})
+        with self.assertRaisesRegex(check.InvalidRelease, "reviewed digest"): verify(wrong, pin=False)
 
     def test_draft_cannot_be_public(self):
         self.release["draft"] = True
@@ -100,7 +128,9 @@ class PublicReleaseContract(unittest.TestCase):
         assets = {a["name"]: a for a in release["assets"]}
         docs = {n: b"Synthetic release documentation" for n, a in lock["assets"].items() if a["kind"] == "document"}
         docs["MANUAL.html"] = ("const ASSET='" + check.RAW + self.sha + "/Assets/Artwork/';").encode()
-        docs["candidate-source.json"] = json.dumps({"revision": self.sha, "tag": lock["tag"], "version": lock["version"], "runId": 42}).encode()
+        docs["candidate-source.json"] = json.dumps({"revision": self.sha, "tag": lock["tag"], "version": lock["version"], "runId": 42, "runAttempt": "1"}).encode()
+        docs["publication-decision.json"] = json.dumps(self.publication_fixture(lock)).encode()
+        lock["publication"]["decision_sha256"] = check.hashlib.sha256(docs["publication-decision.json"]).hexdigest()
         sums = {n: "a" * 64 for n, a in lock["assets"].items() if a["kind"] == "package"}
         docs["SHA256SUMS.txt"] = "\n".join(h + "  " + n for n, h in sums.items()).encode()
         update = {"schema": 1, "version": lock["version"], "channel": "beta", "releaseUrl": release["html_url"], "assets": []}
@@ -121,7 +151,7 @@ class PublicReleaseContract(unittest.TestCase):
             if "/git/tags/" in url: return {"object": {"type": "commit", "sha": self.sha}}
             if "/git/trees/" in url: return tree
             if url.endswith("release-policy.json"): return {"release_scope": {"version": lock["version"], "release_approved": True, "publication_authorized": True}}
-            if "/actions/runs/" in url: return {"id": 42, "head_sha": self.sha, "status": "completed", "conclusion": "success"}
+            if "/actions/runs/" in url: return {"id": int(url.rsplit('/', 1)[1]), "head_sha": self.sha, "status": "completed", "conclusion": "success"}
             self.fail("Unexpected fixture request: " + url)
         corrupt = None
         def transport(url, method="GET"):
