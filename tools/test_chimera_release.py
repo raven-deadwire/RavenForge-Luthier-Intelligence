@@ -1,7 +1,10 @@
 """Negative publication contracts. Synthetic fixtures do not approve Chimera."""
 import copy
+import base64
 import json
+from pathlib import Path
 import subprocess
+import tempfile
 import unittest
 from unittest.mock import patch
 from urllib.error import HTTPError
@@ -124,6 +127,8 @@ class PublicReleaseContract(unittest.TestCase):
     def test_public_pipeline_rejects_tampered_document_and_image_bytes(self):
         # Transport fixture exercises the whole public chain, not a real release.
         lock = copy.deepcopy(self.lock)
+        # Current native archive provenance has its own transport contract below.
+        lock.pop("current_native_capture", None)
         release = copy.deepcopy(self.release)
         assets = {a["name"]: a for a in release["assets"]}
         docs = {n: b"Synthetic release documentation" for n, a in lock["assets"].items() if a["kind"] == "document"}
@@ -228,6 +233,90 @@ class NativePresetObservationContract(unittest.TestCase):
         self.rigs["images"][0]["file"] = "assets/chimera/unrelated.png"
         with self.assertRaisesRegex(check.InvalidRelease, "website path differs"):
             check.validate_native_preset_observations(self.lock, self.rigs)
+
+
+class CurrentNativeCaptureContract(unittest.TestCase):
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name)
+        (self.root / "assets/chimera").mkdir(parents=True)
+        self.image = "assets/chimera/current-ci.png"
+        self.provenance_file = "assets/chimera/current-ci-provenance.json"
+        self.png = base64.b64decode(
+            "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aA1cAAAAASUVORK5CYII=")
+        (self.root / self.image).write_bytes(self.png)
+        identity = {"source_sha": "a" * 40, "version": "1.3.2-beta.1",
+                    "run_id": 42, "run_attempt": 1, "platform": "windows", "capture_kind": "component-snapshot"}
+        self.provenance = {**identity,
+            "schema": "spectralforge.chimera.homepage-native-ci-snapshots.v1", "pixel_edits": False,
+            "artifacts": [{"id": 100, "name": "CI-screenshots", "sha256": "b" * 64, "size_bytes": 200}],
+            "images": [{"file": self.image, "artifact_id": 100, "artifact_path": "nested/original.png",
+                        "sha256": check.hashlib.sha256(self.png).hexdigest(), "size_bytes": len(self.png),
+                        "width": 1, "height": 1, "pixel_edits": False}]}
+        self.lock = {"source_sha": identity["source_sha"], "version": identity["version"],
+                     "current_native_capture": {**identity, "provenance_file": self.provenance_file},
+                     "native_capture": {"source_sha": "c" * 40, "version": "1.3.1-beta.1"},
+                     "reviewed_files": {self.image: check.hashlib.sha256(self.png).hexdigest()}}
+        self.run = {"id": 42, "run_attempt": 1, "head_sha": identity["source_sha"],
+                    "status": "completed", "conclusion": "success"}
+        self.artifact = {"id": 100, "name": "CI-screenshots", "digest": "sha256:" + "b" * 64,
+                         "size_in_bytes": 200, "workflow_run": {"id": 42, "head_sha": identity["source_sha"]}}
+        self.pin()
+
+    def pin(self):
+        data = json.dumps(self.provenance).encode()
+        (self.root / self.provenance_file).write_bytes(data)
+        self.lock["reviewed_files"][self.provenance_file] = check.hashlib.sha256(data).hexdigest()
+
+    def test_bytes_and_history_are_preserved_but_tampering_is_rejected(self):
+        before = copy.deepcopy(self.lock)
+        self.assertEqual(check.validate_current_native_capture(self.lock, self.root), self.provenance)
+        self.assertEqual(self.lock, before)
+        for data in (self.png + b"changed", b"not a PNG"):
+            (self.root / self.image).write_bytes(data)
+            with self.assertRaises(check.InvalidRelease):
+                check.validate_current_native_capture(self.lock, self.root)
+        del self.lock["current_native_capture"]
+        self.assertIsNone(check.validate_current_native_capture(self.lock, self.root))
+
+    def test_repinning_cannot_hide_stale_identity_false_claims_or_unsafe_images(self):
+        original = copy.deepcopy(self.provenance)
+        changes = [(None, "source_sha", "c" * 40), (None, "run_attempt", 2),
+                   (None, "capture_kind", "native-peer-component-snapshot"),
+                   (0, "width", 2), (0, "pixel_edits", True), (0, "artifact_id", 101),
+                   (0, "file", "../outside.png"), (0, "artifact_path", "nested/../outside.png")]
+        for image, field, value in changes:
+            with self.subTest(field=field):
+                self.provenance = copy.deepcopy(original)
+                target = self.provenance if image is None else self.provenance["images"][image]
+                target[field] = value
+                self.pin()
+                with self.assertRaises(check.InvalidRelease):
+                    check.validate_current_native_capture(self.lock, self.root)
+
+    def test_public_source_attempt_and_archive_must_match(self):
+        def api(url):
+            return {check.API + "/actions/runs/42": self.run,
+                    check.API + "/actions/runs/43": {**self.run, "id": 43},
+                    check.API + "/actions/artifacts/100": self.artifact}[url]
+        with patch.object(check, "public_json", side_effect=api):
+            check.validate_current_native_capture_public(self.provenance)
+            for target, changes in [(self.run, [("head_sha", "d" * 40), ("run_attempt", 2), ("conclusion", "failure")]),
+                                    (self.artifact, [("digest", "sha256:" + "e" * 64), ("size_in_bytes", 201),
+                                                     ("name", "unrelated"), ("workflow_run", {"id": 43})])]:
+                for field, value in changes:
+                    with self.subTest(field=field):
+                        original = target[field]
+                        target[field] = value
+                        with self.assertRaises(check.InvalidRelease):
+                            check.validate_current_native_capture_public(self.provenance)
+                        target[field] = original
+            self.provenance["artifacts"][0]["run_id"] = 43
+            with self.assertRaises(check.InvalidRelease):
+                check.validate_current_native_capture_public(self.provenance)
+            self.artifact["workflow_run"]["id"] = 43
+            check.validate_current_native_capture_public(self.provenance)
 
 
 class LocalContentContract(unittest.TestCase):

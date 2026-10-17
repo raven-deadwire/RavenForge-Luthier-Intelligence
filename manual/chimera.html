@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SpectralForge Chimera — Open Beta 1.3.1 Manual</title>
+<title>SpectralForge Chimera — Open Beta 1.3.2 Manual</title>
 <style>
 :root{color-scheme:dark;--bg:#0d1115;--panel:#171d23;--panel2:#202831;--fg:#edf1f4;--muted:#aeb9c2;--line:#34414c;--gold:#d9bd7d;--blue:#a9d2e8;--warn:#e5bc75}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.68 system-ui,-apple-system,"Segoe UI","Noto Sans KR",sans-serif}
@@ -27,7 +27,7 @@ footer{border-top:1px solid var(--line);margin-top:58px;padding-top:22px;color:v
 </style>
 </head>
 <body><main>
-<header><div class="topbar"><div><div class="eyebrow">SPECTRALFORGE · RAVENFORGE LUTHIER INTELLIGENCE</div><h1>CHIMERA</h1><p class="lead" data-k="subtitle"></p><p class="small">Open Beta 1.3.1 · <code>1.3.1-beta.2</code> · <span data-k="counts"></span></p></div>
+<header><div class="topbar"><div><div class="eyebrow">SPECTRALFORGE · RAVENFORGE LUTHIER INTELLIGENCE</div><h1>CHIMERA</h1><p class="lead" data-k="subtitle"></p><p class="small">Open Beta 1.3.2 · <code>1.3.2-beta.1</code> · <span data-k="counts"></span></p></div>
 <div class="languages" aria-label="Language"><button class="lang-btn" data-lang="en">EN</button><button class="lang-btn" data-lang="de">DE</button><button class="lang-btn" data-lang="ko">KR</button></div></div></header>
 <nav><a href="#quick" data-k="navQuick"></a><a href="#install" data-x="navInstall"></a><a href="#operation" data-x="navOperation"></a><a href="#signal" data-k="navSignal"></a><a href="#compare" data-k="navCompare"></a><a href="#pre" data-k="navPre"></a><a href="#amps" data-k="navAmp"></a><a href="#post" data-k="navPost"></a><a href="#ir" data-k="navIr"></a><a href="#workflows" data-k="navWorkflow"></a><a href="#preset" data-k="navPreset"></a><a href="#global" data-k="navGlobal"></a><a href="#host" data-x="navHost"></a><a href="#diag" data-k="navDiag"></a><a href="#limits" data-k="navLimits"></a></nav>
 <p class="note" data-k="referenceNote"></p>
@@ -35,7 +35,7 @@ footer{border-top:1px solid var(--line);margin-top:58px;padding-top:22px;color:v
 <section id="quick"><h2 data-k="quickTitle"></h2><div id="quickBody"></div></section>
 <section id="install"><h2 data-x="installTitle"></h2><div id="installBody"></div><h3 data-x="requirementsTitle"></h3><p class="section-intro" data-x="requirementsNote"></p><div id="requirementsBody"></div><h3 data-x="performanceTitle"></h3><div id="performanceBody"></div><p class="tip" data-x="performanceTip"></p></section>
 <section id="operation"><h2 data-x="operationTitle"></h2><p class="section-intro" data-x="operationIntro"></p><h3 data-x="boardTitle"></h3><div id="boardBody"></div><h3 data-x="stateTitle"></h3><div id="stateBody"></div><h3 data-x="supportTitle"></h3><div id="supportBody"></div><h3 id="headControlTitle"></h3><div id="headControlBody"></div></section>
-<section id="signal"><h2 data-k="signalTitle"></h2><p class="flow">INPUT → Gate / Transpose → 5-slot PRE → Rig(s) + Cabinet/IR → Merge → POST Gate → TONE EQ → POST Rack → Doubler / Click → FINAL EQ → Output trim / Tuner mute</p><div id="modeTable"></div><h3 id="signalNavigationTitle"></h3><div id="signalNavigationBody"></div><h3 id="graphicalEQTitle"></h3><div id="graphicalEQBody"></div></section>
+<section id="signal"><h2 data-k="signalTitle"></h2><p class="flow">INPUT → Gate / Transpose → 5-slot PRE → Rig(s) + Cabinet/IR → Merge → POST Gate → TONE EQ → Clean compressor → POST Rack → Doubler / Click → FINAL EQ → Output trim → Sample-peak limiter → Tuner mute</p><div id="modeTable"></div><h3 id="signalNavigationTitle"></h3><div id="signalNavigationBody"></div><h3 id="graphicalEQTitle"></h3><div id="graphicalEQBody"></div></section>
 <section id="compare"><h2 data-k="compareTitle"></h2><p class="section-intro" data-k="compareIntro"></p><h3 data-k="preFamilyTitle"></h3><div id="preFamilyTable"></div><h3 data-k="ampFamilyTitle"></h3><div id="ampFamilyTable"></div><h3 data-k="postFamilyTitle"></h3><div id="postFamilyTable"></div><h3 data-k="stageTitle"></h3><div id="stageTable"></div></section>
 <section id="pre"><h2 data-k="preTitle"></h2><p class="section-intro" data-k="preIntro"></p><div id="preModels"></div></section>
 <section id="amps"><h2 data-k="ampTitle"></h2><p class="section-intro" data-k="ampIntro"></p><p class="small" id="headArtworkNote"></p><div id="ampModels"></div><h3 data-x="ampRouteTitle"></h3><div id="ampRouteBody"></div></section>
@@ -49,38 +49,38 @@ footer{border-top:1px solid var(--line);margin-top:58px;padding-top:22px;color:v
 <section id="host"><h2 data-x="hostTitle"></h2><p class="section-intro" data-x="hostIntro"></p><h3 data-x="hostCheckTitle"></h3><div id="hostCheckBody"></div><h3 data-x="updateTitle"></h3><div id="updateBody"></div><p><a id="productDownloadLink" href="../index.html#chimera"></a></p><h3 data-x="bugTitle"></h3><div id="bugBody"></div></section>
 <section id="diag"><h2 data-k="diagTitle"></h2><div id="diagBody"></div></section>
 <section id="limits"><h2 data-k="limitsTitle"></h2><div id="limitsBody"></div></section>
-<footer><p>SpectralForge Chimera · Open Beta 1.3.1 · <code>1.3.1-beta.2</code><br>Copyright © 2026 RavenForge Luthier Intelligence. All rights reserved.<br><span data-k="footer"></span></p></footer>
+<footer><p>SpectralForge Chimera · Open Beta 1.3.2 · <code>1.3.2-beta.1</code><br>Copyright © 2026 RavenForge Luthier Intelligence. All rights reserved.<br><span data-k="footer"></span></p></footer>
 </main>
 <script>
 (function(){
 'use strict';
-const ASSET='https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/';
+const ASSET='https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/';
 const HEAD_ARTWORK={
-  "aglass.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-00.png",
-  "abrit.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-01.png",
-  "a515.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-02.png",
-  "arect.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-03.png",
-  "amark.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-04.png",
-  "asvt.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-05.png",
-  "agk.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-06.png",
-  "ahybrid.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-07.png",
-  "achim30.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-08.png",
-  "aorange.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-09.png",
-  "abassman.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-10.png",
-  "asubway.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-11.png",
-  "amatchless.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-12.png",
-  "adumble.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-13.png",
-  "aeich.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-14.png",
-  "acinder.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-15.png",
-  "afourfold.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-17.png",
-  "aclassictube.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-18.png",
-  "amonolith.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-19.png",
-  "anightharvest.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-20.png",
-  "ahotlead.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-21.png",
-  "abluestorm.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-22.png",
-  "aspecialedition.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-23.png",
-  "anastrond.png": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-24.png",
-  "aniflheimr.png": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/6033236cb81820a43679cbbd34be020804f9658d/Assets/Artwork/HeadShells/head-shell-25.png"
+  "aglass.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-00.png",
+  "abrit.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-01.png",
+  "a515.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-02.png",
+  "arect.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-03.png",
+  "amark.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-04.png",
+  "asvt.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-05.png",
+  "agk.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-06.png",
+  "ahybrid.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-07.png",
+  "achim30.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-08.png",
+  "aorange.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-09.png",
+  "abassman.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-10.png",
+  "asubway.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-11.png",
+  "amatchless.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-12.png",
+  "adumble.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-13.png",
+  "aeich.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-14.png",
+  "acinder.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-15.png",
+  "afourfold.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-17.png",
+  "aclassictube.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-18.png",
+  "amonolith.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-19.png",
+  "anightharvest.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-20.png",
+  "ahotlead.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-21.png",
+  "abluestorm.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-22.png",
+  "aspecialedition.jpg": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-23.png",
+  "anastrond.png": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-24.png",
+  "aniflheimr.png": "https://raw.githubusercontent.com/raven-deadwire/SpectralForge-Chimera-Amp-Matrix/3bec6c70a50bbb4021dcc6133f37e0c2fb3e9e58/Assets/Artwork/HeadShells/head-shell-25.png"
 };
 function imageSource(file){return HEAD_ARTWORK[file] || ASSET+encodeURIComponent(file).replace(/%2F/g,'/');}
 function imageAlt(file,name){return name+(HEAD_ARTWORK[file]?' · '+({en:'Head enclosure artwork',ko:'헤드 외장 아트워크',de:'Amp-Gehäuse-Artwork'}[lang]):'');}
@@ -103,7 +103,7 @@ quick:['Close the DAW and older Chimera instance before installing or updating. 
 modes:[['Classic','One full-range amp/cab path','Conventional guitar or bass tones; fastest workflow'],['Dual · Blend','Two full-range rigs mixed together','Tight + wide, clean + crunch, two bass heads'],['Dual · Crossover','LR4 low/high split into two rigs','Clean lows with driven highs; hybrid rigs'],['Matrix','LOW / MID / HIGH; LOW has COMP and DI/AMP blend','Extended range, low tuning, modern bass, complex distortion']],
 ir:["Cabinet processing stays inside each rig lane: Amp → CABINET / IR LOADER → Merge.", "Classic, Dual and Matrix open in CABINET ROOM. Click a cabinet to edit it; ROOM returns to the overview. CABINET configures the modeled speaker and Mic A/B. IR LOADER selects captured IRs. A stored IR remains inactive while that mic uses CABINET, and its IR controls are disabled. Select an IR to switch that mic. BYPASS skips the cabinet stage.", "LOW CUT / HIGH CUT shape the cabinet output. In split modes avoid fighting the crossover with excessively narrow cuts.", "MUTE / SOLO / POLARITY help diagnose Dual/Matrix summing. Different IRs are not automatically time/phase aligned.", "The public IR library contains two verified factory IRs licensed for redistribution. Add your own WAV/AIFF files; unverified external and private capture catalogs are excluded from the public release."],
 preset:["All 48 factory and signature presets now recall modeled CAB recipes for their rigs. Explicit dry-DI lanes keep CAB bypassed; preset IDs and bank order stay stable; built-in display names use Chimera naming.", "Recommended order: nearest preset → input/gate → amp and CAB → routing/crossover → PRE → POST → level-match A/B → SAVE AS.", "A and B are two complete sound snapshots. COPY duplicates the active snapshot; it is not left/right routing and does not loudness-match automatically.", "User IR audio is stored with project/A·B state for recall. Review model-selection automation when opening projects from early test builds."],
-global:[['INPUT / OUTPUT','Internal trims and meters. Fix interface clipping at the interface; use OUTPUT for final level matching.'],['Gate','Threshold (dBFS), Hold/Release (ms), and Range. Range 0 dB = no attenuation; finite values limit the closed-gate reduction; Full releases toward silence (default). Attack is fixed at a 0.5 ms time constant; closing uses 6 dB hysteresis. Lower Threshold or increase Hold/Release when sustain is cut.'],['POST GATE','Detects playing from the clean input but attenuates after rig/cab merge before spatial POST FX. Useful between notes; not a full denoiser while playing.'],['Transpose','−12 to +12 semitones. Adds reported latency and can create artifacts on sharp transients or dense chords.'],['Tuner / Auto Mute','Chromatic tuner reads the original input before Gate/Transpose. A4 is adjustable; Auto Mute silences output while tuning.'],['Oversampling','1× / 2× / 4× / 8× for amp processing; 4× default. Higher values trade CPU for nonlinear quality.'],['Doubler','Short modulated wet delay for stereo width. Check mono compatibility.'],['TAP / BPM / HOST / CLICK','Manual/tap/host tempo and practice click. Delay Sync follows quarter-note tempo; click is not DAW bar-position sync.'],['MIDI Learn','Assign the next received CC to the selected control. Route MIDI through the host or Standalone MIDI input.'],['CPU AVG / PK','Percentage of the audio-block deadline consumed by Chimera, not total system CPU.']],
+global:[['INPUT / OUTPUT','Internal trims and meters. Fix interface clipping at the interface; use OUTPUT for final level matching.'],['Gate','Threshold (dBFS), Hold/Release (ms), and Range. Range 0 dB = no attenuation; finite values limit the closed-gate reduction; Full releases toward silence (default). Attack is fixed at a 0.5 ms time constant; closing uses 6 dB hysteresis. Lower Threshold or increase Hold/Release when sustain is cut.'],['POST GATE','Detects playing from the clean input but attenuates after rig/cab merge before spatial POST FX. Useful between notes; not a full denoiser while playing.'],['Transpose','−12 to +12 semitones. Adds reported latency and can create artifacts on sharp transients or dense chords.'],['TUNER / MUTE OUTPUT','The precision tuner reads the original input before Gate/Transpose. Opening TUNER starts detection; closing it stops detection. MUTE OUTPUT is separate. Choose strobe or needle view and adjust A4 or string offsets.'],['Oversampling','1× / 2× / 4× / 8× for amp processing; 4× default. Higher values trade CPU for nonlinear quality.'],['Doubler','Short modulated wet delay for stereo width. Check mono compatibility.'],['TAP / BPM / HOST / CLICK','Manual/tap/host tempo and practice click. Delay Sync follows quarter-note tempo; click is not DAW bar-position sync.'],['MIDI Learn','Assign the next received CC to the selected control. Route MIDI through the host or Standalone MIDI input.'],['CPU AVG / PK','Percentage of the audio-block deadline consumed by Chimera, not total system CPU.']],
 diag:['Use SETTINGS → Review / copy / save diagnostics to compare RMS/Peak through INPUT_TRIM, PRE, RIG_GATE, POST and OUTPUT.','If level unexpectedly drops, identify the first stage where RMS/Peak changes instead of compensating only at OUTPUT.','If Dual/Matrix loses lows, solo lanes and inspect polarity, IR onset, blend and crossover. IRs are not auto-aligned.','Spectral Octaver adds roughly 42.7–46.4 ms at supported rates. Bypass preserves alignment; replace the slot with Empty to remove that frame delay.','For high CPU, lower amp oversampling, review Transpose/Spectral Octaver and convolution use, or increase host buffer size.','Beta 1.1 improves JUCE shutdown/resource cleanup. Host shutdown, project-close and plugin-unload behaviour still requires validation in each DAW; Studio One is one previously reported case, not the only host covered by this guidance.'],
 limits:['This is a free open beta and may become a paid product. Free updates/support after beta are not guaranteed.','Windows publisher signing and macOS Developer ID signing/notarization are not complete; OS warnings can appear.','Some reference functions remain intentionally unavailable, including Dynamic Wah HUMAN/TEMPO-style modes and independent Variable Mu right-bank/SEP operation.','Structural PRE edits are not certified click-free during playback.','Transpose and spectral pitch processing can add latency and transient/chord artifacts.','IR natural onset and phase are not automatically corrected across lanes.'],
 workflows:[
@@ -132,7 +132,7 @@ quick:['DAW und ältere Chimera-Instanzen vor Installation oder Update schließe
 modes:[['Classic','Ein Fullrange-Amp/Cab-Pfad','Konventionelle Gitarren-/Basstöne; schnellster Workflow'],['Dual · Blend','Zwei Fullrange-Rigs werden gemischt','Tight + breit, Clean + Crunch, zwei Bass-Heads'],['Dual · Crossover','LR4-Tief/Hoch-Split in zwei Rigs','Saubere Tiefen mit verzerrten Höhen; Hybrid-Rigs'],['Matrix','LOW / MID / HIGH; LOW mit COMP und DI/AMP-Mix','Extended Range, tiefe Tunings, moderner Bass, komplexe Verzerrung']],
 ir:["Cabinet-Bearbeitung bleibt in jeder Rig-Spur: Amp → CABINET / IR LOADER → Merge.", "Classic, Dual und Matrix öffnen CABINET ROOM. Ein Klick auf die Box öffnet den Editor; ROOM führt zurück. CABINET konfiguriert Lautsprecher und Mic A/B, IR LOADER wählt aufgenommene IRs. Solange ein Mikrofon CABINET nutzt, bleiben die gespeicherte IR und deren Regler inaktiv. Die Auswahl einer IR wechselt die Quelle dieses Mikrofons. BYPASS umgeht die Cabinet-Stufe.", "LOW CUT / HIGH CUT formen den Cabinet-Ausgang. In Split-Modi die Crossover nicht durch zu enge Filter konterkarieren.", "MUTE / SOLO / POLARITY helfen bei Summierungsproblemen in Dual/Matrix. Verschiedene IRs werden nicht automatisch zeitlich oder phasenmäßig ausgerichtet.", "Die öffentliche IR-Bibliothek enthält zwei geprüfte Factory-IRs mit Weiterverteilungslizenz. Eigene WAV/AIFF-Dateien können importiert werden; ungeprüfte externe und private Aufnahmekataloge gehören nicht zum öffentlichen Release."],
 preset:["Alle 48 Werks- und Signature-Presets laden jetzt modellierte CAB-Konfigurationen für ihre Rigs. Ausdrücklich trockene DI-Spuren umgehen CAB; Preset-IDs und Bankreihenfolge bleiben erhalten; die Anzeigenamen verwenden Chimera-Bezeichnungen.", "Empfohlene Reihenfolge: Preset → Input/Gate → Amp und CAB → Routing/Crossover → PRE → POST → A/B pegeln → SAVE AS.", "A und B sind zwei vollständige Sound-Snapshots. COPY kopiert den aktiven Zustand; es ist kein Links/Rechts-Routing und führt keinen automatischen Pegelabgleich durch.", "User-IR-Audio wird für Recall mit Projekt/A·B-Zustand gespeichert. Modellwahl-Automation aus frühen Test-Builds sollte kontrolliert werden."],
-global:[['INPUT / OUTPUT','Interne Trims und Meter. Interface-Clipping am Interface beheben; OUTPUT für den finalen Pegelabgleich verwenden.'],['Gate','Threshold (dBFS), Hold/Release (ms) und Range. 0 dB = keine Absenkung; endliche Werte begrenzen die Absenkung; Full klingt gegen Stille aus (bisheriger Standard). Attack: feste Zeitkonstante 0,5 ms; Hysterese: 6 dB. Bei abgeschnittenem Sustain Threshold senken oder Hold/Release erhöhen.'],['POST GATE','Erkennt das Spiel am sauberen Eingang und dämpft nach Rig/Cab-Merge vor räumlichen POST-Effekten. Hilft zwischen Noten, ist aber kein vollständiger Denoiser während des Spiels.'],['Transpose','−12 bis +12 Halbtöne. Fügt gemeldete Latenz hinzu und kann bei harten Transienten oder dichten Akkorden Artefakte erzeugen.'],['Tuner / Auto Mute','Chromatisches Stimmgerät vor Gate/Transpose; A4 einstellbar. Auto Mute schaltet den Ausgang beim Stimmen stumm.'],['Oversampling','1× / 2× / 4× / 8× für die Amp-Verarbeitung; Standard 4×. Höhere Werte kosten mehr CPU.'],['Doubler','Kurzes moduliertes Wet-Delay für Stereobreite. Monokompatibilität prüfen.'],['TAP / BPM / HOST / CLICK','Manuelles/Tap/Host-Tempo und Übungs-Klick. Delay Sync folgt Viertelnoten; Click ist keine DAW-Taktpositions-Synchronisation.'],['MIDI Learn','Nächsten empfangenen CC dem gewählten Regler zuweisen. MIDI im Host oder Standalone routen.'],['CPU AVG / PK','Anteil des Audio-Block-Zeitbudgets, den Chimera verbraucht; nicht die gesamte System-CPU.']],
+global:[['INPUT / OUTPUT','Interne Trims und Meter. Interface-Clipping am Interface beheben; OUTPUT für den finalen Pegelabgleich verwenden.'],['Gate','Threshold (dBFS), Hold/Release (ms) und Range. 0 dB = keine Absenkung; endliche Werte begrenzen die Absenkung; Full klingt gegen Stille aus (bisheriger Standard). Attack: feste Zeitkonstante 0,5 ms; Hysterese: 6 dB. Bei abgeschnittenem Sustain Threshold senken oder Hold/Release erhöhen.'],['POST GATE','Erkennt das Spiel am sauberen Eingang und dämpft nach Rig/Cab-Merge vor räumlichen POST-Effekten. Hilft zwischen Noten, ist aber kein vollständiger Denoiser während des Spiels.'],['Transpose','−12 bis +12 Halbtöne. Fügt gemeldete Latenz hinzu und kann bei harten Transienten oder dichten Akkorden Artefakte erzeugen.'],['TUNER / MUTE OUTPUT','Der Präzisionstuner liest den Eingang vor Gate/Transpose. TUNER öffnen startet die Erkennung, Schließen beendet sie. MUTE OUTPUT ist separat. Stroboskop- oder Nadelanzeige wählen und A4 oder Saiten-Offsets einstellen.'],['Oversampling','1× / 2× / 4× / 8× für die Amp-Verarbeitung; Standard 4×. Höhere Werte kosten mehr CPU.'],['Doubler','Kurzes moduliertes Wet-Delay für Stereobreite. Monokompatibilität prüfen.'],['TAP / BPM / HOST / CLICK','Manuelles/Tap/Host-Tempo und Übungs-Klick. Delay Sync folgt Viertelnoten; Click ist keine DAW-Taktpositions-Synchronisation.'],['MIDI Learn','Nächsten empfangenen CC dem gewählten Regler zuweisen. MIDI im Host oder Standalone routen.'],['CPU AVG / PK','Anteil des Audio-Block-Zeitbudgets, den Chimera verbraucht; nicht die gesamte System-CPU.']],
 diag:['Unter SETTINGS → Review / copy / save diagnostics RMS/Peak über INPUT_TRIM, PRE, RIG_GATE, POST und OUTPUT vergleichen.','Bei unerwartetem Pegelverlust die erste Stufe mit RMS/Peak-Änderung suchen, statt nur OUTPUT anzuheben.','Bei fehlenden Tiefen in Dual/Matrix Spuren solo prüfen: Polarität, IR-Onset, Blend und Crossover. IRs werden nicht automatisch ausgerichtet.','Spectral Octaver fügt etwa 42,7–46,4 ms hinzu. Bypass hält die Ausrichtung; Slot auf Empty setzen, um die Frame-Latenz zu entfernen.','Bei hoher CPU Amp-Oversampling senken, Transpose/Spectral Octaver und Convolution prüfen oder Host-Puffer erhöhen.','Beta 1.1 verbessert JUCE-Shutdown und Ressourcenfreigabe. Projektabschluss, Plugin-Unload und Host-Shutdown müssen in jeder DAW separat validiert werden; Studio One ist nur ein bereits gemeldeter Fall.'],
 limits:['Diese offene Beta ist kostenlos und kann später kostenpflichtig werden. Kostenlose Updates/Support nach der Beta sind nicht garantiert.','Windows-Publisher-Signierung und macOS Developer-ID-Signierung/Notarisierung sind noch nicht abgeschlossen; Betriebssystemwarnungen sind möglich.','Einige Referenzfunktionen bleiben absichtlich deaktiviert, darunter Dynamic Wah HUMAN/TEMPO-ähnliche Modi und unabhängiger rechter Variable-Mu-Kanal/SEP.','Strukturänderungen im PRE sind während der Wiedergabe nicht als vollständig klickfrei zertifiziert.','Transpose und spektrale Pitch-Verarbeitung können Latenz und Transienten-/Akkordartefakte erzeugen.','Natürlicher IR-Onset und Phase werden zwischen Spuren nicht automatisch korrigiert.'],
 workflows:[
@@ -161,7 +161,7 @@ quick:['설치·업데이트 전 DAW와 기존 Chimera를 종료합니다. DAW�
 modes:[['Classic','전대역 단일 amp/cab 경로','일반 기타·베이스 톤, 가장 빠른 작업'],['Dual · Blend','전대역 리그 두 개를 혼합','타이트+와이드, 클린+크런치, 두 베이스 헤드'],['Dual · Crossover','LR4로 LOW/HIGH 분할 후 두 리그','클린 저역 + 드라이브 상단, 하이브리드 톤'],['Matrix','LOW / MID / HIGH 3대역. LOW는 COMP와 DI/AMP blend','확장음역, 다운튜닝, 현대 베이스, 복합 디스토션']],
 ir:["Cabinet 처리는 각 rig lane 안에서 Amp → CABINET / IR LOADER → Merge 순서로 유지됩니다.", "Classic·Dual·Matrix 모두 CABINET ROOM에서 시작합니다. 캐비넷을 클릭하면 편집 화면이 열리고 ROOM으로 돌아옵니다. CABINET에서 모델링 스피커와 Mic A/B를 구성하고 IR LOADER에서 캡처 IR을 선택합니다. 해당 마이크가 CABINET을 사용하면 저장된 IR과 IR 조작부는 비활성 상태입니다. IR을 직접 선택하면 해당 마이크의 소스가 전환됩니다. BYPASS는 캐비넷 단계를 우회합니다.", "LOW CUT / HIGH CUT으로 cab 출력을 정리합니다. 분할 모드에서는 crossover와 겹쳐 지나치게 좁아지지 않게 합니다.", "MUTE / SOLO / POLARITY로 Dual/Matrix 합산 문제를 확인합니다. 서로 다른 IR은 자동으로 time/phase alignment하지 않습니다.", "공개 IR 라이브러리에는 재배포 권한이 확인된 기본 IR 두 개가 포함됩니다. 직접 보유한 WAV/AIFF를 추가할 수 있으며, 검증되지 않은 외부·개인 캡처 목록은 공개 릴리스에서 제외합니다."],
 preset:["팩토리·시그니처 프리셋 48개는 각 리그에 맞춘 모델링 CAB 설정을 불러옵니다. 드라이 DI로 지정된 레인은 CAB을 우회하며 프리셋 ID와 뱅크 순서는 유지하며, 기본 표시 이름은 Chimera 명칭을 사용합니다.", "권장 순서: 목적에 가까운 preset → input/gate → amp와 CAB → routing/crossover → PRE → POST → A/B 레벨 매칭 → SAVE AS.", "A와 B는 전체 사운드 스냅샷 두 개입니다. COPY는 현재 상태를 반대편으로 복제하며 좌/우 라우팅이나 자동 loudness match 기능이 아닙니다.", "User IR 오디오는 프로젝트/A·B 상태에 포함되어 recall됩니다. 초기 테스트 빌드의 model-selection automation은 목록 확장 후 매핑을 확인하십시오."],
-global:[['INPUT / OUTPUT','내부 trim과 미터. 인터페이스 자체 clipping은 인터페이스에서 해결하고 OUTPUT은 최종 level matching에 사용합니다.'],['Gate','Threshold(dBFS), Hold/Release(ms), Range. Range 0 dB는 감쇠 없음, 중간값은 지정 dB만큼 제한 감쇠, Full은 release를 따라 무음으로 닫히는 기존 기본값입니다. Attack은 0.5 ms 시정수 고정, 닫힘은 6 dB hysteresis를 사용합니다. 서스테인이 잘리면 Threshold를 낮추거나 Hold/Release를 늘립니다.'],['POST GATE','깨끗한 입력에서 연주 여부를 검출하고 rig/cab 합산 뒤 공간계 POST 앞에서 감쇄합니다. 음 사이 히스 감소에는 유리하지만 연주 중 노이즈를 제거하는 완전한 denoiser는 아닙니다.'],['Transpose','−12~+12 semitone. 보고 latency가 추가되고 빠른 transient나 복잡한 chord에서 artifact가 생길 수 있습니다.'],['Tuner / Auto Mute','Gate/Transpose 전 원음을 읽는 chromatic tuner. A4 조절 가능, Auto Mute는 튜닝 중 출력을 끕니다.'],['Oversampling','앰프 처리 1× / 2× / 4× / 8×, 기본 4×. 높은 값은 nonlinear 품질과 CPU를 교환합니다.'],['Doubler','짧은 modulated wet delay로 stereo width를 만듭니다. 모노 호환성을 확인하십시오.'],['TAP / BPM / HOST / CLICK','수동/탭/호스트 템포와 연습용 클릭. Delay Sync는 4분음표를 따르며 Click은 DAW 마디 위치 동기화가 아닙니다.'],['MIDI Learn','선택한 컨트롤에 다음 수신 CC를 할당합니다. Host 또는 Standalone에서 MIDI를 라우팅합니다.'],['CPU AVG / PK','전체 PC CPU가 아니라 Chimera가 audio block 시간 예산에서 사용한 비율입니다.']],
+global:[['INPUT / OUTPUT','내부 trim과 미터. 인터페이스 자체 clipping은 인터페이스에서 해결하고 OUTPUT은 최종 level matching에 사용합니다.'],['Gate','Threshold(dBFS), Hold/Release(ms), Range. Range 0 dB는 감쇠 없음, 중간값은 지정 dB만큼 제한 감쇠, Full은 release를 따라 무음으로 닫히는 기존 기본값입니다. Attack은 0.5 ms 시정수 고정, 닫힘은 6 dB hysteresis를 사용합니다. 서스테인이 잘리면 Threshold를 낮추거나 Hold/Release를 늘립니다.'],['POST GATE','깨끗한 입력에서 연주 여부를 검출하고 rig/cab 합산 뒤 공간계 POST 앞에서 감쇄합니다. 음 사이 히스 감소에는 유리하지만 연주 중 노이즈를 제거하는 완전한 denoiser는 아닙니다.'],['Transpose','−12~+12 semitone. 보고 latency가 추가되고 빠른 transient나 복잡한 chord에서 artifact가 생길 수 있습니다.'],['TUNER / MUTE OUTPUT','Gate/Transpose 앞의 원음을 읽는 정밀 튜너입니다. TUNER를 열면 감지가 시작되고 닫으면 중지됩니다. MUTE OUTPUT은 별도로 조절합니다. 스트로브·니들 표시와 A4·현별 오프셋을 선택할 수 있습니다.'],['Oversampling','앰프 처리 1× / 2× / 4× / 8×, 기본 4×. 높은 값은 nonlinear 품질과 CPU를 교환합니다.'],['Doubler','짧은 modulated wet delay로 stereo width를 만듭니다. 모노 호환성을 확인하십시오.'],['TAP / BPM / HOST / CLICK','수동/탭/호스트 템포와 연습용 클릭. Delay Sync는 4분음표를 따르며 Click은 DAW 마디 위치 동기화가 아닙니다.'],['MIDI Learn','선택한 컨트롤에 다음 수신 CC를 할당합니다. Host 또는 Standalone에서 MIDI를 라우팅합니다.'],['CPU AVG / PK','전체 PC CPU가 아니라 Chimera가 audio block 시간 예산에서 사용한 비율입니다.']],
 diag:['SETTINGS → Review / copy / save diagnostics에서 INPUT_TRIM, PRE, RIG_GATE, POST, OUTPUT의 RMS/Peak를 비교합니다.','레벨이 갑자기 줄면 OUTPUT으로 무작정 보상하기보다 RMS/Peak가 처음 달라지는 단계를 찾습니다.','Dual/Matrix에서 저역이 사라지면 lane solo 후 polarity, IR onset, blend, crossover를 확인합니다. IR은 자동 정렬되지 않습니다.','Spectral Octaver는 지원 sample rate에서 약 42.7~46.4 ms를 추가합니다. Bypass도 정렬을 유지하며, 이 frame delay를 없애려면 슬롯을 Empty로 바꿉니다.','CPU가 높으면 amp oversampling을 낮추고 Transpose/Spectral Octaver, convolution 사용량을 확인하거나 host buffer를 늘립니다.','Beta 1.1은 JUCE 종료 경로와 자원 정리를 개선했습니다. 프로젝트 닫기·플러그인 언로드·DAW 종료 안정성은 호스트마다 별도 확인이 필요하며, Studio One은 기존 제보 사례 중 하나일 뿐 이 절차의 대상은 모든 DAW입니다.'],
 limits:['현재 무료 Open Beta이며 향후 유료화될 수 있습니다. 베타 이후 무료 업데이트·지원은 보장되지 않습니다.','Windows publisher code signing과 macOS Developer ID 서명/공증은 완료 전이므로 운영체제 경고가 나타날 수 있습니다.','Dynamic Wah HUMAN/TEMPO 계열과 Variable Mu 독립 right-bank/SEP 등 일부 원본 기능은 의도적으로 비활성 또는 미구현 상태입니다.','PRE 구조 편집의 완전한 click-free 동작은 재생 중 보증하지 않습니다.','Transpose와 spectral pitch 처리는 latency와 transient/chord artifact를 만들 수 있습니다.','IR의 natural onset과 phase는 lane 사이에서 자동 보정하지 않습니다.'],
 workflows:[
@@ -198,7 +198,7 @@ requirements:[
 ['Display','The editor is 1180 × 780 at 100%. 75% mode is approximately 885 × 585; 1280 × 800 or larger is a practical minimum display recommendation, with 1920 × 1080 or larger preferred.'],
 ['Memory','No certified hard RAM minimum has been established. 8 GB system RAM is a practical baseline; 16 GB or more is recommended for normal DAW projects, multiple Chimera instances and large sample-based sessions.'],
 ['CPU recommendation','A modern 64-bit CPU with strong single-core performance and 4 or more cores is a practical baseline. 6–8 or more cores provide more session headroom for multiple plugin instances; macOS Intel remains supported, while Apple Silicon generally offers more real-time headroom.'],
-['Storage','Open Beta 1.3.1 installer sizes are listed on the release download page. Keep additional free space for installation, update copies, user IRs and DAW projects; 500 MB free beyond the installer is a practical minimum reserve.'],
+['Storage','Open Beta 1.3.2 installer sizes are listed on the release download page. Keep additional free space for installation, update copies, user IRs and DAW projects; 500 MB free beyond the installer is a practical minimum reserve.'],
 ['Audio I/O','For live guitar/bass/vocal input, use an audio interface or system audio device with a stable low-latency driver/API. Physical microphone gain and +48 V remain functions of the interface, not Chimera.']
 ],
 performance:[
@@ -303,7 +303,7 @@ hostChecks:[
 updates:[
 ['Hosted VST3/AU','CHECK FOR UPDATES opens the official Releases page in the browser. The plugin host does not own a background updater.'],
 ['Standalone','Can check the official beta channel and explicitly download a compatible installer. Downloads are limited and verified against the release manifest by exact size and SHA-256.'],
-["1.3.1-preview → 1.3.1-beta.2", "Using 1.3.1-preview? Download and install 1.3.1-beta.2 manually from the Chimera product page: that preview may not identify beta.2 as a newer update. Earlier beta users can also use the product page installers. Close Chimera and all DAWs before installation."],
+["1.3.1-preview → 1.3.2-beta.1", "Using 1.3.1-preview? Download and install 1.3.2-beta.1 manually from the Chimera product page: that preview may not identify this release as a newer update. Earlier beta users can also use the product page installers. Close Chimera and all DAWs before installation."],
 ['Automatic checks','Off by default. If opted in, Standalone checks at most once per 24 hours per saved settings file. A manual check is still available.'],
 ['Privacy','No additional telemetry is sent. GitHub receives normal connection information such as IP address and the Chimera product/version user-agent when a check is made.'],
 ['Installation','Chimera never silently replaces a loaded plugin or launches the installer. SHOW INSTALLER reveals the verified file; close all DAWs and Standalone before running it. SHA-256 verification is not a substitute for publisher code signing/notarization.']
@@ -336,7 +336,7 @@ requirements:[
 ['Display','Editorgröße bei 100 %: 1180 × 780. Bei 75 % etwa 885 × 585. Praktisch mindestens 1280 × 800, bevorzugt 1920 × 1080 oder größer.'],
 ['Arbeitsspeicher','Kein zertifiziertes hartes RAM-Minimum. 8 GB sind eine praktische Basis; 16 GB oder mehr werden für normale DAW-Projekte, mehrere Chimera-Instanzen und große Sample-Sessions empfohlen.'],
 ['CPU-Empfehlung','Moderner 64-Bit-Prozessor mit guter Single-Core-Leistung und mindestens 4 Kernen als praktische Basis. 6–8 oder mehr Kerne bieten mehr Reserve für mehrere Instanzen; Intel-macOS bleibt unterstützt, Apple Silicon bietet in der Regel mehr Echtzeitreserve.'],
-['Speicherplatz','Die Downloadgrößen von Open Beta 1.3.1 stehen auf der Release-Seite. Zusätzlich Platz für Installation, Updates, User-IRs und Projekte vorsehen; 500 MB Reserve über den Installer hinaus sind ein praktischer Mindestpuffer.'],
+['Speicherplatz','Die Downloadgrößen von Open Beta 1.3.2 stehen auf der Release-Seite. Zusätzlich Platz für Installation, Updates, User-IRs und Projekte vorsehen; 500 MB Reserve über den Installer hinaus sind ein praktischer Mindestpuffer.'],
 ['Audio-I/O','Für Live-Gitarre/Bass/Vocal ein Audiointerface oder System-Audiogerät mit stabilem Low-Latency-Treiber/API verwenden. Physischer Mic-Gain und +48 V gehören zum Interface, nicht zu Chimera.']
 ],
 performance:[
@@ -441,7 +441,7 @@ hostChecks:[
 updates:[
 ['Hosted VST3/AU','CHECK FOR UPDATES öffnet die offizielle Releases-Seite. Der Host besitzt keinen Background-Updater.'],
 ['Standalone','Kann den offiziellen Beta-Kanal prüfen und nach Bestätigung einen kompatiblen Installer laden. Größe und SHA-256 werden gegen das Manifest geprüft.'],
-["1.3.1-preview → 1.3.1-beta.2", "Bei 1.3.1-preview bitte 1.3.1-beta.2 auf der Chimera-Produktseite manuell herunterladen und installieren: Diese Preview erkennt beta.2 möglicherweise nicht als neueres Update. Auch ältere Betas lassen sich mit den Installern auf der Produktseite aktualisieren. Vorher Chimera und alle DAWs schließen."],
+["1.3.1-preview → 1.3.2-beta.1", "Bei 1.3.1-preview bitte 1.3.2-beta.1 auf der Chimera-Produktseite manuell herunterladen und installieren: Diese Preview erkennt diese Version möglicherweise nicht als neueres Update. Auch ältere Betas lassen sich mit den Installern auf der Produktseite aktualisieren. Vorher Chimera und alle DAWs schließen."],
 ['Automatische Checks','Standardmäßig aus. Nach Opt-in höchstens einmal pro 24 Stunden pro Settings-Datei; manueller Check bleibt möglich.'],
 ['Datenschutz','Keine zusätzliche Telemetrie. Bei einem Check erhält GitHub übliche Verbindungsdaten wie IP und Chimera-Produkt/Versions-User-Agent.'],
 ['Installation','Kein stiller Austausch geladener Plugins, kein automatischer Installerstart. SHOW INSTALLER zeigt die verifizierte Datei; vorher DAWs und Standalone schließen. SHA-256 ersetzt keine Code-Signatur/Notarisierung.']
@@ -474,7 +474,7 @@ requirements:[
 ['화면','100% UI는 1180 × 780, 75%는 약 885 × 585입니다. 실사용 기준 최소 1280 × 800 정도를 권장하고, 1920 × 1080 이상이면 가장 편합니다.'],
 ['메모리','공식적으로 인증된 최소 RAM은 아직 정하지 않았습니다. 시스템 RAM 8 GB를 실사용 기준선으로 보고, 일반 DAW 프로젝트·다중 Chimera 인스턴스·샘플 기반 작업에는 16 GB 이상을 권장합니다.'],
 ['CPU 권장','강한 single-core 성능을 가진 현대적인 64-bit CPU와 4코어 이상을 실사용 기준선으로 봅니다. 여러 Chimera 인스턴스를 사용할 경우 6–8코어 이상이 유리합니다. macOS Intel도 지원하지만 실시간 여유는 대체로 Apple Silicon 쪽이 더 큽니다.'],
-['저장공간','Open Beta 1.3.1 다운로드 크기는 릴리즈 페이지의 파일별 표시를 확인하세요. 설치·업데이트 복사본·User IR·DAW 프로젝트를 위해 installer 외에 최소 약 500 MB 이상의 여유 공간을 두는 것을 권장합니다.'],
+['저장공간','Open Beta 1.3.2 다운로드 크기는 릴리즈 페이지의 파일별 표시를 확인하세요. 설치·업데이트 복사본·User IR·DAW 프로젝트를 위해 installer 외에 최소 약 500 MB 이상의 여유 공간을 두는 것을 권장합니다.'],
 ['오디오 I/O','기타·베이스·보컬을 실시간 입력하려면 안정적인 저지연 드라이버/API를 지원하는 오디오 인터페이스 또는 시스템 오디오 장치를 사용합니다. 실제 마이크 게인과 +48 V는 Chimera가 아니라 인터페이스가 담당합니다.']
 ],
 performance:[
@@ -579,7 +579,7 @@ hostChecks:[
 updates:[
 ['Hosted VST3/AU','CHECK FOR UPDATES는 공식 GitHub Releases 페이지를 브라우저로 엽니다. DAW 호스트 안에서는 background updater를 만들지 않습니다.'],
 ['Standalone','공식 beta channel을 확인하고 사용자가 명시적으로 요청하면 호환 installer를 다운로드합니다. 파일 크기와 SHA-256을 release manifest와 대조합니다.'],
-["1.3.1-preview → 1.3.1-beta.2", "1.3.1-preview 사용자는 Chimera 상품 페이지에서 1.3.1-beta.2을 직접 내려받아 설치해 주세요. 해당 프리뷰는 beta.2를 새 업데이트로 표시하지 않을 수 있습니다. 이전 베타도 상품 페이지의 설치 파일로 업데이트할 수 있습니다. 설치 전 Chimera와 모든 DAW를 종료하세요."],
+["1.3.1-preview → 1.3.2-beta.1", "1.3.1-preview 사용자는 Chimera 상품 페이지에서 1.3.2-beta.1을 직접 내려받아 설치해 주세요. 해당 프리뷰는 이 버전을 새 업데이트로 표시하지 않을 수 있습니다. 이전 베타도 상품 페이지의 설치 파일로 업데이트할 수 있습니다. 설치 전 Chimera와 모든 DAW를 종료하세요."],
 ['자동 확인','기본값은 OFF입니다. 사용자가 opt-in하면 settings file 기준 최대 24시간에 한 번 확인하며 수동 check는 언제든 가능합니다.'],
 ['개인정보','추가 telemetry는 없습니다. 업데이트 확인을 하면 GitHub에는 일반적인 연결 IP와 Chimera product/version user-agent가 전달됩니다.'],
 ['설치','로드된 플러그인을 자동 교체하거나 installer를 자동 실행하지 않습니다. SHOW INSTALLER는 검증 파일 위치만 열며 실행 전 모든 DAW와 Standalone을 종료해야 합니다. SHA-256 검증은 publisher code signing/notarization을 대체하지 않습니다.']
@@ -1649,36 +1649,42 @@ const CANDIDATE111={
 
 const RELEASE13={
   "en": {
-    "title": "New in beta.2",
+    "title": "New in 1.3.2-beta.1",
     "items": [
-      "Classic cabinet room access, clearer cabinet and IR controls, Niflheimr presets across all three modes, Chimera model names throughout the product and improved user-file preservation during upgrades. Direct head controls, Tone EQ and Final EQ remain available.",
+      "Precision tuner updates, direct PRE → HEAD → CAB → TONE EQ → POST → FINAL EQ navigation, editable EQ bands with undo/redo and spectrum freeze, and shared dynamics controls are included in this beta.",
       "Published open beta. Automated build and package checks are complete; manual DAW and instrument-listening acceptance remain incomplete. See the release notes for the validation scope.",
-      "Version 1.3.1-beta.2 provides 25 active amps, 39 PRE models and 21 POST models: 85 models across those sections. The preset bank contains 48 entries: 31 Factory, 3 Bass Signature, 4 Guitar Signature, 5 Náströnd and 5 Niflheimr rigs.",
+      "Version 1.3.2-beta.1 provides 25 active amps, 39 PRE models and 21 POST models: 85 models across those sections. The preset bank contains 48 entries: 31 Factory, 3 Bass Signature, 4 Guitar Signature, 5 Náströnd and 5 Niflheimr rigs.",
       "CABINET offers 14 speaker designs (8 guitar, 6 bass), 20 microphones (9 dynamic, 3 ribbon, 8 condenser), Chimera HF plus three additional tweeter designs (Silk HF, Metal HF and Air HF) and 9 explicit layouts. Select a compatible cabinet/speaker pair, then choose Mic A/B and their target units independently.",
       "Classic, Dual and Matrix show the active rigs together; select a cabinet to work on it in detail. All hardware retains one shared physical scale. Matrix LOW blends DI with AMP+CAB, while the cabinet Mic A/B blend controls the two captures.",
-      "Niflheimr provides five bass channels with 14 directly adjustable head controls: Hrímfaxi, Garmr, Nidavellir, Ymir and Hel. Select the head to edit the amp, or the cabinet to edit speakers and microphones."
+      "Niflheimr provides five bass channels with 14 directly adjustable head controls: Hrímfaxi, Garmr, Nidavellir, Ymir and Hel. Select the head to edit the amp, or the cabinet to edit speakers and microphones.",
+      "TONE EQ / FINAL EQ → DYNAMICS opens clean compression, DI gate/expander, the output sample-peak limiter and four shared Dynamic EQ slots. Assign existing enabled Bell or shelf bands in active EQ banks; assignment alone does not enable a band or replace another slot. EQ undo/redo does not include the separate dynamics controls.",
+      "This build expires on 2027-02-11 at 23:59 KST (14:59 UTC). SETTINGS → Beta / Updates shows its build and expiry. An already running instance retains its sound until removed; newly opened expired instances are muted. Projects, presets, automation, A/B states and user IRs can still be restored and saved."
     ]
   },
   "de": {
-    "title": "Neu in beta.2",
+    "title": "Neu in 1.3.2-beta.1",
     "items": [
-      "Cabinet-Raum in Classic, klar getrennte Cabinet- und IR-Bedienung, Niflheimr-Presets in allen drei Modi, Chimera-Modellnamen im gesamten Produkt und verbesserter Erhalt persönlicher Dateien beim Upgrade. Direkte Head-Regler, Tone EQ und Final EQ bleiben verfügbar.",
+      "Diese Beta enthält Tuner-Verbesserungen, die direkte Navigation PRE → HEAD → CAB → TONE EQ → POST → FINAL EQ, bearbeitbare EQ-Bänder mit Undo/Redo und eingefrorenen Spektren sowie gemeinsame Dynamikregler.",
       "Veröffentlichte offene Beta. Automatische Build- und Paketprüfungen sind abgeschlossen; die manuelle DAW-Abnahme und Hörtests mit echten Instrumenten stehen noch aus. Der Prüfumfang ist in den Release-Hinweisen dokumentiert.",
-      "Version 1.3.1-beta.2 bietet 25 aktive Amps, 39 PRE- und 21 POST-Modelle: insgesamt 85 Modelle in diesen Bereichen. Die Preset-Bank enthält 48 Einträge: 31 Factory-, 3 Bass-Signature-, 4 Guitar-Signature-, 5 Náströnd- und 5 Niflheimr-Rigs.",
+      "Version 1.3.2-beta.1 bietet 25 aktive Amps, 39 PRE- und 21 POST-Modelle: insgesamt 85 Modelle in diesen Bereichen. Die Preset-Bank enthält 48 Einträge: 31 Factory-, 3 Bass-Signature-, 4 Guitar-Signature-, 5 Náströnd- und 5 Niflheimr-Rigs.",
       "CABINET bietet 14 Lautsprechermodelle (8 Gitarre, 6 Bass), 20 Mikrofone (9 dynamische, 3 Bändchen, 8 Kondensatormikrofone), Chimera HF mit drei weiteren Hochtönerdesigns (Silk HF, Metal HF und Air HF) und 9 konkrete Anordnungen. Zuerst eine passende Kombination aus Box und Lautsprecher, dann Mic A/B und die jeweiligen Ziele unabhängig wählen.",
       "Classic, Dual und Matrix zeigen die aktiven Rigs gemeinsam; eine Box auswählen, um sie im Detail zu bearbeiten. Alle Geräte behalten einen gemeinsamen physischen Maßstab. Matrix LOW mischt DI mit AMP+CAB, während der Mic-A/B-Blend die zwei Abnahmen mischt.",
-      "Niflheimr bietet fünf Basskanäle mit 14 direkt bedienbaren Head-Reglern: Hrímfaxi, Garmr, Nidavellir, Ymir und Hel. Für den Amp den Head, für Lautsprecher und Mikrofone das Cabinet auswählen."
+      "Niflheimr bietet fünf Basskanäle mit 14 direkt bedienbaren Head-Reglern: Hrímfaxi, Garmr, Nidavellir, Ymir und Hel. Für den Amp den Head, für Lautsprecher und Mikrofone das Cabinet auswählen.",
+      "TONE EQ / FINAL EQ → DYNAMICS öffnet Kompressor, DI-Gate/Expander, Ausgangs-Sample-Peak-Limiter und vier gemeinsame Dynamic-EQ-Plätze. Vorhandene aktive Bell- oder Shelf-Bänder eingeschalteter EQs zuweisen; die Zuweisung aktiviert kein Band und ersetzt keinen anderen Platz. EQ-Undo/Redo umfasst die getrennten Dynamikregler nicht.",
+      "Dieser Build läuft am 2027-02-11 um 23:59 KST (14:59 UTC) ab. SETTINGS → Beta / Updates zeigt Build und Ablaufdatum. Eine bereits laufende Instanz behält ihren Klang bis zum Entfernen; nach Ablauf neu geöffnete Instanzen sind stumm. Projekte, Presets, Automation, A/B-Zustände und Benutzer-IRs lassen sich weiterhin laden und speichern."
     ]
   },
   "ko": {
-    "title": "beta.2 업데이트",
+    "title": "1.3.2-beta.1 업데이트",
     "items": [
-      "Classic 캐비넷 룸 진입, 캐비넷·IR 조작 구분, 세 가지 모드로 재편한 Niflheimr 프리셋, 제품 전반의 Chimera 고유 명칭과 업그레이드 시 사용자 파일 보존 개선을 반영했습니다. 헤드 직접 조작과 Tone EQ·Final EQ도 계속 사용할 수 있습니다.",
+      "정밀 튜너 개선, PRE → HEAD → CAB → TONE EQ → POST → FINAL EQ 직접 탐색, EQ 밴드 추가·삭제와 실행 취소·다시 실행, 스펙트럼 고정 및 공통 다이내믹스 조작을 반영했습니다.",
       "공개 오픈베타입니다. 자동 빌드·패키지 검증을 완료했으며, 실제 DAW 조작과 악기 청음 검증은 미완료입니다. 상세 검증 범위는 릴리즈 안내에서 확인하세요.",
-      "1.3.1-beta.2는 활성 앰프 25종·PRE 39종·POST 21종으로 세 섹션에 총 85종을 제공합니다. 프리셋은 Factory 31개·Bass Signature 3개·Guitar Signature 4개·Náströnd 5개·Niflheimr 5개로 총 48개입니다.",
+      "1.3.2-beta.1은 활성 앰프 25종·PRE 39종·POST 21종으로 세 섹션에 총 85종을 제공합니다. 프리셋은 Factory 31개·Bass Signature 3개·Guitar Signature 4개·Náströnd 5개·Niflheimr 5개로 총 48개입니다.",
       "CABINET은 스피커 14종(기타 8·베이스 6), 마이크 20종(다이나믹 9·리본 3·콘덴서 8), Chimera HF와 추가 트위터 Silk HF·Metal HF·Air HF 3종, 명시적인 레이아웃 9개를 제공합니다. 호환되는 캐비넷·스피커를 고른 뒤 Mic A/B의 종류와 수음 유닛을 각각 지정합니다.",
       "Classic·Dual·Matrix에서는 활성 리그를 함께 보고 캐비넷을 선택해 상세 조작 화면으로 들어갑니다. 장비는 하나의 공통 물리 치수 기준으로 표시됩니다. Matrix LOW는 DI와 AMP+CAB을 혼합하고, CAB의 Mic A/B 블렌드는 두 수음 경로를 혼합합니다.",
-      "Niflheimr에는 Hrímfaxi·Garmr·Nidavellir·Ymir·Hel의 베이스 채널 5개와 헤드에서 직접 조절하는 컨트롤 14개가 있습니다. 앰프는 헤드를, 스피커와 마이크는 캐비넷을 선택해 조절합니다."
+      "Niflheimr에는 Hrímfaxi·Garmr·Nidavellir·Ymir·Hel의 베이스 채널 5개와 헤드에서 직접 조절하는 컨트롤 14개가 있습니다. 앰프는 헤드를, 스피커와 마이크는 캐비넷을 선택해 조절합니다.",
+      "TONE EQ / FINAL EQ → DYNAMICS에서 클린 컴프레서, DI 게이트·익스팬더, 출력 샘플 피크 리미터와 두 EQ가 공유하는 Dynamic EQ 슬롯 4개를 조절합니다. 켜진 EQ의 활성 Bell·Shelf 밴드를 지정하며, 할당만으로 밴드를 켜거나 다른 슬롯을 대체하지 않습니다. EQ 실행 취소·다시 실행은 별도 다이내믹스 조절에는 적용되지 않습니다.",
+      "이 빌드의 만료일은 2027-02-11 23:59 KST(14:59 UTC)입니다. SETTINGS → Beta / Updates에서 빌드와 만료일을 확인합니다. 실행 중인 인스턴스는 제거할 때까지 소리를 유지하고, 만료 후 새로 연 인스턴스는 음소거됩니다. 프로젝트·프리셋·자동화·A/B 상태·사용자 IR의 복원과 저장은 계속 가능합니다."
     ]
   }
 };
@@ -1706,11 +1712,11 @@ const EDITING131 = {
     ],
     "signalTitle": "Signal-path navigation",
     "signal": [
-      "The compact signal path follows the current routing mode. PATH + expands it; select a stage to open its existing editor or focus its control.",
+      "The compact strip provides PRE → HEAD → CAB → TONE EQ → POST → FINAL EQ navigation. HEAD opens the current mode’s amp controls; CAB opens its cabinet room. ROUTING displays the complete signal path.",
       "PRE, amp, CAB, Tone EQ, POST and Final EQ provide direct navigation. The graph includes bypass state, crossovers and the Matrix LOW DI/AMP blend. Selecting a block does not change the sound.",
       "The graph displays the signal route. Reordering by dragging blocks is not available; PRE pedal order is changed in the pedalboard."
     ],
-    "eqTitle": "Tone EQ and Final EQ · 12 bands each",
+    "eqTitle": "Tone EQ and Final EQ · up to 12 bands each",
     "eq": [
       [
         "Position",
@@ -1722,15 +1728,15 @@ const EDITING131 = {
       ],
       [
         "Edit",
-        "Select Band 1–12. Drag its graph node for frequency/gain, use the wheel for Q or type values into the controls. The selector keeps overlapping nodes accessible."
+        "Use + BAND or double-click the graph to add a band, up to 12 per EQ; DELETE removes the selected band. Drag for frequency/gain, use the wheel for Q or enter values. UNDO / REDO restores EQ edits; BAND ON bypasses a band without deleting it."
       ],
       [
         "Filters",
         "Bell, low/high shelf, 12 dB/octave high/low pass, notch and band pass. Gain applies to bell and shelving filters; other types use frequency and Q."
       ],
       [
-        "FFT IN / OUT",
-        "Blue shows the input spectrum; gold shows the output. The display helps compare the signal before and after each EQ."
+        "LIVE · IN / OUT · FREEZE",
+        "LIVE runs the analyzer; IN and OUT independently show the blue input and gold output spectra. Choose Fast / 2048, Normal / 4096 or Detailed / 8192 resolution. FREEZE holds the last complete spectrum while audio continues; release it to capture a new complete window. Resolution and smoothing are locked while frozen."
       ],
       [
         "Save and automate",
@@ -1760,11 +1766,11 @@ const EDITING131 = {
     ],
     "signalTitle": "신호 경로 탐색",
     "signal": [
-      "작은 신호 경로 표시줄은 현재 라우팅 모드를 따릅니다. PATH +로 확대하고 각 단계를 선택하면 해당 편집 화면이나 컨트롤로 이동합니다.",
+      "간략 표시줄에서 PRE → HEAD → CAB → TONE EQ → POST → FINAL EQ로 직접 이동합니다. HEAD는 현재 모드의 앰프 조작 화면을, CAB은 캐비넷 룸을 엽니다. ROUTING은 전체 신호 경로를 표시합니다.",
       "PRE·앰프·CAB·Tone EQ·POST·Final EQ로 바로 이동할 수 있습니다. 그래프에는 바이패스 상태, 크로스오버, Matrix LOW의 DI·AMP 블렌드도 표시합니다. 블록을 선택하는 것만으로 소리가 바뀌지는 않습니다.",
       "그래프는 신호 경로를 표시합니다. 블록을 드래그해 처리 순서를 바꾸는 기능은 없으며 PRE 페달 순서는 페달보드에서 조절합니다."
     ],
-    "eqTitle": "Tone EQ·Final EQ · 각각 12개 밴드",
+    "eqTitle": "Tone EQ·Final EQ · 각각 최대 12개 밴드",
     "eq": [
       [
         "처리 위치",
@@ -1776,15 +1782,15 @@ const EDITING131 = {
       ],
       [
         "조절",
-        "Band 1–12 중 하나를 선택합니다. 그래프 노드를 드래그해 주파수·게인을 조절하고 휠로 Q를 조절하거나 수치를 입력합니다. 노드가 겹쳐도 밴드 선택 메뉴로 각각 조절할 수 있습니다."
+        "+ BAND 또는 그래프 더블클릭으로 EQ당 최대 12개 밴드를 추가하고 DELETE로 선택한 밴드를 삭제합니다. 드래그로 주파수·게인, 휠로 Q를 조절하거나 값을 입력합니다. UNDO / REDO로 EQ 편집을 되돌리며, BAND ON은 삭제 없이 밴드를 켜거나 우회합니다."
       ],
       [
         "필터",
         "Bell, Low/High Shelf, 12 dB/oct High/Low Pass, Notch, Band Pass를 제공합니다. 게인은 Bell과 Shelf에 적용하며 나머지는 주파수와 Q를 사용합니다."
       ],
       [
-        "FFT IN / OUT",
-        "파란색은 입력, 금색은 출력 스펙트럼입니다. 각 EQ의 처리 전후 신호를 비교할 수 있습니다."
+        "LIVE · IN / OUT · FREEZE",
+        "LIVE로 분석기를 실행하고 IN·OUT으로 파란 입력·금색 출력 스펙트럼을 각각 표시합니다. 해상도는 Fast / 2048, Normal / 4096, Detailed / 8192를 선택합니다. FREEZE는 오디오 처리 중 마지막 완성 스펙트럼을 고정하고, 해제하면 새 분석 창을 수집합니다. 고정 중에는 해상도와 스무딩을 바꿀 수 없습니다."
       ],
       [
         "저장과 자동화",
@@ -1814,11 +1820,11 @@ const EDITING131 = {
     ],
     "signalTitle": "Navigation im Signalweg",
     "signal": [
-      "Die kompakte Signalanzeige folgt dem aktuellen Routing. PATH + vergrößert sie. Eine Stufe auswählen, um ihren Editor zu öffnen oder den zugehörigen Regler zu fokussieren.",
+      "Die kompakte Leiste bietet PRE → HEAD → CAB → TONE EQ → POST → FINAL EQ. HEAD öffnet die Amp-Regler des aktuellen Modus, CAB dessen Cabinet-Raum. ROUTING zeigt den vollständigen Signalweg.",
       "PRE, Amp, CAB, Tone EQ, POST und Final EQ sind direkt erreichbar. Die Ansicht zeigt Bypass, Crossovers und den DI/AMP-Blend von Matrix LOW. Die Auswahl eines Blocks verändert den Klang nicht.",
       "Der Graph zeigt den Signalweg. Blöcke lassen sich nicht per Ziehen umsortieren; die PRE-Reihenfolge wird im Pedalboard geändert."
     ],
-    "eqTitle": "Tone EQ und Final EQ · jeweils zwölf Bänder",
+    "eqTitle": "Tone EQ und Final EQ · jeweils bis zu zwölf Bänder",
     "eq": [
       [
         "Position",
@@ -1830,15 +1836,15 @@ const EDITING131 = {
       ],
       [
         "Einstellen",
-        "Band 1–12 auswählen. Den Knoten für Frequenz/Gain ziehen, Q per Mausrad ändern oder Werte eingeben. Über die Bandauswahl bleiben überlappende Knoten einzeln erreichbar."
+        "Mit + BAND oder Doppelklick im Graphen bis zu zwölf Bänder je EQ anlegen; DELETE entfernt das gewählte Band. Ziehen ändert Frequenz/Gain, das Mausrad Q; Werte sind direkt eingebbar. UNDO / REDO macht EQ-Änderungen rückgängig. BAND ON umgeht ein Band ohne Löschen."
       ],
       [
         "Filter",
         "Bell, Low/High Shelf, High/Low Pass mit 12 dB/Oktave, Notch und Band Pass. Gain wirkt bei Bell und Shelves; die anderen Filter verwenden Frequenz und Q."
       ],
       [
-        "FFT IN / OUT",
-        "Blau zeigt das Eingangs-, Gold das Ausgangsspektrum. So lässt sich das Signal vor und nach jedem EQ vergleichen."
+        "LIVE · IN / OUT · FREEZE",
+        "LIVE startet den Analyzer; IN und OUT zeigen unabhängig das blaue Eingangs- und goldene Ausgangsspektrum. Auflösung: Fast / 2048, Normal / 4096 oder Detailed / 8192. FREEZE hält das letzte vollständige Spektrum bei weiterlaufendem Audio; nach dem Lösen wird ein neues vollständiges Fenster erfasst. Auflösung und Glättung sind im eingefrorenen Zustand gesperrt."
       ],
       [
         "Speichern und Automation",
