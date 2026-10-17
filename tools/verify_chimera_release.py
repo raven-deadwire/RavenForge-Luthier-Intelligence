@@ -11,6 +11,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import struct
 import subprocess
 import sys
 from urllib.parse import unquote, urlsplit
@@ -89,6 +90,76 @@ def validate_native_preset_observations(lock, rigs):
                 "Native preset observation differs from capture: " + artifact_path)
 
 
+def validate_current_native_capture(lock, root=ROOT):
+    """Optional current snapshots supplement the unchanged historical capture."""
+    if "current_native_capture" not in lock:
+        return None
+    capture = lock["current_native_capture"]
+    path = capture["provenance_file"]
+    require(re.fullmatch(r"assets/chimera/[A-Za-z0-9_-]+\.json", path)
+            and (root / path).resolve().is_relative_to(root.resolve()), "Unsafe current capture provenance path")
+    body = (root / path).read_bytes()
+    require(lock["reviewed_files"].get(path) == hashlib.sha256(body).hexdigest(), "Unreviewed current capture provenance")
+    proof = json.loads(body)
+    require(proof.get("schema") == "spectralforge.chimera.homepage-native-ci-snapshots.v1"
+            and proof.get("pixel_edits") is False, "Invalid current capture provenance")
+    require(all(proof.get(k) == capture.get(k) == lock[k] for k in ("source_sha", "version"))
+            and all(type(capture.get(k)) is type(proof.get(k)) is int and capture[k] > 0 and proof[k] == capture[k]
+                    for k in ("run_id", "run_attempt")), "Current capture source/version/run differs")
+    require(proof.get("platform") == capture.get("platform") in ("windows", "macos", "linux")
+            and proof.get("capture_kind") == capture.get("capture_kind") in
+            ("native-peer-component-snapshot", "component-snapshot"), "Current capture kind/platform differs")
+    artifacts, images = proof["artifacts"], proof["images"]
+    ids = {a["id"] for a in artifacts}
+    require(artifacts and images and len(ids) == len(artifacts) == len({a["name"] for a in artifacts})
+            and all(type(a["id"]) is int and a["id"] > 0 and a["name"]
+                    and type(a.get("run_id", proof["run_id"])) is int and a.get("run_id", proof["run_id"]) > 0
+                    and re.fullmatch(r"[0-9a-f]{64}", a["sha256"])
+                    and type(a["size_bytes"]) is int and a["size_bytes"] > 0 for a in artifacts),
+            "Invalid or duplicate current capture artifacts")
+    files, members = set(), set()
+    for record in images:
+        filename, member, artifact_id = record["file"], record["artifact_path"], record["artifact_id"]
+        require(re.fullmatch(r"assets/chimera/[A-Za-z0-9_-]+\.png", filename)
+                and re.fullmatch(r"(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+\.png", member)
+                and not {".", ".."}.intersection(member.split("/"))
+                and (root / filename).resolve().is_relative_to(root.resolve()), "Unsafe current capture image path")
+        require(type(artifact_id) is int and artifact_id in ids and filename not in files
+                and (artifact_id, member) not in members, "Duplicate or unbound current capture image")
+        files.add(filename)
+        members.add((artifact_id, member))
+        contents = (root / filename).read_bytes()
+        require(record.get("pixel_edits") is False and len(contents) == record["size_bytes"]
+                and hashlib.sha256(contents).hexdigest() == record["sha256"]
+                == lock["reviewed_files"].get(filename), "Current capture image bytes/edits differ: " + filename)
+        require(len(contents) >= 33 and contents[:16] == b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR"
+                and all(type(record[k]) is int and record[k] > 0 for k in ("width", "height"))
+                and struct.unpack(">II", contents[16:24]) == (record["width"], record["height"]),
+                "Current capture PNG dimensions differ: " + filename)
+    require({identity for identity, _ in members} == ids, "Unreferenced current capture artifact")
+    return proof
+
+
+def validate_current_native_capture_public(proof):
+    if proof is None:
+        return
+    for run_id in {proof["run_id"]} | {a.get("run_id", proof["run_id"]) for a in proof["artifacts"]}:
+        run = public_json(API + "/actions/runs/" + str(run_id))
+        require(run.get("id") == run_id and run.get("run_attempt") == proof["run_attempt"]
+                and run.get("head_sha") == proof["source_sha"]
+                and run.get("status") == "completed" and run.get("conclusion") == "success",
+                "Current capture run has not succeeded for this source/attempt")
+    for expected in proof["artifacts"]:
+        artifact = public_json(API + "/actions/artifacts/" + str(expected["id"]))
+        workflow_run = artifact.get("workflow_run") or {}
+        require(artifact.get("id") == expected["id"] and artifact.get("name") == expected["name"]
+                and artifact.get("digest") == "sha256:" + expected["sha256"]
+                and artifact.get("size_in_bytes") == expected["size_bytes"]
+                and workflow_run.get("id") == expected.get("run_id", proof["run_id"])
+                and workflow_run.get("head_sha") == proof["source_sha"],
+                "Current capture artifact differs from CI archive: " + expected["name"])
+
+
 def validate_local(lock, inventory, root=ROOT):
     require(lock.get("schema") == 1 and re.fullmatch(r"[0-9a-f]{40}", lock.get("source_sha", "")), "Invalid source lock")
     require(lock["tag"] == "v" + lock["version"], "Tag/version mismatch")
@@ -99,6 +170,7 @@ def validate_local(lock, inventory, root=ROOT):
                 f"Content changed since source review; re-audit and update lock: {file}")
     require(hashlib.sha256(product_markup(root)).hexdigest() == lock["product_markup_sha256"],
             "Product markup changed since source review")
+    validate_current_native_capture(lock, root)
     # Keep raw production artwork distinct from actual native UI evidence.
     for name, expected_kind in [
         ("heads-beta131-artwork-provenance.json", "artwork"),
@@ -319,6 +391,7 @@ def validate_public(lock):
     if lock.get("publication"):
         publication_run = public_json(API + "/actions/runs/" + str(lock["publication"]["run_id"]))
         validate_weekly_publication(lock, documents, publication_run)
+    validate_current_native_capture_public(validate_current_native_capture(lock))
     sums = parse_sums(documents["SHA256SUMS.txt"])
     packages = {name for name, spec in lock["assets"].items() if spec["kind"] == "package"}
     require(set(sums) == packages, "Checksums must cover exactly five packages")

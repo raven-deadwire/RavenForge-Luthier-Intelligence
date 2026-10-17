@@ -96,9 +96,9 @@ async function main() {
       for(const key of ['screenAlt','rigsClassicAlt','rigsDualAlt']) assert((await page.locator(`[data-chimera-alt="${key}"]`).getAttribute('alt')).length>30);
       const captions = await page.locator('.rf-chimera-rigs-gallery figcaption').allTextContents();
       assert.equal(captions.length,2); assert(captions.every(x=>x.includes(markers[lang])));
-      assert((await page.locator('.rf-chimera-preview figcaption').innerText()).includes('Matrix · Crom Cruach'));
-      assert(captions.every(x=>x.includes('1.3.1') && x.includes('Linux')));
-      assert((await page.locator('.rf-chimera-preview figcaption').innerText()).includes('1.3.1'));
+      assert((await page.locator('.rf-chimera-preview figcaption').innerText()).includes('Matrix · Tight 515'));
+      assert(captions.every(x=>x.includes('1.3.2') && x.includes('Windows')));
+      assert((await page.locator('.rf-chimera-preview figcaption').innerText()).includes('1.3.2'));
       assert((await page.locator('[data-chimera-story]').getAttribute('href')).endsWith('/'+lang+'.html'));
       return captions;
     });
@@ -162,12 +162,12 @@ async function main() {
         });
         assert.deepEqual(info.natural,[1440,780]);
         assert(Math.abs(info.width/info.height-1440/780)<0.002,'Native head image proportions');
-        assert(info.alt.includes('1.3.1') && info.alt.includes('Linux'),'Native source caption missing');
+        assert(info.alt.includes('1.3.2') && info.alt.includes('Windows'),'Native source caption missing');
         assert.equal(info.href,info.src);
       }
       const captions=await page.locator('.rf-chimera-head-gallery figcaption').allTextContents();
       assert.equal(captions.length,2);
-      assert(captions.every(text=>text.includes('1.3.1') && text.includes('Linux') && text.includes(markers[lang])));
+      assert(captions.every(text=>text.includes('1.3.2') && text.includes('Windows') && text.includes(markers[lang])));
       if(width===1440){
         for(const link of await page.locator('.rf-chimera-head-gallery a').all()){
           const popupPromise=page.waitForEvent('popup');
