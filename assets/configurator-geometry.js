@@ -3,12 +3,13 @@
 (function (root, factory) {
   const drawing = typeof module === 'object' && module.exports ? require('./configurator-gramr-geometry.js') : root.RavenForgeGramrDrawing;
   const rear = typeof module === 'object' && module.exports ? require('./configurator-bass-rear-geometry.js') : root.RavenForgeBassRear;
-  const api = factory(drawing,rear);
+  const front = typeof module === 'object' && module.exports ? require('./configurator-bass-front-geometry.js') : root.RavenForgeBassFront;
+  const api = factory(drawing,rear,front);
   if (typeof module === 'object' && module.exports) module.exports = api;
   if (root) root.RavenForgeGeometry = api;
-}(typeof globalThis !== 'undefined' ? globalThis : this, function (drawing,rear) {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function (drawing,rear,front) {
   'use strict';
-  return {
+  const models = {
     EDDA: {
       source: 'Edda Prototype Design.png', status: 'prototype', strings: 4,
       back: {kind:'rear-concept',source:'assets/configurator-rear/edda-rear-bolton-v6.webp',status:'illustrative-bolt-on',bolts:5},
@@ -64,4 +65,6 @@
     },
     GRAMR: drawing
   };
+  for (const model of ['ASKR','EMBLA']) Object.assign(models[model],front[model],{sampleSource:models[model].source});
+  return models;
 }));

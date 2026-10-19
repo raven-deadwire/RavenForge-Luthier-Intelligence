@@ -1,3 +1,22 @@
+## v15 individual native textures
+
+`native-v15/` replaces atlas cells for ash, elm, maple, rosewood, wenge,
+flame maple, bloodwood and bubinga. Each original generated image is **724 × 2172**
+pixels and is encoded to WebP quality 93 without resizing. The manifest records
+actual dimensions, original/encoded SHA-256 and generation prompts. A requested
+1024 × 3072 prompt is not evidence of that output size. No 2048-square claim is made.
+
+Compared with a 410-square cell, each new source has 1.77× the width, 5.30× the
+length and 9.35× the pixels. Patterns preserve aspect ratio; displayed areas may
+crop the source. Short-axis detail remains below 2048 pixels. The other 21 catalog
+materials remain at their legacy effective cell size. These are illustrative,
+AI-generated wood textures, not inventory photographs or species certification.
+A future true 2048 × 2048 (or larger) capture can replace each independent source
+and its dimension metadata without changing geometry or option calculations.
+Opaque vector paint is independent of these texture resolutions.
+
+---
+
 # Illustrative ash surface
 
 `ash-illustrative.webp` is a material-only illustration generated on 2026-10-19 with the built-in image-generation tool, then encoded as WebP quality 92 at its original 1254 × 1254 dimensions. It is not an actual stock-board photograph and does not certify any selected wood species. No instrument geometry or third-party imagery was generated or copied. GRAMR's geometry comes exclusively from the supplied PDF vectors. Opaque paint hides this texture.

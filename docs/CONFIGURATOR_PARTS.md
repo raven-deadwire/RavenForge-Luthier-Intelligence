@@ -1,3 +1,27 @@
+## v15 — PDF anchors and approval boundary
+
+ASKR #001 and EMBLA #002 now use the supplied PDFs for front contours, 24 fret
+lines, prototype pickup/bridge/tuner anchors and the original five-control bank.
+Their rear body outlines, five bolt centres, covers and battery outlines retain
+the existing PDF extraction. This verifies depiction of those **prototype
+projections**, not selected replacement-part clearances, drill diameters, pocket
+depths or a machining toolpath.
+
+ASKR's source pickup envelope is EMG 45TW (117.5 × 38 mm). Replacement 40TWX,
+Fluence and other supported covers scale from their own registered dimensions;
+they must not inherit the 45TW width just because that prototype was drawn.
+Selected tuner/bridge shapes remain manufacturer-reference illustrations. Their
+fitted positions, non-five-pot EQ banks and extra switches are proposals.
+
+GRAMR uses PDF path 5613 for its transverse rear neck/body boundary. The supplied
+historical four-bolt plate does not approve the current five-bolt, no-plate,
+2-2-1 platform. The relocated hatched joint is explicitly schematic. ASKR/EMBLA
+pocket machining geometry and GRAMR's final heel/holes remain unapproved.
+
+See [audit](CONFIGURATOR_DRAWING_AUDIT.md) for reproducible source provenance.
+
+---
+
 ## v14 — EDDA guard selections, Nova pickup and EMBLA control placement
 
 EDDA now exposes presence, single-/three-ply plastic or body/top matching wood,

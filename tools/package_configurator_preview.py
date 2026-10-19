@@ -7,6 +7,11 @@ from build_configurator_standalone import build
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = [
+    'assets/configurator-bass-front-geometry.js', 'tools/extract_bass_front_geometry.py',
+    'assets/configurator-materials/native-v15.json', 'docs/CONFIGURATOR_DRAWING_AUDIT.md',
+    *[str(p.relative_to(ROOT)) for p in sorted((ROOT/'docs/validation/v15').glob('*.jpg'))],
+    *[str(p.relative_to(ROOT)) for p in sorted((ROOT/'assets/configurator-materials/native-v15').glob('*.webp'))],
+    *[f'assets/configurator-front/{model}-front-reference.svg' for model in ['askr','embla']],
     'assets/configurator-materials/wood-neck-atlas-v11.webp',
     'assets/configurator-parts-renderer.js','docs/CONFIGURATOR_PARTS.md','assets/configurator-materials.js','assets/configurator-option-renderer.js','assets/configurator-bindrune-motifs.js',
     *[f'assets/configurator-materials/wood-{group}-atlas-v8.webp' for group in ['body','fretboard','top']],
@@ -29,7 +34,7 @@ FILES = [
     'Edda Prototype Design.png', 'EMBLA Prototype Design.png',
     'ASKR Prototype Design.png'
 ]
-README = '''RavenForge 컨피규레이터 시각화 테스트 v14 / 2026-10-20
+README = '''RavenForge 컨피규레이터 시각화 테스트 v15 / 2026-10-20
 
 기존 홈페이지나 컨피규레이터를 교체하지 않는 별도 테스트입니다.
 
@@ -43,6 +48,9 @@ README = '''RavenForge 컨피규레이터 시각화 테스트 v14 / 2026-10-20
 인터넷 연결이 필요합니다. source 폴더는 개발용 소스 사본입니다.
 
 확인할 기능
+- ASKR #001 / EMBLA #002 원본 PDF 전면 윤곽·24프렛, GRAMR 후면 넥 경계 수정
+- ASKR·EMBLA 후면 Opaque 목재 무늬 제거, 8종 독립 724×2172 텍스처 (2048×2048 미충족)
+- 도면 기반 형상 / 설치 예시 / 미확정 가공 위치 구분은 CONFIGURATOR_DRAWING_AUDIT.md 참고
 - 왼쪽 이미지 / 가운데 옵션 / 오른쪽 사양·가격, 모바일 빠른 이동·합계
 - EDDA 픽가드 유무·재질·색상·무광/유광 선택 → 이미지·사양표·PDF (추가 비용 별도 견적)
 - Nova Omnia MM 4분할 레일·장착 귀 반영, 미확인 픽업은 미표현 안내

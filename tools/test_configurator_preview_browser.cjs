@@ -62,6 +62,14 @@ async function main() {
         report.layout.push({width,language,result:'PASS'});
       }
     }
+    report.nativeTextures=await page.evaluate(async()=>{
+      const results=[];
+      for(const w of Object.values(RavenForgeMaterials.catalog).filter(w=>w.native)){
+        const image=new Image();image.src=globalThis.RavenForgePreviewMedia?.[w.source]||w.source;await image.decode();
+        if(image.naturalWidth!==w.sourceWidth||image.naturalHeight!==w.sourceHeight)throw new Error('Incorrect native texture dimensions: '+w.id);
+        results.push({id:w.id,width:image.naturalWidth,height:image.naturalHeight});
+      }return results;
+    });
     report.materialDyes=await page.evaluate(async()=>{
       const M=globalThis.RavenForgeMaterials,results=[];
       for(const id of Object.keys(M.catalog))for(const [colour,channel] of [['#9d282b',0],['#275f89',2]]){
@@ -82,7 +90,7 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
-          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v14');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v15');
           assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').textContent(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
@@ -97,10 +105,10 @@ async function main() {
           assert.equal(await page.locator('button[data-preview-side]').count(),2);
           assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-side'),'front');
           const fullViewBox=await page.locator('[data-preview-svg]').getAttribute('viewBox');
-          assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-renderer'),model==='GRAMR'?'drawing-composite':'sample-composite');
+          assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-renderer'),model==='EDDA'?'sample-composite':'drawing-composite');
           assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-layout'),size.width<1024?'landscape':'portrait');
           // Confirm original repository rasters load, then compare reference/selected modes.
-          await page.evaluate(async()=>{const src=(document.querySelector('[data-layer="body"] image')||document.querySelector('[id$="-material"] image')).getAttribute('href');const image=new Image();image.src=src;await image.decode();if(image.naturalWidth<1000)throw new Error('Missing source render');});
+          await page.evaluate(async()=>{const src=(document.querySelector('[data-layer="body"] image')||document.querySelector('[id$="-material"] image')).getAttribute('href');const image=new Image();image.src=src;await image.decode();if(Math.max(image.naturalWidth,image.naturalHeight)<1000)throw new Error('Missing source render');});
           await page.locator('[data-preview-mode="sample"]').click();
           await page.locator('.rf-preview-reference img').waitFor();
           assert.equal(await page.locator('.rf-preview-reference img').count(),1);

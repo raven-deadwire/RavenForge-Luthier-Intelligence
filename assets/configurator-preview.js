@@ -131,10 +131,11 @@
       bindruneExample:/^c[1-4]$/.test(bindruneExample)?bindruneExample:null, bodyColour:wood(topId), boardColour:wood(s.fretboard), metal:metals[s.hardware_color] || metals.hw_chrome,
       bridgeColour:s.hardware_bridge === 'nova_parts' ? metals.hw_black : model === 'ASKR' ? metals.hw_chrome : (metals[s.hardware_color] || metals.hw_chrome), bridgeFinishFixed:model==='ASKR'};
   }
-  // Recolour source pixels instead of replacing the instrument with flat polygons.
-  // The bitmap is an unchanged repository asset; SVG masks are independent display layers.
+  // EDDA retains its sample; ASKR/EMBLA use extracted PDF vector contours.
+  // Materials, finishes and selected hardware are independent display layers.
   function renderUnoriented(state, view, language, layout) {
     const g = state.g;
+    const bassDrawing=g?.kind==='bass-drawing';
     if (!g) return '';
     if (view === 'back' && !g.back) return '';
     if (view === 'back' && g.back.kind) return rearRenderer.render(Object.assign({},state,{bodyColour:wood(state.bodyId),topId:state.bodyId}),language,layout,copy);
@@ -180,8 +181,8 @@
     const viewBox = (portrait?g.portrait:g.views)[view] || (portrait?g.portrait:g.views).full;
     const transform=portrait?(g.portraitTransform||'translate(0 0)'):g.transform;
     const fretted=s.fret_type!=='fretless';
-    let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" role="img" aria-labelledby="${prefix}-title ${prefix}-desc" data-preview-svg="${state.model}" data-renderer="sample-composite" data-side="front" data-layout="${portrait?'portrait':'landscape'}">
-      <title id="${prefix}-title">${esc(state.model+' · '+t.live)}</title><desc id="${prefix}-desc">${esc(t.note+' '+t.tone+' '+t.symbols)}</desc>
+    let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" role="img" aria-labelledby="${prefix}-title ${prefix}-desc" data-preview-svg="${state.model}" data-renderer="${bassDrawing?'drawing-composite':'sample-composite'}" data-side="front" data-layout="${portrait?'portrait':'landscape'}">
+      <title id="${prefix}-title">${esc(state.model+' · '+t.live)}</title><desc id="${prefix}-desc">${esc(bassDrawing?t.drawingNote+' '+t.geometry:t.note+' '+t.tone+' '+t.symbols)}</desc>
       <defs>${options.definitions(prefix,state,false)}${parts.definitions(prefix,state)}${options.materials.pattern(prefix+'-natural-head','maple')}
       <pattern id="${prefix}-unknown" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#5e6670"/><path d="M0 12L12 0" stroke="#b4bdc7" stroke-width="2"/></pattern>
       <clipPath id="${prefix}-silhouette">${path(g.body)}${path(g.head)}${polygon(g.board)}${drawTuners?'':path(g.tunerMask)}</clipPath>
@@ -200,12 +201,13 @@
       <filter id="${prefix}-source-shade" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="linear" slope=".55" intercept=".45"/><feFuncG type="linear" slope=".55" intercept=".45"/><feFuncB type="linear" slope=".55" intercept=".45"/></feComponentTransfer></filter>
       ${colourFilter('metal-tone',state.metal,[.30,.59,.11],1.6,0)}
       ${colourFilter('bridge-tone',state.bridgeColour,[.30,.59,.11],1.6,0)}
+      <linearGradient id="${prefix}-reference-bridge-metal" x2=".3" y2="1"><stop stop-color="#24282b"/><stop offset=".2" stop-color="${state.bridgeColour}"/><stop offset=".32" stop-color="#dde0dd"/><stop offset=".48" stop-color="${state.bridgeColour}"/><stop offset="1" stop-color="#1b2022"/></linearGradient>
       <linearGradient id="${prefix}-board-tone" ${g.horizontal?'x1="0" y1="0" x2="0" y2="1"':'x1="0" y1="0" x2="1" y2="0"'}><stop stop-color="#0c0b0a"/><stop offset=".15" stop-color="${boardColour}"/><stop offset=".53" stop-color="${boardColour}"/><stop offset="1" stop-color="#14110f"/></linearGradient>
       <linearGradient id="${prefix}-board-light" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff1cc" stop-opacity=".12"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></linearGradient>
       <filter id="${prefix}-shadow" x="-15%" y="-15%" width="130%" height="135%"><feDropShadow dx="5" dy="9" stdDeviation="10" flood-color="#000" flood-opacity=".65"/></filter>
       </defs><g transform="${transform}">
-      <g filter="url(#${prefix}-shadow)">${source(`clip-path="url(#${prefix}-silhouette)"`)}</g>
-      <g data-layer="body" data-option="${esc(state.topId||'')}" data-material="${esc(state.bodyId||'')}" clip-path="url(#${prefix}-body)" mask="url(#${prefix}-wood-mask)">
+      <g filter="url(#${prefix}-shadow)">${bassDrawing?path(g.body,'fill="#141410"')+path(g.head,'fill="#141410"'):source(`clip-path="url(#${prefix}-silhouette)"`)}</g>
+      <g data-layer="body" data-option="${esc(state.topId||'')}" data-material="${esc(state.bodyId||'')}" clip-path="url(#${prefix}-body)" ${bassDrawing?'data-contour="pdf-vector"':'mask="url(#'+prefix+'-wood-mask)"'}>
         <title>${label(state.hasTop?'top_wood_selection':s.body_wood_single?'body_wood_single':'body_core_wood')} · ${esc(t.sampleGrain)}</title>
         <g data-surface="continuous-body" data-source-hardware="excluded">
           ${path(g.body,`fill="${bodyColour}"`)}
@@ -220,7 +222,7 @@
     // The sample guard wraps around the neck pocket, so the board stays above it.
     out+=parts.guard(state,prefix);
     if(finish.colour) out+=`<g data-layer="finish" data-colour="${finish.colour}" data-opaque="${finish.opaque}"><title>${esc(t.colour)}: ${finish.colour}</title></g>`;
-    out+=`<g data-layer="headstock" data-option="${esc(s.color_headstock||'')}" clip-path="url(#${prefix}-head)">${headNatural?path(g.head,`fill="url(#${prefix}-natural-head)"`)+path(g.head,`fill="url(#${prefix}-clean-light)"`):source(`filter="url(#${prefix}-head-tone)"`)+(!headNatural&&!finish.opaque&&state.bodyColour?path(g.head,`fill="url(#${prefix}-material)" ${finish.colour?`filter="url(#${prefix}-surface-dye)"`:''}`)+source(`filter="url(#${prefix}-source-shade)" style="mix-blend-mode:multiply"`):'')}</g>`;
+    out+=`<g data-layer="headstock" data-option="${esc(s.color_headstock||'')}" clip-path="url(#${prefix}-head)">${bassDrawing?path(g.head,`fill="${headNatural?'#dcc6a0':bodyColour}"`)+((headNatural||!finish.opaque)?path(g.head,`fill="url(#${prefix}-${headNatural?'natural-head':'material'})" ${!headNatural&&finish.colour?`filter="url(#${prefix}-surface-dye)"`:''}`):'')+path(g.head,`fill="url(#${prefix}-clean-light)"`):headNatural?path(g.head,`fill="url(#${prefix}-natural-head)"`)+path(g.head,`fill="url(#${prefix}-clean-light)"`):source(`filter="url(#${prefix}-head-tone)"`)+(!headNatural&&!finish.opaque&&state.bodyColour?path(g.head,`fill="url(#${prefix}-material)" ${finish.colour?`filter="url(#${prefix}-surface-dye)"`:''}`)+source(`filter="url(#${prefix}-source-shade)" style="mix-blend-mode:multiply"`):'')}</g>`;
     // A clean board removes the sample's ornate custom inlay, which is not selected.
     out+=`<g data-layer="fretboard" data-option="${esc(s.fretboard||'')}">${polygon(g.board,`fill="${state.boardColour?`url(#${prefix}-board-material)`:unknown}" stroke="#796750" stroke-width=".8"`)}<title>${label('fretboard')}</title><g clip-path="url(#${prefix}-board)" opacity=".13">`;
     for(let i=0;i<32;i++) {
@@ -229,8 +231,8 @@
     }
     out+=`</g>${polygon(g.board,`fill="url(#${prefix}-board-light)"`)}</g>`;
     out+=options.boardEdges(state,g.board)+options.bindrune(state,g.board,prefix+'-board');
-    const frets=[];
-    for(let n=1;n<=24;n++) {
+    const frets=g.frets?[...g.frets]:[];
+    for(let n=1;!g.frets&&n<=24;n++) {
       const fraction=(1-Math.pow(2,-n/12))/.75;
       frets.push([point(g.board[0],g.board[3],fraction),point(g.board[1],g.board[2],fraction)]);
     }
@@ -248,7 +250,7 @@
       out+=`<g data-layer="inlays" data-material="${esc(s.inlay_dot_mat||s.inlay_oval_mat||'')}" fill="${options.dotColour(state)}" stroke="#f9edd1" stroke-width=".35">`;
       [3,5,7,9,12,15,17,19,21,24].forEach(n=>{
         const fraction=((1-Math.pow(2,-n/12))+(1-Math.pow(2,-(n-1)/12)))/1.5;
-        const a=point(g.board[0],g.board[3],fraction),b=point(g.board[1],g.board[2],fraction);
+        const a=g.frets?point(frets[n-2][0],frets[n-1][0],.5):point(g.board[0],g.board[3],fraction),b=g.frets?point(frets[n-2][1],frets[n-1][1],.5):point(g.board[1],g.board[2],fraction);
         const places=n%12===0?[.3,.7]:[s.inlay_type==='inlay_oval'?.5:s.inlay_dot_pos==='pos_left'?.2:s.inlay_dot_pos==='pos_right'?.8:.5];
         places.forEach(f=>{const p=point(a,b,f);if(s.inlay_type==='inlay_oval'){
           const breadth=Math.hypot(b[0]-a[0],b[1]-a[1]);
@@ -260,14 +262,15 @@
     // Preserve original part pixels. No stretched product-family symbols or
     // flat material patches covering source hardware.
     out+=parts.ramps(state,prefix);
-    out+=parts.pickups(state,prefix)||`<g data-layer="pickups" data-option="${esc(s.pickups||'')}" data-count="2" data-appearance="reference-retained"><title>${label('pickups')} · ${esc(t.referenceParts)}</title>${source(`clip-path="url(#${prefix}-pickups)"`)}</g>`;
-    out+=parts.tuners(state,prefix)||`<g data-layer="hardware" data-option="${esc(s.hardware_color||'')}" data-colour="${state.metal}" data-appearance="reference-retained"><title>${label('hardware_color')}</title>${source(`clip-path="url(#${prefix}-hardware)" filter="url(#${prefix}-metal-tone)"`)}</g>`;
-    out+=parts.bridge(state,prefix)||`<g data-layer="bridge" data-option="${esc(s.hardware_bridge||'')}" data-colour="${state.bridgeColour}" data-finish-fixed="${!!state.bridgeFinishFixed}" data-appearance="reference-retained"><title>${label('hardware_bridge')} · ${esc(t.referenceParts)}</title>${source(`clip-path="url(#${prefix}-bridge)" filter="url(#${prefix}-bridge-tone)"`)}</g>`;
-    out+=(drawKnobs?parts.knobs(state,prefix,8):`<g data-layer="knobs" data-count="${g.controls.length}" data-placement="source-retained">${source(`clip-path="url(#${prefix}-knobs)" filter="url(#${prefix}-metal-tone)"`)}${options.knobs(state,prefix,g.controls,8)}</g>`)+parts.controls(state,prefix,8);
+    out+=parts.pickups(state,prefix)||`<g data-layer="pickups" data-option="${esc(s.pickups||'')}" data-count="2" data-appearance="reference-retained"><title>${label('pickups')} · ${esc(t.referenceParts)}</title>${bassDrawing?g.pickupOutlines.map(d=>path(d,'fill="#171a1c" stroke="#55595b" stroke-width=".8"')).join(''):source(`clip-path="url(#${prefix}-pickups)"`)}</g>`;
+    out+=parts.tuners(state,prefix)||`<g data-layer="hardware" data-option="${esc(s.hardware_color||'')}" data-colour="${state.metal}" data-appearance="reference-retained"><title>${label('hardware_color')}</title>${bassDrawing?g.tuners.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="7" fill="${state.metal}" stroke="#303536"/>`).join(''):source(`clip-path="url(#${prefix}-hardware)" filter="url(#${prefix}-metal-tone)"`)}</g>`;
+    out+=parts.bridge(state,prefix)||`<g data-layer="bridge" data-option="${esc(s.hardware_bridge||'')}" data-colour="${state.bridgeColour}" data-finish-fixed="${!!state.bridgeFinishFixed}" data-appearance="reference-retained"><title>${label('hardware_bridge')} · ${esc(t.referenceParts)}</title>${bassDrawing?g.bridgeOutlines.map(d=>path(d,`fill="url(#${prefix}-reference-bridge-metal)" stroke="#252a2c" stroke-width=".7"`)).join('')+path(g.bridgeArtwork,`fill="none" stroke="${state.bridgeColour}" stroke-width="1.1"`):source(`clip-path="url(#${prefix}-bridge)" filter="url(#${prefix}-bridge-tone)"`)}</g>`;
+    out+=(drawKnobs?parts.knobs(state,prefix,8):`<g data-layer="knobs" data-count="${g.controls.length}" data-placement="source-retained">${bassDrawing?g.controls.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="8" fill="url(#${prefix}-part-metal)" stroke="#222"/>`).join(''):source(`clip-path="url(#${prefix}-knobs)" filter="url(#${prefix}-metal-tone)"`)}${options.knobs(state,prefix,g.controls,8)}</g>`)+parts.controls(state,prefix,8);
     // Only the board is redrawn. Strings/saddles on the body and tuner layout are
     // baked reference details, explicitly distinguished from current specifications.
-    out+=`<g data-layer="strings" data-count="${g.strings}" data-scope="fretboard" clip-path="url(#${prefix}-board)">`;
+    out+=`<g data-layer="strings" data-count="${g.strings}" data-scope="${bassDrawing?'whole-instrument':'fretboard'}" ${bassDrawing?'':'clip-path="url(#'+prefix+'-board)"'}>`;
     for(let i=0;i<g.strings;i++) {
+      if(bassDrawing){const f=i/(g.strings-1),nut=point(g.board[0],g.board[1],.08+.84*f),bridge=g.stringLines[i][1],tuner=g.tuners[i];out+=path(`M${tuner} L${nut} L${bridge}`,`fill="none" stroke="#10100e" stroke-width="${2-i*.28}"`)+path(`M${tuner} L${nut} L${bridge}`,`fill="none" stroke="#d6d3c4" stroke-width="${1.2-i*.2}"`);continue;}
       const f=.08+.84*i/(g.strings-1),a=point(g.board[0],g.board[1],f),b=point(g.board[3],g.board[2],f);
       out+=line(a,b,`stroke="#0e0d0c" stroke-width="${2.1-i*.19}" opacity=".8"`);
       out+=line(a,b,`stroke="#ddd8c5" stroke-width="${1.15-i*.12}" opacity=".85"`);
@@ -339,7 +342,7 @@
     const t = copy[props.language] || copy.en;
     const state = scene(props.model,props.selections,props.finishColor,props.labels,props.bindruneExample,{specialOptions:props.specialOptions,pickguard,neckAccent});
     const s = state.selections;
-    const isDrawing=state.g && state.g.kind==='drawing';
+    const isDrawing=state.g && ['drawing','bass-drawing'].includes(state.g.kind);
     const rear=view==='back',missing=rear&&!state.g?.back;
     const rearConcept=rear&&state.g?.back?.kind==='rear-concept';
     const rearDrawing=rear&&state.g?.back?.kind==='rear-drawing';
@@ -363,8 +366,8 @@
     const imageReady=imageStatus.source===imageKey&&imageStatus.status==='ready';
     const imageFailed=imageStatus.source===imageKey&&imageStatus.status==='error';
     const rows = ['pickguard','pickguard_material','pickguard_colour','pickguard_finish','body_construction','electronics','neck_finish','coil_switch','control_layout','orientation','body_wood_single','body_core_wood','body_wing_wood','top_type','top_wood_selection','neck','fretboard','fret_type','fret_material','fret_size','fret_side','inlay_type','inlay_dot_mat','inlay_dot_pos','inlay_oval_mat','nut_material','color_top','color_back_side','color_headstock','extra_finish_burst','extra_finish_flake','knob','pickup_configuration','pickups','hardware_bridge','hardware_machine_head','hardware_color','fretboard_extense'].filter(id=>s[id]);
-    return h('section',{className:'rf-preview',id:'instrument-preview','aria-labelledby':'preview-title','data-preview-model':props.model,'data-preview-side':view,'data-preview-version':'v14'},
-      h('div',{className:'rf-preview-heading'},h('div',null,h('p',null,t.live),h('h2',{id:'preview-title'},props.model),h('p',{'data-neck-construction':'bolt-on'},t.boltOn)),h('span',{className:'rf-preview-mark','aria-hidden':true},'RF / TEST v14')),
+    return h('section',{className:'rf-preview',id:'instrument-preview','aria-labelledby':'preview-title','data-preview-model':props.model,'data-preview-side':view,'data-preview-version':'v15'},
+      h('div',{className:'rf-preview-heading'},h('div',null,h('p',null,t.live),h('h2',{id:'preview-title'},props.model),h('p',{'data-neck-construction':'bolt-on'},t.boltOn)),h('span',{className:'rf-preview-mark','aria-hidden':true},'RF / TEST v15')),
       h('div',{className:'rf-preview-sides','aria-label':t.title},['front','back'].map(id=>h('button',{type:'button',key:id,'data-preview-side':id,'aria-pressed':view===id,onClick:()=>{setSample(false);setView(id);}},t[id]))),
       !missing && h('div',{className:'rf-preview-mode'},[false,true].map(original=>h('button',{key:String(original),type:'button','data-preview-mode':original?'sample':'selected','aria-pressed':sample===original,onClick:()=>setSample(original)},original?referenceTitle:t.selectedView))),
       missing?h('div',{className:'rf-preview-unavailable','data-preview-unavailable':'back',role:'status'},h('strong',null,t.backMissing),h('p',null,t.backMissingNote)):
@@ -374,6 +377,7 @@
       state.finish.status==='unmapped' && h('p',{className:'rf-preview-warning',role:'status'},t.textOnly),
       state.finish.colour && s.color_top==='top_oil' && h('p',{className:'rf-preview-warning'},t.oil),
       !rear&&state.pending.includes('pickups')&&h('p',{className:'rf-preview-warning','data-pickup-pending':true},(guardCopy[props.language]||guardCopy.en).pending+' · '+props.labels.pickups),
+      h('p',{className:'rf-preview-note','data-geometry-scope':true},rear?rearNote:isDrawing?t.drawingParts+' · '+t.geometry:t.note),
       h('details',{className:'rf-preview-settings'},h('summary',null,t.displaySettings),
       props.model==='EDDA'?h('p',{'data-pickguard-catalog':true},(guardCopy[props.language]||guardCopy.en).location):state.g?.pickguard?h('div',{className:'rf-preview-guard'},h('strong',null,t.guardTitle),
         h('div',{className:'rf-preview-guard-options','aria-label':t.pickguard},['none','black','ivory','wood'].map((id,i)=>h('button',{type:'button',key:id,'data-preview-pickguard':id,'aria-pressed':pickguard===id,onClick:()=>{setGuards(previous=>({...previous,[props.model]:id}));setView('front');setSample(false);}},t.guardNames[i]))),h('p',null,props.model==='EDDA'?t.eddaGuardNote:t.guardNote)):h('p',{className:'rf-preview-note','data-pickguard-unavailable':true},t.guardUnavailable),

@@ -331,7 +331,12 @@ for(const model of ['EDDA','EMBLA','ASKR']){
 for(const [model,pickup] of [['EDDA','nova_mm'],['EMBLA','delano_sbc'],['ASKR','fishman']]){
   const state=preview.scene(model,{...normalize(model),pickups:pickup},'');
   const fitted=parts.selectedPickupPlan(state);
-  fitted.forEach((r,i)=>{assert.equal(r.w,state.g.pickups[i].w);assert.equal(r.h,state.g.pickups[i].h);});
+  fitted.forEach((r,i)=>{
+    const source=state.g.pickups[i],ref=parts.profile(state,'pickups'),native=state.g.pickupReferenceMM;
+    assert.ok(Math.abs(r.w-source.w*(native?ref.w/native[0]:1))<1e-8);
+    assert.ok(Math.abs(r.h-source.h*(native?ref.h/native[1]:1))<1e-8);
+    assert.ok(Math.abs((r.x+r.w/2)-(source.x+source.w/2))<1e-8,'Replacement keeps source centre, without inheriting prototype pickup dimensions');
+  });
   assert.match(parts.pickups(state,'fit'),/data-projection="source-envelope"/);
 }
 console.log('PASS: complete preamp layouts, unchanged continuous body surface, pickup projection into source envelopes');
@@ -340,7 +345,7 @@ console.log('PASS: complete preamp layouts, unchanged continuous body surface, p
 for(const electronics of ['passive','fishman','nfp','zuta','noll','john_east','underhill','eq01']){
  const state=preview.scene('EMBLA',{...normalize('EMBLA'),electronics,coil_switch:'coil_2_ps'},'',{},null,{specialOptions:['kill_switch']});
  const all=parts.controlPlan(state);
- for(const c of all){assert.ok(c.xy[0]>=690&&c.xy[0]<=800);assert.ok(c.xy[1]>=870&&c.xy[1]<=1020);}
+ for(const c of all){assert.ok(c.xy[0]>=200&&c.xy[0]<=285);assert.ok(c.xy[1]>=755&&c.xy[1]<=885);}
  for(let i=0;i<all.length;i++)for(const b of all.slice(i+1))assert.ok(Math.hypot(all[i].xy[0]-b.xy[0],all[i].xy[1]-b.xy[1])>21,'EMBLA knobs and extra switches must stay separate');
 }
 const novaPickup=preview.scene('EDDA',normalize('EDDA'),'');
@@ -357,3 +362,37 @@ for(const electronics of ['passive','nfp','zuta','noll','john_east','underhill',
  for(const a of switches){assert.ok(a.xy[1]>Math.max(...knobs.map(c=>c.xy[1]))+10);for(const b of plan)if(a!==b)assert.ok(Math.hypot(a.xy[0]-b.xy[0],a.xy[1]-b.xy[1])>21);}
 }
 console.log('PASS: ASKR coil/kill switches below controls with separate clearance');
+
+// Source-vector provenance and opaque surfaces: these gates prevent regression,
+// while the side-by-side images remain the visual acceptance evidence.
+const frontGeometry=require('../assets/configurator-bass-front-geometry.js');
+for(const model of ['ASKR','EMBLA']){
+ const g=frontGeometry[model];
+ assert.equal(g.kind,'bass-drawing');assert.equal(g.frets.length,24);
+ assert.equal(g.tuners.length,5);assert.equal(g.stringLines.length,5);
+ assert.ok(g.provenance.maxBodyJoinGapPDFPoints<.05);
+ assert.ok(g.provenance.maxHeadJoinGapPDFPoints<.05);
+ assert.deepEqual(g.controlLayouts[5],g.controls);
+ if(model==='EMBLA')for(const xy of g.controlProposals.coils)for(const pickup of g.pickups){
+   const dx=Math.max(pickup.x-xy[0],0,xy[0]-(pickup.x+pickup.w));
+   const dy=Math.max(pickup.y-xy[1],0,xy[1]-(pickup.y+pickup.h));
+   assert.ok(Math.hypot(dx,dy)>12,'Added switches must clear the prototype pickup covers');
+ }
+ const state=preview.scene(model,{...normalize(model),color_back_side:'back_stain'},'solid #275f89');
+ const rear=preview.renderSvg(state,'back','en');
+ assert.match(rear,/data-surface="opaque-paint"[^>]*fill="#275f89"/);
+ const natural=preview.renderSvg(preview.scene(model,{...state.selections,color_back_side:'back_oil'},'solid #275f89'),'back','en');
+ assert.doesNotMatch(natural,/data-surface="opaque-paint"/);
+}
+const gramrGeometry=require('../assets/configurator-gramr-geometry.js');
+assert.equal(gramrGeometry.back.neck[2][0],gramrGeometry.back.neck[3][0],'Original PDF interface must not follow the diagonal cutaway tangent');
+const gramrRear=preview.renderSvg(preview.scene('GRAMR',normalize('GRAMR'),''),'back','en');
+assert.match(gramrRear,/data-coordinate-status="unverified"/);
+assert.match(gramrRear,/data-placement="pdf-boundary-5613"/);
+const nativeManifest=JSON.parse(fs.readFileSync(path.join(root,'assets/configurator-materials/native-v15.json')));
+for(const entry of nativeManifest){
+ const actual=materials.get(entry.id);assert.equal(actual.source,entry.source);
+ assert.equal(entry.resized,false);assert.equal(actual.sourceWidth,entry.nativeWidth);assert.equal(actual.sourceHeight,entry.nativeHeight);
+ assert.equal(require('crypto').createHash('sha256').update(fs.readFileSync(path.join(root,entry.source))).digest('hex'),entry.sha256);
+}
+console.log('PASS: source contour continuity, 24 native fret lines, opaque rear paint, GRAMR boundary/unverified joint and native texture provenance');

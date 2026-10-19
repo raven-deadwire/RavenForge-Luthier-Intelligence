@@ -91,14 +91,14 @@ return out;
   function electronicsPlan(state){
     const s=state.selections,ref=electronicsProfiles[s.electronics];
     if(!ref||['control_custom','guitar_custom_wiring'].includes(s.control_layout))return null;
-    const guitar=state.model==='GRAMR',positions=guitar?state.g.controls:controlLayouts[state.model]?.[ref.knobs.length];
+    const guitar=state.model==='GRAMR',positions=guitar?state.g.controls:(state.g.controlLayouts||controlLayouts[state.model])?.[ref.knobs.length];
     if(!positions)return null;
     return {...ref,layout:guitar?'guitar-two-pot':ref.knobs.length===3?'three-control-arc':ref.knobs.length===4?'two-plus-two':ref.knobs.length===5?'two-plus-three':'two-plus-four',knobs:ref.knobs.map((functions,index)=>({xy:[...positions[index]],type:'knob',index,functions:[...functions],stacked:functions.length>1,placement:guitar?'source-retained':'electronics-preview'}))};
   }
   function controlPlan(state){
     const s=state.selections,extras=state.specialOptions||[],positions=state.g.controls||[];
     const plan=electronicsPlan(state)?.knobs||positions.map((xy,i)=>({xy:[...xy],type:'knob',index:i,functions:[],placement:'source-retained'}));
-    const proposal=controlProposals[state.model];
+    const proposal=state.g.controlProposals||controlProposals[state.model];
     if(!proposal)return plan;
     const add=(xy,type,fn)=>plan.push({xy:[...xy],type,index:plan.length,functions:[fn],placement:'preview-only-unconfirmed'});
     // Stable locations: toggling one option must not move another control.
@@ -167,7 +167,7 @@ return out;
     const ref=profile(state,'pickups');if(!ref)return pickupPlan(state);
     const base=state.model==='EDDA'?references.pickups.nova_mm:state.model==='ASKR'?references.pickups.fishman:references.pickups.delano_sbc;
     return pickupPlan(state).map(r=>{
-      const w=r.w*ref.w/base.w,h=r.h*ref.h/base.h;
+      const w=r.w*ref.w/(state.g.pickupReferenceMM?.[0]||base.w),h=r.h*ref.h/(state.g.pickupReferenceMM?.[1]||base.h);
       return {...r,x:r.x+(r.w-w)/2,y:r.y+(r.h-h)/2,w,h};
     });
   }
@@ -235,7 +235,7 @@ return out;
     const n=state.g.strings,guitar=state.model==='GRAMR',id=state.selections.hardware_bridge;
     const [a,b]=state.g.bridge,cx=(a[0]+b[0])/2,cy=(a[1]+b[1])/2;
     const w=guitar?83.5:ref.style==='404bo'?(n===4?86:100):(n===4?82:101.6),h=guitar?40:ref.style==='404bo'?58:ref.style==='fch-top'?66.8:ref.style==='masskicker'?60:50.8;
-    const scale=guitar?Math.hypot(a[0]-b[0],a[1]-b[1])/54:(state.model==='EDDA'?1.07:1.42);
+    const scale=guitar?Math.hypot(a[0]-b[0],a[1]-b[1])/54:(state.g.unitsPerMm||(state.model==='EDDA'?1.07:1.42));
     const metal=`url(#${p}-bridge-metal)`,f=state.bridgeColour;
     let out=`<g data-layer="bridge" data-option="${id}" data-colour="${f}" data-finish-fixed="${!!state.bridgeFinishFixed}" data-appearance="manufacturer-reference" data-placement="sample-fit" data-profile="${ref.style}"><defs><linearGradient id="${p}-bridge-metal" x1="0" y1="0" x2=".15" y2="1"><stop stop-color="${f}"/><stop offset=".18" stop-color="#e2e4df"/><stop offset=".25" stop-color="${f}"/><stop offset=".8" stop-color="${f}"/><stop offset="1" stop-color="#252a2c"/></linearGradient></defs><g transform="translate(${cx} ${cy}) rotate(${guitar?-90:0}) scale(${scale}) translate(${-w/2} -${h*.45})">`;
     out+=box(-.6,1.8,w+1.2,h,3,'#030505','opacity=".8"');
@@ -302,7 +302,7 @@ return out;
       // Bound centres from the PDF housing are display anchors, not hole data.
       anchors=state.g.back.tuners.map(t=>{const pairs=[...t.housing.matchAll(/(-?\d+\.\d+),(-?\d+\.\d+)/g)].map(m=>[+m[1],+m[2]]),xs=pairs.map(v=>v[0]),ys=pairs.map(v=>v[1]),x=(Math.min(...xs)+Math.max(...xs))/2,y=(Math.min(...ys)+Math.max(...ys))/2;return [x,y,y<155?-90:90];});scale=1.05;
     }else if(back){anchors=[[520,65,0],[528,119,0],[541,177,0],[550,231,0]];scale=1.1;}
-    else {anchors=frontTunerAnchors[state.model];scale=state.model==='EDDA'?.72:.68;}
+    else {anchors=state.g.tunerAnchors||frontTunerAnchors[state.model];scale=state.g.unitsPerMm||(state.model==='EDDA'?.72:.68);}
     return `<g data-layer="${back?'rear-selected-tuners':state.model==='GRAMR'?'selected-tuners':'hardware'}" data-option="${state.selections.hardware_color}" data-machine-head="${state.selections.hardware_machine_head}" data-colour="${state.metal}" data-count="${anchors.length}" data-appearance="manufacturer-reference" data-placement="${back&&state.model!=='EDDA'?'drawing-fit':'sample-fit'}" data-profile="${ref.key}">`+anchors.map(([x,y,a],i)=>`<g data-tuner-index="${i}" transform="translate(${x} ${y}) rotate(${a}) scale(${scale})">${tunerUnit(state,p,ref,back)}</g>`).join('')+'</g>';
   }
   return {definitions,pickupPlan,guard,ramps,electronicsProfiles,electronicsPlan,knobs,controlPlan,controls,references,profile,selectedPickupPlan,pickups,bridge,tuners};

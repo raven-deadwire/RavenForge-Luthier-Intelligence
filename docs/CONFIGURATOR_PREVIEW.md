@@ -1,3 +1,25 @@
+## v15 — original drawing audit (2026-10-20 KST)
+
+Based on PR head v14 `5dfc1f07e54639e11ff41fe13a014405cf77485e`, preserving
+all v12–v14 additions made after the requested v11 revision. Production is unchanged.
+
+ASKR #001 / EMBLA #002 front outlines, heads and 24 fret lines now come from
+native PDF vectors rather than the prototype raster silhouettes. Rear outlines
+and five source bolt centres are retained. GRAMR's rear neck boundary now uses
+PDF path 5613, replacing a diagonal line to the cutaway tangent. Its current
+five-bolt 2-2-1 joint remains an explicitly unapproved schematic: the old source
+PDF depicts a four-point plate, not the current platform.
+
+Opaque bass rear bodies/covers now use solid paint and independent lighting;
+wood grain no longer leaks through. Eight materials have independent native
+724 × 2172 sources without resizing. The remaining 21 materials retain legacy
+atlas cells; this is **not** a claim of 2048 × 2048 source quality.
+
+See [drawing audit and visual evidence](CONFIGURATOR_DRAWING_AUDIT.md) for exact
+source hashes, validated scope, remaining limitations and verification results.
+
+---
+
 ## v14 — EDDA guard selections, Nova pickup and EMBLA control placement
 
 EDDA now exposes presence, single-/three-ply plastic or body/top matching wood,

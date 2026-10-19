@@ -6,6 +6,10 @@
   const catalog={};let n=0;
   for(const [group,ids] of Object.entries(groups))ids.forEach((id,index)=>{catalog[id]={id,group,index,colour:colours[n++],source:'assets/configurator-materials/wood-'+group+'-atlas-v8.webp'};});
   for(const [index,id,colour] of [[0,'bloodwood','#9c381f'],[1,'bubinga','#8f4a35']])catalog[id]={id,group:'neck',index,colour,source:'assets/configurator-materials/wood-neck-atlas-v11.webp',cellSize:887,columns:2,sourceWidth:1774,sourceHeight:887};
+
+  // Native individual sources; dimensions are measured, never upscale claims.
+  const native={"ash":{"source":"assets/configurator-materials/native-v15/ash.webp","sourceWidth":724,"sourceHeight":2172,"native":true,"effectiveWidth":724,"effectiveHeight":2172},"elm":{"source":"assets/configurator-materials/native-v15/elm.webp","sourceWidth":724,"sourceHeight":2172,"native":true,"effectiveWidth":724,"effectiveHeight":2172},"rosewood":{"source":"assets/configurator-materials/native-v15/rosewood.webp","sourceWidth":724,"sourceHeight":2172,"native":true,"effectiveWidth":724,"effectiveHeight":2172},"wenge":{"source":"assets/configurator-materials/native-v15/wenge.webp","sourceWidth":724,"sourceHeight":2172,"native":true,"effectiveWidth":724,"effectiveHeight":2172},"flame_maple":{"source":"assets/configurator-materials/native-v15/flame_maple.webp","sourceWidth":724,"sourceHeight":2172,"native":true,"effectiveWidth":724,"effectiveHeight":2172},"maple":{"source":"assets/configurator-materials/native-v15/maple.webp","sourceWidth":724,"sourceHeight":2172,"native":true,"effectiveWidth":724,"effectiveHeight":2172},"bloodwood":{"source":"assets/configurator-materials/native-v15/bloodwood.webp","sourceWidth":724,"sourceHeight":2172,"native":true,"effectiveWidth":724,"effectiveHeight":2172},"bubinga":{"source":"assets/configurator-materials/native-v15/bubinga.webp","sourceWidth":724,"sourceHeight":2172,"native":true,"effectiveWidth":724,"effectiveHeight":2172}};
+  for(const [id,asset] of Object.entries(native))Object.assign(catalog[id],asset);
   const key=id=>String(id||'').replace(/^guitar_(top_|body_)?/,'').replace(/^(core_|wing_)/,'').replace(/^indian_rosewood$/,'rosewood').replace(/^swamp_?ash$/,'ash');
   const get=id=>catalog[key(id)]||null;
   const media=p=>globalThis.RavenForgePreviewMedia?.[p]||p;
@@ -18,10 +22,14 @@
   }
   function pattern(name,id,horizontal=false,sharedImageId=null){
     const w=get(id);if(!w)return '';
+    if(w.native){
+      const sw=w.sourceWidth,sh=w.sourceHeight;
+      return `<pattern id="${name}" width="1" height="1" patternUnits="objectBoundingBox" viewBox="0 0 ${horizontal?sh:sw} ${horizontal?sw:sh}" preserveAspectRatio="xMidYMid slice" data-native-size="${sw}x${sh}"><g${horizontal?` transform="translate(${sh} 0) rotate(90)"`:''}>${sharedImageId?`<use href="#${sharedImageId}"/>`:`<image href="${media(w.source)}" width="${sw}" height="${sh}"/>`}</g></pattern>`;
+    }
     // Inset each atlas cell by 4 pixels so no neighbouring wood can bleed in.
     const cell=w.cellSize||418,columns=w.columns||3,size=cell-8;
     const x=w.index%columns*cell+4,y=Math.floor(w.index/columns)*cell+4;
     return `<pattern id="${name}" width="1" height="1" patternUnits="objectBoundingBox" viewBox="0 0 ${size} ${size}" preserveAspectRatio="none"><g${horizontal?` transform="rotate(90 ${size/2} ${size/2})"`:''}>${sharedImageId?`<use href="#${sharedImageId}" x="${-x}" y="${-y}"/>`:`<image href="${media(w.source)}" x="${-x}" y="${-y}" width="${w.sourceWidth||1254}" height="${w.sourceHeight||1254}"/>`}</g></pattern>`;
   }
-  return {catalog,key,get,pattern,finishFilter,sources:[...Object.keys(groups).map(g=>'assets/configurator-materials/wood-'+g+'-atlas-v8.webp'),'assets/configurator-materials/wood-neck-atlas-v11.webp']};
+  return {catalog,key,get,pattern,finishFilter,sources:[...new Set(Object.values(catalog).map(w=>w.source))]};
 });

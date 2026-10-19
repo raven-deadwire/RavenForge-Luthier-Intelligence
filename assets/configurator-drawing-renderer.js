@@ -25,7 +25,7 @@
       <clipPath id="${p}-neck-clip"><polygon points="${polygon(back?g.neck:g.board)}"/></clipPath><clipPath id="${p}-body-clip">${path(g.body)}</clipPath><clipPath id="${p}-head-clip">${path(g.head)}</clipPath><clipPath id="${p}-board-clip"><polygon points="${polygon(g.board)}"/></clipPath>
       <pattern id="${p}-unknown" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#5e6670"/><path d="M0 12L12 0" stroke="#b4bdc7" stroke-width="2"/></pattern>
       <radialGradient id="${p}-joint-fade"><stop offset=".5" stop-color="white"/><stop offset="1" stop-color="black"/></radialGradient>
-      <mask id="${p}-joint-region" maskUnits="userSpaceOnUse" x="650" y="235" width="120" height="102"><ellipse cx="710" cy="286" rx="60" ry="51" fill="url(#${p}-joint-fade)"/></mask>
+      <mask id="${p}-joint-region" maskUnits="userSpaceOnUse" x="637" y="245" width="92" height="82"><ellipse cx="683" cy="286" rx="46" ry="41" fill="url(#${p}-joint-fade)"/></mask>
       ${woodFilter('body-wood',colour)}${woodFilter('board-wood',state.boardColour||'#6b6256')}
       <linearGradient id="${p}-body-light" x1="0" y1="0" x2=".35" y2="1"><stop stop-color="#fff8dc" stop-opacity=".22"/><stop offset=".28" stop-color="#fff" stop-opacity=".03"/><stop offset=".7" stop-color="#000" stop-opacity=".08"/><stop offset="1" stop-color="#000" stop-opacity=".45"/></linearGradient>
       <linearGradient id="${p}-rim" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="#fff8dd" stop-opacity=".85"/><stop offset=".35" stop-color="#fff" stop-opacity=".35"/><stop offset=".6" stop-color="#000" stop-opacity=".2"/><stop offset="1" stop-color="#050606" stop-opacity=".85"/></linearGradient>
@@ -44,11 +44,11 @@
       out+=options.bodyPieces(state,p,g.body,true,286,100,true);
       out+=`<g data-layer="rear-headstock" data-contour="pdf-vector">${options.neckFinish(state,p,g.head,path(g.head,`fill="url(#${p}-head-natural)"`)+path(g.head,`fill="url(#${p}-body-light)"`),'rear-head-finish')}</g>`;
       out+=`<g data-layer="rear-neck" data-neck-joint="bolt-on" data-appearance="illustrative-lamination">${options.neckFinish(state,p,'M'+polygon(g.neck)+' Z',`<polygon points="${polygon(g.neck)}" fill="#e2cda8" stroke="#72664f" stroke-width="1"/>${options.lamination(state,g.neck,p+'-neck-clip')}<polygon points="${polygon(g.neck)}" fill="url(#${p}-body-light)"/>`)}</g>`;
-      out+=`<g data-layer="rear-joint-seam" data-placement="source-envelope">${line(g.neck[3],g.neck[2],'stroke="#15120f" stroke-width="1.8" vector-effect="non-scaling-stroke"')}</g>`;
+      out+=`<g data-layer="rear-joint-seam" data-placement="pdf-boundary-5613">${path(g.jointSeam,'fill="none" stroke="#15120f" stroke-width="1.8" vector-effect="non-scaling-stroke"')}</g>`;
       // This unfinished region communicates the confirmed bolt-on construction
       // without inventing an approved heel or manufacturing hole coordinates.
-      out+=`<g data-layer="rear-joint-schematic" data-neck-joint="bolt-on" data-coordinate-status="unverified" clip-path="url(#${p}-body-clip)"><ellipse cx="710" cy="286" rx="60" ry="51" fill="${unknown}" opacity=".55" mask="url(#${p}-joint-region)"/><title>${esc(t.backNote)}</title><g data-layer="rear-bolts" data-count="5" data-pattern="2-2-1" data-placement="spec-schematic">`;
-      for(const [x,y] of [[686,270],[686,302],[711,270],[711,302],[736,286]])out+=`<circle cx="${x}" cy="${y}" r="6" fill="#20292e" stroke="#e5dcc4" stroke-width="1.3"/><path d="M${x-2},${y}h4 M${x},${y-2}v4" stroke="#e5dcc4" stroke-width=".8"/>`;
+      out+=`<g data-layer="rear-joint-schematic" data-neck-joint="bolt-on" data-coordinate-status="unverified" clip-path="url(#${p}-body-clip)"><ellipse cx="683" cy="286" rx="46" ry="41" fill="${unknown}" opacity=".55" mask="url(#${p}-joint-region)"/><title>${esc(t.backNote)}</title><g data-layer="rear-bolts" data-count="5" data-pattern="2-2-1" data-placement="spec-schematic">`;
+      for(const [x,y] of g.jointSchematic)out+=`<circle cx="${x}" cy="${y}" r="6" fill="#20292e" stroke="#e5dcc4" stroke-width="1.3"/><path d="M${x-2},${y}h4 M${x},${y-2}v4" stroke="#e5dcc4" stroke-width=".8"/>`;
       out+='</g></g>';
       out+=`<g data-layer="rear-cavity" data-contour="pdf-vector">${path(g.cavity,'fill="#181b1c" stroke="#978f7e" stroke-width="1.1"')}${path(g.cavity,`fill="${unknown}" opacity=".3"`)}</g>`;
       out+=`<g data-layer="rear-tuners" data-count="6" data-appearance="drawing-envelope" data-colour="${state.metal}">`;
