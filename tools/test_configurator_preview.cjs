@@ -149,3 +149,36 @@ for(const bridge of ['payson','nova_parts']){
   assert.equal(new Set(colours).size,1,'ASKR bridge finish must not follow hardware colour');
 }
 console.log('PASS: named wood coverage, C1–C4 inlays/reset/rear exclusion, handedness and both ASKR fixed bridge finishes');
+// v9: display-only pieces, part substitution and extras; never mutate quote state.
+const parts=require('../assets/configurator-parts-renderer.js');
+for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
+  const d=JSON.parse(JSON.stringify(normalize(model))),extras={specialOptions:['kill_switch','dual_tone'],pickguard:'ivory'},before=JSON.stringify([d,extras]);
+  const front=preview.renderSvg(preview.scene(model,d,'transparent #9d282b',{},null,extras),'front','en');
+  assert.match(front,/data-layer="pickguard" data-option="ivory"/);
+  assert.match(front,/data-control-type="kill"/);
+  const back=preview.renderSvg(preview.scene(model,d,'',{},null,extras),'back','en');
+  assert.doesNotMatch(back,/data-layer="(?:pickguard|control-options|finger-ramp)"/);
+  assert.equal(JSON.stringify([d,extras]),before,'Read-only selections and special options');
+  for(const [id,count] of model==='GRAMR'?[['guitar_body_1pc',1],['guitar_body_2pc',2],['guitar_body_3pc',3]]:[['1pc_solid',1],['3pc_solid',3]]){
+    const state=preview.scene(model,{...d,body_construction:id},'');
+    assert.match(preview.renderSvg(state,'back','en'),new RegExp(`data-layer="body-pieces" data-option="${id}" data-count="${count}"`));
+    assert.doesNotMatch(preview.renderSvg(preview.scene(model,{...d,body_construction:id,color_back_side:'back_gloss'},'solid #9d282b'),'back','en'),/data-layer="body-pieces"/,'Opaque conceals glue joins');
+  }
+  if(model!=='GRAMR'){
+    const picked={...d,pickups:{EDDA:'häussel_triple',EMBLA:'delano_ts',ASKR:'askr_delano_sbc5_e'}[model],electronics:'glockenklang',coil_switch:'coil_2_ps',finger_ramp:'ramp_wood'};
+    const state=preview.scene(model,picked,'',{},null,extras),svg=preview.renderSvg(state,'front','en');
+    assert.match(svg,/data-family="(?:triple|square-poles|soapbar)"/);assert.match(svg,/data-layer="finger-ramp"/);
+    const controls=parts.controlPlan(state);assert.equal(controls.filter(x=>x.type==='toggle').length,model==='EDDA'?0:2);
+    assert.equal(new Set(controls.map(x=>x.xy.join(','))).size,controls.length,'Controls never share or add holes');
+    for(const id of ['emg','fishman'])assert.equal(parts.controlPlan(preview.scene(model,{...picked,pickups:id},'',{},null,extras)).filter(x=>x.type==='toggle').length,0);
+    assert.doesNotMatch(preview.renderSvg(preview.scene(model,{...picked,pickup_configuration:'pickup_3'},''),'front','en'),/data-layer="finger-ramp"/);
+  }
+}
+for(const model of ['EMBLA','ASKR']){
+  const d={...JSON.parse(JSON.stringify(normalize(model))),pickup_configuration:'pickup_3'};
+  const svg=preview.renderSvg(preview.scene(model,d,''),'front','en');
+  assert.match(svg,/data-count="3" data-appearance="illustrative-family" data-placement="proposed-three-pickup"/);
+  // Existing production restrictions remain: the preview does not unlock it.
+  assert.equal(normalize(model,d).pickup_configuration,'pickup_2');
+}
+console.log('PASS: body joins, existing-position controls, pickup families, ramp exclusion and read-only extras');

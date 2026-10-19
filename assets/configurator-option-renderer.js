@@ -9,7 +9,7 @@
   const line=(a,b,attrs)=>`<path d="M${a} L${b}" fill="none" ${attrs}/>`;
   const polygon=p=>p.map(q=>q.join(',')).join(' ');
   function definitions(p,state,horizontal=false){
-    return materials.pattern(p+'-material',state.topId,horizontal)+materials.pattern(p+'-board-material',state.selections.fretboard,horizontal)+materials.pattern(p+'-knob-material',state.topId,horizontal)+materials.pattern(p+'-wing-material',state.selections.body_wing_wood,horizontal)+
+    return materials.finishFilter(p+'-surface-dye',state.finish.colour)+materials.pattern(p+'-material',state.topId,horizontal)+materials.pattern(p+'-board-material',state.selections.fretboard,horizontal)+materials.pattern(p+'-knob-material',state.topId,horizontal)+materials.pattern(p+'-wing-material',state.selections.body_wing_wood,horizontal)+
       `<linearGradient id="${p}-detail-gloss" x1="0" y1="0" x2="1" y2="1"><stop stop-color="white" stop-opacity="0"/><stop offset=".25" stop-color="white" stop-opacity="0"/><stop offset=".32" stop-color="white" stop-opacity=".26"/><stop offset=".36" stop-color="white" stop-opacity=".01"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient>
       <radialGradient id="${p}-burst"><stop offset=".45" stop-color="#170b08" stop-opacity="0"/><stop offset=".72" stop-color="#331409" stop-opacity=".16"/><stop offset=".9" stop-color="#1a0906" stop-opacity=".62"/><stop offset="1" stop-color="#080504" stop-opacity=".95"/></radialGradient>
       <radialGradient id="${p}-knob-shade" cx=".3" cy=".25"><stop stop-color="#fff6df" stop-opacity=".4"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".75"/></radialGradient>
@@ -38,10 +38,17 @@
   }
   function wings(state,p,d,horizontal,centre,width){
     const s=state.selections;
-    if(!s.body_wing_wood||!materials.get(s.body_wing_wood)||materials.key(s.body_wing_wood)===materials.key(state.bodyId)||(s.color_back_side!=='back_oil'&&state.finish.opaque))return '';
+    if(!/^3pc_/.test(s.body_construction)||!s.body_wing_wood||!materials.get(s.body_wing_wood)||materials.key(s.body_wing_wood)===materials.key(state.bodyId)||(s.color_back_side!=='back_oil'&&state.finish.opaque))return '';
     // Display-only tone-block width; never a through-neck or a machining boundary.
     const rect=horizontal?`x="0" y="${centre-width/2}" width="1800" height="${width}"`:`x="${centre-width/2}" y="0" width="${width}" height="1800"`;
-    return `<defs><mask id="${p}-wing-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1800" height="1800"><rect width="1800" height="1800" fill="white"/><rect ${rect} fill="black"/></mask></defs><g data-layer="body-wings" data-option="${s.body_wing_wood}" data-appearance="illustrative-body-tone-block"><path d="${d}" fill="url(#${p}-wing-material)" mask="url(#${p}-wing-mask)" opacity=".9"/><path d="${d}" fill="url(#${p}-light)" mask="url(#${p}-wing-mask)"/></g>`;
+    return `<defs><mask id="${p}-wing-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1800" height="1800"><rect width="1800" height="1800" fill="white"/><rect ${rect} fill="black"/></mask></defs><g data-layer="body-wings" data-option="${s.body_wing_wood}" data-appearance="illustrative-body-tone-block"><path d="${d}" fill="url(#${p}-wing-material)" ${state.finish.colour&&s.color_back_side!=='back_oil'?`filter="url(#${p}-surface-dye)"`:''} mask="url(#${p}-wing-mask)" opacity=".9"/><path d="${d}" fill="url(#${p}-light)" mask="url(#${p}-wing-mask)"/></g>`;
+  }
+  function bodyPieces(state,p,d,horizontal,centre,width,back=false){
+    const id=state.selections.body_construction||'',count=/^(?:guitar_body_)?1pc/.test(id)?1:/^(?:guitar_body_)?3pc/.test(id)?3:id==='guitar_body_2pc'?2:null;
+    const covered=(!back&&(state.hasTop||(/^3pc_/.test(id)&&state.selections.top_type==='none')))||(state.finish.opaque&&(!back||state.selections.color_back_side!=='back_oil'));
+    if(!count||covered)return '';
+    const cuts=count===3?[centre-width/2,centre+width/2]:count===2?[centre]:[];
+    return `<defs><clipPath id="${p}-pieces-clip"><path d="${d}"/></clipPath></defs><g data-layer="body-pieces" data-option="${id}" data-count="${count}" data-appearance="illustrative-joins" clip-path="url(#${p}-pieces-clip)">${cuts.map(at=>`<path d="${horizontal?`M0 ${at}H1800`:`M${at} 0V1800`}" stroke="#302317" stroke-opacity=".35" stroke-width=".8"/><path d="${horizontal?`M0 ${at+1}H1800`:`M${at+1} 0V1800`}" stroke="#f4dbb3" stroke-opacity=".23" stroke-width=".6"/>`).join('')}</g>`;
   }
   function dotColour(state){
     return {dot_avalon:'#94beb0',dot_mop:'#eee7d1',dot_bw:state.boardColour&&parseInt(state.boardColour.slice(1,3),16)>160?'#171615':'#eee8d5',dot_lum:'#b6e9bd'}[state.selections.inlay_dot_mat]||'#d3c9b0';
@@ -57,7 +64,7 @@
   }
   function knobs(state,p,positions,radius){
     if(state.selections.knob!=='knob_wood'||!materials.get(state.topId))return '';
-    return `<g data-layer="wood-knobs" data-material="${state.topId}" data-appearance="illustrative">`+positions.map(([x,y])=>`<circle cx="${x+1}" cy="${y+2}" r="${radius+1}" fill="#14110d"/><circle cx="${x}" cy="${y}" r="${radius}" fill="url(#${p}-knob-material)" stroke="#2c2118" stroke-width=".7"/><circle cx="${x}" cy="${y}" r="${radius}" fill="url(#${p}-knob-shade)"/><path d="M${x},${y-radius*.65}v${radius*.28}" stroke="#e9dbc2" stroke-width=".8"/>`).join('')+'</g>';
+    return `<g data-layer="wood-knobs" data-material="${state.topId}" data-appearance="illustrative">`+positions.map(([x,y])=>`<circle cx="${x+1}" cy="${y+2}" r="${radius+1}" fill="#14110d"/><circle cx="${x}" cy="${y}" r="${radius}" fill="url(#${p}-knob-material)" ${state.finish.colour?`filter="url(#${p}-surface-dye)"`:''} stroke="#2c2118" stroke-width=".7"/><circle cx="${x}" cy="${y}" r="${radius}" fill="url(#${p}-knob-shade)"/><path d="M${x},${y-radius*.65}v${radius*.28}" stroke="#e9dbc2" stroke-width=".8"/>`).join('')+'</g>';
   }
   function lamination(state,board,clip){
     const id=state.selections.neck;
@@ -76,5 +83,5 @@
     const portrait=svg.includes('data-layout="portrait"');
     return svg.replace('</defs>',`</defs><g data-layer="orientation" transform="${portrait?`translate(${2*x+w} 0) scale(-1 1)`:`translate(0 ${2*y+h}) scale(1 -1)`}">`).replace('</svg>','</g></svg>');
   }
-  return {definitions,finish,wings,boardEdges,dotColour,fretWidth,bindrune,knobs,lamination,orientation,materials};
+  return {definitions,finish,wings,bodyPieces,boardEdges,dotColour,fretWidth,bindrune,knobs,lamination,orientation,materials};
 });

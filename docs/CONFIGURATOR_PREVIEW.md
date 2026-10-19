@@ -8,7 +8,17 @@ Entry point: `configurator-preview.html`. This is a separate test page. The prod
 
 The first commit connects EDDA end to end; the next extends the same renderer to EMBLA, ASKR and GRAMR. The test page copies the existing configurator shell and adds a read-only preview component, colour controls, and a responsive two-column layout. `tools/test_configurator_preview.cjs` compares data, normalization, pricing, option handlers, quote markup and PDF export source against production so the copy cannot silently diverge.
 
-## Detailed options and wood textures (v8, 2026-10-20, latest)
+## Construction, components and colour correction (v9, 2026-10-20, latest)
+
+Connect body joins, pickguard test controls, wood ramps, pickup/bridge/tuner
+families and existing-position coil/kill/dual-tone controls. Keep all bolt-on
+boundaries and ASKR fixed bridge finishes. Unspecified custom parts remain
+pending; pickguard proposals do not enter quote/PDF state. A common neutral
+luminance-to-dye pipeline corrects wood-dependent colour shifts, including red.
+See [component scope and references](CONFIGURATOR_PARTS.md) for the exact mapping,
+which geometry is illustrative, and which production options remain deferred.
+
+## Detailed options and wood textures (v8, 2026-10-20, historical)
 
 This continues the user-accepted v7 outline and bolt-on construction in the test
 page only. Production, option normalization, prices and PDF source stay identical.

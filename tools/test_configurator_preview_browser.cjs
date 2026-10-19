@@ -22,6 +22,15 @@ async function main() {
   const choose=(category,value)=>page.locator(`input[name="${category}"][value="${value}"]`).check();
   const layer=name=>page.locator(`[data-layer="${name}"]`);
   const side=name=>page.locator(`button[data-preview-side="${name}"]`).click();
+  const colourPixels=()=>page.evaluate(async()=>{
+    const svg=document.querySelector('[data-preview-svg]'),image=new Image();
+    image.src='data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(new XMLSerializer().serializeToString(svg))));
+    await image.decode();const canvas=document.createElement('canvas');canvas.width=480;canvas.height=700;const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0,480,700);
+    const data=ctx.getImageData(0,0,480,700).data;let red=0,blue=0;
+    for(let i=0;i<data.length;i+=4){if(data[i+3]<240)continue;const [r,g,b]=data.slice(i,i+3);if(r>35&&r>g*1.8&&r>b*1.8)red++;if(b>35&&b>r*1.4&&b>g*1.12)blue++;}
+    return {red,blue};
+  });
+
   try {
     await page.goto(url,{waitUntil:'networkidle'});
     await page.locator('[data-preview-model="EDDA"]').waitFor();
@@ -37,6 +46,17 @@ async function main() {
       for(const name of originals)assert.equal(hashes[name],crypto.createHash('sha256').update(await fs.readFile(path.join(__dirname,'..',name))).digest('hex'),'Embedded originals must be byte-identical');
       report.embeddedOriginals='PASS';
     }
+    report.materialDyes=await page.evaluate(async()=>{
+      const M=globalThis.RavenForgeMaterials,results=[];
+      for(const id of Object.keys(M.catalog))for(const [colour,channel] of [['#9d282b',0],['#275f89',2]]){
+        const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96"><defs>${M.pattern('wood',id)}${M.finishFilter('dye',colour)}</defs><rect width="96" height="96" fill="url(#wood)" filter="url(#dye)"/></svg>`;
+        const image=new Image();image.src='data:image/svg+xml;base64,'+btoa(svg);await image.decode();const canvas=document.createElement('canvas');canvas.width=canvas.height=96;const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0);const data=ctx.getImageData(0,0,96,96).data,mean=[0,0,0];let pixels=0;
+        for(let i=0;i<data.length;i+=4)if(data[i+3]>240){pixels++;for(let c=0;c<3;c++)mean[c]+=data[i+c];}
+        if(pixels<9000)throw new Error('Texture not rendered: '+id);
+        if(!(mean[channel]>mean[2-channel]*1.5))throw new Error('Dye hue reversal: '+id+' '+colour+' '+mean);
+        results.push({id,colour,result:'PASS'});
+      }return results;
+    });
     for(const size of [{width:1440,height:1080},{width:390,height:844}]) {
       await page.setViewportSize(size);
       for(const lang of ['ko','en','de']) {
@@ -46,7 +66,7 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
-          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v8');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v9');
           assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').textContent(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
@@ -131,6 +151,10 @@ async function main() {
           await choose('color_headstock','head_plate');
           assert.match(await layer('headstock').locator('path').first().getAttribute('fill'),/unknown/);
           await choose('color_headstock','head_match');
+          const redFront=await colourPixels();assert.ok(redFront.red>redFront.blue*3&&redFront.red>1000,`Red front ${model}: ${JSON.stringify(redFront)}`);
+          await choose('color_back_side','back_stain');await side('back');
+          const redBack=await colourPixels();assert.ok(redBack.red>redBack.blue*3&&redBack.red>1000,`Red back ${model}: ${JSON.stringify(redBack)}`);
+          await choose('color_back_side','back_oil');await side('front');
           await step(2);
           if(model!=='GRAMR') {
             if(await page.locator('input[name="fretboard"][value="ironwood"]').count()){
@@ -204,6 +228,46 @@ async function main() {
             assert.equal(await layer('bridge').innerHTML(),nova,'Nova anodized finish stays fixed');
           }
           await step(5);
+          const guardQuote=await page.locator('#quote-summary-card').innerText();
+          for(const guard of ['black','ivory','wood','none']){
+            await page.locator(`[data-preview-pickguard="${guard}"]`).click();
+            assert.equal(await layer('pickguard').count(),guard==='none'?0:1);
+            if(guard!=='none')assert.equal(await layer('pickguard').getAttribute('data-option'),guard);
+          }
+          assert.equal(await page.locator('#quote-summary-card').innerText(),guardQuote,'Test pickguard is excluded from quote');
+          await page.locator('[data-preview-pickguard="black"]').click();
+          if(model!=='GRAMR'){
+            await choose('pickups',{EDDA:'häussel_triple',EMBLA:'delano_ts',ASKR:'askr_delano_sbc5_e'}[model]);
+            assert.equal(await layer('pickups').getAttribute('data-appearance'),'illustrative-family');
+            await step(4);await choose('finger_ramp','ramp_wood');assert.equal(await layer('finger-ramp').count(),1);
+            const beforeParts=await page.locator('.rf-preview-stage').screenshot();
+            await choose('hardware_bridge',model==='ASKR'?'payson':'gotoh_404BO');
+            await choose('hardware_machine_head','hipshot_ul_38');
+            assert.equal(await layer('tuners').getAttribute('data-family'),'y');
+            assert.ok(!beforeParts.equals(await page.locator('.rf-preview-stage').screenshot()),'Hardware changes rendered pixels');
+            await step(5);
+            if(model!=='EDDA'){
+              if(model==='ASKR')await choose('electronics','glockenklang');
+              await choose('coil_switch','coil_2_pcts');assert.equal(await page.locator('[data-control-type="toggle"]').count(),2);
+              await choose('coil_switch','coil_none');assert.equal(await page.locator('[data-control-type="toggle"]').count(),0);
+              await choose('coil_switch','coil_2_ps');
+            }
+          }
+          await page.locator('label').filter({hasText:'Kill switch'}).getByRole('checkbox').check();
+          assert.equal(await page.locator('[data-control-type="kill"]').count(),1);
+          if(model==='EDDA'||model==='GRAMR'){
+            await choose('electronics',model==='GRAMR'?'guitar_passive':'passive');
+            await page.locator('label').filter({hasText:'Dual tone capacity'}).getByRole('checkbox').check();
+            assert.equal(await page.locator('[data-functions~="dual_tone"]').count(),1);
+          }
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-parts.png`)});
+          await page.locator('label').filter({hasText:'Kill switch'}).getByRole('checkbox').uncheck();assert.equal(await page.locator('[data-control-type="kill"]').count(),0);
+          await step(2);await choose('neck',model==='GRAMR'?'guitar_neck_3pc':model==='EDDA'?'3pc':'7pc');await side('back');
+          assert.equal(await layer('neck-laminates').getAttribute('data-count'),model==='EDDA'||model==='GRAMR'?'3':'7');
+          await step(3);await choose('body_construction',model==='GRAMR'?'guitar_body_1pc':'1pc_solid');assert.equal(await layer('body-pieces').getAttribute('data-count'),'1');
+          await choose('body_construction',model==='GRAMR'?'guitar_body_3pc':'3pc_solid');assert.equal(await layer('body-pieces').getAttribute('data-count'),'3');
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-pieces.png`)});
+          await side('front');await step(4);if(model!=='GRAMR'){await choose('finger_ramp','ramp_none');assert.equal(await layer('finger-ramp').count(),0);}await step(5);
           const pickup=model==='GRAMR'?'guitar_hh_passive_custom':'others';
           await choose('pickups',pickup);
           assert.equal(await layer('pickups').getAttribute('data-option'),pickup);

@@ -1,7 +1,7 @@
 name: Configurator test preview QA
 on:
   pull_request:
-    paths: ['configurator-preview.html', 'assets/configurator-preview.*', 'assets/configurator-materials.js', 'assets/configurator-option-renderer.js', 'assets/configurator-bindrune-motifs.js', 'assets/configurator-geometry.js', 'assets/configurator-gramr-*', 'assets/configurator-bass-rear-geometry.js', 'assets/configurator-rear*', 'assets/configurator-rear/**', 'assets/configurator-drawing-renderer.js', 'assets/configurator-materials/**', 'assets/configurator-bindrune/**', 'tools/test_configurator_preview*.cjs', 'tools/package_configurator_preview.py', 'tools/build_configurator_standalone.py', '.github/workflows/configurator-preview.yml']
+    paths: ['configurator-preview.html', 'assets/configurator-preview.*', 'assets/configurator-materials.js', 'assets/configurator-option-renderer.js', 'assets/configurator-parts-renderer.js', 'assets/configurator-bindrune-motifs.js', 'assets/configurator-geometry.js', 'assets/configurator-gramr-*', 'assets/configurator-bass-rear-geometry.js', 'assets/configurator-rear*', 'assets/configurator-rear/**', 'assets/configurator-drawing-renderer.js', 'assets/configurator-materials/**', 'assets/configurator-bindrune/**', 'tools/test_configurator_preview*.cjs', 'tools/package_configurator_preview.py', 'tools/build_configurator_standalone.py', '.github/workflows/configurator-preview.yml']
   workflow_dispatch:
 permissions:
   contents: read
