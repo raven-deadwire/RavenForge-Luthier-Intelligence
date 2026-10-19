@@ -2,14 +2,16 @@
  * Provenance and deliberately unrendered details: docs/CONFIGURATOR_PREVIEW.md. */
 (function (root, factory) {
   const drawing = typeof module === 'object' && module.exports ? require('./configurator-gramr-geometry.js') : root.RavenForgeGramrDrawing;
-  const api = factory(drawing);
+  const rear = typeof module === 'object' && module.exports ? require('./configurator-bass-rear-geometry.js') : root.RavenForgeBassRear;
+  const api = factory(drawing,rear);
   if (typeof module === 'object' && module.exports) module.exports = api;
   if (root) root.RavenForgeGeometry = api;
-}(typeof globalThis !== 'undefined' ? globalThis : this, function (drawing) {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function (drawing,rear) {
   'use strict';
   return {
     EDDA: {
       source: 'Edda Prototype Design.png', status: 'prototype', strings: 4,
+      back: {kind:'rear-concept',source:'assets/configurator-rear/edda-rear-concept.webp',status:'illustrative-bolt-on',bolts:5},
       imageSize: [1080,1080], luminance: [.30,.59,.11], exposure: 1.7,
       portrait: { full:'300 0 480 1090', body:'350 540 380 540', neck:'490 180 100 610', head:'460 10 145 200' },
       hardware: 'M485 986 L585 982 L588 1040 L486 1041 Z',
@@ -26,6 +28,7 @@
     },
     EMBLA: {
       source: 'EMBLA Prototype Design.png', status: 'prototype', strings: 5,
+      back: rear.EMBLA,
       imageSize: [1254,1254], luminance: [.05,.45,.50], exposure: 1.25,
       portrait: { full:'340 15 560 1160', body:'365 530 510 640', neck:'535 130 150 650', head:'530 25 200 135' },
       hardware: 'M529 987 L685 989 L683 1062 L520 1060 Z',
@@ -41,6 +44,7 @@
     },
     ASKR: {
       source: 'ASKR Prototype Design.png', status: 'prototype', strings: 5,
+      back: rear.ASKR,
       imageSize: [1254,1254], luminance: [.85,.10,.05], exposure: 1.1,
       portrait: { full:'395 20 450 1145', body:'445 580 360 565', neck:'575 170 100 685', head:'555 35 140 165' },
       hardware: 'M577 1043 L657 1005 L675 1011 L675 1062 L594 1097 L578 1083 Z',

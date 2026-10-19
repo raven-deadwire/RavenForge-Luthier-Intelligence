@@ -4,6 +4,7 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs/promises');
 const path=require('node:path');
+const crypto=require('node:crypto');
 const {chromium}=require('playwright');
 const output=process.env.PREVIEW_QA_DIR || '/tmp/ravenforge-preview-qa';
 const url=process.env.PREVIEW_QA_URL || 'http://127.0.0.1:8000/configurator-preview.html';
@@ -12,6 +13,10 @@ async function main() {
   const browser=await chromium.launch();
   const page=await browser.newPage();
   const report={url,checks:[],errors:[],started:new Date().toISOString()};
+  const localAssetRequests=[];
+  if(url.startsWith('file:')) page.on('request',request=>{
+    if(request.url().startsWith('file:')&&request.url().split('?')[0]!==url.split('?')[0]) localAssetRequests.push(request.url());
+  });
   page.on('pageerror',e=>report.errors.push(e.message));
   const step=n=>page.locator(`[data-step="${n}"]`).click();
   const choose=(category,value)=>page.locator(`input[name="${category}"][value="${value}"]`).check();
@@ -20,6 +25,18 @@ async function main() {
   try {
     await page.goto(url,{waitUntil:'networkidle'});
     await page.locator('[data-preview-model="EDDA"]').waitFor();
+    if(url.startsWith('file:')) {
+      const originals=['Edda Prototype Design.png','EMBLA Prototype Design.png','ASKR Prototype Design.png',...Array.from({length:4},(_,i)=>`assets/configurator-bindrune/c${i+1}.svg`)];
+      const hashes=await page.evaluate(async names=>Object.fromEntries(await Promise.all(names.map(async name=>{
+        const uri=globalThis.RavenForgePreviewMedia[name];
+        if(!uri?.startsWith('data:')) throw new Error('Non-embedded image: '+name);
+        const bytes=Uint8Array.from(atob(uri.split(',')[1]),c=>c.charCodeAt(0));
+        const digest=await crypto.subtle.digest('SHA-256',bytes);
+        return [name,[...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,'0')).join('')];
+      }))),originals);
+      for(const name of originals)assert.equal(hashes[name],crypto.createHash('sha256').update(await fs.readFile(path.join(__dirname,'..',name))).digest('hex'),'Embedded originals must be byte-identical');
+      report.embeddedOriginals='PASS';
+    }
     for(const size of [{width:1440,height:1080},{width:390,height:844}]) {
       await page.setViewportSize(size);
       for(const lang of ['ko','en','de']) {
@@ -40,8 +57,10 @@ async function main() {
           // Confirm original repository rasters load, then compare reference/selected modes.
           await page.evaluate(async()=>{const src=document.querySelector('[data-layer="body"] image').getAttribute('href');const image=new Image();image.src=src;await image.decode();if(image.naturalWidth<1000)throw new Error('Missing source render');});
           await page.locator('[data-preview-mode="sample"]').click();
+          await page.locator('.rf-preview-reference img').waitFor();
           assert.equal(await page.locator('.rf-preview-reference img').count(),1);
           await page.locator('[data-preview-mode="selected"]').click();
+          await page.locator('[data-preview-svg][data-side="front"]').waitFor();
           await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-default.png`)});
           await step(3);
           const beforeColour=await page.locator('.rf-preview-stage').screenshot();
@@ -58,6 +77,7 @@ async function main() {
           await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-opaque-front.png`)});
           const quoteBeforeSide=await page.locator('#quote-summary-card').innerText();
           await side('back');
+          await page.locator('[data-preview-svg][data-side="back"]').waitFor();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-side'),'back');
           assert.equal(await layer('pickups').count(),0,'No front pickups on the back');
           assert.equal(await layer('strings').count(),0,'No front strings on the back');
@@ -67,15 +87,20 @@ async function main() {
             assert.equal(await layer('rear-body').getAttribute('data-opaque'),'false','Natural oil stays natural');
             assert.equal(await layer('rear-joint-pending').count(),1);
             await page.locator('[data-preview-mode="sample"]').click();
-            assert.match(await page.locator('.rf-preview-reference img').getAttribute('src'),/rear-reference/);
+            await page.locator('.rf-preview-reference img').waitFor();
+            await page.locator('.rf-preview-reference img').evaluate(image=>image.decode());
             await page.locator('[data-preview-mode="selected"]').click();
+            await page.locator('[data-preview-svg][data-side="back"]').waitFor();
           }else{
-            assert.equal(await page.locator('[data-preview-unavailable="back"]').count(),1);
-            assert.equal(await page.locator('#instrument-preview svg,#instrument-preview img').count(),0,'No invented/mirrored rear image');
+            assert.equal(await page.locator('[data-preview-unavailable="back"]').count(),0);
+            assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-neck-joint'),'bolt-on');
+            assert.equal(await layer('rear-bolts').getAttribute('data-count'),'5');
+            assert.equal(await layer('rear-bolts').getAttribute('data-placement'),model==='EDDA'?'concept-only':'pdf-centres');
+            assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-renderer'),model==='EDDA'?'rear-concept-composite':'rear-drawing-composite');
           }
           assert.equal(await page.locator('#quote-summary-card').innerText(),quoteBeforeSide,'View switch does not change quote');
           await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-back.png`)});
-          if(model==='GRAMR'){
+          {
             await choose('color_back_side','back_stain');
             assert.equal(await layer('rear-body').getAttribute('data-colour'),'#275f89');
             assert.equal(await layer('rear-body').getAttribute('data-opaque'),'true');
@@ -83,6 +108,7 @@ async function main() {
             await choose('color_back_side','back_oil');
           }
           await side('front');
+          await page.locator('[data-preview-svg][data-side="front"]').waitFor();
           assert.equal(await page.locator('[data-preview-svg]').getAttribute('viewBox'),fullViewBox);
           await page.locator('.rf-colour-modes button').nth(0).click();
           await choose('top_type','cap');
@@ -161,6 +187,17 @@ async function main() {
     assert.equal(await layer('hardware').getAttribute('data-colour'),'#b8c3cc');
     assert.equal(await layer('pickups').getAttribute('data-option'),'nova_mm');
     assert.deepEqual(report.errors,[]);
+    assert.deepEqual(localAssetRequests,[],'The standalone HTML must not request sibling files');
+    report.localAssetRequests=localAssetRequests;
+    // Missing source assets must produce a clear load error, never a flat/broken
+    // composite that could be mistaken for a real option visualization.
+    const failurePage=await browser.newPage();
+    await failurePage.route(/\.(png|webp)(\?.*)?$/i,route=>route.abort());
+    await failurePage.goto('http://127.0.0.1:8000/configurator-preview.html',{waitUntil:'networkidle'});
+    await failurePage.locator('[data-preview-image-status="error"]').waitFor();
+    assert.equal(await failurePage.locator('[data-preview-svg]').count(),0);
+    await failurePage.close();
+    report.missingImageGuard='PASS';
     report.result='PASS';
   } catch(error) {
     report.result='FAIL';report.failure=error.stack;

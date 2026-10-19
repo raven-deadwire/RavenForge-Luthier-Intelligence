@@ -8,6 +8,20 @@ Entry point: `configurator-preview.html`. This is a separate test page. The prod
 
 The first commit connects EDDA end to end; the next extends the same renderer to EMBLA, ASKR and GRAMR. The test page copies the existing configurator shell and adds a read-only preview component, colour controls, and a responsive two-column layout. `tools/test_configurator_preview.cjs` compares data, normalization, pricing, option handlers, quote markup and PDF export source against production so the copy cannot silently diverge.
 
+## Delivery and bolt-on rear correction (2026-10-20, latest)
+
+The user's screenshots exposed a delivery failure missed by the earlier HTTP-only QA: front source images were not represented correctly and the four bindrune image links were broken in the user's environment. The exact external viewer/path failure was not reproduced locally; the images are intact in the repository and earlier CI artifact. Do not claim the user's renderer was fixed merely because the old HTTP check passed.
+
+- `tools/build_configurator_standalone.py` now builds a movable, single HTML with byte-identical front PNGs, bindrune SVGs/original sheet, rear sources, material texture and local code embedded. The user opens this HTML directly; no local server or sibling image folder is required. Existing CDN dependencies still require internet.
+- The ZIP root contains `RavenForge-Configurator-Test.html` and `START-HERE.txt`. Development copies are under `source/`. CI opens the exact standalone file with `file://`, checks embedded image SHA-256 against originals, asserts zero sibling-file requests, and exercises all 24 model/language/viewport and 24 price/PDF combinations. A separate HTTP failure check blocks source images and requires an explicit load error instead of a broken composite.
+- All models are **bolt-on** per the user's correction. Rejected neck-through-looking generated EMBLA/ASKR candidates are not included.
+- ASKR/EMBLA rear outlines, heel strokes, five bolt centres, tuner outlines, control-cover and battery positions come from the newly supplied ASKR #001 / EMBLA #002 PDFs. Only rear display geometry is extracted; ghosted front strings, pickups, bridge and knob circles are omitted. Neck laminates are clipped to the neck and end at the heel. Their widths/material textures are illustrative. The source front-view sample composites remain intact; these new prototype drawings are not claimed to validate those older front samples.
+- EDDA has an explicitly labelled AI bolt-on rear concept. Its five ferrules, heel and cavity are a display proposal, not verified EDDA construction coordinates. The original concept was corrected to show a detachable neck seam before use.
+- GRAMR retains its separate drawing-based rear; the historical four-bolt plate is still excluded in favour of the current platform's five-bolt/no-plate requirement, whose exact rear layout remains pending.
+- Rear body wood/finish respond independently of front top selection; natural rear oil stays natural. Exact rear manufacturer-part shapes remain unverified. Production options, pricing, dependencies and PDF logic are unchanged.
+
+Provenance and exact generation prompts: `assets/configurator-rear/README.md`. PDF revision guards and extraction indices: `tools/extract_bass_rear_geometry.py`, `assets/configurator-bass-rear-geometry.js`. This section supersedes earlier rear-unavailable and server-required notes.
+
 ## Full front/back and inlay review (2026-10-19, latest user request)
 
 - Removed body/fretboard/head zoom controls. Front/back buttons always show the complete instrument with an unchanged aspect ratio. Legacy crop names in the renderer fall back to the full front view.

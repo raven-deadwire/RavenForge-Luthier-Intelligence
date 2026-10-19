@@ -37,8 +37,13 @@ for (const [model,count,price] of [['EDDA',4,2100],['EMBLA',5,2550],['ASKR',5,32
     for(const language of ['ko','en','de']) for(const view of ['front','back']) {
       const svg=preview.renderSvg(state,view,language);
       if(view==='back') {
-        if(model==='GRAMR') { assert.match(svg,/data-side="back"/); assert.match(svg,/data-layer="rear-body"/); assert.doesNotMatch(svg,/data-layer="(?:strings|pickups|frets)"/); }
-        else assert.equal(svg,'','Unverified rear geometry must not be fabricated');
+        assert.match(svg,/data-side="back"/); assert.match(svg,/data-layer="rear-body"/); assert.doesNotMatch(svg,/data-layer="(?:strings|pickups|frets)"/);
+        assert.doesNotMatch(svg,/NaN|undefined|<script|onerror=/);
+        const ids=[...svg.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
+        assert.equal(new Set(ids).size,ids.length,'SVG filter and clip IDs must never collide');
+        if(model!=='GRAMR')assert.match(svg,/data-neck-joint="bolt-on"/);
+        if(['ASKR','EMBLA'].includes(model))assert.match(svg,/data-placement="pdf-centres"/);
+        if(model==='EDDA')assert.match(svg,/data-placement="concept-only"/);
         continue;
       }
       assert.match(svg,new RegExp(`data-layer="strings" data-count="${count}"`));
@@ -53,9 +58,14 @@ for (const [model,count,price] of [['EDDA',4,2100],['EMBLA',5,2550],['ASKR',5,32
   for(const oldView of ['body','neck','head']) assert.equal(preview.renderSvg(base,oldView,'en','portrait'),preview.renderSvg(base,'front','en','portrait'),'Legacy zoom requests cannot enlarge the image');
   const oval=preview.scene(model,{...defaults,inlay_type:'inlay_oval',inlay_oval_mat:'oval_wood',inlay_dot_pos:'pos_custom'},'');
   assert.match(preview.renderSvg(oval,'front','en'),/data-inlay-design="ravenforge-oval"/,'Oval ignores stale dot-only position state');
-  if(model==='GRAMR'){
-    assert.ok(base.g.back.provenance.maxJoinGapPDFPoints<.05);
-    const cap=preview.scene(model,{...defaults,top_type:'cap',top_wood_selection:'guitar_top_walnut'},'');
+  {
+    if(model==='GRAMR')assert.ok(base.g.back.provenance.maxJoinGapPDFPoints<.05);
+    if(['EMBLA','ASKR'].includes(model)){
+      assert.equal(base.g.back.bolts.length,5);
+      assert.ok(base.g.back.provenance.maxBodyJoinGap<.5);
+      assert.ok(base.g.back.provenance.maxCavityJoinGap<.1);
+    }
+    const cap=preview.scene(model,{...defaults,top_type:'cap',top_wood_selection:model==='GRAMR'?'guitar_top_walnut':'walnut'},'');
     assert.equal(preview.renderSvg(cap,'back','en'),preview.renderSvg(base,'back','en'),'Front top does not recolour the rear');
   }
   const opaque=preview.scene(model,defaults,'solid #112233');

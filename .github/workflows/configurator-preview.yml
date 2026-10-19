@@ -1,7 +1,7 @@
 name: Configurator test preview QA
 on:
   pull_request:
-    paths: ['configurator-preview.html', 'assets/configurator-preview.*', 'assets/configurator-geometry.js', 'assets/configurator-gramr-*', 'assets/configurator-drawing-renderer.js', 'assets/configurator-materials/**', 'assets/configurator-bindrune/**', 'tools/test_configurator_preview*.cjs', 'tools/package_configurator_preview.py', '.github/workflows/configurator-preview.yml']
+    paths: ['configurator-preview.html', 'assets/configurator-preview.*', 'assets/configurator-geometry.js', 'assets/configurator-gramr-*', 'assets/configurator-bass-rear-geometry.js', 'assets/configurator-rear*', 'assets/configurator-rear/**', 'assets/configurator-drawing-renderer.js', 'assets/configurator-materials/**', 'assets/configurator-bindrune/**', 'tools/test_configurator_preview*.cjs', 'tools/package_configurator_preview.py', 'tools/build_configurator_standalone.py', '.github/workflows/configurator-preview.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,7 +22,9 @@ jobs:
           node tools/test_configurator_contracts.cjs
           node tools/test_configurator_preview.cjs
       - name: Package isolated test files for review
-        run: python3 tools/package_configurator_preview.py "${{ runner.temp }}/configurator-preview/RavenForge-Configurator-Test.zip"
+        run: |
+          python3 tools/package_configurator_preview.py "${{ runner.temp }}/configurator-preview/RavenForge-Configurator-Test.zip"
+          python3 tools/build_configurator_standalone.py "${{ runner.temp }}/configurator-preview/RavenForge-Configurator-Test.html"
       - name: Install browser and Korean fonts
         run: |
           npm install --no-save --no-package-lock --no-audit --no-fund playwright@1.49.1
@@ -33,11 +35,12 @@ jobs:
       - name: Verify live preview in 24 model-language-viewport combinations
         env:
           PREVIEW_QA_DIR: ${{ runner.temp }}/configurator-preview/live
+          PREVIEW_QA_URL: file://${{ runner.temp }}/configurator-preview/RavenForge-Configurator-Test.html
         run: node tools/test_configurator_preview_browser.cjs
       - name: Preserve existing price, dependencies and PDF exports in 24 combinations
         env:
           CONFIGURATOR_QA_DIR: ${{ runner.temp }}/configurator-preview/regression
-        run: node tools/test_configurator.cjs --matrix --url http://127.0.0.1:8000/configurator-preview.html
+        run: node tools/test_configurator.cjs --matrix --url "file://${{ runner.temp }}/configurator-preview/RavenForge-Configurator-Test.html"
       - name: Upload reviewable screenshots and PDFs
         if: always()
         uses: actions/upload-artifact@v4

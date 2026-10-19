@@ -2,6 +2,7 @@
  * Historical rear neck plate/bolts are omitted; current joint details stay pending. */
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;if(root)root.RavenForgeDrawingRenderer=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
   'use strict';
+  const media=path=>globalThis.RavenForgePreviewMedia?.[path]||path;
   const esc=v=>String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const point=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
   const polygon=p=>p.map(q=>q.join(',')).join(' ');
@@ -17,7 +18,7 @@
       const c=hex.match(/[a-f0-9]{2}/gi).map(x=>parseInt(x,16)/255);
       return `<filter id="${p}-${id}" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/><feComponentTransfer>${['R','G','B'].map((k,i)=>`<feFunc${k} type="linear" slope="${c[i]*1.3}" intercept="0"/>`).join('')}</feComponentTransfer></filter>`;
     };
-    const texture=(x,y,w,h,filter)=>`<image href="assets/configurator-materials/ash-illustrative.webp" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="none" transform="rotate(90 ${x+w/2} ${y+h/2})" filter="url(#${p}-${filter})"/>`;
+    const texture=(x,y,w,h,filter)=>`<image href="${media('assets/configurator-materials/ash-illustrative.webp')}" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="none" transform="rotate(90 ${x+w/2} ${y+h/2})" filter="url(#${p}-${filter})"/>`;
     const title=id=>`<title>${esc(state.labels[id]||s[id])}</title>`;
     let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${(layout==='portrait'?g.portrait:g.views).full}" role="img" aria-labelledby="${p}-title ${p}-desc" data-preview-svg="GRAMR" data-renderer="drawing-composite" data-side="${back?'back':'front'}" data-layout="${layout==='portrait'?'portrait':'landscape'}"><title id="${p}-title">GRAMR · ${esc(back?t.back:t.front)}</title><desc id="${p}-desc">${esc(back?t.backNote:t.drawingNote)}</desc><defs>
       <clipPath id="${p}-body-clip">${path(g.body)}</clipPath><clipPath id="${p}-head-clip">${path(g.head)}</clipPath><clipPath id="${p}-board-clip"><polygon points="${polygon(g.board)}"/></clipPath>

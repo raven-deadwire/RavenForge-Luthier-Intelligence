@@ -1,11 +1,14 @@
 (function (root, factory) {
   const geometry = typeof module === 'object' && module.exports ? require('./configurator-geometry.js') : root.RavenForgeGeometry;
   const drawingRenderer = typeof module === 'object' && module.exports ? require('./configurator-drawing-renderer.js') : root.RavenForgeDrawingRenderer;
-  const api = factory(geometry, drawingRenderer);
+  const rearRenderer = typeof module === 'object' && module.exports ? require('./configurator-rear-renderer.js') : root.RavenForgeRearRenderer;
+  const api = factory(geometry, drawingRenderer, rearRenderer);
   if (typeof module === 'object' && module.exports) module.exports = api;
   if (root) root.RavenForgePreview = api;
-}(typeof globalThis !== 'undefined' ? globalThis : this, function (geometry, drawingRenderer) {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function (geometry, drawingRenderer, rearRenderer) {
   'use strict';
+  // Standalone review builds embed the exact source bytes, independent of paths.
+  const media = path => globalThis.RavenForgePreviewMedia?.[path] || path;
   const copy = {
     en: {
       title: 'Your instrument', live: 'Live finish preview', full: 'Full', body: 'Body', neck: 'Fretboard', head: 'Headstock',
@@ -59,6 +62,12 @@
     de: {front:'Vorderseite',back:'Rückseite',backMissing:'Rückseitenbild noch nicht hinterlegt',backMissingNote:'Für dieses Modell wird eine geprüfte Rückansicht benötigt. Ihre Optionen bleiben im Angebot erhalten.',backNote:'Rückenkontur aus der Vorlage. Halsverbindung, Laminatbreiten und genaue Bauteildetails sind nicht dargestellt.',backParts:'Rückengeometrie · Verbindungsdetails offen',backReferenceNote:'Rückenkontur der Vorlage. Die historische Vierlochplatte ist ausgelassen.',backFinishNote:'Korpus-Holz und rückseitiges Finish bestimmen den Farbton. Naturöl behält den Naturton; die Decke wird nicht auf die Rückseite übertragen.',bindruneTitle:'Bindrune-Beispiele',bindruneNote:'Vorhandene RavenForge-Entwürfe v5.0 · nur Beispiele. Endgültiges Motiv und Platzierung werden separat vereinbart und nicht automatisch auf das Instrument übertragen.',bindruneNames:['Kompakte Mitte','Erweiterte Mitte','Drei Abschnitte','Ganzes Griffbrett'],ovalTitle:'RavenForge Oval',ovalNote:'Designentwurf · eine zugespitzte Ovalform mit federartiger Teilung. Materialfarben sind illustrativ.',bindruneOriginal:'Originale Beispieltafel',bindruneSource:'Entwurfshandbuch v5.0 · 9. Sept. 2026 · Seite 1'}
   };
   for (const language of Object.keys(copy)) Object.assign(copy[language],viewCopy[language]);
+  Object.assign(copy.en,{imageLoading:'Loading original image…',imageError:'Image could not be loaded',imageErrorNote:'Open the bundled standalone HTML to use the included original images.'});
+  Object.assign(copy.ko,{imageLoading:'원본 이미지 불러오는 중…',imageError:'이미지를 불러오지 못했습니다',imageErrorNote:'동봉된 단일 HTML 파일을 열면 내장 원본 이미지를 사용할 수 있습니다.'});
+  Object.assign(copy.de,{imageLoading:'Originalbild wird geladen…',imageError:'Bild konnte nicht geladen werden',imageErrorNote:'Die beiliegende eigenständige HTML-Datei enthält die Originalbilder.'});
+  Object.assign(copy.en,{rearConcept:'Rear concept',rearConceptParts:'EDDA rear concept · bolt-on',rearConceptNote:'AI concept based on the existing front sample. Bolt positions, heel and cavity are illustrative; this is not an approved rear drawing.',bassRearParts:'Supplied rear drawing · five-bolt joint',bassRearNote:'Rear outline, five bolt centres, control cover and battery position follow the supplied prototype drawing. Material, laminate widths and part surfaces are illustrative.',bassRearReference:'Rear drawing geometry. Ghosted front components and construction annotations are omitted.'});
+  Object.assign(copy.ko,{rearConcept:'뒷면 시안',rearConceptParts:'EDDA 뒷면 시안 · 볼트온',rearConceptNote:'기존 앞면 샘플을 참고한 AI 시안입니다. 볼트 위치·힐·캐비티는 참고 배치이며 승인된 뒷면 도면이 아닙니다.',bassRearParts:'첨부 뒷면 도면 · 5볼트 조인트',bassRearNote:'첨부 프로토타입 도면의 뒷면 외곽·볼트 5개 중심·컨트롤 커버·배터리 위치를 적용했습니다. 재질·라미네이트 폭·부품 표면은 참고 표현입니다.',bassRearReference:'뒷면 도면의 표시 형상입니다. 겹쳐 표시된 앞면 부품과 가공 주석은 제외했습니다.'});
+  Object.assign(copy.de,{rearConcept:'Rückseitenentwurf',rearConceptParts:'EDDA-Rückseitenentwurf · geschraubter Hals',rearConceptNote:'KI-Entwurf anhand der vorhandenen Vorderansicht. Schraubenpositionen, Halsfuß und Fach sind illustrativ; keine freigegebene Rückseitenzeichnung.',bassRearParts:'Vorgelegte Rückseitenzeichnung · fünf Halsschrauben',bassRearNote:'Kontur, fünf Schraubenmittelpunkte, Elektronikdeckel und Batteriefach folgen der vorgelegten Prototypzeichnung. Material, Laminatbreiten und Bauteiloberflächen sind illustrativ.',bassRearReference:'Geometrie der Rückseitenzeichnung. Überlagerte Vorderseitenbauteile und Fertigungsanmerkungen sind ausgelassen.'});
   const woods = {
     ash:'#c5a779', swampash:'#d7bd8b', swamp_ash:'#d7bd8b', alder:'#bd8d61', zelkova:'#b68954', elm:'#bca070',
     maple:'#e2c695', limba:'#bba768', red_toon:'#b27257', rosewood:'#573c30', indian_rosewood:'#573c30',
@@ -120,6 +129,7 @@
     const g = state.g;
     if (!g) return '';
     if (view === 'back' && !g.back) return '';
+    if (view === 'back' && g.back.kind) return rearRenderer.render(Object.assign({},state,{bodyColour:wood(state.bodyId)}),language,layout,copy);
     if (g.kind === 'drawing') {
       const rearState=view==='back'?Object.assign({},state,{bodyColour:wood(state.bodyId),finish:state.selections.color_back_side==='back_oil'?parseColour(''):state.finish}):state;
       return drawingRenderer.render(rearState,view==='back'?'back':'full',language,layout,copy,ovalMark);
@@ -135,7 +145,7 @@
     const line = (a,b,attrs='') => `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" ${attrs}/>`;
     const label = id => esc(state.labels[id] || s[id] || '');
     const rect = (r,attrs='') => `<rect x="${r.x+1}" y="${r.y+1}" width="${r.w-2}" height="${r.h-2}" rx="5" ${r.angle ? `transform="rotate(${r.angle} ${r.x+r.w/2} ${r.y+r.h/2})"` : ''} ${attrs}/>`;
-    const source = attrs => `<image href="${g.source}" x="0" y="0" width="${g.imageSize[0]}" height="${g.imageSize[1]}" ${attrs || ''}/>`;
+    const source = attrs => `<image href="${media(g.source)}" x="0" y="0" width="${g.imageSize[0]}" height="${g.imageSize[1]}" ${attrs || ''}/>`;
     const circles = (radius,attrs='') => g.controls.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="${radius}" ${attrs}/>`).join('');
     const hardwareMask = path(g.hardware)+circles(8);
     const partsMask = g.pickups.map(r=>rect(r)).join('')+path(g.hardware)+circles(8)+(g.pickguard?path(g.pickguard):'');
@@ -245,26 +255,45 @@
     const state = scene(props.model,props.selections,props.finishColor,props.labels);
     const s = state.selections;
     const isDrawing=state.g && state.g.kind==='drawing';
-    const referenceTitle=isDrawing?t.drawingView:t.sourceView;
     const rear=view==='back',missing=rear&&!state.g?.back;
+    const rearConcept=rear&&state.g?.back?.kind==='rear-concept';
+    const rearDrawing=rear&&state.g?.back?.kind==='rear-drawing';
+    const referenceTitle=rearConcept?t.rearConcept:isDrawing||rearDrawing?t.drawingView:t.sourceView;
+    const rearNote=rearConcept?t.rearConceptNote:rearDrawing?t.bassRearNote:t.backNote;
+    const rearParts=rearConcept?t.rearConceptParts:rearDrawing?t.bassRearParts:t.backParts;
+    const rearReference=rearConcept?t.rearConceptNote:rearDrawing?t.bassRearReference:t.backReferenceNote;
     const source=rear?state.g?.back?.source:state.g?.source;
+    const imageSource=source && media(sample?source:isDrawing||rearDrawing?'assets/configurator-materials/ash-illustrative.webp':source);
+    const [imageStatus,setImageStatus]=React.useState({source:null,status:'loading'});
+    React.useEffect(()=>{
+      let active=true;
+      if(!imageSource) return ()=>{active=false;};
+      const image=new Image();
+      image.onload=()=>{if(active)setImageStatus({source:imageSource,status:'ready'});};
+      image.onerror=()=>{if(active)setImageStatus({source:imageSource,status:'error'});};
+      image.src=imageSource;
+      return ()=>{active=false;};
+    },[imageSource]);
+    const imageReady=imageStatus.source===imageSource&&imageStatus.status==='ready';
+    const imageFailed=imageStatus.source===imageSource&&imageStatus.status==='error';
     const rows = ['body_wood_single','body_core_wood','body_wing_wood','top_type','top_wood_selection','fretboard','color_top','color_back_side','color_headstock','pickups','hardware_bridge','hardware_machine_head','hardware_color'].filter(id=>s[id]);
     return h('section',{className:'rf-preview',id:'instrument-preview','aria-labelledby':'preview-title','data-preview-model':props.model,'data-preview-side':view},
       h('div',{className:'rf-preview-heading'},h('div',null,h('p',null,t.live),h('h2',{id:'preview-title'},props.model)),h('span',{className:'rf-preview-mark','aria-hidden':true},'RF / MATERIAL LAB')),
       h('div',{className:'rf-preview-sides','aria-label':t.title},['front','back'].map(id=>h('button',{type:'button',key:id,'data-preview-side':id,'aria-pressed':view===id,onClick:()=>{setSample(false);setView(id);}},t[id]))),
       !missing && h('div',{className:'rf-preview-mode'},[false,true].map(original=>h('button',{key:String(original),type:'button','data-preview-mode':original?'sample':'selected','aria-pressed':sample===original,onClick:()=>setSample(original)},original?referenceTitle:t.selectedView))),
       missing?h('div',{className:'rf-preview-unavailable','data-preview-unavailable':'back',role:'status'},h('strong',null,t.backMissing),h('p',null,t.backMissingNote)):
-        sample?h('div',{className:'rf-preview-reference'},h('img',{src:source,alt:props.model+' · '+t[view]+' · '+referenceTitle}),h('p',null,rear?t.backReferenceNote:isDrawing?t.drawingReferenceNote:t.referenceNote)):
+        !imageReady?h('div',{className:'rf-preview-unavailable','data-preview-image-status':imageFailed?'error':'loading',role:'status'},h('strong',null,imageFailed?t.imageError:t.imageLoading),imageFailed&&h('p',null,t.imageErrorNote)):
+        sample?h('div',{className:'rf-preview-reference'},h('img',{src:media(source),alt:props.model+' · '+t[view]+' · '+referenceTitle}),h('p',null,rear?rearReference:isDrawing?t.drawingReferenceNote:t.referenceNote)):
           h('div',{className:'rf-preview-stage','data-view':view,dangerouslySetInnerHTML:{__html:renderSvg(state,view,props.language,compact?'landscape':'portrait')}}),
       !state.g && h('p',{role:'status'},t.noShape),
-      !missing && h('p',{className:'rf-preview-parts','data-preview-parts':true},rear?t.backParts:(isDrawing?t.drawingParts:t.referenceParts)+' · '+props.labels.pickups+' / '+props.labels.hardware_bridge),
-      !missing && h('p',{className:'rf-preview-note'},rear?t.backNote:isDrawing?t.drawingNote:t.note),
+      !missing && h('p',{className:'rf-preview-parts','data-preview-parts':true},rear?rearParts:(isDrawing?t.drawingParts:t.referenceParts)+' · '+props.labels.pickups+' / '+props.labels.hardware_bridge),
+      !missing && h('p',{className:'rf-preview-note'},rear?rearNote:isDrawing?t.drawingNote:t.note),
       rear&&!missing && h('p',{className:'rf-preview-note'},t.backFinishNote),
       state.finish.status==='unmapped' && h('p',{className:'rf-preview-warning',role:'status'},t.textOnly),
       state.finish.colour && s.color_top==='top_oil' && h('p',{className:'rf-preview-warning'},t.oil),
       h('details',{className:'rf-preview-scope'},h('summary',null,t.scope),
-        h('p',null,isDrawing?t.drawingNote:t.tone),h('p',null,isDrawing?t.drawingParts:t.symbols),h('p',null,t.geometry),
-        source && h('a',{href:source,target:'_blank',rel:'noopener noreferrer'},isDrawing?t.drawingView:t.reference),
+        h('p',null,rear?rearNote:isDrawing?t.drawingNote:t.tone),!rear&&h('p',null,isDrawing?t.drawingParts:t.symbols),h('p',null,t.geometry),
+        source && h('a',{href:media(source),download:source.split('/').pop()},isDrawing?t.drawingView:t.reference),
         h('dl',null,rows.map(id=>{
           const status=rear?(missing?t.pending:['body_wood_single','body_core_wood','color_back_side'].includes(id)?t.material:t.pending):['pickups','hardware_bridge','hardware_machine_head'].includes(id)?(isDrawing?t.drawingParts:t.schematic):state.pending.includes(id)?t.pending:['hardware_machine_head','color_back_side','body_wing_wood'].includes(id)?t.hidden:['pickups','hardware_bridge','hardware_color'].includes(id)?t.schematic:id.startsWith('body_')&&(state.hasTop||state.finish.opaque)?t.covered:t.material;
           return h('div',{key:id,'data-preview-category':id,'data-option':s[id]},h('dt',null,props.categoryTitles[id]||id),h('dd',null,props.labels[id],h('small',null,status)));
@@ -284,8 +313,8 @@
     return h('section',{className:'rf-bindrune-examples','data-bindrune-examples':true,'aria-label':t.bindruneTitle},
       h('h4',null,t.bindruneTitle),h('p',null,t.bindruneNote),
       h('div',{className:'rf-bindrune-grid'},t.bindruneNames.map((name,i)=>h('figure',{key:i},
-        h('img',{src:'assets/configurator-bindrune/c'+(i+1)+'.svg',alt:'C'+(i+1)+' · '+name,loading:'lazy'}),
-        h('figcaption',null,'C'+(i+1)+' · '+name)))),h('small',null,t.bindruneSource),h('a',{href:'assets/configurator-bindrune/layouts-v5.png',target:'_blank',rel:'noopener noreferrer'},t.bindruneOriginal));
+        h('img',{src:media('assets/configurator-bindrune/c'+(i+1)+'.svg'),alt:'C'+(i+1)+' · '+name}),
+        h('figcaption',null,'C'+(i+1)+' · '+name)))),h('small',null,t.bindruneSource),h('a',{href:media('assets/configurator-bindrune/layouts-v5.png'),download:'RavenForge_Bindrune_Layouts_v5.png'},t.bindruneOriginal));
   }
   function ColourControls(props) {
     const h = window.React.createElement, t = copy[props.language] || copy.en, finish = parseColour(props.value);
