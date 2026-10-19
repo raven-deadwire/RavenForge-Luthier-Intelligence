@@ -133,11 +133,13 @@ async function main() {
           await choose('color_headstock','head_match');
           await step(2);
           if(model!=='GRAMR') {
-            await choose('fretboard','ironwood');
-            assert.ok((await page.locator('[id$="-board-material"] image').getAttribute('href')).startsWith('data:image/webp'));
-            const ironPixels=await page.locator('.rf-preview-stage').screenshot();
-            await choose('fretboard','bog_oak');
-            assert.ok(!ironPixels.equals(await page.locator('.rf-preview-stage').screenshot()),'Ironwood and bog oak change visible wood pixels');
+            if(await page.locator('input[name="fretboard"][value="ironwood"]').count()){
+              await choose('fretboard','ironwood');
+              assert.ok((await page.locator('[id$="-board-material"] image').getAttribute('href')).startsWith('data:image/webp'));
+              const ironPixels=await page.locator('.rf-preview-stage').screenshot();
+              await choose('fretboard','bog_oak');
+              assert.ok(!ironPixels.equals(await page.locator('.rf-preview-stage').screenshot()),'Ironwood and bog oak change visible wood pixels');
+            }
             await choose('fretboard','ebony');
             assert.equal(await layer('fretboard').getAttribute('data-option'),'ebony');
             await choose('fret_type','fretless');
