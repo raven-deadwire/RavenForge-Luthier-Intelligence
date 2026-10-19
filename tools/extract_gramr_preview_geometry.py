@@ -80,6 +80,9 @@ js=js[:js.index('return ')+7]+json.dumps(data,ensure_ascii=False,separators=(','
 (ROOT/'assets/configurator-gramr-geometry.js').write_text(js)
 rear_parts=[f'<path d="{rear_body}"/>',f'<path d="{rear_head}"/>',f'<polygon points="{" ".join(",".join(str(v) for v in p) for p in rear_neck)}"/>',f'<path d="{rear_cavity}"/>']
 for x,y in rear_tuners:rear_parts.append(f'<circle cx="{x}" cy="{y}" r="6"/>')
-rear_svg='<svg xmlns="http://www.w3.org/2000/svg" width="2160" height="880" viewBox="0 80 1080 440"><title>GRAMR — rear projection; historical neck plate and bolts omitted</title><rect width="1080" height="600" fill="#f6f4ed"/><g fill="none" stroke="#343637" stroke-width=".65">'+''.join(rear_parts)+'</g></svg>'
+# Keep the reference view honest too: a separately styled current-spec schematic
+# is not part of the historical drawing or approved drilling coordinates.
+rear_parts.append('<g data-joint="bolt-on" data-placement="spec-schematic" stroke="#a86b19" stroke-width="1.6">'+''.join(f'<circle cx="{x}" cy="{y}" r="6"/>' for x,y in [[686,270],[686,302],[711,270],[711,302],[736,286]])+'</g>')
+rear_svg='<svg xmlns="http://www.w3.org/2000/svg" width="2160" height="880" viewBox="0 80 1080 440"><title>GRAMR — source rear outline plus current five-bolt 2-2-1 schematic; positions unapproved</title><rect width="1080" height="600" fill="#f6f4ed"/><g fill="none" stroke="#343637" stroke-width=".65">'+''.join(rear_parts)+'</g></svg>'
 (ROOT/'assets/configurator-gramr-rear-reference.svg').write_text(rear_svg)
 print('Extracted rear projection; max join gap',data['back']['provenance']['maxJoinGapPDFPoints'],'PDF points')
