@@ -18,7 +18,7 @@ MEDIA = [
     'assets/configurator-materials/ash-illustrative.webp',
     *[f'assets/configurator-bindrune/c{i}.svg' for i in range(1, 5)],
     'assets/configurator-bindrune/layouts-v5.png',
-    'assets/configurator-rear/edda-rear-concept.webp',
+    'assets/configurator-rear/edda-rear-bolton-v6.webp',
     *[f'assets/configurator-rear/{model}-rear-reference.svg' for model in ['embla', 'askr']],
 ]
 

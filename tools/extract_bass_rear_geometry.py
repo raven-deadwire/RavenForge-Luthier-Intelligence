@@ -18,7 +18,7 @@ CONFIG = {
         head=list(range(4707,4714))+[4718], bolts=[9379,9383,9385,9381,9387],
         cavity=list(range(7812,7814))+[7815,7816,7817,7819],battery=list(range(5470,5478)),
         neck=[(340.17,1399.28),(1277.89,1374.59),(1281.09,1420.97),(1358.05,1501.25),(340.17,1473.89)],
-        heel=[11765,11766],scoop=[5468],
+        heel=[11765,11766],joint=[4733,4734,4732],scoop=[5468],
         tuners=[[10418,10419],[10440,10441],[10463,10464],[10485,10486],[10507,10508]],
         origin=[30,1120],view=[0,0,1880,640]),
     'ASKR': dict(filename='RavenForge_ASKR_MS5001_john0-Model(1).pdf',
@@ -26,7 +26,7 @@ CONFIG = {
         head=list(range(5860,5866))+[5877,5878,5858], bolts=[8178,8182,8190,8186,8194],
         cavity=list(range(5869,5874))+[5889,5890,5956],battery=list(range(8638,8940,2)),
         neck=[(373.06,1550.21),(1556.62,1527.56),(1610.77,1663.91),(430.60,1639.28)],
-        heel=[5856],scoop=[5876],
+        heel=[5856],joint=[5856],scoop=[5876],
         tuners=[[7012,7013],[7045,7046],[7078,7079],[7110,7111],[7144,7145]],
         origin=[30,1290],view=[0,0,2290,650]),
 }
@@ -69,13 +69,13 @@ def extract(model, source):
     data=dict(kind='rear-drawing',source=f'assets/configurator-rear/{model.lower()}-rear-reference.svg',
         body=body,head=head,neck='M'+' L'.join(xy(p) for p in cfg['neck'])+' Z',
         cavity=cavity,battery=battery,bolts=bolts,
-        heel=' '.join(single(i,False) for i in cfg['heel']),scoop=' '.join(single(i,False) for i in cfg['scoop']),
+        heel=' '.join(single(i,False) for i in cfg['heel']),jointSeam=contour(cfg['joint'],False,start=cfg['neck'][1])[0],scoop=' '.join(single(i,False) for i in cfg['scoop']),
         tuners=[dict(housing=single(pair[0]),key=single(pair[1])) for pair in cfg['tuners']],
         viewBox='0 0 '+str(cfg['view'][2]/2)+' '+str(cfg['view'][3]/2),
         portraitBox=f'0 0 {cfg["view"][3]/2} {cfg["view"][2]/2}',
         portraitTransform=f'translate({cfg["view"][3]/2} 0) rotate(90)',
         provenance=dict(sourceName=source.name,sha256=hashlib.sha256(source.read_bytes()).hexdigest(),page=1,
-            indices={k:cfg[k] for k in ['body','head','bolts','cavity','battery','heel','scoop','tuners']},
+            indices={k:cfg[k] for k in ['body','head','bolts','cavity','battery','heel','joint','scoop','tuners']},
             rotation=page.rotation,displayScale=.5,offset=cfg['origin'],maxBodyJoinGap=gap,maxHeadJoinGap=hgap,maxCavityJoinGap=cgap,maxBatteryJoinGap=bgap,
             scope='Rear geometry/5-bolt positions only; prototype electronics and pricing never override the active platform.'))
     out=ROOT/'assets/configurator-rear';out.mkdir(exist_ok=True)

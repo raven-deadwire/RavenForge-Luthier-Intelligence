@@ -46,6 +46,7 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v6');
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
           assert.equal(await page.locator('[data-preview-view]').count(),0,'No zoom controls');
@@ -79,13 +80,18 @@ async function main() {
           await side('back');
           await page.locator('[data-preview-svg][data-side="back"]').waitFor();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-side'),'back');
+          assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-neck-joint'),'bolt-on');
+          if(model!=='EDDA')assert.equal(await layer('rear-joint-seam').count(),1);
           assert.equal(await layer('pickups').count(),0,'No front pickups on the back');
           assert.equal(await layer('strings').count(),0,'No front strings on the back');
           if(model==='GRAMR'){
             assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-side'),'back');
             assert.equal(await page.locator('[data-preview-svg]').getAttribute('viewBox'),fullViewBox);
             assert.equal(await layer('rear-body').getAttribute('data-opaque'),'false','Natural oil stays natural');
-            assert.equal(await layer('rear-joint-pending').count(),1);
+            assert.equal(await layer('rear-joint-schematic').getAttribute('data-coordinate-status'),'unverified');
+            assert.equal(await layer('rear-bolts').getAttribute('data-count'),'5');
+            assert.equal(await layer('rear-bolts').getAttribute('data-pattern'),'2-2-1');
+            assert.equal(await layer('rear-bolts').getAttribute('data-placement'),'spec-schematic');
             await page.locator('[data-preview-mode="sample"]').click();
             await page.locator('.rf-preview-reference img').waitFor();
             await page.locator('.rf-preview-reference img').evaluate(image=>image.decode());

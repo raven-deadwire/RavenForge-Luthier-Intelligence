@@ -41,7 +41,9 @@ for (const [model,count,price] of [['EDDA',4,2100],['EMBLA',5,2550],['ASKR',5,32
         assert.doesNotMatch(svg,/NaN|undefined|<script|onerror=/);
         const ids=[...svg.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
         assert.equal(new Set(ids).size,ids.length,'SVG filter and clip IDs must never collide');
-        if(model!=='GRAMR')assert.match(svg,/data-neck-joint="bolt-on"/);
+        assert.match(svg,/data-neck-joint="bolt-on"/);
+        if(model!=='EDDA')assert.match(svg,/data-layer="rear-joint-seam"/);
+        if(model==='GRAMR'){assert.match(svg,/data-pattern="2-2-1"/);assert.match(svg,/data-placement="spec-schematic"/);assert.doesNotMatch(svg,/data-layer="rear-joint-pending"/);}
         if(['ASKR','EMBLA'].includes(model))assert.match(svg,/data-placement="pdf-centres"/);
         if(model==='EDDA')assert.match(svg,/data-placement="concept-only"/);
         continue;

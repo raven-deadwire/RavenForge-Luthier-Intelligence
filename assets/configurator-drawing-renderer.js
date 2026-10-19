@@ -1,5 +1,6 @@
 /* GRAMR front/rear projections: extracted PDF contours; illustrative materials.
- * Historical rear neck plate/bolts are omitted; current joint details stay pending. */
+ * Historical four-bolt plate is omitted. The current 2-2-1 joint is explicitly
+ * schematic, with unapproved positions shown as symbols instead of machined parts. */
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;if(root)root.RavenForgeDrawingRenderer=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
   'use strict';
   const media=path=>globalThis.RavenForgePreviewMedia?.[path]||path;
@@ -20,9 +21,11 @@
     };
     const texture=(x,y,w,h,filter)=>`<image href="${media('assets/configurator-materials/ash-illustrative.webp')}" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="none" transform="rotate(90 ${x+w/2} ${y+h/2})" filter="url(#${p}-${filter})"/>`;
     const title=id=>`<title>${esc(state.labels[id]||s[id])}</title>`;
-    let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${(layout==='portrait'?g.portrait:g.views).full}" role="img" aria-labelledby="${p}-title ${p}-desc" data-preview-svg="GRAMR" data-renderer="drawing-composite" data-side="${back?'back':'front'}" data-layout="${layout==='portrait'?'portrait':'landscape'}"><title id="${p}-title">GRAMR · ${esc(back?t.back:t.front)}</title><desc id="${p}-desc">${esc(back?t.backNote:t.drawingNote)}</desc><defs>
+    let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${(layout==='portrait'?g.portrait:g.views).full}" role="img" aria-labelledby="${p}-title ${p}-desc" data-preview-svg="GRAMR" data-neck-joint="bolt-on" data-renderer="drawing-composite" data-side="${back?'back':'front'}" data-layout="${layout==='portrait'?'portrait':'landscape'}"><title id="${p}-title">GRAMR · ${esc(back?t.back:t.front)}</title><desc id="${p}-desc">${esc(back?t.backNote:t.drawingNote)}</desc><defs>
       <clipPath id="${p}-body-clip">${path(g.body)}</clipPath><clipPath id="${p}-head-clip">${path(g.head)}</clipPath><clipPath id="${p}-board-clip"><polygon points="${polygon(g.board)}"/></clipPath>
       <pattern id="${p}-unknown" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#5e6670"/><path d="M0 12L12 0" stroke="#b4bdc7" stroke-width="2"/></pattern>
+      <radialGradient id="${p}-joint-fade"><stop offset=".5" stop-color="white"/><stop offset="1" stop-color="black"/></radialGradient>
+      <mask id="${p}-joint-region" maskUnits="userSpaceOnUse" x="650" y="235" width="120" height="102"><ellipse cx="710" cy="286" rx="60" ry="51" fill="url(#${p}-joint-fade)"/></mask>
       ${woodFilter('body-wood',colour)}${woodFilter('board-wood',state.boardColour||'#6b6256')}
       <linearGradient id="${p}-body-light" x1="0" y1="0" x2=".35" y2="1"><stop stop-color="#fff8dc" stop-opacity=".22"/><stop offset=".28" stop-color="#fff" stop-opacity=".03"/><stop offset=".7" stop-color="#000" stop-opacity=".08"/><stop offset="1" stop-color="#000" stop-opacity=".45"/></linearGradient>
       <linearGradient id="${p}-rim" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="#fff8dd" stop-opacity=".85"/><stop offset=".35" stop-color="#fff" stop-opacity=".35"/><stop offset=".6" stop-color="#000" stop-opacity=".2"/><stop offset="1" stop-color="#050606" stop-opacity=".85"/></linearGradient>
@@ -39,8 +42,13 @@
     if(back){
       out+=`<g data-layer="rear-body" data-material="${esc(state.bodyId)}" data-finish="${esc(s.color_back_side)}" data-colour="${colour}" data-opaque="${opaque}" data-contour="pdf-vector">${surface(g.body,'body',texture(535,-4,550,550,'body-wood'))}</g>`;
       out+=`<g data-layer="rear-headstock" data-contour="pdf-vector">${surface(g.head,'head',texture(5,170,240,240,'body-wood'))}</g>`;
-      out+=`<g data-layer="rear-neck" data-appearance="lamination-pending"><polygon points="${polygon(g.neck)}" fill="#ad9878" stroke="#72664f" stroke-width="1"/><polygon points="${polygon(g.neck)}" fill="url(#${p}-body-light)"/></g>`;
-      out+=`<g data-layer="rear-joint-pending"><circle cx="674" cy="286" r="25" fill="${unknown}" opacity=".65"/><title>${esc(t.backNote)}</title></g>`;
+      out+=`<g data-layer="rear-neck" data-neck-joint="bolt-on" data-appearance="lamination-pending"><polygon points="${polygon(g.neck)}" fill="#e2cda8" stroke="#72664f" stroke-width="1"/><polygon points="${polygon(g.neck)}" fill="url(#${p}-body-light)"/></g>`;
+      out+=`<g data-layer="rear-joint-seam" data-placement="source-envelope">${line(g.neck[3],g.neck[2],'stroke="#15120f" stroke-width="1.8" vector-effect="non-scaling-stroke"')}</g>`;
+      // This unfinished region communicates the confirmed bolt-on construction
+      // without inventing an approved heel or manufacturing hole coordinates.
+      out+=`<g data-layer="rear-joint-schematic" data-neck-joint="bolt-on" data-coordinate-status="unverified" clip-path="url(#${p}-body-clip)"><ellipse cx="710" cy="286" rx="60" ry="51" fill="${unknown}" opacity=".55" mask="url(#${p}-joint-region)"/><title>${esc(t.backNote)}</title><g data-layer="rear-bolts" data-count="5" data-pattern="2-2-1" data-placement="spec-schematic">`;
+      for(const [x,y] of [[686,270],[686,302],[711,270],[711,302],[736,286]])out+=`<circle cx="${x}" cy="${y}" r="6" fill="#20292e" stroke="#e5dcc4" stroke-width="1.3"/><path d="M${x-2},${y}h4 M${x},${y-2}v4" stroke="#e5dcc4" stroke-width=".8"/>`;
+      out+='</g></g>';
       out+=`<g data-layer="rear-cavity" data-contour="pdf-vector">${path(g.cavity,'fill="#181b1c" stroke="#978f7e" stroke-width="1.1"')}${path(g.cavity,`fill="${unknown}" opacity=".3"`)}</g>`;
       out+=`<g data-layer="rear-tuners" data-count="6" data-appearance="drawing-envelope" data-colour="${state.metal}">`;
       g.tuners.forEach(([x,y])=>{out+=`<circle cx="${x}" cy="${y}" r="10" fill="${metal}" stroke="#303536" stroke-width="1"/><circle cx="${x}" cy="${y}" r="4" fill="#424847"/>`;});

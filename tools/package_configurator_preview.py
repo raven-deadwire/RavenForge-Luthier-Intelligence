@@ -16,7 +16,7 @@ FILES = [
     'assets/configurator-materials/README.md',
     'assets/configurator-gramr-rear-reference.svg',
     'assets/configurator-bass-rear-geometry.js', 'assets/configurator-rear-renderer.js',
-    'assets/configurator-rear/edda-rear-concept.webp',
+    'assets/configurator-rear/edda-rear-bolton-v6.webp',
     'assets/configurator-rear/embla-rear-reference.svg', 'assets/configurator-rear/askr-rear-reference.svg',
     'assets/configurator-rear/README.md',
     'assets/configurator-bindrune/README.md', 'assets/configurator-bindrune/layouts-v5.png',
@@ -25,7 +25,7 @@ FILES = [
     'Edda Prototype Design.png', 'EMBLA Prototype Design.png',
     'ASKR Prototype Design.png'
 ]
-README = '''RavenForge 컨피규레이터 시각화 테스트 v5 / 2026-10-20
+README = '''RavenForge 컨피규레이터 시각화 테스트 v6 / 2026-10-20
 
 기존 홈페이지나 컨피규레이터를 교체하지 않는 별도 테스트입니다.
 
@@ -48,7 +48,8 @@ README = '''RavenForge 컨피규레이터 시각화 테스트 v5 / 2026-10-20
 
 베이스 3종은 기존 RavenForge 샘플 렌더링의 질감·광택을 살린 마감 합성입니다.
 GRAMR는 첨부 도면에서 추출한 벡터 외곽·배치와 별도 참고 텍스처를 사용합니다.
-GRAMR 뒷면은 도면 외곽·배치를 사용하며, 과거 4볼트 플레이트는 제외합니다.
+GRAMR 뒷면은 도면 외곽과 볼트온 5볼트 2-2-1 구조도를 표시합니다.
+빗금 영역의 볼트는 구조 설명용 기호이며 실제 가공 좌표가 아닙니다. 플레이트는 없습니다.
 ASKR·EMBLA 뒷면은 추가 첨부 도면의 외곽·5볼트·후면 커버·배터리 위치를 사용합니다.
 EDDA 뒷면은 기존 앞면을 참고한 AI 볼트온 시안이며, 볼트 위치·힐·캐비티는 참고 배치입니다.
 Opaque 마감은 원본 이미지를 블러 처리하지 않습니다.

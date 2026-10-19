@@ -8,7 +8,29 @@ Entry point: `configurator-preview.html`. This is a separate test page. The prod
 
 The first commit connects EDDA end to end; the next extends the same renderer to EMBLA, ASKR and GRAMR. The test page copies the existing configurator shell and adds a read-only preview component, colour controls, and a responsive two-column layout. `tools/test_configurator_preview.cjs` compares data, normalization, pricing, option handlers, quote markup and PDF export source against production so the copy cannot silently diverge.
 
-## Delivery and bolt-on rear correction (2026-10-20, latest)
+## Visible bolt-on joint correction (v6, 2026-10-20, latest)
+
+The user correctly rejected v5's remaining neck-through/set-neck appearance.
+Passing bolt-count and renderer metadata checks did not validate that appearance.
+The v6 changes are limited to the test preview:
+
+- EDDA uses a newly edited concept with a lighter separate neck and a sharp heel
+  seam. The old concept is no longer packaged. Its exact joint remains unapproved.
+- ASKR/EMBLA trace their supplied PDFs' actual neck/body boundary, independently
+  of heel-relief lines, with a seam readable at full-instrument display size.
+- GRAMR no longer omits every bolt. Its known five-bolt 2-2-1 / no-plate structure
+  appears as symbols in an explicitly hatched construction region. These symbols
+  are not manufacturing coordinates, and the hatch is not a neck plate. The
+  exposed neck ends at the source envelope; no neck strip crosses the body.
+- The heading says `RF / TEST v6`, distinguishing this delivery from v5. Sources
+  and image paths are versioned; the standalone HTML still embeds all media.
+- Prices, model constraints, front source images, bindrune assets and PDF export
+  code are unchanged. The same direct-file CI gates must run on the new commit.
+
+Current screenshots must be visually reviewed at whole-instrument size; metadata
+checks alone must never be described as construction or visual approval.
+
+## Delivery and bolt-on rear correction (v5, 2026-10-20, historical)
 
 The user's screenshots exposed a delivery failure missed by the earlier HTTP-only QA: front source images were not represented correctly and the four bindrune image links were broken in the user's environment. The exact external viewer/path failure was not reproduced locally; the images are intact in the repository and earlier CI artifact. Do not claim the user's renderer was fixed merely because the old HTTP check passed.
 

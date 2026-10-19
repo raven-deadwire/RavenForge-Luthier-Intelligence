@@ -47,6 +47,9 @@
       out+=`<g data-layer="rear-headstock">${surface(g.head,'neck')}</g>`;
       out+=`<g data-layer="rear-body" data-contour="pdf-vector" data-material="${esc(state.bodyId)}" data-finish="${esc(s.color_back_side)}" data-colour="${colour}" data-opaque="${!!finish.opaque}">${surface(g.body,'wood')}${path(g.scoop,'fill="none" stroke="#4c3b2a" stroke-width="1.3" stroke-opacity=".22"')}</g>`;
       out+=`<g data-layer="rear-heel" data-neck-joint="bolt-on">${path(g.heel,'fill="none" stroke="#4a382b" stroke-width="1.7" stroke-opacity=".8"')}</g>`;
+      // Trace the actual neck/body boundary, not the heel relief contour.
+      // A continuous seam remains readable at full-instrument mobile size.
+      out+=`<g data-layer="rear-joint-seam" data-placement="pdf-boundary">${path(g.jointSeam,'fill="none" stroke="#15120f" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linecap="round"')}</g>`;
       out+=`<g data-layer="rear-cavity" data-contour="pdf-vector">${path(g.cavity,`fill="url(#${p}-grain)" filter="url(#${p}-wood)"`)}${path(g.cavity,'fill="#000" fill-opacity=".12" stroke="#302c27" stroke-width="1.3"')}</g>`;
       out+=`<g data-layer="rear-battery" data-contour="pdf-vector">${path(g.battery,'fill="#262827" stroke="#777b78" stroke-width="1"')}</g>`;
       out+=`<g data-layer="rear-bolts" data-count="5" data-placement="pdf-centres">`;

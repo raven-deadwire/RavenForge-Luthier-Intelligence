@@ -11,7 +11,7 @@
   return {
     EDDA: {
       source: 'Edda Prototype Design.png', status: 'prototype', strings: 4,
-      back: {kind:'rear-concept',source:'assets/configurator-rear/edda-rear-concept.webp',status:'illustrative-bolt-on',bolts:5},
+      back: {kind:'rear-concept',source:'assets/configurator-rear/edda-rear-bolton-v6.webp',status:'illustrative-bolt-on',bolts:5},
       imageSize: [1080,1080], luminance: [.30,.59,.11], exposure: 1.7,
       portrait: { full:'300 0 480 1090', body:'350 540 380 540', neck:'490 180 100 610', head:'460 10 145 200' },
       hardware: 'M485 986 L585 982 L588 1040 L486 1041 Z',
