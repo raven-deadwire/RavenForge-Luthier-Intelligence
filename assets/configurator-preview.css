@@ -1,0 +1,51 @@
+.rf-config-grid { display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:2rem; align-items:start; }
+.rf-preview-column { grid-column:1; grid-row:1 / span 2; position:sticky; top:5rem; min-width:0; }
+.rf-config-options,.rf-config-quote { grid-column:2; min-width:0; }
+.rf-preview { color:#e8e5df; background:#171b20; border:1px solid #303741; border-radius:1rem; overflow:hidden; }
+.rf-preview-heading { padding:1.25rem 1.5rem 0; display:flex; justify-content:space-between; align-items:center; }
+.rf-preview-heading p { color:#bac0c6; font-size:.75rem; }
+.rf-preview-heading h2 { font-size:1.9rem; letter-spacing:.14em; font-weight:800; }
+.rf-preview-mark { color:#9e8c6a; font-size:.7rem; letter-spacing:.12em; }
+.rf-preview-stage { padding:1rem .5rem; background:radial-gradient(ellipse at center,#30353b 0,#171b20 75%); }
+.rf-preview-stage svg { display:block; width:100%; height:auto; aspect-ratio:1.55; }
+.rf-preview-views { display:flex; flex-wrap:wrap; gap:.4rem; padding:0 1.25rem; }
+.rf-preview-views button { padding:.6rem .7rem; min-height:44px; font-size:.78rem; border:1px solid #5b636c; border-radius:.4rem; }
+.rf-preview-views button[aria-pressed=true] { background:#e5d9bf; color:#242628; border-color:#e5d9bf; }
+.rf-preview-note { font-size:.73rem; color:#c5cbd0; margin:.8rem 1.25rem; line-height:1.5; }
+.rf-preview-warning { font-size:.75rem; color:#f8dca3; margin:.75rem 1.25rem; }
+.rf-preview-scope { padding:.9rem 1.25rem; font-size:.75rem; border-top:1px solid #414952; max-height:30vh; overflow:auto; }
+.rf-preview-scope summary { cursor:pointer; min-height:30px; font-weight:700; }
+.rf-preview-scope p { margin:.5rem 0; color:#c5cbd0; line-height:1.5; }
+.rf-preview-scope a { display:inline-block; text-decoration:underline; color:#e5d9bf; margin:.5rem 0; }
+.rf-preview-scope dl>div { display:grid; grid-template-columns:1fr 1.3fr; gap:.5rem; border-top:1px solid #3c424b; padding:.5rem 0; }
+.rf-preview-scope dt { color:#aeb6bf; } .rf-preview-scope dd { overflow-wrap:anywhere; }
+.rf-preview-scope small { display:block; color:#c8b58b; font-size:.65rem; margin-top:.2rem; }
+.rf-preview-sr { position:absolute; width:1px; height:1px; padding:0; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
+.rf-colour-controls { margin-top:1rem; } .rf-colour-controls p { font-size:.75rem; color:#64748b; line-height:1.6; }
+.rf-colour-swatches { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:1rem 0; }
+.rf-colour-swatches button { width:44px; height:44px; border-radius:50%; border:2px solid #a8adb5; color:#1c222b; font-weight:700; }
+.rf-colour-swatches button[aria-pressed=true] { outline:3px solid #9f292a; outline-offset:3px; }
+.rf-colour-swatches label { font-size:.75rem; display:flex; gap:.5rem; align-items:center; }
+.rf-colour-swatches input { width:44px; height:44px; cursor:pointer; }
+.rf-colour-modes { display:flex; gap:.5rem; flex-wrap:wrap; }
+.rf-colour-modes button { border:1px solid #94a3b8; padding:.6rem .85rem; border-radius:.5rem; font-size:.8rem; }
+.rf-colour-modes button[aria-pressed=true] { background:#e2e8f0; } .rf-colour-modes button:disabled { opacity:.5; }
+.rf-preview button:focus-visible,.rf-colour-controls button:focus-visible,.rf-preview summary:focus-visible { outline:3px solid #daab65; outline-offset:3px; }
+@media (max-width:1023px) {
+  .rf-config-grid { display:flex; flex-direction:column; gap:1.25rem; }
+  .rf-preview-column,.rf-config-options,.rf-config-quote { width:100%; }
+  .rf-preview-column { position:sticky; top:4rem; z-index:30; }
+  .rf-preview { border-radius:.6rem; box-shadow:0 6px 16px #0002; }
+  .rf-preview-heading { padding:.4rem .8rem 0; } .rf-preview-heading h2 { font-size:1rem; }
+  .rf-preview-heading p { font-size:.65rem; } .rf-preview-mark { font-size:.6rem; }
+  .rf-preview-stage { padding:0 .4rem; } .rf-preview-stage svg { height:130px; aspect-ratio:auto; }
+  .rf-preview-views { padding:0 .7rem; gap:.3rem; }
+  .rf-preview-views button { padding:.25rem .6rem; font-size:.7rem; min-height:36px; }
+  .rf-preview-note { font-size:.65rem; margin:.35rem .8rem; }
+  .rf-preview-scope { padding:.35rem .8rem; max-height:22vh; } .rf-preview-scope summary { min-height:26px; }
+  .rf-preview-warning { margin:.3rem .8rem; font-size:.65rem; }
+  .rf-config-options [data-category],.rf-config-options #finish-color { scroll-margin-top:370px; }
+}
+@media (max-width:420px) { .rf-preview-stage svg { height:105px; } }
+@media (max-height:600px) { .rf-preview-column { position:static; } }
+@media print { .rf-preview-column { display:none; } }
