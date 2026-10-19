@@ -113,7 +113,7 @@
     const path = (d, attrs='') => `<path d="${d}" ${attrs}/>`;
     const line = (a,b,attrs='') => `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" ${attrs}/>`;
     const label = id => esc(state.labels[id] || s[id] || '');
-    const rect = (r,attrs='') => `<rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="3" ${attrs}/>`;
+    const rect = (r,attrs='') => `<rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="3" ${r.angle ? `transform="rotate(${r.angle} ${r.x+r.w/2} ${r.y+r.h/2})"` : ''} ${attrs}/>`;
     const bodyPaint = finish.opaque && finish.colour ? finish.colour : fill;
     let out = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${g.views[view] || g.views.full}" role="img" aria-labelledby="${prefix}-title ${prefix}-desc" data-preview-svg="${state.model}">
       <title id="${prefix}-title">${esc(state.model+' · '+t.live)}</title><desc id="${prefix}-desc">${esc(t.note+' '+t.tone+' '+t.symbols)}</desc>
@@ -122,6 +122,7 @@
       <g transform="${g.transform}">`;
     out += `<g data-layer="body" data-option="${esc(state.topId || '')}" data-material="${esc(state.bodyId || '')}">${path(g.body,`fill="${bodyPaint}" stroke="#2a2520" stroke-width="3"`)}<title>${label(state.hasTop?'top_wood_selection':s.body_wood_single?'body_wood_single':'body_core_wood')}</title></g>`;
     if (finish.colour && !finish.opaque) out += `<g data-layer="finish" clip-path="url(#${prefix}-body)">${path(g.body,`fill="${finish.colour}" opacity=".68"`)}</g>`;
+    if (g.pickguard) out += `<g data-layer="reference-pickguard">${path(g.pickguard,'fill="#202427" stroke="#b9b8ab" stroke-width="1.5"')}</g>`;
     // No invented figured wood textures, contour reflections, cap thickness or rear cavities.
     out += `<g data-layer="headstock" data-option="${esc(s.color_headstock || '')}">${path(g.head,`fill="${s.color_headstock === 'head_plate' ? unknown : bodyPaint}" stroke="#2a2520" stroke-width="3"`)}`;
     if (finish.colour && !finish.opaque && s.color_headstock !== 'head_plate') out += path(g.head,`fill="${finish.colour}" opacity=".68"`);
@@ -175,7 +176,7 @@
       h('div',{className:'rf-preview-stage',dangerouslySetInnerHTML:{__html:renderSvg(state,view,props.language)}}),
       !state.g && h('p',{role:'status'},t.noShape),
       h('div',{className:'rf-preview-views','aria-label':t.title},['full','body','neck','head'].map(id=>h('button',{type:'button',key:id,'data-preview-view':id,'aria-pressed':view===id,onClick:()=>setView(id)},t[id]))),
-      h('p',{className:'rf-preview-parts','data-preview-parts':true},props.labels.pickups+' · '+props.labels.hardware_bridge),
+      h('p',{className:'rf-preview-parts','data-preview-parts':true},t.schematic+' · '+props.labels.pickups+' · '+props.labels.hardware_bridge),
       h('p',{className:'rf-preview-note'},t.note),
       state.finish.status==='unmapped' && h('p',{className:'rf-preview-warning',role:'status'},t.textOnly),
       state.finish.colour && s.color_top==='top_oil' && h('p',{className:'rf-preview-warning'},t.oil),
