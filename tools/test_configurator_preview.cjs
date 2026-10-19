@@ -215,7 +215,7 @@ for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
     for(const side of ['front','back'])assert.doesNotMatch(preview.renderSvg(state,side,'en'),/illustrative-family|part-underlay/,'No unverified product-family geometry');
   }
   const state=preview.scene(model,d,'');
-  for(const category of ['pickups','hardware_bridge','hardware_machine_head'])assert.equal(state.pending.includes(category),!parts.profile(state,category),'Coverage follows the selected product reference');
+  for(const category of ['pickups','hardware_bridge','hardware_machine_head'])assert.equal(state.pending.includes(category),(!parts.profile(state,category)||parts.profile(state,category).scope==='catalog-reference'),'Coverage follows the selected product reference');
   const changed=preview.scene(model,{...d,hardware_machine_head:'hipshot_ul_38'},'');
   assert.notEqual(preview.renderSvg(state,'back','en'),preview.renderSvg(changed,'back','en'),'Verified tuner rear housing changes with selection');
 }
@@ -424,3 +424,38 @@ for(const model of ['EMBLA','ASKR'])for(const electronics of ['passive','nfp','z
  assert.doesNotMatch(parts.controls(state,'control',8),/stroke-dasharray/,'No floating proposal halos');
 }
 console.log('PASS: verified Triplebucker pole array, scoped custom references, pickup-card coverage and lower switch rows');
+
+// v17: head continuity and separate physical tuner planes, including the omitted
+// Graph Tech / Schaller products. Source outlines remain byte-identical.
+for(const [model,ids] of [['EDDA',['schaller_bm','schaller_bm_lt','gotoh_707']],['EMBLA',['graphtech','schaller_m4_locking']],['ASKR',['graphtech','schaller_m4_locking']],['GRAMR',['guitar_gotoh_sg381']]]){
+ const d=JSON.parse(JSON.stringify(normalize(model)));
+ for(const id of ids){
+  const state=preview.scene(model,{...d,hardware_machine_head:id},'solid #9d282b');
+  assert.ok(!state.pending.includes('hardware_machine_head'));
+  const mount=parts.tuners(state,'qa',false,'rear-mount'),front=parts.tuners(state,'qa'),back=parts.tuners(state,'qa',true);
+  assert.match(mount,/data-part="rear-key-shaft"/);assert.doesNotMatch(mount,/front-bushing-post|rear-gear-housing/);
+  assert.match(front,/data-part="front-bushing-post"/);assert.doesNotMatch(front,/rear-key-shaft|rear-gear-housing|locking-wheel/);
+  assert.match(back,/rear-key-shaft/);assert.match(back,/rear-gear-housing/);
+  assert.equal(back.includes('data-part="locking-wheel"'),id==='schaller_m4_locking');
+  for(const finish of ['', 'transparent #9d282b', 'solid #9d282b'])for(const head of ['head_match','head_natural']){
+   const svg=preview.renderSvg(preview.scene(model,{...state.selections,color_headstock:head},finish),'front','en');
+   const rearIndex=svg.indexOf('data-layer="tuner-rear-mount"'),woodIndex=svg.indexOf('data-layer="headstock"'),postIndex=svg.indexOf('data-part="front-bushing-post"');
+   assert.ok(rearIndex>=0&&rearIndex<woodIndex&&woodIndex<postIndex,'Keys below wood; posts above wood');
+   if(model==='ASKR'){
+    assert.match(svg,/data-neck-transition="source-anchor-closure"/);
+    assert.ok(svg.includes(state.g.head.replace(/Z\s*$/,`L${state.g.board[1]} Z`)),'Close from source head endpoint to source nut endpoint');
+    assert.match(preview.renderSvg(state,'back','en'),/data-neck-transition="connected-source-surface"/);
+   }
+  }
+  if(state.g.unitsPerMm)assert.match(front,new RegExp(`data-units-per-mm="${state.g.unitsPerMm}"`));
+ }
+}
+assert.equal(parts.references.hardware_machine_head.schaller_bm.washer,22);
+assert.equal(parts.references.hardware_machine_head.schaller_m4_locking.locking,true);
+const paysonState=preview.scene('ASKR',normalize('ASKR'),'');
+const paysonSvg=parts.bridge(paysonState,'qa-payson');
+assert.match(paysonSvg,/data-part="continuous-aluminium-plate"/);
+assert.equal((paysonSvg.match(/data-saddle=/g)||[]).length,5);
+for(const line of paysonState.g.stringLines)assert.ok(paysonSvg.includes(`data-string-anchor="${line[1]}"`));
+assert.equal(parts.bridge({...paysonState,metal:'#c9a75c'},'qa-payson'),paysonSvg,'Bridge anodizing cannot follow tuner colour');
+console.log('PASS: connected ASKR nut transition, rear/front tuner planes, Graph Tech and Schaller variants, continuous fixed-finish Payson plate');

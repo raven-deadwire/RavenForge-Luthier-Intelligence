@@ -90,7 +90,7 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
-          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v16');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v17');
           assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').textContent(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
@@ -357,6 +357,24 @@ async function main() {
             await choose('hardware_machine_head','hipshot_ul_38');
             assert.notEqual(await layer('hardware').innerHTML(),beforeTuners,'Verified tuner button changes');assert.equal(await layer('hardware').getAttribute('data-profile'),'ultralite-y');
             assert.equal(await page.locator('[data-appearance="illustrative-family"]').count(),0);
+            for(const id of model==='EDDA'?['schaller_bm']:['graphtech','schaller_m4_locking']){
+              await choose('hardware_machine_head',id);
+              const expected={schaller_bm:'bm-schaller',graphtech:'ratio-y',schaller_m4_locking:'m4-90'}[id];
+              assert.equal(await layer('hardware').getAttribute('data-profile'),expected);
+              assert.equal(await layer('tuner-rear-mount').getAttribute('data-profile'),expected);
+              assert.equal(await layer('hardware').locator('[data-part="rear-key-shaft"]').count(),0);
+              assert.ok(await page.evaluate(()=>!!(document.querySelector('[data-layer="tuner-rear-mount"]').compareDocumentPosition(document.querySelector('[data-layer="headstock"]'))&Node.DOCUMENT_POSITION_FOLLOWING)));
+              if(model==='ASKR')assert.ok(await layer('headstock').locator('path').first().evaluate(p=>p.isPointInFill(new DOMPoint(178,195))),'ASKR transition must contain wood at the former gap');
+              if(lang==='ko')await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-${id}-front.png`)});
+              await side('back');
+              assert.equal(await layer('rear-selected-tuners').getAttribute('data-profile'),expected);
+              if(model==='ASKR')assert.ok(await layer('rear-headstock').locator('path').first().evaluate(p=>p.isPointInFill(new DOMPoint(195,172))),'Rear transition must also contain wood at the former gap');
+              assert.equal(await page.locator('[data-part="locking-wheel"]').count(),id==='schaller_m4_locking'?count:0);
+              if(lang==='ko')await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-${id}-back.png`)});
+              await side('front');
+            }
+            await choose('hardware_machine_head','hipshot_ul_38');
+
             await step(5);
             if(model!=='EDDA'){
               if(model==='ASKR'){

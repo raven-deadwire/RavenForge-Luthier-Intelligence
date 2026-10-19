@@ -152,6 +152,7 @@ return out;
       fishman:{w:102.11,h:37.89,style:'fluence',url:'https://fishman.com/dp/fluence-bass-soapbar-5-string-pickups/'}
     },
     hardware_bridge:{
+      payson:{style:'payson-fanned-v4',url:'https://www.paysonbass.com/store/p152/Payson-Fanned-Fret-Bass-Bridge.html'},
       babicz_top:{style:'fch-top',url:'https://www.fullcontacthardware.com/fch-5-string-bass-bridge'},
       hipshot_kick:{style:'masskicker',url:'https://hipshotproducts.com/products/5-string-masskicker-bass-bridge'},
       gotoh_404BO:{style:'404bo',url:'https://g-gotoh.com/images/pdf/404BO-4-Dim.pdf'},
@@ -160,9 +161,12 @@ return out;
       guitar_gotoh_510t:{style:'510t-fe1',url:'https://g-gotoh.com/images/pdf/510T-FE1-Dim.pdf'}
     },
     hardware_machine_head:{
+      graphtech:{key:'ratio-y',washer:18,post:13.9,keyOffset:-8,scope:'photo-reference',url:'https://graphtech.com/products/bass-ratio-5-string-3-2-y-style-button-please-select-finish-prb-5320'},
+      schaller_bm:{key:'bm-schaller',washer:22,post:14,keyOffset:-12,url:'https://schaller.info/media/ed/c7/69/1764676097/1025.pdf'},
+      schaller_m4_locking:{key:'m4-90',washer:18,post:11,keyOffset:-9,locking:true,url:'https://schaller.info/en/m4-90/10540401.22.70'},
       schaller_bm_lt:{key:'bm-light',washer:16.8,url:'https://schaller.info/media/pdf/65/6a/31/TZ_1027.pdf'},
-      gotoh_707:{key:'gotoh-butterfly',washer:18,url:'https://g-gotoh.com/images/pdf/GB707-Dim.pdf'},
-      gotoh_350:{key:'gotoh-butterfly',washer:20,url:'https://g-gotoh.com/images/pdf/GB350-Dim.pdf'},
+      gotoh_707:{key:'gotoh-butterfly',washer:18,keyOffset:-9,url:'https://g-gotoh.com/images/pdf/GB707-Dim.pdf'},
+      gotoh_350:{key:'gotoh-butterfly',washer:20,keyOffset:-9,url:'https://g-gotoh.com/images/pdf/GB350-Dim.pdf'},
       gotoh_528:{key:'gb528-clover',washer:22,url:'https://g-gotoh.com/images/pdf/GB528-Dim.pdf'},
       hipshot_ul_38:{key:'ultralite-y',washer:17,url:'https://docs.hipshotproducts.com/20650_ULTRALITE_3-8_Y_KEY.pdf'},
       guitar_gotoh_sg381:{key:'gotoh-07',washer:14,url:'https://g-gotoh.com/images/pdf/SG381-Dim.pdf'}
@@ -255,6 +259,7 @@ return out;
   }
   function bridge(state,p){
     const ref=profile(state,'hardware_bridge');if(!ref)return '';
+    if(ref.style==='payson-fanned-v4')return paysonBridge(state,p);
     const n=state.g.strings,guitar=state.model==='GRAMR',id=state.selections.hardware_bridge;
     const [a,b]=state.g.bridge,cx=(a[0]+b[0])/2,cy=(a[1]+b[1])/2;
     const w=guitar?83.5:ref.style==='404bo'?(n===4?86:100):(n===4?82:101.6),h=guitar?40:ref.style==='404bo'?58:ref.style==='fch-top'?66.8:ref.style==='masskicker'?60:50.8;
@@ -290,43 +295,99 @@ return out;
     if(!guitar){out+=path(`M2 ${h-3}H${w-2}`,'none','stroke="#d8dcd4" stroke-opacity=".6" stroke-width=".6"');for(const x of [5,w-5])out+=screw(x,5,1.8);}
     return out+'</g></g>';
   }
-  // The button silhouette is traced from the named manufacturer's sheet in mm.
+  // Original exterior illustration from Payson's product photos. The continuous
+  // aluminium plate is fitted to source string endpoints, not a machining plan.
+  function paysonBridge(state,p){
+    const scale=state.g.unitsPerMm||1,ends=state.g.stringLines.map(l=>l[1]),a=ends[0],b=ends.at(-1),dx=9*scale,top=11*scale,bottom=32*scale;
+    const d=`M${a[0]-dx} ${a[1]-top} Q${a[0]-dx} ${a[1]-top-3} ${a[0]-dx+3} ${a[1]-top-5} L${b[0]+dx-3} ${b[1]-top-5} Q${b[0]+dx} ${b[1]-top-3} ${b[0]+dx} ${b[1]-top} V${b[1]+bottom-4} Q${b[0]+dx} ${b[1]+bottom} ${b[0]+dx-4} ${b[1]+bottom+2} L${a[0]-dx+4} ${a[1]+bottom+2} Q${a[0]-dx} ${a[1]+bottom} ${a[0]-dx} ${a[1]+bottom-4} Z`;
+    const metal=`url(#${p}-payson-anodized)`;
+    let out=`<g data-layer="bridge" data-option="payson" data-profile="payson-fanned-v4" data-colour="${state.bridgeColour}" data-finish-fixed="true" data-appearance="manufacturer-reference" data-placement="source-string-fit"><defs><linearGradient id="${p}-payson-anodized" x2=".2" y2="1"><stop stop-color="#a5afb3"/><stop offset=".32" stop-color="#677276"/><stop offset=".7" stop-color="#8d989c"/><stop offset="1" stop-color="#3a4347"/></linearGradient></defs>`;
+    out+=path(d,'#080c0e','transform="translate(1 3)" stroke="#06090b" stroke-width="3"')+path(d,metal,'data-part="continuous-aluminium-plate" stroke="#c1c8c8" stroke-width=".75"');
+    ends.forEach(([x,y],i)=>{
+      out+=`<g data-saddle="${i}" data-string-anchor="${x},${y}" transform="translate(${x} ${y}) scale(${scale})">`;
+      out+=box(-6.8,-7,13.6,34,6,'#131a1d','stroke="#4b5559" stroke-width=".7"')+path('M0 4V28','none','stroke="#080c0d" stroke-width="2.6"');
+      for(let k=0;k<8;k++)out+=path(`M-2 ${8+k*1.5}h4`,'none','stroke="#b9bdb5" stroke-width=".8"');
+      out+=box(-6.9,-6,13.8,13,1.5,'#13191b','stroke="#b4bcbd" stroke-width=".6"');
+      out+=box(-6.1,-5.5,3.6,12,1,metal)+box(2.5,-5.5,3.6,12,1,metal)+box(-2.5,-1.4,5,2.8,1,'#c0c3b7','stroke="#4b5350" stroke-width=".5"');
+      for(const xx of [-4.4,4.4])for(const yy of [-3.5,4])out+=circle(xx,yy,1,'#101618','stroke="#c4c9c3" stroke-width=".5"');
+      out+=box(-2.2,24,4.4,8,1.4,'#171f22','stroke="#a6afb1" stroke-width=".55"')+circle(0,27,1.1,'#080d0f')+'</g>';
+    });return out+'</g>';
+  }
+  function referenceBridge(state,p){
+    const g=state.g;if(g.kind!=='bass-drawing')return '';
+    // Keep the owned PDF outline and internal paths for unconfirmed custom parts.
+    // Dark recesses / edge highlights restore relief without substituting a SKU.
+    const fill=`url(#${p}-reference-bridge-metal)`;
+    let out=`<g data-layer="bridge" data-option="${state.selections.hardware_bridge}" data-colour="${state.bridgeColour}" data-finish-fixed="${!!state.bridgeFinishFixed}" data-appearance="reference-retained" data-contour="pdf-vector">`;
+    for(const d of g.bridgeOutlines)out+=path(d,'#080d0f','transform="translate(1 2)" stroke="#080d0f" stroke-width="1.6"')+path(d,fill,'stroke="#3d484b" stroke-width=".7"');
+    out+=path(g.bridgeArtwork,'none','stroke="#12191b" stroke-width=".9" stroke-linejoin="round"')+path(g.bridgeArtwork,'none','transform="translate(-.25 -.35)" stroke="#e3e5dc" stroke-opacity=".45" stroke-width=".35"');
+    return out+'</g>';
+  }
+  // Original button silhouettes follow the named drawings (mm) or catalog photos.
   // Do not make GB350 look different from GB707 merely to advertise a change:
   // their butterfly button outline is shared; the front washer differs (20/18).
   const keyPaths={
-    'gotoh-butterfly':'M25 -4 C32 -7 35 -11 39 -16 Q43 -18 49 -10 Q51 -7 49 -2 Q48 0 49 4 Q51 11 43 16 Q40 18 37 14 Q31 6 25 4 Z',
+    'gotoh-butterfly':'M26.7 -3.5 C32 -5 36 -9 39 -14 Q41 -18 45 -15 C50 -12 52 -9 51 -6 Q49 0 51 6 C52 9 50 12 45 15 Q41 18 39 14 C36 9 32 5 26.7 3.5 Z',
+    'ratio-y':'M25 -3.8 C31 -5 34 -8 37 -12 Q43 -16 45 -11 L44 11 Q43 16 37 12 C34 8 31 5 25 3.8 Z',
+    'm4-90':'M25 -4.5 C34 -5 37 -8 39 -13 Q41 -17.2 46 -17.2 Q51.5 -17.2 51.5 -10 V10 Q51.5 17.2 46 17.2 Q41 17.2 39 13 C37 8 34 5 25 4.5 Z',
+    'bm-schaller':'M25 -4 C31 -5 36 -10 40 -16 C44 -23 55 -22 56 -7 Q63 0 56 7 C55 22 44 23 40 16 C36 10 31 5 25 4 Z',
     'gb528-clover':'M29 -3 Q37 -4 42 -15 C47 -28 61 -19 59 -8 C67 -2 67 6 59 9 C60 23 46 28 42 15 Q37 4 29 3 Z',
     'ultralite-y':'M22 -3 C28 -8 30 -13 34 -16 Q39 -19 40 -13 L40 13 Q39 19 34 16 C30 13 28 8 22 3 Z',
     'bm-light':'M24 -4 C31 -5 31 -12 38 -16 Q48 -20 49 -12 L49 12 Q48 20 38 16 C31 12 31 5 24 4 Z',
     'gotoh-07':'M19 -4 L23 -7 Q29 -10 34 -5 V5 Q29 10 23 7 L19 4 Z'
   };
-  function tunerUnit(state,p,ref,back){
-    const metal=`url(#${p}-part-metal)`,key=ref.key;
-    let out=path(`M0 -2.4H${key==='gb528-clover'?42:32}V2.4H0Z`,metal,'stroke="#242a2c" stroke-width=".5"')+path(keyPaths[key],metal,'stroke="#272e30" stroke-width=".65"')+path(keyPaths[key],'url(#'+p+'-part-sheen)');
-    if(back){
-      out+=path(key==='gb528-clover'?'M-12 -15H12V18Q12 21 9 21H-9Q-12 21 -12 18Z':'M-10 -13H11L25 -4V4L9 6Q5 17 0 18Q-10 17 -10 3Z',metal,'stroke="#303739" stroke-width=".7"');
-      out+=circle(0,0,key==='gb528-clover'?10:8,metal,'stroke="#464d4e" stroke-width=".7"')+screw(0,0,2);
-      if(key==='bm-light'){out+=box(-12,-11,12,22,1,metal,'stroke="#252c2d" stroke-width=".5"')+screw(9,-9,1.4)+screw(9,9,1.4);}
-      if(key==='ultralite-y'||key==='gb528-clover'||key==='bm-light')for(let i=0;i<18;i++){const a=i*Math.PI/9;out+=path(`M${Math.cos(a)*8} ${Math.sin(a)*8}L${Math.cos(a)*10} ${Math.sin(a)*10}`,'none','stroke="#606766" stroke-width=".7"');}
-      else out+=screw(0,13,1.5);
-    }else out+=circle(0,0,ref.washer/2,metal,'stroke="#292f30" stroke-width=".6"')+circle(0,0,key==='gotoh-07'?3:5.5,metal,'stroke="#303638" stroke-width=".8"')+path('M-2 0H2','none','stroke="#1b2223" stroke-width="1.2"');
-    return out;
+  // Each front projection is two physical planes. Rear gear/button geometry is
+  // painted before the wood; only the bushing and string post sit above the face.
+  function tunerUnit(state,p,ref,plane){
+    const metal=`url(#${p}-part-metal)`,key=ref.key,offset=ref.keyOffset||0;
+    if(plane==='front-post'){
+      const r=(ref.post||(key==='gotoh-07'?6:11))/2;
+      return `<g data-part="front-bushing-post">`+circle(0,1,ref.washer/2+.6,'#111719')+circle(0,0,ref.washer/2,metal,'stroke="#292f30" stroke-width=".6"')+circle(0,0,r+1.6,metal,'stroke="#60696a" stroke-width=".5"')+circle(0,0,r,metal,'stroke="#303638" stroke-width=".8"')+(ref.locking?circle(0,0,1.1,'#222729'):path(`M${-r*.75} 0H${r*.75}`,'none','stroke="#1b2223" stroke-width="1.4"'))+'</g>';
+    }
+    let out=`<g data-part="rear-key-shaft" transform="translate(0 ${offset})">`+path(`M0 -2.4H${key==='gb528-clover'||key==='bm-schaller'?34:28}V2.4H0Z`,metal,'stroke="#242a2c" stroke-width=".5"')+path(keyPaths[key],metal,'stroke="#272e30" stroke-width=".65"')+path(keyPaths[key],`url(#${p}-part-sheen)`);
+    if(key==='ratio-y')out+=circle(37,-2.5,.65,'#605e53')+circle(37,2.5,.65,'#605e53');
+    if(key==='m4-90')out+=path('M26 0H50 M40 -14V14','none','stroke="#e5e6dc" stroke-opacity=".35" stroke-width=".55"');
+    out+='</g>';
+    if(plane==='rear-mount')return out;
+    out+='<g data-part="rear-gear-housing">';
+    if(key==='bm-schaller'){
+      out+=path('M-16.5 -16V-8L-12 15H12L16.5 -8V-16L12 -27.7H-12Z',metal,'stroke="#303739" stroke-width=".7"');
+      for(const x of [-10.5,10.5])for(const y of [-23,11])out+=screw(x,y,1.4);
+      out+=box(-9,-17,18,6,1.4,metal,'stroke="#343b3c" stroke-width=".6"');
+    }else if(key==='gb528-clover'){
+      out+=box(-14,-18,28,37,2,metal,'stroke="#303739" stroke-width=".7"');
+      for(const x of [-10,10])for(const y of [-14,15])out+=screw(x,y,1.4);
+      out+=box(-11,-15,23,6,1.4,metal,'stroke="#343b3c" stroke-width=".6"');
+    }else if(key==='ratio-y')out+=path('M-9 -16H13L27 -11V-5H12Q11 8 0 10Q-9 10 -9 1Z',metal,'stroke="#303739" stroke-width=".7"')+screw(-7,13,1.5);
+    else out+=path('M-8.5 -14H10L25 -12V-6L10 -5Q9 7 0 9L-16 3Q-20 0 -16 -3L-8.5 -9Z',metal,'stroke="#303739" stroke-width=".7"')+screw(-15,0,1.4);
+    const open=['ultralite-y','gb528-clover','bm-light','bm-schaller'].includes(key);
+    out+=circle(0,0,open?9:8,metal,'stroke="#464d4e" stroke-width=".7"');
+    if(open)for(let i=0;i<20;i++){const a=i*Math.PI/10;out+=path(`M${Math.cos(a)*7.5} ${Math.sin(a)*7.5}L${Math.cos(a)*9.5} ${Math.sin(a)*9.5}`,'none','stroke="#424b4c" stroke-width=".8"');}
+    if(ref.locking){
+      out+=`<g data-part="locking-wheel">`+circle(0,0,8.2,metal,'stroke="#1a2022" stroke-width=".8"');
+      for(let i=0;i<24;i++){const a=i*Math.PI/12;out+=path(`M${Math.cos(a)*7} ${Math.sin(a)*7}L${Math.cos(a)*8} ${Math.sin(a)*8}`,'none','stroke="#343b3c" stroke-width=".6"');}
+      out+=circle(0,0,6.6,metal)+'</g>';
+    }else if(open)out+=screw(0,0,2);
+    else out+=circle(0,0,6.7,`url(#${p}-part-sheen)`);
+    return out+'</g>';
   }
   const frontTunerAnchors={
     EDDA:[[541,65,190],[531,99,190],[523,133,190],[519,167,190]],
     EMBLA:[[617,69,190],[607,94,190],[602,120,190],[648,84,-10],[659,113,-10]],
     ASKR:[[614,79,190],[610,113,190],[605,147,190],[644,104,-10],[651,143,-10]]
   };
-  function tuners(state,p,back=false){
+  function tuners(state,p,back=false,plane='front-post'){
     const ref=profile(state,'hardware_machine_head');if(!ref)return '';
     let anchors,scale;
-    if(state.model==='GRAMR'){anchors=(back?state.g.back:state.g).tuners.map(([x,y])=>[x,y,back?-90:90]);scale=.73;}
+    if(state.model==='GRAMR'){anchors=(back?state.g.back:state.g).tuners.map(([x,y])=>[x,y,back?-90:90]);scale=Math.hypot(state.g.board[0][0]-state.g.board[1][0],state.g.board[0][1]-state.g.board[1][1])/43;}
     else if(back&&state.model!=='EDDA'){
-      // Bound centres from the PDF housing are display anchors, not hole data.
-      anchors=state.g.back.tuners.map(t=>{const pairs=[...t.housing.matchAll(/(-?\d+\.\d+),(-?\d+\.\d+)/g)].map(m=>[+m[1],+m[2]]),xs=pairs.map(v=>v[0]),ys=pairs.map(v=>v[1]),x=(Math.min(...xs)+Math.max(...xs))/2,y=(Math.min(...ys)+Math.max(...ys))/2;return [x,y,y<155?-90:90];});scale=1.05;
+      // Front/rear PDFs share the nut endpoints. Transform the actual post
+      // centres between projections; a gear housing's bounding centre is not a hole.
+      const rearNut=state.g.back.neck.match(/-?\d+(?:\.\d+)?/g).slice(0,2).map(Number),frontNut=state.g.board[0];
+      anchors=state.g.tunerAnchors.map(([x,y,a])=>[y+rearNut[0]-frontNut[1],x+rearNut[1]-frontNut[0],a===180?-90:90]);scale=state.g.unitsPerMm;
     }else if(back){anchors=[[520,65,0],[528,119,0],[541,177,0],[550,231,0]];scale=1.1;}
     else {anchors=state.g.tunerAnchors||frontTunerAnchors[state.model];scale=state.g.unitsPerMm||(state.model==='EDDA'?.72:.68);}
-    return `<g data-layer="${back?'rear-selected-tuners':state.model==='GRAMR'?'selected-tuners':'hardware'}" data-option="${state.selections.hardware_color}" data-machine-head="${state.selections.hardware_machine_head}" data-colour="${state.metal}" data-count="${anchors.length}" data-appearance="manufacturer-reference" data-placement="${back&&state.model!=='EDDA'?'drawing-fit':'sample-fit'}" data-profile="${ref.key}">`+anchors.map(([x,y,a],i)=>`<g data-tuner-index="${i}" transform="translate(${x} ${y}) rotate(${a}) scale(${scale})">${tunerUnit(state,p,ref,back)}</g>`).join('')+'</g>';
+    return `<g data-layer="${back?'rear-selected-tuners':plane==='rear-mount'?'tuner-rear-mount':state.model==='GRAMR'?'selected-tuners':'hardware'}" data-option="${state.selections.hardware_color}" data-plane="${back?'rear-housing':plane}" data-machine-head="${state.selections.hardware_machine_head}" data-colour="${state.metal}" data-count="${anchors.length}" data-appearance="manufacturer-reference" data-placement="${back&&state.model!=='EDDA'?'drawing-fit':'sample-fit'}" data-profile="${ref.key}" data-units-per-mm="${scale}">`+anchors.map(([x,y,a],i)=>`<g data-tuner-index="${i}" transform="translate(${x} ${y}) rotate(${a}) scale(${scale})">${tunerUnit(state,p,ref,back?'rear-housing':plane)}</g>`).join('')+'</g>';
   }
-  return {definitions,pickupPlan,guard,ramps,electronicsProfiles,electronicsPlan,knobs,controlPlan,controls,references,profile,selectedPickupPlan,pickupThumbnail,pickups,bridge,tuners};
+  return {definitions,pickupPlan,guard,ramps,electronicsProfiles,electronicsPlan,knobs,controlPlan,controls,references,profile,selectedPickupPlan,pickupThumbnail,pickups,bridge,referenceBridge,tuners};
 });

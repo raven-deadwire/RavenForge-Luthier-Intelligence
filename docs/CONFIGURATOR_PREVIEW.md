@@ -1,3 +1,20 @@
+## v17 — connected ASKR head and product-specific hardware
+
+Closes the missing ASKR angled-nut transition using existing source endpoints;
+retains the original PDF exterior. Splits tuner keys/shafts behind the wood from
+front bushings/posts, fixes model scale and rear post-centre mapping, and adds
+Graph Tech PRB-5320 / Schaller BM / M4 90 Locking exteriors. Payson now has its
+continuous plate and source-aligned saddles; unconfirmed custom bridges retain
+owned source outlines with improved relief. Whole front/rear views remain.
+
+Production, prices, dependencies and PDF source are unchanged. Validation adds
+physical layer order, six finish/head combinations, ASKR gap containment, new
+product selections on both sides, fixed bridge finish and saddle alignment.
+Exact-head browser/PDF CI results are recorded in PR #35. Visual fit remains a
+proposal, not a machining specification or final user approval.
+
+---
+
 ## v16 — lower switch rows and visible product-specific pickups
 
 The previous switch placement was rejected visually despite its automated

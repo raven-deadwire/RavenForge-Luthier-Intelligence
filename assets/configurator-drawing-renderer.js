@@ -58,6 +58,7 @@
     out+=`<g data-layer="body" data-option="${esc(state.topId)}" data-material="${esc(state.bodyId)}" data-contour="pdf-vector">${title(state.hasTop?'top_wood_selection':'body_wood_single')}${surface(g.body,'body',texture(535,-4,550,550,'body-wood'))}${!state.bodyColour?path(g.body,`fill="${unknown}" opacity=".4"`):''}</g>`;
     out+=options.bodyPieces(state,p,g.body,true,286,100);
     if(state.finish.colour) out+=`<g data-layer="finish" data-colour="${state.finish.colour}" data-opaque="${opaque}"><title>${esc(t.colour)}: ${state.finish.colour}</title></g>`;
+    out+=parts.tuners(state,p,false,'rear-mount');
     out+=`<g data-layer="headstock" data-option="${esc(s.color_headstock)}" data-contour="pdf-vector">${s.color_headstock==='head_natural'?path(g.head,'fill="#d9c29b" stroke="#77684d" stroke-width=".8"')+path(g.head,`fill="url(#${p}-head-natural)"`)+path(g.head,`fill="url(#${p}-body-light)"`):surface(g.head,'head',texture(5,170,240,240,'body-wood'))}</g>`;
     out+=parts.guard(state,p);
     out+=`<g data-layer="fretboard" data-option="${esc(s.fretboard)}"><polygon points="${polygon(g.board)}" fill="${state.boardColour||'#49423c'}" stroke="#9b8063" stroke-width="1.2"/><g clip-path="url(#${p}-board-clip)">${state.boardColour?`<polygon points="${polygon(g.board)}" fill="url(#${p}-board-material)"/>`:`<polygon points="${polygon(g.board)}" fill="${unknown}"/>`}</g><polygon points="${polygon(g.board)}" fill="url(#${p}-body-light)"/>${title('fretboard')}</g>`;

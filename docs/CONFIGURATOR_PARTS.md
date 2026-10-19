@@ -1,3 +1,47 @@
+## v17 — tuner planes, ASKR nut transition and bridge relief
+
+Front-mounted bushings/posts are now a separate layer above the headstock.
+Keys and shafts are rendered beneath the wood; the rear view shows the gear
+housing and (M4 90 Locking) knurled wheel. ASKR/EMBLA use the same PDF units/mm
+on both sides and map actual front post centres through the two nut projections,
+instead of placing replacement gears at source housing bounding-box centres.
+GRAMR uses its source nut span / confirmed 43 mm nut width.
+
+ASKR's extracted head contour ended at (180.1176, 191.8002), while the angled
+nut ends at (180.295, 200.3). A display-only transition face joins this endpoint
+to both original nut endpoints. It receives the same paint/wood/clip/shadow as
+the head. The rear projection closes the same gap and uses a continuous
+head/neck base without a false cast shadow across their boundary. The extracted
+exterior, board and fret coordinates are unchanged.
+
+New original SVG variants, based on primary references inspected 2026-10-19:
+
+| Selection | Exterior reference | Scope |
+| --- | --- | --- |
+| Graph Tech PRB Ratio | PRB-5320, 3+2 Y button; sealed circular gear cover | Photo proportions; no drill fit approval |
+| Schaller BM Schaller Style | 1025 clover, four-screw open gear, 22 mm bushing | Manufacturer drawing in mm |
+| Schaller M4 90 Locking | M4 button, 90-degree lug, solid post, rear locking wheel | M4 drawing + locking-post diagram |
+| Gotoh GB707 | 25 × 32.6 mm butterfly; offset worm shaft; 18 mm washer | Manufacturer drawing in mm |
+| Payson | V4 fanned five-string continuous plate, recessed channels and separate saddles | Catalog exterior fitted to source string anchors; exact fit unconfirmed |
+
+Payson retains ASKR's fixed satin aluminium preview finish, independent of the
+tuner/knob colour. Unconfirmed ETS Custom and Nova parts retain the owned PDF
+bridge outlines; dark recesses and small edge highlights replace same-colour
+CAD strokes. The drawing does not approve a selected custom SKU. No manufacturer
+photos, logos or PDFs are redistributed.
+
+Primary references:
+- https://graphtech.com/products/bass-ratio-5-string-3-2-y-style-button-please-select-finish-prb-5320
+- https://schaller.info/en/bm-schaller-style/1025
+- https://schaller.info/media/ed/c7/69/1764676097/1025.pdf
+- https://schaller.info/en/m4-90/10540401.22.70
+- https://schaller.info/media/b6/24/1e/1707210855/TZ_1054.pdf
+- https://schaller.info/media/d2/b3/0c/1777013254/1054-76_M4%2090_4_2026.jpg
+- https://g-gotoh.com/images/pdf/GB707-Dim.pdf
+- https://www.paysonbass.com/store/p152/Payson-Fanned-Fret-Bass-Bridge.html
+
+---
+
 ## v15 — PDF anchors and approval boundary
 
 ASKR #001 and EMBLA #002 now use the supplied PDFs for front contours, 24 fret
