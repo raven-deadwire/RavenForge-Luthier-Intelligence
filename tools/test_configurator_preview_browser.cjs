@@ -229,13 +229,19 @@ async function main() {
           }
           await step(5);
           const guardQuote=await page.locator('#quote-summary-card').innerText();
-          for(const guard of ['black','ivory','wood','none']){
-            await page.locator(`[data-preview-pickguard="${guard}"]`).click();
-            assert.equal(await layer('pickguard').count(),guard==='none'?0:1);
-            if(guard!=='none')assert.equal(await layer('pickguard').getAttribute('data-option'),guard);
+          if(model==='GRAMR'){
+            for(const guard of ['black','ivory','wood','none']){
+              await page.locator(`[data-preview-pickguard="${guard}"]`).click();
+              assert.equal(await layer('pickguard').count(),guard==='none'?0:1);
+              if(guard!=='none')assert.equal(await layer('pickguard').getAttribute('data-option'),guard);
+            }
+            assert.equal(await page.locator('#quote-summary-card').innerText(),guardQuote,'Test pickguard is excluded from quote');
+            await page.locator('[data-preview-pickguard="black"]').click();
+          }else{
+            assert.equal(await page.locator('[data-preview-pickguard]').count(),0,'Unverified bass guards have no active UI choice');
+            assert.equal(await layer('pickguard').count(),0,'No fabricated box behind pickups');
+            assert.ok((await page.locator('[data-pickguard-unavailable]').innerText()).length>0);
           }
-          assert.equal(await page.locator('#quote-summary-card').innerText(),guardQuote,'Test pickguard is excluded from quote');
-          await page.locator('[data-preview-pickguard="black"]').click();
           const retainedKnobs=await layer('knobs').innerHTML();
           const retainedKnobCount=await layer('knobs').getAttribute('data-count');
           if(model!=='GRAMR'){

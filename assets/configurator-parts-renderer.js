@@ -13,12 +13,11 @@
   // Keep the supplied pickup envelopes. Deferred third-pickup layouts must not
   // invent another housing or change existing parts without a placement drawing.
   const pickupPlan=state=>(state.g.pickups||[]).map(r=>({...r}));
-  const guards={EDDA:'M491 787 Q463 771 455 804 L443 932 Q442 971 480 981 L597 968 Q620 953 613 924 L607 812 Q600 788 572 787Z',EMBLA:'M559 778 Q518 775 503 814 L486 953 Q484 981 516 982 L704 980 Q725 976 718 944 L698 813 Q690 786 660 778Z',ASKR:'M588 851 Q554 841 546 870 L527 1002 Q526 1040 563 1045 L692 991 Q704 986 697 957 L682 865 Q675 843 654 837Z'};
   function guard(state,p){
-    const id=state.pickguard;if(id==='none')return '';
-    const d=state.model==='GRAMR'?state.g.pickguard:guards[state.model];if(!d)return '';
+    const id=state.pickguard;if(state.model!=='GRAMR'||id==='none')return '';
+    const d=state.g.pickguard;if(!d)return '';
     const fill=id==='wood'?`url(#${p}-material)`:id==='ivory'?'#ddd8c9':`url(#${p}-part-plastic)`;
-    let out=`<g data-layer="pickguard" data-option="${id}" data-appearance="${state.model==='GRAMR'?'drawing-contour':'proposed-contour'}">`+path(d,'#080a0b','stroke="#080a0b" stroke-width="3.5"')+path(d,fill,`stroke="#a9aaa0" stroke-width=".9" ${id==='wood'&&state.finish.colour?`filter="url(#${p}-surface-dye)"`:''}`)+path(d,`url(#${p}-part-sheen)`);
+    let out=`<g data-layer="pickguard" data-option="${id}" data-appearance="drawing-contour">`+path(d,'#080a0b','stroke="#080a0b" stroke-width="3.5"')+path(d,fill,`stroke="#a9aaa0" stroke-width=".9" ${id==='wood'&&state.finish.colour?`filter="url(#${p}-surface-dye)"`:''}`)+path(d,`url(#${p}-part-sheen)`);
     if(state.model==='GRAMR')for(const [x,y] of state.g.pickguardScrews)out+=screw(x,y,1.8);
     return out+'</g>';
   }

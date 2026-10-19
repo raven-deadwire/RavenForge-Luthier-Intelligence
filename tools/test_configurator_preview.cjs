@@ -154,7 +154,15 @@ const parts=require('../assets/configurator-parts-renderer.js');
 for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
   const d=JSON.parse(JSON.stringify(normalize(model))),extras={specialOptions:['kill_switch','dual_tone'],pickguard:'ivory'},before=JSON.stringify([d,extras]);
   const front=preview.renderSvg(preview.scene(model,d,'transparent #9d282b',{},null,extras),'front','en');
-  assert.match(front,/data-layer="pickguard" data-option="ivory"/);
+  if(model==='GRAMR')assert.match(front,/data-layer="pickguard" data-option="ivory"/);
+  else {
+    assert.doesNotMatch(front,/data-layer="pickguard"/,'Never invent a bass pickguard');
+    for(const id of ['black','ivory','wood']){
+      const state=preview.scene(model,d,'',{},null,{pickguard:id});
+      assert.equal(state.pickguard,'none');
+      assert.equal(parts.guard({...state,pickguard:id},'test'),'','Even direct calls must reject unverified bass contours');
+    }
+  }
   assert.match(front,/data-control-type="kill"/);
   const back=preview.renderSvg(preview.scene(model,d,'',{},null,extras),'back','en');
   assert.doesNotMatch(back,/data-layer="(?:pickguard|control-options|finger-ramp)"/);

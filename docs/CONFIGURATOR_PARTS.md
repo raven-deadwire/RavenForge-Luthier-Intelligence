@@ -16,6 +16,10 @@ pickup, bridge and tuner is explicitly marked as not rendered. Product names
 remain in the options and quote. Source tuner/saddle counts may differ from the
 sales specification. A source envelope is not a verified selected product.
 
+The three fabricated bass pickguard contours are also removed. Only GRAMR has a
+source drawing contour; EDDA/EMBLA/ASKR expose no active guard controls and cannot
+render a guard even if a stale display selection is passed in.
+
 The v9 switch planner changed source knob slots to switch slots. v10 retains all
 knob positions and render content, then adds independent coil/kill switch symbols
 at stable, non-overlapping preview positions. Dashed outlines identify these
@@ -31,7 +35,8 @@ price for new drilling. This distinction is shown in KO/EN/DE scope text.
 | Selection | Display | Limit |
 | --- | --- | --- |
 | Body / neck pieces | Existing joins and rear laminations | Illustrative widths, opaque/top conceal joins |
-| Pickguard / wood ramp | v9 display geometry retained | Preview proposals; pickguard excluded from quote |
+| Pickguard | GRAMR source contour only | No invented bass guard; excluded from quote |
+| Wood ramp | v9 matching wood ramp retained | Preview placement proposal |
 | Pickups / bridge / tuners | Original source pixels or drawing envelopes | Selected product shape not rendered, front and back |
 | Third pickup | Pending, two reference pickups retained | Deferred option remains unavailable in production |
 | Coil switch | One/two additional dashed switch symbols | None/EDDA/GRAMR/EMG/Fishman suppress these; unconfirmed positions |

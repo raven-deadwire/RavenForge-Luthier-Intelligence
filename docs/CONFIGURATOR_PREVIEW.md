@@ -23,7 +23,8 @@ These positions are proposals, not fabrication coordinates. Production quote
 wording still specifies existing control positions; a real additive-control
 layout requires separate confirmation. The test does not rewrite that contract.
 
-Preserve body/neck pieces, guards/ramps, neutral dye processing, ASKR fixed bridge
+Remove the fabricated EDDA/EMBLA/ASKR pickguards; only GRAMR has a registered
+drawing contour and active guard choices. Preserve body/neck pieces, wood ramps, neutral dye processing, ASKR fixed bridge
 finish, bolt-on joints, bindrunes, prices and PDF. See
 [component scope and references](CONFIGURATOR_PARTS.md).
 
