@@ -1,0 +1,152 @@
+diff --git a/assets/chimera-release.json b/assets/chimera-release.json
+index eae3917..656a828 100644
+--- a/assets/chimera-release.json
++++ b/assets/chimera-release.json
+@@ -256,7 +256,7 @@
+   },
+   "reviewed_files": {
+     "assets/chimera.css": "d548a6831984f89ddb016990f9601beb9f19a616594fb83953430f057161ecd7",
+-    "assets/chimera.js": "1f88daa6ecb30b7aed438a53d76f8593013d2ac70faf6a804b5d69c845283799",
++    "assets/chimera.js": "50a7203cb7408398b11f73772fc5567ba0c7c88358a6b577adb69b17bd2465a1",
+     "assets/chimera/dual-cabinet-beta13.png": "9b635d96d1a2140801fcad0125adf0a9102ef379325106b2fef39ca57a915fca",
+     "assets/chimera/head-brit-edge-beta131.png": "20c7f662306f536d221be40a9e65c6cbb15caf7cb3be362f35f780faff00697d",
+     "assets/chimera/head-nastrond-beta131.png": "7c266df61c2602fe1ee1fc3a214fa2f4769f3adc6c11551271a5379546b09e92",
+@@ -282,16 +282,17 @@
+     "docs/validation/chimera-commercial-rigs-capture-2026-10-11.log": "392464a125c78c2c38d08e5c5830c62116f701433a8b7960990921dc05f752cb",
+     "docs/validation/chimera-rigs-capture-2026-10-11.cpp": "2f20dfd8ab82910ed1befe8cc4dc612df6885671673598a8db34a554ed8cc897",
+     "manual/chimera.html": "ff772c7e627458e95ac4f4dcbc9eeb17129a0583bf13188b8187624fcd89dab3",
+-    "tools/chimera_page_inventory.cjs": "47c500aec326f43757cad5c41c8afa2bb805daa07bf2f44353c5e735abca7367",
+-    "assets/chimera/screens-beta132-native-provenance.json": "54326a60202ec38c24c7c9729aa6cbf2ac480e93c92d698dbe4bc1bb40f1b7d4",
++    "tools/chimera_page_inventory.cjs": "7e511e526b2a089f909fc3baed059c22245564c4a930ce981d416cd76a3bfc15",
++    "assets/chimera/screens-beta132-native-provenance.json": "25f93d59e3f485596f9197c7fb4d67099d2958a5706519bc8cdb8bb756f21f63",
+     "assets/chimera/rigs-matrix-beta132.png": "e6769d3f0b3248ee60efacf8d0c45cd53f0a51bbdd6e07e0caa8034c4aa19f75",
+     "assets/chimera/rigs-classic-beta132.png": "8cbc4ca3e3f5cff8ffd354ad0055f596913ae8c08cce91e1ec1894a508def249",
+     "assets/chimera/rigs-dual-beta132.png": "b9637e76e43601549c1867d3ceea8a115a0caf373a588848743f6905cc3e5fb3",
+     "assets/chimera/head-brit-edge-beta132.png": "6da5096b576274ccf08bb0bf48b8bae7062ccde56f9775576a23580e1931c250",
+     "assets/chimera/head-niflheimr-beta132.png": "eb132186bc8791158e9556ce13efc7607af0d8ed7f80787e40a1487753eaab6c",
+-    "assets/chimera/head-nastrond-beta132.png": "7650215174f159b94f2c6da36fd360bd70733f73a9e240dffd80ef4242a1a273"
++    "assets/chimera/head-nastrond-beta132.png": "7650215174f159b94f2c6da36fd360bd70733f73a9e240dffd80ef4242a1a273",
++    "assets/chimera/head-iron-tube-beta132.png": "a6bdc5dbb3e297097be5793d6a960999992b29692d9cd3b4e506c7538a9a5de2"
+   },
+-  "product_markup_sha256": "d0f558e6f5e002481d96af26167dd68cfca82d550be1c1b20fcae34cd91735a7",
++  "product_markup_sha256": "bc96ed08217c0258dc6969ab0ff7f04e3b8d79bcb318c1296e440bda6bad6f70",
+   "native_capture": {
+     "source_sha": "7b20cd9d1f90e3e2969c250712b199e893cf50cd",
+     "version": "1.3.1-beta.1"
+diff --git a/assets/chimera.js b/assets/chimera.js
+index 403fa2f..7750289 100644
+--- a/assets/chimera.js
++++ b/assets/chimera.js
+@@ -130,11 +130,8 @@
+     "eqBody": "Each EQ offers up to 12 bands, graph editing, band addition and deletion, undo/redo, and IN/OUT spectrum views with resolution and freeze controls. Tone EQ shapes the combined rigs before POST; Final EQ makes the final tonal adjustments.",
+     "headBritCaption": "Brit Edge · Actual 1.3.2-beta.1 Windows interface · Select image to enlarge",
+     "headBritAlt": "Actual Chimera 1.3.2-beta.1 Windows interface showing Brit Edge enlarged controls with six knobs and the Jumped input route",
+-    "headNifCaption": "Niflheimr · Actual 1.3.2-beta.1 Windows interface · Select image to enlarge",
+-    "headNifAlt": "Actual Chimera 1.3.2-beta.1 Windows interface showing Niflheimr enlarged controls with Hrímfaxi selected",
+-    "releaseTitle": "New in 1.3.2",
+-    "releaseSummary": "Precision tuning with strobe and needle displays, direct signal-stage navigation, improved graphical EQ editing and four shared Dynamic EQ slots. The existing 25 amp heads, 48 presets and cabinet system remain ready for your rigs.",
+-    "releaseScope": "Published open beta. Automated build and package checks are complete; manual DAW and instrument-listening acceptance remain incomplete. See the release notes for the validation scope."
++    "headBassCaption": "Iron Tube · Actual 1.3.2-beta.1 Windows interface · Select image to enlarge",
++    "headBassAlt": "Actual Chimera 1.3.2-beta.1 Windows interface showing Iron Tube bass amp enlarged controls"
+   },
+   "ko": {
+     "status": "무료 오픈베타",
+@@ -264,11 +261,8 @@
+     "eqBody": "각 EQ는 최대 12밴드, 그래프 편집, 밴드 추가·삭제, 실행 취소·다시 실행과 해상도·정지 기능을 갖춘 IN/OUT 스펙트럼을 제공합니다. Tone EQ로 POST 앞의 합쳐진 리그를 조절하고 Final EQ로 마지막 톤을 다듬습니다.",
+     "headBritCaption": "Brit Edge · 실제 1.3.2-beta.1 Windows 화면 · 이미지를 눌러 확대",
+     "headBritAlt": "노브 6개와 Jumped 입력 경로를 표시한 Chimera 1.3.2-beta.1 Windows Brit Edge 확대 컨트롤 실제 화면",
+-    "headNifCaption": "Niflheimr · 실제 1.3.2-beta.1 Windows 화면 · 이미지를 눌러 확대",
+-    "headNifAlt": "Hrímfaxi를 선택한 Chimera 1.3.2-beta.1 Windows Niflheimr 확대 컨트롤 실제 화면",
+-    "releaseTitle": "1.3.2 업데이트",
+-    "releaseSummary": "스트로브·바늘 표시 정밀 튜너, 신호 단계 바로 이동, 그래픽 EQ 편집 개선과 공유 Dynamic EQ 슬롯 4개를 제공합니다. 기존 앰프 헤드 25종, 프리셋 48개와 캐비넷 시스템도 그대로 사용할 수 있습니다.",
+-    "releaseScope": "공개 오픈베타입니다. 자동 빌드·패키지 검증을 완료했으며, 실제 DAW 조작과 악기 청음 검증은 미완료입니다. 상세 검증 범위는 릴리즈 안내에서 확인하세요."
++    "headBassCaption": "Iron Tube · 실제 1.3.2-beta.1 Windows 화면 · 이미지를 눌러 확대",
++    "headBassAlt": "Iron Tube 베이스 앰프의 확대 컨트롤을 표시한 Chimera 1.3.2-beta.1 Windows 실제 화면"
+   },
+   "de": {
+     "status": "Kostenlose offene Beta",
+@@ -398,11 +392,8 @@
+     "eqBody": "Jeder EQ bietet bis zu 12 Bänder, grafische Bearbeitung, Hinzufügen und Löschen, Undo/Redo sowie IN/OUT-Spektren mit Auflösung und Freeze. Tone EQ formt die zusammengeführten Rigs vor POST; Final EQ übernimmt die abschließende Klangkorrektur.",
+     "headBritCaption": "Brit Edge · Tatsächliche 1.3.2-beta.1 Windows-Oberfläche · Bild zum Vergrößern auswählen",
+     "headBritAlt": "Tatsächliche Windows-Oberfläche von Chimera 1.3.2-beta.1 Brit Edge mit sechs Reglern und Jumped-Eingang",
+-    "headNifCaption": "Niflheimr · Tatsächliche 1.3.2-beta.1 Windows-Oberfläche · Bild zum Vergrößern auswählen",
+-    "headNifAlt": "Tatsächliche Windows-Oberfläche von Chimera 1.3.2-beta.1 Niflheimr-Reglern mit ausgewähltem Hrímfaxi",
+-    "releaseTitle": "Neu in 1.3.2",
+-    "releaseSummary": "Präzisions-Tuner mit Stroboskop- und Nadelanzeige, direkte Navigation zwischen Signalstufen, verbesserte grafische EQ-Bearbeitung und vier gemeinsame Dynamic-EQ-Slots. Die 25 Amp-Heads, 48 Presets und das Cabinet-System stehen weiterhin bereit.",
+-    "releaseScope": "Veröffentlichte offene Beta. Automatische Build- und Paketprüfungen sind abgeschlossen; die manuelle DAW-Abnahme und Hörtests mit echten Instrumenten stehen noch aus. Der Prüfumfang ist in den Release-Hinweisen dokumentiert."
++    "headBassCaption": "Iron Tube · Tatsächliche 1.3.2-beta.1 Windows-Oberfläche · Bild zum Vergrößern auswählen",
++    "headBassAlt": "Tatsächliche Windows-Oberfläche von Chimera 1.3.2-beta.1 mit vergrößerten Reglern des Iron-Tube-Bass-Amps"
+   }
+ };
+   function translate() {
+diff --git a/assets/chimera/screens-beta132-native-provenance.json b/assets/chimera/screens-beta132-native-provenance.json
+index a799367..8109ae3 100644
+--- a/assets/chimera/screens-beta132-native-provenance.json
++++ b/assets/chimera/screens-beta132-native-provenance.json
+@@ -84,6 +84,16 @@
+       "width": 1440,
+       "height": 780,
+       "pixel_edits": false
++    },
++    {
++      "file": "assets/chimera/head-iron-tube-beta132.png",
++      "artifact_id": 12102362010,
++      "artifact_path": "amp-head-snapshots/all-model-5-channel-0-1440.png",
++      "sha256": "a6bdc5dbb3e297097be5793d6a960999992b29692d9cd3b4e506c7538a9a5de2",
++      "size_bytes": 1237139,
++      "width": 1440,
++      "height": 780,
++      "pixel_edits": false
+     }
+   ]
+ }
+diff --git a/index.html b/index.html
+index bdf75ba..1afe4d0 100644
+--- a/index.html
++++ b/index.html
+@@ -1240,11 +1240,6 @@
+                 </dl>
+             </div>
+             <div class="rf-chimera-body">
+-                <div class="rf-chimera-install-note" aria-labelledby="chimera-release-title">
+-                    <h3 id="chimera-release-title" data-chimera-key="releaseTitle">New in 1.3.2</h3>
+-                    <p data-chimera-key="releaseSummary">Precision tuning with strobe and needle displays, direct signal-stage navigation, improved graphical EQ editing and four shared Dynamic EQ slots. The existing 25 amp heads, 48 presets and cabinet system remain ready for your rigs.</p>
+-                    <p class="rf-chimera-muted" data-chimera-key="releaseScope">Published open beta. Automated build and package checks are complete; manual DAW and instrument-listening acceptance remain incomplete. See the release notes for the validation scope.</p>
+-                </div>
+                 <div class="rf-chimera-block rf-chimera-rigs" id="chimera-rigs" aria-labelledby="chimera-rigs-title">
+                     <h3 id="chimera-rigs-title" data-chimera-key="rigsTitle">HEAD · Build your amp combination</h3>
+                     <p class="rf-chimera-muted" data-chimera-key="rigsIntro">Choose amps and channels in HEAD. Build one full-range tone, blend two rigs, or give the LOW, MID and HIGH bands their own character. Each rig connects its amp to a cabinet or IR before the signals come together.</p>
+@@ -1269,7 +1264,7 @@
+                     <p class="rf-chimera-muted" data-chimera-key="editIntro">Work directly on the amp head, follow the signal through your rig and finish the tone with two independent graphical EQs.</p>
+                     <div class="rf-chimera-cab-art rf-chimera-head-gallery">
+                         <figure><a href="assets/chimera/head-brit-edge-beta132.png" target="_blank" rel="noopener"><img src="assets/chimera/head-brit-edge-beta132.png" data-chimera-alt="headBritAlt" alt="Actual Chimera 1.3.2-beta.1 Windows interface showing Brit Edge enlarged controls with six knobs and the Jumped input route" width="1440" height="780" loading="lazy" decoding="async"></a><figcaption data-chimera-key="headBritCaption">Brit Edge · Actual 1.3.2-beta.1 Windows interface · Select image to enlarge</figcaption></figure>
+-                        <figure><a href="assets/chimera/head-niflheimr-beta132.png" target="_blank" rel="noopener"><img src="assets/chimera/head-niflheimr-beta132.png" data-chimera-alt="headNifAlt" alt="Actual Chimera 1.3.2-beta.1 Windows interface showing Niflheimr enlarged controls with Hrímfaxi selected" width="1440" height="780" loading="lazy" decoding="async"></a><figcaption data-chimera-key="headNifCaption">Niflheimr · Actual 1.3.2-beta.1 Windows interface · Select image to enlarge</figcaption></figure>
++                        <figure><a href="assets/chimera/head-iron-tube-beta132.png" target="_blank" rel="noopener"><img src="assets/chimera/head-iron-tube-beta132.png" data-chimera-alt="headBassAlt" alt="Actual Chimera 1.3.2-beta.1 Windows interface showing Iron Tube bass amp enlarged controls" width="1440" height="780" loading="lazy" decoding="async"></a><figcaption data-chimera-key="headBassCaption">Iron Tube · Actual 1.3.2-beta.1 Windows interface · Select image to enlarge</figcaption></figure>
+                     </div>
+                     <div class="rf-chimera-nastrond-features">
+                         <article><h4 data-chimera-key="headTitle">The amp face becomes the control surface</h4><p data-chimera-key="headBody">Select a head in Classic, Dual or Matrix to open its enlarged front panel. Change channels and turn the controls where you expect to find them. Shift gives finer adjustment; double-click a knob or press Enter to type a value.</p></article>
+@@ -3702,7 +3697,7 @@ translations.ko.luthierData = [
+         <button id="lang-kr-btn-float" class="lang-btn bg-slate-800 text-white w-14 h-10 rounded-md shadow-lg flex items-center justify-center font-semibold border border-slate-400 hover:bg-slate-700 transition">KR</button>
+     </div>
+     <script src="assets/concept-lab.js?v=20260910-skadi"></script>
+-    <script src="assets/chimera.js?v=1.3.2-beta.1-3bec6c70"></script>
++    <script src="assets/chimera.js?v=20261019-head-example"></script>
+     <script src="assets/model-carousel.js"></script>
+     <script src="assets/footer.js?v=20260927mcgrath1"></script>
+ <!-- RF:QUEST START -->
+diff --git a/tools/chimera_page_inventory.cjs b/tools/chimera_page_inventory.cjs
+index 2173f0c..598cd94 100644
+--- a/tools/chimera_page_inventory.cjs
++++ b/tools/chimera_page_inventory.cjs
+@@ -60,9 +60,9 @@ function validateProductContent(product, lang) {
+           'Direct editing requires head, knob, signal-path and EQ explanations');
+   const heads = one(editing, '.rf-chimera-head-gallery');
+   require(heads.querySelectorAll('figure').length === 2,
+-          'Direct editing requires native Brit Edge and Niflheimr screenshots');
++          'Direct editing requires native Brit Edge and Iron Tube screenshots');
+   for (const [key, file] of [['headBrit', 'head-brit-edge-beta132.png'],
+-                            ['headNif', 'head-niflheimr-beta132.png']]) {
++                            ['headBass', 'head-iron-tube-beta132.png']]) {
+     const image = one(heads, `img[data-chimera-alt="${key}Alt"]`);
+     require(image.getAttribute('src') === `assets/chimera/${file}` &&
+             image.closest('a')?.getAttribute('href') === image.getAttribute('src'),

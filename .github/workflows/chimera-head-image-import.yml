@@ -1,0 +1,91 @@
+name: Import reviewed Chimera head image
+
+on:
+  push:
+    branches:
+      - fix/chimera-head-image-import-20261019
+    paths:
+      - .github/workflows/chimera-head-image-import.yml
+
+permissions:
+  contents: write
+
+jobs:
+  import-image:
+    if: github.repository == 'raven-deadwire/RavenForge-Luthier-Intelligence' && github.ref == 'refs/heads/fix/chimera-head-image-import-20261019'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out the temporary import branch
+        uses: actions/checkout@v5
+        with:
+          ref: fix/chimera-head-image-import-20261019
+
+      - name: Restore and verify the unchanged CI screenshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import base64
+          import hashlib
+          from pathlib import Path
+
+          transfer = Path('.chimera-transfer')
+          parts = []
+          for number in range(9):
+              part = (transfer / f'part-{number:02d}.b64').read_text(encoding='ascii')
+              expected_length = 196608 if number < 8 else 76656
+              if len(part) != expected_length:
+                  raise SystemExit(f'Unexpected base64 length for part {number:02d}')
+              parts.append(part)
+          image = base64.b64decode(''.join(parts), validate=True)
+          if len(image) != 1237139:
+              raise SystemExit('Screenshot byte length differs from the reviewed CI image')
+          expected_sha256 = 'a6bdc5dbb3e297097be5793d6a960999992b29692d9cd3b4e506c7538a9a5de2'
+          if hashlib.sha256(image).hexdigest() != expected_sha256:
+              raise SystemExit('Screenshot SHA-256 differs from the reviewed CI image')
+          destination = Path('assets/chimera/head-iron-tube-beta132.png')
+          destination.parent.mkdir(parents=True, exist_ok=True)
+          destination.write_bytes(image)
+          print(f'Verified {destination}: {len(image)} bytes, SHA-256 {expected_sha256}')
+          PY
+
+      - name: Apply and verify the reviewed homepage changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git apply --check .chimera-transfer/homepage.patch
+          git apply .chimera-transfer/homepage.patch
+          python3 - <<'PYCODE'
+          import hashlib
+          from pathlib import Path
+          expected = {
+              'assets/chimera-release.json': '656a828fd3a20e718df92c1e71fbda09492f5728',
+              'assets/chimera.js': '7750289d357cdf3d99b0e2a937e37b17fb87ca91',
+              'assets/chimera/screens-beta132-native-provenance.json': '8109ae3da99943666910f56a5cad43d2ddf9ff86',
+              'index.html': '1afe4d0b04e87c81315ddc42cccb003bc05b8354',
+              'tools/chimera_page_inventory.cjs': '598cd943c483bf167aa62d32081bddd5c10c3f59',
+              'assets/chimera/head-iron-tube-beta132.png': 'cd138d4ac0642296d544242d84f758e22b5d8846',
+          }
+          for filename, digest in expected.items():
+              data = Path(filename).read_bytes()
+              actual = hashlib.sha1(b'blob ' + str(len(data)).encode('ascii') + b'\0' + data).hexdigest()
+              if actual != digest:
+                  raise SystemExit(f'Reviewed file differs: {filename}: {actual}')
+              print(f'Verified {filename}: {actual}')
+          PYCODE
+          node --check assets/chimera.js
+
+      - name: Commit only the verified homepage files to the temporary branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- index.html assets/chimera.js assets/chimera-release.json tools/chimera_page_inventory.cjs assets/chimera/screens-beta132-native-provenance.json assets/chimera/head-iron-tube-beta132.png
+          if git diff --cached --quiet; then
+            echo 'The verified screenshot is already committed.'
+            exit 0
+          fi
+          git commit -m 'Prepare reviewed Chimera homepage cleanup'
+          git push origin HEAD:refs/heads/fix/chimera-head-image-import-20261019
