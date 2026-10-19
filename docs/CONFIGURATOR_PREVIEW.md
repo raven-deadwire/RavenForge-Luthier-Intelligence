@@ -1,3 +1,14 @@
+## v11 current status — 2026-10-20 KST
+
+EDDA optional sample-contour guard is restored. Selected manufacturer parts now
+use the explicit reference registry in `configurator-parts-renderer.js`, with
+unsupported products still marked pending. See `CONFIGURATOR_PARTS.md` for exact
+coverage and primary sources; this supersedes the historical v10 blanket fallback.
+Neck laminate strips now have the specified species grain, including bloodwood
+and bubinga. Walnut/bloodwood comparison is display-only. Finger ramps are deferred
+and removed from the test step and all rendering, including stale selections.
+Production and price/PDF logic are unchanged.
+
 # Isolated configurator preview test
 
 Date: 2026-10-19. Baseline: `dc1272c` (main at checkout).
@@ -8,7 +19,17 @@ Entry point: `configurator-preview.html`. This is a separate test page. The prod
 
 The first commit connects EDDA end to end; the next extends the same renderer to EMBLA, ASKR and GRAMR. The test page copies the existing configurator shell and adds a read-only preview component, colour controls, and a responsive two-column layout. `tools/test_configurator_preview.cjs` compares data, normalization, pricing, option handlers, quote markup and PDF export source against production so the copy cannot silently diverge.
 
-## Source hardware and additive controls (v10, 2026-10-20, latest)
+## Optional EDDA pickguard restored (v11, 2026-10-20, latest)
+
+The user confirmed EDDA can have a pickguard. Its original sample image already
+contains an asymmetric guard. Register that visible contour as a display trace
+and restore none/black/ivory/matching-wood choices, defaulting to none. The guard
+renders below the board and pickups, never on the rear; it does not alter quote
+or PDF state. This is not an approved machining outline. GRAMR keeps its PDF
+contour. EMBLA/ASKR still have no registered display contour; that is an asset
+limitation, not a declaration that they cannot support a pickguard.
+
+## Source hardware and additive controls (v10, 2026-10-20, historical)
 
 Remove the v9 generic pickup, bridge and tuner substitutions and their flat
 underlays. Restore the original sample pixels / supplied drawing contours, front
@@ -23,8 +44,8 @@ These positions are proposals, not fabrication coordinates. Production quote
 wording still specifies existing control positions; a real additive-control
 layout requires separate confirmation. The test does not rewrite that contract.
 
-Remove the fabricated EDDA/EMBLA/ASKR pickguards; only GRAMR has a registered
-drawing contour and active guard choices. Preserve body/neck pieces, wood ramps, neutral dye processing, ASKR fixed bridge
+The fabricated v9 bass pickguards were removed here. The temporary blanket
+removal of EDDA controls is corrected in v11 using its original sample contour. Preserve body/neck pieces, wood ramps, neutral dye processing, ASKR fixed bridge
 finish, bolt-on joints, bindrunes, prices and PDF. See
 [component scope and references](CONFIGURATOR_PARTS.md).
 

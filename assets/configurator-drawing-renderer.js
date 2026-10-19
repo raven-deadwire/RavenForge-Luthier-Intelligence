@@ -52,8 +52,8 @@
       out+='</g></g>';
       out+=`<g data-layer="rear-cavity" data-contour="pdf-vector">${path(g.cavity,'fill="#181b1c" stroke="#978f7e" stroke-width="1.1"')}${path(g.cavity,`fill="${unknown}" opacity=".3"`)}</g>`;
       out+=`<g data-layer="rear-tuners" data-count="6" data-appearance="drawing-envelope" data-colour="${state.metal}">`;
-      g.tuners.forEach(([x,y])=>{out+=`<circle cx="${x}" cy="${y}" r="10" fill="${metal}" stroke="#303536" stroke-width="1"/><circle cx="${x}" cy="${y}" r="4" fill="#424847"/>`;});
-      return out+'</g></g></svg>';
+      (parts.profile(state,'hardware_machine_head')?[]:g.tuners).forEach(([x,y])=>{out+=`<circle cx="${x}" cy="${y}" r="10" fill="${metal}" stroke="#303536" stroke-width="1"/><circle cx="${x}" cy="${y}" r="4" fill="#424847"/>`;});
+      return out+'</g>'+parts.tuners(state,p,true)+'</g></svg>';
     }
     out+=`<g data-layer="body" data-option="${esc(state.topId)}" data-material="${esc(state.bodyId)}" data-contour="pdf-vector">${title(state.hasTop?'top_wood_selection':'body_wood_single')}${surface(g.body,'body',texture(535,-4,550,550,'body-wood'))}${!state.bodyColour?path(g.body,`fill="${unknown}" opacity=".4"`):''}</g>`;
     out+=options.bodyPieces(state,p,g.body,true,286,100);
@@ -69,33 +69,35 @@
       out+=`<g data-layer="inlays" data-material="${esc(s.inlay_dot_mat||s.inlay_oval_mat)}" fill="${options.dotColour(state)}" stroke="#eee8d4" stroke-width=".25">`;
       [3,5,7,9,12,15,17,19,21,24].forEach(n=>{const a=point(g.frets[n-2][0],g.frets[n-1][0],.5),b=point(g.frets[n-2][1],g.frets[n-1][1],.5);(n%12===0?[.28,.72]:[s.inlay_type==='inlay_oval'?.5:s.inlay_dot_pos==='pos_left'?.2:s.inlay_dot_pos==='pos_right'?.8:.5]).forEach(f=>{const p=point(a,b,f);out+=s.inlay_type==='inlay_oval'?ovalMark(p,Math.hypot(b[0]-a[0],b[1]-a[1])*(n%12===0?.3:.62),3.5,Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI,s.inlay_oval_mat,state.boardColour):`<ellipse cx="${p[0]}" cy="${p[1]}" rx="1.7" ry="1.7"/>`;});});out+='</g>';
     }
-    out+=`<g data-layer="pickups" data-option="${esc(s.pickups)}" data-appearance="drawing-envelope">${title('pickups')}`;
+    out+=`<g data-layer="pickups" data-option="${esc(s.pickups)}" data-appearance="${parts.profile(state,'pickups')?'manufacturer-reference':'drawing-envelope'}" data-profile="${parts.profile(state,'pickups')?.style||'unconfirmed'}">${title('pickups')}`;
     g.pickups.forEach((r,index)=>{
       out+=path(g.pickupOutlines[index],'fill="#08090a" stroke="#030404" stroke-width="3.4"');
       for(let coil=0;coil<2;coil++){
         const x=r.x+coil*r.w/2;
-        out+=`<rect x="${x+.9}" y="${r.y+1}" width="${r.w/2-1.6}" height="${r.h-2}" rx="3.6" fill="url(#${p}-plastic)" stroke="#5b5c5c" stroke-width=".5"/>`;
+        out+=`<rect x="${x+.9}" y="${r.y+1}" width="${r.w/2-1.6}" height="${r.h-2}" rx="9" fill="url(#${p}-plastic)" stroke="#5b5c5c" stroke-width=".5"/>`;
         for(let i=0;i<6;i++){
           const y=r.y+8+i*(r.h-16)/5;
           out+=`<circle cx="${x+r.w/4}" cy="${y}" r="2.3" fill="${poleMetal}" stroke="#070707" stroke-width=".65"/>`;
-          if(coil)out+=`<path d="M${x+r.w/4-1.4},${y}h2.8" stroke="#222" stroke-width=".5"/>`;
+          if(coil&&s.pickups!=='guitar_lundgren_m6')out+=`<path d="M${x+r.w/4-1.4},${y}h2.8" stroke="#222" stroke-width=".5"/>`;
         }
       }
     });out+='</g>';
+    if(parts.profile(state,'hardware_bridge'))out+=parts.bridge(state,p);else{
     out+=`<g data-layer="bridge" data-option="${esc(s.hardware_bridge)}" data-colour="${state.bridgeColour}" data-appearance="drawing-envelope">${title('hardware_bridge')}${path(g.bridgeOutline,`fill="${metal}" stroke="#161819" stroke-width="1.2"`)}`;
     for(let i=0;i<6;i++){
       const y=point(g.bridge[0],g.bridge[1],i/5)[1],x=g.bridge[0][0];
       out+=`<rect x="${x-9}" y="${y-5}" width="27" height="10" rx="1.3" fill="${metal}" stroke="#44484a" stroke-width=".7"/><rect x="${x-4+i*.6}" y="${y-3.7}" width="13" height="7.4" rx="1" fill="${metal}" stroke="#272b2c" stroke-width=".5"/><circle cx="${x+14}" cy="${y}" r="1.9" fill="#1c1c1c"/><path d="M${x+13},${y}h2" stroke="#aaa" stroke-width=".4"/>`;
     }
     out+='</g>';
+    }
     out+=`<g data-layer="hardware" data-option="${esc(s.hardware_color)}" data-colour="${state.metal}" data-appearance="drawing-envelope">${title('hardware_color')}${path(g.jack,`fill="${metal}" stroke="#171a1b" stroke-width="1.5"`)}<ellipse cx="952" cy="186" rx="17" ry="6" transform="rotate(-53 952 186)" fill="#242727" stroke="${state.metal}" stroke-width="1.7"/>`;
     out+=`<g data-layer="knobs" data-count="${g.controls.length}" data-placement="source-retained">`;
     g.controls.forEach(([x,y])=>{out+=`<circle cx="${x+1}" cy="${y+2}" r="11" fill="#080909"/><circle cx="${x}" cy="${y}" r="10" fill="url(#${p}-knob)" stroke="#292a28" stroke-width=".8"/><circle cx="${x}" cy="${y}" r="7.6" fill="${metal}" stroke="#d2c7ac" stroke-opacity=".5" stroke-width=".5"/><path d="M${x},${y-7}v3" stroke="#151616" stroke-width=".8"/>`;});
     out+=options.knobs(state,p,g.controls,10)+'</g>';
     out+=line(...g.selector,'stroke="#080808" stroke-width="2.7"')+line(...g.selector,'stroke="#878b89" stroke-width=".65"');
     const sel=point(...g.selector,.55);out+=`<rect x="${sel[0]-2}" y="${sel[1]-5}" width="4" height="10" rx="1.5" transform="rotate(54 ${sel[0]} ${sel[1]})" fill="#ddd8c6" stroke="#5c5a52" stroke-width=".5"/>`;
-    g.tuners.forEach(([x,y])=>{out+=`<path d="M${x-2},${y+4}v15h4v-15" fill="${metal}" stroke="#202323" stroke-width=".6"/><rect x="${x-7}" y="${y+16}" width="14" height="9" rx="3" fill="${metal}" stroke="#333" stroke-width=".7"/><circle cx="${x}" cy="${y}" r="6.9" fill="${metal}" stroke="#272a2a" stroke-width=".6"/><circle cx="${x}" cy="${y}" r="3.9" fill="${metal}" stroke="#17191a" stroke-width=".9"/>`;});out+='</g>';
-    out+=parts.controls(state,p,10);
+    (parts.profile(state,'hardware_machine_head')?[]:g.tuners).forEach(([x,y])=>{out+=`<path d="M${x-2},${y+4}v15h4v-15" fill="${metal}" stroke="#202323" stroke-width=".6"/><rect x="${x-7}" y="${y+16}" width="14" height="9" rx="3" fill="${metal}" stroke="#333" stroke-width=".7"/><circle cx="${x}" cy="${y}" r="6.9" fill="${metal}" stroke="#272a2a" stroke-width=".6"/><circle cx="${x}" cy="${y}" r="3.9" fill="${metal}" stroke="#17191a" stroke-width=".9"/>`;});out+='</g>';
+    out+=parts.tuners(state,p)+parts.controls(state,p,10);
     out+='<g data-layer="strings" data-count="6" data-scope="whole-instrument">';
     for(let i=0;i<6;i++){
       const a=point(g.board[0],g.board[1],.08+.84*i/5),b=point(g.bridge[0],g.bridge[1],i/5),c=g.tuners[i];

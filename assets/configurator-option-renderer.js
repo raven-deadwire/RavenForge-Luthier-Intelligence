@@ -66,14 +66,32 @@
     if(state.selections.knob!=='knob_wood'||!materials.get(state.topId))return '';
     return `<g data-layer="wood-knobs" data-material="${state.topId}" data-appearance="illustrative">`+positions.map(([x,y])=>`<circle cx="${x+1}" cy="${y+2}" r="${radius+1}" fill="#14110d"/><circle cx="${x}" cy="${y}" r="${radius}" fill="url(#${p}-knob-material)" ${state.finish.colour?`filter="url(#${p}-surface-dye)"`:''} stroke="#2c2118" stroke-width=".7"/><circle cx="${x}" cy="${y}" r="${radius}" fill="url(#${p}-knob-shade)"/><path d="M${x},${y-radius*.65}v${radius*.28}" stroke="#e9dbc2" stroke-width=".8"/>`).join('')+'</g>';
   }
+  function laminatePlan(state){
+    const accent=state.neckAccent==='bloodwood'?'bloodwood':'walnut';
+    // Bass specs list species, not their order/width. These symmetric sequences
+    // are explicitly display proposals. GRAMR 5pc order is stated in the platform.
+    const plans={
+      '1pc':['maple'], '3pc':['maple','maple','maple'],
+      '5pc':['ash','wenge','maple','wenge','ash'],
+      '7pc':['ash','purpleheart','maple','wenge','maple','purpleheart','ash'],
+      '9pc':['ash',accent,'purpleheart','maple','wenge','maple','purpleheart',accent,'ash'],
+      '13pc':['ash',accent,'purpleheart','maple','bubinga','wenge','maple','wenge','bubinga','maple','purpleheart',accent,'ash'],
+      guitar_neck_1pc:['maple'],guitar_neck_3pc:['maple','maple','maple'],
+      guitar_neck_5pc:['maple','wenge','purpleheart','wenge','maple']
+    };
+    return plans[state.selections.neck]||null;
+  }
   function lamination(state,board,clip){
-    const id=state.selections.neck;
-    const count={'1pc':1,'3pc':3,'5pc':5,'7pc':7,'9pc':9,'13pc':13,guitar_neck_1pc:1,guitar_neck_3pc:3,guitar_neck_5pc:5}[id];
-    if(!count)return '';
-    const colours=count===3?['#e2c99e','#cbb187','#e2c99e']:Array.from({length:count},(_,i)=>i%2===0?'#dec99f':i%4===1?'#49352b':'#674054');
-    if(id==='guitar_neck_5pc')colours.splice(0,5,'#e5d1a8','#49352b','#674054','#49352b','#e5d1a8');
+    const id=state.selections.neck,woods=laminatePlan(state);if(!woods)return '';
+    const count=woods.length,horizontal=Math.abs(board[3][0]-board[0][0])>Math.abs(board[3][1]-board[0][1]);
     const weights=count===1?[1]:count===3?[.36,.28,.36]:Array.from({length:count},(_,i)=>i===0||i===count-1?3:i%2?1:1.4),sum=weights.reduce((a,b)=>a+b,0);let at=0;
-    return `<g data-layer="neck-laminates" data-option="${id}" data-count="${count}" data-appearance="illustrative" clip-path="url(#${clip})">`+weights.map((w,i)=>{const a=at/sum;at+=w;const b=at/sum;return `<polygon points="${polygon([point(board[0],board[1],a),point(board[0],board[1],b),point(board[3],board[2],b),point(board[3],board[2],a)])}" fill="${colours[i]}" fill-opacity="${count===1?.83:i%2?.86:.42}" stroke="#5e4d35" stroke-width="${count===3?.4:0}"/>`;}).join('')+'</g>';
+    const length=Math.hypot(board[3][0]-board[0][0],board[3][1]-board[0][1]),patternWidth=horizontal?length:110,patternHeight=horizontal?110:length;
+    const shade=clip+'-laminate-shade',unique=[...new Set(woods)],sources=[...new Set(unique.map(w=>materials.get(w).source))];
+    const atlasDefs=sources.map((src,i)=>{const w=unique.map(x=>materials.get(x)).find(w=>w.source===src);return `<image id="${clip}-atlas-${i}" href="${globalThis.RavenForgePreviewMedia?.[src]||src}" width="${w.sourceWidth||1254}" height="${w.sourceHeight||1254}"/>`;}).join('');
+    return `<g data-layer="neck-laminates" data-option="${id}" data-count="${count}" data-materials="${woods.join(' ')}" data-accent="${state.neckAccent||'walnut'}" data-appearance="species-textures" data-order="${id==='guitar_neck_5pc'?'specified':'illustrative'}" clip-path="url(#${clip})"><defs>${atlasDefs}${unique.map(wood=>materials.pattern(clip+'-laminate-'+wood,wood,horizontal,clip+'-atlas-'+sources.indexOf(materials.get(wood).source)).replace('width="1" height="1" patternUnits="objectBoundingBox"',`width="${patternWidth}" height="${patternHeight}" patternUnits="userSpaceOnUse"`)).join('')}<linearGradient id="${shade}" x1="0" y1="0" x2="${horizontal?0:1}" y2="${horizontal?1:0}"><stop stop-color="#17100a" stop-opacity=".42"/><stop offset=".3" stop-color="#fff4db" stop-opacity=".12"/><stop offset=".65" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#17100a" stop-opacity=".38"/></linearGradient></defs>`+weights.map((w,i)=>{
+      const a=at/sum;at+=w;const b=at/sum;
+      return `<polygon data-laminate-piece="${i+1}" data-material="${woods[i]}" points="${polygon([point(board[0],board[1],a),point(board[0],board[1],b),point(board[3],board[2],b),point(board[3],board[2],a)])}" fill="url(#${clip}-laminate-${woods[i]})" stroke="#392a1e" stroke-opacity=".55" stroke-width=".35"/>`;
+    }).join('')+`<polygon points="${polygon(board)}" fill="url(#${shade})"/></g>`;
   }
   function orientation(svg,state){
     const left=state.selections.orientation==='left_hand';
@@ -83,5 +101,5 @@
     const portrait=svg.includes('data-layout="portrait"');
     return svg.replace('</defs>',`</defs><g data-layer="orientation" transform="${portrait?`translate(${2*x+w} 0) scale(-1 1)`:`translate(0 ${2*y+h}) scale(1 -1)`}">`).replace('</svg>','</g></svg>');
   }
-  return {definitions,finish,wings,bodyPieces,boardEdges,dotColour,fretWidth,bindrune,knobs,lamination,orientation,materials};
+  return {definitions,finish,wings,bodyPieces,boardEdges,dotColour,fretWidth,bindrune,knobs,laminatePlan,lamination,orientation,materials};
 });

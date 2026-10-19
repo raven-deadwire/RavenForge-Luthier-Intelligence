@@ -1,0 +1,16 @@
+{
+  "asset": "wood-neck-atlas-v11.webp",
+  "kind": "original AI illustrative grain atlas",
+  "generated": "2026-10-20",
+  "pixelSize": [
+    1774,
+    887
+  ],
+  "cells": [
+    "bloodwood",
+    "bubinga"
+  ],
+  "brief": "Two equal side-by-side square overhead wood textures, neutral diffuse lighting, vertical grain. Left: natural warm red-orange bloodwood with fine straight grain. Right: reddish-brown bubinga with interlocked grain. No objects, borders, text, metal or labels. Illustrative wood samples, not stock-board photos.",
+  "processing": "Converted original PNG to WebP without resizing or image edits. Four-pixel cell inset at sampling.",
+  "limitation": "Exact grain, colour, strip order and widths do not define the instrument stock or machining design."
+}

@@ -38,3 +38,12 @@ not established; the warm dense-wood image is an illustrative example, not a cla
 that the final fretboard is Olneya tesota. Natural material variation, actual stock
 selection and bookmatching require separate confirmation. Custom/other wood
 options must remain pending rather than acquire invented final textures.
+
+
+## v11 neck additions
+
+`wood-neck-atlas-v11.webp` is an original AI-created illustrative atlas, generated
+2026-10-20. Left: bloodwood. Right: bubinga. Actual source 1774 × 887 pixels;
+two 887 × 887 cells, inset 4 pixels for sampling. This is not a stock-board photo.
+The prompt requested neutral clear-oiled vertical grain, no labels or hardware.
+The PNG source was converted to WebP without resizing or changing the artwork.

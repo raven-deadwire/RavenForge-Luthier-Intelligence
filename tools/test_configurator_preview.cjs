@@ -154,13 +154,13 @@ const parts=require('../assets/configurator-parts-renderer.js');
 for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
   const d=JSON.parse(JSON.stringify(normalize(model))),extras={specialOptions:['kill_switch','dual_tone'],pickguard:'ivory'},before=JSON.stringify([d,extras]);
   const front=preview.renderSvg(preview.scene(model,d,'transparent #9d282b',{},null,extras),'front','en');
-  if(model==='GRAMR')assert.match(front,/data-layer="pickguard" data-option="ivory"/);
+  if(['EDDA','GRAMR'].includes(model))assert.match(front,/data-layer="pickguard" data-option="ivory"/);
   else {
-    assert.doesNotMatch(front,/data-layer="pickguard"/,'Never invent a bass pickguard');
+    assert.doesNotMatch(front,/data-layer="pickguard"/,'Never invent a contour for a model without a source guard');
     for(const id of ['black','ivory','wood']){
       const state=preview.scene(model,d,'',{},null,{pickguard:id});
       assert.equal(state.pickguard,'none');
-      assert.equal(parts.guard({...state,pickguard:id},'test'),'','Even direct calls must reject unverified bass contours');
+      assert.equal(parts.guard({...state,pickguard:id},'test'),'','Direct calls must reject models without source contours');
     }
   }
   assert.match(front,/data-control-type="kill"/);
@@ -175,9 +175,9 @@ for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
   if(model!=='GRAMR'){
     const picked={...d,pickups:{EDDA:'häussel_triple',EMBLA:'delano_ts',ASKR:'askr_delano_sbc5_e'}[model],electronics:'glockenklang',coil_switch:'coil_2_ps',finger_ramp:'ramp_wood'};
     const state=preview.scene(model,picked,'',{},null,extras),svg=preview.renderSvg(state,'front','en');
-    assert.match(svg,/data-layer="pickups"[^>]*data-appearance="reference-retained"/);
+    assert.match(svg,new RegExp('data-layer="pickups"[^>]*data-appearance="'+(model==='EDDA'?'reference-retained':'manufacturer-reference')+'"'));
     assert.doesNotMatch(svg,/illustrative-family|part-underlay/);
-    assert.match(svg,/data-layer="finger-ramp"/);
+    assert.doesNotMatch(svg,/data-layer="finger-ramp"/,'Finger ramp deferred even for stale input');
     const controls=parts.controlPlan(state);assert.equal(controls.filter(x=>x.type==='toggle').length,model==='EDDA'?0:2);
     assert.equal(new Set(controls.map(x=>x.xy.join(','))).size,controls.length,'Additional preview switches cannot replace a knob');
     for(const id of ['emg','fishman'])assert.equal(parts.controlPlan(preview.scene(model,{...picked,pickups:id},'',{},null,extras)).filter(x=>x.type==='toggle').length,0);
@@ -187,7 +187,7 @@ for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
 for(const model of ['EMBLA','ASKR']){
   const d={...JSON.parse(JSON.stringify(normalize(model))),pickup_configuration:'pickup_3'};
   const svg=preview.renderSvg(preview.scene(model,d,''),'front','en');
-  assert.match(svg,/data-layer="pickups"[^>]*data-count="2"[^>]*data-appearance="reference-retained"/);
+  assert.match(svg,/data-layer="pickups"[^>]*data-count="2"[^>]*data-appearance="manufacturer-reference"/);
   assert.ok(preview.scene(model,d,'').pending.includes('pickup_configuration'));
   // Existing production restrictions remain: the preview does not unlock it.
   assert.equal(normalize(model,d).pickup_configuration,'pickup_2');
@@ -213,8 +213,54 @@ for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
     for(const side of ['front','back'])assert.doesNotMatch(preview.renderSvg(state,side,'en'),/illustrative-family|part-underlay/,'No unverified product-family geometry');
   }
   const state=preview.scene(model,d,'');
-  for(const category of ['pickups','hardware_bridge','hardware_machine_head'])assert.ok(state.pending.includes(category),'Source parts must not claim selected-product fidelity');
+  for(const category of ['pickups','hardware_bridge','hardware_machine_head'])assert.equal(state.pending.includes(category),!parts.profile(state,category),'Coverage follows the selected product reference');
   const changed=preview.scene(model,{...d,hardware_machine_head:'hipshot_ul_38'},'');
-  assert.equal(preview.renderSvg(state,'back','en'),preview.renderSvg(changed,'back','en'),'Alternate tuner cannot invent a rear housing');
+  assert.notEqual(preview.renderSvg(state,'back','en'),preview.renderSvg(changed,'back','en'),'Verified tuner rear housing changes with selection');
 }
 console.log('PASS: retained knob coordinates, independent non-overlapping switch proposals, no invented manufacturer shapes');
+
+// EDDA optional guard is a source-backed display choice, independent of quote state.
+{
+  const d=JSON.parse(JSON.stringify(normalize('EDDA'))),before=JSON.stringify(d);
+  const base=preview.scene('EDDA',d,'');
+  assert.equal(base.pickguard,'none');
+  assert.equal(base.g.pickguardProvenance.source,'Edda Prototype Design.png');
+  assert.equal(base.g.pickguardProvenance.kind,'sample-contour');
+  for(const guard of ['none','black','ivory','wood']){
+    const state=preview.scene('EDDA',d,'',{},null,{pickguard:guard});
+    assert.equal(state.pickguard,guard);
+    for(const lang of ['ko','en','de']){
+      const front=preview.renderSvg(state,'front',lang),back=preview.renderSvg(state,'back',lang);
+      if(guard==='none')assert.doesNotMatch(front,/data-layer="pickguard"/);
+      else {assert.match(front,/data-layer="pickguard"[^>]*data-appearance="sample-contour"/);assert.ok(front.includes(base.g.pickguard));}
+      assert.doesNotMatch(back,/data-layer="pickguard"/);
+    }
+  }
+  assert.equal(JSON.stringify(d),before);
+  assert.equal(preview.scene('EDDA',d,'',{},null,{pickguard:'bad-value'}).pickguard,'none');
+}
+console.log('PASS: EDDA optional source-contour guard choices, removal, rear exclusion and quote-state isolation');
+
+// Species textures, read-only accent selection and stale-ramp exclusion.
+const options=require('../assets/configurator-option-renderer.js');
+for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
+ const d=JSON.parse(JSON.stringify(normalize(model)));
+ const necks=model==='GRAMR'?['guitar_neck_1pc','guitar_neck_3pc','guitar_neck_5pc']:['1pc','3pc','5pc','7pc','9pc','13pc'];
+ for(const neck of necks)for(const accent of ['walnut','bloodwood']){
+  const s=preview.scene(model,{...d,neck},'',{},null,{neckAccent:accent});
+  const expected=options.laminatePlan(s),svg=preview.renderSvg(s,'back','en');
+  assert.match(svg,/data-appearance="species-textures"/);
+  assert.equal([...svg.matchAll(/data-laminate-piece=/g)].length,expected.length);
+  for(const wood of expected)assert.ok(svg.includes('data-material="'+wood+'"'));
+  if(['9pc','13pc'].includes(neck))assert.ok(expected.includes(accent));
+  if(neck==='13pc')assert.ok(expected.includes('bubinga'));
+  assert.doesNotMatch(svg,/NaN|undefined/);
+ }
+ assert.doesNotMatch(preview.renderSvg(preview.scene(model,{...d,finger_ramp:'ramp_wood'},''),'front','en'),/data-layer="finger-ramp"/);
+}
+assert.doesNotMatch(section(html,'const App = () => {','const isCategoryVisible ='),/hardware_color', 'finger_ramp/);
+for(const [model,category,ids] of [['EMBLA','pickups',['delano_sbc','delano_ts']],['ASKR','pickups',['fishman','emg','askr_delano_sbc5_e']],['EMBLA','hardware_bridge',['gotoh_404BO','hipshot_a','hipshot_b']],['EDDA','hardware_machine_head',['gotoh_707','gotoh_528','hipshot_ul_38']]]){
+ const renders=ids.map(id=>{const state=preview.scene(model,{...normalize(model),[category]:id},'');assert.ok(!state.pending.includes(category));const svg=preview.renderSvg(state,'front','en');assert.match(svg,/data-appearance="manufacturer-reference"/);return svg;});
+ assert.equal(new Set(renders).size,ids.length);
+}
+console.log('PASS: referenced product variants, textured laminate species, walnut/bloodwood and deferred finger ramps');

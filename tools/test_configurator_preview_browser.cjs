@@ -66,7 +66,7 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
-          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v10');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v11');
           assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').textContent(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
@@ -229,16 +229,16 @@ async function main() {
           }
           await step(5);
           const guardQuote=await page.locator('#quote-summary-card').innerText();
-          if(model==='GRAMR'){
+          if(['EDDA','GRAMR'].includes(model)){
             for(const guard of ['black','ivory','wood','none']){
               await page.locator(`[data-preview-pickguard="${guard}"]`).click();
               assert.equal(await layer('pickguard').count(),guard==='none'?0:1);
-              if(guard!=='none')assert.equal(await layer('pickguard').getAttribute('data-option'),guard);
+              if(guard!=='none'){assert.equal(await layer('pickguard').getAttribute('data-option'),guard);assert.equal(await layer('pickguard').getAttribute('data-appearance'),model==='EDDA'?'sample-contour':'drawing-contour');}
             }
             assert.equal(await page.locator('#quote-summary-card').innerText(),guardQuote,'Test pickguard is excluded from quote');
             await page.locator('[data-preview-pickguard="black"]').click();
           }else{
-            assert.equal(await page.locator('[data-preview-pickguard]').count(),0,'Unverified bass guards have no active UI choice');
+            assert.equal(await page.locator('[data-preview-pickguard]').count(),0,'Models without source contours have no active guard choice');
             assert.equal(await layer('pickguard').count(),0,'No fabricated box behind pickups');
             assert.ok((await page.locator('[data-pickguard-unavailable]').innerText()).length>0);
           }
@@ -246,12 +246,12 @@ async function main() {
           const retainedKnobCount=await layer('knobs').getAttribute('data-count');
           if(model!=='GRAMR'){
             await choose('pickups',{EDDA:'häussel_triple',EMBLA:'delano_ts',ASKR:'askr_delano_sbc5_e'}[model]);
-            assert.equal(await layer('pickups').getAttribute('data-appearance'),'reference-retained');
-            await step(4);await choose('finger_ramp','ramp_wood');assert.equal(await layer('finger-ramp').count(),1);
+            assert.equal(await layer('pickups').getAttribute('data-appearance'),model==='EDDA'?'reference-retained':'manufacturer-reference');
+            await step(4);assert.equal(await page.locator('[data-category="finger_ramp"]').count(),0);assert.equal(await layer('finger-ramp').count(),0);
             const beforeTuners=await layer('hardware').innerHTML();
             await choose('hardware_bridge',model==='ASKR'?'payson':'gotoh_404BO');
             await choose('hardware_machine_head','hipshot_ul_38');
-            assert.equal(await layer('hardware').innerHTML(),beforeTuners,'Unverified tuners retain original pixels');
+            assert.notEqual(await layer('hardware').innerHTML(),beforeTuners,'Verified tuner button changes');assert.equal(await layer('hardware').getAttribute('data-profile'),'ultralite-y');
             assert.equal(await page.locator('[data-appearance="illustrative-family"]').count(),0);
             await step(5);
             if(model!=='EDDA'){
@@ -278,10 +278,12 @@ async function main() {
           assert.equal(await layer('knobs').innerHTML(),retainedKnobs,'Removing extras preserves knobs');
           await step(2);await choose('neck',model==='GRAMR'?'guitar_neck_3pc':model==='EDDA'?'3pc':'7pc');await side('back');
           assert.equal(await layer('neck-laminates').getAttribute('data-count'),model==='EDDA'||model==='GRAMR'?'3':'7');
+          assert.equal(await layer('neck-laminates').getAttribute('data-appearance'),'species-textures');
+          if(['EMBLA','ASKR'].includes(model)){await side('front');await step(2);await choose('neck','13pc');await side('back');const beforeQuote=await page.locator('#quote-summary-card').innerText();for(const wood of ['bloodwood','walnut']){await page.locator(`[data-preview-neck-accent="${wood}"]`).click();assert.ok((await layer('neck-laminates').getAttribute('data-materials')).includes(wood));assert.ok((await layer('neck-laminates').getAttribute('data-materials')).includes('bubinga'));}assert.equal(await page.locator('#quote-summary-card').innerText(),beforeQuote);}
           await step(3);await choose('body_construction',model==='GRAMR'?'guitar_body_1pc':'1pc_solid');assert.equal(await layer('body-pieces').getAttribute('data-count'),'1');
           await choose('body_construction',model==='GRAMR'?'guitar_body_3pc':'3pc_solid');assert.equal(await layer('body-pieces').getAttribute('data-count'),'3');
           await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-pieces.png`)});
-          await side('front');await step(4);if(model!=='GRAMR'){await choose('finger_ramp','ramp_none');assert.equal(await layer('finger-ramp').count(),0);}await step(5);
+          await side('front');await step(4);assert.equal(await layer('finger-ramp').count(),0);await step(5);
           const pickup=model==='GRAMR'?'guitar_hh_passive_custom':'others';
           await choose('pickups',pickup);
           assert.equal(await layer('pickups').getAttribute('data-option'),pickup);

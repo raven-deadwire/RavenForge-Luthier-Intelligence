@@ -1,86 +1,117 @@
-# v10 source parts and additive controls — 2026-10-20 KST
+# v11 selected parts and neck materials — 2026-10-20 KST
 
-Scope: isolated `configurator-preview.html`. Production options, prices,
-restrictions and PDF source are unchanged.
+Isolated `configurator-preview.html`; production, option normalization, prices and
+PDF source are unchanged. The test navigation omits finger ramps at the owner's
+request. Their old data remains in the production contract; stale ramp selections
+cannot render a ramp. Reintroducing them is future work requiring a mounting plan.
 
-## Corrected regressions
+## Corrections
 
-The v9 family renderer stretched generic silhouettes into sample envelopes.
-It did not reproduce actual products: block/roller/cam bridges, Y/clover tuner
-keys and pickup poles were insufficiently grounded. The replacement masks and
-symbols have been removed, including rear tuner-housing guesses. No vendor
-pixels/logos were copied. The original source parts are restored.
+- Restore optional EDDA pickguard using the asymmetric contour visible in the
+  owned `Edda Prototype Design.png` (neck pocket, treble horn, control scallop).
+  Default none; black/ivory/matching wood are display-only, excluded from quote.
+  Source SHA256: c1491926555ffa9b902a4dca9a2804bdd9a18823a5ecf859fafa557d59a5ffb2.
+  This is a sample trace, not a CNC template. GRAMR retains its PDF contour.
+  EMBLA/ASKR have no registered guard contour; this does not imply they cannot
+  be built with a guard.
+- Replace v10's blanket manufacturer fallback with explicit reference coverage.
+  Parts use original SVG geometry informed by the manufacturer sources below.
+  No manufacturer image or logo is redistributed. A product name alone never
+  enables an unverified family symbol.
+- Apply each neck piece's actual specified species texture. 9/13-piece walnut
+  and bloodwood alternatives can be compared using test-only buttons; the choice
+  does not enter the quote. 13-piece also uses a separate bubinga texture.
+- Retain original knobs and independent coil/kill proposals. Dashed outlines
+  indicate unconfirmed new positions. Dual tone marks a push-pull knob, while
+  an internal buffer has no external part. Quote control-position terms remain.
 
-**Manufacturer-specific geometry is not implemented in v10.** Every selected
-pickup, bridge and tuner is explicitly marked as not rendered. Product names
-remain in the options and quote. Source tuner/saddle counts may differ from the
-sales specification. A source envelope is not a verified selected product.
+## Registered product coverage
 
-The three fabricated bass pickguard contours are also removed. Only GRAMR has a
-source drawing contour; EDDA/EMBLA/ASKR expose no active guard controls and cannot
-render a guard even if a stale display selection is passed in.
-
-The v9 switch planner changed source knob slots to switch slots. v10 retains all
-knob positions and render content, then adds independent coil/kill switch symbols
-at stable, non-overlapping preview positions. Dashed outlines identify these
-positions as unconfirmed. Removing an extra removes only its symbol. Dual tone
-marks an existing push-pull knob; an internal buffer creates no exterior control.
-
-The existing quote's `using an existing control position` wording is preserved.
-The additive visual proposal does not establish an agreed fabrication layout or
-price for new drilling. This distinction is shown in KO/EN/DE scope text.
-
-## Connected selections
-
-| Selection | Display | Limit |
+| Category | Product option | Visual evidence / representation |
 | --- | --- | --- |
-| Body / neck pieces | Existing joins and rear laminations | Illustrative widths, opaque/top conceal joins |
-| Pickguard | GRAMR source contour only | No invented bass guard; excluded from quote |
-| Wood ramp | v9 matching wood ramp retained | Preview placement proposal |
-| Pickups / bridge / tuners | Original source pixels or drawing envelopes | Selected product shape not rendered, front and back |
-| Third pickup | Pending, two reference pickups retained | Deferred option remains unavailable in production |
-| Coil switch | One/two additional dashed switch symbols | None/EDDA/GRAMR/EMG/Fishman suppress these; unconfirmed positions |
-| Kill switch | Separate dashed pushbutton | Original knobs retained; unconfirmed position |
-| Dual tone | Indicator on original push-pull knob | Passive-only; knob remains a knob |
-| Buffer | Scope text | Internal, no exterior part |
+| Pickup | Delano SBC 5 HE/S-4 | Smooth soapbar; two left holes and one right hole |
+| Pickup | Delano SBC 5 TF Times Square | 108 × 32 outline, two rows of five separate rectangular poles |
+| Pickup | Delano SBC 5 HE/S-4 E | Smooth E cover, centred side mounting recesses |
+| Pickup | Fishman Fluence 5-string | Contoured recessed line and side recesses |
+| Pickup | EMG 40TWX | Plain rounded cover and side recesses; no Fluence line |
+| Pickup | Lundgren M6 | Two rounded open bobbins, two rows of round slugs; no invented screw row |
+| Bridge | Gotoh 404BO 4/5 | Product plate, saddle/slot pattern and correct string count |
+| Bridge | Hipshot A / B | Separate A channels versus B open well; saddles and springs |
+| Bridge | Hipshot MassKicker 5 | High-mass plate, guided saddles, brass inserts and springs |
+| Bridge | Babicz FCH top-mount 4/5 | Broad plate, eCAM saddle housings and adjustment points |
+| Bridge | Gotoh 510T-FE1 | Two-point plate notches, six bent saddles, arm socket and arm |
+| Tuner | Gotoh GB707 / GB350 | Shared butterfly silhouette, different 18/20 mm washers |
+| Tuner | Gotoh GB528 | Clover button and open gear back |
+| Tuner | Hipshot Ultralite 3/8 Y | Narrow Y button and open rear gear |
+| Tuner | Schaller BM Light | Broad key, offset housing, exposed gear and two screws |
+| Tuner | Gotoh SG381-07 | 07 button and closed housing reference |
 
-ASKR bridge colour stays independent of hardware colour; Nova uses fixed black
-anodized finish on the **retained reference shape**, not a claimed Nova model.
-GRAMR pickup poles no longer inherit bridge/tuner hardware colour.
+Part contours/details are reference-based; **instrument fit and positions are
+illustrative**, not drilling/routing approval. Ratios are retained for pickups,
+including Times Square's different envelope: no claim it drops into SBC routing.
+Front bass tuner positions are sample fits with the configured string count;
+rear ASKR/EMBLA placements use PDF housing centres as display anchors, not drilling
+coordinates. GRAMR uses the existing PDF centres.
 
-## Evidence threshold for future part replacements
+Not covered yet: Nova MM/custom pickup covers, Häussel Triplebucker/custom SBC
+BassBar, custom HH; ETS custom, Payson/Nova exact bridge variants, Schaller 3D;
+Hipshot Xtender, unspecified Graph Tech PRB button variant, Schaller BM and M4
+locking variant. These retain source geometry and remain explicitly pending in
+all three languages. Custom covers and variant selection need usable drawings.
+Third-pickup layout is still deferred by the existing production restrictions.
 
-Require the exact product/variant, a usable image or measured geometry, the
-correct viewing angle and a confirmed instrument envelope/placement. Keep the
-source part if these are absent. Product-family recognition is insufficient.
+ASKR bridge colours remain fixed (Payson reference finish, Nova black anodized)
+regardless of hardware colour, including unsupported-shape fallback. Pickup poles
+do not inherit hardware colour. Finger ramps are omitted in every render.
 
-Primary references checked (research only, not copied assets):
-- Gotoh GB707: https://g-gotoh.com/product/gb707/?lang=en
-- Gotoh GB707 dimensions: https://g-gotoh.com/images/pdf/GB707-Dim.pdf
-- Gotoh 404BO-5: https://g-gotoh.com/product/404bo-5/?lang=en
-- Delano Times Square SBC 5 TF: https://www.delano.de/sbc_5_tf/sbc_5_tf_details.html
-- Delano drawing: https://www.delano.de/downloads/sbc5_tf.pdf
+## Neck material mapping
 
-The public Delano sheet states 108 × 32 mm; the repository's SBC routing envelope
-must not be silently treated as an identical fit. The public data alone does not
-justify fitting or stretching it into the existing render.
+| Neck | Species shown |
+| --- | --- |
+| 1 / 3-piece | Maple |
+| Bass 5-piece | Ash / wenge / maple / wenge / ash |
+| Bass 7-piece | Ash / purpleheart / maple / wenge / maple / purpleheart / ash |
+| Bass 9-piece | Ash / accent / purpleheart / maple / wenge / mirrored outer four |
+| Bass 13-piece | Ash / accent / purpleheart / maple / bubinga / wenge / maple / mirrored outer six |
+| GRAMR 5-piece | Maple / wenge / purpleheart / wenge / maple |
 
-## Colour correction
+Bass specs confirm species but not exact order/width; the symmetric sequences and
+widths are explicitly illustrative. GRAMR 5-piece order follows its stated spec.
+Each strip is clipped to the detachable neck, never extended through the body.
+Grain uses shared atlas images and consistent physical texture space, not flat
+colour bands or a stretched image per thin strip. Bloodwood/bubinga are original
+AI grain examples, not inventory photos. Red dye remains luminance-neutralized
+in sRGB. RGB content is never blurred; only the replacement alpha mask feathers.
 
-All selected wood textures now use a common sRGB luminance-to-dye mapping.
-Neutralizing the source chroma before applying RGB channel tables prevents a
-source wood's blue/green tint from competing with selected red. Body, matching
-head, stained rear wings, matching ramps/wood knobs/guard use this mapping.
-Natural-oil rear and the fretboard keep their own natural material colour.
-Source relief stays neutral; no spatial blur is applied to RGB image content.
+## Primary references
 
-## Checks
+- https://g-gotoh.com/images/pdf/GB707-Dim.pdf
+- https://g-gotoh.com/images/pdf/GB350-Dim.pdf
+- https://g-gotoh.com/images/pdf/GB528-Dim.pdf
+- https://g-gotoh.com/images/pdf/404BO-4-Dim.pdf (contains 4 and 5-string plates)
+- https://g-gotoh.com/images/pdf/510T-FE1-Dim.pdf
+- https://g-gotoh.com/images/pdf/SG381-Dim.pdf
+- https://g-gotoh.com/images/pdf/SG-Buttons-Dim2026.pdf (07 button)
+- https://docs.hipshotproducts.com/20650_ULTRALITE_3-8_Y_KEY.pdf
+- https://docs.hipshotproducts.com/5A500-708_5_STG_A_STYLE_BASS_BRIDGE_708_SPACING_DIMENSIONS.pdf
+- https://docs.hipshotproducts.com/5B500-708_5_STG_B_STYLE_BASS_BRIDGE_708_SPACING_DIMENSIONS.pdf
+- https://hipshotproducts.com/products/5-string-masskicker-bass-bridge
+- https://www.fullcontacthardware.com/fch-4-string-bass-bridge
+- https://www.fullcontacthardware.com/fch-5-string-bass-bridge
+- https://schaller.info/media/pdf/65/6a/31/TZ_1027.pdf
+- https://www.delano.de/sbc_5_he_s_4/sbc_5_he_s_4_details.html
+- https://www.delano.de/downloads/sbc5_tf.pdf
+- https://www.delano.de/sbc_5_he_s_4_e/sbc_5_he_s_4_e_details.html
+- https://fishman.com/dp/fluence-bass-soapbar-5-string-pickups/
+- https://stage.emgpickups.com/40twx.html (manufacturer's public product mirror)
+- https://shop.lundgrenpickups.com/products/m6
 
-- Production source parity and 545 allowed substitutions × 3 languages × front/back.
-- Every original knob coordinate survives each coil/kill/dual-tone combination.
-- Additional symbols have independent, stable, non-overlapping preview coordinates.
-- No unverified family geometry or source-clearing part underlays remain.
-- Browser checks compare the complete knob rendering before/after adding/removing
-  switches in all 24 model/language/viewport combinations.
-- Current browser and PDF results are recorded on PR #35; previous PASS results
-  do not establish v10 success.
+## Validation
+
+Local contracts and 545 allowed substitutions × KO/EN/DE × front/back pass.
+Tests cover reference registry vs pending status, selected product differences,
+EDDA guard restoration, texture species per laminate, both accent alternatives,
+read-only quote input, ramp exclusion even with stale input, source knob retention,
+ASKR fixed bridge colours and bindrunes. Native whole-instrument SVG renders are
+inspected. Browser UI/PDF results for the exact published SHA are recorded on PR 35;
+a preceding commit's results are not current-commit validation.
