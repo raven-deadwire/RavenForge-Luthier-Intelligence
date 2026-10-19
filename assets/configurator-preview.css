@@ -118,3 +118,7 @@
 .rf-oval-example p { font-size:.72rem; color:#5e696b; margin-top:.3rem; line-height:1.5; }
 
 .rf-bindrune-examples a { display:inline-block; margin-top:.6rem; color:#28565c; font-size:.75rem; text-decoration:underline; }
+.rf-bindrune-grid button { background:#f1f4f2; border:2px solid #dde3df; border-radius:.6rem; padding:.75rem .35rem; min-width:0; cursor:pointer; }
+.rf-bindrune-grid button[aria-pressed=true] { border-color:#936d32; background:#f5eddf; box-shadow:0 0 0 2px #936d3224; }
+.rf-bindrune-grid button:focus-visible { outline:3px solid #28565c; outline-offset:3px; }
+.rf-bindrune-grid button span { display:block; text-align:center; font-size:.7rem; color:#28565c; margin-top:.6rem; }

@@ -120,3 +120,32 @@ for(let i=1;i<=4;i++) {
  assert.match(example,/original layout example/);assert.doesNotMatch(example,/<script|<image|http(?!:\/\/www.w3.org)/);
 }
 assert.doesNotMatch(fs.readFileSync(path.join(root,'assets/configurator-preview.js'),'utf8'),/data-preview-view/);
+
+// Every named wood resolves to a texture; only unspecified/custom materials remain pending.
+const materials=require('../assets/configurator-materials.js');
+const unknownWoods=new Set(['others','wing_others','other_burl_exotic','guitar_body_custom','guitar_top_other_burl_exotic']);
+for(const id of ['fretboard','body_wood_single','body_core_wood','body_wing_wood','top_wood_selection']){
+  for(const opt of data.categories.find(c=>c.id===id).options){
+    assert.equal(!!materials.get(opt.id),!unknownWoods.has(opt.id),'Wood mapping: '+opt.id);
+    if(materials.get(opt.id))assert.ok(fs.existsSync(path.join(root,materials.get(opt.id).source)));
+  }
+}
+assert.equal(materials.get('ironwood').id,'ironwood');
+assert.notEqual(materials.get('ironwood').index,materials.get('bog_oak').index);
+for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
+  const base=JSON.parse(JSON.stringify(normalize(model)));
+  const selected={...base,inlay_type:'inlay_custom',inlay_custom_spec:'custom_bindrune'};
+  const images=['c1','c2','c3','c4'].map(id=>preview.renderSvg(preview.scene(model,selected,'',{},id),'front','en','portrait'));
+  assert.equal(new Set(images).size,4);
+  for(let i=0;i<4;i++)assert.match(images[i],new RegExp('data-example="c'+(i+1)+'"'));
+  assert.doesNotMatch(preview.renderSvg(preview.scene(model,{...selected,inlay_type:'inlay_none'},'',{},'c4'),'front','en'),/data-layer="bindrune-inlay"/);
+  assert.doesNotMatch(preview.renderSvg(preview.scene(model,selected,'',{},'c4'),'back','en'),/data-layer="bindrune-inlay"/);
+  const a=preview.renderSvg(preview.scene(model,base,''),'front','en','portrait');
+  const b=preview.renderSvg(preview.scene(model,{...base,orientation:'left_hand'},''),'front','en','portrait');
+  assert.notEqual(a,b);assert.match(b,/scale\(-1 1\)/);
+}
+for(const bridge of ['payson','nova_parts']){
+  const colours=['hw_chrome','hw_black','hw_gold','hw_vintage_copper'].map(colour=>preview.scene('ASKR',{...JSON.parse(JSON.stringify(normalize('ASKR'))),hardware_bridge:bridge,hardware_color:colour},'').bridgeColour);
+  assert.equal(new Set(colours).size,1,'ASKR bridge finish must not follow hardware colour');
+}
+console.log('PASS: named wood coverage, C1–C4 inlays/reset/rear exclusion, handedness and both ASKR fixed bridge finishes');

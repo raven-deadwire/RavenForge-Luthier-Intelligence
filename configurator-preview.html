@@ -69,11 +69,14 @@
   <!-- React Code -->
   <link rel="stylesheet" href="./assets/configurator-preview.css?v=20261019-v4b">
   <script src="./assets/configurator-gramr-geometry.js?v=20261019-v4"></script>
-  <script src="./assets/configurator-drawing-renderer.js?v=20261020-v7"></script>
-  <script src="./assets/configurator-bass-rear-geometry.js?v=20261020-v7"></script>
-  <script src="./assets/configurator-rear-renderer.js?v=20261020-v7"></script>
-  <script src="./assets/configurator-geometry.js?v=20261020-v7"></script>
-  <script src="./assets/configurator-preview.js?v=20261020-v7"></script>
+  <script src="./assets/configurator-materials.js?v=20261020-v8"></script>
+  <script src="./assets/configurator-bindrune-motifs.js?v=20261020-v8"></script>
+  <script src="./assets/configurator-option-renderer.js?v=20261020-v8"></script>
+  <script src="./assets/configurator-drawing-renderer.js?v=20261020-v8"></script>
+  <script src="./assets/configurator-bass-rear-geometry.js?v=20261020-v8"></script>
+  <script src="./assets/configurator-rear-renderer.js?v=20261020-v8"></script>
+  <script src="./assets/configurator-geometry.js?v=20261020-v8"></script>
+  <script src="./assets/configurator-preview.js?v=20261020-v8"></script>
   <script type="text/babel">
     const { useState, useEffect, useMemo } = React;
 
@@ -645,6 +648,7 @@
       const [accessories, setAccessories] = useState([]);
       const [specialInstructions, setSpecialInstructions] = useState('');
       const [finishColor, setFinishColor] = useState('');
+      const [previewBindrunes, setPreviewBindrunes] = useState({});
       const [currentStep, setCurrentStep] = useState(1);
       const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
       const [pdfError, setPdfError] = useState('');
@@ -1215,7 +1219,7 @@ const handleOptionChange = (categoryId, optionId) => {
             <div className="rf-config-grid">
               <aside className="rf-preview-column">
                 <RavenForgePreview.Component model={selectedModel} selections={selections} finishColor={finishColor}
-                  language={language} categoryTitles={ui.categoryTitles}
+                  language={language} categoryTitles={ui.categoryTitles} bindruneExample={previewBindrunes[selectedModel]}
                   labels={Object.fromEntries(configData.categories.filter(cat => selections[cat.id]).map(cat => [cat.id, selectedOptionLabel(cat.id)]))} />
               </aside>
               
@@ -1414,7 +1418,7 @@ const handleOptionChange = (categoryId, optionId) => {
                                   <RavenForgePreview.OvalExample language={language} material={selections.inlay_oval_mat} />
                                 )}
                                 {category.id === 'inlay_custom_spec' && selections.inlay_custom_spec === 'custom_bindrune' && (
-                                  <RavenForgePreview.BindruneExamples language={language} />
+                                  <RavenForgePreview.BindruneExamples language={language} selected={previewBindrunes[selectedModel]} onSelect={id => setPreviewBindrunes(previous => ({...previous, [selectedModel]:id}))} />
                                 )}
                               </div>
                             </div>

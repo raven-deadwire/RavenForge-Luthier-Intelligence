@@ -1,7 +1,7 @@
 /* GRAMR front/rear projections: extracted PDF contours; illustrative materials.
  * Historical four-bolt plate is omitted. The current 2-2-1 joint is explicitly
  * schematic, with unapproved positions shown as symbols instead of machined parts. */
-(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;if(root)root.RavenForgeDrawingRenderer=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+(function(root,factory){const options=typeof module==='object'&&module.exports?require('./configurator-option-renderer.js'):root.RavenForgeOptionRenderer;const api=factory(options);if(typeof module==='object'&&module.exports)module.exports=api;if(root)root.RavenForgeDrawingRenderer=api;})(typeof globalThis!=='undefined'?globalThis:this,function(options){
   'use strict';
   const media=path=>globalThis.RavenForgePreviewMedia?.[path]||path;
   const esc=v=>String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -21,8 +21,8 @@
     };
     const texture=(x,y,w,h,filter)=>`<image href="${media('assets/configurator-materials/ash-illustrative.webp')}" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="none" transform="rotate(90 ${x+w/2} ${y+h/2})" filter="url(#${p}-${filter})"/>`;
     const title=id=>`<title>${esc(state.labels[id]||s[id])}</title>`;
-    let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${(layout==='portrait'?g.portrait:g.views).full}" role="img" aria-labelledby="${p}-title ${p}-desc" data-preview-svg="GRAMR" data-neck-joint="bolt-on" data-renderer="drawing-composite" data-side="${back?'back':'front'}" data-layout="${layout==='portrait'?'portrait':'landscape'}"><title id="${p}-title">GRAMR · ${esc(back?t.back:t.front)}</title><desc id="${p}-desc">${esc(back?t.backNote:t.drawingNote)}</desc><defs>
-      <clipPath id="${p}-body-clip">${path(g.body)}</clipPath><clipPath id="${p}-head-clip">${path(g.head)}</clipPath><clipPath id="${p}-board-clip"><polygon points="${polygon(g.board)}"/></clipPath>
+    let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${(layout==='portrait'?g.portrait:g.views).full}" role="img" aria-labelledby="${p}-title ${p}-desc" data-preview-svg="GRAMR" data-neck-joint="bolt-on" data-renderer="drawing-composite" data-side="${back?'back':'front'}" data-layout="${layout==='portrait'?'portrait':'landscape'}"><title id="${p}-title">GRAMR · ${esc(back?t.back:t.front)}</title><desc id="${p}-desc">${esc(back?t.backNote:t.drawingNote)}</desc><defs>${options.definitions(p,state,true)}
+      <clipPath id="${p}-neck-clip"><polygon points="${polygon(back?g.neck:g.board)}"/></clipPath><clipPath id="${p}-body-clip">${path(g.body)}</clipPath><clipPath id="${p}-head-clip">${path(g.head)}</clipPath><clipPath id="${p}-board-clip"><polygon points="${polygon(g.board)}"/></clipPath>
       <pattern id="${p}-unknown" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#5e6670"/><path d="M0 12L12 0" stroke="#b4bdc7" stroke-width="2"/></pattern>
       <radialGradient id="${p}-joint-fade"><stop offset=".5" stop-color="white"/><stop offset="1" stop-color="black"/></radialGradient>
       <mask id="${p}-joint-region" maskUnits="userSpaceOnUse" x="650" y="235" width="120" height="102"><ellipse cx="710" cy="286" rx="60" ry="51" fill="url(#${p}-joint-fade)"/></mask>
@@ -38,11 +38,11 @@
       </defs><g transform="${layout==='portrait'?g.portraitTransform:g.transform}">`;
     // The outline is the extracted curve itself, not a hand-traced approximation.
     out+=`<g filter="url(#${p}-shadow)">${path(g.body,'fill="#16120e"')}${path(g.head,'fill="#16120e"')}</g>`;
-    const surface=(d,clip,tex)=>`<g filter="url(#${p}-relief)">${path(d,`fill="${colour}"`)}${!opaque?`<g clip-path="url(#${p}-${clip}-clip)">${tex}</g>`:''}${path(d,`fill="url(#${p}-body-light)"`)}<g clip-path="url(#${p}-${clip}-clip)">${path(d,'fill="none" stroke="#100e0b" stroke-width="9" stroke-opacity=".25"')}${path(d,`fill="none" stroke="url(#${p}-rim)" stroke-width="1.7"`)}${path(d,'fill="none" stroke="#fff7e2" stroke-width=".45" stroke-opacity=".35"')}</g>${path(d,`fill="url(#${p}-gloss)"`)}</g>`;
+    const surface=(d,clip,tex)=>`<g filter="url(#${p}-relief)">${path(d,`fill="${colour}"`)}${!opaque?`<g clip-path="url(#${p}-${clip}-clip)">${options.materials.get(state.topId)?path(d,`fill="url(#${p}-material)" ${state.finish.colour?`filter="url(#${p}-body-wood)"`:""}`):tex}</g>`:''}${path(d,`fill="url(#${p}-body-light)"`)}<g clip-path="url(#${p}-${clip}-clip)">${path(d,'fill="none" stroke="#100e0b" stroke-width="9" stroke-opacity=".25"')}${path(d,`fill="none" stroke="url(#${p}-rim)" stroke-width="1.7"`)}${path(d,'fill="none" stroke="#fff7e2" stroke-width=".45" stroke-opacity=".35"')}</g>${options.finish(state,p,d,back)}</g>`;
     if(back){
       out+=`<g data-layer="rear-body" data-material="${esc(state.bodyId)}" data-finish="${esc(s.color_back_side)}" data-colour="${colour}" data-opaque="${opaque}" data-contour="pdf-vector">${surface(g.body,'body',texture(535,-4,550,550,'body-wood'))}</g>`;
       out+=`<g data-layer="rear-headstock" data-contour="pdf-vector">${surface(g.head,'head',texture(5,170,240,240,'body-wood'))}</g>`;
-      out+=`<g data-layer="rear-neck" data-neck-joint="bolt-on" data-appearance="lamination-pending"><polygon points="${polygon(g.neck)}" fill="#e2cda8" stroke="#72664f" stroke-width="1"/><polygon points="${polygon(g.neck)}" fill="url(#${p}-body-light)"/></g>`;
+      out+=`<g data-layer="rear-neck" data-neck-joint="bolt-on" data-appearance="illustrative-lamination"><polygon points="${polygon(g.neck)}" fill="#e2cda8" stroke="#72664f" stroke-width="1"/>${options.lamination(state,g.neck,p+'-neck-clip')}<polygon points="${polygon(g.neck)}" fill="url(#${p}-body-light)"/></g>`;
       out+=`<g data-layer="rear-joint-seam" data-placement="source-envelope">${line(g.neck[3],g.neck[2],'stroke="#15120f" stroke-width="1.8" vector-effect="non-scaling-stroke"')}</g>`;
       // This unfinished region communicates the confirmed bolt-on construction
       // without inventing an approved heel or manufacturing hole coordinates.
@@ -59,12 +59,13 @@
     out+=`<g data-layer="headstock" data-option="${esc(s.color_headstock)}" data-contour="pdf-vector">${s.color_headstock==='head_plate'?path(g.head,`fill="${unknown}"`):surface(g.head,'head',texture(5,170,240,240,'body-wood'))}</g>`;
     out+=`<g data-layer="reference-pickguard" data-contour="pdf-vector">${path(g.pickguard,'fill="#141619" stroke="#090a0b" stroke-width="3.2"')}${path(g.pickguard,'fill="url(#'+p+'-plastic)" stroke="#b8b6aa" stroke-width=".85"')}`;
     g.pickguardScrews.forEach(([x,y])=>{out+=`<circle cx="${x}" cy="${y}" r="1.8" fill="${metal}"/><path d="M${x-1},${y}h2" stroke="#333" stroke-width=".6"/>`;});out+='</g>';
-    out+=`<g data-layer="fretboard" data-option="${esc(s.fretboard)}"><polygon points="${polygon(g.board)}" fill="${state.boardColour||'#49423c'}" stroke="#9b8063" stroke-width="1.2"/><g clip-path="url(#${p}-board-clip)">${state.boardColour?texture(210,20,540,540,'board-wood'):`<polygon points="${polygon(g.board)}" fill="${unknown}"/>`}</g><polygon points="${polygon(g.board)}" fill="url(#${p}-body-light)"/>${title('fretboard')}</g>`;
+    out+=`<g data-layer="fretboard" data-option="${esc(s.fretboard)}"><polygon points="${polygon(g.board)}" fill="${state.boardColour||'#49423c'}" stroke="#9b8063" stroke-width="1.2"/><g clip-path="url(#${p}-board-clip)">${state.boardColour?`<polygon points="${polygon(g.board)}" fill="url(#${p}-board-material)"/>`:`<polygon points="${polygon(g.board)}" fill="${unknown}"/>`}</g><polygon points="${polygon(g.board)}" fill="url(#${p}-body-light)"/>${title('fretboard')}</g>`;
+    out+=options.boardEdges(state,g.board)+options.bindrune(state,g.board,p+'-board-clip');
     out+='<g data-layer="frets" data-count="24" data-position-source="pdf-vector">';
-    g.frets.forEach(([a,b])=>{out+=line(a,b,'stroke="#141414" stroke-width="2.5"')+line(a,b,'stroke="#d7d8d4" stroke-width="1.15"');});out+='</g>';
+    g.frets.forEach(([a,b])=>{out+=line(a,b,'stroke="#141414" stroke-width="2.5"')+line(a,b,`stroke="${s.fret_material==='mat_brass'?'#dfc38b':'#d7d8d4'}" stroke-width="${options.fretWidth(s)}"`);});out+='</g>';
     out+=`<g data-layer="nut" data-option="${esc(s.nut_material)}" data-zero-fret="false">${line(g.board[0],g.board[1],'stroke="#797466" stroke-width="4"')}${line(g.board[0],g.board[1],'stroke="#eee4ce" stroke-width="2.5"')}</g>`;
     if(s.inlay_type==='inlay_oval'||(s.inlay_type==='inlay_dot'&&s.inlay_dot_pos!=='pos_custom')){
-      out+='<g data-layer="inlays" fill="#d9d3b9" stroke="#eee8d4" stroke-width=".25">';
+      out+=`<g data-layer="inlays" data-material="${esc(s.inlay_dot_mat||s.inlay_oval_mat)}" fill="${options.dotColour(state)}" stroke="#eee8d4" stroke-width=".25">`;
       [3,5,7,9,12,15,17,19,21,24].forEach(n=>{const a=point(g.frets[n-2][0],g.frets[n-1][0],.5),b=point(g.frets[n-2][1],g.frets[n-1][1],.5);(n%12===0?[.28,.72]:[s.inlay_type==='inlay_oval'?.5:s.inlay_dot_pos==='pos_left'?.2:s.inlay_dot_pos==='pos_right'?.8:.5]).forEach(f=>{const p=point(a,b,f);out+=s.inlay_type==='inlay_oval'?ovalMark(p,Math.hypot(b[0]-a[0],b[1]-a[1])*(n%12===0?.3:.62),3.5,Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI,s.inlay_oval_mat,state.boardColour):`<ellipse cx="${p[0]}" cy="${p[1]}" rx="1.7" ry="1.7"/>`;});});out+='</g>';
     }
     out+=`<g data-layer="pickups" data-option="${esc(s.pickups)}" data-appearance="drawing-envelope">${title('pickups')}`;
@@ -91,6 +92,7 @@
     out+=line(...g.selector,'stroke="#080808" stroke-width="2.7"')+line(...g.selector,'stroke="#878b89" stroke-width=".65"');
     const sel=point(...g.selector,.55);out+=`<rect x="${sel[0]-2}" y="${sel[1]-5}" width="4" height="10" rx="1.5" transform="rotate(54 ${sel[0]} ${sel[1]})" fill="#ddd8c6" stroke="#5c5a52" stroke-width=".5"/>`;
     g.tuners.forEach(([x,y])=>{out+=`<path d="M${x-2},${y+4}v15h4v-15" fill="${metal}" stroke="#202323" stroke-width=".6"/><rect x="${x-7}" y="${y+16}" width="14" height="9" rx="3" fill="${metal}" stroke="#333" stroke-width=".7"/><circle cx="${x}" cy="${y}" r="6.9" fill="${metal}" stroke="#272a2a" stroke-width=".6"/><circle cx="${x}" cy="${y}" r="3.9" fill="${metal}" stroke="#17191a" stroke-width=".9"/>`;});out+='</g>';
+    out+=options.knobs(state,p,g.controls,10);
     out+='<g data-layer="strings" data-count="6" data-scope="whole-instrument">';
     for(let i=0;i<6;i++){
       const a=point(g.board[0],g.board[1],.08+.84*i/5),b=point(g.bridge[0],g.bridge[1],i/5),c=g.tuners[i];

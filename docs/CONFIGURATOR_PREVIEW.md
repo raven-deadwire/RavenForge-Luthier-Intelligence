@@ -8,7 +8,46 @@ Entry point: `configurator-preview.html`. This is a separate test page. The prod
 
 The first commit connects EDDA end to end; the next extends the same renderer to EMBLA, ASKR and GRAMR. The test page copies the existing configurator shell and adds a read-only preview component, colour controls, and a responsive two-column layout. `tools/test_configurator_preview.cjs` compares data, normalization, pricing, option handlers, quote markup and PDF export source against production so the copy cannot silently diverge.
 
-## ASKR and EMBLA are bolt-on (v7, 2026-10-20, latest)
+## Detailed options and wood textures (v8, 2026-10-20, latest)
+
+This continues the user-accepted v7 outline and bolt-on construction in the test
+page only. Production, option normalization, prices and PDF source stay identical.
+
+- All named body/top/fretboard wood options now resolve to illustrative wood
+  textures, including ironwood, bog oak, snakewood, wamara, kingwood, African
+  blackwood, jindai woods and buckeye burl. The old ironwood display was the grey
+  unknown-material hatch, not an intended metal material. It is now warm wood.
+- Three original AI texture atlases contain 27 material examples. Generated source
+  resolution is 1254 × 1254 (not the requested 2048); each inset cell is 410 × 410.
+  Whole-instrument framing is retained. No upscaled-detail viewer is offered.
+  The ash/swamp-ash and Indian-rosewood/rosewood options share the respective family
+  example. Custom/other woods remain explicitly unmapped. These are not stock-board
+  photographs, species identification certificates or approved bookmatches.
+- Add binding/purfling edges, fret width, dot material colour, wood knobs, burst,
+  flake, finish sheen, handedness, rear neck-piece options and rear body-wing wood.
+  Material widths, burst colour/falloff and flake sizes are visual examples.
+- Original front instrument geometry and part pixels remain. Exact manufacturer
+  pickup/bridge/tuner substitutions, third-pickup positions, finger/slap ramps,
+  custom spacing/profiles and chambering are not invented. The scope table marks
+  missing shapes/positions and front/back-only features.
+- C1–C4 guide cards are keyboard-accessible buttons. Clicking a card applies ONLY
+  its original white motif paths to the fretboard, below strings and above wood.
+  Board/fret/string/background paths from the guide are not copied. The source
+  board coordinates are mapped to the selected model's display board; this is a
+  guide example, not approved inlay toolpaths. Choice is retained per model and
+  language; choosing another inlay/custom type hides the rune. It does not alter
+  the price/PDF selection model or imply approval of a customer's final artwork.
+- All ASKR multiscale bridge finishes are independent of hardware colour. Payson
+  retains the previous reference finish; Nova retains its specified black anodized
+  finish. Hardware colours still apply to the other metal components, including
+  front tuners. Selecting another bridge is separate from changing its colour.
+
+Source generation: `assets/configurator-materials/README.md` and
+`prompts-v8.json`. White-path extraction: `tools/extract_bindrune_motifs.py`.
+The current browser/PDF run must be checked separately; previous PASS results do
+not automatically apply to v8.
+
+## ASKR and EMBLA are bolt-on (v7, 2026-10-20, historical)
 
 Both models are fixed bolt-on instruments, not optional joint types. Re-reading
 both supplied rear drawings confirms five rear fasteners; it does not validate a

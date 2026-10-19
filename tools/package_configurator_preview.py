@@ -7,6 +7,9 @@ from build_configurator_standalone import build
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = [
+    'assets/configurator-materials.js','assets/configurator-option-renderer.js','assets/configurator-bindrune-motifs.js',
+    *[f'assets/configurator-materials/wood-{group}-atlas-v8.webp' for group in ['body','fretboard','top']],
+    'assets/configurator-materials/prompts-v8.json',
     'configurator-preview.html', 'ravenforge.png',
     'assets/configurator-platforms.js', 'assets/configurator-ui.js',
     'assets/configurator-geometry.js', 'assets/configurator-preview.js',
@@ -25,7 +28,7 @@ FILES = [
     'Edda Prototype Design.png', 'EMBLA Prototype Design.png',
     'ASKR Prototype Design.png'
 ]
-README = '''RavenForge 컨피규레이터 시각화 테스트 v7 / 2026-10-20
+README = '''RavenForge 컨피규레이터 시각화 테스트 v8 / 2026-10-20
 
 기존 홈페이지나 컨피규레이터를 교체하지 않는 별도 테스트입니다.
 
@@ -42,7 +45,9 @@ README = '''RavenForge 컨피규레이터 시각화 테스트 v7 / 2026-10-20
 - EDDA / EMBLA / ASKR / GRAMR 전환
 - 바디·탑·지판 색조, 색상표·색상 선택기, 하드웨어 색상
 - 확대 없는 전체 앞면·뒷면 전환
-- RavenForge Oval 시안, 바인드룬 설계 가이드 v5.0 C1~C4 예시
+- RavenForge Oval 시안, 클릭해서 지판에 적용하는 바인드룬 v5.0 C1~C4 예시
+- 지판 바인딩·퍼플링, 프렛 굵기·닷 재질·목재 노브·버스트·플레이크
+- ASKR 멀티스케일 브리지 고정 마감
 - 한국어 / 영어 / 독일어 및 좁은 화면
 - 기존 가격·옵션 제약·PDF 견적
 
@@ -54,7 +59,7 @@ ASKR·EMBLA 뒷면은 추가 첨부 도면의 외곽·5볼트·후면 커버·�
 EDDA 뒷면은 기존 앞면을 참고한 AI 볼트온 시안이며, 볼트 위치·힐·캐비티는 참고 배치입니다.
 Opaque 마감은 원본 이미지를 블러 처리하지 않습니다.
 선택한 마감 / 샘플 원본 버튼으로 비교할 수 있습니다.
-목재는 색조를 변경하며 샘플 무늬를 유지합니다. 픽업·브리지·튜너 형상도
+수종별 참고 목재 텍스처를 적용하며 실제 재고 목재의 무늬를 확정하지 않습니다. 픽업·브리지·튜너 형상도
 샘플을 유지하므로 정확한 선택 부품이나 최종 제작 이미지를 의미하지 않습니다.
 샘플의 새들·튜너 배열은 현행 사양과 다를 수 있습니다.
 상세 범위는 docs/CONFIGURATOR_PREVIEW.md에 있습니다.

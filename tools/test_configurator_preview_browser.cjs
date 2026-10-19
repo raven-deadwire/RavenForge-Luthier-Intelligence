@@ -46,7 +46,7 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
-          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v7');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v8');
           assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').textContent(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
@@ -57,7 +57,7 @@ async function main() {
           assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-renderer'),model==='GRAMR'?'drawing-composite':'sample-composite');
           assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-layout'),size.width<1024?'landscape':'portrait');
           // Confirm original repository rasters load, then compare reference/selected modes.
-          await page.evaluate(async()=>{const src=document.querySelector('[data-layer="body"] image').getAttribute('href');const image=new Image();image.src=src;await image.decode();if(image.naturalWidth<1000)throw new Error('Missing source render');});
+          await page.evaluate(async()=>{const src=(document.querySelector('[data-layer="body"] image')||document.querySelector('[id$="-material"] image')).getAttribute('href');const image=new Image();image.src=src;await image.decode();if(image.naturalWidth<1000)throw new Error('Missing source render');});
           await page.locator('[data-preview-mode="sample"]').click();
           await page.locator('.rf-preview-reference img').waitFor();
           assert.equal(await page.locator('.rf-preview-reference img').count(),1);
@@ -133,6 +133,11 @@ async function main() {
           await choose('color_headstock','head_match');
           await step(2);
           if(model!=='GRAMR') {
+            await choose('fretboard','ironwood');
+            assert.ok((await page.locator('[id$="-board-material"] image').getAttribute('href')).startsWith('data:image/webp'));
+            const ironPixels=await page.locator('.rf-preview-stage').screenshot();
+            await choose('fretboard','bog_oak');
+            assert.ok(!ironPixels.equals(await page.locator('.rf-preview-stage').screenshot()),'Ironwood and bog oak change visible wood pixels');
             await choose('fretboard','ebony');
             assert.equal(await layer('fretboard').getAttribute('data-option'),'ebony');
             await choose('fret_type','fretless');
@@ -155,7 +160,7 @@ async function main() {
           await page.locator('[data-bindrune-examples]').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-bindrune.png`)});
           // A visible bounding box alone misses sticky previews covering the gallery.
           for(const index of [0,3]) {
-            const card=page.locator('[data-bindrune-examples] figure').nth(index);
+            const card=page.locator('[data-bindrune-select]').nth(index);
             await card.evaluate(element=>element.scrollIntoView({block:'center',behavior:'instant'}));
             assert.ok(await card.evaluate(element=>{
               const box=element.getBoundingClientRect();
@@ -163,16 +168,38 @@ async function main() {
             }),`Bindrune C${index+1} is not covered by the preview/header`);
             if(size.width<1024) await card.screenshot({path:path.join(output,`${lang}-${size.width}-${model}-bindrune-c${index+1}.png`)});
           }
+          const quoteBeforeRune=await page.locator('#quote-summary-card').innerText();
+          const runePixels=[];
+          for(const example of ['c1','c2','c3','c4']){
+            await page.locator(`[data-bindrune-select="${example}"]`).click();
+            assert.equal(await layer('bindrune-inlay').getAttribute('data-example'),example);
+            assert.equal(await page.locator(`[data-bindrune-select="${example}"]`).getAttribute('aria-pressed'),'true');
+            runePixels.push(await layer('bindrune-inlay').innerHTML());
+          }
+          assert.equal(new Set(runePixels).size,4,'Every guide example produces different inlay paths');
+          assert.equal(await page.locator('#quote-summary-card').innerText(),quoteBeforeRune,'Artwork preview does not change prices');
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-rune-applied.png`)});
           await choose('inlay_custom_spec','custom_others');
+          assert.equal(await layer('bindrune-inlay').count(),0);
+
           assert.equal(await page.locator('[data-bindrune-examples]').count(),0);
           await choose('inlay_type','inlay_none');
           assert.equal(await layer('inlays').count(),0);
+          await choose('fret_side','side_binding');
+          assert.equal(await layer('fretboard-edge').getAttribute('data-option'),'side_binding');
+          await choose('fret_side','side_no');
+          assert.equal(await layer('fretboard-edge').count(),0);
           await step(4);
+          const bridgeBeforeColour=await layer('bridge').innerHTML();
           await choose('hardware_color','hw_gold');
+          if(model==='ASKR')assert.equal(await layer('bridge').innerHTML(),bridgeBeforeColour,'Payson bridge finish stays fixed');
           assert.equal(await layer('hardware').getAttribute('data-colour'),'#c9a75c');
           if(model==='ASKR') {
             await choose('hardware_bridge','nova_parts');
             assert.equal(await layer('bridge').getAttribute('data-colour'),'#33383d');
+            const nova=await layer('bridge').innerHTML();
+            await choose('hardware_color','hw_vintage_copper');
+            assert.equal(await layer('bridge').innerHTML(),nova,'Nova anodized finish stays fixed');
           }
           await step(5);
           const pickup=model==='GRAMR'?'guitar_hh_passive_custom':'others';

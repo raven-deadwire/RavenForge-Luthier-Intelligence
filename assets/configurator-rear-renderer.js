@@ -1,7 +1,7 @@
 /* Rear-only display renderer. Uploaded ASKR/EMBLA contours and five bolt centres
  * are kept separately from illustrative surfaces. EDDA is explicitly a concept.
  * No rear image changes the configurator's option, price or PDF state. */
-(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;if(root)root.RavenForgeRearRenderer=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+(function(root,factory){const options=typeof module==='object'&&module.exports?require('./configurator-option-renderer.js'):root.RavenForgeOptionRenderer;const api=factory(options);if(typeof module==='object'&&module.exports)module.exports=api;if(root)root.RavenForgeRearRenderer=api;})(typeof globalThis!=='undefined'?globalThis:this,function(options){
   'use strict';
   const media=path=>globalThis.RavenForgePreviewMedia?.[path]||path;
   const esc=v=>String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -22,32 +22,31 @@
     const transform=concept?(portrait?'':'translate(0 1024) rotate(-90)'):(portrait?g.portraitTransform:'');
     const path=(d,a='')=>`<path d="${d}" ${a}/>`;
     const texture=media('assets/configurator-materials/ash-illustrative.webp');
-    let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" role="img" aria-labelledby="${p}-title ${p}-desc" data-preview-svg="${state.model}" data-renderer="${concept?'rear-concept-composite':'rear-drawing-composite'}" data-side="back" data-layout="${portrait?'portrait':'landscape'}" data-neck-joint="bolt-on"><title id="${p}-title">${esc(state.model+' · '+t.back)}</title><desc id="${p}-desc">${esc(concept?t.rearConceptNote:t.bassRearNote)}</desc><defs>${tone(p+'-wood',colour,finish.opaque)}${tone(p+'-neck','#eddbb5')}
+    let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" role="img" aria-labelledby="${p}-title ${p}-desc" data-preview-svg="${state.model}" data-renderer="${concept?'rear-concept-composite':'rear-drawing-composite'}" data-side="back" data-layout="${portrait?'portrait':'landscape'}" data-neck-joint="bolt-on"><title id="${p}-title">${esc(state.model+' · '+t.back)}</title><desc id="${p}-desc">${esc(concept?t.rearConceptNote:t.bassRearNote)}</desc><defs>${options.definitions(p,state,!concept)}${tone(p+'-wood',colour,finish.opaque)}${tone(p+'-neck','#eddbb5')}
       <linearGradient id="${p}-light" x1="0" y1="0" x2="0.3" y2="1"><stop stop-color="#fff7dd" stop-opacity=".40"/><stop offset=".18" stop-color="#fff" stop-opacity=".04"/><stop offset=".65" stop-color="#000" stop-opacity=".04"/><stop offset="1" stop-color="#000" stop-opacity=".42"/></linearGradient>
       <linearGradient id="${p}-metal" x1="0" y1="0" x2=".4" y2="1"><stop stop-color="#23292c"/><stop offset=".27" stop-color="${state.metal}"/><stop offset=".4" stop-color="#f8f7ec"/><stop offset=".52" stop-color="${state.metal}"/><stop offset="1" stop-color="#22272a"/></linearGradient>
       <pattern id="${p}-grain" width="600" height="600" patternUnits="userSpaceOnUse"><image href="${texture}" width="600" height="600" transform="rotate(90 300 300)"/></pattern>
       <pattern id="${p}-neck-grain" width="600" height="600" patternUnits="userSpaceOnUse" patternTransform="translate(137 -219) scale(1.6)"><image href="${texture}" width="600" height="600" transform="rotate(90 300 300)"/></pattern>
       <linearGradient id="${p}-neck-round" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#372817" stop-opacity=".40"/><stop offset=".28" stop-color="#fff3d1" stop-opacity=".3"/><stop offset=".58" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#372817" stop-opacity=".36"/></linearGradient>
       <clipPath id="${p}-body">${path(concept?eddaBody:g.body)}</clipPath>
-      <filter id="${p}-shadow" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity=".55"/></filter>`;
+      <filter id="${p}-source-relief" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/></filter><filter id="${p}-shadow" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity=".55"/></filter>`;
     if(concept){
       const tuners=[[548,65,26,8],[553,119,38,7],[568,177,38,8],[581,231,34,8]].map(([x,y,rx,ry])=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}"/>`).join('')+[[565,60],[578,115],[599,171],[608,224]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="20" ry="24"/>`).join('');
-      out+=`<clipPath id="${p}-all">${path(eddaBody)}${path(eddaNeck)}${path(eddaHead)}${tuners}</clipPath></defs><g transform="${transform}">`;
+      out+=`<clipPath id="${p}-neck-clip">${path(eddaNeck)}</clipPath><clipPath id="${p}-all">${path(eddaBody)}${path(eddaNeck)}${path(eddaHead)}${tuners}</clipPath></defs><g transform="${transform}">`;
       const source=attrs=>`<image href="${media(g.source)}" width="1024" height="1536" ${attrs}/>`;
       out+=`<g clip-path="url(#${p}-all)" data-layer="rear-concept" data-appearance="ai-concept">${source('')}</g>`;
-      out+=`<g data-layer="rear-body" data-material="${esc(state.bodyId)}" data-finish="${esc(s.color_back_side)}" data-colour="${colour}" data-opaque="${!!finish.opaque}" clip-path="url(#${p}-body)">${source(`filter="url(#${p}-wood)"`)}</g>`;
-      out+=`<g data-layer="rear-neck" data-neck-joint="bolt-on" data-appearance="concept-retained"/><g data-layer="rear-bolts" data-count="5" data-placement="concept-only"/>`;
+      out+=`<g data-layer="rear-body" data-material="${esc(state.bodyId)}" data-finish="${esc(s.color_back_side)}" data-colour="${colour}" data-opaque="${!!finish.opaque}" clip-path="url(#${p}-body)">${source(`filter="url(#${p}-wood)"`)}${!finish.opaque&&state.bodyColour?path(eddaBody,`fill="url(#${p}-material)" opacity=".6" style="mix-blend-mode:soft-light"`):''}${options.wings(state,p,eddaBody,false,525,110)}${source(`filter="url(#${p}-source-relief)" style="mix-blend-mode:multiply"`)}${options.finish(state,p,eddaBody,true)}</g>`;
+      out+=`<g data-layer="rear-neck" data-neck-joint="bolt-on" data-appearance="concept-retained">${options.lamination(state,[[495,275],[556,275],[565,925],[486,922]],p+'-neck-clip')}</g><g data-layer="rear-bolts" data-count="5" data-placement="concept-only"/>`;
     }else{
       out+=`<clipPath id="${p}-neck-clip">${path(g.neck)}</clipPath><clipPath id="${p}-head-clip">${path(g.head)}</clipPath></defs><g transform="${transform}">`;
-      const surface=(d,filter,stroke=1)=>`<g filter="url(#${p}-shadow)">${path(d,`fill="url(#${p}-${filter==='neck'?'neck-grain':'grain'})" filter="url(#${p}-${filter})"`)}${path(d,`fill="url(#${p}-${filter==='neck'?'neck-round':'light'})" stroke="#5b4934" stroke-width="${stroke}"`)}${path(d,'fill="none" stroke="#fff0cd" stroke-width=".6" stroke-opacity=".6"')}</g>`;
+      const surface=(d,filter,stroke=1)=>`<g filter="url(#${p}-shadow)">${path(d,`fill="url(#${p}-${filter==='neck'?'neck-grain':state.bodyColour&&!finish.opaque?'material':'grain'})" ${filter==='neck'||finish.colour||!state.bodyColour?`filter="url(#${p}-${filter})"`:''}`)}${path(d,`fill="url(#${p}-${filter==='neck'?'neck-round':'light'})" stroke="#5b4934" stroke-width="${stroke}"`)}${path(d,'fill="none" stroke="#fff0cd" stroke-width=".6" stroke-opacity=".6"')}</g>`;
       // The neck ends at the source heel. No stripe continues through the body.
       out+=`<g data-layer="rear-neck" data-part="detachable-neck" data-grain="independent-neck" data-neck-joint="bolt-on" data-lamination="illustrative">${surface(g.neck,'neck')}<g clip-path="url(#${p}-neck-clip)">`;
-      const count={ '1pc':1,'3pc':3,'5pc':5,'7pc':7,'9pc':9,'13pc':13 }[s.neck]||5;
-      const neckCentre=state.model==='ASKR'?152.4:158.3;
-      for(let i=1;i<count;i+=2){const y=neckCentre-15+30*i/count;out+=`<path d="M0 ${y} H1200" stroke="${i%4===1?'#4d3325':'#7c5141'}" stroke-width="${Math.min(4,24/count)}" opacity=".9"/>`;}
+      const neckBoard=state.model==='ASKR'?[[171.53,130.105],[200.3,174.64],[790.385,186.955],[763.31,118.78]]:[[155.085,139.64],[155.085,176.945],[664.025,190.625],[623.945,127.295]];
+      out+=options.lamination(state,neckBoard,p+'-neck-clip');
       out+='</g></g>';
       out+=`<g data-layer="rear-headstock">${surface(g.head,'neck')}</g>`;
-      out+=`<g data-layer="rear-body" data-contour="pdf-vector" data-material="${esc(state.bodyId)}" data-finish="${esc(s.color_back_side)}" data-colour="${colour}" data-opaque="${!!finish.opaque}">${surface(g.body,'wood')}${path(g.scoop,'fill="none" stroke="#4c3b2a" stroke-width="1.3" stroke-opacity=".22"')}</g>`;
+      out+=`<g data-layer="rear-body" data-contour="pdf-vector" data-material="${esc(state.bodyId)}" data-finish="${esc(s.color_back_side)}" data-colour="${colour}" data-opaque="${!!finish.opaque}">${surface(g.body,'wood')}${options.wings(state,p,g.body,true,state.model==='ASKR'?152.4:158.3,65)}${options.finish(state,p,g.body,true)}${path(g.scoop,'fill="none" stroke="#4c3b2a" stroke-width="1.3" stroke-opacity=".22"')}</g>`;
       out+=`<g data-layer="rear-heel" data-neck-joint="bolt-on">${path(g.heel,'fill="none" stroke="#4a382b" stroke-width="1.7" stroke-opacity=".8"')}</g>`;
       // Trace the actual neck/body boundary, not the heel relief contour.
       // A continuous seam remains readable at full-instrument mobile size.

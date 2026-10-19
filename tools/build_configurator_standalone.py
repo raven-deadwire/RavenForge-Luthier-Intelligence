@@ -13,6 +13,7 @@ import re
 
 ROOT = Path(__file__).resolve().parents[1]
 MEDIA = [
+    *[f'assets/configurator-materials/wood-{group}-atlas-v8.webp' for group in ['body','fretboard','top']],
     'Edda Prototype Design.png', 'EMBLA Prototype Design.png', 'ASKR Prototype Design.png',
     'assets/configurator-gramr-reference.svg', 'assets/configurator-gramr-rear-reference.svg',
     'assets/configurator-materials/ash-illustrative.webp',
