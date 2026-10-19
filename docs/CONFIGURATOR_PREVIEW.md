@@ -1,3 +1,37 @@
+## v12 current status — 2026-10-20 KST
+
+- Desktop: choose options on the left; whole-instrument image and compact
+  category/value/price rows share the right column. At wide desktop sizes they
+  sit side by side. Mobile has preview/quote/options jump links and a live total.
+- Preview-only settings and scope notes fold away, keeping the image visible.
+- Pickup surfaces and EQ-dependent single/stacked knob arrays are described in
+  `CONFIGURATOR_PARTS.md`. Separate coil/kill switches never replace a knob.
+- Burst follows each actual body contour, including cutaways, on front **and**
+  back. It does not shade the headstock or instrument hardware. No ellipse-based
+  burst or RGB blur is used; the edge mask is derived from silhouette alpha.
+- GRAMR kill switch follows the requested upper-right pickguard position.
+- Test catalog removes RavenForge head plate and adds natural non-matching
+  headstock. It is a zero-cost alternative to the existing zero-cost head choices.
+- New neck colour choice: natural / match body. Transparent matching retains
+  laminate species; opaque matching conceals them. The neck colour follows the
+  body colour input independently of the rear body's natural-oil setting.
+- No approved neck-match surcharge exists, so its price is **request**, not an
+  invented charge. Natural is the unchanged base configuration. Both new finish
+  choices enter the ordinary test spec sheet/PDF through a test-only catalog
+  adapter; production data and all price/dependency/PDF functions stay unchanged.
+- Existing EDDA pickguard, deferred finger ramp, bolt-on joints, rear references,
+  bindrunes, full front/back framing and ASKR fixed bridge colours remain.
+
+Local validation: JSX compiles; 553 allowed substitutions × 3 languages × front/
+back pass; new topology, material/finish and switch-position assertions pass.
+14 native whole-instrument examples were rendered and representative pickup,
+EQ, burst and GRAMR switch views inspected. Browser/PDF results belong to the
+exact PR head, recorded in PR #35 after CI, not assumed from prior v11 results.
+
+---
+
+## Historical implementation record (v11 and earlier)
+
 ## v11 current status — 2026-10-20 KST
 
 EDDA optional sample-contour guard is restored. Selected manufacturer parts now

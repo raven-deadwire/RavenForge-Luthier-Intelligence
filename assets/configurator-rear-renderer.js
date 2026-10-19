@@ -38,15 +38,16 @@
       const source=attrs=>`<image href="${media(g.source)}" width="1024" height="1536" ${attrs}/>`;
       out+=`<g clip-path="url(#${p}-all)" data-layer="rear-concept" data-appearance="ai-concept">${source('')}</g>`;
       out+=`<g data-layer="rear-body" data-material="${esc(state.bodyId)}" data-finish="${esc(s.color_back_side)}" data-colour="${colour}" data-opaque="${!!finish.opaque}" clip-path="url(#${p}-body)">${source(`filter="url(#${p}-wood)"`)}${!finish.opaque&&state.bodyColour?path(eddaBody,`fill="url(#${p}-material)" ${finish.colour?`filter="url(#${p}-surface-dye)"`: 'opacity=".6" style="mix-blend-mode:soft-light"'}`):''}${options.wings(state,p,eddaBody,false,525,110)}${source(`filter="url(#${p}-source-relief)" style="mix-blend-mode:multiply"`)}${options.bodyPieces(state,p,eddaBody,false,525,110,true)}${options.finish(state,p,eddaBody,true)}</g>`;
-      out+=`<g data-layer="rear-neck" data-neck-joint="bolt-on" data-appearance="concept-retained">${options.lamination(state,[[495,275],[556,275],[565,925],[486,922]],p+'-neck-clip')}</g><g data-layer="rear-bolts" data-count="5" data-placement="concept-only"/><g data-layer="rear-hardware" data-colour="${state.metal}" clip-path="url(#${p}-metal-clip)">${source(`filter="url(#${p}-metal-tint)"`)}</g>`;
+      out+=`<g data-layer="rear-neck" data-neck-joint="bolt-on" data-appearance="concept-retained">${options.neckFinish(state,p,eddaNeck,source(`clip-path="url(#${p}-neck-clip)"`)+options.lamination(state,[[495,275],[556,275],[565,925],[486,922]],p+'-neck-clip'))}</g><g data-layer="rear-bolts" data-count="5" data-placement="concept-only"/><g data-layer="rear-hardware" data-colour="${state.metal}" clip-path="url(#${p}-metal-clip)">${source(`filter="url(#${p}-metal-tint)"`)}</g>`;
     }else{
       out+=`<clipPath id="${p}-neck-clip">${path(g.neck)}</clipPath><clipPath id="${p}-head-clip">${path(g.head)}</clipPath></defs><g transform="${transform}">`;
       const surface=(d,filter,stroke=1)=>`<g filter="url(#${p}-shadow)">${path(d,`fill="url(#${p}-${filter==='neck'?'neck-grain':state.bodyColour&&!finish.opaque?'material':'grain'})" ${filter==='neck'||finish.colour||!state.bodyColour?`filter="url(#${p}-${filter==='wood'&&finish.colour?'surface-dye':filter})"`:''}`)}${path(d,`fill="url(#${p}-${filter==='neck'?'neck-round':'light'})" stroke="#5b4934" stroke-width="${stroke}"`)}${path(d,'fill="none" stroke="#fff0cd" stroke-width=".6" stroke-opacity=".6"')}</g>`;
       // The neck ends at the source heel. No stripe continues through the body.
-      out+=`<g data-layer="rear-neck" data-part="detachable-neck" data-grain="independent-neck" data-neck-joint="bolt-on" data-lamination="illustrative">${surface(g.neck,'neck')}<g clip-path="url(#${p}-neck-clip)">`;
+      out+=`<g data-layer="rear-neck" data-part="detachable-neck" data-grain="independent-neck" data-neck-joint="bolt-on" data-lamination="illustrative">`;
+      let neckContents=surface(g.neck,'neck')+`<g clip-path="url(#${p}-neck-clip)">`;
       const neckBoard=state.model==='ASKR'?[[171.53,130.105],[200.3,174.64],[790.385,186.955],[763.31,118.78]]:[[155.085,139.64],[155.085,176.945],[664.025,190.625],[623.945,127.295]];
-      out+=options.lamination(state,neckBoard,p+'-neck-clip');
-      out+='</g></g>';
+      neckContents+=options.lamination(state,neckBoard,p+'-neck-clip')+'</g>';
+      out+=options.neckFinish(state,p,g.neck,neckContents)+'</g>';
       out+=`<g data-layer="rear-headstock">${surface(g.head,'neck')}</g>`;
       out+=`<g data-layer="rear-body" data-contour="pdf-vector" data-material="${esc(state.bodyId)}" data-finish="${esc(s.color_back_side)}" data-colour="${colour}" data-opaque="${!!finish.opaque}">${surface(g.body,'wood')}${options.wings(state,p,g.body,true,state.model==='ASKR'?152.4:158.3,65)}${options.bodyPieces(state,p,g.body,true,state.model==='ASKR'?152.4:158.3,65,true)}${options.finish(state,p,g.body,true)}${path(g.scoop,'fill="none" stroke="#4c3b2a" stroke-width="1.3" stroke-opacity=".22"')}</g>`;
       out+=`<g data-layer="rear-heel" data-neck-joint="bolt-on">${path(g.heel,'fill="none" stroke="#4a382b" stroke-width="1.7" stroke-opacity=".8"')}</g>`;

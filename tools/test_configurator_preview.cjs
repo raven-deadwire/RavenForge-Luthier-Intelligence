@@ -17,7 +17,7 @@ const section = (text,start,end) => {
 for (const [a,b] of [
   ['const configData = {','const App = () => {'],
   ['const isCategoryVisible =','      return (\n        <div className="min-h-screen'],
-  ['{/* Web UI Header */}','    // Render React App to DOM']
+  ['{/* Web UI Header */}','                </div>\n              </div>\n']
 ]) assert.equal(section(html,a,b), section(original.replace(/\r\n/g,'\n'),a,b));
 assert.doesNotMatch(original,/RavenForgePreview|configurator-preview\.js/);
 const context=vm.createContext({RavenForgePlatforms:platforms});
@@ -25,6 +25,7 @@ vm.runInContext(section(html,'const configData = {','const App = () => {')+
   section(html,'const isCategoryVisible =','const getDefaultSelections =')+
   'this.data=configData;this.normalize=normalizeSelections;this.visible=isOptionVisible;',context);
 const {data,normalize,visible}=context;
+preview.configureTestOptions(data);
 let combinations=0;
 for (const [model,count,price] of [['EDDA',4,2100],['EMBLA',5,2550],['ASKR',5,3200],['GRAMR',6,2000]]) {
   assert.equal(data.models.find(m=>m.id===model).basePrice,price);
@@ -202,8 +203,8 @@ for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
   for(const coil of ['coil_none','coil_1_ps','coil_2_ps','coil_2_pcts'])for(const extras of [[],['kill_switch'],['dual_tone'],['kill_switch','dual_tone']]){
     const state=preview.scene(model,{...d,pickups:model==='EDDA'?'nova_mm':'askr_delano_sbc5_e',electronics:model==='GRAMR'?'guitar_passive':'passive',coil_switch:coil},'',{},null,{specialOptions:extras});
     const plan=parts.controlPlan(state),knobs=plan.filter(c=>c.type==='knob'),switches=plan.filter(c=>c.type!=='knob');
-    assert.deepEqual(knobs.map(c=>c.xy),state.g.controls,'Retain every original knob coordinate');
-    assert.ok(knobs.every(c=>c.placement==='source-retained'));
+    assert.deepEqual(knobs.map(c=>c.xy),parts.electronicsPlan(state).knobs.map(c=>c.xy),'Switches preserve the selected electronics layout');
+    assert.ok(knobs.every(c=>c.placement===(model==='GRAMR'?'source-retained':'electronics-preview')));
     assert.ok(switches.every(c=>c.placement==='preview-only-unconfirmed'));
     assert.equal(plan.filter(c=>c.type==='kill').length,extras.includes('kill_switch')?1:0);
     const clearance=model==='GRAMR'?25:21;
@@ -264,3 +265,41 @@ for(const [model,category,ids] of [['EMBLA','pickups',['delano_sbc','delano_ts']
  assert.equal(new Set(renders).size,ids.length);
 }
 console.log('PASS: referenced product variants, textured laminate species, walnut/bloodwood and deferred finger ramps');
+
+// v12: electronics topology changes; separate options never consume a knob.
+const eqCases=[['EDDA','passive',0,3,0],['EDDA','nfp','filter',4,0],['EDDA','eq01','filter',4,4],['EMBLA','zuta',3,5,0],['EMBLA','noll',4,6,0],['EMBLA','john_east',3,5,2],['EMBLA','underhill','filter',5,3],['ASKR','fishman',2,4,0],['ASKR','glockenklang',3,5,0],['ASKR','darkglass',3,5,0],['ASKR','lhz',3,5,0],['GRAMR','guitar_passive',0,2,0],['GRAMR','guitar_zuta_core','planned',2,0]];
+for(const [model,electronics,bands,count,stacks] of eqCases){
+  const s={...normalize(model),electronics};
+  const state=preview.scene(model,s,'transparent #9d282b',{},null,{specialOptions:['kill_switch'],pickguard:'black'});
+  const plan=parts.electronicsPlan(state);assert.equal(plan.bands,bands);assert.equal(plan.knobs.length,count);assert.equal(plan.knobs.filter(k=>k.stacked).length,stacks);
+  const all=parts.controlPlan(state);
+  for(const [i,a] of all.entries())for(const b of all.slice(i+1))assert.ok(Math.hypot(a.xy[0]-b.xy[0],a.xy[1]-b.xy[1])>21,`${model}/${electronics}: controls overlap`);
+  const plain=preview.scene(model,s,'transparent #9d282b');assert.equal(parts.knobs(plain,'test',8),parts.knobs(state,'test',8));
+  assert.equal(s.electronics,electronics);
+}
+assert.deepEqual(parts.electronicsProfiles.darkglass.knobs.at(-1),['high_mid']);
+assert.equal(parts.electronicsPlan(preview.scene('EDDA',{...normalize('EDDA'),electronics:'dual_filter'},'')),null);
+assert.equal(parts.electronicsPlan(preview.scene('EMBLA',{...normalize('EMBLA'),control_layout:'control_custom'},'')),null);
+const kill=parts.controlPlan(preview.scene('GRAMR',normalize('GRAMR'),'',{},null,{specialOptions:['kill_switch']})).find(x=>x.type==='kill');assert.deepEqual(kill.xy,[796,210]);
+for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
+  const base={...normalize(model),extra_finish_burst:'burst_add',neck_finish:'neck_body',color_headstock:'head_natural'};
+  for(const side of ['front','back']){
+    const svg=preview.renderSvg(preview.scene(model,base,'transparent #9d282b'),side,'ko','portrait');
+    assert.equal((svg.match(/data-effect="burst"/g)||[]).length,1,'Only the body gets a contour burst');
+    assert.match(svg,new RegExp(`data-effect="burst" data-placement="body-contour" data-side="${side}"`));
+    assert.doesNotMatch(svg,/<radialGradient[^>]*burst/);
+    const plain=preview.renderSvg(preview.scene(model,{...base,extra_finish_burst:'burst_none'},''),side,'en');assert.doesNotMatch(plain,/data-effect="burst"/);
+    if(side==='back'){
+      assert.match(svg,/data-layer="neck-finish" data-mode="body" data-colour="#9d282b" data-opaque="false"/);
+      assert.match(svg,/data-layer="neck-laminates"/);
+      const opaque=preview.renderSvg(preview.scene(model,base,'solid #9d282b'),'back','en');
+      assert.match(opaque,/data-layer="neck-finish" data-mode="body" data-colour="#9d282b" data-opaque="true"/);
+      assert.doesNotMatch(opaque,/data-layer="neck-laminates"/);
+      const natural=preview.renderSvg(preview.scene(model,{...base,neck_finish:'neck_natural'},'solid #9d282b'),'back','en');assert.match(natural,/data-layer="neck-laminates"/);
+    }
+  }
+  assert.ok(data.categories.find(c=>c.id==='color_headstock').options.some(o=>o.id==='head_natural'));
+  assert.ok(!data.categories.find(c=>c.id==='color_headstock').options.some(o=>o.id==='head_plate'));
+}
+const catalogBefore=JSON.stringify(data);preview.configureTestOptions(data);assert.equal(JSON.stringify(data),catalogBefore,'Test catalog setup is idempotent');
+console.log('PASS: EQ topology/stacked pots, independent switches, GRAMR kill position, contour burst both sides, neck/head matching and catalog idempotency');

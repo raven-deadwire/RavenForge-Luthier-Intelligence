@@ -8,7 +8,7 @@
   const screw=(x,y,r=1.5)=>circle(x,y,r,'#9a9d9b','stroke="#101314" stroke-width=".6"')+path(`M${x-r*.5},${y}h${r}`,'none','stroke="#171a1b" stroke-width=".6"');
   function definitions(p,state){
     const metal=(id,colour)=>`<linearGradient id="${p}-${id}" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="#171b1d"/><stop offset=".17" stop-color="${colour}"/><stop offset=".28" stop-color="#faf6e9"/><stop offset=".39" stop-color="${colour}"/><stop offset=".79" stop-color="${colour}"/><stop offset="1" stop-color="#202528"/></linearGradient>`;
-    return metal('part-metal',state.metal)+`<linearGradient id="${p}-part-plastic" x1="0" y1="0" x2=".35" y2="1"><stop stop-color="#414747"/><stop offset=".11" stop-color="#292d2e"/><stop offset=".52" stop-color="#15181a"/><stop offset="1" stop-color="#080b0c"/></linearGradient><linearGradient id="${p}-part-sheen"><stop stop-color="#fff6de" stop-opacity=".22"/><stop offset=".3" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".4"/></linearGradient>`;
+    return metal('part-metal',state.metal)+pickupDefinitions(p)+`<linearGradient id="${p}-part-plastic" x1="0" y1="0" x2=".35" y2="1"><stop stop-color="#414747"/><stop offset=".11" stop-color="#292d2e"/><stop offset=".52" stop-color="#15181a"/><stop offset="1" stop-color="#080b0c"/></linearGradient><linearGradient id="${p}-part-sheen"><stop stop-color="#fff6de" stop-opacity=".22"/><stop offset=".3" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".4"/></linearGradient>`;
   }
   // Keep the supplied pickup envelopes. Deferred third-pickup layouts must not
   // invent another housing or change existing parts without a placement drawing.
@@ -38,11 +38,37 @@ return out;
     EDDA:{kill:[610,991],coils:[]},
     EMBLA:{kill:[744,1017],coils:[[716,914],[736,951]]},
     ASKR:{kill:[704,1069],coils:[[693,933],[718,947]]},
-    GRAMR:{kill:[915,218],coils:[]}
+    // Upright front: right of the pickguard centre, slightly above it.
+    GRAMR:{kill:[796,210],coils:[]}
   };
+  // Functions are from manufacturer documents; installation coordinates and
+  // unspecified pot variants are display proposals, never order/drilling data.
+  const electronicsProfiles={
+    passive:{bands:0,knobs:[['volume'],['blend'],['tone']]},
+    fishman:{bands:2,knobs:[['volume'],['blend'],['bass'],['treble']]},
+    zuta:{bands:3,knobs:[['volume'],['blend'],['bass'],['mid'],['treble']]},
+    glockenklang:{bands:3,knobs:[['volume'],['blend'],['bass'],['mid'],['treble']]},
+    darkglass:{bands:3,knobs:[['volume'],['blend'],['bass'],['mid'],['high_mid']]},
+    lhz:{bands:3,knobs:[['volume'],['blend'],['bass'],['mid'],['treble']]},
+    noll:{bands:4,knobs:[['volume'],['blend'],['bass'],['low_mid'],['high_mid'],['treble']]},
+    john_east:{bands:3,knobs:[['volume'],['blend'],['bass','treble'],['mid','mid_frequency'],['tone']]},
+    nfp:{bands:'filter',knobs:[['volume'],['blend'],['neck_filter'],['bridge_filter']]},
+    underhill:{bands:'filter',knobs:[['volume'],['blend'],['neck_filter','neck_resonance'],['bridge_filter','bridge_resonance'],['bass','bass_frequency']]},
+    eq01:{bands:'filter',knobs:[['volume','blend'],['neck_filter','neck_resonance'],['bridge_filter','bridge_resonance'],['treble_filter','treble_level']]},
+    guitar_passive:{bands:0,knobs:[['volume'],['tone']]},
+    guitar_zuta_core:{bands:'planned',knobs:[['volume'],['tone']]}
+  };
+  function electronicsPlan(state){
+    const s=state.selections,ref=electronicsProfiles[s.electronics];
+    if(!ref||['control_custom','guitar_custom_wiring'].includes(s.control_layout))return null;
+    const positions=state.model==='ASKR'?[[728,975],[706,1010],[750,1013],[714,1046],[754,1050],[747,1082]]:
+      state.model==='EMBLA'?[...state.g.controls,[700,1070]]:
+      state.model==='EDDA'?[...state.g.controls,[607,954],[606,917]]:state.g.controls;
+    return {...ref,knobs:ref.knobs.map((functions,index)=>({xy:[...positions[index]],type:'knob',index,functions:[...functions],stacked:functions.length>1,placement:state.model==='GRAMR'?'source-retained':'electronics-preview'}))};
+  }
   function controlPlan(state){
     const s=state.selections,extras=state.specialOptions||[],positions=state.g.controls||[];
-    const plan=positions.map((xy,i)=>({xy:[...xy],type:'knob',index:i,functions:[],placement:'source-retained'}));
+    const plan=electronicsPlan(state)?.knobs||positions.map((xy,i)=>({xy:[...xy],type:'knob',index:i,functions:[],placement:'source-retained'}));
     const proposal=controlProposals[state.model];
     if(!proposal)return plan;
     const add=(xy,type,fn)=>plan.push({xy:[...xy],type,index:plan.length,functions:[fn],placement:'preview-only-unconfirmed'});
@@ -55,7 +81,7 @@ return out;
   }
   function controls(state,p,radius){
     const plan=controlPlan(state),metal=`url(#${p}-part-metal)`;let out='<g data-layer="control-options" data-placement="additive-preview-proposal">';
-    for(const {xy:[x,y],type,functions,index,placement} of plan){if(type==='knob'&&!functions.length)continue;
+    for(const {xy:[x,y],type,functions,index,placement} of plan){if(type==='knob'&&!functions.includes('dual_tone'))continue;
       out+=`<g data-control-index="${index}" data-control-type="${type}" data-placement="${placement}" data-functions="${functions.join(' ')}" transform="translate(${x} ${y})">`;
       if(type!=='knob')out+=circle(0,0,radius+3,'none','stroke="#cdb98f" stroke-width=".9" stroke-dasharray="2 2" opacity=".85"');
       if(type==='kill')out+=circle(0,1,radius+1,'#121617')+circle(0,0,radius,metal,'stroke="#151b1c" stroke-width=".9"')+circle(0,0,radius*.67,'#24292a','stroke="#bbc1be" stroke-width=".65"')+circle(-radius*.18,-radius*.22,radius*.27,'#717b7a','opacity=".6"');
@@ -63,6 +89,19 @@ return out;
       if(type==='knob')out+=circle(0,0,radius+1,'none','stroke="#c9bc99" stroke-width="1.1"')+path(`M${-radius*.45},${-radius-4}l${radius*.45},-3 ${radius*.45},3`,'none','stroke="#eee4c8" stroke-width="1.1"');
       out+='</g>';
     }return out+'</g>';
+  }
+  function knobs(state,p,radius){
+    const eq=electronicsPlan(state);if(!eq)return '';
+    const wood=state.selections.knob==='knob_wood',metal=`url(#${p}-part-metal)`;
+    return `<g data-layer="knobs" data-count="${eq.knobs.length}" data-bands="${eq.bands}" data-electronics="${state.selections.electronics}" data-placement="${state.model==='GRAMR'?'source-retained':'electronics-preview'}">`+eq.knobs.map(({xy:[x,y],functions,stacked,index})=>{
+      const r=radius*(stacked?1.18:1),fill=wood?`url(#${p}-knob-material)`:metal;
+      let out=`<g data-knob-index="${index}" data-knob-functions="${functions.join(' ')}" data-stacked="${stacked}" transform="translate(${x} ${y})"><title>${functions.join(' / ')}</title>`;
+      out+=circle(.5,2,r+1.4,'#030506','opacity=".8"')+circle(0,0,r,fill,`stroke="#141819" stroke-width="1" ${wood&&state.finish.colour?`filter="url(#${p}-surface-dye)"`:''}`)+circle(0,0,r,`url(#${p}-knob-shade)`);
+      for(let i=0;i<24;i++){const a=i*Math.PI/12;out+=path(`M${Math.cos(a)*r*.88} ${Math.sin(a)*r*.88}L${Math.cos(a)*r*.98} ${Math.sin(a)*r*.98}`,'none','stroke="#111516" stroke-opacity=".55" stroke-width=".5"');}
+      if(stacked)out+=circle(0,-1.1,r*.65,'#080b0c','stroke="#101415" stroke-width="1.4"')+circle(0,-1.8,r*.60,fill)+circle(0,-1.8,r*.60,`url(#${p}-knob-shade)`)+path(`M${r*.8} 0h${-r*.2}`,'none','stroke="#dedacf" stroke-width=".8"');
+      out+=path(`M0 ${-r*(stacked?.72:.75)}v${r*.24}`,'none','stroke="#eee9dc" stroke-width=".85"');
+      return out+'</g>';
+    }).join('')+'</g>';
   }
 
   // Only explicit product identities belong here. Never guess an unspecified
@@ -100,24 +139,50 @@ return out;
       return {...r,x:r.x+(r.w-w)/2,y:r.y+(r.h-h)/2,w,h};});
   }
   const box=(x,y,w,h,rx,fill,attrs='')=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" ${attrs}/>`;
+  function pickupDefinitions(p){
+    return `<linearGradient id="${p}-pickup-face" x1=".18" y1="0" x2=".55" y2="1"><stop stop-color="#373936"/><stop offset=".3" stop-color="#282b29"/><stop offset=".8" stop-color="#1c1f1e"/><stop offset="1" stop-color="#161918"/></linearGradient><linearGradient id="${p}-pickup-bevel" x1=".15" y1="0" x2=".65" y2="1"><stop stop-color="#6f726c"/><stop offset=".07" stop-color="#3e423f"/><stop offset=".4" stop-color="#171a19"/><stop offset=".85" stop-color="#070909"/><stop offset="1" stop-color="#333734"/></linearGradient><radialGradient id="${p}-pole" cx=".32" cy=".25"><stop stop-color="#ddd9cb"/><stop offset=".4" stop-color="#a5a59c"/><stop offset=".83" stop-color="#727975"/><stop offset="1" stop-color="#c6c8bf"/></radialGradient><pattern id="${p}-pickup-grain" width="7" height="7" patternUnits="userSpaceOnUse">${Array.from({length:45},(_,i)=>circle((i*2.371)%7,(i*i*.913)%7,.045+(i%3)*.025,i%3?'#bbc0b6':'#020505',`opacity="${i%3?.13:.24}"`)).join('')}</pattern>`;
+  }
+  function pickupUnit(ref,p){
+    const w=ref.w,h=ref.h,face=`url(#${p}-pickup-face)`,bevel=`url(#${p}-pickup-bevel)`,grain=`url(#${p}-pickup-grain)`;
+    let out=box(-.8,1.6,w+1.6,h+1.7,3.8,'#000202','opacity=".6"');
+    if(ref.style==='m6-open-slugs'){
+      out+=box(-4,h/2-4,w+8,8,1.3,'#8b8a78','stroke="#302e25" stroke-width=".65"')+screw(-2,h/2,1.3)+screw(w+2,h/2,1.3);
+      out+=box(-.6,0,w+1.2,h+1,7,'#151717','stroke="#393a34" stroke-width="1"');
+      for(let row=0;row<2;row++){
+        const y=row*h/2;
+        out+=box(.5,y+.5,w-1,h/2-1,8.5,bevel)+box(1.3,y+1.3,w-2.6,h/2-2.8,7.6,face)+box(1.3,y+1.3,w-2.6,h/2-2.8,7.6,grain);
+        const cy=y+h/4;
+        for(let i=0;i<6;i++){const x=8.9+i*10.4;out+=circle(x,cy,2.8,'#080b0a')+circle(x,cy,2.43,`url(#${p}-pole)`,'stroke="#bfc0b5" stroke-width=".2"');for(const r of [.6,1,1.5,2])out+=circle(x,cy,r,'none','stroke="#545b57" stroke-opacity=".22" stroke-width=".12"');}
+        for(const x of [4.2,14.1,55.8])out+=circle(x,cy,.95,'#050808');
+      }
+      return out;
+    }
+    const recess=['sbc-e','40twx','fluence'].includes(ref.style),r=ref.style==='40twx'?1.7:3.2;
+    // Open side mounting recesses belong to the cover silhouette, not a dot
+    // painted over a solid rectangle. Delano SBC instead has three round holes.
+    const cover=`M${r} 0H${w-r}Q${w} 0 ${w} ${r}V${h/2-3.15}${recess?`H${w-1.1}a3.15 3.15 0 0 0 0 6.3H${w}`:`V${h/2+3.15}`}V${h-r}Q${w} ${h} ${w-r} ${h}H${r}Q0 ${h} 0 ${h-r}V${h/2+3.15}${recess?'H1.1a3.15 3.15 0 0 0 0 -6.3H0':`V${h/2-3.15}`}V${r}Q0 0 ${r} 0Z`;
+    out+=path(cover,'#090c0b','transform="translate(0 1.4)" stroke="#090c0b" stroke-width="1.2"')+path(cover,bevel,'stroke="#0b0d0d" stroke-width=".55"');
+    out+=`<g transform="translate(1.25 1.1) scale(${(w-2.5)/w} ${(h-2.9)/h})">${path(cover,face)}${path(cover,grain)}</g>`;
+    out+=path(`M${r+1} 1Q1 1 1 ${r+1}V${h/2-4} M${r+1} 1H${w-r-1}`,'none','stroke="#c0c3b8" stroke-opacity=".2" stroke-width=".4"');
+    if(!recess)for(const [x,y] of [[4,5],[4,h-5],[w-4,h/2]])out+=circle(x,y,2.55,bevel)+circle(x,y,1.85,'#050908')+circle(x+.3,y+.55,.85,'#2c302b');
+    else for(const x of [1.3,w-1.3])out+=circle(x,h/2,1.45,'#080b0a')+screw(x,h/2,1.05);
+    if(ref.style==='times-square')for(let row=0;row<2;row++)for(let i=0;i<5;i++){
+      const x=14+i*17.8,y=row?h-7:5;
+      out+=box(x-.6,y-.6,13.2,2.9,.35,'#080b09')+box(x,y,12,1.7,.15,'#868e89')+path(`M${x+.2} ${y+.3}h11.6`,'none','stroke="#e2e2d6" stroke-width=".45"')+path(`M${x+.2} ${y+1.4}h11.6`,'none','stroke="#454d48" stroke-width=".4"');
+    }
+    if(ref.style==='fluence'){
+      const groove=`M3 ${h*.75}H${w*.41}C${w*.49} ${h*.75} ${w*.46} ${h*.25} ${w*.55} ${h*.25}H${w-3}`;
+      out+=path(groove,'none','stroke="#070a09" stroke-width="1.4"')+path(groove,'none','transform="translate(0 .7)" stroke="#92988f" stroke-opacity=".65" stroke-width=".42"');
+    }
+    return out;
+  }
   function pickups(state,p){
     const ref=profile(state,'pickups');if(!ref)return '';
-    const id=state.selections.pickups,plastic=`url(#${p}-part-plastic)`;
-    let out=`<g data-layer="pickups" data-option="${id}" data-count="${state.g.pickups.length}" data-appearance="manufacturer-reference" data-placement="sample-fit" data-profile="${ref.style}">`;
-    selectedPickupPlan(state).forEach((r,index)=>{
-      const scale=r.w/ref.w,w=ref.w,h=ref.h;
-      out+=`<g data-pickup-index="${index}" transform="translate(${r.x+r.w/2} ${r.y+r.h/2}) rotate(${r.angle||0}) scale(${scale}) translate(${-w/2} ${-h/2})">`;
-      out+=box(-.8,1.4,w+1.6,h+1.2,3.5,'#030505','opacity=".8"')+box(0,0,w,h,3.1,plastic,'stroke="#090c0d" stroke-width="1.2"')+box(1,1,w-2,h-2,2.6,'none','stroke="#7f8380" stroke-opacity=".5" stroke-width=".55"');
-      if(ref.style==='sbc'||ref.style==='times-square'){
-        const holes=ref.style==='sbc'?[[4,5],[4,h-5],[w-4,h/2]]:[[4,5],[4,h-5],[w-4,h/2]];
-        for(const [x,y] of holes)out+=circle(x,y,2.1,'#090b0c','stroke="#676b69" stroke-width=".6"')+circle(x,y,.75,'#141818');
-      }else for(const x of [2,w-2])out+=circle(x,h/2,3.2,'#080b0c','stroke="#707674" stroke-width=".7"')+screw(x,h/2,1.25);
-      if(ref.style==='times-square')for(let row=0;row<2;row++)for(let i=0;i<5;i++){
-        const x=14+i*17.8,y=row?h-7:5;
-        out+=box(x-.7,y-.7,13.4,2.5,.3,'#080b0c')+box(x,y,12,1.2,.15,'#aeb3b2')+box(x,y+.8,12,.4,0,'#e7e7dc');
-      }
-      if(ref.style==='fluence')out+=path(`M4 ${h*.72} H${w*.43} C${w*.49} ${h*.72} ${w*.47} ${h*.28} ${w*.54} ${h*.28} H${w-4}`,'none','stroke="#070a0b" stroke-width="1.1"')+path(`M4 ${h*.72+.8} H${w*.43} C${w*.49} ${h*.72+.8} ${w*.47} ${h*.28+.8} ${w*.54} ${h*.28+.8} H${w-4}`,'none','stroke="#666c6b" stroke-width=".45"');
-      out+='</g>';
+    const guitar=state.model==='GRAMR';
+    let out=`<g data-layer="pickups" data-option="${state.selections.pickups}" data-count="${state.g.pickups.length}" data-appearance="manufacturer-reference" data-placement="sample-fit" data-profile="${ref.style}" data-surface="matte-bevel-recess">`;
+    (guitar?pickupPlan(state):selectedPickupPlan(state)).forEach((r,index)=>{
+      const scale=guitar?r.h/ref.w:r.w/ref.w;
+      out+=`<g data-pickup-index="${index}" transform="translate(${r.x+r.w/2} ${r.y+r.h/2}) rotate(${guitar?-90:r.angle||0}) scale(${scale}) translate(${-ref.w/2} ${-ref.h/2})">${pickupUnit(ref,p)}</g>`;
     });return out+'</g>';
   }
   function bridge(state,p){
@@ -195,5 +260,5 @@ return out;
     else {anchors=frontTunerAnchors[state.model];scale=state.model==='EDDA'?.72:.68;}
     return `<g data-layer="${back?'rear-selected-tuners':state.model==='GRAMR'?'selected-tuners':'hardware'}" data-option="${state.selections.hardware_color}" data-machine-head="${state.selections.hardware_machine_head}" data-colour="${state.metal}" data-count="${anchors.length}" data-appearance="manufacturer-reference" data-placement="${back&&state.model!=='EDDA'?'drawing-fit':'sample-fit'}" data-profile="${ref.key}">`+anchors.map(([x,y,a],i)=>`<g data-tuner-index="${i}" transform="translate(${x} ${y}) rotate(${a}) scale(${scale})">${tunerUnit(state,p,ref,back)}</g>`).join('')+'</g>';
   }
-  return {definitions,pickupPlan,guard,ramps,controlPlan,controls,references,profile,selectedPickupPlan,pickups,bridge,tuners};
+  return {definitions,pickupPlan,guard,ramps,electronicsProfiles,electronicsPlan,knobs,controlPlan,controls,references,profile,selectedPickupPlan,pickups,bridge,tuners};
 });

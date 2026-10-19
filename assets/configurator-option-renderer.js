@@ -11,18 +11,30 @@
   function definitions(p,state,horizontal=false){
     return materials.finishFilter(p+'-surface-dye',state.finish.colour)+materials.pattern(p+'-material',state.topId,horizontal)+materials.pattern(p+'-board-material',state.selections.fretboard,horizontal)+materials.pattern(p+'-knob-material',state.topId,horizontal)+materials.pattern(p+'-wing-material',state.selections.body_wing_wood,horizontal)+
       `<linearGradient id="${p}-detail-gloss" x1="0" y1="0" x2="1" y2="1"><stop stop-color="white" stop-opacity="0"/><stop offset=".25" stop-color="white" stop-opacity="0"/><stop offset=".32" stop-color="white" stop-opacity=".26"/><stop offset=".36" stop-color="white" stop-opacity=".01"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient>
-      <radialGradient id="${p}-burst"><stop offset=".45" stop-color="#170b08" stop-opacity="0"/><stop offset=".72" stop-color="#331409" stop-opacity=".16"/><stop offset=".9" stop-color="#1a0906" stop-opacity=".62"/><stop offset="1" stop-color="#080504" stop-opacity=".95"/></radialGradient>
       <radialGradient id="${p}-knob-shade" cx=".3" cy=".25"><stop stop-color="#fff6df" stop-opacity=".4"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".75"/></radialGradient>
       <pattern id="${p}-flakes" width="31" height="37" patternUnits="userSpaceOnUse">${Array.from({length:18},(_,i)=>{const x=(i*17.73)%31,y=(i*11.81)%37;return `<circle cx="${x}" cy="${y}" r="${i%4===0?.65:.3}" fill="${i%3?'#f5dfac':'#fff'}" opacity="${i%3?.6:.95}"/>`;}).join('')}</pattern>`;
   }
-  function finish(state,p,d,back=false){
+  function finish(state,p,d,back=false,body=true){
     const s=state.selections,id=back?s.color_back_side:s.color_top;
     let out=`<g data-layer="${back?'rear-':''}finish-details" data-finish="${id||''}" data-appearance="illustrative">`;
     if(id?.endsWith('gloss'))out+=`<path d="${d}" fill="url(#${p}-detail-gloss)"/>`;
     if(id?.endsWith('stain')||id?.endsWith('tint'))out+=`<path d="${d}" fill="#b7aea0" opacity=".055"/>`;
-    if(!back&&s.extra_finish_burst==='burst_add')out+=`<path data-effect="burst" d="${d}" fill="url(#${p}-burst)"/>`;
+    if(body&&s.extra_finish_burst==='burst_add'){
+      // Derive the band from the actual silhouette, including both cutaways.
+      // A centred ellipse puts the dark patch in the wrong place on asymmetry.
+      const width=back?(state.model==='EDDA'?18:10):({EDDA:12,EMBLA:15,ASKR:12,GRAMR:11}[state.model]);
+      const id=p+'-burst-'+(back?'back':'front');
+      out+=`<defs><filter id="${id}" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feMorphology in="SourceAlpha" operator="erode" radius="${width}" result="inner"/><feGaussianBlur in="inner" stdDeviation="${width*.65}" result="soft-inner"/><feComposite in="SourceAlpha" in2="soft-inner" operator="out" result="edge"/><feFlood flood-color="#160b08" flood-opacity=".96"/><feComposite in2="edge" operator="in"/></filter></defs><path data-effect="burst" data-placement="body-contour" data-side="${back?'back':'front'}" d="${d}" fill="black" filter="url(#${id})"/>`;
+    }
     if(!back&&s.extra_finish_flake==='flake_add')out+=`<path data-effect="flake" d="${d}" fill="url(#${p}-flakes)"/>`;
     return out+'</g>';
+  }
+  function neckFinish(state,p,d,contents){
+    const f=state.neckFinish||state.finish,match=state.neckColour==='body',colour=match&&f.colour;
+    const attrs=`data-layer="neck-finish" data-mode="${match?'body':'natural'}" data-colour="${colour||''}" data-opaque="${!!(colour&&f.opaque)}"`;
+    if(!colour)return `<g ${attrs}>${contents}</g>`;
+    if(f.opaque)return `<g ${attrs}><path d="${d}" fill="${colour}"/><path d="${d}" fill="url(#${p}-knob-shade)" opacity=".45"/></g>`;
+    return `<g ${attrs}><defs>${materials.finishFilter(p+'-neck-dye',colour)}</defs><g filter="url(#${p}-neck-dye)">${contents}</g></g>`;
   }
   function boardEdges(state,board){
     const s=state.selections;let out='';
@@ -101,5 +113,5 @@
     const portrait=svg.includes('data-layout="portrait"');
     return svg.replace('</defs>',`</defs><g data-layer="orientation" transform="${portrait?`translate(${2*x+w} 0) scale(-1 1)`:`translate(0 ${2*y+h}) scale(1 -1)`}">`).replace('</svg>','</g></svg>');
   }
-  return {definitions,finish,wings,bodyPieces,boardEdges,dotColour,fretWidth,bindrune,knobs,laminatePlan,lamination,orientation,materials};
+  return {definitions,finish,neckFinish,wings,bodyPieces,boardEdges,dotColour,fretWidth,bindrune,knobs,laminatePlan,lamination,orientation,materials};
 });

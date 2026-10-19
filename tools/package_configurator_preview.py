@@ -29,7 +29,7 @@ FILES = [
     'Edda Prototype Design.png', 'EMBLA Prototype Design.png',
     'ASKR Prototype Design.png'
 ]
-README = '''RavenForge 컨피규레이터 시각화 테스트 v11 / 2026-10-20
+README = '''RavenForge 컨피규레이터 시각화 테스트 v12 / 2026-10-20
 
 기존 홈페이지나 컨피규레이터를 교체하지 않는 별도 테스트입니다.
 
@@ -43,6 +43,10 @@ README = '''RavenForge 컨피규레이터 시각화 테스트 v11 / 2026-10-20
 인터넷 연결이 필요합니다. source 폴더는 개발용 소스 사본입니다.
 
 확인할 기능
+- 왼쪽 옵션 / 오른쪽 이미지·사양·가격, 모바일 빠른 이동·합계
+- 제조사 사진 기반 픽업 표면, EQ별 노브 수·이중 노브 배열
+- 바디 외곽을 따르는 앞뒤 버스트, GRAMR 픽가드 우측 상단 킬스위치
+- 헤드 논 매칭 내추럴, 넥 내추럴/바디 매칭 (매칭 추가 가격은 별도 견적)
 - EDDA / EMBLA / ASKR / GRAMR 전환
 - 바디·탑·지판 색조, 색상표·색상 선택기, 하드웨어 색상
 - 확대 없는 전체 앞면·뒷면 전환

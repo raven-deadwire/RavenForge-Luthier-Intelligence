@@ -1,3 +1,66 @@
+# v12 pickup surfaces and electronics controls — 2026-10-20 KST
+
+The following v12 changes supersede the historical v11 knob-retention rule.
+Coil/kill switches cannot consume a knob. Changing electronics can intentionally
+change knob quantity, stacking and arrangement. These are installation examples,
+not approved drilling coordinates or a wiring harness specification.
+
+## Electronics display mapping
+
+| Selected option | EQ architecture | Knob example |
+| --- | --- | --- |
+| Passive bass | Passive | Volume, blend, tone (3) |
+| Fishman Fluence | Bass / treble | Volume, blend, bass, treble (4) |
+| ZUTA Bass Core / Glockenklang / LHZ-05 | 3 bands | Volume, blend, bass, mid, treble (5) |
+| Darkglass Tone Capsule | Bass / mid / high-mid | Volume, blend plus 3 EQ controls (5); no invented treble band |
+| Noll TCM 4 XM | Bass / low-mid / high-mid / treble | Volume, blend plus 4 separate EQ controls (6); single-pot variant example |
+| East UNI-PRE 5 | 3 bands with mid sweep | Volume, blend, bass/treble stack, mid/frequency stack, passive tone (5) |
+| Lusithand Double NFP MKII | Dual filter | Volume, blend, neck filter, bridge filter (4) |
+| Underhill Cali Dub | Dual filter + bass EQ | Volume, blend, 3 filter/EQ stacks (5) |
+| ACG EQ-01 | Dual filter + high-pass | 4K example: volume/blend and 3 filter stacks (4); variant not finalized |
+| GRAMR passive / planned ZUTA Core | Guitar control contract | Original 2 pots and blade opening retained |
+| Nova custom / custom control layout | Unconfirmed | Original knobs retained; pending status |
+
+Bass volume/blend integration and single-versus-stacked variants are explicitly
+proposals unless the named version fixes them. Internal DIP switches and trimmers
+are not invented as exterior controls. GRAMR kill position is now [796,210] in
+front PDF space: upright view, right of pickguard centre and slightly above.
+Its original two pot centres and blade selector remain intact.
+
+Primary references (accessed 2026-10-20):
+- https://fishman.com/dp/fluence-bass-2-band-eq/
+- https://zutagroup.com/products/zuta-bass-core
+- https://glockenklang.de/en/electronics/
+- https://www.glockenklang.de/pdf/de/GLOnboardVolJason9-18V.pdf
+- https://www.noll-electronic.de/bass-electronics/tcm-4-xm/
+- https://www.darkglass.com/products/tone-capsule
+- https://lhzpreampshop.com/products/lhz-05
+- https://www.east-uk.com/wp-content/uploads/2020/06/UNI-PRE-01-5-KNOB-01-1.pdf
+- https://lusithanddevices.com/product/double-nfp/
+- https://www.underhillbass.com/product-page/cali-dub-dual-filter-and-bass-eq
+- https://acguitars.co.uk/electronics/
+
+## Pickup surface changes
+
+Original SVG artwork follows the reference photos linked in the v11 registry:
+matte micrograin, differentiated shoulder bevels, side walls, open side mounting
+recesses, counterbored SBC holes, paired Times Square rectangular poles, Fluence's
+asymmetric groove, and M6 capsule bobbins with two rows of round slugs and small
+secondary holes. No manufacturer photos or logos are distributed. Correct
+reference aspect ratios are preserved. Unsupported custom covers retain the
+owned sample/drawing and remain explicitly pending.
+
+## Verification
+
+Unit coverage includes each topology, stack count and switch clearance; band
+changes do not mutate quote state. Browser QA checks live EQ swaps, head/neck
+selection, both burst sides, localized quote rows, desktop left/right order and
+mobile overflow. Exact CI results are recorded in PR #35 after the run completes.
+
+---
+
+## Historical v11 implementation notes
+
 # v11 selected parts and neck materials — 2026-10-20 KST
 
 Isolated `configurator-preview.html`; production, option normalization, prices and

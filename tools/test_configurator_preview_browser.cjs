@@ -66,10 +66,16 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
-          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v11');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v12');
           assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').textContent(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
+          if(size.width>=1024){
+            const panes=await page.evaluate(()=>['.rf-config-options','.rf-preview-column','#quote-summary-card'].map(q=>document.querySelector(q).getBoundingClientRect().toJSON()));
+            assert.ok(panes[0].right<=panes[1].left,'Options left, preview and quote right');
+            assert.ok(panes[2].top<panes[1].top+size.height,'Quote is beside image, not after the option form');
+          }
+          await page.screenshot({path:path.join(output,`${lang}-${size.width}-${model}-workspace.png`)});
           assert.equal(await page.locator('[data-preview-view]').count(),0,'No zoom controls');
           assert.equal(await page.locator('button[data-preview-side]').count(),2);
           assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-side'),'front');
@@ -148,8 +154,28 @@ async function main() {
           assert.equal(await layer('finish').count(),0);
           assert.ok(await page.locator('.rf-preview-warning').isVisible());
           await page.locator('[data-preview-swatch="#9d282b"]').click();
-          await choose('color_headstock','head_plate');
-          assert.match(await layer('headstock').locator('path').first().getAttribute('fill'),/unknown/);
+          assert.equal(await page.locator('[data-option="head_plate"]').count(),0);
+          const matchedHead=await layer('headstock').innerHTML();
+          await choose('color_headstock','head_natural');
+          assert.notEqual(await layer('headstock').innerHTML(),matchedHead);
+          assert.ok((await page.locator('[data-summary-category="color_headstock"]').innerText()).includes({ko:'논 매칭',en:'Non-matching',de:'Nicht angepasst'}[lang]));
+          await choose('extra_finish_burst','burst_add');
+          assert.equal(await page.locator('[data-effect="burst"][data-side="front"]').count(),1);
+          await side('back');
+          assert.equal(await page.locator('[data-effect="burst"][data-side="back"]').count(),1);
+          await choose('neck_finish','neck_body');
+          assert.equal(await layer('neck-finish').getAttribute('data-mode'),'body');
+          assert.equal(await layer('neck-finish').getAttribute('data-colour'),'#9d282b');
+          assert.equal(await layer('neck-laminates').count(),1,'Transparent matching retains species texture');
+          await page.locator('.rf-colour-modes button').nth(1).click();
+          assert.equal(await layer('neck-finish').getAttribute('data-opaque'),'true');
+          assert.equal(await layer('neck-laminates').count(),0,'Opaque neck paint conceals laminates');
+          await page.locator('.rf-colour-modes button').nth(0).click();
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-burst-neck.png`)});
+          await choose('neck_finish','neck_natural');
+          await choose('extra_finish_burst','burst_none');
+          assert.equal(await page.locator('[data-effect="burst"]').count(),0);
+          await side('front');
           await choose('color_headstock','head_match');
           const redFront=await colourPixels();assert.ok(redFront.red>redFront.blue*3&&redFront.red>1000,`Red front ${model}: ${JSON.stringify(redFront)}`);
           await choose('color_back_side','back_stain');await side('back');
@@ -228,6 +254,7 @@ async function main() {
             assert.equal(await layer('bridge').innerHTML(),nova,'Nova anodized finish stays fixed');
           }
           await step(5);
+          await page.locator('.rf-preview-settings').evaluate(e=>{e.open=true;});
           const guardQuote=await page.locator('#quote-summary-card').innerText();
           if(['EDDA','GRAMR'].includes(model)){
             for(const guard of ['black','ivory','wood','none']){
@@ -242,8 +269,8 @@ async function main() {
             assert.equal(await layer('pickguard').count(),0,'No fabricated box behind pickups');
             assert.ok((await page.locator('[data-pickguard-unavailable]').innerText()).length>0);
           }
-          const retainedKnobs=await layer('knobs').innerHTML();
-          const retainedKnobCount=await layer('knobs').getAttribute('data-count');
+          let retainedKnobs=await layer('knobs').innerHTML();
+          let retainedKnobCount=await layer('knobs').getAttribute('data-count');
           if(model!=='GRAMR'){
             await choose('pickups',{EDDA:'häussel_triple',EMBLA:'delano_ts',ASKR:'askr_delano_sbc5_e'}[model]);
             assert.equal(await layer('pickups').getAttribute('data-appearance'),model==='EDDA'?'reference-retained':'manufacturer-reference');
@@ -255,7 +282,24 @@ async function main() {
             assert.equal(await page.locator('[data-appearance="illustrative-family"]').count(),0);
             await step(5);
             if(model!=='EDDA'){
-              if(model==='ASKR')await choose('electronics','glockenklang');
+              if(model==='ASKR'){
+                await choose('electronics','glockenklang');
+                assert.equal(await layer('knobs').getAttribute('data-bands'),'3');
+                assert.equal(await layer('knobs').getAttribute('data-count'),'5');
+                await choose('electronics','darkglass');
+                assert.equal(await page.locator('[data-knob-functions="high_mid"]').count(),1);
+                await choose('electronics','glockenklang');
+              }
+              if(model==='EMBLA'){
+                await choose('electronics','noll');
+                assert.equal(await layer('knobs').getAttribute('data-bands'),'4');
+                assert.equal(await layer('knobs').getAttribute('data-count'),'6');
+                await choose('electronics','john_east');
+                assert.equal(await layer('knobs').getAttribute('data-count'),'5');
+                assert.equal(await page.locator('[data-stacked="true"]').count(),2);
+                await choose('electronics','zuta');
+              }
+              retainedKnobs=await layer('knobs').innerHTML();retainedKnobCount=await layer('knobs').getAttribute('data-count');
               await choose('coil_switch','coil_2_pcts');assert.equal(await page.locator('[data-control-type="toggle"]').count(),2);
               assert.equal(await layer('knobs').innerHTML(),retainedKnobs,'Coil switches preserve the entire knob rendering');
               await choose('coil_switch','coil_none');assert.equal(await page.locator('[data-control-type="toggle"]').count(),0);
@@ -264,12 +308,14 @@ async function main() {
           }
           await page.locator('label').filter({hasText:'Kill switch'}).getByRole('checkbox').check();
           assert.equal(await page.locator('[data-control-type="kill"]').count(),1);
+          if(model==='GRAMR')assert.equal(await page.locator('[data-control-type="kill"]').getAttribute('transform'),'translate(796 210)');
           assert.equal(await layer('knobs').innerHTML(),retainedKnobs,'Kill switch never covers or replaces a knob');
           assert.equal(await layer('knobs').getAttribute('data-count'),retainedKnobCount);
           assert.equal(await page.locator('[data-control-type="kill"]').getAttribute('data-placement'),'preview-only-unconfirmed');
           assert.ok((await page.locator('[data-control-placement]').innerText()).length>0);
           if(model==='EDDA'||model==='GRAMR'){
             await choose('electronics',model==='GRAMR'?'guitar_passive':'passive');
+            retainedKnobs=await layer('knobs').innerHTML();retainedKnobCount=await layer('knobs').getAttribute('data-count');
             await page.locator('label').filter({hasText:'Dual tone capacity'}).getByRole('checkbox').check();
             assert.equal(await page.locator('[data-functions~="dual_tone"]').count(),1);
           }
