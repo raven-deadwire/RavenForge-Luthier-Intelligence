@@ -111,7 +111,7 @@ assert.equal(normalize('GRAMR',{nut_material:'nut_brass'}).nut_material,'guitar_
 for(const value of ['transparent blue','투명 블루','transparent blau']) assert.equal(preview.parseColour(value).colour,'#275f89');
 for(const value of ['solid black','불투명 블랙','deckend schwarz']) assert.equal(preview.parseColour(value).opaque,true);
 for(const value of ['blue top, red back','top blue','<script>alert(1)</script>','url(https://example.com)','red and green']) assert.equal(preview.parseColour(value).status,'unmapped');
-const attack=preview.renderSvg(preview.scene('EDDA',normalize('EDDA'),'',{pickups:'<script>"&'}),'full','en');
+const attack=preview.renderSvg(preview.scene('EDDA',{...normalize('EDDA'),pickups:'nova_custom'},'',{pickups:'<script>"&'}),'full','en');
 assert.doesNotMatch(attack,/<script>/); assert.match(attack,/&lt;script&gt;/);
 for(const language of ['ko','en','de']) assert.deepEqual(Object.keys(preview.copy[language]).sort(),Object.keys(preview.copy.en).sort());
 console.log(`PASS: ${combinations} allowed option substitutions × 3 languages × front/back; pricing/PDF source parity, safe fallbacks, Nova exception and model constraints`);
@@ -155,7 +155,8 @@ const parts=require('../assets/configurator-parts-renderer.js');
 for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
   const d=JSON.parse(JSON.stringify(normalize(model))),extras={specialOptions:['kill_switch','dual_tone'],pickguard:'ivory'},before=JSON.stringify([d,extras]);
   const front=preview.renderSvg(preview.scene(model,d,'transparent #9d282b',{},null,extras),'front','en');
-  if(['EDDA','GRAMR'].includes(model))assert.match(front,/data-layer="pickguard" data-option="ivory"/);
+  if(model==='GRAMR')assert.match(front,/data-layer="pickguard" data-option="ivory"/);
+  else if(model==='EDDA')assert.doesNotMatch(front,/data-layer="pickguard"/,'EDDA guard uses catalog state, never display-only extras');
   else {
     assert.doesNotMatch(front,/data-layer="pickguard"/,'Never invent a contour for a model without a source guard');
     for(const id of ['black','ivory','wood']){
@@ -220,27 +221,32 @@ for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
 }
 console.log('PASS: retained knob coordinates, independent non-overlapping switch proposals, no invented manufacturer shapes');
 
-// EDDA optional guard is a source-backed display choice, independent of quote state.
+// EDDA guard follows ordinary catalog state and existing dependency normalization.
 {
   const d=JSON.parse(JSON.stringify(normalize('EDDA'))),before=JSON.stringify(d);
-  const base=preview.scene('EDDA',d,'');
-  assert.equal(base.pickguard,'none');
-  assert.equal(base.g.pickguardProvenance.source,'Edda Prototype Design.png');
-  assert.equal(base.g.pickguardProvenance.kind,'sample-contour');
-  for(const guard of ['none','black','ivory','wood']){
-    const state=preview.scene('EDDA',d,'',{},null,{pickguard:guard});
-    assert.equal(state.pickguard,guard);
-    for(const lang of ['ko','en','de']){
-      const front=preview.renderSvg(state,'front',lang),back=preview.renderSvg(state,'back',lang);
-      if(guard==='none')assert.doesNotMatch(front,/data-layer="pickguard"/);
-      else {assert.match(front,/data-layer="pickguard"[^>]*data-appearance="sample-contour"/);assert.ok(front.includes(base.g.pickguard));}
-      assert.doesNotMatch(back,/data-layer="pickguard"/);
-    }
+  assert.equal(d.pickguard,'pg_none');
+  assert.equal(preview.scene('EDDA',d,'').pickguard,'none');
+  assert.equal(data.categories.find(c=>c.id==='pickguard').options.find(o=>o.id==='pg_add').prices.EDDA,'request');
+  const outputs=new Set();
+  for(const material of ['pg_1ply','pg_3ply','pg_wood'])for(const colour of ['pg_black','pg_white','pg_ivory','pg_red','pg_match'])for(const finish of ['pg_matte','pg_gloss']){
+    const selected=normalize('EDDA',{...d,pickguard:'pg_add',pickguard_material:material,pickguard_colour:colour,pickguard_finish:finish});
+    assert.equal(selected.pickguard_material,material);assert.equal(selected.pickguard_finish,finish);
+    assert.equal(selected.pickguard_colour,material==='pg_wood'?undefined:colour);
+    const state=preview.scene('EDDA',selected,'transparent #9d282b');
+    const front=preview.renderSvg(state,'front','en'),back=preview.renderSvg(state,'back','en');
+    assert.match(front,/data-layer="pickguard"[^>]*data-appearance="sample-contour"/);
+    assert.ok(front.includes(state.g.pickguard));assert.doesNotMatch(back,/data-layer="pickguard"/);
+    outputs.add(parts.guard(state,'guard'));
+    const removed=normalize('EDDA',{...selected,pickguard:'pg_none'});
+    for(const id of ['pickguard_material','pickguard_colour','pickguard_finish'])assert.equal(removed[id],undefined,'Hidden details cannot remain in quote');
   }
+  assert.equal(outputs.size,22,'Two plastics × five colours × two surfaces, plus matching wood × two surfaces');
+  for(const model of ['EMBLA','ASKR','GRAMR'])assert.equal(normalize(model,{pickguard:'pg_add'}).pickguard,undefined,'EDDA guard cannot leak into another model');
   assert.equal(JSON.stringify(d),before);
-  assert.equal(preview.scene('EDDA',d,'',{},null,{pickguard:'bad-value'}).pickguard,'none');
+  const invalid=preview.renderSvg(preview.scene('EDDA',{...d,pickguard:'pg_add',pickguard_colour:'" onerror="x',pickguard_material:'" onerror="x'},''),'front','en');
+  assert.doesNotMatch(invalid,/onerror=/);
 }
-console.log('PASS: EDDA optional source-contour guard choices, removal, rear exclusion and quote-state isolation');
+console.log('PASS: EDDA guard catalog, materials/colours/surfaces, dependency cleanup, rear exclusion and request-only price');
 
 // Species textures, read-only accent selection and stale-ramp exclusion.
 const options=require('../assets/configurator-option-renderer.js');
@@ -322,10 +328,32 @@ for(const model of ['EDDA','EMBLA','ASKR']){
     body=surface;
   }
 }
-for(const [model,pickup] of [['EMBLA','delano_sbc'],['ASKR','fishman']]){
+for(const [model,pickup] of [['EDDA','nova_mm'],['EMBLA','delano_sbc'],['ASKR','fishman']]){
   const state=preview.scene(model,{...normalize(model),pickups:pickup},'');
   const fitted=parts.selectedPickupPlan(state);
   fitted.forEach((r,i)=>{assert.equal(r.w,state.g.pickups[i].w);assert.equal(r.h,state.g.pickups[i].h);});
   assert.match(parts.pickups(state,'fit'),/data-projection="source-envelope"/);
 }
 console.log('PASS: complete preamp layouts, unchanged continuous body surface, pickup projection into source envelopes');
+
+// All EMBLA topologies stay in a compact control bank above the bridge's lower edge.
+for(const electronics of ['passive','fishman','nfp','zuta','noll','john_east','underhill','eq01']){
+ const state=preview.scene('EMBLA',{...normalize('EMBLA'),electronics,coil_switch:'coil_2_ps'},'',{},null,{specialOptions:['kill_switch']});
+ const all=parts.controlPlan(state);
+ for(const c of all){assert.ok(c.xy[0]>=690&&c.xy[0]<=800);assert.ok(c.xy[1]>=870&&c.xy[1]<=1020);}
+ for(let i=0;i<all.length;i++)for(const b of all.slice(i+1))assert.ok(Math.hypot(all[i].xy[0]-b.xy[0],all[i].xy[1]-b.xy[1])>21,'EMBLA knobs and extra switches must stay separate');
+}
+const novaPickup=preview.scene('EDDA',normalize('EDDA'),'');
+assert.match(parts.pickups(novaPickup,'nova'),/data-profile="nova-omnia-mm"/);
+assert.equal(novaPickup.pending.includes('pickups'),false);
+assert.equal(preview.scene('EDDA',{...normalize('EDDA'),pickups:'häussel_triple'},'').pending.includes('pickups'),true,'Unconfirmed Triplebucker cover must not be silently invented');
+console.log('PASS: compact EMBLA control bank and verified Nova MM coverage');
+
+// ASKR switches belong below every selectable knob topology, not beside pickups.
+for(const electronics of ['passive','nfp','zuta','noll','john_east','underhill','eq01']){
+ const state=preview.scene('ASKR',{...normalize('ASKR'),electronics,pickups:'askr_delano_sbc5_e',coil_switch:'coil_2_ps'},'',{},null,{specialOptions:['kill_switch']});
+ const plan=parts.controlPlan(state),knobs=plan.filter(c=>c.type==='knob'),switches=plan.filter(c=>c.type!=='knob');
+ assert.equal(switches.length,3);
+ for(const a of switches){assert.ok(a.xy[1]>Math.max(...knobs.map(c=>c.xy[1]))+10);for(const b of plan)if(a!==b)assert.ok(Math.hypot(a.xy[0]-b.xy[0],a.xy[1]-b.xy[1])>21);}
+}
+console.log('PASS: ASKR coil/kill switches below controls with separate clearance');

@@ -778,6 +778,16 @@ async function run() {
             await selectOption('case', 'case_standard');
             assert.equal(await quotedAmount(), before);
             await selectOption('case', 'case_premium');
+            // Preview-only catalog: exercise new guard rows in the real PDF export.
+            if(model.id==='EDDA'&&await page.locator('#instrument-preview').count()){
+              await step(4);
+              await selectOption('pickguard','pg_add');
+              await selectOption('pickguard_material','pg_3ply');
+              await selectOption('pickguard_colour','pg_ivory');
+              await selectOption('pickguard_finish','pg_gloss');
+              for(const id of ['pickguard','pickguard_material','pickguard_colour','pickguard_finish'])assert.equal(await page.locator(`[data-summary-category="${id}"]`).count(),1);
+              await step(5);
+            }
             const note = `QA ${language} ${viewport.name} ${model.id}`;
             await page.locator('textarea').fill(note);
             const rows = await page.locator('#quote-list-container > div').evaluateAll(elements => elements.map(element => element.innerText));

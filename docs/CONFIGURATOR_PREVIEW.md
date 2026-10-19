@@ -1,4 +1,37 @@
-## v13 current status — 2026-10-20 KST
+## v14 — EDDA guard selections, Nova pickup and EMBLA control placement
+
+EDDA now exposes presence, single-/three-ply plastic or body/top matching wood,
+black/white/ivory/burgundy/body-match colour, and matte/gloss surface in Hardware.
+These are ordinary test-catalog selections: the existing dependency normalizer,
+summary and PDF consume them. None remains the base-price default; adding a guard
+requires a separate quote. Material/colour/surface are visual proposals, not an
+approved fabrication price list. Wood follows the selected body/top; its separate
+colour choices disappear. Removing the guard removes all dependent quote rows.
+The original EDDA sample contour is retained. GRAMR keeps its display-only guard;
+ASKR and EMBLA do not acquire invented outlines. Production files are unchanged.
+
+Nova Omnia B4 MM now has its own original SVG: 89 × 48.8 mm cover (101 mm with
+mounting ears), three ears and four split rails in two rows. References inspected:
+https://www.nova-pickups.com/products/omnia-b4-mm
+https://www.nova-pickups.com/cdn/shop/files/photo_2026-06-06_08.58.36.jpg
+No photo or logo is distributed. Custom Nova and Häussel covers remain pending;
+their notice is now visible directly below the instrument, outside collapsed scope.
+The manufacturer's Triplebucker page did not establish the ordered custom cover.
+
+EMBLA's 3/4/5/6-knob arrays now stay in a compact control bank to the right of
+the pickups and above the lower bridge edge. Coil and kill switches retain separate
+clearances. The continuous body surface remains identical across electronics.
+ASKR coil switches now sit below all knob layouts; the optional kill switch has
+a separate lower position. Positions are preview installation proposals, not drilling coordinates.
+
+Validation: production parity, catalog dependency/quote state, 22 distinct guard
+appearances, Nova coverage, EMBLA bounds and switch separation. Browser checks
+exercise all guard controls, model cleanup and real PDF rows in KO/EN/DE. CI
+results are recorded in PR #35 after the exact revision completes.
+
+---
+
+## v13 historical status — 2026-10-20 KST
 
 Move the complete instrument preview to the leftmost desktop column. Options
 occupy the centre, with the live specification and price on the right. Preview

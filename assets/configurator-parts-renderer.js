@@ -16,8 +16,15 @@
   function guard(state,p){
     const id=state.pickguard;if(id==='none')return '';
     const d=state.g.pickguard;if(!d)return '';
-    const fill=id==='wood'?`url(#${p}-material)`:id==='ivory'?'#ddd8c9':`url(#${p}-part-plastic)`;
-    let out=`<g data-layer="pickguard" data-option="${id}" data-appearance="${state.g.pickguardProvenance?.kind||'drawing-contour'}">`+path(d,'#080a0b','stroke="#080a0b" stroke-width="3.5"')+path(d,fill,`stroke="#a9aaa0" stroke-width=".9" ${id==='wood'&&state.finish.colour?`filter="url(#${p}-surface-dye)"`:''}`)+path(d,`url(#${p}-part-sheen)`);
+    const material=state.pickguardMaterial||(id==='wood'?'pg_wood':'pg_3ply'),gloss=state.pickguardFinish==='pg_gloss';
+    const colours={black:'#181b1e',white:'#efeee7',ivory:'#d9ceb2',red:'#5d1c2a',match:state.finish.colour||state.bodyColour||'#7b5c3a'};
+    const fill=id==='wood'?`url(#${p}-material)`:(colours[id]||colours.black);
+    let out=`<g data-layer="pickguard" data-option="${id}" data-material="${material}" data-colour="${id==='wood'?state.topId:fill}" data-finish="${gloss?'gloss':'matte'}" data-appearance="${state.g.pickguardProvenance?.kind||'drawing-contour'}">`;
+    out+=path(d,'#080a0b','stroke="#080a0b" stroke-width="4"');
+    if(material==='pg_3ply')out+=path(d,'none','stroke="#d9d5c9" stroke-width="2.8"');
+    out+=path(d,fill,`stroke="${material==='pg_wood'?'#715236':'#343637'}" stroke-width=".8" ${id==='wood'&&state.finish.colour?`filter="url(#${p}-surface-dye)"`:''}`);
+    out+=path(d,`url(#${p}-part-sheen)`,`opacity="${gloss?1:.24}"`);
+    if(gloss)out+=path(d,'none','stroke="#f3f0e2" stroke-opacity=".28" stroke-width=".65"');
     if(state.model==='GRAMR')for(const [x,y] of state.g.pickguardScrews)out+=screw(x,y,1.8);
     return out+'</g>';
   }
@@ -36,8 +43,8 @@ return out;
   // They are NOT drilling positions and never enter order/PDF state.
   const controlProposals={
     EDDA:{kill:[610,991],coils:[]},
-    EMBLA:{kill:[744,1017],coils:[[716,914],[736,951]]},
-    ASKR:{kill:[704,1069],coils:[[693,933],[718,947]]},
+    EMBLA:{kill:[708,1018],coils:[[699,891],[701,931]]},
+    ASKR:{kill:[644,1107],coils:[[678,1099],[713,1087]]},
     // Upright front: right of the pickguard centre, slightly above it.
     GRAMR:{kill:[796,210],coils:[]}
   };
@@ -69,15 +76,15 @@ return out;
       6:[[612,863],[643,902],[610,933],[655,940],[650,979],[608,1030]]
     },
     EMBLA:{
-      3:[[742,894],[781,968],[759,1055]],
-      4:[[742,890],[781,940],[715,1056],[774,1047]],
-      5:[[742,890],[781,940],[701,1064],[747,1080],[791,1046]],
-      6:[[735,885],[773,925],[705,992],[704,1040],[748,1077],[792,1038]]
+      3:[[730,884],[753,939],[768,994]],
+      4:[[727,883],[752,924],[732,970],[780,980]],
+      5:[[724,884],[752,924],[728,970],[777,969],[759,1017]],
+      6:[[725,879],[749,918],[725,955],[777,956],[735,997],[785,998]]
     },
     ASKR:{
-      3:[[721,986],[753,1029],[740,1080]],
+      3:[[721,986],[753,1029],[740,1068]],
       4:[[721,981],[751,1015],[716,1034],[750,1068]],
-      5:[[712,977],[746,1001],[703,1019],[742,1042],[739,1083]],
+      5:[[712,977],[746,1001],[703,1019],[742,1042],[739,1070]],
       6:[[711,974],[747,997],[699,1011],[735,1031],[705,1045],[745,1070]]
     }
   };
@@ -130,6 +137,7 @@ return out;
   // custom cover/button, or map every product to one generic family symbol.
   const references={
     pickups:{
+      nova_mm:{w:89,h:48.8,style:'nova-omnia-mm',url:'https://www.nova-pickups.com/products/omnia-b4-mm'},
       emg:{w:102,h:38,style:'40twx',url:'https://www.emgpickups.com/40twx.html'},
       guitar_lundgren_m6:{w:70,h:38,style:'m6-open-slugs',url:'https://shop.lundgrenpickups.com/products/m6'},
       delano_sbc:{w:100,h:36,style:'sbc',url:'https://www.delano.de/sbc_5_he_s_4/sbc_5_he_s_4_details.html'},
@@ -157,7 +165,7 @@ return out;
   const profile=(state,category)=>references[category]?.[state.selections[category]];
   function selectedPickupPlan(state){
     const ref=profile(state,'pickups');if(!ref)return pickupPlan(state);
-    const base=state.model==='ASKR'?references.pickups.fishman:references.pickups.delano_sbc;
+    const base=state.model==='EDDA'?references.pickups.nova_mm:state.model==='ASKR'?references.pickups.fishman:references.pickups.delano_sbc;
     return pickupPlan(state).map(r=>{
       const w=r.w*ref.w/base.w,h=r.h*ref.h/base.h;
       return {...r,x:r.x+(r.w-w)/2,y:r.y+(r.h-h)/2,w,h};
@@ -170,6 +178,17 @@ return out;
   function pickupUnit(ref,p){
     const w=ref.w,h=ref.h,face=`url(#${p}-pickup-face)`,bevel=`url(#${p}-pickup-bevel)`,grain=`url(#${p}-pickup-grain)`;
     let out=box(-.8,1.6,w+1.6,h+1.7,3.8,'#000202','opacity=".6"');
+    if(ref.style==='nova-omnia-mm'){
+      // B4 MM: 89 x 48.8 mm housing, 101 mm including three mounting ears.
+      // Four split rails, two on each row; no manufacturer logo is reproduced.
+      for(const [x,y] of [[-2.5,h*.25],[-2.5,h*.75],[w+2.5,h*.5]])out+=circle(x,y,6,bevel,'stroke="#121416" stroke-width=".65"')+circle(x,y,1.5,'#070809');
+      out+=box(0,1.8,w,h,3.1,'#08090b','stroke="#090b0d" stroke-width="1"')+box(0,0,w,h-1,3,bevel)+box(1.1,.8,w-2.2,h-3,2.3,'#535358')+box(1.1,.8,w-2.2,h-3,2.3,`url(#${p}-pickup-crown)`)+box(1.1,.8,w-2.2,h-3,2.3,grain);
+      for(const y of [h*.32,h*.66])for(const x of [5,w/2+1.4]){
+        const rw=w/2-6.4;
+        out+=box(x-.5,y-.5,rw+1,2.8,.5,'#161a1c')+box(x,y,rw,1.9,.25,'#aeb6b7')+path(`M${x+.3} ${y+.2}h${rw-.6}`,'none','stroke="#eff1e9" stroke-width=".6"')+path(`M${x+.2} ${y+1.7}h${rw-.4}`,'none','stroke="#505b5d" stroke-width=".45"');
+      }
+      return out;
+    }
     if(ref.style==='m6-open-slugs'){
       out+=box(-4,h/2-4,w+8,8,1.3,'#8b8a78','stroke="#302e25" stroke-width=".65"')+screw(-2,h/2,1.3)+screw(w+2,h/2,1.3);
       out+=box(-.6,0,w+1.2,h+1,7,'#151619','stroke="#323338" stroke-width="1"');

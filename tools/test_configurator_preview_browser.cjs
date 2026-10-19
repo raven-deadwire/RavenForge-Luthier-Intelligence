@@ -82,7 +82,7 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
-          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v13');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v14');
           assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').textContent(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
@@ -273,7 +273,29 @@ async function main() {
           await step(5);
           await page.locator('.rf-preview-settings').evaluate(e=>{e.open=true;});
           const guardQuote=await page.locator('#quote-summary-card').innerText();
-          if(['EDDA','GRAMR'].includes(model)){
+          if(model==='EDDA'){
+            assert.equal(await page.locator('[data-preview-pickguard]').count(),0,'No duplicate display-only guard state');
+            await step(4);await choose('pickguard','pg_add');
+            assert.equal(await layer('pickguard').count(),1);
+            for(const material of ['pg_1ply','pg_3ply','pg_wood']){
+              await choose('pickguard_material',material);
+              assert.equal(await layer('pickguard').getAttribute('data-material'),material);
+              assert.equal(await page.locator('[data-summary-category="pickguard_material"]').count(),1);
+              if(material==='pg_wood')assert.equal(await page.locator('[data-category="pickguard_colour"]').count(),0);
+              else for(const colour of ['pg_black','pg_white','pg_ivory','pg_red','pg_match']){
+                await choose('pickguard_colour',colour);
+                assert.equal(await layer('pickguard').getAttribute('data-option'),colour.replace('pg_',''));
+                assert.equal(await page.locator('[data-summary-category="pickguard_colour"]').count(),1);
+              }
+            }
+            await choose('pickguard_finish','pg_gloss');assert.equal(await layer('pickguard').getAttribute('data-finish'),'gloss');
+            await choose('pickguard','pg_none');assert.equal(await layer('pickguard').count(),0);
+            for(const id of ['pickguard_material','pickguard_colour','pickguard_finish'])assert.equal(await page.locator(`[data-summary-category="${id}"]`).count(),0);
+            assert.equal(await page.locator('#quote-summary-card').innerText(),guardQuote,'Removing guard restores original quote');
+            await choose('pickguard','pg_add');await choose('pickguard_material','pg_3ply');await choose('pickguard_colour','pg_ivory');
+            await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-EDDA-pickguard.png`)});
+            await choose('pickguard','pg_none');await step(5);
+          }else if(model==='GRAMR'){
             for(const guard of ['black','ivory','wood','none']){
               await page.locator(`[data-preview-pickguard="${guard}"]`).click();
               assert.equal(await layer('pickguard').count(),guard==='none'?0:1);
@@ -291,6 +313,14 @@ async function main() {
           if(model!=='GRAMR'){
             await choose('pickups',{EDDA:'häussel_triple',EMBLA:'delano_ts',ASKR:'askr_delano_sbc5_e'}[model]);
             assert.equal(await layer('pickups').getAttribute('data-appearance'),model==='EDDA'?'reference-retained':'manufacturer-reference');
+            if(model==='EDDA'){
+              await page.locator('[data-pickup-pending]').waitFor();
+              const previous=await layer('pickups').innerHTML();
+              await choose('pickups','nova_mm');
+              assert.equal(await layer('pickups').getAttribute('data-profile'),'nova-omnia-mm');
+              assert.notEqual(await layer('pickups').innerHTML(),previous);
+              assert.equal(await page.locator('[data-pickup-pending]').count(),0);
+            }
             await step(4);assert.equal(await page.locator('[data-category="finger_ramp"]').count(),0);assert.equal(await layer('finger-ramp').count(),0);
             const beforeTuners=await layer('hardware').innerHTML();
             await choose('hardware_bridge',model==='ASKR'?'payson':'gotoh_404BO');
@@ -331,6 +361,14 @@ async function main() {
           await page.locator('label').filter({hasText:'Kill switch'}).getByRole('checkbox').check();
           assert.equal(await page.locator('[data-control-type="kill"]').count(),1);
           if(model==='GRAMR')assert.equal(await page.locator('[data-control-type="kill"]').getAttribute('transform'),'translate(796 210)');
+          if(model==='ASKR'){
+            const placement=await page.evaluate(()=>{
+              const xy=n=>n.getAttribute('transform').match(/translate\(([^)]+)\)/)[1].split(/\s+/).map(Number);
+              return {knobs:[...document.querySelectorAll('[data-knob-index]')].map(xy),switches:[...document.querySelectorAll('[data-control-type="toggle"],[data-control-type="kill"]')].map(xy)};
+            });
+            assert.ok(placement.switches.every(p=>p[1]>Math.max(...placement.knobs.map(k=>k[1]))+10),'ASKR switches below knob bank');
+          }
+          if(['ASKR','EMBLA'].includes(model))await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-controls.png`)});
           assert.equal(await layer('knobs').innerHTML(),retainedKnobs,'Kill switch never covers or replaces a knob');
           assert.equal(await layer('knobs').getAttribute('data-count'),retainedKnobCount);
           assert.equal(await page.locator('[data-control-type="kill"]').getAttribute('data-placement'),'preview-only-unconfirmed');
