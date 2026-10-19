@@ -1,3 +1,53 @@
+## v16 — lower switch rows and visible product-specific pickups
+
+The previous switch placement was rejected visually despite its automated
+clearance checks. EMBLA's coil switches were still beside its pickups; ASKR's
+switches were too close to the lower rim. Both now have a dedicated switch row
+below the whole knob bank, beside the bridge and inset from the body boundary.
+Both 3/4/5/6-knob banks are repacked against v15's new PDF-vector coordinates. Add/remove operations do
+not replace or move knobs. Mini toggles have a washer, hex nut and lever; the
+floating dashed halos are removed. GRAMR's specified kill-switch position stays
+unchanged. These are display layouts, not confirmed drilling coordinates.
+
+The v15 drawing/texture update is preserved. Integration also fixes reversed
+EMBLA PDF string-line endpoints, which incorrectly placed replacement bridge
+anchors in the headstock; line coordinates are unchanged, only ordered head-to-bridge.
+
+The official Häussel catalog, page 15, establishes the 89×48 mm four-string MM
+Triplebucker: two rows of four large poles and a middle row of eight small poles,
+with three mounting ears. Its original SVG now replaces the source pickup on
+EDDA. This supersedes v14's incorrect claim that no exterior reference existed.
+https://www.haeussel.com/fileadmin/pdf/Katalog2014_en.pdf#page=15
+
+Page 18 supplies the Häussel BassBar catalog exterior (101×36 mm BB5). EMBLA's
+ordered custom 100×36 cover is not established by that drawing: the actual catalog
+shape is shown as a **catalog reference**, with this discrepancy visible below the
+instrument and in the option card. EDDA Nova Custom similarly shows its known
+standard MM base exterior and explicitly leaves the custom cover unconfirmed.
+https://www.haeussel.com/fileadmin/pdf/Katalog2014_en.pdf#page=18
+
+Every active pickup choice now has a visual/status card. Product cards and the
+instrument use the same original SVG renderer. Recognizable details include Nova
+split rails, Triplebucker poles, Delano Times Square bars, Fishman's groove and
+Lundgren's two open bobbins. Cover-only EMG/Delano models retain their distinct
+mounting recesses, proportions and fastening patterns. Manufacturer photos are
+reference material only; no third-party product photos or logos are distributed.
+
+| Scope | Active selections |
+| --- | --- |
+| Product exterior | EDDA Nova MM / Häussel Triple; EMBLA Delano SBC / Times Square; ASKR EMG / Fishman / Delano SBC5 E; GRAMR Lundgren M6 |
+| Catalog exterior; custom cover pending | EDDA Nova Custom; EMBLA Häussel BassBar Custom |
+| Unspecified exterior; explicitly retains source | EMBLA / ASKR Nova Custom; Others; GRAMR custom passive HH |
+
+Validation includes all active pickup cards against the selected instrument
+profile in KO/EN/DE and desktop/mobile, plus product pole counts, custom-reference
+status, lower-row bounds, control clearances and an unchanged body surface across
+preamps. Existing price/dependency/handler/PDF source parity remains enforced.
+CI results and visual review are recorded in PR #35; passing checks do not imply
+owner approval of appearance. Production configurator files remain unchanged.
+
+---
+
 ## v15 — original drawing audit (2026-10-20 KST)
 
 Based on PR head v14 `5dfc1f07e54639e11ff41fe13a014405cf77485e`, preserving

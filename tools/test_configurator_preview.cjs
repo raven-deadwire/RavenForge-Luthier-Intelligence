@@ -111,7 +111,7 @@ assert.equal(normalize('GRAMR',{nut_material:'nut_brass'}).nut_material,'guitar_
 for(const value of ['transparent blue','투명 블루','transparent blau']) assert.equal(preview.parseColour(value).colour,'#275f89');
 for(const value of ['solid black','불투명 블랙','deckend schwarz']) assert.equal(preview.parseColour(value).opaque,true);
 for(const value of ['blue top, red back','top blue','<script>alert(1)</script>','url(https://example.com)','red and green']) assert.equal(preview.parseColour(value).status,'unmapped');
-const attack=preview.renderSvg(preview.scene('EDDA',{...normalize('EDDA'),pickups:'nova_custom'},'',{pickups:'<script>"&'}),'full','en');
+const attack=preview.renderSvg(preview.scene('EDDA',{...normalize('EDDA'),pickups:'others'},'',{pickups:'<script>"&'}),'full','en');
 assert.doesNotMatch(attack,/<script>/); assert.match(attack,/&lt;script&gt;/);
 for(const language of ['ko','en','de']) assert.deepEqual(Object.keys(preview.copy[language]).sort(),Object.keys(preview.copy.en).sort());
 console.log(`PASS: ${combinations} allowed option substitutions × 3 languages × front/back; pricing/PDF source parity, safe fallbacks, Nova exception and model constraints`);
@@ -177,7 +177,7 @@ for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
   if(model!=='GRAMR'){
     const picked={...d,pickups:{EDDA:'häussel_triple',EMBLA:'delano_ts',ASKR:'askr_delano_sbc5_e'}[model],electronics:'glockenklang',coil_switch:'coil_2_ps',finger_ramp:'ramp_wood'};
     const state=preview.scene(model,picked,'',{},null,extras),svg=preview.renderSvg(state,'front','en');
-    assert.match(svg,new RegExp('data-layer="pickups"[^>]*data-appearance="'+(model==='EDDA'?'reference-retained':'manufacturer-reference')+'"'));
+    assert.match(svg,new RegExp('data-layer="pickups"[^>]*data-appearance="'+'manufacturer-reference'+'"'));
     assert.doesNotMatch(svg,/illustrative-family|part-underlay/);
     assert.doesNotMatch(svg,/data-layer="finger-ramp"/,'Finger ramp deferred even for stale input');
     const controls=parts.controlPlan(state);assert.equal(controls.filter(x=>x.type==='toggle').length,model==='EDDA'?0:2);
@@ -341,17 +341,17 @@ for(const [model,pickup] of [['EDDA','nova_mm'],['EMBLA','delano_sbc'],['ASKR','
 }
 console.log('PASS: complete preamp layouts, unchanged continuous body surface, pickup projection into source envelopes');
 
-// All EMBLA topologies stay in a compact control bank above the bridge's lower edge.
+// All EMBLA topologies stay in a compact control bank with a separate lower switch row.
 for(const electronics of ['passive','fishman','nfp','zuta','noll','john_east','underhill','eq01']){
  const state=preview.scene('EMBLA',{...normalize('EMBLA'),electronics,coil_switch:'coil_2_ps'},'',{},null,{specialOptions:['kill_switch']});
  const all=parts.controlPlan(state);
- for(const c of all){assert.ok(c.xy[0]>=200&&c.xy[0]<=285);assert.ok(c.xy[1]>=755&&c.xy[1]<=885);}
+ for(const c of all){assert.ok(c.xy[0]>=210&&c.xy[0]<=285);assert.ok(c.xy[1]>=755&&c.xy[1]<=885);}
  for(let i=0;i<all.length;i++)for(const b of all.slice(i+1))assert.ok(Math.hypot(all[i].xy[0]-b.xy[0],all[i].xy[1]-b.xy[1])>21,'EMBLA knobs and extra switches must stay separate');
 }
 const novaPickup=preview.scene('EDDA',normalize('EDDA'),'');
 assert.match(parts.pickups(novaPickup,'nova'),/data-profile="nova-omnia-mm"/);
 assert.equal(novaPickup.pending.includes('pickups'),false);
-assert.equal(preview.scene('EDDA',{...normalize('EDDA'),pickups:'häussel_triple'},'').pending.includes('pickups'),true,'Unconfirmed Triplebucker cover must not be silently invented');
+assert.equal(preview.scene('EDDA',{...normalize('EDDA'),pickups:'häussel_triple'},'').pending.includes('pickups'),false,'Official catalog page 15 verifies the MM Triplebucker exterior');
 console.log('PASS: compact EMBLA control bank and verified Nova MM coverage');
 
 // ASKR switches belong below every selectable knob topology, not beside pickups.
@@ -359,7 +359,7 @@ for(const electronics of ['passive','nfp','zuta','noll','john_east','underhill',
  const state=preview.scene('ASKR',{...normalize('ASKR'),electronics,pickups:'askr_delano_sbc5_e',coil_switch:'coil_2_ps'},'',{},null,{specialOptions:['kill_switch']});
  const plan=parts.controlPlan(state),knobs=plan.filter(c=>c.type==='knob'),switches=plan.filter(c=>c.type!=='knob');
  assert.equal(switches.length,3);
- for(const a of switches){assert.ok(a.xy[1]>Math.max(...knobs.map(c=>c.xy[1]))+10);for(const b of plan)if(a!==b)assert.ok(Math.hypot(a.xy[0]-b.xy[0],a.xy[1]-b.xy[1])>21);}
+ for(const a of switches){assert.ok(a.xy[1]<=1070,'Switches must stay away from the bottom rim');assert.ok(a.xy[0]>=215&&a.xy[0]<=273,'Switch row stays beside the bridge');assert.ok(a.xy[1]>Math.max(...knobs.map(c=>c.xy[1]))+10);for(const b of plan)if(a!==b)assert.ok(Math.hypot(a.xy[0]-b.xy[0],a.xy[1]-b.xy[1])>21);}
 }
 console.log('PASS: ASKR coil/kill switches below controls with separate clearance');
 
@@ -373,6 +373,8 @@ for(const model of ['ASKR','EMBLA']){
  assert.ok(g.provenance.maxBodyJoinGapPDFPoints<.05);
  assert.ok(g.provenance.maxHeadJoinGapPDFPoints<.05);
  assert.deepEqual(g.controlLayouts[5],g.controls);
+ assert.ok(g.stringLines.every(line=>line[0][1]<line[1][1]),'String endpoints must run towards the bridge');
+ assert.ok(g.bridge.every(p=>p[1]>Math.max(...g.pickups.map(r=>r.y+r.h))),'Bridge anchors must be below pickups, never in the headstock');
  if(model==='EMBLA')for(const xy of g.controlProposals.coils)for(const pickup of g.pickups){
    const dx=Math.max(pickup.x-xy[0],0,xy[0]-(pickup.x+pickup.w));
    const dy=Math.max(pickup.y-xy[1],0,xy[1]-(pickup.y+pickup.h));
@@ -396,3 +398,29 @@ for(const entry of nativeManifest){
  assert.equal(require('crypto').createHash('sha256').update(fs.readFileSync(path.join(root,entry.source))).digest('hex'),entry.sha256);
 }
 console.log('PASS: source contour continuity, 24 native fret lines, opaque rear paint, GRAMR boundary/unverified joint and native texture provenance');
+
+// Product-card and instrument art share one geometry source; custom fit remains explicit.
+const tripleThumb=parts.pickupThumbnail('EDDA','häussel_triple','triple');
+assert.equal((tripleThumb.match(/data-pole="large"/g)||[]).length,8);
+assert.equal((tripleThumb.match(/data-pole="small"/g)||[]).length,8);
+for(const [model,id] of [['EMBLA','häussel_bar'],['EDDA','nova_custom']]){
+ const state=preview.scene(model,{...normalize(model),pickups:id},'');
+ assert.ok(state.pending.includes('pickups'),'Catalog exterior must not approve an unspecified custom fit');
+ assert.match(parts.pickups(state,'catalog'),/data-appearance="catalog-reference"/);
+ for(const lang of ['ko','en','de'])assert.match(preview.pickupStatus(model,id,lang),{ko:/미확정/,en:/unconfirmed/,de:/unbestätigt/}[lang]);
+}
+for(const model of ['EDDA','EMBLA','ASKR','GRAMR'])for(const option of data.categories.find(c=>c.id==='pickups').options){
+ if(!visible('pickups',option.id,model,normalize(model)))continue;
+ const state=preview.scene(model,{...normalize(model),pickups:option.id},''),ref=parts.profile(state,'pickups');
+ const thumbnail=parts.pickupThumbnail(model,option.id,'card');
+ if(ref){assert.ok(thumbnail.includes(`data-pickup-profile="${ref.style}"`));assert.ok(parts.pickups(state,'stage').includes(`data-profile="${ref.style}"`));}
+ else{assert.equal(thumbnail,'');assert.ok(state.pending.includes('pickups'));}
+}
+for(const model of ['EMBLA','ASKR'])for(const electronics of ['passive','nfp','zuta','noll','john_east','underhill','eq01']){
+ const state=preview.scene(model,{...normalize(model),electronics,pickups:model==='ASKR'?'askr_delano_sbc5_e':'delano_ts',coil_switch:'coil_2_ps'},'',{},null,{specialOptions:['kill_switch']});
+ const plan=parts.controlPlan(state),knobs=plan.filter(c=>c.type==='knob'),switches=plan.filter(c=>c.type!=='knob');
+ assert.equal(new Set(switches.map(c=>c.xy[1])).size,1,'Extras form one row');
+ assert.ok(switches.every(c=>c.xy[1]>Math.max(...knobs.map(k=>k.xy[1]))+25),'Switch row is below the entire knob bank');
+ assert.doesNotMatch(parts.controls(state,'control',8),/stroke-dasharray/,'No floating proposal halos');
+}
+console.log('PASS: verified Triplebucker pole array, scoped custom references, pickup-card coverage and lower switch rows');

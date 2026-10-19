@@ -90,7 +90,7 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
-          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v15');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v16');
           assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').textContent(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
@@ -316,13 +316,35 @@ async function main() {
             assert.equal(await layer('pickguard').count(),0,'No fabricated box behind pickups');
             assert.ok((await page.locator('[data-pickguard-unavailable]').innerText()).length>0);
           }
+          const originalPickup=await page.locator('input[name="pickups"]:checked').inputValue();
+          const originalElectronics=await page.locator('input[name="electronics"]:checked').inputValue();
+          const pickupIds=await page.locator('[data-category="pickups"] label[data-option]').evaluateAll(nodes=>nodes.map(n=>n.dataset.option));
+          for(const id of pickupIds){
+            await choose('pickups',id);
+            const card=page.locator(`[data-pickup-example="${id}"]`),art=card.locator('svg');
+            assert.equal(await card.count(),1);
+            assert.equal(await layer('pickups').getAttribute('data-option'),id);
+            if(await art.count()){
+              assert.equal(await layer('pickups').getAttribute('data-profile'),await art.getAttribute('data-pickup-profile'));
+              const scope=await art.getAttribute('data-pickup-scope');
+              assert.equal(await layer('pickups').getAttribute('data-appearance'),scope);
+              assert.equal(await page.locator('[data-pickup-pending]').count(),scope==='catalog-reference'?1:0);
+            }else{
+              assert.ok(['reference-retained','drawing-envelope'].includes(await layer('pickups').getAttribute('data-appearance')));
+              assert.equal(await page.locator('[data-pickup-pending]').count(),1);
+            }
+            assert.ok((await card.locator('[data-pickup-card-status]').innerText()).length>15);
+          }
+          await page.locator('[data-category="pickups"]').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-pickup-cards.png`)});
+          await choose('pickups',originalPickup);await choose('electronics',originalElectronics);
           let retainedKnobs=await layer('knobs').innerHTML();
           let retainedKnobCount=await layer('knobs').getAttribute('data-count');
           if(model!=='GRAMR'){
             await choose('pickups',{EDDA:'häussel_triple',EMBLA:'delano_ts',ASKR:'askr_delano_sbc5_e'}[model]);
-            assert.equal(await layer('pickups').getAttribute('data-appearance'),model==='EDDA'?'reference-retained':'manufacturer-reference');
+            assert.equal(await layer('pickups').getAttribute('data-appearance'),'manufacturer-reference');
             if(model==='EDDA'){
-              await page.locator('[data-pickup-pending]').waitFor();
+              assert.equal(await layer('pickups').getAttribute('data-profile'),'haeussel-mm-triple');
+              assert.equal(await page.locator('[data-pickup-pending]').count(),0);
               const previous=await layer('pickups').innerHTML();
               await choose('pickups','nova_mm');
               assert.equal(await layer('pickups').getAttribute('data-profile'),'nova-omnia-mm');
@@ -369,12 +391,12 @@ async function main() {
           await page.locator('label').filter({hasText:'Kill switch'}).getByRole('checkbox').check();
           assert.equal(await page.locator('[data-control-type="kill"]').count(),1);
           if(model==='GRAMR')assert.equal(await page.locator('[data-control-type="kill"]').getAttribute('transform'),'translate(796 210)');
-          if(model==='ASKR'){
+          if(['ASKR','EMBLA'].includes(model)){
             const placement=await page.evaluate(()=>{
               const xy=n=>n.getAttribute('transform').match(/translate\(([^)]+)\)/)[1].split(/\s+/).map(Number);
               return {knobs:[...document.querySelectorAll('[data-knob-index]')].map(xy),switches:[...document.querySelectorAll('[data-control-type="toggle"],[data-control-type="kill"]')].map(xy)};
             });
-            assert.ok(placement.switches.every(p=>p[1]>Math.max(...placement.knobs.map(k=>k[1]))+10),'ASKR switches below knob bank');
+            assert.ok(placement.switches.every(p=>p[1]>Math.max(...placement.knobs.map(k=>k[1]))+25),'Switches below the entire knob bank');
           }
           if(['ASKR','EMBLA'].includes(model))await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-controls.png`)});
           assert.equal(await layer('knobs').innerHTML(),retainedKnobs,'Kill switch never covers or replaces a knob');

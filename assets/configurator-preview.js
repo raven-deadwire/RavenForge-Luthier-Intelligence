@@ -115,7 +115,10 @@
     const pending = [];
     // No verified, fitted manufacturer-specific assets are registered yet.
     // Never claim the retained prototype/drawing part is the selected product.
-    for(const category of ['pickups','hardware_bridge','hardware_machine_head'])if(!parts.references[category]?.[s[category]])pending.push(category);
+    for(const category of ['pickups','hardware_bridge','hardware_machine_head']){
+      const ref=parts.profile({model,selections:s},category);
+      if(!ref||ref.scope==='catalog-reference')pending.push(category);
+    }
     if(s.pickup_configuration==='pickup_3')pending.push('pickup_configuration');
     ['fretboard', ...(hasTop ? ['top_wood_selection'] : ['body_wood_single','body_core_wood'])].forEach(id=>{
       if (s[id] && !wood(s[id])) pending.push(id);
@@ -323,9 +326,22 @@
     en:{volume:'Volume',blend:'Blend',tone:'Tone',bass:'Bass',mid:'Mid',treble:'Treble',low_mid:'Low mid',high_mid:'High mid',mid_frequency:'Mid frequency',neck_filter:'Neck filter',bridge_filter:'Bridge filter',neck_resonance:'Neck resonance',bridge_resonance:'Bridge resonance',bass_frequency:'Bass frequency',treble_filter:'High-pass filter',treble_level:'Treble level'},
     de:{volume:'Lautstärke',blend:'Balance',tone:'Tonblende',bass:'Bass',mid:'Mitten',treble:'Höhen',low_mid:'Tiefmitten',high_mid:'Hochmitten',mid_frequency:'Mittenfrequenz',neck_filter:'Halsfilter',bridge_filter:'Stegfilter',neck_resonance:'Halsresonanz',bridge_resonance:'Stegresonanz',bass_frequency:'Bassfrequenz',treble_filter:'Hochpass',treble_level:'Höhenpegel'}
   };
-  Object.assign(copy.ko,{displaySettings:'미리보기 설정·표현 범위',neckColourTitle:'넥 색상',neckNatural:'내추럴',neckBody:'바디 색상 매칭',headNatural:'논 매칭 · 내추럴',controlNote:'선택한 전자장치의 기능에 따라 단일·이중 노브를 표시합니다. 배열은 설치 예시이며 최종 배선과 가공 위치는 별도 확정합니다.',controlVisibleNote:'추가 스위치는 노브와 별도 배치 · 점선은 미확정 설치 위치',eqTitle:'컨트롤 배열',eqPending:'커스텀 배선 미확정 · 원본 노브 유지',stacked:'이중 노브'});
-  Object.assign(copy.en,{displaySettings:'Preview settings & scope',neckColourTitle:'Neck colour',neckNatural:'Natural',neckBody:'Match body colour',headNatural:'Non-matching · natural',controlNote:'Single and stacked knobs follow the selected electronics. Arrangement is an installation example; final wiring and drilling positions are agreed separately.',controlVisibleNote:'Additional switches stay separate from knobs · dashed positions are unconfirmed',eqTitle:'Control layout',eqPending:'Custom wiring pending · source knobs retained',stacked:'Stacked'});
-  Object.assign(copy.de,{displaySettings:'Vorschau-Einstellungen & Umfang',neckColourTitle:'Halsfarbe',neckNatural:'Natur',neckBody:'An Korpusfarbe anpassen',headNatural:'Nicht angepasst · Natur',controlNote:'Einzel- und Doppelknöpfe folgen der gewählten Elektronik. Die Anordnung ist ein Einbaubeispiel; Verdrahtung und Bohrpositionen werden separat vereinbart.',controlVisibleNote:'Zusatzschalter bleiben neben den Reglern · gestrichelte Positionen sind unbestätigt',eqTitle:'Regleranordnung',eqPending:'Sonderverdrahtung offen · ursprüngliche Regler beibehalten',stacked:'Doppelknopf'});
+  Object.assign(copy.ko,{displaySettings:'미리보기 설정·표현 범위',neckColourTitle:'넥 색상',neckNatural:'내추럴',neckBody:'바디 색상 매칭',headNatural:'논 매칭 · 내추럴',controlNote:'선택한 전자장치의 기능에 따라 단일·이중 노브를 표시합니다. 배열은 설치 예시이며 최종 배선과 가공 위치는 별도 확정합니다.',controlVisibleNote:'추가 스위치는 노브와 별도 배치 · 최종 가공 위치는 별도 확정',eqTitle:'컨트롤 배열',eqPending:'커스텀 배선 미확정 · 원본 노브 유지',stacked:'이중 노브'});
+  Object.assign(copy.en,{displaySettings:'Preview settings & scope',neckColourTitle:'Neck colour',neckNatural:'Natural',neckBody:'Match body colour',headNatural:'Non-matching · natural',controlNote:'Single and stacked knobs follow the selected electronics. Arrangement is an installation example; final wiring and drilling positions are agreed separately.',controlVisibleNote:'Additional switches stay separate from knobs · final drilling positions unconfirmed',eqTitle:'Control layout',eqPending:'Custom wiring pending · source knobs retained',stacked:'Stacked'});
+  Object.assign(copy.de,{displaySettings:'Vorschau-Einstellungen & Umfang',neckColourTitle:'Halsfarbe',neckNatural:'Natur',neckBody:'An Korpusfarbe anpassen',headNatural:'Nicht angepasst · Natur',controlNote:'Einzel- und Doppelknöpfe folgen der gewählten Elektronik. Die Anordnung ist ein Einbaubeispiel; Verdrahtung und Bohrpositionen werden separat vereinbart.',controlVisibleNote:'Zusatzschalter sind von Reglern getrennt · endgültige Bohrpositionen unbestätigt',eqTitle:'Regleranordnung',eqPending:'Sonderverdrahtung offen · ursprüngliche Regler beibehalten',stacked:'Doppelknopf'});
+  const pickupCopy={
+    ko:{reference:'제품 사진·도면 기반 렌더',source:'제조사 자료',unknown:'주문 외형 자료 없음 · 악기는 원본 픽업 유지',custom:'기본 MM 외형 참고 · 주문 커버는 미확정',bassbar:'카탈로그 101×36 외형 참고 · 주문용 100×36 커버는 미확정'},
+    en:{reference:'Render from product photos / drawings',source:'Manufacturer reference',unknown:'Custom shape unavailable · source pickups retained on instrument',custom:'Standard MM reference · custom cover unconfirmed',bassbar:'Catalog 101×36 reference · custom 100×36 cover unconfirmed'},
+    de:{reference:'Darstellung nach Produktfotos / Zeichnungen',source:'Herstellerquelle',unknown:'Sonderform fehlt · ursprüngliche Tonabnehmer am Instrument beibehalten',custom:'Standard-MM als Referenz · Sondergehäuse unbestätigt',bassbar:'Katalogform 101×36 · Sondergehäuse 100×36 unbestätigt'}
+  };
+  function pickupStatus(model,option,language){
+    const t=pickupCopy[language]||pickupCopy.en,ref=parts.profile({model,selections:{pickups:option}},'pickups');
+    return !ref?t.unknown:ref.note==='bassbar-custom'?t.bassbar:ref.note==='nova-custom'?t.custom:t.reference;
+  }
+  function PickupExample({model,option,language}){
+    const h=window.React.createElement,svg=parts.pickupThumbnail(model,option,`pickup-card-${model}-${option.replace(/[^a-zA-Z0-9_-]/g,'')}`);
+    return h('div',{className:'rf-pickup-card','data-pickup-example':option},svg&&h('div',{className:'rf-pickup-card-image',dangerouslySetInnerHTML:{__html:svg}}),h('p',{'data-pickup-card-status':true},pickupStatus(model,option,language)));
+  }
   function Component(props) {
     const React = window.React, h = React.createElement;
     const [view,setView] = React.useState('front');
@@ -366,8 +382,8 @@
     const imageReady=imageStatus.source===imageKey&&imageStatus.status==='ready';
     const imageFailed=imageStatus.source===imageKey&&imageStatus.status==='error';
     const rows = ['pickguard','pickguard_material','pickguard_colour','pickguard_finish','body_construction','electronics','neck_finish','coil_switch','control_layout','orientation','body_wood_single','body_core_wood','body_wing_wood','top_type','top_wood_selection','neck','fretboard','fret_type','fret_material','fret_size','fret_side','inlay_type','inlay_dot_mat','inlay_dot_pos','inlay_oval_mat','nut_material','color_top','color_back_side','color_headstock','extra_finish_burst','extra_finish_flake','knob','pickup_configuration','pickups','hardware_bridge','hardware_machine_head','hardware_color','fretboard_extense'].filter(id=>s[id]);
-    return h('section',{className:'rf-preview',id:'instrument-preview','aria-labelledby':'preview-title','data-preview-model':props.model,'data-preview-side':view,'data-preview-version':'v15'},
-      h('div',{className:'rf-preview-heading'},h('div',null,h('p',null,t.live),h('h2',{id:'preview-title'},props.model),h('p',{'data-neck-construction':'bolt-on'},t.boltOn)),h('span',{className:'rf-preview-mark','aria-hidden':true},'RF / TEST v15')),
+    return h('section',{className:'rf-preview',id:'instrument-preview','aria-labelledby':'preview-title','data-preview-model':props.model,'data-preview-side':view,'data-preview-version':'v16'},
+      h('div',{className:'rf-preview-heading'},h('div',null,h('p',null,t.live),h('h2',{id:'preview-title'},props.model),h('p',{'data-neck-construction':'bolt-on'},t.boltOn)),h('span',{className:'rf-preview-mark','aria-hidden':true},'RF / TEST v16')),
       h('div',{className:'rf-preview-sides','aria-label':t.title},['front','back'].map(id=>h('button',{type:'button',key:id,'data-preview-side':id,'aria-pressed':view===id,onClick:()=>{setSample(false);setView(id);}},t[id]))),
       !missing && h('div',{className:'rf-preview-mode'},[false,true].map(original=>h('button',{key:String(original),type:'button','data-preview-mode':original?'sample':'selected','aria-pressed':sample===original,onClick:()=>setSample(original)},original?referenceTitle:t.selectedView))),
       missing?h('div',{className:'rf-preview-unavailable','data-preview-unavailable':'back',role:'status'},h('strong',null,t.backMissing),h('p',null,t.backMissingNote)):
@@ -376,7 +392,8 @@
           h('div',{className:'rf-preview-stage','data-view':view,dangerouslySetInnerHTML:{__html:renderSvg(state,view,props.language,compact?'landscape':'portrait')}}),
       state.finish.status==='unmapped' && h('p',{className:'rf-preview-warning',role:'status'},t.textOnly),
       state.finish.colour && s.color_top==='top_oil' && h('p',{className:'rf-preview-warning'},t.oil),
-      !rear&&state.pending.includes('pickups')&&h('p',{className:'rf-preview-warning','data-pickup-pending':true},(guardCopy[props.language]||guardCopy.en).pending+' · '+props.labels.pickups),
+      !rear&&state.pending.includes('pickups')&&h('p',{className:'rf-preview-warning','data-pickup-pending':true},props.labels.pickups+' · '+pickupStatus(props.model,s.pickups,props.language)),
+      !rear&&parts.profile(state,'pickups')&&h('p',{className:'rf-pickup-source','data-pickup-reference':true},props.labels.pickups+' · ',h('a',{href:parts.profile(state,'pickups').url,target:'_blank',rel:'noopener noreferrer'},(pickupCopy[props.language]||pickupCopy.en).source)),
       h('p',{className:'rf-preview-note','data-geometry-scope':true},rear?rearNote:isDrawing?t.drawingParts+' · '+t.geometry:t.note),
       h('details',{className:'rf-preview-settings'},h('summary',null,t.displaySettings),
       props.model==='EDDA'?h('p',{'data-pickguard-catalog':true},(guardCopy[props.language]||guardCopy.en).location):state.g?.pickguard?h('div',{className:'rf-preview-guard'},h('strong',null,t.guardTitle),
@@ -436,5 +453,5 @@
       h('div',{className:'rf-colour-modes'},[false,true].map(opaque=>h('button',{type:'button',key:String(opaque),disabled:!finish.colour,'aria-pressed':finish.opaque===opaque,onClick:()=>props.onChange((opaque?'solid ':'transparent ')+finish.colour)},opaque?t.solid:t.transparent)))
     );
   }
-  return {configureTestOptions,scene, renderSvg, parseColour, wood, copy, Component, ColourControls, BindruneExamples, OvalExample, ovalMark};
+  return {configureTestOptions,scene, renderSvg, parseColour, wood, copy, Component, ColourControls, BindruneExamples, OvalExample, PickupExample, pickupStatus, ovalMark};
 }));

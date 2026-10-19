@@ -111,7 +111,8 @@ def extract(model, folder):
         outlines.append(contour([i])[0])
     strings=[]
     for i in cfg['strings']:
-        seg=ds[i]['items'][0];strings.append([point(v*matrix) for v in seg[1:]])
+        seg=ds[i]['items'][0];# PDF line direction is arbitrary; render from head towards bridge.
+        strings.append(sorted([point(v*matrix) for v in seg[1:]], key=lambda p:p[1]))
     bridge=[strings[0][-1],strings[-1][-1]]
     tuners=[centre(i) for i in cfg['tuners']]
     controls=[centre(i) for i in cfg['controls']]

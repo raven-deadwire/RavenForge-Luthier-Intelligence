@@ -34,7 +34,7 @@ FILES = [
     'Edda Prototype Design.png', 'EMBLA Prototype Design.png',
     'ASKR Prototype Design.png'
 ]
-README = '''RavenForge 컨피규레이터 시각화 테스트 v15 / 2026-10-20
+README = '''RavenForge 컨피규레이터 시각화 테스트 v16 / 2026-10-20
 
 기존 홈페이지나 컨피규레이터를 교체하지 않는 별도 테스트입니다.
 
@@ -53,8 +53,9 @@ README = '''RavenForge 컨피규레이터 시각화 테스트 v15 / 2026-10-20
 - 도면 기반 형상 / 설치 예시 / 미확정 가공 위치 구분은 CONFIGURATOR_DRAWING_AUDIT.md 참고
 - 왼쪽 이미지 / 가운데 옵션 / 오른쪽 사양·가격, 모바일 빠른 이동·합계
 - EDDA 픽가드 유무·재질·색상·무광/유광 선택 → 이미지·사양표·PDF (추가 비용 별도 견적)
-- Nova Omnia MM 4분할 레일·장착 귀 반영, 미확인 픽업은 미표현 안내
-- EMBLA 컨트롤을 바디 하단에서 끌어올려 프리앰프별로 재배치
+- 픽업 선택 카드와 악기 렌더 연결, Häussel Triplebucker 실제 폴피스 배열 반영
+- BassBar·Nova Custom은 카탈로그 참고 외형과 주문 커버 미확정 상태를 구분
+- EMBLA·ASKR 최신 도면에서 노브 배열과 하단 스위치 줄 재배치
 - ASKR 코일 스위치를 노브 아래로 이동, 킬스위치와 간격 확보
 - 기존 노브 자리 얼룩 없는 연속된 바디 목재·색상·명암
 - 바디 외곽을 따르는 앞뒤 버스트, GRAMR 픽가드 우측 상단 킬스위치
