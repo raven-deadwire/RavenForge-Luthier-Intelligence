@@ -96,6 +96,7 @@
     if (s.extra_finish_burst === 'burst_add') pending.push('extra_finish_burst');
     if (s.extra_finish_flake === 'flake_add') pending.push('extra_finish_flake');
     if (s.finger_ramp === 'ramp_wood') pending.push('finger_ramp');
+    if (s.nut_material === 'nut_others') pending.push('nut_material');
     return {model, g, selections:s, labels:labels || {}, finish, hasTop, bodyId, topId, pending,
       bodyColour:wood(topId), boardColour:wood(s.fretboard), metal:metals[s.hardware_color] || metals.hw_chrome,
       bridgeColour:s.hardware_bridge === 'nova_parts' ? metals.hw_black : (metals[s.hardware_color] || metals.hw_chrome)};
@@ -136,12 +137,15 @@
       const colour = fretless ? '#aa9c86' : s.fret_material === 'mat_brass' ? '#d6b872' : '#c2c9cc';
       out += `<g data-layer="frets" data-count="24" stroke="${colour}" stroke-width="${fretless?1:2}">${frets.map(pair=>line(...pair)).join('')}</g>`;
     }
-    out += `<g data-layer="nut" data-zero-fret="${state.model !== 'GRAMR' && !fretless}">${line(g.board[0],g.board[1],`stroke="${state.model === 'GRAMR'?'#e8dfcc':fretless?'#79663e':'#d6b872'}" stroke-width="5"`)}</g>`;
+    const nutColours = {guitar_bone_nut:'#e8dfcc',nut_bone:'#e8dfcc',nut_horn:'#262420',nut_guayacan:'#79663e',nut_brass:'#d6b872',nut_guide:'#b8c3cc'};
+    out += `<g data-layer="nut" data-option="${esc(s.nut_material || '')}" data-zero-fret="${state.model !== 'GRAMR' && !fretless}">${line(g.board[0],g.board[1],`stroke="${nutColours[s.nut_material]||'#77808b'}" stroke-width="4"`)}`;
+    if (state.model !== 'GRAMR' && !fretless) out += line(point(g.board[0],g.board[3],.008),point(g.board[1],g.board[2],.008),'stroke="#c2c9cc" stroke-width="2"');
+    out += '</g>';
     if (['inlay_dot','inlay_oval'].includes(s.inlay_type) && s.inlay_dot_pos !== 'pos_custom') {
       out += '<g data-layer="inlays" fill="#ddd9c8">';
       [3,5,7,9,12,15,17,19,21,24].forEach(n=>{
         const p = point(frets[n-1][0],frets[n-1][1],s.inlay_dot_pos==='pos_left'?.2:s.inlay_dot_pos==='pos_right'?.8:.5);
-        out += `<ellipse cx="${p[0]}" cy="${p[1]-5}" rx="${s.inlay_type==='inlay_oval'?6:3}" ry="3"/>`;
+        out += `<ellipse cx="${p[0]-(g.horizontal?5:0)}" cy="${p[1]-(g.horizontal?0:5)}" rx="${s.inlay_type==='inlay_oval'?6:3}" ry="3"/>`;
       });
       out += '</g>';
     }
@@ -171,6 +175,7 @@
       h('div',{className:'rf-preview-stage',dangerouslySetInnerHTML:{__html:renderSvg(state,view,props.language)}}),
       !state.g && h('p',{role:'status'},t.noShape),
       h('div',{className:'rf-preview-views','aria-label':t.title},['full','body','neck','head'].map(id=>h('button',{type:'button',key:id,'data-preview-view':id,'aria-pressed':view===id,onClick:()=>setView(id)},t[id]))),
+      h('p',{className:'rf-preview-parts','data-preview-parts':true},props.labels.pickups+' · '+props.labels.hardware_bridge),
       h('p',{className:'rf-preview-note'},t.note),
       state.finish.status==='unmapped' && h('p',{className:'rf-preview-warning',role:'status'},t.textOnly),
       state.finish.colour && s.color_top==='top_oil' && h('p',{className:'rf-preview-warning'},t.oil),
