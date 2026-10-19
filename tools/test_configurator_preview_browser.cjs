@@ -364,11 +364,11 @@ async function main() {
               assert.equal(await layer('tuner-rear-mount').getAttribute('data-profile'),expected);
               assert.equal(await layer('hardware').locator('[data-part="rear-key-shaft"]').count(),0);
               assert.ok(await page.evaluate(()=>!!(document.querySelector('[data-layer="tuner-rear-mount"]').compareDocumentPosition(document.querySelector('[data-layer="headstock"]'))&Node.DOCUMENT_POSITION_FOLLOWING)));
-              if(model==='ASKR')assert.ok(await layer('headstock').locator('path').first().evaluate(p=>p.isPointInFill(new DOMPoint(178,195))),'ASKR transition must contain wood at the former gap');
+              if(model==='ASKR')assert.ok(await layer('headstock').locator('path').first().evaluate(p=>{const point=p.ownerSVGElement.createSVGPoint();point.x=178;point.y=195;return p.isPointInFill(point);}),'ASKR transition must contain wood at the former gap');
               if(lang==='ko')await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-${id}-front.png`)});
               await side('back');
               assert.equal(await layer('rear-selected-tuners').getAttribute('data-profile'),expected);
-              if(model==='ASKR')assert.ok(await layer('rear-headstock').locator('path').first().evaluate(p=>p.isPointInFill(new DOMPoint(195,172))),'Rear transition must also contain wood at the former gap');
+              if(model==='ASKR')assert.ok(await layer('rear-headstock').locator('path').first().evaluate(p=>{const point=p.ownerSVGElement.createSVGPoint();point.x=195;point.y=172;return p.isPointInFill(point);}),'Rear transition must also contain wood at the former gap');
               assert.equal(await page.locator('[data-part="locking-wheel"]').count(),id==='schaller_m4_locking'?count:0);
               if(lang==='ko')await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-${id}-back.png`)});
               await side('front');
