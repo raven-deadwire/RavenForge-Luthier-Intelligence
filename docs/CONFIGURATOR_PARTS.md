@@ -1,3 +1,34 @@
+## v13 — complete control layouts and continuous surfaces
+
+Each bass has separate 3/4/5/6-pot arrangements. Volume/blend occupy the upper
+control area; EQ/filter controls form a lower group. Switching topology relocates
+the entire arrangement. Added coil/kill switches keep separate positions; GRAMR
+keeps its two-pot/blade drawing. Custom wiring still retains the source layout.
+
+The body wood/paint is rendered continuously with a common light field and contour
+edge shading. It no longer multiplies a hardware-bearing raster then punches out
+individual knob holes. This prevents bright/dark circles at former knob centres,
+for both natural/transparent and opaque finishes. The original source image is
+available in Sample render. This is a display surface, not a new production asset.
+
+Pickup cover faces use neutral black ABS, a rounded shoulder, a visible side wall,
+subtle crown highlights and fine grain. Times Square's two pole rows, Delano's
+three mounting holes / E side recesses, Fluence's groove and M6's exposed slug
+bobbins follow the manufacturer photographs. Cover projection uses the original
+model envelope, so EMBLA does not receive an oversized flat top-down soapbar.
+No manufacturer photos or logos are shipped. Unknown custom pickups still retain
+the original part and pending status.
+
+Photos rechecked 2026-10-20:
+- https://www.delano.de/sbc_5_he_s_4/files/stacks-image-86dd0f9.png
+- https://www.delano.de/sbc_5_he_s_4_e/files/stacks-image-54bf15c.png
+- https://www.delano.de/sbc_5_tf/files/stacks-image-ddb31a5.png
+- https://fishman.com/wp-content/uploads/2025/04/Fluence-5-string-soapbar-bass-pickup-hero.jpg
+- https://shop.lundgrenpickups.com/products/m6
+- EMG 40TWX outline: https://www.emgpickups.com/pub/media/Mageants/4/0/40twx_0230-0192re.pdf
+
+---
+
 # v12 pickup surfaces and electronics controls — 2026-10-20 KST
 
 The following v12 changes supersede the historical v11 knob-retention rule.

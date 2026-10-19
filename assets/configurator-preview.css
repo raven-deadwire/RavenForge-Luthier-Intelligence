@@ -131,41 +131,40 @@
 .rf-preview-guard button:focus-visible{outline:2px solid #ecd5a0;outline-offset:3px}
 .rf-preview-guard p{line-height:1.5;margin:0;color:#a9b9ba}
 
-/* v12: decisions on the left, image and live specification together on the right.
-   Quote rules are scoped to the live column: the detached PDF snapshot retains
+/* v13: preview left, options centre, live specification and price right.
+   Quote rules are scoped to the live quote wrapper: the detached PDF snapshot retains
    its existing print layout and export pagination. */
-.rf-config-grid { grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:1.5rem; }
-.rf-config-options { grid-column:1; grid-row:1; }
-.rf-preview-column { grid-column:2; grid-row:1; top:4.5rem; display:grid; grid-template-columns:minmax(0,1fr); gap:.8rem; max-height:calc(100dvh - 5.25rem); overflow:auto; scrollbar-width:thin; }
-.rf-config-quote { grid-column:auto; }
+.rf-config-grid { grid-template-columns:minmax(220px,.8fr) minmax(380px,1.45fr) minmax(280px,1.05fr); gap:1rem; }
+.rf-preview-column { grid-column:1; grid-row:1; }
+.rf-config-options { grid-column:2; grid-row:1; }
+.rf-config-quote { grid-column:3; grid-row:1; }
+.rf-preview-column,.rf-config-quote { position:sticky; top:4.5rem; max-height:calc(100dvh - 5.25rem); overflow:auto; scrollbar-width:thin; }
 .rf-preview-heading { padding:.8rem 1rem 0; }
 .rf-preview-heading h2 { font-size:1.5rem; }
 .rf-preview-settings { border-top:1px solid #3d474b; padding:.6rem 0; font-size:.73rem; }
 .rf-preview-settings>summary { cursor:pointer; padding:.2rem 1rem; color:#d4c6aa; min-height:32px; }
 .rf-eq-legend { padding:10px 20px; font-size:.72rem; line-height:1.65; }
 .rf-eq-legend ol { margin-top:6px; }
-.rf-preview-column #quote-summary-card { position:static; border-width:1px; box-shadow:none; }
-.rf-preview-column #ui-header { padding:12px 16px; }
-.rf-preview-column #ui-header h3 { font-size:.9rem; }
-.rf-preview-column #ui-header>div { font-size:.7rem; }
-.rf-preview-column #quote-summary-card>#ui-header~div:last-child { padding:14px; }
-.rf-preview-column #quote-scroll-area { min-height:0; max-height:24vh; margin-bottom:10px; }
-.rf-preview-column #quote-list-container { display:block; }
-.rf-preview-column #quote-list-container>div { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:5px; border-bottom:1px solid #edf0ed; padding:7px 0; margin:0; }
-.rf-preview-column #quote-list-container>div>div:first-child { display:grid; grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr); gap:6px; padding:0; align-items:baseline; }
-.rf-preview-column #quote-list-container>div>div:first-child>div { margin:0; font-size:10px; line-height:1.4; overflow-wrap:anywhere; letter-spacing:0; }
-.rf-preview-column [data-summary-total] { padding-top:10px; }
-.rf-preview-column [data-summary-total] .text-3xl { font-size:1.55rem; }
-.rf-preview-column [data-pricing-footnote] { margin-top:8px; font-size:10px; }
-.rf-preview-column #quote-actions-area button { margin-top:12px; padding:10px; font-size:11px; }
-.rf-preview-column .rf-preview-stage svg,.rf-preview-column .rf-preview-reference img,.rf-preview-column .rf-preview-unavailable { height:min(34vh,360px); }
+.rf-config-quote #quote-summary-card { position:static; border-width:1px; box-shadow:none; }
+.rf-config-quote #ui-header { padding:12px 16px; }
+.rf-config-quote #ui-header h3 { font-size:.9rem; }
+.rf-config-quote #ui-header>div { font-size:.7rem; }
+.rf-config-quote #quote-summary-card>#ui-header~div:last-child { padding:14px; }
+.rf-config-quote #quote-scroll-area { min-height:0; max-height:calc(100dvh - 380px); margin-bottom:10px; }
+.rf-config-quote #quote-list-container { display:block; }
+.rf-config-quote #quote-list-container>div { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:5px; border-bottom:1px solid #edf0ed; padding:7px 0; margin:0; }
+.rf-config-quote #quote-list-container>div>div:first-child { display:grid; grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr); gap:6px; padding:0; align-items:baseline; }
+.rf-config-quote #quote-list-container>div>div:first-child>div { margin:0; font-size:10px; line-height:1.4; overflow-wrap:anywhere; letter-spacing:0; }
+.rf-config-quote [data-summary-total] { padding-top:10px; }
+.rf-config-quote [data-summary-total] .text-3xl { font-size:1.55rem; }
+.rf-config-quote [data-pricing-footnote] { margin-top:8px; font-size:10px; }
+.rf-config-quote #quote-actions-area button { margin-top:12px; padding:10px; font-size:11px; }
+.rf-preview-column .rf-preview-stage svg,.rf-preview-column .rf-preview-reference img,.rf-preview-column .rf-preview-unavailable { height:min(54vh,560px); }
 .rf-mobile-review { display:none; }
 @media (min-width:1280px) {
   main.max-w-7xl { max-width:1560px; }
-  .rf-config-grid { grid-template-columns:minmax(440px,.85fr) minmax(620px,1.15fr); }
-  .rf-preview-column { grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); align-items:start; }
+  .rf-config-grid { gap:1.25rem; }
   .rf-preview-column .rf-preview-stage svg,.rf-preview-column .rf-preview-reference img,.rf-preview-column .rf-preview-unavailable { height:min(54vh,560px); }
-  .rf-preview-column #quote-scroll-area { max-height:calc(100dvh - 380px); }
   .rf-preview-column .rf-preview-heading { flex-wrap:wrap; gap:4px; }
   .rf-preview-column .rf-preview-mark { display:none; }
   .rf-preview-column .rf-preview-mode { gap:.6rem; padding:.5rem 1rem .2rem; }
@@ -173,16 +172,18 @@
 }
 @media (max-width:1023px) {
   .rf-config-grid { display:flex; }
-  .rf-preview-column { display:contents; }
-  .rf-preview { order:0; width:100%; }
+  .rf-preview-column,.rf-config-quote { position:static; max-height:none; overflow:visible; }
+  .rf-preview-column { order:0; }
+  .rf-preview { width:100%; }
   .rf-config-quote { order:1; }
   .rf-config-options { order:2; }
   .rf-preview-column .rf-preview-stage svg,.rf-preview-column .rf-preview-reference img,.rf-preview-column .rf-preview-unavailable { height:165px; }
-  .rf-preview-column #quote-scroll-area { max-height:140px; }
+  .rf-config-quote #quote-scroll-area { max-height:140px; }
   .rf-mobile-review { display:flex; position:fixed; z-index:45; left:0; right:0; bottom:0; background:#101818; color:#eee4cc; border-top:1px solid #7c735d; align-items:center; justify-content:space-around; gap:8px; padding:8px 12px max(8px,env(safe-area-inset-bottom)); font-size:12px; }
   .rf-mobile-review a { padding:8px; text-decoration:underline; }
   .rf-mobile-review strong { margin-left:auto; }
   body { padding-bottom:60px; }
   #instrument-preview,#config-options,#quote-summary-card { scroll-margin-top:80px; }
 }
+@media (max-height:600px) { .rf-preview-column,.rf-config-quote { position:static; max-height:none; overflow:visible; } }
 @media print { .rf-mobile-review { display:none; } }

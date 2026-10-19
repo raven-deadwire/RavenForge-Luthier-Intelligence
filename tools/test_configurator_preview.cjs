@@ -304,3 +304,28 @@ for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
 }
 const catalogBefore=JSON.stringify(data);preview.configureTestOptions(data);assert.equal(JSON.stringify(data),catalogBefore,'Test catalog setup is idempotent');
 console.log('PASS: EQ topology/stacked pots, independent switches, GRAMR kill position, contour burst both sides, neck/head matching and catalog idempotency');
+
+// v13: preamps change the whole arrangement, without changing the surface below.
+for(const model of ['EDDA','EMBLA','ASKR']){
+  let previous=null,body=null;
+  for(const electronics of ['passive','nfp','zuta','noll']){
+    const state=preview.scene(model,{...normalize(model),electronics},'transparent #9d282b',{},null,{specialOptions:['kill_switch']});
+    const positions=parts.electronicsPlan(state).knobs.map(k=>k.xy);
+    if(previous)assert.notDeepEqual(positions.slice(0,previous.length),previous,'Whole layout changes, not just an added end knob');
+    previous=positions;
+    const all=parts.controlPlan(state);
+    for(let i=0;i<all.length;i++)for(const b of all.slice(i+1))assert.ok(Math.hypot(all[i].xy[0]-b.xy[0],all[i].xy[1]-b.xy[1])>21,`${model}/${electronics} control clearance`);
+    const svg=preview.renderSvg(state,'front','en','portrait');
+    const surface=svg.split('<g data-surface="continuous-body"')[1].split('</g>')[0];
+    assert.ok(surface);assert.doesNotMatch(surface,/<image |source-parts-mask/,'Source knobs cannot leak into the continuous material surface');
+    if(body)assert.equal(surface,body,'Changing preamp cannot change the colour at old knob positions');
+    body=surface;
+  }
+}
+for(const [model,pickup] of [['EMBLA','delano_sbc'],['ASKR','fishman']]){
+  const state=preview.scene(model,{...normalize(model),pickups:pickup},'');
+  const fitted=parts.selectedPickupPlan(state);
+  fitted.forEach((r,i)=>{assert.equal(r.w,state.g.pickups[i].w);assert.equal(r.h,state.g.pickups[i].h);});
+  assert.match(parts.pickups(state,'fit'),/data-projection="source-envelope"/);
+}
+console.log('PASS: complete preamp layouts, unchanged continuous body surface, pickup projection into source envelopes');

@@ -46,6 +46,22 @@ async function main() {
       for(const name of originals)assert.equal(hashes[name],crypto.createHash('sha256').update(await fs.readFile(path.join(__dirname,'..',name))).digest('hex'),'Embedded originals must be byte-identical');
       report.embeddedOriginals='PASS';
     }
+    // The three independent columns must also fit narrower desktop screens.
+    report.layout=[];
+    for(const width of [1024,1280]) {
+      await page.setViewportSize({width,height:900});
+      for(const language of ['ko','en','de']) {
+        await page.locator(`[data-language="${language}"]`).click();
+        const bounds=await page.evaluate(()=>({
+          panes:['.rf-preview-column','.rf-config-options','.rf-config-quote'].map(q=>document.querySelector(q).getBoundingClientRect().toJSON()),
+          pageWidth:document.documentElement.scrollWidth
+        }));
+        assert.ok(bounds.panes[0].right<=bounds.panes[1].left && bounds.panes[1].right<=bounds.panes[2].left,'Preview / options / quote must remain separate at '+width);
+        assert.ok(bounds.pageWidth<=width+1,'No horizontal overflow at '+width);
+        await page.screenshot({path:path.join(output,`${language}-${width}-layout.png`)});
+        report.layout.push({width,language,result:'PASS'});
+      }
+    }
     report.materialDyes=await page.evaluate(async()=>{
       const M=globalThis.RavenForgeMaterials,results=[];
       for(const id of Object.keys(M.catalog))for(const [colour,channel] of [['#9d282b',0],['#275f89',2]]){
@@ -66,14 +82,15 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
-          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v12');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v13');
           assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').textContent(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
           if(size.width>=1024){
-            const panes=await page.evaluate(()=>['.rf-config-options','.rf-preview-column','#quote-summary-card'].map(q=>document.querySelector(q).getBoundingClientRect().toJSON()));
-            assert.ok(panes[0].right<=panes[1].left,'Options left, preview and quote right');
-            assert.ok(panes[2].top<panes[1].top+size.height,'Quote is beside image, not after the option form');
+            await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
+            const panes=await page.evaluate(()=>['.rf-preview-column','.rf-config-options','.rf-config-quote'].map(q=>document.querySelector(q).getBoundingClientRect().toJSON()));
+            assert.ok(panes[0].right<=panes[1].left && panes[1].right<=panes[2].left,'Preview left, options centre, quote right without overlap');
+            assert.ok(panes.every(p=>Math.abs(p.top-panes[1].top)<2),'All three columns start on the same row');
           }
           await page.screenshot({path:path.join(output,`${lang}-${size.width}-${model}-workspace.png`)});
           assert.equal(await page.locator('[data-preview-view]').count(),0,'No zoom controls');
@@ -291,10 +308,15 @@ async function main() {
                 await choose('electronics','glockenklang');
               }
               if(model==='EMBLA'){
+                const unchangedBody=await layer('body').innerHTML();
                 await choose('electronics','noll');
+                const sixKnobPositions=await page.locator('[data-knob-index]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('transform')));
                 assert.equal(await layer('knobs').getAttribute('data-bands'),'4');
                 assert.equal(await layer('knobs').getAttribute('data-count'),'6');
                 await choose('electronics','john_east');
+                const fiveKnobPositions=await page.locator('[data-knob-index]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('transform')));
+                assert.notDeepEqual(fiveKnobPositions,sixKnobPositions.slice(0,5),'Preamp change rearranges the entire control layout');
+                assert.equal(await layer('body').innerHTML(),unchangedBody,'No former-knob colour patches after a preamp change');
                 assert.equal(await layer('knobs').getAttribute('data-count'),'5');
                 assert.equal(await page.locator('[data-stacked="true"]').count(),2);
                 await choose('electronics','zuta');

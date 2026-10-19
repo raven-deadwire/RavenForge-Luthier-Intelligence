@@ -1,4 +1,21 @@
-## v12 current status — 2026-10-20 KST
+## v13 current status — 2026-10-20 KST
+
+Move the complete instrument preview to the leftmost desktop column. Options
+occupy the centre, with the live specification and price on the right. Preview
+and quote stick independently while the option form scrolls. Mobile retains its
+compact preview, quote and option stack plus quick navigation and live total.
+Bass control positions now use complete 3/4/5/6-knob layouts, with level/blend
+above and tone/filter groups below. They no longer consume a prefix of the source
+knob coordinates. Body material and lighting form one continuous surface before
+hardware is added: changing preamps cannot uncover bright erase patches. The
+original sample silhouette and sample-reference button are preserved. Pickup
+covers use manufacturer-photo details and the original rendered projection.
+Existing choices, prices and PDF export remain unchanged; compact quote rules are scoped to its live wrapper so detached
+PDF snapshots preserve their export layout.
+
+---
+
+## v12 historical status — 2026-10-20 KST
 
 - Desktop: choose options on the left; whole-instrument image and compact
   category/value/price rows share the right column. At wide desktop sizes they

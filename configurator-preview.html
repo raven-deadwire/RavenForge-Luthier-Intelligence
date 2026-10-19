@@ -67,17 +67,17 @@
   <div id="root"></div>
 
   <!-- React Code -->
-  <link rel="stylesheet" href="./assets/configurator-preview.css?v=20261019-v4b">
+  <link rel="stylesheet" href="./assets/configurator-preview.css?v=20261020-v13">
   <script src="./assets/configurator-gramr-geometry.js?v=20261019-v4"></script>
-  <script src="./assets/configurator-materials.js?v=20261020-v12"></script>
-  <script src="./assets/configurator-bindrune-motifs.js?v=20261020-v12"></script>
-  <script src="./assets/configurator-parts-renderer.js?v=20261020-v12"></script>
-  <script src="./assets/configurator-option-renderer.js?v=20261020-v12"></script>
-  <script src="./assets/configurator-drawing-renderer.js?v=20261020-v12"></script>
-  <script src="./assets/configurator-bass-rear-geometry.js?v=20261020-v12"></script>
-  <script src="./assets/configurator-rear-renderer.js?v=20261020-v12"></script>
-  <script src="./assets/configurator-geometry.js?v=20261020-v12"></script>
-  <script src="./assets/configurator-preview.js?v=20261020-v12"></script>
+  <script src="./assets/configurator-materials.js?v=20261020-v13"></script>
+  <script src="./assets/configurator-bindrune-motifs.js?v=20261020-v13"></script>
+  <script src="./assets/configurator-parts-renderer.js?v=20261020-v13"></script>
+  <script src="./assets/configurator-option-renderer.js?v=20261020-v13"></script>
+  <script src="./assets/configurator-drawing-renderer.js?v=20261020-v13"></script>
+  <script src="./assets/configurator-bass-rear-geometry.js?v=20261020-v13"></script>
+  <script src="./assets/configurator-rear-renderer.js?v=20261020-v13"></script>
+  <script src="./assets/configurator-geometry.js?v=20261020-v13"></script>
+  <script src="./assets/configurator-preview.js?v=20261020-v13"></script>
   <script type="text/babel">
     const { useState, useEffect, useMemo } = React;
 
@@ -1219,6 +1219,11 @@ const handleOptionChange = (categoryId, optionId) => {
               {language === 'ko' ? '테스트 페이지 · 기존 컨피규레이터와 별도로 운영됩니다.' : language === 'de' ? 'Testseite · getrennt vom bestehenden Konfigurator.' : 'Test page · separate from the existing configurator.'}
             </p>
             <div className="rf-config-grid">
+              <aside className="rf-preview-column">
+                <RavenForgePreview.Component model={selectedModel} selections={selections} finishColor={finishColor}
+                  language={language} categoryTitles={ui.categoryTitles} specialOptions={specialOptions} bindruneExample={previewBindrunes[selectedModel]}
+                  labels={Object.fromEntries(configData.categories.filter(cat => selections[cat.id]).map(cat => [cat.id, selectedOptionLabel(cat.id)]))} />
+              </aside>
               <div id="config-options" className="rf-config-options space-y-8">
                 {/* Step Indicator */}
                 <div className="flex justify-between items-center mb-4 bg-white rounded-xl p-2 shadow-sm border border-slate-200 overflow-x-auto custom-scrollbar">
@@ -1599,12 +1604,6 @@ const handleOptionChange = (categoryId, optionId) => {
                 </div>
               </div>
 
-              <aside className="rf-preview-column">
-                <RavenForgePreview.Component model={selectedModel} selections={selections} finishColor={finishColor}
-                  language={language} categoryTitles={ui.categoryTitles} specialOptions={specialOptions} bindruneExample={previewBindrunes[selectedModel]}
-                  labels={Object.fromEntries(configData.categories.filter(cat => selections[cat.id]).map(cat => [cat.id, selectedOptionLabel(cat.id)]))} />
-
-
               {/* Right Summary Table */}
               <div className="rf-config-quote">
                 <div id="quote-summary-card" className="sticky top-24 bg-white rounded-xl shadow-xl border-2 border-slate-200 overflow-hidden">
@@ -1696,7 +1695,6 @@ const handleOptionChange = (categoryId, optionId) => {
                   </div>
                 </div>
               </div>
-              </aside>
             </div>
           </main>
           <nav className="rf-mobile-review" aria-label={ui.summary}>

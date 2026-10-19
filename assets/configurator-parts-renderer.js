@@ -58,13 +58,35 @@ return out;
     guitar_passive:{bands:0,knobs:[['volume'],['tone']]},
     guitar_zuta_core:{bands:'planned',knobs:[['volume'],['tone']]}
   };
+  // Whole layouts, not a prefix of the old holes. Upper controls handle level /
+  // balance; tone and filter controls form a separate lower arc. Coordinates are
+  // display fits inside each model's control area, never drilling dimensions.
+  const controlLayouts={
+    EDDA:{
+      3:[[620,879],[646,929],[639,981]],
+      4:[[614,867],[645,910],[654,951],[644,996]],
+      5:[[614,866],[647,906],[610,934],[654,953],[643,999]],
+      6:[[612,863],[643,902],[610,933],[655,940],[650,979],[608,1030]]
+    },
+    EMBLA:{
+      3:[[742,894],[781,968],[759,1055]],
+      4:[[742,890],[781,940],[715,1056],[774,1047]],
+      5:[[742,890],[781,940],[701,1064],[747,1080],[791,1046]],
+      6:[[735,885],[773,925],[705,992],[704,1040],[748,1077],[792,1038]]
+    },
+    ASKR:{
+      3:[[721,986],[753,1029],[740,1080]],
+      4:[[721,981],[751,1015],[716,1034],[750,1068]],
+      5:[[712,977],[746,1001],[703,1019],[742,1042],[739,1083]],
+      6:[[711,974],[747,997],[699,1011],[735,1031],[705,1045],[745,1070]]
+    }
+  };
   function electronicsPlan(state){
     const s=state.selections,ref=electronicsProfiles[s.electronics];
     if(!ref||['control_custom','guitar_custom_wiring'].includes(s.control_layout))return null;
-    const positions=state.model==='ASKR'?[[728,975],[706,1010],[750,1013],[714,1046],[754,1050],[747,1082]]:
-      state.model==='EMBLA'?[...state.g.controls,[700,1070]]:
-      state.model==='EDDA'?[...state.g.controls,[607,954],[606,917]]:state.g.controls;
-    return {...ref,knobs:ref.knobs.map((functions,index)=>({xy:[...positions[index]],type:'knob',index,functions:[...functions],stacked:functions.length>1,placement:state.model==='GRAMR'?'source-retained':'electronics-preview'}))};
+    const guitar=state.model==='GRAMR',positions=guitar?state.g.controls:controlLayouts[state.model]?.[ref.knobs.length];
+    if(!positions)return null;
+    return {...ref,layout:guitar?'guitar-two-pot':ref.knobs.length===3?'three-control-arc':ref.knobs.length===4?'two-plus-two':ref.knobs.length===5?'two-plus-three':'two-plus-four',knobs:ref.knobs.map((functions,index)=>({xy:[...positions[index]],type:'knob',index,functions:[...functions],stacked:functions.length>1,placement:guitar?'source-retained':'electronics-preview'}))};
   }
   function controlPlan(state){
     const s=state.selections,extras=state.specialOptions||[],positions=state.g.controls||[];
@@ -93,7 +115,7 @@ return out;
   function knobs(state,p,radius){
     const eq=electronicsPlan(state);if(!eq)return '';
     const wood=state.selections.knob==='knob_wood',metal=`url(#${p}-part-metal)`;
-    return `<g data-layer="knobs" data-count="${eq.knobs.length}" data-bands="${eq.bands}" data-electronics="${state.selections.electronics}" data-placement="${state.model==='GRAMR'?'source-retained':'electronics-preview'}">`+eq.knobs.map(({xy:[x,y],functions,stacked,index})=>{
+    return `<g data-layer="knobs" data-count="${eq.knobs.length}" data-bands="${eq.bands}" data-electronics="${state.selections.electronics}" data-layout="${eq.layout}" data-placement="${state.model==='GRAMR'?'source-retained':'electronics-preview'}">`+eq.knobs.map(({xy:[x,y],functions,stacked,index})=>{
       const r=radius*(stacked?1.18:1),fill=wood?`url(#${p}-knob-material)`:metal;
       let out=`<g data-knob-index="${index}" data-knob-functions="${functions.join(' ')}" data-stacked="${stacked}" transform="translate(${x} ${y})"><title>${functions.join(' / ')}</title>`;
       out+=circle(.5,2,r+1.4,'#030506','opacity=".8"')+circle(0,0,r,fill,`stroke="#141819" stroke-width="1" ${wood&&state.finish.colour?`filter="url(#${p}-surface-dye)"`:''}`)+circle(0,0,r,`url(#${p}-knob-shade)`);
@@ -108,7 +130,7 @@ return out;
   // custom cover/button, or map every product to one generic family symbol.
   const references={
     pickups:{
-      emg:{w:102,h:38,style:'40twx',url:'https://stage.emgpickups.com/40twx.html'},
+      emg:{w:102,h:38,style:'40twx',url:'https://www.emgpickups.com/40twx.html'},
       guitar_lundgren_m6:{w:70,h:38,style:'m6-open-slugs',url:'https://shop.lundgrenpickups.com/products/m6'},
       delano_sbc:{w:100,h:36,style:'sbc',url:'https://www.delano.de/sbc_5_he_s_4/sbc_5_he_s_4_details.html'},
       delano_ts:{w:108,h:32,style:'times-square',url:'https://www.delano.de/downloads/sbc5_tf.pdf'},
@@ -135,36 +157,40 @@ return out;
   const profile=(state,category)=>references[category]?.[state.selections[category]];
   function selectedPickupPlan(state){
     const ref=profile(state,'pickups');if(!ref)return pickupPlan(state);
-    return pickupPlan(state).map(r=>{const scale=r.w/(state.model==='ASKR'?102:100),w=ref.w*scale,h=ref.h*scale;
-      return {...r,x:r.x+(r.w-w)/2,y:r.y+(r.h-h)/2,w,h};});
+    const base=state.model==='ASKR'?references.pickups.fishman:references.pickups.delano_sbc;
+    return pickupPlan(state).map(r=>{
+      const w=r.w*ref.w/base.w,h=r.h*ref.h/base.h;
+      return {...r,x:r.x+(r.w-w)/2,y:r.y+(r.h-h)/2,w,h};
+    });
   }
   const box=(x,y,w,h,rx,fill,attrs='')=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" ${attrs}/>`;
   function pickupDefinitions(p){
-    return `<linearGradient id="${p}-pickup-face" x1=".18" y1="0" x2=".55" y2="1"><stop stop-color="#373936"/><stop offset=".3" stop-color="#282b29"/><stop offset=".8" stop-color="#1c1f1e"/><stop offset="1" stop-color="#161918"/></linearGradient><linearGradient id="${p}-pickup-bevel" x1=".15" y1="0" x2=".65" y2="1"><stop stop-color="#6f726c"/><stop offset=".07" stop-color="#3e423f"/><stop offset=".4" stop-color="#171a19"/><stop offset=".85" stop-color="#070909"/><stop offset="1" stop-color="#333734"/></linearGradient><radialGradient id="${p}-pole" cx=".32" cy=".25"><stop stop-color="#ddd9cb"/><stop offset=".4" stop-color="#a5a59c"/><stop offset=".83" stop-color="#727975"/><stop offset="1" stop-color="#c6c8bf"/></radialGradient><pattern id="${p}-pickup-grain" width="7" height="7" patternUnits="userSpaceOnUse">${Array.from({length:45},(_,i)=>circle((i*2.371)%7,(i*i*.913)%7,.045+(i%3)*.025,i%3?'#bbc0b6':'#020505',`opacity="${i%3?.13:.24}"`)).join('')}</pattern>`;
+    return `<linearGradient id="${p}-pickup-face" x1=".18" y1="0" x2=".55" y2="1"><stop stop-color="#323335"/><stop offset=".3" stop-color="#222326"/><stop offset=".8" stop-color="#18191c"/><stop offset="1" stop-color="#101114"/></linearGradient><linearGradient id="${p}-pickup-bevel" x1=".15" y1="0" x2=".65" y2="1"><stop stop-color="#55575a"/><stop offset=".07" stop-color="#35373a"/><stop offset=".4" stop-color="#171a19"/><stop offset=".85" stop-color="#070909"/><stop offset="1" stop-color="#333734"/></linearGradient><radialGradient id="${p}-pickup-crown" cx=".28" cy=".18" r=".95"><stop stop-color="#fff" stop-opacity=".08"/><stop offset=".65" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></radialGradient><radialGradient id="${p}-pole" cx=".32" cy=".25"><stop stop-color="#ddd9cb"/><stop offset=".4" stop-color="#a5a59c"/><stop offset=".83" stop-color="#727975"/><stop offset="1" stop-color="#c6c8bf"/></radialGradient><pattern id="${p}-pickup-grain" width="7" height="7" patternUnits="userSpaceOnUse">${Array.from({length:45},(_,i)=>circle((i*2.371)%7,(i*i*.913)%7,.045+(i%3)*.025,i%3?'#b8bbc0':'#020305',`opacity="${i%3?.09:.20}"`)).join('')}</pattern>`;
   }
   function pickupUnit(ref,p){
     const w=ref.w,h=ref.h,face=`url(#${p}-pickup-face)`,bevel=`url(#${p}-pickup-bevel)`,grain=`url(#${p}-pickup-grain)`;
     let out=box(-.8,1.6,w+1.6,h+1.7,3.8,'#000202','opacity=".6"');
     if(ref.style==='m6-open-slugs'){
       out+=box(-4,h/2-4,w+8,8,1.3,'#8b8a78','stroke="#302e25" stroke-width=".65"')+screw(-2,h/2,1.3)+screw(w+2,h/2,1.3);
-      out+=box(-.6,0,w+1.2,h+1,7,'#151717','stroke="#393a34" stroke-width="1"');
+      out+=box(-.6,0,w+1.2,h+1,7,'#151619','stroke="#323338" stroke-width="1"');
+      for(let x=4;x<w-3;x+=.65)out+=path(`M${x} ${h-1}v2.5`,'none','stroke="#51535a" stroke-width=".18" stroke-opacity=".4"');
       for(let row=0;row<2;row++){
         const y=row*h/2;
         out+=box(.5,y+.5,w-1,h/2-1,8.5,bevel)+box(1.3,y+1.3,w-2.6,h/2-2.8,7.6,face)+box(1.3,y+1.3,w-2.6,h/2-2.8,7.6,grain);
         const cy=y+h/4;
-        for(let i=0;i<6;i++){const x=8.9+i*10.4;out+=circle(x,cy,2.8,'#080b0a')+circle(x,cy,2.43,`url(#${p}-pole)`,'stroke="#bfc0b5" stroke-width=".2"');for(const r of [.6,1,1.5,2])out+=circle(x,cy,r,'none','stroke="#545b57" stroke-opacity=".22" stroke-width=".12"');}
+        for(let i=0;i<6;i++){const x=9+i*10.4;out+=circle(x,cy,2.8,'#080b0a')+circle(x,cy,2.43,`url(#${p}-pole)`,'stroke="#bfc0b5" stroke-width=".2"');for(const r of [.6,1,1.5,2])out+=circle(x,cy,r,'none','stroke="#545b57" stroke-opacity=".22" stroke-width=".12"');}
         for(const x of [4.2,14.1,55.8])out+=circle(x,cy,.95,'#050808');
       }
       return out;
     }
-    const recess=['sbc-e','40twx','fluence'].includes(ref.style),r=ref.style==='40twx'?1.7:3.2;
+    const recess=['sbc-e','40twx','fluence'].includes(ref.style),r=ref.style==='40twx'?3.17:ref.style==='times-square'?4.5:3.2;
     // Open side mounting recesses belong to the cover silhouette, not a dot
     // painted over a solid rectangle. Delano SBC instead has three round holes.
     const cover=`M${r} 0H${w-r}Q${w} 0 ${w} ${r}V${h/2-3.15}${recess?`H${w-1.1}a3.15 3.15 0 0 0 0 6.3H${w}`:`V${h/2+3.15}`}V${h-r}Q${w} ${h} ${w-r} ${h}H${r}Q0 ${h} 0 ${h-r}V${h/2+3.15}${recess?'H1.1a3.15 3.15 0 0 0 0 -6.3H0':`V${h/2-3.15}`}V${r}Q0 0 ${r} 0Z`;
-    out+=path(cover,'#090c0b','transform="translate(0 1.4)" stroke="#090c0b" stroke-width="1.2"')+path(cover,bevel,'stroke="#0b0d0d" stroke-width=".55"');
-    out+=`<g transform="translate(1.25 1.1) scale(${(w-2.5)/w} ${(h-2.9)/h})">${path(cover,face)}${path(cover,grain)}</g>`;
+    out+=path(cover,'#07080b','transform="translate(.35 2.2)" stroke="#08090c" stroke-width="1.8"')+path(cover,bevel,'stroke="#0b0c0e" stroke-width=".55"');
+    out+=`<g transform="translate(1.25 1.1) scale(${(w-2.5)/w} ${(h-2.9)/h})">${path(cover,face)}${path(cover,`url(#${p}-pickup-crown)`)}${path(cover,grain)}</g>`;
     out+=path(`M${r+1} 1Q1 1 1 ${r+1}V${h/2-4} M${r+1} 1H${w-r-1}`,'none','stroke="#c0c3b8" stroke-opacity=".2" stroke-width=".4"');
-    if(!recess)for(const [x,y] of [[4,5],[4,h-5],[w-4,h/2]])out+=circle(x,y,2.55,bevel)+circle(x,y,1.85,'#050908')+circle(x+.3,y+.55,.85,'#2c302b');
+    if(!recess)for(const [x,y] of [[4,5],[4,h-5],[w-4,h/2]])out+=circle(x,y,2.55,bevel)+circle(x,y,1.85,'#050608')+circle(x+.3,y+.55,.85,'#25262a')+path(`M${x-1} ${y+.5}h2`,'none','stroke="#101114" stroke-width=".45"');
     else for(const x of [1.3,w-1.3])out+=circle(x,h/2,1.45,'#080b0a')+screw(x,h/2,1.05);
     if(ref.style==='times-square')for(let row=0;row<2;row++)for(let i=0;i<5;i++){
       const x=14+i*17.8,y=row?h-7:5;
@@ -179,10 +205,10 @@ return out;
   function pickups(state,p){
     const ref=profile(state,'pickups');if(!ref)return '';
     const guitar=state.model==='GRAMR';
-    let out=`<g data-layer="pickups" data-option="${state.selections.pickups}" data-count="${state.g.pickups.length}" data-appearance="manufacturer-reference" data-placement="sample-fit" data-profile="${ref.style}" data-surface="matte-bevel-recess">`;
+    let out=`<g data-layer="pickups" data-option="${state.selections.pickups}" data-count="${state.g.pickups.length}" data-appearance="manufacturer-reference" data-placement="sample-fit" data-profile="${ref.style}" data-surface="photo-reference-abs" data-projection="source-envelope">`;
     (guitar?pickupPlan(state):selectedPickupPlan(state)).forEach((r,index)=>{
-      const scale=guitar?r.h/ref.w:r.w/ref.w;
-      out+=`<g data-pickup-index="${index}" transform="translate(${r.x+r.w/2} ${r.y+r.h/2}) rotate(${guitar?-90:r.angle||0}) scale(${scale}) translate(${-ref.w/2} ${-ref.h/2})">${pickupUnit(ref,p)}</g>`;
+      const scaleX=guitar?r.h/ref.w:r.w/ref.w,scaleY=guitar?r.w/ref.h:r.h/ref.h;
+      out+=`<g data-pickup-index="${index}" transform="translate(${r.x+r.w/2} ${r.y+r.h/2}) rotate(${guitar?-90:r.angle||0}) scale(${scaleX} ${scaleY}) translate(${-ref.w/2} ${-ref.h/2})">${pickupUnit(ref,p)}</g>`;
     });return out+'</g>';
   }
   function bridge(state,p){
