@@ -292,6 +292,7 @@ for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
     if(side==='back'){
       assert.match(svg,/data-layer="neck-finish" data-mode="body" data-colour="#9d282b" data-opaque="false"/);
       assert.match(svg,/data-layer="neck-laminates"/);
+      assert.match(svg,/data-layer="rear-head-finish" data-mode="body" data-colour="#9d282b"/);
       const opaque=preview.renderSvg(preview.scene(model,base,'solid #9d282b'),'back','en');
       assert.match(opaque,/data-layer="neck-finish" data-mode="body" data-colour="#9d282b" data-opaque="true"/);
       assert.doesNotMatch(opaque,/data-layer="neck-laminates"/);

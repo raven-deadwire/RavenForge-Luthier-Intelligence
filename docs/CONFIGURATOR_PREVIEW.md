@@ -14,7 +14,8 @@
   headstock. It is a zero-cost alternative to the existing zero-cost head choices.
 - New neck colour choice: natural / match body. Transparent matching retains
   laminate species; opaque matching conceals them. The neck colour follows the
-  body colour input independently of the rear body's natural-oil setting.
+  body colour input independently of the rear body's natural-oil setting. The
+  rear headstock follows neck colour; front head matching remains independent.
 - No approved neck-match surcharge exists, so its price is **request**, not an
   invented charge. Natural is the unchanged base configuration. Both new finish
   choices enter the ordinary test spec sheet/PDF through a test-only catalog

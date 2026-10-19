@@ -42,7 +42,7 @@
     if(back){
       out+=`<g data-layer="rear-body" data-material="${esc(state.bodyId)}" data-finish="${esc(s.color_back_side)}" data-colour="${colour}" data-opaque="${opaque}" data-contour="pdf-vector">${surface(g.body,'body',texture(535,-4,550,550,'body-wood'))}</g>`;
       out+=options.bodyPieces(state,p,g.body,true,286,100,true);
-      out+=`<g data-layer="rear-headstock" data-contour="pdf-vector">${surface(g.head,'head',texture(5,170,240,240,'body-wood'))}</g>`;
+      out+=`<g data-layer="rear-headstock" data-contour="pdf-vector">${options.neckFinish(state,p,g.head,path(g.head,`fill="url(#${p}-head-natural)"`)+path(g.head,`fill="url(#${p}-body-light)"`),'rear-head-finish')}</g>`;
       out+=`<g data-layer="rear-neck" data-neck-joint="bolt-on" data-appearance="illustrative-lamination">${options.neckFinish(state,p,'M'+polygon(g.neck)+' Z',`<polygon points="${polygon(g.neck)}" fill="#e2cda8" stroke="#72664f" stroke-width="1"/>${options.lamination(state,g.neck,p+'-neck-clip')}<polygon points="${polygon(g.neck)}" fill="url(#${p}-body-light)"/>`)}</g>`;
       out+=`<g data-layer="rear-joint-seam" data-placement="source-envelope">${line(g.neck[3],g.neck[2],'stroke="#15120f" stroke-width="1.8" vector-effect="non-scaling-stroke"')}</g>`;
       // This unfinished region communicates the confirmed bolt-on construction

@@ -29,12 +29,12 @@
     if(!back&&s.extra_finish_flake==='flake_add')out+=`<path data-effect="flake" d="${d}" fill="url(#${p}-flakes)"/>`;
     return out+'</g>';
   }
-  function neckFinish(state,p,d,contents){
+  function neckFinish(state,p,d,contents,layer='neck-finish'){
     const f=state.neckFinish||state.finish,match=state.neckColour==='body',colour=match&&f.colour;
-    const attrs=`data-layer="neck-finish" data-mode="${match?'body':'natural'}" data-colour="${colour||''}" data-opaque="${!!(colour&&f.opaque)}"`;
+    const attrs=`data-layer="${layer}" data-mode="${match?'body':'natural'}" data-colour="${colour||''}" data-opaque="${!!(colour&&f.opaque)}"`;
     if(!colour)return `<g ${attrs}>${contents}</g>`;
     if(f.opaque)return `<g ${attrs}><path d="${d}" fill="${colour}"/><path d="${d}" fill="url(#${p}-knob-shade)" opacity=".45"/></g>`;
-    return `<g ${attrs}><defs>${materials.finishFilter(p+'-neck-dye',colour)}</defs><g filter="url(#${p}-neck-dye)">${contents}</g></g>`;
+    return `<g ${attrs}><defs>${materials.finishFilter(p+'-'+layer+'-dye',colour)}</defs><g filter="url(#${p}-${layer}-dye)">${contents}</g></g>`;
   }
   function boardEdges(state,board){
     const s=state.selections;let out='';
