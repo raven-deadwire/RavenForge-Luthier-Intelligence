@@ -35,7 +35,7 @@
 @media (max-width:1023px) {
   .rf-config-grid { display:flex; flex-direction:column; gap:1.25rem; }
   .rf-preview-column,.rf-config-options,.rf-config-quote { width:100%; }
-  .rf-preview-column { position:sticky; top:4rem; z-index:30; }
+  .rf-preview-column { position:static; }
   .rf-preview { border-radius:.6rem; box-shadow:0 6px 16px #0002; }
   .rf-preview-heading { padding:.4rem .8rem 0; } .rf-preview-heading h2 { font-size:1rem; }
   .rf-preview-heading p { font-size:.65rem; } .rf-preview-mark { font-size:.6rem; }
@@ -46,7 +46,7 @@
   .rf-preview-parts { font-size:.65rem; margin:.3rem .8rem; }
   .rf-preview-scope { padding:.35rem .8rem; max-height:22vh; } .rf-preview-scope summary { min-height:26px; }
   .rf-preview-warning { margin:.3rem .8rem; font-size:.65rem; }
-  .rf-config-options [data-category],.rf-config-options #finish-color { scroll-margin-top:370px; }
+  .rf-config-options [data-category],.rf-config-options #finish-color { scroll-margin-top:6rem; }
 }
 @media (max-width:420px) { .rf-preview-stage svg { height:105px; } }
 @media (max-height:600px) { .rf-preview-column { position:static; } }
@@ -84,7 +84,6 @@
   .rf-preview-sides button { min-height:32px; padding:.2rem .7rem; }
   .rf-preview-parts { font-size:.62rem; line-height:1.35; }
   .rf-preview-note { font-size:.62rem; }
-  .rf-config-options [data-category],.rf-config-options #finish-color { scroll-margin-top:420px; }
 }
 @media (max-width:420px) { .rf-preview-stage svg,.rf-preview-reference img { height:125px; } }
 

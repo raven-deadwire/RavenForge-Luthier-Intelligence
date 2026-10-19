@@ -11,6 +11,7 @@ The first commit connects EDDA end to end; the next extends the same renderer to
 ## Full front/back and inlay review (2026-10-19, latest user request)
 
 - Removed body/fretboard/head zoom controls. Front/back buttons always show the complete instrument with an unchanged aspect ratio. Legacy crop names in the renderer fall back to the full front view.
+- On narrow screens the preview scrolls with the page so it cannot cover options or inlay examples. Desktop keeps the side-by-side sticky preview. Browser QA hit-tests the first and last bindrune cards to catch covering layers.
 - GRAMR has a separate rear projection extracted from the supplied PDF: rear body/head contours, neck envelope, six tuner centres and tremolo cavity. No front mirroring or generated whole-instrument image. The old four-bolt plate is excluded; a hatched region marks the unresolved current joint. Neck lamination widths and exact rear hardware/cavity internals are not fabricated.
 - Rear body tone uses body wood (never the top); natural oil retains the natural tone. Other rear finishes can use the existing finish-colour input. Materials remain illustrative.
 - EDDA, EMBLA and ASKR do not have verified rear source assets in this test. Their rear tab explicitly displays an unavailable state and never presents a mirrored front as a rear image. The quote remains intact.

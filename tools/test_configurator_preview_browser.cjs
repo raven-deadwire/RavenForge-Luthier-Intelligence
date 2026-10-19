@@ -120,6 +120,16 @@ async function main() {
           await page.locator('[data-bindrune-examples]').scrollIntoViewIfNeeded();
           await page.locator('[data-bindrune-examples] img').evaluateAll(images=>Promise.all(images.map(image=>image.decode())));
           await page.locator('[data-bindrune-examples]').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-bindrune.png`)});
+          // A visible bounding box alone misses sticky previews covering the gallery.
+          for(const index of [0,3]) {
+            const card=page.locator('[data-bindrune-examples] figure').nth(index);
+            await card.evaluate(element=>element.scrollIntoView({block:'center',behavior:'instant'}));
+            assert.ok(await card.evaluate(element=>{
+              const box=element.getBoundingClientRect();
+              return element.contains(document.elementFromPoint(box.x+box.width/2,box.y+box.height/2));
+            }),`Bindrune C${index+1} is not covered by the preview/header`);
+            if(size.width<1024) await card.screenshot({path:path.join(output,`${lang}-${size.width}-${model}-bindrune-c${index+1}.png`)});
+          }
           await choose('inlay_custom_spec','custom_others');
           assert.equal(await page.locator('[data-bindrune-examples]').count(),0);
           await choose('inlay_type','inlay_none');
