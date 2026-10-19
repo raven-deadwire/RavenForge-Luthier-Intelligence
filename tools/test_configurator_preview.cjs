@@ -64,6 +64,12 @@ for (const [model,count,price] of [['EDDA',4,2100],['EMBLA',5,2550],['ASKR',5,32
     if(model==='GRAMR')assert.ok(base.g.back.provenance.maxJoinGapPDFPoints<.05);
     if(['EMBLA','ASKR'].includes(model)){
       assert.equal(base.g.back.bolts.length,5);
+      const rearSvg=preview.renderSvg(base,'back','en');
+      const neck=rearSvg.split('data-layer="rear-neck"')[1].split('data-layer="rear-headstock"')[0];
+      assert.match(neck,/data-part="detachable-neck"/);
+      assert.match(neck,/-neck-grain/);
+      assert.doesNotMatch(neck,/fill="url\(#[^"]+(?<!neck)-grain\)"/);
+      assert.match(neck,/clip-path="url\(#[^"]+-neck-clip\)"/);
       assert.ok(base.g.back.provenance.maxBodyJoinGap<.5);
       assert.ok(base.g.back.provenance.maxCavityJoinGap<.1);
     }

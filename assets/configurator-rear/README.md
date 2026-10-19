@@ -1,5 +1,14 @@
 # Rear preview sources
 
+## v7 — ASKR / EMBLA bolt-on clarification
+
+Both models use detachable, five-bolt necks. The renderer now separates neck/body
+grain coordinates and lighting, clips laminates to the neck, and gives the source
+boundary an illustrative mechanical edge. Five fastener centres remain from the
+supplied PDFs. A body contour alone is not proof of an approved pocket surface.
+The UI names bolt-on construction on both front and rear views.
+
+
 ## v6 correction — 2026-10-20 KST
 
 The user rejected the v5 joint appearance despite its passing metadata checks.

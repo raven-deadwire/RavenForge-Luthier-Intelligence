@@ -8,7 +8,23 @@ Entry point: `configurator-preview.html`. This is a separate test page. The prod
 
 The first commit connects EDDA end to end; the next extends the same renderer to EMBLA, ASKR and GRAMR. The test page copies the existing configurator shell and adds a read-only preview component, colour controls, and a responsive two-column layout. `tools/test_configurator_preview.cjs` compares data, normalization, pricing, option handlers, quote markup and PDF export source against production so the copy cannot silently diverge.
 
-## Visible bolt-on joint correction (v6, 2026-10-20, latest)
+## ASKR and EMBLA are bolt-on (v7, 2026-10-20, latest)
+
+Both models are fixed bolt-on instruments, not optional joint types. Re-reading
+both supplied rear drawings confirms five rear fasteners; it does not validate a
+finished joint surface from the body cutaway curve alone.
+
+- Give the detachable neck its own grain coordinates and transverse lighting.
+  The former shared pattern aligned neck and body grain as if cut from one blank.
+- Keep neck laminations inside the neck clip and draw an illustrative mechanical
+  edge at the source neck/body envelope. Body and neck remain separate surfaces.
+- Keep the five PDF bolt centres; do not replace them with generated positions.
+- Label every model, including ASKR and EMBLA, as a bolt-on neck in both views.
+- This correction changes the test renderer only. The seam relief is illustrative,
+  not an approved pocket depth or machining surface. No production options,
+  pricing, PDF code or original front samples are changed.
+
+## Visible bolt-on joint correction (v6, 2026-10-20, historical)
 
 The user correctly rejected v5's remaining neck-through/set-neck appearance.
 Passing bolt-count and renderer metadata checks did not validate that appearance.

@@ -46,7 +46,8 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
-          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v6');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v7');
+          assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').innerText(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
           assert.equal(await page.locator('[data-preview-view]').count(),0,'No zoom controls');
