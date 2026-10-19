@@ -16,6 +16,7 @@ async function main() {
   const step=n=>page.locator(`[data-step="${n}"]`).click();
   const choose=(category,value)=>page.locator(`input[name="${category}"][value="${value}"]`).check();
   const layer=name=>page.locator(`[data-layer="${name}"]`);
+  const side=name=>page.locator(`button[data-preview-side="${name}"]`).click();
   try {
     await page.goto(url,{waitUntil:'networkidle'});
     await page.locator('[data-preview-model="EDDA"]').waitFor();
@@ -30,6 +31,10 @@ async function main() {
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
+          assert.equal(await page.locator('[data-preview-view]').count(),0,'No zoom controls');
+          assert.equal(await page.locator('button[data-preview-side]').count(),2);
+          assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-side'),'front');
+          const fullViewBox=await page.locator('[data-preview-svg]').getAttribute('viewBox');
           assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-renderer'),model==='GRAMR'?'drawing-composite':'sample-composite');
           assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-layout'),size.width<1024?'landscape':'portrait');
           // Confirm original repository rasters load, then compare reference/selected modes.
@@ -50,11 +55,35 @@ async function main() {
           await page.locator('.rf-colour-modes button').nth(1).click();
           assert.equal(await layer('finish').getAttribute('data-opaque'),'true');
           assert.equal(await page.locator('feGaussianBlur:not([in="SourceAlpha"])').count(),0);
-          await page.locator('[data-preview-view="body"]').click();
-          await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-opaque-body.png`)});
-          await page.locator('[data-preview-view="head"]').click();
-          await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-opaque-head.png`)});
-          await page.locator('[data-preview-view="full"]').click();
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-opaque-front.png`)});
+          const quoteBeforeSide=await page.locator('#quote-summary-card').innerText();
+          await side('back');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-side'),'back');
+          assert.equal(await layer('pickups').count(),0,'No front pickups on the back');
+          assert.equal(await layer('strings').count(),0,'No front strings on the back');
+          if(model==='GRAMR'){
+            assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-side'),'back');
+            assert.equal(await page.locator('[data-preview-svg]').getAttribute('viewBox'),fullViewBox);
+            assert.equal(await layer('rear-body').getAttribute('data-opaque'),'false','Natural oil stays natural');
+            assert.equal(await layer('rear-joint-pending').count(),1);
+            await page.locator('[data-preview-mode="sample"]').click();
+            assert.match(await page.locator('.rf-preview-reference img').getAttribute('src'),/rear-reference/);
+            await page.locator('[data-preview-mode="selected"]').click();
+          }else{
+            assert.equal(await page.locator('[data-preview-unavailable="back"]').count(),1);
+            assert.equal(await page.locator('#instrument-preview svg,#instrument-preview img').count(),0,'No invented/mirrored rear image');
+          }
+          assert.equal(await page.locator('#quote-summary-card').innerText(),quoteBeforeSide,'View switch does not change quote');
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-back.png`)});
+          if(model==='GRAMR'){
+            await choose('color_back_side','back_stain');
+            assert.equal(await layer('rear-body').getAttribute('data-colour'),'#275f89');
+            assert.equal(await layer('rear-body').getAttribute('data-opaque'),'true');
+            await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-opaque-back.png`)});
+            await choose('color_back_side','back_oil');
+          }
+          await side('front');
+          assert.equal(await page.locator('[data-preview-svg]').getAttribute('viewBox'),fullViewBox);
           await page.locator('.rf-colour-modes button').nth(0).click();
           await choose('top_type','cap');
           await choose('top_wood_selection',model==='GRAMR'?'guitar_top_walnut':'walnut');
@@ -79,6 +108,22 @@ async function main() {
             assert.equal(await layer('frets').getAttribute('data-count'),'24');
             await choose('fret_type','fret_24');
           }
+          await choose('inlay_type','inlay_oval');
+          await choose('inlay_oval_mat','oval_wood');
+          assert.equal(await page.locator('[data-oval-example]').count(),1);
+          assert.ok(await layer('inlays').locator('[data-inlay-design="ravenforge-oval"]').count()>0);
+          assert.equal(await layer('inlays').locator('[data-inlay-design]').first().getAttribute('data-material'),'oval_wood');
+          await page.locator('[data-oval-example]').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-oval.png`)});
+          await choose('inlay_type','inlay_custom');
+          await choose('inlay_custom_spec','custom_bindrune');
+          assert.equal(await page.locator('[data-bindrune-examples] img').count(),4);
+          await page.locator('[data-bindrune-examples]').scrollIntoViewIfNeeded();
+          await page.locator('[data-bindrune-examples] img').evaluateAll(images=>Promise.all(images.map(image=>image.decode())));
+          await page.locator('[data-bindrune-examples]').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-bindrune.png`)});
+          await choose('inlay_custom_spec','custom_others');
+          assert.equal(await page.locator('[data-bindrune-examples]').count(),0);
+          await choose('inlay_type','inlay_none');
+          assert.equal(await layer('inlays').count(),0);
           await step(4);
           await choose('hardware_color','hw_gold');
           assert.equal(await layer('hardware').getAttribute('data-colour'),'#c9a75c');
@@ -91,10 +136,7 @@ async function main() {
           await choose('pickups',pickup);
           assert.equal(await layer('pickups').getAttribute('data-option'),pickup);
           assert.equal(await layer('pickups').getAttribute('data-appearance'),model==='GRAMR'?'drawing-envelope':'reference-retained');
-          await page.locator('[data-preview-view="body"]').click();
-          assert.equal(await page.locator('[data-preview-view="body"]').getAttribute('aria-pressed'),'true');
-          await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-body.png`)});
-          await page.locator('[data-preview-view="full"]').click();
+          assert.equal(await page.locator('button[data-preview-side="front"]').getAttribute('aria-pressed'),'true');
           const layout=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,preview:document.querySelector('#instrument-preview').getBoundingClientRect().toJSON()}));
           assert.ok(layout.scroll<=layout.width+1,'No horizontal overflow');
           assert.ok(layout.preview.width<=layout.width,'Preview fits viewport');

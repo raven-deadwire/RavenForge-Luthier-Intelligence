@@ -32,7 +32,8 @@ def contour(ids,start=None):
         result+=(' L' if kind=='l' else ' C')+' '.join(xy(p) for p in points[1:])
     return result+' Z',max(gaps)
 
-def xy(p):return f'{p[0]/2:.4f},{p[1]/2:.4f}'
+offset_y=0
+def xy(p):return f'{p[0]/2:.4f},{p[1]/2-offset_y:.4f}'
 def path(i):return contour([i])[0]
 def center(i):
     r=drawings[i]['rect']*matrix
@@ -61,3 +62,24 @@ for x,y in data['tuners']+data['controls']:parts.append(f'<circle cx="{x}" cy="{
 svg='<svg xmlns="http://www.w3.org/2000/svg" width="2160" height="880" viewBox="0 80 1080 440"><title>GRAMR — front geometry extracted from supplied drawing</title><rect width="1080" height="600" fill="#f6f4ed"/><g fill="none" stroke="#343637" stroke-width=".65">'+''.join(parts)+'</g></svg>'
 (ROOT/'assets/configurator-gramr-reference.svg').write_text(svg)
 print('Extracted body/head/pickguard, 24 fret positions, 6 tuner bores and part placement; max join gap',max(body_gap,head_gap),'PDF points')
+
+# Rear geometry is a separate projection in the same PDF. The old four-bolt
+# plate is deliberately excluded: it conflicts with the current platform.
+offset_y=480
+rear_body_ids=list(range(1941,1951))+list(range(1955,1968))
+rear_head_ids=list(range(1968,1976))
+rear_body,rear_body_gap=contour(rear_body_ids,(1275.486083984375,1474.288330078125))
+rear_head,rear_head_gap=contour(rear_head_ids,(437.0845642089844,1486.609130859375))
+rear_cavity,cavity_gap=contour(list(range(2114,2122)))
+rear_neck=[[437.11/2,1486.79/2-offset_y],[437.11/2,1578.56/2-offset_y],[1350.7901611328125/2,1591.3046875/2-offset_y],[1275.486083984375/2,1474.288330078125/2-offset_y]]
+rear_tuners=[[x,y-offset_y] for x,y in [center(i) for i in [2024,2029,2034,2039,2044,2049]]]
+data['back']=dict(source='assets/configurator-gramr-rear-reference.svg',body=rear_body,head=rear_head,neck=rear_neck,tuners=rear_tuners,cavity=rear_cavity,
+ provenance=dict(bodyDrawingIndices=rear_body_ids,headDrawingIndices=rear_head_ids,cavityDrawingIndices=list(range(2114,2122)),displayYOffset=offset_y,maxJoinGapPDFPoints=max(rear_body_gap,rear_head_gap,cavity_gap),scope='Rear projection only; historical neck plate/bolts, lamination widths and exact tuner/cavity internals are not displayed.'))
+# Append the rear projection without changing any already extracted front coordinates.
+js=js[:js.index('return ')+7]+json.dumps(data,ensure_ascii=False,separators=(',',':'))+';});\n'
+(ROOT/'assets/configurator-gramr-geometry.js').write_text(js)
+rear_parts=[f'<path d="{rear_body}"/>',f'<path d="{rear_head}"/>',f'<polygon points="{" ".join(",".join(str(v) for v in p) for p in rear_neck)}"/>',f'<path d="{rear_cavity}"/>']
+for x,y in rear_tuners:rear_parts.append(f'<circle cx="{x}" cy="{y}" r="6"/>')
+rear_svg='<svg xmlns="http://www.w3.org/2000/svg" width="2160" height="880" viewBox="0 80 1080 440"><title>GRAMR — rear projection; historical neck plate and bolts omitted</title><rect width="1080" height="600" fill="#f6f4ed"/><g fill="none" stroke="#343637" stroke-width=".65">'+''.join(rear_parts)+'</g></svg>'
+(ROOT/'assets/configurator-gramr-rear-reference.svg').write_text(rear_svg)
+print('Extracted rear projection; max join gap',data['back']['provenance']['maxJoinGapPDFPoints'],'PDF points')

@@ -8,6 +8,19 @@ Entry point: `configurator-preview.html`. This is a separate test page. The prod
 
 The first commit connects EDDA end to end; the next extends the same renderer to EMBLA, ASKR and GRAMR. The test page copies the existing configurator shell and adds a read-only preview component, colour controls, and a responsive two-column layout. `tools/test_configurator_preview.cjs` compares data, normalization, pricing, option handlers, quote markup and PDF export source against production so the copy cannot silently diverge.
 
+## Full front/back and inlay review (2026-10-19, latest user request)
+
+- Removed body/fretboard/head zoom controls. Front/back buttons always show the complete instrument with an unchanged aspect ratio. Legacy crop names in the renderer fall back to the full front view.
+- GRAMR has a separate rear projection extracted from the supplied PDF: rear body/head contours, neck envelope, six tuner centres and tremolo cavity. No front mirroring or generated whole-instrument image. The old four-bolt plate is excluded; a hatched region marks the unresolved current joint. Neck lamination widths and exact rear hardware/cavity internals are not fabricated.
+- Rear body tone uses body wood (never the top); natural oil retains the natural tone. Other rear finishes can use the existing finish-colour input. Materials remain illustrative.
+- EDDA, EMBLA and ASKR do not have verified rear source assets in this test. Their rear tab explicitly displays an unavailable state and never presents a mirrored front as a rear image. The quote remains intact.
+- The existing `inlay_oval` option now uses an original RavenForge tapered oval / raven-eye motif with a feather split. It is a design study, not a manufacturing drawing. Oval material choices change illustrative tones and do not inherit dot-only placement state. Existing option IDs/prices are unchanged.
+- Marleaux's oval option was referenced through its [official Soprano configuration sheet](https://www.marleaux-bass.de/wp-content/uploads/en_Configuration_Soprano.pdf) and [Consat Signature reference listing](https://www.paisleymusik.de/marleaux/marleaux-consat-signature-4-string/). No external image, vector path or logo is included.
+- Choosing custom → bindrune displays C1–C4 from `RavenForge_Bindrune_Inlay_Design_Guide_v5.0.pdf`, page 1. The four SVGs preserve the existing illustration paths. The original `RavenForge_Bindrune_Layouts_v5.png` is also available from the example card. No new runes or inferred meaning are added. The final artwork/placement is not automatically applied to the instrument.
+- Only the requested example images are bundled; the complete private PDFs remain outside the repository. Provenance is in `assets/configurator-bindrune/README.md`.
+
+This section supersedes the earlier zoom/rear descriptions below. Production configurator, shared platform/options/pricing and quote/PDF behavior remain unchanged.
+
 ## Opaque / GRAMR drawing correction (2026-10-19, later user review)
 
 Opaque formerly applied a 4-pixel Gaussian blur to the entire body image and a 2-pixel blur to the headstock. This caused the reported loss of detail. Both are removed. Bass opaque colour now uses only pointwise colour/contrast transfer; source RGB pixels are never spatially averaged. GRAMR opaque paint fully covers its texture and retains vector edges. Its edge-lighting filter blurs **SourceAlpha only**, not instrument RGB; shadow softness is separate from finish resolution.
@@ -68,11 +81,11 @@ Only interaction patterns were studied. No external images, paths, code or brand
 
 ## Verification
 
-Local: `node tools/test_configurator_contracts.cjs`, `node tools/test_configurator_preview.cjs`, JavaScript syntax checks and `git diff --check`. The new contract covers 545 allowed option substitutions in three languages and four views, mutation protection, unknown colour/material handling, escaping, model restrictions and Nova's hardware-colour exception.
+Local: `node tools/test_configurator_contracts.cjs`, `node tools/test_configurator_preview.cjs`, JavaScript syntax checks and `git diff --check`. The new contract covers 545 allowed option substitutions in three languages and front/back views, mutation protection, unknown colour/material handling, escaping, model restrictions and Nova's hardware-colour exception.
 
 Local browser QA is **unavailable** in the authoring environment: the managed preview supervisor exits with `bwrap: Can't mount proc ... Operation not permitted`. Static SVG raster review is not browser QA.
 
-`.github/workflows/configurator-preview.yml` runs on this test page's PR. It validates 4 models × 3 languages × 2 viewports (1440×1080 and 390×844), live colour/top/fretboard/hardware changes, retained-part statuses, source image decoding, reference/selected switching, actual pixel differences after a colour change, opaque body/head screenshots and no RGB blur, responsive orientation, zoom, reset, unmapped-state behavior, and page overflow. It then uses the existing real-browser regression runner for 24 price/option/PDF combinations. Screenshots, PDFs and JSON reports are uploaded as the PR's CI artifact. A passing source contract is not a substitute for this CI result or final visual approval.
+`.github/workflows/configurator-preview.yml` runs on this test page's PR. It validates 4 models × 3 languages × 2 viewports (1440×1080 and 390×844), live colour/top/fretboard/hardware changes, retained-part statuses, source image decoding, reference/selected switching, actual pixel differences after a colour change, full opaque/front/back screenshots and no RGB blur, responsive orientation, no zoom controls, side-switch price invariance, rear asset fallbacks, Oval and original bindrune examples, reset, unmapped-state behavior, and page overflow. It then uses the existing real-browser regression runner for 24 price/option/PDF combinations. Screenshots, PDFs and JSON reports are uploaded as the PR's CI artifact. A passing source contract is not a substitute for this CI result or final visual approval.
 
 ## Follow-up asset work
 

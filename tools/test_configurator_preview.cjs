@@ -34,8 +34,13 @@ for (const [model,count,price] of [['EDDA',4,2100],['EMBLA',5,2550],['ASKR',5,32
     const selections=JSON.parse(JSON.stringify(normalize(model,{...defaults,[group.id]:option.id})));
     const before=JSON.stringify(selections);
     const state=preview.scene(model,selections,'transparent #275f89');
-    for(const language of ['ko','en','de']) for(const view of ['full','body','neck','head']) {
+    for(const language of ['ko','en','de']) for(const view of ['front','back']) {
       const svg=preview.renderSvg(state,view,language);
+      if(view==='back') {
+        if(model==='GRAMR') { assert.match(svg,/data-side="back"/); assert.match(svg,/data-layer="rear-body"/); assert.doesNotMatch(svg,/data-layer="(?:strings|pickups|frets)"/); }
+        else assert.equal(svg,'','Unverified rear geometry must not be fabricated');
+        continue;
+      }
       assert.match(svg,new RegExp(`data-layer="strings" data-count="${count}"`));
       assert.doesNotMatch(svg,/NaN|undefined|<script|onerror=/);
       if(selections.fret_type==='fretless' && selections.fretline!=='line_yes') assert.doesNotMatch(svg,/data-layer="frets"/);
@@ -45,6 +50,14 @@ for (const [model,count,price] of [['EDDA',4,2100],['EMBLA',5,2550],['ASKR',5,32
     combinations++;
   }
   const base=preview.scene(model,defaults,'');
+  for(const oldView of ['body','neck','head']) assert.equal(preview.renderSvg(base,oldView,'en','portrait'),preview.renderSvg(base,'front','en','portrait'),'Legacy zoom requests cannot enlarge the image');
+  const oval=preview.scene(model,{...defaults,inlay_type:'inlay_oval',inlay_oval_mat:'oval_wood',inlay_dot_pos:'pos_custom'},'');
+  assert.match(preview.renderSvg(oval,'front','en'),/data-inlay-design="ravenforge-oval"/,'Oval ignores stale dot-only position state');
+  if(model==='GRAMR'){
+    assert.ok(base.g.back.provenance.maxJoinGapPDFPoints<.05);
+    const cap=preview.scene(model,{...defaults,top_type:'cap',top_wood_selection:'guitar_top_walnut'},'');
+    assert.equal(preview.renderSvg(cap,'back','en'),preview.renderSvg(base,'back','en'),'Front top does not recolour the rear');
+  }
   const opaque=preview.scene(model,defaults,'solid #112233');
   assert.notEqual(preview.renderSvg(base,'full','en'),preview.renderSvg(opaque,'full','en'));
   assert.equal(opaque.finish.colour,'#112233');
@@ -82,4 +95,10 @@ for(const value of ['blue top, red back','top blue','<script>alert(1)</script>',
 const attack=preview.renderSvg(preview.scene('EDDA',normalize('EDDA'),'',{pickups:'<script>"&'}),'full','en');
 assert.doesNotMatch(attack,/<script>/); assert.match(attack,/&lt;script&gt;/);
 for(const language of ['ko','en','de']) assert.deepEqual(Object.keys(preview.copy[language]).sort(),Object.keys(preview.copy.en).sort());
-console.log(`PASS: ${combinations} allowed option substitutions × 3 languages × 4 views; pricing/PDF source parity, safe fallbacks, Nova exception and model constraints`);
+console.log(`PASS: ${combinations} allowed option substitutions × 3 languages × front/back; pricing/PDF source parity, safe fallbacks, Nova exception and model constraints`);
+
+for(let i=1;i<=4;i++) {
+ const example=fs.readFileSync(path.join(root,`assets/configurator-bindrune/c${i}.svg`),'utf8');
+ assert.match(example,/original layout example/);assert.doesNotMatch(example,/<script|<image|http(?!:\/\/www.w3.org)/);
+}
+assert.doesNotMatch(fs.readFileSync(path.join(root,'assets/configurator-preview.js'),'utf8'),/data-preview-view/);

@@ -67,11 +67,11 @@
   <div id="root"></div>
 
   <!-- React Code -->
-  <link rel="stylesheet" href="./assets/configurator-preview.css?v=20261019">
-  <script src="./assets/configurator-gramr-geometry.js?v=20261019-v3"></script>
-  <script src="./assets/configurator-drawing-renderer.js?v=20261019-v3"></script>
-  <script src="./assets/configurator-geometry.js?v=20261019-v3"></script>
-  <script src="./assets/configurator-preview.js?v=20261019-v3"></script>
+  <link rel="stylesheet" href="./assets/configurator-preview.css?v=20261019-v4">
+  <script src="./assets/configurator-gramr-geometry.js?v=20261019-v4"></script>
+  <script src="./assets/configurator-drawing-renderer.js?v=20261019-v4"></script>
+  <script src="./assets/configurator-geometry.js?v=20261019-v4"></script>
+  <script src="./assets/configurator-preview.js?v=20261019-v4"></script>
   <script type="text/babel">
     const { useState, useEffect, useMemo } = React;
 
@@ -1408,6 +1408,12 @@ const handleOptionChange = (categoryId, optionId) => {
                                     );
                                   })}
                                 </div>
+                                {category.id === 'inlay_oval_mat' && (
+                                  <RavenForgePreview.OvalExample language={language} material={selections.inlay_oval_mat} />
+                                )}
+                                {category.id === 'inlay_custom_spec' && selections.inlay_custom_spec === 'custom_bindrune' && (
+                                  <RavenForgePreview.BindruneExamples language={language} />
+                                )}
                               </div>
                             </div>
                           );

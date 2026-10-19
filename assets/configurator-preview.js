@@ -53,6 +53,12 @@
       noShape: 'Für dieses Modell liegt keine geprüfte Kontur vor.', sampleGrain: 'Mustermaserung beibehalten', referenceParts: 'Musterteile beibehalten', sourceView: 'Musterrendering', drawingView:'Referenzzeichnung', drawingNote:'Frontkonturen und Positionen folgen der vorgelegten Zeichnung. Material- und Bauteiloberflächen sind illustrativ.', drawingParts:'Zeichnungsgeometrie · illustrative Oberflächen', selectedView: 'Gewähltes Finish', drawingReferenceNote:'Referenzzeichnung; gewählte Finishes werden nicht angewendet.', referenceNote: 'Originalmuster. Die gewählten Optionen sind hier nicht dargestellt.', colourNames: ['Natur', 'Rot', 'Blau', 'Schwarz', 'Weiß', 'Grün']
     }
   };
+  const viewCopy = {
+    en: {front:'Front',back:'Back',backMissing:'Rear image not registered',backMissingNote:'A verified rear image or drawing is needed for this model. Your options remain in the quote.',backNote:'Rear outline from the source drawing. Neck joint, lamination widths and exact part details are not shown.',backParts:'Rear geometry · joint details pending',backReferenceNote:'Rear source geometry only. The historical four-bolt plate is omitted.',backFinishNote:'Rear body tone follows the body wood and rear finish. Natural oil keeps the natural tone; the top is not applied to the back.',bindruneTitle:'Bindrune layout examples',bindruneNote:'Existing RavenForge v5.0 designs · examples only. The final artwork and placement are agreed separately; these are not applied automatically to the instrument.',bindruneNames:['Compact centre','Extended centre','Three sections','Full-length composition'],ovalTitle:'RavenForge Oval',ovalNote:'Design study · a tapered oval with a feather-like split. Material colours are illustrative.',bindruneOriginal:'Original layout sheet',bindruneSource:'Design guide v5.0 · 9 Sep 2026 · page 1'},
+    ko: {front:'앞면',back:'뒷면',backMissing:'뒷면 이미지 미등록',backMissingNote:'이 모델의 뒷면 이미지 또는 확인된 도면이 필요합니다. 선택한 옵션은 견적에 유지됩니다.',backNote:'기준 도면의 뒷면 외곽입니다. 넥 조인트·라미네이트 폭·부품 세부는 표시하지 않습니다.',backParts:'뒷면 도면 기준 · 조인트 세부 미표현',backReferenceNote:'뒷면 기준 외곽입니다. 과거 4볼트 플레이트는 제외했습니다.',backFinishNote:'바디 목재와 뒷면 마감을 반영합니다. 내추럴 오일은 자연 색조를 유지하며, 앞면 탑은 뒷면에 적용하지 않습니다.',bindruneTitle:'바인드룬 배치 예시',bindruneNote:'기존 RavenForge v5.0 설계도 예시입니다. 최종 문양과 배치는 별도로 협의하며, 악기 이미지에 자동 적용하지 않습니다.',bindruneNames:['압축 중심형','확장 중심형','세 구획형','전체 문장형'],ovalTitle:'RavenForge Oval',ovalNote:'디자인 시안 · 끝을 좁힌 타원에 깃털 형태의 분할을 더했습니다. 재질 색조는 참고 표현입니다.',bindruneOriginal:'설계 가이드 예시 원본',bindruneSource:'설계 가이드 v5.0 · 2026.09.09 · 1쪽'},
+    de: {front:'Vorderseite',back:'Rückseite',backMissing:'Rückseitenbild noch nicht hinterlegt',backMissingNote:'Für dieses Modell wird eine geprüfte Rückansicht benötigt. Ihre Optionen bleiben im Angebot erhalten.',backNote:'Rückenkontur aus der Vorlage. Halsverbindung, Laminatbreiten und genaue Bauteildetails sind nicht dargestellt.',backParts:'Rückengeometrie · Verbindungsdetails offen',backReferenceNote:'Rückenkontur der Vorlage. Die historische Vierlochplatte ist ausgelassen.',backFinishNote:'Korpus-Holz und rückseitiges Finish bestimmen den Farbton. Naturöl behält den Naturton; die Decke wird nicht auf die Rückseite übertragen.',bindruneTitle:'Bindrune-Beispiele',bindruneNote:'Vorhandene RavenForge-Entwürfe v5.0 · nur Beispiele. Endgültiges Motiv und Platzierung werden separat vereinbart und nicht automatisch auf das Instrument übertragen.',bindruneNames:['Kompakte Mitte','Erweiterte Mitte','Drei Abschnitte','Ganzes Griffbrett'],ovalTitle:'RavenForge Oval',ovalNote:'Designentwurf · eine zugespitzte Ovalform mit federartiger Teilung. Materialfarben sind illustrativ.',bindruneOriginal:'Originale Beispieltafel',bindruneSource:'Entwurfshandbuch v5.0 · 9. Sept. 2026 · Seite 1'}
+  };
+  for (const language of Object.keys(copy)) Object.assign(copy[language],viewCopy[language]);
   const woods = {
     ash:'#c5a779', swampash:'#d7bd8b', swamp_ash:'#d7bd8b', alder:'#bd8d61', zelkova:'#b68954', elm:'#bca070',
     maple:'#e2c695', limba:'#bba768', red_toon:'#b27257', rosewood:'#573c30', indian_rosewood:'#573c30',
@@ -80,6 +86,12 @@
   const esc = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const point = (a,b,t) => [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t];
   const pts = points => points.map(p=>p.join(',')).join(' ');
+  // Original RavenForge motif: tapered oval / raven-eye, with a split feather vein.
+  // No Marleaux paths or image pixels are used.
+  function ovalMark(center,width,height,angle,material,boardColour) {
+    const colour={oval_avalon:'#c9d6c9',oval_wood:'#b68c59',oval_acryl:'#b8c5d0',oval_resin:'#b4a7c5'}[material]||'#d9d3bd';
+    return `<g data-inlay-design="ravenforge-oval" data-material="${esc(material||'')}" transform="translate(${center[0]} ${center[1]}) rotate(${angle}) scale(${width/2} ${height/2})"><path d="M-1 .10 C-.74 -.81 .30 -.96 1 -.12 C.56 .68 -.35 .87 -1 .10Z" fill="${colour}" stroke="none"/><path d="M-.69 .23 Q.03 -.17 .77 -.18 M-.12 -.04 L-.29 -.42" fill="none" stroke="${boardColour||'#413a32'}" stroke-width=".09" stroke-linecap="round"/></g>`;
+  }
   function scene(model, selections, finishColour, labels) {
     const s = Object.assign({}, selections); // Read-only boundary; pricing owns normalization.
     const g = geometry[model];
@@ -107,7 +119,12 @@
   function renderSvg(state, view, language, layout) {
     const g = state.g;
     if (!g) return '';
-    if (g.kind === 'drawing') return drawingRenderer.render(state,view,language,layout,copy);
+    if (view === 'back' && !g.back) return '';
+    if (g.kind === 'drawing') {
+      const rearState=view==='back'?Object.assign({},state,{bodyColour:wood(state.bodyId),finish:state.selections.color_back_side==='back_oil'?parseColour(''):state.finish}):state;
+      return drawingRenderer.render(rearState,view==='back'?'back':'full',language,layout,copy,ovalMark);
+    }
+    view='full'; // Full instrument only; old crop names never trigger enlargement.
     const s = state.selections, t = copy[language] || copy.en;
     const prefix = 'rf-preview-' + state.model.toLowerCase();
     const unknown = `url(#${prefix}-unknown)`;
@@ -142,7 +159,7 @@
     const viewBox = (portrait?g.portrait:g.views)[view] || (portrait?g.portrait:g.views).full;
     const transform=portrait?(g.portraitTransform||'translate(0 0)'):g.transform;
     const fretted=s.fret_type!=='fretless';
-    let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" role="img" aria-labelledby="${prefix}-title ${prefix}-desc" data-preview-svg="${state.model}" data-renderer="sample-composite" data-layout="${portrait?'portrait':'landscape'}">
+    let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" role="img" aria-labelledby="${prefix}-title ${prefix}-desc" data-preview-svg="${state.model}" data-renderer="sample-composite" data-side="front" data-layout="${portrait?'portrait':'landscape'}">
       <title id="${prefix}-title">${esc(state.model+' · '+t.live)}</title><desc id="${prefix}-desc">${esc(t.note+' '+t.tone+' '+t.symbols)}</desc>
       <defs>
       <pattern id="${prefix}-unknown" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#5e6670"/><path d="M0 12L12 0" stroke="#b4bdc7" stroke-width="2"/></pattern>
@@ -190,13 +207,17 @@
     out+=`<g data-layer="nut" data-option="${esc(s.nut_material||'')}" data-zero-fret="${state.model!=='GRAMR'&&fretted}">${line(g.board[0],g.board[1],`stroke="${nutColours[s.nut_material]||'#77808b'}" stroke-width="3"`)}`;
     if(state.model!=='GRAMR'&&fretted) out+=line(point(g.board[0],g.board[3],.008),point(g.board[1],g.board[2],.008),'stroke="#c2c9cc" stroke-width="1.25"');
     out+='</g>';
-    if(['inlay_dot','inlay_oval'].includes(s.inlay_type)&&s.inlay_dot_pos!=='pos_custom') {
+    if(s.inlay_type==='inlay_oval'||(s.inlay_type==='inlay_dot'&&s.inlay_dot_pos!=='pos_custom')) {
       out+='<g data-layer="inlays" fill="#d3c9b0" stroke="#f9edd1" stroke-width=".35">';
       [3,5,7,9,12,15,17,19,21,24].forEach(n=>{
         const fraction=((1-Math.pow(2,-n/12))+(1-Math.pow(2,-(n-1)/12)))/1.5;
         const a=point(g.board[0],g.board[3],fraction),b=point(g.board[1],g.board[2],fraction);
-        const places=n%12===0?[.3,.7]:[s.inlay_dot_pos==='pos_left'?.2:s.inlay_dot_pos==='pos_right'?.8:.5];
-        places.forEach(f=>{const p=point(a,b,f);out+=`<ellipse cx="${p[0]}" cy="${p[1]}" rx="${s.inlay_type==='inlay_oval'?4.5:2.5}" ry="2.5"/>`;});
+        const places=n%12===0?[.3,.7]:[s.inlay_type==='inlay_oval'?.5:s.inlay_dot_pos==='pos_left'?.2:s.inlay_dot_pos==='pos_right'?.8:.5];
+        places.forEach(f=>{const p=point(a,b,f);if(s.inlay_type==='inlay_oval'){
+          const breadth=Math.hypot(b[0]-a[0],b[1]-a[1]);
+          const gap=Math.hypot(frets[n-1][0][0]-frets[n-2][0][0],frets[n-1][0][1]-frets[n-2][0][1]);
+          out+=ovalMark(p,breadth*(n%12===0?.32:.66),Math.min(breadth*.2,gap*.55),Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI,s.inlay_oval_mat,boardColour);
+        }else out+=`<ellipse cx="${p[0]}" cy="${p[1]}" rx="2.5" ry="2.5"/>`;});
       });out+='</g>';
     }
     out+=`<g data-layer="pickups" data-option="${esc(s.pickups||'')}" data-appearance="reference-retained"><title>${label('pickups')} · ${esc(t.referenceParts)}</title>${source(`clip-path="url(#${prefix}-pickups)"`)}</g>`;
@@ -214,38 +235,57 @@
   }
   function Component(props) {
     const React = window.React, h = React.createElement;
-    const [view,setView] = React.useState('full');
+    const [view,setView] = React.useState('front');
     const [sample,setSample] = React.useState(false);
     const [compact,setCompact] = React.useState(()=>window.matchMedia('(max-width:1023px)').matches);
     React.useEffect(()=>{const media=window.matchMedia('(max-width:1023px)');const change=()=>setCompact(media.matches);media.addEventListener('change',change);return()=>media.removeEventListener('change',change);},[]);
     React.useEffect(()=>{setSample(false);},[props.model,props.selections,props.finishColor]);
+    React.useEffect(()=>{setView('front');},[props.model]);
     const t = copy[props.language] || copy.en;
     const state = scene(props.model,props.selections,props.finishColor,props.labels);
     const s = state.selections;
     const isDrawing=state.g && state.g.kind==='drawing';
     const referenceTitle=isDrawing?t.drawingView:t.sourceView;
+    const rear=view==='back',missing=rear&&!state.g?.back;
+    const source=rear?state.g?.back?.source:state.g?.source;
     const rows = ['body_wood_single','body_core_wood','body_wing_wood','top_type','top_wood_selection','fretboard','color_top','color_back_side','color_headstock','pickups','hardware_bridge','hardware_machine_head','hardware_color'].filter(id=>s[id]);
-    return h('section',{className:'rf-preview',id:'instrument-preview','aria-labelledby':'preview-title','data-preview-model':props.model},
+    return h('section',{className:'rf-preview',id:'instrument-preview','aria-labelledby':'preview-title','data-preview-model':props.model,'data-preview-side':view},
       h('div',{className:'rf-preview-heading'},h('div',null,h('p',null,t.live),h('h2',{id:'preview-title'},props.model)),h('span',{className:'rf-preview-mark','aria-hidden':true},'RF / MATERIAL LAB')),
-      h('div',{className:'rf-preview-mode'},[false,true].map(original=>h('button',{key:String(original),type:'button','data-preview-mode':original?'sample':'selected','aria-pressed':sample===original,onClick:()=>setSample(original)},original?referenceTitle:t.selectedView))),
-      sample?h('div',{className:'rf-preview-reference'},h('img',{src:state.g.source,alt:props.model+' · '+referenceTitle}),h('p',null,isDrawing?t.drawingReferenceNote:t.referenceNote)):
-        h('div',{className:'rf-preview-stage','data-view':view,dangerouslySetInnerHTML:{__html:renderSvg(state,view,props.language,compact?'landscape':'portrait')}}),
+      h('div',{className:'rf-preview-sides','aria-label':t.title},['front','back'].map(id=>h('button',{type:'button',key:id,'data-preview-side':id,'aria-pressed':view===id,onClick:()=>{setSample(false);setView(id);}},t[id]))),
+      !missing && h('div',{className:'rf-preview-mode'},[false,true].map(original=>h('button',{key:String(original),type:'button','data-preview-mode':original?'sample':'selected','aria-pressed':sample===original,onClick:()=>setSample(original)},original?referenceTitle:t.selectedView))),
+      missing?h('div',{className:'rf-preview-unavailable','data-preview-unavailable':'back',role:'status'},h('strong',null,t.backMissing),h('p',null,t.backMissingNote)):
+        sample?h('div',{className:'rf-preview-reference'},h('img',{src:source,alt:props.model+' · '+t[view]+' · '+referenceTitle}),h('p',null,rear?t.backReferenceNote:isDrawing?t.drawingReferenceNote:t.referenceNote)):
+          h('div',{className:'rf-preview-stage','data-view':view,dangerouslySetInnerHTML:{__html:renderSvg(state,view,props.language,compact?'landscape':'portrait')}}),
       !state.g && h('p',{role:'status'},t.noShape),
-      h('div',{className:'rf-preview-views','aria-label':t.title},['full','body','neck','head'].map(id=>h('button',{type:'button',key:id,'data-preview-view':id,'aria-pressed':view===id,onClick:()=>{setSample(false);setView(id);}},t[id]))),
-      h('p',{className:'rf-preview-parts','data-preview-parts':true},(isDrawing?t.drawingParts:t.referenceParts)+' · '+props.labels.pickups+' / '+props.labels.hardware_bridge),
-      h('p',{className:'rf-preview-note'},isDrawing?t.drawingNote:t.note),
+      !missing && h('p',{className:'rf-preview-parts','data-preview-parts':true},rear?t.backParts:(isDrawing?t.drawingParts:t.referenceParts)+' · '+props.labels.pickups+' / '+props.labels.hardware_bridge),
+      !missing && h('p',{className:'rf-preview-note'},rear?t.backNote:isDrawing?t.drawingNote:t.note),
+      rear&&!missing && h('p',{className:'rf-preview-note'},t.backFinishNote),
       state.finish.status==='unmapped' && h('p',{className:'rf-preview-warning',role:'status'},t.textOnly),
       state.finish.colour && s.color_top==='top_oil' && h('p',{className:'rf-preview-warning'},t.oil),
       h('details',{className:'rf-preview-scope'},h('summary',null,t.scope),
         h('p',null,isDrawing?t.drawingNote:t.tone),h('p',null,isDrawing?t.drawingParts:t.symbols),h('p',null,t.geometry),
-        state.g && h('a',{href:state.g.source,target:'_blank',rel:'noopener noreferrer'},isDrawing?t.drawingView:t.reference),
+        source && h('a',{href:source,target:'_blank',rel:'noopener noreferrer'},isDrawing?t.drawingView:t.reference),
         h('dl',null,rows.map(id=>{
-          const status=['pickups','hardware_bridge','hardware_machine_head'].includes(id)?(isDrawing?t.drawingParts:t.schematic):state.pending.includes(id)?t.pending:['hardware_machine_head','color_back_side','body_wing_wood'].includes(id)?t.hidden:['pickups','hardware_bridge','hardware_color'].includes(id)?t.schematic:id.startsWith('body_')&&(state.hasTop||state.finish.opaque)?t.covered:t.material;
+          const status=rear?(missing?t.pending:['body_wood_single','body_core_wood','color_back_side'].includes(id)?t.material:t.pending):['pickups','hardware_bridge','hardware_machine_head'].includes(id)?(isDrawing?t.drawingParts:t.schematic):state.pending.includes(id)?t.pending:['hardware_machine_head','color_back_side','body_wing_wood'].includes(id)?t.hidden:['pickups','hardware_bridge','hardware_color'].includes(id)?t.schematic:id.startsWith('body_')&&(state.hasTop||state.finish.opaque)?t.covered:t.material;
           return h('div',{key:id,'data-preview-category':id,'data-option':s[id]},h('dt',null,props.categoryTitles[id]||id),h('dd',null,props.labels[id],h('small',null,status)));
         })),
         state.pending.length>0 && h('p',{'data-preview-pending':true},t.pending+': '+state.pending.map(id=>props.categoryTitles[id]||id).join(', '))),
-      h('span',{className:'rf-preview-sr','aria-live':'polite','aria-atomic':'true'},t.updated+' · '+props.model+' · '+Object.values(props.labels).join(', '))
+      h('span',{className:'rf-preview-sr','aria-live':'polite','aria-atomic':'true'},t.updated+' · '+props.model+' · '+t[view]+' · '+Object.values(props.labels).join(', '))
     );
+  }
+  function OvalExample(props) {
+    const h=window.React.createElement,t=copy[props.language]||copy.en;
+    return h('figure',{className:'rf-oval-example','data-oval-example':true},
+      h('div',{dangerouslySetInnerHTML:{__html:`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 100" role="img" aria-label="${t.ovalTitle}">${ovalMark([120,50],180,50,0,props.material,'#252e2e')}</svg>`}}),
+      h('figcaption',null,h('strong',null,t.ovalTitle),h('p',null,t.ovalNote)));
+  }
+  function BindruneExamples(props) {
+    const h=window.React.createElement,t=copy[props.language]||copy.en;
+    return h('section',{className:'rf-bindrune-examples','data-bindrune-examples':true,'aria-label':t.bindruneTitle},
+      h('h4',null,t.bindruneTitle),h('p',null,t.bindruneNote),
+      h('div',{className:'rf-bindrune-grid'},t.bindruneNames.map((name,i)=>h('figure',{key:i},
+        h('img',{src:'assets/configurator-bindrune/c'+(i+1)+'.svg',alt:'C'+(i+1)+' · '+name,loading:'lazy'}),
+        h('figcaption',null,'C'+(i+1)+' · '+name)))),h('small',null,t.bindruneSource),h('a',{href:'assets/configurator-bindrune/layouts-v5.png',target:'_blank',rel:'noopener noreferrer'},t.bindruneOriginal));
   }
   function ColourControls(props) {
     const h = window.React.createElement, t = copy[props.language] || copy.en, finish = parseColour(props.value);
@@ -260,5 +300,5 @@
       h('div',{className:'rf-colour-modes'},[false,true].map(opaque=>h('button',{type:'button',key:String(opaque),disabled:!finish.colour,'aria-pressed':finish.opaque===opaque,onClick:()=>props.onChange((opaque?'solid ':'transparent ')+finish.colour)},opaque?t.solid:t.transparent)))
     );
   }
-  return {scene, renderSvg, parseColour, wood, copy, Component, ColourControls};
+  return {scene, renderSvg, parseColour, wood, copy, Component, ColourControls, BindruneExamples, OvalExample, ovalMark};
 }));

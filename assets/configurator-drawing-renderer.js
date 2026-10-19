@@ -1,12 +1,12 @@
-/* GRAMR front projection: exact PDF contours and positions; illustrative materials.
- * No raster instrument template and no inferred rear/joint geometry. */
+/* GRAMR front/rear projections: extracted PDF contours; illustrative materials.
+ * Historical rear neck plate/bolts are omitted; current joint details stay pending. */
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;if(root)root.RavenForgeDrawingRenderer=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
   'use strict';
   const esc=v=>String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const point=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
   const polygon=p=>p.map(q=>q.join(',')).join(' ');
-  function render(state,view,language,layout,copy){
-    const g=state.g,s=state.selections,t=copy[language]||copy.en,p='rf-preview-gramr';
+  function render(state,view,language,layout,copy,ovalMark){
+    const back=view==='back',g=back?Object.assign({},state.g,state.g.back):state.g,s=state.selections,t=copy[language]||copy.en,p='rf-preview-gramr';
     const path=(d,a='')=>`<path d="${d}" ${a}/>`;
     const line=(a,b,attr='')=>`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" ${attr}/>`;
     const dye=(base,colour)=>'#'+[0,1,2].map(i=>Math.round(parseInt(base.slice(1+i*2,3+i*2),16)*.16+parseInt(colour.slice(1+i*2,3+i*2),16)*.84).toString(16).padStart(2,'0')).join('');
@@ -19,7 +19,7 @@
     };
     const texture=(x,y,w,h,filter)=>`<image href="assets/configurator-materials/ash-illustrative.webp" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="none" transform="rotate(90 ${x+w/2} ${y+h/2})" filter="url(#${p}-${filter})"/>`;
     const title=id=>`<title>${esc(state.labels[id]||s[id])}</title>`;
-    let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${(layout==='portrait'?g.portrait:g.views)[view]||g.views.full}" role="img" aria-labelledby="${p}-title ${p}-desc" data-preview-svg="GRAMR" data-renderer="drawing-composite" data-layout="${layout==='portrait'?'portrait':'landscape'}"><title id="${p}-title">GRAMR · ${esc(t.live)}</title><desc id="${p}-desc">${esc(t.drawingNote)}</desc><defs>
+    let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${(layout==='portrait'?g.portrait:g.views).full}" role="img" aria-labelledby="${p}-title ${p}-desc" data-preview-svg="GRAMR" data-renderer="drawing-composite" data-side="${back?'back':'front'}" data-layout="${layout==='portrait'?'portrait':'landscape'}"><title id="${p}-title">GRAMR · ${esc(back?t.back:t.front)}</title><desc id="${p}-desc">${esc(back?t.backNote:t.drawingNote)}</desc><defs>
       <clipPath id="${p}-body-clip">${path(g.body)}</clipPath><clipPath id="${p}-head-clip">${path(g.head)}</clipPath><clipPath id="${p}-board-clip"><polygon points="${polygon(g.board)}"/></clipPath>
       <pattern id="${p}-unknown" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#5e6670"/><path d="M0 12L12 0" stroke="#b4bdc7" stroke-width="2"/></pattern>
       ${woodFilter('body-wood',colour)}${woodFilter('board-wood',state.boardColour||'#6b6256')}
@@ -35,6 +35,16 @@
     // The outline is the extracted curve itself, not a hand-traced approximation.
     out+=`<g filter="url(#${p}-shadow)">${path(g.body,'fill="#16120e"')}${path(g.head,'fill="#16120e"')}</g>`;
     const surface=(d,clip,tex)=>`<g filter="url(#${p}-relief)">${path(d,`fill="${colour}"`)}${!opaque?`<g clip-path="url(#${p}-${clip}-clip)">${tex}</g>`:''}${path(d,`fill="url(#${p}-body-light)"`)}<g clip-path="url(#${p}-${clip}-clip)">${path(d,'fill="none" stroke="#100e0b" stroke-width="9" stroke-opacity=".25"')}${path(d,`fill="none" stroke="url(#${p}-rim)" stroke-width="1.7"`)}${path(d,'fill="none" stroke="#fff7e2" stroke-width=".45" stroke-opacity=".35"')}</g>${path(d,`fill="url(#${p}-gloss)"`)}</g>`;
+    if(back){
+      out+=`<g data-layer="rear-body" data-material="${esc(state.bodyId)}" data-finish="${esc(s.color_back_side)}" data-colour="${colour}" data-opaque="${opaque}" data-contour="pdf-vector">${surface(g.body,'body',texture(535,-4,550,550,'body-wood'))}</g>`;
+      out+=`<g data-layer="rear-headstock" data-contour="pdf-vector">${surface(g.head,'head',texture(5,170,240,240,'body-wood'))}</g>`;
+      out+=`<g data-layer="rear-neck" data-appearance="lamination-pending"><polygon points="${polygon(g.neck)}" fill="#ad9878" stroke="#72664f" stroke-width="1"/><polygon points="${polygon(g.neck)}" fill="url(#${p}-body-light)"/></g>`;
+      out+=`<g data-layer="rear-joint-pending"><circle cx="674" cy="286" r="25" fill="${unknown}" opacity=".65"/><title>${esc(t.backNote)}</title></g>`;
+      out+=`<g data-layer="rear-cavity" data-contour="pdf-vector">${path(g.cavity,'fill="#181b1c" stroke="#978f7e" stroke-width="1.1"')}${path(g.cavity,`fill="${unknown}" opacity=".3"`)}</g>`;
+      out+=`<g data-layer="rear-tuners" data-count="6" data-appearance="drawing-envelope" data-colour="${state.metal}">`;
+      g.tuners.forEach(([x,y])=>{out+=`<circle cx="${x}" cy="${y}" r="10" fill="${metal}" stroke="#303536" stroke-width="1"/><circle cx="${x}" cy="${y}" r="4" fill="#424847"/>`;});
+      return out+'</g></g></svg>';
+    }
     out+=`<g data-layer="body" data-option="${esc(state.topId)}" data-material="${esc(state.bodyId)}" data-contour="pdf-vector">${title(state.hasTop?'top_wood_selection':'body_wood_single')}${surface(g.body,'body',texture(535,-4,550,550,'body-wood'))}${!state.bodyColour?path(g.body,`fill="${unknown}" opacity=".4"`):''}</g>`;
     if(state.finish.colour) out+=`<g data-layer="finish" data-colour="${state.finish.colour}" data-opaque="${opaque}"><title>${esc(t.colour)}: ${state.finish.colour}</title></g>`;
     out+=`<g data-layer="headstock" data-option="${esc(s.color_headstock)}" data-contour="pdf-vector">${s.color_headstock==='head_plate'?path(g.head,`fill="${unknown}"`):surface(g.head,'head',texture(5,170,240,240,'body-wood'))}</g>`;
@@ -44,9 +54,9 @@
     out+='<g data-layer="frets" data-count="24" data-position-source="pdf-vector">';
     g.frets.forEach(([a,b])=>{out+=line(a,b,'stroke="#141414" stroke-width="2.5"')+line(a,b,'stroke="#d7d8d4" stroke-width="1.15"');});out+='</g>';
     out+=`<g data-layer="nut" data-option="${esc(s.nut_material)}" data-zero-fret="false">${line(g.board[0],g.board[1],'stroke="#797466" stroke-width="4"')}${line(g.board[0],g.board[1],'stroke="#eee4ce" stroke-width="2.5"')}</g>`;
-    if(['inlay_dot','inlay_oval'].includes(s.inlay_type)&&s.inlay_dot_pos!=='pos_custom'){
+    if(s.inlay_type==='inlay_oval'||(s.inlay_type==='inlay_dot'&&s.inlay_dot_pos!=='pos_custom')){
       out+='<g data-layer="inlays" fill="#d9d3b9" stroke="#eee8d4" stroke-width=".25">';
-      [3,5,7,9,12,15,17,19,21,24].forEach(n=>{const a=point(g.frets[n-2][0],g.frets[n-1][0],.5),b=point(g.frets[n-2][1],g.frets[n-1][1],.5);(n%12===0?[.28,.72]:[s.inlay_dot_pos==='pos_left'?.2:s.inlay_dot_pos==='pos_right'?.8:.5]).forEach(f=>{const p=point(a,b,f);out+=`<ellipse cx="${p[0]}" cy="${p[1]}" rx="${s.inlay_type==='inlay_oval'?3:1.7}" ry="1.7"/>`;});});out+='</g>';
+      [3,5,7,9,12,15,17,19,21,24].forEach(n=>{const a=point(g.frets[n-2][0],g.frets[n-1][0],.5),b=point(g.frets[n-2][1],g.frets[n-1][1],.5);(n%12===0?[.28,.72]:[s.inlay_type==='inlay_oval'?.5:s.inlay_dot_pos==='pos_left'?.2:s.inlay_dot_pos==='pos_right'?.8:.5]).forEach(f=>{const p=point(a,b,f);out+=s.inlay_type==='inlay_oval'?ovalMark(p,Math.hypot(b[0]-a[0],b[1]-a[1])*(n%12===0?.3:.62),3.5,Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI,s.inlay_oval_mat,state.boardColour):`<ellipse cx="${p[0]}" cy="${p[1]}" rx="1.7" ry="1.7"/>`;});});out+='</g>';
     }
     out+=`<g data-layer="pickups" data-option="${esc(s.pickups)}" data-appearance="drawing-envelope">${title('pickups')}`;
     g.pickups.forEach((r,index)=>{
