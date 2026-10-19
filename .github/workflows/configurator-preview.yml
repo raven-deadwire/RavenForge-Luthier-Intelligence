@@ -1,7 +1,7 @@
 name: Configurator test preview QA
 on:
   pull_request:
-    paths: ['configurator-preview.html', 'assets/configurator-preview.*', 'assets/configurator-geometry.js', 'tools/test_configurator_preview*.cjs', 'tools/package_configurator_preview.py', '.github/workflows/configurator-preview.yml']
+    paths: ['configurator-preview.html', 'assets/configurator-preview.*', 'assets/configurator-geometry.js', 'assets/configurator-gramr-*', 'assets/configurator-drawing-renderer.js', 'assets/configurator-materials/**', 'tools/test_configurator_preview*.cjs', 'tools/package_configurator_preview.py', '.github/workflows/configurator-preview.yml']
   workflow_dispatch:
 permissions:
   contents: read

@@ -30,7 +30,7 @@ async function main() {
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
-          assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-renderer'),'sample-composite');
+          assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-renderer'),model==='GRAMR'?'drawing-composite':'sample-composite');
           assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-layout'),size.width<1024?'landscape':'portrait');
           // Confirm original repository rasters load, then compare reference/selected modes.
           await page.evaluate(async()=>{const src=document.querySelector('[data-layer="body"] image').getAttribute('href');const image=new Image();image.src=src;await image.decode();if(image.naturalWidth<1000)throw new Error('Missing source render');});
@@ -46,6 +46,16 @@ async function main() {
           assert.equal(await page.locator('#finish-color').inputValue(),'transparent #275f89');
           assert.equal(await layer('finish').getAttribute('data-colour'),'#275f89');
           assert.ok((await page.locator('#quote-summary-card').innerText()).includes('transparent #275f89'));
+          // Exercise opaque on every model and assert it does not blur RGB pixels.
+          await page.locator('.rf-colour-modes button').nth(1).click();
+          assert.equal(await layer('finish').getAttribute('data-opaque'),'true');
+          assert.equal(await page.locator('feGaussianBlur:not([in="SourceAlpha"])').count(),0);
+          await page.locator('[data-preview-view="body"]').click();
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-opaque-body.png`)});
+          await page.locator('[data-preview-view="head"]').click();
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-opaque-head.png`)});
+          await page.locator('[data-preview-view="full"]').click();
+          await page.locator('.rf-colour-modes button').nth(0).click();
           await choose('top_type','cap');
           await choose('top_wood_selection',model==='GRAMR'?'guitar_top_walnut':'walnut');
           assert.equal(await layer('body').getAttribute('data-option'),model==='GRAMR'?'guitar_top_walnut':'walnut');
@@ -80,7 +90,7 @@ async function main() {
           const pickup=model==='GRAMR'?'guitar_hh_passive_custom':'others';
           await choose('pickups',pickup);
           assert.equal(await layer('pickups').getAttribute('data-option'),pickup);
-          assert.equal(await layer('pickups').getAttribute('data-appearance'),'reference-retained');
+          assert.equal(await layer('pickups').getAttribute('data-appearance'),model==='GRAMR'?'drawing-envelope':'reference-retained');
           await page.locator('[data-preview-view="body"]').click();
           assert.equal(await page.locator('[data-preview-view="body"]').getAttribute('aria-pressed'),'true');
           await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-body.png`)});

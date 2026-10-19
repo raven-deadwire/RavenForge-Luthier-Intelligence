@@ -8,11 +8,27 @@ Entry point: `configurator-preview.html`. This is a separate test page. The prod
 
 The first commit connects EDDA end to end; the next extends the same renderer to EMBLA, ASKR and GRAMR. The test page copies the existing configurator shell and adds a read-only preview component, colour controls, and a responsive two-column layout. `tools/test_configurator_preview.cjs` compares data, normalization, pricing, option handlers, quote markup and PDF export source against production so the copy cannot silently diverge.
 
+## Opaque / GRAMR drawing correction (2026-10-19, later user review)
+
+Opaque formerly applied a 4-pixel Gaussian blur to the entire body image and a 2-pixel blur to the headstock. This caused the reported loss of detail. Both are removed. Bass opaque colour now uses only pointwise colour/contrast transfer; source RGB pixels are never spatially averaged. GRAMR opaque paint fully covers its texture and retains vector edges. Its edge-lighting filter blurs **SourceAlpha only**, not instrument RGB; shadow softness is separate from finish resolution.
+
+GRAMR's old concept raster is no longer used to determine its silhouette, parts or reference view. Its replacement comes directly from the uploaded `RavenForge_Superstrat_24F_ver3_STRICT_R12-Model(1).pdf`:
+
+- `assets/configurator-gramr-geometry.js`: extracted PDF body/head/pickguard curves, 24 fret positions, six tuner bore centres, bridge/pickup/control placement. Coordinates use the PDF rotation matrix and a uniform 0.5 display scale, without reshaping. The largest join gap in the PDF source is <0.05 PDF points. The small neck-covered closing segment is only a display fill closure.
+- `assets/configurator-gramr-reference.svg`: clean front-geometry reference used by the comparison button. It is not the complete private manufacturing drawing.
+- `tools/extract_gramr_preview_geometry.py`: reproducible, source-SHA-guarded extraction. The original PDF is neither modified nor committed.
+- `assets/configurator-drawing-renderer.js`: material/lighting layers over the extracted geometry. No stretch of the inaccurate whole-instrument concept image. Strings span six tuner posts, the board and six saddles consistently.
+- `assets/configurator-materials/ash-illustrative.webp`: generated material-only texture (1254 × 1254). It is illustrative ash, not a photo of actual stock. It never controls geometry. Prompt and provenance are alongside the asset.
+
+The drawing's older textual specification (including one-piece body and four-point neck joint) is **not** copied over current platform specifications. This revision changes front visual geometry only. No rear geometry, neck-joint specification, model pricing, option dependency or PDF logic changes. Pickup/bridge surfaces are illustrated within the drawing envelopes, not certified manufacturer renders.
+
+Current geometry/material behavior supersedes the GRAMR entries in the earlier sample-render revision below. EDDA/EMBLA/ASKR keep their original sample pixels; their known baked-part limitations remain.
+
 ## Sample-render revision (user visual review, 2026-10-19)
 
 The first flat SVG candidate was rejected for image quality. The test now composites the **existing, unchanged RavenForge sample render pixels** through source-coordinate SVG masks. No new instrument raster, third-party asset or generated completed instrument is used. The original PNG files are used to avoid the optimized thumbnails’ compression; both originals and optimized WebP files remain byte-for-byte unchanged.
 
-`assets/configurator-geometry.js` supplies source dimensions, silhouette/wood/part masks, material exposure and portrait/landscape crops. These remain display coordinates, not CAD or approved manufacturing geometry. `assets/configurator-preview.js` preserves source grain, bevels, highlights, original pickups and hardware detail. Luminance transfer changes front/headstock tone, and independent metal filters change bridge and knob highlights. Transparent dye combines selected material tone and finish colour; opaque colour softens the retained grain. It is not a physically calibrated finish model.
+`assets/configurator-geometry.js` supplies source dimensions, silhouette/wood/part masks, material exposure and portrait/landscape crops. These remain display coordinates, not CAD or approved manufacturing geometry. `assets/configurator-preview.js` preserves source grain, bevels, highlights, original pickups and hardware detail. Luminance transfer changes front/headstock tone, and independent metal filters change bridge and knob highlights. Transparent dye combines selected material tone and finish colour; opaque colour reduces grain contrast without spatial blur. It is not a physically calibrated finish model.
 
 The visible “Sample parts retained” caption distinguishes the selected pickup/bridge names from the raster parts. All exact pickup, bridge and tuner appearances are explicitly pending, including catalog options. Changing a manufacturer never claims to replace the raster with that manufacturer's exact part. Nova Parts still renders black independently of other metal colours.
 
@@ -56,7 +72,7 @@ Local: `node tools/test_configurator_contracts.cjs`, `node tools/test_configurat
 
 Local browser QA is **unavailable** in the authoring environment: the managed preview supervisor exits with `bwrap: Can't mount proc ... Operation not permitted`. Static SVG raster review is not browser QA.
 
-`.github/workflows/configurator-preview.yml` runs on this test page's PR. It validates 4 models × 3 languages × 2 viewports (1440×1080 and 390×844), live colour/top/fretboard/hardware changes, retained-part statuses, source image decoding, reference/selected switching, actual pixel differences after a colour change, responsive orientation, zoom, reset, unmapped-state behavior, and page overflow. It then uses the existing real-browser regression runner for 24 price/option/PDF combinations. Screenshots, PDFs and JSON reports are uploaded as the PR's CI artifact. A passing source contract is not a substitute for this CI result or final visual approval.
+`.github/workflows/configurator-preview.yml` runs on this test page's PR. It validates 4 models × 3 languages × 2 viewports (1440×1080 and 390×844), live colour/top/fretboard/hardware changes, retained-part statuses, source image decoding, reference/selected switching, actual pixel differences after a colour change, opaque body/head screenshots and no RGB blur, responsive orientation, zoom, reset, unmapped-state behavior, and page overflow. It then uses the existing real-browser regression runner for 24 price/option/PDF combinations. Screenshots, PDFs and JSON reports are uploaded as the PR's CI artifact. A passing source contract is not a substitute for this CI result or final visual approval.
 
 ## Follow-up asset work
 

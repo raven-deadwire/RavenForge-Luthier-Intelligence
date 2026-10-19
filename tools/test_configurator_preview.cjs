@@ -48,10 +48,23 @@ for (const [model,count,price] of [['EDDA',4,2100],['EMBLA',5,2550],['ASKR',5,32
   const opaque=preview.scene(model,defaults,'solid #112233');
   assert.notEqual(preview.renderSvg(base,'full','en'),preview.renderSvg(opaque,'full','en'));
   assert.equal(opaque.finish.colour,'#112233');
+  const opaqueSvg=preview.renderSvg(opaque,'body','en');
+  // Material pixels may never be spatially blurred in opaque mode. Relief uses
+  // SourceAlpha only, which changes lighting without averaging source RGB.
+  for(const match of opaqueSvg.matchAll(/<feGaussianBlur[^>]*>/g)) assert.match(match[0],/in="SourceAlpha"/);
+  if(model==='GRAMR'){
+    assert.equal(base.g.kind,'drawing');assert.equal(base.g.frets.length,24);assert.equal(base.g.tuners.length,6);
+    assert.ok(base.g.provenance.maxBodyJoinGapPDFPoints<.05);
+    assert.ok(base.g.provenance.maxHeadJoinGapPDFPoints<.05);
+    assert.match(opaqueSvg,/data-contour="pdf-vector"/);
+    const body=opaqueSvg.split('data-layer="body"')[1].split('data-layer="finish"')[0];
+    assert.doesNotMatch(body,/<image /,'Opaque drawing body fully covers the wood texture');
+    assert.doesNotMatch(opaqueSvg,/gramr-superstrat-24f\.png/,'Old concept cannot determine the drawing silhouette');
+  }
   const retained=preview.scene(model,{...defaults,pickups:'others'},'');
   assert.ok(retained.pending.includes('pickups'));
-  assert.match(preview.renderSvg(retained,'full','en'),/data-appearance="reference-retained"/);
-  assert.match(preview.renderSvg(base,'body','en'),/<image href="[^"]+\.png"/);
+  assert.match(preview.renderSvg(retained,'full','en'),/data-appearance="(?:reference-retained|drawing-envelope)"/);
+  assert.match(preview.renderSvg(base,'body','en'),/<image href="[^"]+\.(?:png|webp)"/);
   assert.match(preview.renderSvg(base,'full','en','portrait'),/data-layout="portrait"/);
   assert.match(preview.renderSvg(base,'full','en'),/data-layout="landscape"/);
   const exotic=preview.scene(model,{...defaults,top_type:'cap',top_wood_selection:'unverified_custom'},'');

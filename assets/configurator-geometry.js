@@ -1,10 +1,11 @@
 /* Masks over the unchanged RavenForge sample renders. Display coordinates, never machining data.
  * Provenance and deliberately unrendered details: docs/CONFIGURATOR_PREVIEW.md. */
 (function (root, factory) {
-  const api = factory();
+  const drawing = typeof module === 'object' && module.exports ? require('./configurator-gramr-geometry.js') : root.RavenForgeGramrDrawing;
+  const api = factory(drawing);
   if (typeof module === 'object' && module.exports) module.exports = api;
   if (root) root.RavenForgeGeometry = api;
-}(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+}(typeof globalThis !== 'undefined' ? globalThis : this, function (drawing) {
   'use strict';
   return {
     EDDA: {
@@ -53,22 +54,6 @@
       pickups: [{x:575,y:872,w:103,h:43,angle:-10},{x:574,y:941,w:105,h:43,angle:-10}],
       controls: [[728,975],[706,1010],[750,1013],[733,1046]], bodyCenter: 625
     },
-    GRAMR: {
-      source: 'assets/concepts/gramr-superstrat-24f.png', status: 'concept', strings: 6, horizontal: true,
-      imageSize: [1672,941], luminance: [.85,.10,.05], exposure: 1.15,
-      portraitTransform: 'translate(680 -10) rotate(90)',
-      portrait: { full:'145 0 320 780', body:'160 375 275 405', neck:'265 160 90 370', head:'265 20 100 160' },
-      hardware: 'M640 350 L678 350 L678 416 L640 416 Z M671 301 Q686 282 703 296 Q725 304 706 328 Q691 351 676 338 Z',
-      tunerMask: 'M43 372 L164 392 L160 418 L40 390 Z',
-      transform: 'translate(0 0)',
-      views: { full: '20 255 770 280', body: '380 255 410 280', neck: '160 330 370 95', head: '25 315 160 115' },
-      body: 'M490 358 C505 331 481 311 449 306 C429 304 430 289 453 283 C503 269 536 307 566 307 C601 308 620 271 670 272 C718 269 750 297 756 333 C768 392 765 451 741 483 C719 509 677 512 644 500 C594 483 575 454 535 457 C495 462 454 484 420 476 C397 474 388 462 398 452 C410 442 441 449 452 433 C465 417 461 405 463 397 Z',
-      pickguard: 'M514 359 L550 351 Q584 344 582 322 Q628 293 665 290 Q680 289 675 299 L642 340 L637 409 Q638 437 615 438 Q579 434 556 421 L511 418 Z',
-      head: 'M170 359 L121 349 C90 359 72 352 68 333 L53 331 C33 333 32 357 40 368 L72 374 L126 400 L158 398 L170 390 Z',
-      board: [[170,359],[170,390],[510,399],[510,360]],
-      bridge: [[656,361],[656,410]],
-      pickups: [{x:526,y:356,w:34,h:51},{x:598,y:356,w:34,h:51}],
-      controls: [[630,340],[649,315]], bodyCenter: 620
-    }
+    GRAMR: drawing
   };
 }));

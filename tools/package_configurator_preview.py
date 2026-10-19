@@ -10,8 +10,11 @@ FILES = [
     'assets/configurator-platforms.js', 'assets/configurator-ui.js',
     'assets/configurator-geometry.js', 'assets/configurator-preview.js',
     'assets/configurator-preview.css', 'docs/CONFIGURATOR_PREVIEW.md',
+    'assets/configurator-gramr-geometry.js', 'assets/configurator-drawing-renderer.js',
+    'assets/configurator-gramr-reference.svg', 'assets/configurator-materials/ash-illustrative.webp',
+    'assets/configurator-materials/README.md', 'docs/validation/configurator-preview-v3-gramr.png',
     'Edda Prototype Design.png', 'EMBLA Prototype Design.png',
-    'ASKR Prototype Design.png', 'assets/concepts/gramr-superstrat-24f.png'
+    'ASKR Prototype Design.png'
 ]
 README = '''RavenForge 컨피규레이터 시각화 테스트 / 2026-10-19
 
@@ -37,7 +40,9 @@ README = '''RavenForge 컨피규레이터 시각화 테스트 / 2026-10-19
 - 한국어 / 영어 / 독일어 및 좁은 화면
 - 기존 가격·옵션 제약·PDF 견적
 
-미리보기는 기존 RavenForge 샘플 렌더링의 질감·광택을 살린 마감 합성입니다.
+베이스 3종은 기존 RavenForge 샘플 렌더링의 질감·광택을 살린 마감 합성입니다.
+GRAMR는 첨부 도면에서 추출한 벡터 외곽·배치와 별도 참고 텍스처를 사용합니다.
+Opaque 마감은 원본 이미지를 블러 처리하지 않습니다.
 선택한 마감 / 샘플 원본 버튼으로 비교할 수 있습니다.
 목재는 색조를 변경하며 샘플 무늬를 유지합니다. 픽업·브리지·튜너 형상도
 샘플을 유지하므로 정확한 선택 부품이나 최종 제작 이미지를 의미하지 않습니다.
