@@ -10,9 +10,8 @@ FILES = [
     'assets/configurator-platforms.js', 'assets/configurator-ui.js',
     'assets/configurator-geometry.js', 'assets/configurator-preview.js',
     'assets/configurator-preview.css', 'docs/CONFIGURATOR_PREVIEW.md',
-    *['assets/optimized/' + name for name in (
-        'edda-prototype.webp', 'embla-prototype.webp', 'askr-prototype.webp',
-        'gramr-superstrat-24f.webp')]
+    'Edda Prototype Design.png', 'EMBLA Prototype Design.png',
+    'ASKR Prototype Design.png', 'assets/concepts/gramr-superstrat-24f.png'
 ]
 README = '''RavenForge 컨피규레이터 시각화 테스트 / 2026-10-19
 

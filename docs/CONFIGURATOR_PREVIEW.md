@@ -10,7 +10,7 @@ The first commit connects EDDA end to end; the next extends the same renderer to
 
 ## Sample-render revision (user visual review, 2026-10-19)
 
-The first flat SVG candidate was rejected for image quality. The test now composites the **existing, unchanged RavenForge sample render pixels** through source-coordinate SVG masks. No new instrument raster, third-party asset or generated completed instrument is used. The original WebP files remain byte-for-byte unchanged.
+The first flat SVG candidate was rejected for image quality. The test now composites the **existing, unchanged RavenForge sample render pixels** through source-coordinate SVG masks. No new instrument raster, third-party asset or generated completed instrument is used. The original PNG files are used to avoid the optimized thumbnails’ compression; both originals and optimized WebP files remain byte-for-byte unchanged.
 
 `assets/configurator-geometry.js` supplies source dimensions, silhouette/wood/part masks, material exposure and portrait/landscape crops. These remain display coordinates, not CAD or approved manufacturing geometry. `assets/configurator-preview.js` preserves source grain, bevels, highlights, original pickups and hardware detail. Luminance transfer changes front/headstock tone, and independent metal filters change bridge and knob highlights. Transparent dye combines selected material tone and finish colour; opaque colour softens the retained grain. It is not a physically calibrated finish model.
 
@@ -18,10 +18,10 @@ The visible “Sample parts retained” caption distinguishes the selected picku
 
 | Model | Unchanged visual source | Scope |
 |---|---|---|
-| EDDA | `assets/optimized/edda-prototype.webp` | Existing sample body, headstock and hardware pixels |
-| EMBLA | `assets/optimized/embla-prototype.webp` | Existing sample including perspective and bevel |
-| ASKR | `assets/optimized/askr-prototype.webp` | Existing sample body and angled part layout |
-| GRAMR | `assets/optimized/gramr-superstrat-24f.webp`, front view | Front-view crop of existing concept sheet |
+| EDDA | `Edda Prototype Design.png` | Existing sample body, headstock and hardware pixels |
+| EMBLA | `EMBLA Prototype Design.png` | Existing sample including perspective and bevel |
+| ASKR | `ASKR Prototype Design.png` | Existing sample body and angled part layout |
+| GRAMR | `assets/concepts/gramr-superstrat-24f.png`, front view | Front-view crop of existing concept sheet |
 
 The source samples are not specification-correct production renders. In particular, EMBLA's pictured bridge/strings/tuners do not all correspond to the current five-string platform. The redrawn board uses the current 4/5/5/6 string counts, but the body strings/saddles and tuner arrangements are baked source details. The visible caption and scope panel flag that distinction. GRAMR's 2-2-1 remains a neck-bolt pattern. None of these sample arrangements is promoted to an approved specification.
 

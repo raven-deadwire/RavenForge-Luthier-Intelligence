@@ -148,6 +148,7 @@
       <clipPath id="${prefix}-pickups">${g.pickups.map(r=>rect(r)).join('')}</clipPath>
       <mask id="${prefix}-wood-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="${g.imageSize[0]}" height="${g.imageSize[1]}"><rect width="${g.imageSize[0]}" height="${g.imageSize[1]}" fill="white"/><g fill="black">${partsMask}${polygon(g.board)}</g></mask>
       ${colourFilter('wood-tone',bodyColour,g.luminance,g.exposure,finish.opaque?4:0)}
+      ${colourFilter('head-tone',bodyColour,g.luminance,Math.min(1.15,g.exposure),finish.opaque?2:0)}
       ${colourFilter('metal-tone',state.metal,[.30,.59,.11],1.6,0)}
       ${colourFilter('bridge-tone',state.bridgeColour,[.30,.59,.11],1.6,0)}
       <linearGradient id="${prefix}-board-tone" ${g.horizontal?'x1="0" y1="0" x2="0" y2="1"':'x1="0" y1="0" x2="1" y2="0"'}><stop stop-color="#0c0b0a"/><stop offset=".15" stop-color="${boardColour}"/><stop offset=".53" stop-color="${boardColour}"/><stop offset="1" stop-color="#14110f"/></linearGradient>
@@ -161,7 +162,7 @@
         ${!state.bodyColour?path(g.body,`fill="${unknown}" opacity=".4"`):''}
       </g>`;
     if(finish.colour) out+=`<g data-layer="finish" data-colour="${finish.colour}" data-opaque="${finish.opaque}"><title>${esc(t.colour)}: ${finish.colour}</title></g>`;
-    out+=`<g data-layer="headstock" data-option="${esc(s.color_headstock||'')}" clip-path="url(#${prefix}-head)">${s.color_headstock==='head_plate'?path(g.head,`fill="${unknown}"`):source(`filter="url(#${prefix}-wood-tone)"`)}</g>`;
+    out+=`<g data-layer="headstock" data-option="${esc(s.color_headstock||'')}" clip-path="url(#${prefix}-head)">${s.color_headstock==='head_plate'?path(g.head,`fill="${unknown}"`):source(`filter="url(#${prefix}-head-tone)"`)}</g>`;
     // A clean board removes the sample's ornate custom inlay, which is not selected.
     out+=`<g data-layer="fretboard" data-option="${esc(s.fretboard||'')}">${polygon(g.board,`fill="${state.boardColour?`url(#${prefix}-board-tone)`:unknown}" stroke="#796750" stroke-width=".8"`)}<title>${label('fretboard')}</title><g clip-path="url(#${prefix}-board)" opacity=".13">`;
     for(let i=0;i<32;i++) {
