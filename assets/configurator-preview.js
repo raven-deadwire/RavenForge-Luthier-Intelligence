@@ -307,8 +307,8 @@
         source && h('a',{href:media(source),download:source.split('/').pop()},isDrawing?t.drawingView:t.reference),
         h('dl',null,rows.map(id=>{
           const woodCategory=['body_wood_single','body_core_wood','body_wing_wood','top_wood_selection','fretboard'].includes(id);
-          const frontDetails=['fret_type','fret_material','fret_size','fret_side','inlay_type','inlay_dot_mat','inlay_dot_pos','inlay_oval_mat','nut_material','knob','extra_finish_burst','extra_finish_flake'];
-          const status=state.pending.includes(id)?t.shapePending:id==='hardware_bridge'&&state.bridgeFinishFixed?t.fixedStatus:id==='neck'&&!rear?t.rearOnly:id==='body_wing_wood'&&!rear?t.rearOnly:rear&&frontDetails.includes(id)?t.frontOnly:['pickups','hardware_bridge','hardware_machine_head'].includes(id)?t.schematic:woodCategory?t.textureStatus:t.detailStatus;
+          const frontDetails=['fretboard','top_type','top_wood_selection','color_headstock','color_top','fret_type','fret_material','fret_size','fret_side','inlay_type','inlay_dot_mat','inlay_dot_pos','inlay_oval_mat','nut_material','knob','extra_finish_burst','extra_finish_flake'];
+          const status=state.pending.includes(id)?t.shapePending:id==='hardware_bridge'&&state.bridgeFinishFixed?t.fixedStatus:['neck','body_wing_wood','color_back_side'].includes(id)&&!rear?t.rearOnly:rear&&frontDetails.includes(id)?t.frontOnly:['pickups','hardware_bridge','hardware_machine_head'].includes(id)?t.schematic:woodCategory&&id!=='fretboard'&&!rear&&(state.finish.opaque||(['body_wood_single','body_core_wood'].includes(id)&&state.hasTop))?t.covered:woodCategory?t.textureStatus:t.detailStatus;
           return h('div',{key:id,'data-preview-category':id,'data-option':s[id]},h('dt',null,props.categoryTitles[id]||id),h('dd',null,props.labels[id],h('small',null,status)));
         })),
         state.pending.length>0 && h('p',{'data-preview-pending':true},t.pending+': '+state.pending.map(id=>props.categoryTitles[id]||id).join(', '))),
