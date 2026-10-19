@@ -359,7 +359,8 @@ return out;
       for(const x of [-10,10])for(const y of [-14,15])out+=screw(x,y,1.4);
       out+=box(-11,-15,23,6,1.4,metal,'stroke="#343b3c" stroke-width=".6"');
     }else if(key==='ratio-y')out+=path('M-9 -16H13L27 -11V-5H12Q11 8 0 10Q-9 10 -9 1Z',metal,'stroke="#303739" stroke-width=".7"')+screw(-7,13,1.5);
-    else out+=path('M-8.5 -14H10L25 -12V-6L10 -5Q9 7 0 9L-16 3Q-20 0 -16 -3L-8.5 -9Z',metal,'stroke="#303739" stroke-width=".7"')+screw(-15,0,1.4);
+    else if(key==='m4-90')out+=path('M-8.45 -14.5H8.45V0Q8.45 7 2 13Q0 16 -2 13Q-8.45 7 -8.45 0Z',metal,'data-mount-lug="90-degrees" stroke="#303739" stroke-width=".7"')+screw(0,11.6,1.35);
+    else out+=path('M-8.5 -14H9L25 -12V-6L9 -5Q5 15 0 14Q-8.5 10 -8.5 0Z',metal,'stroke="#303739" stroke-width=".7"')+screw(0,11.5,1.4);
     const open=['ultralite-y','gb528-clover','bm-light','bm-schaller'].includes(key);
     out+=circle(0,0,open?9:8,metal,'stroke="#464d4e" stroke-width=".7"');
     if(open)for(let i=0;i<20;i++){const a=i*Math.PI/10;out+=path(`M${Math.cos(a)*7.5} ${Math.sin(a)*7.5}L${Math.cos(a)*9.5} ${Math.sin(a)*9.5}`,'none','stroke="#424b4c" stroke-width=".8"');}
@@ -387,7 +388,7 @@ return out;
       anchors=state.g.tunerAnchors.map(([x,y,a])=>[y+rearNut[0]-frontNut[1],x+rearNut[1]-frontNut[0],a===180?-90:90]);scale=state.g.unitsPerMm;
     }else if(back){anchors=[[520,65,0],[528,119,0],[541,177,0],[550,231,0]];scale=1.1;}
     else {anchors=state.g.tunerAnchors||frontTunerAnchors[state.model];scale=state.g.unitsPerMm||(state.model==='EDDA'?.72:.68);}
-    return `<g data-layer="${back?'rear-selected-tuners':plane==='rear-mount'?'tuner-rear-mount':state.model==='GRAMR'?'selected-tuners':'hardware'}" data-option="${state.selections.hardware_color}" data-plane="${back?'rear-housing':plane}" data-machine-head="${state.selections.hardware_machine_head}" data-colour="${state.metal}" data-count="${anchors.length}" data-appearance="manufacturer-reference" data-placement="${back&&state.model!=='EDDA'?'drawing-fit':'sample-fit'}" data-profile="${ref.key}" data-units-per-mm="${scale}">`+anchors.map(([x,y,a],i)=>`<g data-tuner-index="${i}" transform="translate(${x} ${y}) rotate(${a}) scale(${scale})">${tunerUnit(state,p,ref,back?'rear-housing':plane)}</g>`).join('')+'</g>';
+    return `<g data-layer="${back?'rear-selected-tuners':plane==='rear-mount'?'tuner-rear-mount':state.model==='GRAMR'?'selected-tuners':'hardware'}" data-option="${state.selections.hardware_color}" data-plane="${back?'rear-housing':plane}" data-machine-head="${state.selections.hardware_machine_head}" data-colour="${state.metal}" data-count="${anchors.length}" data-appearance="manufacturer-reference" data-placement="${back&&state.model!=='EDDA'?'drawing-fit':'sample-fit'}" data-profile="${ref.key}" data-units-per-mm="${scale}">`+anchors.map(([x,y,a],i)=>`<g data-tuner-index="${i}" transform="translate(${x} ${y}) rotate(${a}) scale(${scale} ${back?-scale:scale})">${tunerUnit(state,p,ref,back?'rear-housing':plane)}</g>`).join('')+'</g>';
   }
   return {definitions,pickupPlan,guard,ramps,electronicsProfiles,electronicsPlan,knobs,controlPlan,controls,references,profile,selectedPickupPlan,pickupThumbnail,pickups,bridge,referenceBridge,tuners};
 });

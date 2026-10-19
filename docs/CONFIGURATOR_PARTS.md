@@ -5,7 +5,9 @@ Keys and shafts are rendered beneath the wood; the rear view shows the gear
 housing and (M4 90 Locking) knurled wheel. ASKR/EMBLA use the same PDF units/mm
 on both sides and map actual front post centres through the two nut projections,
 instead of placing replacement gears at source housing bounding-box centres.
-GRAMR uses its source nut span / confirmed 43 mm nut width.
+GRAMR uses its source nut span / confirmed 43 mm nut width. Rear units mirror
+the transverse shaft offset, so keys occupy corresponding positions in both
+projections. M4 90 retains its perpendicular screw lug.
 
 ASKR's extracted head contour ended at (180.1176, 191.8002), while the angled
 nut ends at (180.295, 200.3). A display-only transition face joins this endpoint

@@ -437,6 +437,8 @@ for(const [model,ids] of [['EDDA',['schaller_bm','schaller_bm_lt','gotoh_707']],
   assert.match(front,/data-part="front-bushing-post"/);assert.doesNotMatch(front,/rear-key-shaft|rear-gear-housing|locking-wheel/);
   assert.match(back,/rear-key-shaft/);assert.match(back,/rear-gear-housing/);
   assert.equal(back.includes('data-part="locking-wheel"'),id==='schaller_m4_locking');
+  if(id==='schaller_m4_locking')assert.match(back,/data-mount-lug="90-degrees"/);
+  assert.match(back,/scale\([\d.]+ -[\d.]+\)/,'Rear projection mirrors the transverse offset of the key shaft');
   for(const finish of ['', 'transparent #9d282b', 'solid #9d282b'])for(const head of ['head_match','head_natural']){
    const svg=preview.renderSvg(preview.scene(model,{...state.selections,color_headstock:head},finish),'front','en');
    const rearIndex=svg.indexOf('data-layer="tuner-rear-mount"'),woodIndex=svg.indexOf('data-layer="headstock"'),postIndex=svg.indexOf('data-part="front-bushing-post"');
