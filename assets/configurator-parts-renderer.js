@@ -8,7 +8,7 @@
   const circle=(x,y,r,fill,extra='')=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" ${extra}/>`;
   const path=(d,fill,extra='')=>`<path d="${d}" fill="${fill}" ${extra}/>`;
   const screw=(x,y,r=1.5)=>circle(x,y,r,'#9a9d9b','stroke="#101314" stroke-width=".6"')+path(`M${x-r*.5},${y}h${r}`,'none','stroke="#171a1b" stroke-width=".6"');
-  const pickupFamilies={nova_mm:'mm',häussel_triple:'triple',delano_sbc:'soapbar',delano_oval:'oval',delano_ts:'square-poles',häussel_jbuck:'jazzbucker',häussel_bar:'bar',emg:'sealed',fishman:'sealed',askr_delano_sbc5_e:'soapbar',guitar_lundgren_m6:'open-humbucker'};
+  const pickupFamilies={nova_mm:'mm',häussel_triple:'triple',delano_sbc:'soapbar',delano_oval:'oval',delano_ts:'square-poles',häussel_jbuck:'jazzbucker',emg:'sealed',fishman:'sealed',askr_delano_sbc5_e:'soapbar',guitar_lundgren_m6:'open-humbucker'};
   const bridgeFamilies={ets_custom:'reference',payson:'reference',gotoh_404BO:'block',hipshot_a:'block',hipshot_b:'barrel',hipshot_kick:'mass',hipshot_lock:'single',babicz_top:'cam',babicz_solo:'single-cam',schaller_3d:'roller',nova_parts:'single',guitar_gotoh_510t:'drawing'};
   const tunerFamilies={gotoh_707:'compact',gotoh_350:'compact-light',gotoh_528:'clover',hipshot_ul_38:'y',hipshot_ul_38_xt:'y-xtender',graphtech:'compact',schaller_bm:'clover',schaller_bm_lt:'clover-light',schaller_m4_locking:'locking',guitar_gotoh_sg381:'guitar'};
   const defaults={EDDA:'nova_mm',EMBLA:'delano_sbc',ASKR:'fishman',GRAMR:'guitar_lundgren_m6'};
@@ -47,7 +47,6 @@
           else out+=circle(x,y,3.2,metal,'stroke="#0b0b0b" stroke-width=".6"');
         }
       }
-      if(family==='bar')for(const y of [h*.33,h*.67])out+=rect(12,y-1,w-24,2,metal,.8);
       if(family!=='oval'){out+=screw(4,h/2,1.1)+screw(w-4,h/2,1.1);}
       out+=path(`M${w*.18},${h*.13}H${w*.8}`,'none','stroke="#a0a7a5" stroke-opacity=".18" stroke-width=".7"')+'</g>';
     }return out+'</g>';

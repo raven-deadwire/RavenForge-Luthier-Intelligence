@@ -182,3 +182,5 @@ for(const model of ['EMBLA','ASKR']){
   assert.equal(normalize(model,d).pickup_configuration,'pickup_2');
 }
 console.log('PASS: body joins, existing-position controls, pickup families, ramp exclusion and read-only extras');
+
+assert.ok(preview.scene('EMBLA',{...normalize('EMBLA'),pickups:'häussel_bar'},'').pending.includes('pickups'),'Custom BassBar housing cannot be inferred from the product family name');

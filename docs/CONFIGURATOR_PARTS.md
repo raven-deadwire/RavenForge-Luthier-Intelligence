@@ -14,7 +14,7 @@ approved finished instruments. No vendor image pixels or logos are copied.
 | Wood finger ramp | Raised, matching top surface between pickups | Proposed envelope, no machining dimensions. Removed for none/three pickups. |
 | Fretboard extension / third pickup | Renderer supports a proposed envelope | Production currently defers these options; this change does not unlock them. |
 | Pickguard | None / black / ivory / matching wood | Test-only visual control, excluded from quote and PDF. GRAMR original drawing outline; bass original proposed outlines. No new drill coordinates. |
-| Pickups | MM/triple pole family, soapbar, square-pole SBC, bar/sealed covers | Default sample retained. Allowed alternate families redrawn in existing reference envelopes. Custom housings stay pending/reference-retained. |
+| Pickups | MM/triple pole family, soapbar, square-pole SBC, sealed covers | Default sample retained. Allowed alternate families redrawn in existing reference envelopes. Custom housings, including Häussel BassBar in a custom SBC enclosure, stay pending/reference-retained. |
 | Bridges | Block/barrel/mass/cam/roller/single-saddle families | Generic family details in the existing bridge envelope; final manufacturer geometry not certified. ETS/Payson and GRAMR use existing reference/drawing. |
 | Tuners | Compact/Y/clover/locking families and Xtender lever | Front/back existing reference arrangement. Source front tuner counts may differ from sales specs; no new holes inferred. Custom guitar tuners pending. |
 | Coil switches | 1 / 2 toggle examples replacing existing control positions | None/EDDA/EMG/Fishman suppresses them. No extra control holes. |
@@ -40,7 +40,7 @@ for family recognition only; no dimensions are used as approved mounting points:
 - Hipshot B-style barrel saddles: https://hipshotproducts.com/products/4-string-b-style-bass-bridge
 - Hipshot family catalog: https://docs.hipshotproducts.com/Bass_Bridges.htm
 - Babicz individual cam-saddle family: https://www.fullcontacthardware.com/fch-1-solorail-individual-bass-saddle
-- Häussel family catalog: https://haeussel.com/fileadmin/pdf/Katalog2014_en.pdf
+- Häussel family catalog: https://haeussel.com/fileadmin/pdf/Haeussel-Pickups-Katalog-2025_D.pdf
 
 ## Colour correction
 
