@@ -84,6 +84,16 @@
       "width": 1440,
       "height": 780,
       "pixel_edits": false
+    },
+    {
+      "file": "assets/chimera/head-iron-tube-beta132.png",
+      "artifact_id": 12102362010,
+      "artifact_path": "amp-head-snapshots/all-model-5-channel-0-1440.png",
+      "sha256": "a6bdc5dbb3e297097be5793d6a960999992b29692d9cd3b4e506c7538a9a5de2",
+      "size_bytes": 1237139,
+      "width": 1440,
+      "height": 780,
+      "pixel_edits": false
     }
   ]
 }

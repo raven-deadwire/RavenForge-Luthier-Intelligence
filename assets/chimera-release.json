@@ -256,7 +256,7 @@
   },
   "reviewed_files": {
     "assets/chimera.css": "d548a6831984f89ddb016990f9601beb9f19a616594fb83953430f057161ecd7",
-    "assets/chimera.js": "1f88daa6ecb30b7aed438a53d76f8593013d2ac70faf6a804b5d69c845283799",
+    "assets/chimera.js": "50a7203cb7408398b11f73772fc5567ba0c7c88358a6b577adb69b17bd2465a1",
     "assets/chimera/dual-cabinet-beta13.png": "9b635d96d1a2140801fcad0125adf0a9102ef379325106b2fef39ca57a915fca",
     "assets/chimera/head-brit-edge-beta131.png": "20c7f662306f536d221be40a9e65c6cbb15caf7cb3be362f35f780faff00697d",
     "assets/chimera/head-nastrond-beta131.png": "7c266df61c2602fe1ee1fc3a214fa2f4769f3adc6c11551271a5379546b09e92",
@@ -282,16 +282,17 @@
     "docs/validation/chimera-commercial-rigs-capture-2026-10-11.log": "392464a125c78c2c38d08e5c5830c62116f701433a8b7960990921dc05f752cb",
     "docs/validation/chimera-rigs-capture-2026-10-11.cpp": "2f20dfd8ab82910ed1befe8cc4dc612df6885671673598a8db34a554ed8cc897",
     "manual/chimera.html": "ff772c7e627458e95ac4f4dcbc9eeb17129a0583bf13188b8187624fcd89dab3",
-    "tools/chimera_page_inventory.cjs": "47c500aec326f43757cad5c41c8afa2bb805daa07bf2f44353c5e735abca7367",
-    "assets/chimera/screens-beta132-native-provenance.json": "54326a60202ec38c24c7c9729aa6cbf2ac480e93c92d698dbe4bc1bb40f1b7d4",
+    "tools/chimera_page_inventory.cjs": "7e511e526b2a089f909fc3baed059c22245564c4a930ce981d416cd76a3bfc15",
+    "assets/chimera/screens-beta132-native-provenance.json": "25f93d59e3f485596f9197c7fb4d67099d2958a5706519bc8cdb8bb756f21f63",
     "assets/chimera/rigs-matrix-beta132.png": "e6769d3f0b3248ee60efacf8d0c45cd53f0a51bbdd6e07e0caa8034c4aa19f75",
     "assets/chimera/rigs-classic-beta132.png": "8cbc4ca3e3f5cff8ffd354ad0055f596913ae8c08cce91e1ec1894a508def249",
     "assets/chimera/rigs-dual-beta132.png": "b9637e76e43601549c1867d3ceea8a115a0caf373a588848743f6905cc3e5fb3",
     "assets/chimera/head-brit-edge-beta132.png": "6da5096b576274ccf08bb0bf48b8bae7062ccde56f9775576a23580e1931c250",
     "assets/chimera/head-niflheimr-beta132.png": "eb132186bc8791158e9556ce13efc7607af0d8ed7f80787e40a1487753eaab6c",
-    "assets/chimera/head-nastrond-beta132.png": "7650215174f159b94f2c6da36fd360bd70733f73a9e240dffd80ef4242a1a273"
+    "assets/chimera/head-nastrond-beta132.png": "7650215174f159b94f2c6da36fd360bd70733f73a9e240dffd80ef4242a1a273",
+    "assets/chimera/head-iron-tube-beta132.png": "a6bdc5dbb3e297097be5793d6a960999992b29692d9cd3b4e506c7538a9a5de2"
   },
-  "product_markup_sha256": "d0f558e6f5e002481d96af26167dd68cfca82d550be1c1b20fcae34cd91735a7",
+  "product_markup_sha256": "bc96ed08217c0258dc6969ab0ff7f04e3b8d79bcb318c1296e440bda6bad6f70",
   "native_capture": {
     "source_sha": "7b20cd9d1f90e3e2969c250712b199e893cf50cd",
     "version": "1.3.1-beta.1"

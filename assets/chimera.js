@@ -130,11 +130,8 @@
     "eqBody": "Each EQ offers up to 12 bands, graph editing, band addition and deletion, undo/redo, and IN/OUT spectrum views with resolution and freeze controls. Tone EQ shapes the combined rigs before POST; Final EQ makes the final tonal adjustments.",
     "headBritCaption": "Brit Edge · Actual 1.3.2-beta.1 Windows interface · Select image to enlarge",
     "headBritAlt": "Actual Chimera 1.3.2-beta.1 Windows interface showing Brit Edge enlarged controls with six knobs and the Jumped input route",
-    "headNifCaption": "Niflheimr · Actual 1.3.2-beta.1 Windows interface · Select image to enlarge",
-    "headNifAlt": "Actual Chimera 1.3.2-beta.1 Windows interface showing Niflheimr enlarged controls with Hrímfaxi selected",
-    "releaseTitle": "New in 1.3.2",
-    "releaseSummary": "Precision tuning with strobe and needle displays, direct signal-stage navigation, improved graphical EQ editing and four shared Dynamic EQ slots. The existing 25 amp heads, 48 presets and cabinet system remain ready for your rigs.",
-    "releaseScope": "Published open beta. Automated build and package checks are complete; manual DAW and instrument-listening acceptance remain incomplete. See the release notes for the validation scope."
+    "headBassCaption": "Iron Tube · Actual 1.3.2-beta.1 Windows interface · Select image to enlarge",
+    "headBassAlt": "Actual Chimera 1.3.2-beta.1 Windows interface showing Iron Tube bass amp enlarged controls"
   },
   "ko": {
     "status": "무료 오픈베타",
@@ -264,11 +261,8 @@
     "eqBody": "각 EQ는 최대 12밴드, 그래프 편집, 밴드 추가·삭제, 실행 취소·다시 실행과 해상도·정지 기능을 갖춘 IN/OUT 스펙트럼을 제공합니다. Tone EQ로 POST 앞의 합쳐진 리그를 조절하고 Final EQ로 마지막 톤을 다듬습니다.",
     "headBritCaption": "Brit Edge · 실제 1.3.2-beta.1 Windows 화면 · 이미지를 눌러 확대",
     "headBritAlt": "노브 6개와 Jumped 입력 경로를 표시한 Chimera 1.3.2-beta.1 Windows Brit Edge 확대 컨트롤 실제 화면",
-    "headNifCaption": "Niflheimr · 실제 1.3.2-beta.1 Windows 화면 · 이미지를 눌러 확대",
-    "headNifAlt": "Hrímfaxi를 선택한 Chimera 1.3.2-beta.1 Windows Niflheimr 확대 컨트롤 실제 화면",
-    "releaseTitle": "1.3.2 업데이트",
-    "releaseSummary": "스트로브·바늘 표시 정밀 튜너, 신호 단계 바로 이동, 그래픽 EQ 편집 개선과 공유 Dynamic EQ 슬롯 4개를 제공합니다. 기존 앰프 헤드 25종, 프리셋 48개와 캐비넷 시스템도 그대로 사용할 수 있습니다.",
-    "releaseScope": "공개 오픈베타입니다. 자동 빌드·패키지 검증을 완료했으며, 실제 DAW 조작과 악기 청음 검증은 미완료입니다. 상세 검증 범위는 릴리즈 안내에서 확인하세요."
+    "headBassCaption": "Iron Tube · 실제 1.3.2-beta.1 Windows 화면 · 이미지를 눌러 확대",
+    "headBassAlt": "Iron Tube 베이스 앰프의 확대 컨트롤을 표시한 Chimera 1.3.2-beta.1 Windows 실제 화면"
   },
   "de": {
     "status": "Kostenlose offene Beta",
@@ -398,11 +392,8 @@
     "eqBody": "Jeder EQ bietet bis zu 12 Bänder, grafische Bearbeitung, Hinzufügen und Löschen, Undo/Redo sowie IN/OUT-Spektren mit Auflösung und Freeze. Tone EQ formt die zusammengeführten Rigs vor POST; Final EQ übernimmt die abschließende Klangkorrektur.",
     "headBritCaption": "Brit Edge · Tatsächliche 1.3.2-beta.1 Windows-Oberfläche · Bild zum Vergrößern auswählen",
     "headBritAlt": "Tatsächliche Windows-Oberfläche von Chimera 1.3.2-beta.1 Brit Edge mit sechs Reglern und Jumped-Eingang",
-    "headNifCaption": "Niflheimr · Tatsächliche 1.3.2-beta.1 Windows-Oberfläche · Bild zum Vergrößern auswählen",
-    "headNifAlt": "Tatsächliche Windows-Oberfläche von Chimera 1.3.2-beta.1 Niflheimr-Reglern mit ausgewähltem Hrímfaxi",
-    "releaseTitle": "Neu in 1.3.2",
-    "releaseSummary": "Präzisions-Tuner mit Stroboskop- und Nadelanzeige, direkte Navigation zwischen Signalstufen, verbesserte grafische EQ-Bearbeitung und vier gemeinsame Dynamic-EQ-Slots. Die 25 Amp-Heads, 48 Presets und das Cabinet-System stehen weiterhin bereit.",
-    "releaseScope": "Veröffentlichte offene Beta. Automatische Build- und Paketprüfungen sind abgeschlossen; die manuelle DAW-Abnahme und Hörtests mit echten Instrumenten stehen noch aus. Der Prüfumfang ist in den Release-Hinweisen dokumentiert."
+    "headBassCaption": "Iron Tube · Tatsächliche 1.3.2-beta.1 Windows-Oberfläche · Bild zum Vergrößern auswählen",
+    "headBassAlt": "Tatsächliche Windows-Oberfläche von Chimera 1.3.2-beta.1 mit vergrößerten Reglern des Iron-Tube-Bass-Amps"
   }
 };
   function translate() {
