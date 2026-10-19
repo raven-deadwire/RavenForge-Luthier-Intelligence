@@ -60,9 +60,9 @@ function validateProductContent(product, lang) {
           'Direct editing requires head, knob, signal-path and EQ explanations');
   const heads = one(editing, '.rf-chimera-head-gallery');
   require(heads.querySelectorAll('figure').length === 2,
-          'Direct editing requires native Brit Edge and Niflheimr screenshots');
+          'Direct editing requires native Brit Edge and Iron Tube screenshots');
   for (const [key, file] of [['headBrit', 'head-brit-edge-beta132.png'],
-                            ['headNif', 'head-niflheimr-beta132.png']]) {
+                            ['headBass', 'head-iron-tube-beta132.png']]) {
     const image = one(heads, `img[data-chimera-alt="${key}Alt"]`);
     require(image.getAttribute('src') === `assets/chimera/${file}` &&
             image.closest('a')?.getAttribute('href') === image.getAttribute('src'),
