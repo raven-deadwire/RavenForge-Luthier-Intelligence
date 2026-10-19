@@ -1,46 +1,64 @@
-# v9 display parts — 2026-10-20 KST
+# v10 source parts and additive controls — 2026-10-20 KST
 
-Scope: isolated `configurator-preview.html`, continuing the accepted v8 outlines.
-Production options, prices, restrictions and PDF source are unchanged. These are
-independently drawn SVG examples, not manufacturer CAD, machining templates or
-approved finished instruments. No vendor image pixels or logos are copied.
+Scope: isolated `configurator-preview.html`. Production options, prices,
+restrictions and PDF source are unchanged.
+
+## Corrected regressions
+
+The v9 family renderer stretched generic silhouettes into sample envelopes.
+It did not reproduce actual products: block/roller/cam bridges, Y/clover tuner
+keys and pickup poles were insufficiently grounded. The replacement masks and
+symbols have been removed, including rear tuner-housing guesses. No vendor
+pixels/logos were copied. The original source parts are restored.
+
+**Manufacturer-specific geometry is not implemented in v10.** Every selected
+pickup, bridge and tuner is explicitly marked as not rendered. Product names
+remain in the options and quote. Source tuner/saddle counts may differ from the
+sales specification. A source envelope is not a verified selected product.
+
+The v9 switch planner changed source knob slots to switch slots. v10 retains all
+knob positions and render content, then adds independent coil/kill switch symbols
+at stable, non-overlapping preview positions. Dashed outlines identify these
+positions as unconfirmed. Removing an extra removes only its symbol. Dual tone
+marks an existing push-pull knob; an internal buffer creates no exterior control.
+
+The existing quote's `using an existing control position` wording is preserved.
+The additive visual proposal does not establish an agreed fabrication layout or
+price for new drilling. This distinction is shown in KO/EN/DE scope text.
 
 ## Connected selections
 
 | Selection | Display | Limit |
 | --- | --- | --- |
-| Body 1 / 2 / 3 pieces | Rear joins; exposed GRAMR front joins | Widths illustrative. Bass `none` top is a matching core-wood top, so it hides front tone-block joins. Opaque covers joins. No internal chambers drawn. |
-| Neck pieces | 1 / 3 / 5 / 7 / 9 / 13 rear stripes where offered | Neck-only clipping, ends at bolt-on boundary. Widths/order illustrative; custom laminations remain pending. |
-| Wood finger ramp | Raised, matching top surface between pickups | Proposed envelope, no machining dimensions. Removed for none/three pickups. |
-| Fretboard extension / third pickup | Renderer supports a proposed envelope | Production currently defers these options; this change does not unlock them. |
-| Pickguard | None / black / ivory / matching wood | Test-only visual control, excluded from quote and PDF. GRAMR original drawing outline; bass original proposed outlines. No new drill coordinates. |
-| Pickups | MM/triple pole family, soapbar, square-pole SBC, sealed covers | Default sample retained. Allowed alternate families redrawn in existing reference envelopes. Custom housings, including Häussel BassBar in a custom SBC enclosure, stay pending/reference-retained. |
-| Bridges | Block/barrel/mass/cam/roller/single-saddle families | Generic family details in the existing bridge envelope; final manufacturer geometry not certified. ETS/Payson and GRAMR use existing reference/drawing. |
-| Tuners | Compact/Y/clover/locking families and Xtender lever | Front/back existing reference arrangement. Source front tuner counts may differ from sales specs; no new holes inferred. Custom guitar tuners pending. |
-| Coil switches | 1 / 2 toggle examples replacing existing control positions | None/EDDA/EMG/Fishman suppresses them. No extra control holes. |
-| Kill switch | Recessed button at an existing control position | Proposed allocation, not confirmed machining. Removes on deselection. |
-| Dual tone | Push-pull indicator on an existing knob | Passive-only; capacitor itself is internal. |
-| Buffer | Scope text only | Internal circuit, no invented external box/switch. |
+| Body / neck pieces | Existing joins and rear laminations | Illustrative widths, opaque/top conceal joins |
+| Pickguard / wood ramp | v9 display geometry retained | Preview proposals; pickguard excluded from quote |
+| Pickups / bridge / tuners | Original source pixels or drawing envelopes | Selected product shape not rendered, front and back |
+| Third pickup | Pending, two reference pickups retained | Deferred option remains unavailable in production |
+| Coil switch | One/two additional dashed switch symbols | None/EDDA/GRAMR/EMG/Fishman suppress these; unconfirmed positions |
+| Kill switch | Separate dashed pushbutton | Original knobs retained; unconfirmed position |
+| Dual tone | Indicator on original push-pull knob | Passive-only; knob remains a knob |
+| Buffer | Scope text | Internal, no exterior part |
 
-ASKR bridge finish is independent of the hardware-colour selector, including
-Nova black anodized aluminium. Other hardware follows the selection. Parts with
-similar external families may appear similar; internal construction is not drawn.
+ASKR bridge colour stays independent of hardware colour; Nova uses fixed black
+anodized finish on the **retained reference shape**, not a claimed Nova model.
+GRAMR pickup poles no longer inherit bridge/tuner hardware colour.
 
-## Shape-family reference checks
+## Evidence threshold for future part replacements
 
-Current repository options and supplied model drawings are the controlling source
-for fit/envelopes. The following official pages were consulted on 2026-10-20 KST
-for family recognition only; no dimensions are used as approved mounting points:
+Require the exact product/variant, a usable image or measured geometry, the
+correct viewing angle and a confirmed instrument envelope/placement. Keep the
+source part if these are absent. Product-family recognition is insufficient.
 
-- Delano SBC 5 TF: https://www.delano.de/sbc_5_tf/sbc_5_tf_details.html
-- Delano Xtender housing family (deferred option): https://www.delano.de/xtender_4_he_s/xtender_4_he_s_details.html
+Primary references checked (research only, not copied assets):
 - Gotoh GB707: https://g-gotoh.com/product/gb707/?lang=en
-- Gotoh GB350: https://g-gotoh.com/product/gb350/?lang=en
-- Gotoh GB528: https://g-gotoh.com/product/gb528/?lang=en
-- Hipshot B-style barrel saddles: https://hipshotproducts.com/products/4-string-b-style-bass-bridge
-- Hipshot family catalog: https://docs.hipshotproducts.com/Bass_Bridges.htm
-- Babicz individual cam-saddle family: https://www.fullcontacthardware.com/fch-1-solorail-individual-bass-saddle
-- Häussel family catalog: https://haeussel.com/fileadmin/pdf/Haeussel-Pickups-Katalog-2025_D.pdf
+- Gotoh GB707 dimensions: https://g-gotoh.com/images/pdf/GB707-Dim.pdf
+- Gotoh 404BO-5: https://g-gotoh.com/product/404bo-5/?lang=en
+- Delano Times Square SBC 5 TF: https://www.delano.de/sbc_5_tf/sbc_5_tf_details.html
+- Delano drawing: https://www.delano.de/downloads/sbc5_tf.pdf
+
+The public Delano sheet states 108 × 32 mm; the repository's SBC routing envelope
+must not be silently treated as an identical fit. The public data alone does not
+justify fitting or stretching it into the existing render.
 
 ## Colour correction
 
@@ -53,9 +71,11 @@ Source relief stays neutral; no spatial blur is applied to RGB image content.
 
 ## Checks
 
-- Source-parity contract: prices, model restrictions, handlers and PDF unchanged.
-- 545 allowed substitutions × 3 languages × front/back, plus focused pieces,
-  switch allocation, read-only extras and ramp exclusion checks.
-- Browser test: all 27 wood cells × red/blue dye, plus actual red front/back pixels,
-  part/guard/ramp/switch interactions, reset, neck/body counts in 24 UI combinations.
-- Actual browser/PDF results are recorded on PR #35 after the current CI run.
+- Production source parity and 545 allowed substitutions × 3 languages × front/back.
+- Every original knob coordinate survives each coil/kill/dual-tone combination.
+- Additional symbols have independent, stable, non-overlapping preview coordinates.
+- No unverified family geometry or source-clearing part underlays remain.
+- Browser checks compare the complete knob rendering before/after adding/removing
+  switches in all 24 model/language/viewport combinations.
+- Current browser and PDF results are recorded on PR #35; previous PASS results
+  do not establish v10 success.

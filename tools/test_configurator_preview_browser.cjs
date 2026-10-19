@@ -66,7 +66,7 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
-          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v9');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v10');
           assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').textContent(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
@@ -236,25 +236,32 @@ async function main() {
           }
           assert.equal(await page.locator('#quote-summary-card').innerText(),guardQuote,'Test pickguard is excluded from quote');
           await page.locator('[data-preview-pickguard="black"]').click();
+          const retainedKnobs=await layer('knobs').innerHTML();
+          const retainedKnobCount=await layer('knobs').getAttribute('data-count');
           if(model!=='GRAMR'){
             await choose('pickups',{EDDA:'häussel_triple',EMBLA:'delano_ts',ASKR:'askr_delano_sbc5_e'}[model]);
-            assert.equal(await layer('pickups').getAttribute('data-appearance'),'illustrative-family');
+            assert.equal(await layer('pickups').getAttribute('data-appearance'),'reference-retained');
             await step(4);await choose('finger_ramp','ramp_wood');assert.equal(await layer('finger-ramp').count(),1);
-            const beforeParts=await page.locator('.rf-preview-stage').screenshot();
+            const beforeTuners=await layer('hardware').innerHTML();
             await choose('hardware_bridge',model==='ASKR'?'payson':'gotoh_404BO');
             await choose('hardware_machine_head','hipshot_ul_38');
-            assert.equal(await layer('tuners').getAttribute('data-family'),'y');
-            assert.ok(!beforeParts.equals(await page.locator('.rf-preview-stage').screenshot()),'Hardware changes rendered pixels');
+            assert.equal(await layer('hardware').innerHTML(),beforeTuners,'Unverified tuners retain original pixels');
+            assert.equal(await page.locator('[data-appearance="illustrative-family"]').count(),0);
             await step(5);
             if(model!=='EDDA'){
               if(model==='ASKR')await choose('electronics','glockenklang');
               await choose('coil_switch','coil_2_pcts');assert.equal(await page.locator('[data-control-type="toggle"]').count(),2);
+              assert.equal(await layer('knobs').innerHTML(),retainedKnobs,'Coil switches preserve the entire knob rendering');
               await choose('coil_switch','coil_none');assert.equal(await page.locator('[data-control-type="toggle"]').count(),0);
               await choose('coil_switch','coil_2_ps');
             }
           }
           await page.locator('label').filter({hasText:'Kill switch'}).getByRole('checkbox').check();
           assert.equal(await page.locator('[data-control-type="kill"]').count(),1);
+          assert.equal(await layer('knobs').innerHTML(),retainedKnobs,'Kill switch never covers or replaces a knob');
+          assert.equal(await layer('knobs').getAttribute('data-count'),retainedKnobCount);
+          assert.equal(await page.locator('[data-control-type="kill"]').getAttribute('data-placement'),'preview-only-unconfirmed');
+          assert.ok((await page.locator('[data-control-placement]').innerText()).length>0);
           if(model==='EDDA'||model==='GRAMR'){
             await choose('electronics',model==='GRAMR'?'guitar_passive':'passive');
             await page.locator('label').filter({hasText:'Dual tone capacity'}).getByRole('checkbox').check();
@@ -262,6 +269,7 @@ async function main() {
           }
           await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-parts.png`)});
           await page.locator('label').filter({hasText:'Kill switch'}).getByRole('checkbox').uncheck();assert.equal(await page.locator('[data-control-type="kill"]').count(),0);
+          assert.equal(await layer('knobs').innerHTML(),retainedKnobs,'Removing extras preserves knobs');
           await step(2);await choose('neck',model==='GRAMR'?'guitar_neck_3pc':model==='EDDA'?'3pc':'7pc');await side('back');
           assert.equal(await layer('neck-laminates').getAttribute('data-count'),model==='EDDA'||model==='GRAMR'?'3':'7');
           await step(3);await choose('body_construction',model==='GRAMR'?'guitar_body_1pc':'1pc_solid');assert.equal(await layer('body-pieces').getAttribute('data-count'),'1');

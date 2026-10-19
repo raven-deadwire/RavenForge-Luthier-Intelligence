@@ -12,7 +12,7 @@
     const path=(d,a='')=>`<path d="${d}" ${a}/>`;
     const line=(a,b,attr='')=>`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" ${attr}/>`;
     const dye=(base,colour)=>'#'+[0,1,2].map(i=>Math.round(parseInt(base.slice(1+i*2,3+i*2),16)*.16+parseInt(colour.slice(1+i*2,3+i*2),16)*.84).toString(16).padStart(2,'0')).join('');
-    const metal=`url(#${p}-metal)`,unknown=`url(#${p}-unknown)`,base=state.bodyColour||'#8d9196';
+    const metal=`url(#${p}-metal)`,poleMetal='#aeb4b5',unknown=`url(#${p}-unknown)`,base=state.bodyColour||'#8d9196';
     const colour=state.finish.colour?(state.finish.opaque?state.finish.colour:dye(base,state.finish.colour)):base;
     const opaque=state.finish.opaque&&!!state.finish.colour;
     const woodFilter=(id,hex)=>{
@@ -77,7 +77,7 @@
         out+=`<rect x="${x+.9}" y="${r.y+1}" width="${r.w/2-1.6}" height="${r.h-2}" rx="3.6" fill="url(#${p}-plastic)" stroke="#5b5c5c" stroke-width=".5"/>`;
         for(let i=0;i<6;i++){
           const y=r.y+8+i*(r.h-16)/5;
-          out+=`<circle cx="${x+r.w/4}" cy="${y}" r="2.3" fill="${metal}" stroke="#070707" stroke-width=".65"/>`;
+          out+=`<circle cx="${x+r.w/4}" cy="${y}" r="2.3" fill="${poleMetal}" stroke="#070707" stroke-width=".65"/>`;
           if(coil)out+=`<path d="M${x+r.w/4-1.4},${y}h2.8" stroke="#222" stroke-width=".5"/>`;
         }
       }
@@ -89,11 +89,13 @@
     }
     out+='</g>';
     out+=`<g data-layer="hardware" data-option="${esc(s.hardware_color)}" data-colour="${state.metal}" data-appearance="drawing-envelope">${title('hardware_color')}${path(g.jack,`fill="${metal}" stroke="#171a1b" stroke-width="1.5"`)}<ellipse cx="952" cy="186" rx="17" ry="6" transform="rotate(-53 952 186)" fill="#242727" stroke="${state.metal}" stroke-width="1.7"/>`;
+    out+=`<g data-layer="knobs" data-count="${g.controls.length}" data-placement="source-retained">`;
     g.controls.forEach(([x,y])=>{out+=`<circle cx="${x+1}" cy="${y+2}" r="11" fill="#080909"/><circle cx="${x}" cy="${y}" r="10" fill="url(#${p}-knob)" stroke="#292a28" stroke-width=".8"/><circle cx="${x}" cy="${y}" r="7.6" fill="${metal}" stroke="#d2c7ac" stroke-opacity=".5" stroke-width=".5"/><path d="M${x},${y-7}v3" stroke="#151616" stroke-width=".8"/>`;});
+    out+=options.knobs(state,p,g.controls,10)+'</g>';
     out+=line(...g.selector,'stroke="#080808" stroke-width="2.7"')+line(...g.selector,'stroke="#878b89" stroke-width=".65"');
     const sel=point(...g.selector,.55);out+=`<rect x="${sel[0]-2}" y="${sel[1]-5}" width="4" height="10" rx="1.5" transform="rotate(54 ${sel[0]} ${sel[1]})" fill="#ddd8c6" stroke="#5c5a52" stroke-width=".5"/>`;
     g.tuners.forEach(([x,y])=>{out+=`<path d="M${x-2},${y+4}v15h4v-15" fill="${metal}" stroke="#202323" stroke-width=".6"/><rect x="${x-7}" y="${y+16}" width="14" height="9" rx="3" fill="${metal}" stroke="#333" stroke-width=".7"/><circle cx="${x}" cy="${y}" r="6.9" fill="${metal}" stroke="#272a2a" stroke-width=".6"/><circle cx="${x}" cy="${y}" r="3.9" fill="${metal}" stroke="#17191a" stroke-width=".9"/>`;});out+='</g>';
-    out+=options.knobs(state,p,g.controls,10)+parts.controls(state,p,10);
+    out+=parts.controls(state,p,10);
     out+='<g data-layer="strings" data-count="6" data-scope="whole-instrument">';
     for(let i=0;i<6;i++){
       const a=point(g.board[0],g.board[1],.08+.84*i/5),b=point(g.bridge[0],g.bridge[1],i/5),c=g.tuners[i];

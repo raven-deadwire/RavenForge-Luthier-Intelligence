@@ -8,15 +8,30 @@ Entry point: `configurator-preview.html`. This is a separate test page. The prod
 
 The first commit connects EDDA end to end; the next extends the same renderer to EMBLA, ASKR and GRAMR. The test page copies the existing configurator shell and adds a read-only preview component, colour controls, and a responsive two-column layout. `tools/test_configurator_preview.cjs` compares data, normalization, pricing, option handlers, quote markup and PDF export source against production so the copy cannot silently diverge.
 
-## Construction, components and colour correction (v9, 2026-10-20, latest)
+## Source hardware and additive controls (v10, 2026-10-20, latest)
 
-Connect body joins, pickguard test controls, wood ramps, pickup/bridge/tuner
-families and existing-position coil/kill/dual-tone controls. Keep all bolt-on
-boundaries and ASKR fixed bridge finishes. Unspecified custom parts remain
-pending; pickguard proposals do not enter quote/PDF state. A common neutral
-luminance-to-dye pipeline corrects wood-dependent colour shifts, including red.
-See [component scope and references](CONFIGURATOR_PARTS.md) for the exact mapping,
-which geometry is illustrative, and which production options remain deferred.
+Remove the v9 generic pickup, bridge and tuner substitutions and their flat
+underlays. Restore the original sample pixels / supplied drawing contours, front
+and back. Explicitly label selected product geometry as **not rendered**. Exact
+manufacturer substitutions remain unfinished; a product-family name or generic
+shape is not adequate evidence of appearance or fit.
+
+Retain every original knob. Additional coil/kill switches use separate stable
+preview positions with dashed outlines. They do not remove, repurpose, overlap
+or move a knob. Dual tone remains a push-pull indicator on a retained knob.
+These positions are proposals, not fabrication coordinates. Production quote
+wording still specifies existing control positions; a real additive-control
+layout requires separate confirmation. The test does not rewrite that contract.
+
+Preserve body/neck pieces, guards/ramps, neutral dye processing, ASKR fixed bridge
+finish, bolt-on joints, bindrunes, prices and PDF. See
+[component scope and references](CONFIGURATOR_PARTS.md).
+
+## Construction and colour correction (v9, historical)
+
+Body joins, preview-only pickguards, wood ramps and common neutral-luminance dye
+processing were introduced here. The inaccurate part-family shapes and the
+control-slot replacement logic are superseded by v10.
 
 ## Detailed options and wood textures (v8, 2026-10-20, historical)
 

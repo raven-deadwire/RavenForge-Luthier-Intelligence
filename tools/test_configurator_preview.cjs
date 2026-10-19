@@ -149,7 +149,7 @@ for(const bridge of ['payson','nova_parts']){
   assert.equal(new Set(colours).size,1,'ASKR bridge finish must not follow hardware colour');
 }
 console.log('PASS: named wood coverage, C1–C4 inlays/reset/rear exclusion, handedness and both ASKR fixed bridge finishes');
-// v9: display-only pieces, part substitution and extras; never mutate quote state.
+// v10: display-only pieces, source parts and additive controls; never mutate quote state.
 const parts=require('../assets/configurator-parts-renderer.js');
 for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
   const d=JSON.parse(JSON.stringify(normalize(model))),extras={specialOptions:['kill_switch','dual_tone'],pickguard:'ivory'},before=JSON.stringify([d,extras]);
@@ -167,9 +167,11 @@ for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
   if(model!=='GRAMR'){
     const picked={...d,pickups:{EDDA:'häussel_triple',EMBLA:'delano_ts',ASKR:'askr_delano_sbc5_e'}[model],electronics:'glockenklang',coil_switch:'coil_2_ps',finger_ramp:'ramp_wood'};
     const state=preview.scene(model,picked,'',{},null,extras),svg=preview.renderSvg(state,'front','en');
-    assert.match(svg,/data-family="(?:triple|square-poles|soapbar)"/);assert.match(svg,/data-layer="finger-ramp"/);
+    assert.match(svg,/data-layer="pickups"[^>]*data-appearance="reference-retained"/);
+    assert.doesNotMatch(svg,/illustrative-family|part-underlay/);
+    assert.match(svg,/data-layer="finger-ramp"/);
     const controls=parts.controlPlan(state);assert.equal(controls.filter(x=>x.type==='toggle').length,model==='EDDA'?0:2);
-    assert.equal(new Set(controls.map(x=>x.xy.join(','))).size,controls.length,'Controls never share or add holes');
+    assert.equal(new Set(controls.map(x=>x.xy.join(','))).size,controls.length,'Additional preview switches cannot replace a knob');
     for(const id of ['emg','fishman'])assert.equal(parts.controlPlan(preview.scene(model,{...picked,pickups:id},'',{},null,extras)).filter(x=>x.type==='toggle').length,0);
     assert.doesNotMatch(preview.renderSvg(preview.scene(model,{...picked,pickup_configuration:'pickup_3'},''),'front','en'),/data-layer="finger-ramp"/);
   }
@@ -177,10 +179,34 @@ for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
 for(const model of ['EMBLA','ASKR']){
   const d={...JSON.parse(JSON.stringify(normalize(model))),pickup_configuration:'pickup_3'};
   const svg=preview.renderSvg(preview.scene(model,d,''),'front','en');
-  assert.match(svg,/data-count="3" data-appearance="illustrative-family" data-placement="proposed-three-pickup"/);
+  assert.match(svg,/data-layer="pickups"[^>]*data-count="2"[^>]*data-appearance="reference-retained"/);
+  assert.ok(preview.scene(model,d,'').pending.includes('pickup_configuration'));
   // Existing production restrictions remain: the preview does not unlock it.
   assert.equal(normalize(model,d).pickup_configuration,'pickup_2');
 }
-console.log('PASS: body joins, existing-position controls, pickup families, ramp exclusion and read-only extras');
+console.log('PASS: body joins, additive controls, source part retention, ramp exclusion and read-only extras');
 
 assert.ok(preview.scene('EMBLA',{...normalize('EMBLA'),pickups:'häussel_bar'},'').pending.includes('pickups'),'Custom BassBar housing cannot be inferred from the product family name');
+
+// Regression: all existing knobs survive every additional switch combination.
+for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
+  const d=JSON.parse(JSON.stringify(normalize(model)));
+  for(const coil of ['coil_none','coil_1_ps','coil_2_ps','coil_2_pcts'])for(const extras of [[],['kill_switch'],['dual_tone'],['kill_switch','dual_tone']]){
+    const state=preview.scene(model,{...d,pickups:model==='EDDA'?'nova_mm':'askr_delano_sbc5_e',electronics:model==='GRAMR'?'guitar_passive':'passive',coil_switch:coil},'',{},null,{specialOptions:extras});
+    const plan=parts.controlPlan(state),knobs=plan.filter(c=>c.type==='knob'),switches=plan.filter(c=>c.type!=='knob');
+    assert.deepEqual(knobs.map(c=>c.xy),state.g.controls,'Retain every original knob coordinate');
+    assert.ok(knobs.every(c=>c.placement==='source-retained'));
+    assert.ok(switches.every(c=>c.placement==='preview-only-unconfirmed'));
+    assert.equal(plan.filter(c=>c.type==='kill').length,extras.includes('kill_switch')?1:0);
+    const clearance=model==='GRAMR'?25:21;
+    for(const control of switches)for(const other of plan)if(other!==control)assert.ok(Math.hypot(control.xy[0]-other.xy[0],control.xy[1]-other.xy[1])>clearance,'Added controls must not overlap knobs or each other');
+    const noExtras=preview.scene(model,{...state.selections},'');
+    assert.deepEqual(noExtras.g.controls,state.g.controls);
+    for(const side of ['front','back'])assert.doesNotMatch(preview.renderSvg(state,side,'en'),/illustrative-family|part-underlay/,'No unverified product-family geometry');
+  }
+  const state=preview.scene(model,d,'');
+  for(const category of ['pickups','hardware_bridge','hardware_machine_head'])assert.ok(state.pending.includes(category),'Source parts must not claim selected-product fidelity');
+  const changed=preview.scene(model,{...d,hardware_machine_head:'hipshot_ul_38'},'');
+  assert.equal(preview.renderSvg(state,'back','en'),preview.renderSvg(changed,'back','en'),'Alternate tuner cannot invent a rear housing');
+}
+console.log('PASS: retained knob coordinates, independent non-overlapping switch proposals, no invented manufacturer shapes');

@@ -33,12 +33,11 @@
       <filter id="${p}-source-relief" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/></filter><filter id="${p}-shadow" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity=".55"/></filter>`;
     if(concept){
       const tuners=[[548,65,26,8],[553,119,38,7],[568,177,38,8],[581,231,34,8]].map(([x,y,rx,ry])=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}"/>`).join('')+[[565,60],[578,115],[599,171],[608,224]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="20" ry="24"/>`).join('');
-      out+=`<clipPath id="${p}-metal-clip">${parts.replaceTuners(state)?'':tuners}${[[507,939],[556,939],[532,971],[507,1003],[558,1003]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="13"/>`).join('')}</clipPath><clipPath id="${p}-neck-clip">${path(eddaNeck)}</clipPath><clipPath id="${p}-all">${path(eddaBody)}${path(eddaNeck)}${path(eddaHead)}${parts.replaceTuners(state)?'':tuners}</clipPath></defs><g transform="${transform}">`;
+      out+=`<clipPath id="${p}-metal-clip">${tuners}${[[507,939],[556,939],[532,971],[507,1003],[558,1003]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="13"/>`).join('')}</clipPath><clipPath id="${p}-neck-clip">${path(eddaNeck)}</clipPath><clipPath id="${p}-all">${path(eddaBody)}${path(eddaNeck)}${path(eddaHead)}${tuners}</clipPath></defs><g transform="${transform}">`;
       const source=attrs=>`<image href="${media(g.source)}" width="1024" height="1536" ${attrs}/>`;
       out+=`<g clip-path="url(#${p}-all)" data-layer="rear-concept" data-appearance="ai-concept">${source('')}</g>`;
       out+=`<g data-layer="rear-body" data-material="${esc(state.bodyId)}" data-finish="${esc(s.color_back_side)}" data-colour="${colour}" data-opaque="${!!finish.opaque}" clip-path="url(#${p}-body)">${source(`filter="url(#${p}-wood)"`)}${!finish.opaque&&state.bodyColour?path(eddaBody,`fill="url(#${p}-material)" ${finish.colour?`filter="url(#${p}-surface-dye)"`: 'opacity=".6" style="mix-blend-mode:soft-light"'}`):''}${options.wings(state,p,eddaBody,false,525,110)}${source(`filter="url(#${p}-source-relief)" style="mix-blend-mode:multiply"`)}${options.bodyPieces(state,p,eddaBody,false,525,110,true)}${options.finish(state,p,eddaBody,true)}</g>`;
       out+=`<g data-layer="rear-neck" data-neck-joint="bolt-on" data-appearance="concept-retained">${options.lamination(state,[[495,275],[556,275],[565,925],[486,922]],p+'-neck-clip')}</g><g data-layer="rear-bolts" data-count="5" data-placement="concept-only"/><g data-layer="rear-hardware" data-colour="${state.metal}" clip-path="url(#${p}-metal-clip)">${source(`filter="url(#${p}-metal-tint)"`)}</g>`;
-      out+=parts.tuners(state,p,[[541,65,1,0,1.2],[552,119,1,0,1.2],[568,177,1,0,1.2],[581,231,1,0,1.2]],true);
     }else{
       out+=`<clipPath id="${p}-neck-clip">${path(g.neck)}</clipPath><clipPath id="${p}-head-clip">${path(g.head)}</clipPath></defs><g transform="${transform}">`;
       const surface=(d,filter,stroke=1)=>`<g filter="url(#${p}-shadow)">${path(d,`fill="url(#${p}-${filter==='neck'?'neck-grain':state.bodyColour&&!finish.opaque?'material':'grain'})" ${filter==='neck'||finish.colour||!state.bodyColour?`filter="url(#${p}-${filter==='wood'&&finish.colour?'surface-dye':filter})"`:''}`)}${path(d,`fill="url(#${p}-${filter==='neck'?'neck-round':'light'})" stroke="#5b4934" stroke-width="${stroke}"`)}${path(d,'fill="none" stroke="#fff0cd" stroke-width=".6" stroke-opacity=".6"')}</g>`;
@@ -58,9 +57,8 @@
       out+=`<g data-layer="rear-bolts" data-count="5" data-placement="pdf-centres">`;
       for(const [x,y,r] of g.bolts)out+=`<circle cx="${x}" cy="${y}" r="${r}" fill="#2a2521"/><circle cx="${x}" cy="${y}" r="${r*.82}" fill="url(#${p}-metal)" stroke="#151617" stroke-width=".6"/><circle cx="${x}" cy="${y}" r="${r*.27}" fill="#282b2a"/>`;
       out+=`</g><g data-layer="rear-reference-tuners" data-count="5" data-colour="${state.metal}">`;
-      for(const tuner of g.tuners)if(!parts.replaceTuners(state))out+=path(tuner.key,`fill="url(#${p}-metal)" stroke="#272a2b" stroke-width=".7"`)+path(tuner.housing,`fill="url(#${p}-metal)" stroke="#25282a" stroke-width=".8"`);
+      for(const tuner of g.tuners)out+=path(tuner.key,`fill="url(#${p}-metal)" stroke="#272a2b" stroke-width=".7"`)+path(tuner.housing,`fill="url(#${p}-metal)" stroke="#25282a" stroke-width=".8"`);
       out+='</g>';
-      if(parts.replaceTuners(state))out+=parts.tuners(state,p,g.tuners.map(t=>{const values=[...t.housing.matchAll(/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g)].map(v=>[+v[1],+v[2]]);const x=values.reduce((a,b)=>a+b[0],0)/values.length,y=values.reduce((a,b)=>a+b[1],0)/values.length;return [x,y,1,y<150?-90:90,.72];}),true);
     }
     return out+'</g></svg>';
   }
