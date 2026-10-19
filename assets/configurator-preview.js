@@ -7,10 +7,10 @@
   'use strict';
   const copy = {
     en: {
-      title: 'Your instrument', live: 'Live 2D preview', full: 'Full', body: 'Body', neck: 'Fretboard', head: 'Headstock',
-      note: 'Concept outline · colour study. Not a production image.',
-      scope: 'What is shown', tone: 'Approximate colour only; actual wood grain is not shown.',
-      symbols: 'Pickups and bridge are symbols in the reference positions, not manufacturer models. Tuners, control functions and rear details are not rendered.',
+      title: 'Your instrument', live: 'Live finish preview', full: 'Full', body: 'Body', neck: 'Fretboard', head: 'Headstock',
+      note: 'RavenForge sample render · part shapes and layout can differ from the selected specification.',
+      scope: 'What is shown', tone: 'Original sample grain and reflections are retained. Wood selections change the approximate tone, not the grain species or the actual stock board.',
+      symbols: 'Pickup, bridge and tuner shapes remain those of the sample. Selected brands are recorded below and in the quote; exact part geometry is not replaced. The sample saddle/tuner count can differ from the configured string count.',
       pending: 'Not visualized', covered: 'Covered by the top / opaque finish', reference: 'Original concept',
       colour: 'Preview colour', natural: 'Natural', transparent: 'Transparent', solid: 'Opaque',
       colourHelp: 'One colour applies to the front and matching headstock. Use a swatch, #RRGGBB, or a simple colour name. Multi-part finish instructions remain in the quote only.',
@@ -18,14 +18,14 @@
       oil: 'A colour is specified with natural oil. Confirm the finish method before production.',
       headPending: 'Headstock plate artwork is not available.',
       geometry: 'Final geometry / exact parts require approved drawings.',
-      updated: 'Preview updated', material: 'Material colour', schematic: 'Symbol only', hidden: 'Not visible from the front',
-      noShape: 'No verified outline is available for this model.', colourNames: ['Natural', 'Red', 'Blue', 'Black', 'White', 'Green']
+      updated: 'Preview updated', material: 'Material colour', schematic: 'Sample part retained', hidden: 'Not visible from the front',
+      noShape: 'No verified outline is available for this model.', sampleGrain: 'Sample grain retained', referenceParts: 'Sample parts retained', sourceView: 'Sample render', selectedView: 'Selected finish', referenceNote: 'Original sample only. It does not represent the selected options.', colourNames: ['Natural', 'Red', 'Blue', 'Black', 'White', 'Green']
     },
     ko: {
-      title: '선택한 악기', live: '실시간 2D 미리보기', full: '전체', body: '바디', neck: '지판', head: '헤드스톡',
-      note: '컨셉 외곽 · 색조 참고용입니다. 제작 완성 이미지가 아닙니다.',
-      scope: '시각화 범위', tone: '목재는 대략적인 색조만 표시하며 실제 나뭇결은 표현하지 않습니다.',
-      symbols: '픽업·브리지는 원본 위치의 기호이며 제조사 제품 형상이 아닙니다. 튜너·컨트롤 기능·후면 세부는 표현하지 않습니다.',
+      title: '선택한 악기', live: '실시간 마감 미리보기', full: '전체', body: '바디', neck: '지판', head: '헤드스톡',
+      note: '샘플 렌더링 기반 · 부품 형상·배치는 선택 사양과 다를 수 있습니다.',
+      scope: '시각화 범위', tone: '샘플의 나뭇결과 반사를 유지합니다. 목재 선택은 색조를 바꾸며 수종별 무늬나 실제 제작 목재를 재현하지는 않습니다.',
+      symbols: '픽업·브리지·튜너 형상은 샘플을 유지합니다. 선택한 제조사와 모델은 아래 목록과 견적에 반영되며 부품 형상을 교체하지 않습니다. 샘플의 새들·튜너 수는 선택 사양과 다를 수 있습니다.',
       pending: '미표현', covered: '탑 또는 불투명 마감에 가려짐', reference: '원본 컨셉 보기',
       colour: '미리보기 색상', natural: '내추럴', transparent: '투명', solid: '불투명',
       colourHelp: '한 가지 색상을 전면과 매칭 헤드스톡에 적용합니다. 색상표·#RRGGBB·단일 색상명을 사용할 수 있습니다. 부위별 복합 마감 요청은 견적에만 기록됩니다.',
@@ -33,14 +33,14 @@
       oil: '내추럴 오일과 색상이 함께 지정되었습니다. 제작 전 마감 방식을 확인해야 합니다.',
       headPending: '헤드스톡 플레이트 도안이 없어 표현하지 않습니다.',
       geometry: '최종 형상·부품 세부는 승인 도면 확인이 필요합니다.',
-      updated: '미리보기 갱신', material: '소재 색조', schematic: '기호 표시', hidden: '정면에서 보이지 않음',
-      noShape: '이 모델은 확인된 외곽 자료가 없습니다.', colourNames: ['내추럴', '레드', '블루', '블랙', '화이트', '그린']
+      updated: '미리보기 갱신', material: '소재 색조', schematic: '샘플 부품 유지', hidden: '정면에서 보이지 않음',
+      noShape: '이 모델은 확인된 외곽 자료가 없습니다.', sampleGrain: '샘플 나뭇결 유지', referenceParts: '샘플 부품 유지', sourceView: '샘플 원본', selectedView: '선택한 마감', referenceNote: '원본 샘플입니다. 현재 선택 옵션을 반영하지 않습니다.', colourNames: ['내추럴', '레드', '블루', '블랙', '화이트', '그린']
     },
     de: {
-      title: 'Ihr Instrument', live: 'Live-Vorschau in 2D', full: 'Gesamt', body: 'Korpus', neck: 'Griffbrett', head: 'Kopfplatte',
-      note: 'Konzeptkontur · Farbstudie. Kein Produktionsbild.',
-      scope: 'Umfang der Vorschau', tone: 'Nur ungefähre Holzfarben; die tatsächliche Maserung wird nicht dargestellt.',
-      symbols: 'Tonabnehmer und Brücke sind Symbole an den Referenzpositionen, keine Herstellermodelle. Mechaniken, Reglerfunktionen und Rückseitendetails werden nicht dargestellt.',
+      title: 'Ihr Instrument', live: 'Live-Finish-Vorschau', full: 'Gesamt', body: 'Korpus', neck: 'Griffbrett', head: 'Kopfplatte',
+      note: 'RavenForge-Musterrendering · Teile und Anordnung können von der gewählten Spezifikation abweichen.',
+      scope: 'Umfang der Vorschau', tone: 'Maserung und Reflexionen des Musters bleiben erhalten. Die Holzwahl ändert den ungefähren Farbton, nicht die Holzart der Maserung oder das tatsächliche Brett.',
+      symbols: 'Formen von Pickups, Brücke und Mechaniken bleiben aus dem Muster erhalten. Gewählte Modelle stehen unten und im Angebot; genaue Bauteile werden nicht ausgetauscht. Sattel- und Mechanikanzahl des Musters können von der konfigurierten Saitenzahl abweichen.',
       pending: 'Nicht dargestellt', covered: 'Von Decke / deckendem Finish verdeckt', reference: 'Originalkonzept',
       colour: 'Vorschaufarbe', natural: 'Natur', transparent: 'Transparent', solid: 'Deckend',
       colourHelp: 'Eine Farbe gilt für Vorderseite und passende Kopfplatte. Farbfeld, #RRGGBB oder einfachen Farbnamen verwenden. Mehrteilige Finish-Wünsche stehen nur im Angebot.',
@@ -48,8 +48,8 @@
       oil: 'Farbe und Naturöl sind zusammen gewählt. Finish vor der Fertigung abstimmen.',
       headPending: 'Für die Kopfplattenplakette liegt keine Vorlage vor.',
       geometry: 'Endgültige Geometrie / genaue Teile benötigen freigegebene Zeichnungen.',
-      updated: 'Vorschau aktualisiert', material: 'Materialfarbe', schematic: 'Nur Symbol', hidden: 'Von vorn nicht sichtbar',
-      noShape: 'Für dieses Modell liegt keine geprüfte Kontur vor.', colourNames: ['Natur', 'Rot', 'Blau', 'Schwarz', 'Weiß', 'Grün']
+      updated: 'Vorschau aktualisiert', material: 'Materialfarbe', schematic: 'Musterteil beibehalten', hidden: 'Von vorn nicht sichtbar',
+      noShape: 'Für dieses Modell liegt keine geprüfte Kontur vor.', sampleGrain: 'Mustermaserung beibehalten', referenceParts: 'Musterteile beibehalten', sourceView: 'Musterrendering', selectedView: 'Gewähltes Finish', referenceNote: 'Originalmuster. Die gewählten Optionen sind hier nicht dargestellt.', colourNames: ['Natur', 'Rot', 'Blau', 'Schwarz', 'Weiß', 'Grün']
     }
   };
   const woods = {
@@ -86,12 +86,12 @@
     const hasTop = ['cap','veneer'].includes(s.top_type);
     const bodyId = s.body_wood_single || s.body_core_wood;
     const topId = hasTop ? s.top_wood_selection : bodyId;
-    const pending = [];
+    const pending = ['pickups', 'hardware_bridge', 'hardware_machine_head'];
     ['fretboard', ...(hasTop ? ['top_wood_selection'] : ['body_wood_single','body_core_wood'])].forEach(id=>{
       if (s[id] && !wood(s[id])) pending.push(id);
     });
     if (s.color_headstock === 'head_plate') pending.push('color_headstock');
-    if (['others','nova_custom','guitar_hh_passive_custom','häussel_bar'].includes(s.pickups)) pending.push('pickups');
+    if (s.knob === 'knob_wood') pending.push('knob');
     if (s.inlay_type === 'inlay_custom' || s.inlay_dot_pos === 'pos_custom') pending.push('inlay_type');
     if (s.extra_finish_burst === 'burst_add') pending.push('extra_finish_burst');
     if (s.extra_finish_flake === 'flake_add') pending.push('extra_finish_flake');
@@ -101,82 +101,130 @@
       bodyColour:wood(topId), boardColour:wood(s.fretboard), metal:metals[s.hardware_color] || metals.hw_chrome,
       bridgeColour:s.hardware_bridge === 'nova_parts' ? metals.hw_black : (metals[s.hardware_color] || metals.hw_chrome)};
   }
-  function renderSvg(state, view, language) {
+  // Recolour source pixels instead of replacing the instrument with flat polygons.
+  // The bitmap is an unchanged repository asset; SVG masks are independent display layers.
+  function renderSvg(state, view, language, layout) {
     const g = state.g;
     if (!g) return '';
     const s = state.selections, t = copy[language] || copy.en;
     const prefix = 'rf-preview-' + state.model.toLowerCase();
     const unknown = `url(#${prefix}-unknown)`;
-    const fill = state.bodyColour || unknown;
     const finish = state.finish;
+    const portrait = layout === 'portrait';
     const polygon = (points, attrs='') => `<polygon points="${pts(points)}" ${attrs}/>`;
     const path = (d, attrs='') => `<path d="${d}" ${attrs}/>`;
     const line = (a,b,attrs='') => `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" ${attrs}/>`;
     const label = id => esc(state.labels[id] || s[id] || '');
-    const rect = (r,attrs='') => `<rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="3" ${r.angle ? `transform="rotate(${r.angle} ${r.x+r.w/2} ${r.y+r.h/2})"` : ''} ${attrs}/>`;
-    const bodyPaint = finish.opaque && finish.colour ? finish.colour : fill;
-    let out = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${g.views[view] || g.views.full}" role="img" aria-labelledby="${prefix}-title ${prefix}-desc" data-preview-svg="${state.model}">
+    const rect = (r,attrs='') => `<rect x="${r.x+1}" y="${r.y+1}" width="${r.w-2}" height="${r.h-2}" rx="5" ${r.angle ? `transform="rotate(${r.angle} ${r.x+r.w/2} ${r.y+r.h/2})"` : ''} ${attrs}/>`;
+    const source = attrs => `<image href="${g.source}" x="0" y="0" width="${g.imageSize[0]}" height="${g.imageSize[1]}" ${attrs || ''}/>`;
+    const circles = (radius,attrs='') => g.controls.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="${radius}" ${attrs}/>`).join('');
+    const hardwareMask = path(g.hardware)+circles(8);
+    const partsMask = g.pickups.map(r=>rect(r)).join('')+path(g.hardware)+circles(8)+(g.pickguard?path(g.pickguard):'');
+    // Black -> selected midtone -> soft specular highlight. Colour-space is explicit
+    // so Chromium and SVG rasterizers use the same transfer curve.
+    const colourFilter = (name, colour, weights, exposure, blur) => {
+      const rgb = colour.match(/[a-f0-9]{2}/gi).map(v=>parseInt(v,16)/255);
+      const tables = rgb.map(channel=>[0,.16,.32,.48,.64,.80,1].map(v=>{
+        const light=Math.min(1,Math.pow(v,.8)*exposure);
+        return (light<.7 ? channel*light/.7 : channel+(1-channel)*(light-.7)/.3).toFixed(4);
+      }).join(' '));
+      const row=weights.join(' ')+' 0 0';
+      return `<filter id="${prefix}-${name}" x="-3%" y="-3%" width="106%" height="106%" color-interpolation-filters="sRGB">${blur?`<feGaussianBlur stdDeviation="${blur}"/>`:''}<feColorMatrix type="matrix" values="${row} ${row} ${row} 0 0 0 1 0"/><feComponentTransfer>${['R','G','B'].map((c,i)=>`<feFunc${c} type="table" tableValues="${tables[i]}"/>`).join('')}</feComponentTransfer></filter>`;
+    };
+    const dye=(base,colour)=>'#'+[0,1,2].map(i=>Math.round(parseInt(base.slice(1+i*2,3+i*2),16)*.16+parseInt(colour.slice(1+i*2,3+i*2),16)*.84).toString(16).padStart(2,'0')).join('');
+    const bodyColour=finish.colour ? (finish.opaque?finish.colour:dye(state.bodyColour||'#7f8589',finish.colour)) : state.bodyColour || '#7f8589';
+    const boardColour=state.boardColour || '#7f8589';
+    const viewBox = (portrait?g.portrait:g.views)[view] || (portrait?g.portrait:g.views).full;
+    const transform=portrait?(g.portraitTransform||'translate(0 0)'):g.transform;
+    const fretted=s.fret_type!=='fretless';
+    let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" role="img" aria-labelledby="${prefix}-title ${prefix}-desc" data-preview-svg="${state.model}" data-renderer="sample-composite" data-layout="${portrait?'portrait':'landscape'}">
       <title id="${prefix}-title">${esc(state.model+' · '+t.live)}</title><desc id="${prefix}-desc">${esc(t.note+' '+t.tone+' '+t.symbols)}</desc>
-      <defs><pattern id="${prefix}-unknown" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#5e6670"/><path d="M0 12L12 0" stroke="#b4bdc7" stroke-width="2"/></pattern>
-      <clipPath id="${prefix}-body">${path(g.body)}</clipPath><clipPath id="${prefix}-head">${path(g.head)}</clipPath></defs>
-      <g transform="${g.transform}">`;
-    out += `<g data-layer="body" data-option="${esc(state.topId || '')}" data-material="${esc(state.bodyId || '')}">${path(g.body,`fill="${bodyPaint}" stroke="#2a2520" stroke-width="3"`)}<title>${label(state.hasTop?'top_wood_selection':s.body_wood_single?'body_wood_single':'body_core_wood')}</title></g>`;
-    if (finish.colour && !finish.opaque) out += `<g data-layer="finish" clip-path="url(#${prefix}-body)">${path(g.body,`fill="${finish.colour}" opacity=".68"`)}</g>`;
-    if (g.pickguard) out += `<g data-layer="reference-pickguard">${path(g.pickguard,'fill="#202427" stroke="#b9b8ab" stroke-width="1.5"')}</g>`;
-    // No invented figured wood textures, contour reflections, cap thickness or rear cavities.
-    out += `<g data-layer="headstock" data-option="${esc(s.color_headstock || '')}">${path(g.head,`fill="${s.color_headstock === 'head_plate' ? unknown : bodyPaint}" stroke="#2a2520" stroke-width="3"`)}`;
-    if (finish.colour && !finish.opaque && s.color_headstock !== 'head_plate') out += path(g.head,`fill="${finish.colour}" opacity=".68"`);
-    out += '</g>';
-    out += `<g data-layer="fretboard" data-option="${esc(s.fretboard || '')}">${polygon(g.board,`fill="${state.boardColour || unknown}" stroke="#d1be99" stroke-width="2"`)}<title>${label('fretboard')}</title></g>`;
-    const fretless = s.fret_type === 'fretless';
-    const frets = [];
-    for (let n=1;n<=24;n++) {
-      const fraction = (1-Math.pow(2,-n/12))/.75;
+      <defs>
+      <pattern id="${prefix}-unknown" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#5e6670"/><path d="M0 12L12 0" stroke="#b4bdc7" stroke-width="2"/></pattern>
+      <clipPath id="${prefix}-silhouette">${path(g.body)}${path(g.head)}${polygon(g.board)}${path(g.tunerMask)}</clipPath>
+      <clipPath id="${prefix}-body">${path(g.body)}</clipPath><clipPath id="${prefix}-head">${path(g.head)}</clipPath>
+      <clipPath id="${prefix}-board">${polygon(g.board)}</clipPath>
+      <clipPath id="${prefix}-hardware">${hardwareMask}</clipPath><clipPath id="${prefix}-bridge">${path(g.hardware)}</clipPath>
+      <clipPath id="${prefix}-pickups">${g.pickups.map(r=>rect(r)).join('')}</clipPath>
+      <mask id="${prefix}-wood-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="${g.imageSize[0]}" height="${g.imageSize[1]}"><rect width="${g.imageSize[0]}" height="${g.imageSize[1]}" fill="white"/><g fill="black">${partsMask}${polygon(g.board)}</g></mask>
+      ${colourFilter('wood-tone',bodyColour,g.luminance,g.exposure,finish.opaque?4:0)}
+      ${colourFilter('metal-tone',state.metal,[.30,.59,.11],1.6,0)}
+      ${colourFilter('bridge-tone',state.bridgeColour,[.30,.59,.11],1.6,0)}
+      <linearGradient id="${prefix}-board-tone" ${g.horizontal?'x1="0" y1="0" x2="0" y2="1"':'x1="0" y1="0" x2="1" y2="0"'}><stop stop-color="#0c0b0a"/><stop offset=".15" stop-color="${boardColour}"/><stop offset=".53" stop-color="${boardColour}"/><stop offset="1" stop-color="#14110f"/></linearGradient>
+      <linearGradient id="${prefix}-board-light" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff1cc" stop-opacity=".12"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></linearGradient>
+      <filter id="${prefix}-shadow" x="-15%" y="-15%" width="130%" height="135%"><feDropShadow dx="5" dy="9" stdDeviation="10" flood-color="#000" flood-opacity=".65"/></filter>
+      </defs><g transform="${transform}">
+      <g filter="url(#${prefix}-shadow)">${source(`clip-path="url(#${prefix}-silhouette)"`)}</g>
+      <g data-layer="body" data-option="${esc(state.topId||'')}" data-material="${esc(state.bodyId||'')}" clip-path="url(#${prefix}-body)" mask="url(#${prefix}-wood-mask)">
+        <title>${label(state.hasTop?'top_wood_selection':s.body_wood_single?'body_wood_single':'body_core_wood')} · ${esc(t.sampleGrain)}</title>
+        ${source(`filter="url(#${prefix}-wood-tone)"`)}
+        ${!state.bodyColour?path(g.body,`fill="${unknown}" opacity=".4"`):''}
+      </g>`;
+    if(finish.colour) out+=`<g data-layer="finish" data-colour="${finish.colour}" data-opaque="${finish.opaque}"><title>${esc(t.colour)}: ${finish.colour}</title></g>`;
+    out+=`<g data-layer="headstock" data-option="${esc(s.color_headstock||'')}" clip-path="url(#${prefix}-head)">${s.color_headstock==='head_plate'?path(g.head,`fill="${unknown}"`):source(`filter="url(#${prefix}-wood-tone)"`)}</g>`;
+    // A clean board removes the sample's ornate custom inlay, which is not selected.
+    out+=`<g data-layer="fretboard" data-option="${esc(s.fretboard||'')}">${polygon(g.board,`fill="${state.boardColour?`url(#${prefix}-board-tone)`:unknown}" stroke="#796750" stroke-width=".8"`)}<title>${label('fretboard')}</title><g clip-path="url(#${prefix}-board)" opacity=".13">`;
+    for(let i=0;i<32;i++) {
+      const f=(i+.5)/32, start=point(g.board[0],g.board[1],f), end=point(g.board[3],g.board[2],Math.min(.99,f+.009*Math.sin(i*2)));
+      out+=line(start,end,`stroke="${i%3?'#16100c':'#e6cb9f'}" stroke-width="${.3+(i%4)*.2}"`);
+    }
+    out+=`</g>${polygon(g.board,`fill="url(#${prefix}-board-light)"`)}</g>`;
+    const frets=[];
+    for(let n=1;n<=24;n++) {
+      const fraction=(1-Math.pow(2,-n/12))/.75;
       frets.push([point(g.board[0],g.board[3],fraction),point(g.board[1],g.board[2],fraction)]);
     }
-    if (!fretless || s.fretline === 'line_yes') {
-      const colour = fretless ? '#aa9c86' : s.fret_material === 'mat_brass' ? '#d6b872' : '#c2c9cc';
-      out += `<g data-layer="frets" data-count="24" stroke="${colour}" stroke-width="${fretless?1:2}">${frets.map(pair=>line(...pair)).join('')}</g>`;
+    if(fretted||s.fretline==='line_yes') {
+      const colour=!fretted?'#b1a08a':s.fret_material==='mat_brass'?'#dfc38b':'#d8dcda';
+      out+=`<g data-layer="frets" data-count="24">`;
+      frets.forEach(pair=>{if(fretted) out+=line(...pair,'stroke="#161616" stroke-width="3.1"');out+=line(...pair,`stroke="${colour}" stroke-width="${fretted?1.25:.8}"`);});
+      out+='</g>';
     }
-    const nutColours = {guitar_bone_nut:'#e8dfcc',nut_bone:'#e8dfcc',nut_horn:'#262420',nut_guayacan:'#79663e',nut_brass:'#d6b872',nut_guide:'#b8c3cc'};
-    out += `<g data-layer="nut" data-option="${esc(s.nut_material || '')}" data-zero-fret="${state.model !== 'GRAMR' && !fretless}">${line(g.board[0],g.board[1],`stroke="${nutColours[s.nut_material]||'#77808b'}" stroke-width="4"`)}`;
-    if (state.model !== 'GRAMR' && !fretless) out += line(point(g.board[0],g.board[3],.008),point(g.board[1],g.board[2],.008),'stroke="#c2c9cc" stroke-width="2"');
-    out += '</g>';
-    if (['inlay_dot','inlay_oval'].includes(s.inlay_type) && s.inlay_dot_pos !== 'pos_custom') {
-      out += '<g data-layer="inlays" fill="#ddd9c8">';
+    const nutColours={guitar_bone_nut:'#e8dfcc',nut_bone:'#e8dfcc',nut_horn:'#262420',nut_guayacan:'#79663e',nut_brass:'#d6b872',nut_guide:'#b8c3cc'};
+    out+=`<g data-layer="nut" data-option="${esc(s.nut_material||'')}" data-zero-fret="${state.model!=='GRAMR'&&fretted}">${line(g.board[0],g.board[1],`stroke="${nutColours[s.nut_material]||'#77808b'}" stroke-width="3"`)}`;
+    if(state.model!=='GRAMR'&&fretted) out+=line(point(g.board[0],g.board[3],.008),point(g.board[1],g.board[2],.008),'stroke="#c2c9cc" stroke-width="1.25"');
+    out+='</g>';
+    if(['inlay_dot','inlay_oval'].includes(s.inlay_type)&&s.inlay_dot_pos!=='pos_custom') {
+      out+='<g data-layer="inlays" fill="#d3c9b0" stroke="#f9edd1" stroke-width=".35">';
       [3,5,7,9,12,15,17,19,21,24].forEach(n=>{
-        const p = point(frets[n-1][0],frets[n-1][1],s.inlay_dot_pos==='pos_left'?.2:s.inlay_dot_pos==='pos_right'?.8:.5);
-        out += `<ellipse cx="${p[0]-(g.horizontal?5:0)}" cy="${p[1]-(g.horizontal?0:5)}" rx="${s.inlay_type==='inlay_oval'?6:3}" ry="3"/>`;
-      });
-      out += '</g>';
+        const fraction=((1-Math.pow(2,-n/12))+(1-Math.pow(2,-(n-1)/12)))/1.5;
+        const a=point(g.board[0],g.board[3],fraction),b=point(g.board[1],g.board[2],fraction);
+        const places=n%12===0?[.3,.7]:[s.inlay_dot_pos==='pos_left'?.2:s.inlay_dot_pos==='pos_right'?.8:.5];
+        places.forEach(f=>{const p=point(a,b,f);out+=`<ellipse cx="${p[0]}" cy="${p[1]}" rx="${s.inlay_type==='inlay_oval'?4.5:2.5}" ry="2.5"/>`;});
+      });out+='</g>';
     }
-    out += `<g data-layer="pickups" data-option="${esc(s.pickups || '')}" fill="${state.pending.includes('pickups')?unknown:'#25282b'}" stroke="#a1a9b2" stroke-width="1.5" stroke-dasharray="5 3"><title>${label('pickups')} · ${esc(t.schematic)}</title>`;
-    g.pickups.forEach(r=>{out+=rect(r);});
-    out += '</g>';
-    out += `<g data-layer="bridge" data-option="${esc(s.hardware_bridge || '')}" data-colour="${state.bridgeColour}" stroke="${state.bridgeColour}" stroke-width="10" stroke-linecap="square" stroke-dasharray="4 4"><title>${label('hardware_bridge')} · ${esc(t.schematic)}</title>${line(g.bridge[0],g.bridge[1])}</g>`;
-    out += `<g data-layer="strings" data-count="${g.strings}" stroke="#e0e0da" opacity=".75">`;
-    for (let i=0;i<g.strings;i++) {
-      const fraction = .08 + .84*i/(g.strings-1);
-      out += line(point(g.board[0],g.board[1],fraction),point(g.bridge[0],g.bridge[1],fraction),`stroke-width="${1.7-i*.18}"`);
+    out+=`<g data-layer="pickups" data-option="${esc(s.pickups||'')}" data-appearance="reference-retained"><title>${label('pickups')} · ${esc(t.referenceParts)}</title>${source(`clip-path="url(#${prefix}-pickups)"`)}</g>`;
+    out+=`<g data-layer="hardware" data-option="${esc(s.hardware_color||'')}" data-colour="${state.metal}" data-appearance="reference-retained"><title>${label('hardware_color')}</title>${source(`clip-path="url(#${prefix}-hardware)" filter="url(#${prefix}-metal-tone)"`)}</g>`;
+    out+=`<g data-layer="bridge" data-option="${esc(s.hardware_bridge||'')}" data-colour="${state.bridgeColour}" data-appearance="reference-retained"><title>${label('hardware_bridge')} · ${esc(t.referenceParts)}</title>${source(`clip-path="url(#${prefix}-bridge)" filter="url(#${prefix}-bridge-tone)"`)}</g>`;
+    // Only the board is redrawn. Strings/saddles on the body and tuner layout are
+    // baked reference details, explicitly distinguished from current specifications.
+    out+=`<g data-layer="strings" data-count="${g.strings}" data-scope="fretboard" clip-path="url(#${prefix}-board)">`;
+    for(let i=0;i<g.strings;i++) {
+      const f=.08+.84*i/(g.strings-1),a=point(g.board[0],g.board[1],f),b=point(g.board[3],g.board[2],f);
+      out+=line(a,b,`stroke="#0e0d0c" stroke-width="${2.1-i*.19}" opacity=".8"`);
+      out+=line(a,b,`stroke="#ddd8c5" stroke-width="${1.15-i*.12}" opacity=".85"`);
     }
-    out += '</g>';
-    out += `<g data-layer="hardware" data-option="${esc(s.hardware_color || '')}" fill="${s.knob==='knob_wood'?fill:state.metal}" stroke="#656668" stroke-width="2"><title>${label('hardware_color')}</title>`;
-    g.controls.forEach(p=>{out+=`<circle cx="${p[0]}" cy="${p[1]}" r="9"/>`;});
-    return out + '</g></g></svg>';
+    return out+'</g></g></svg>';
   }
   function Component(props) {
     const React = window.React, h = React.createElement;
     const [view,setView] = React.useState('full');
+    const [sample,setSample] = React.useState(false);
+    const [compact,setCompact] = React.useState(()=>window.matchMedia('(max-width:1023px)').matches);
+    React.useEffect(()=>{const media=window.matchMedia('(max-width:1023px)');const change=()=>setCompact(media.matches);media.addEventListener('change',change);return()=>media.removeEventListener('change',change);},[]);
+    React.useEffect(()=>{setSample(false);},[props.model,props.selections,props.finishColor]);
     const t = copy[props.language] || copy.en;
     const state = scene(props.model,props.selections,props.finishColor,props.labels);
     const s = state.selections;
     const rows = ['body_wood_single','body_core_wood','body_wing_wood','top_type','top_wood_selection','fretboard','color_top','color_back_side','color_headstock','pickups','hardware_bridge','hardware_machine_head','hardware_color'].filter(id=>s[id]);
     return h('section',{className:'rf-preview',id:'instrument-preview','aria-labelledby':'preview-title','data-preview-model':props.model},
-      h('div',{className:'rf-preview-heading'},h('div',null,h('p',null,t.live),h('h2',{id:'preview-title'},props.model)),h('span',{className:'rf-preview-mark','aria-hidden':true},'RF / 01')),
-      h('div',{className:'rf-preview-stage',dangerouslySetInnerHTML:{__html:renderSvg(state,view,props.language)}}),
+      h('div',{className:'rf-preview-heading'},h('div',null,h('p',null,t.live),h('h2',{id:'preview-title'},props.model)),h('span',{className:'rf-preview-mark','aria-hidden':true},'RF / MATERIAL LAB')),
+      h('div',{className:'rf-preview-mode'},[false,true].map(original=>h('button',{key:String(original),type:'button','data-preview-mode':original?'sample':'selected','aria-pressed':sample===original,onClick:()=>setSample(original)},original?t.sourceView:t.selectedView))),
+      sample?h('div',{className:'rf-preview-reference'},h('img',{src:state.g.source,alt:props.model+' · '+t.sourceView}),h('p',null,t.referenceNote)):
+        h('div',{className:'rf-preview-stage','data-view':view,dangerouslySetInnerHTML:{__html:renderSvg(state,view,props.language,compact?'landscape':'portrait')}}),
       !state.g && h('p',{role:'status'},t.noShape),
-      h('div',{className:'rf-preview-views','aria-label':t.title},['full','body','neck','head'].map(id=>h('button',{type:'button',key:id,'data-preview-view':id,'aria-pressed':view===id,onClick:()=>setView(id)},t[id]))),
-      h('p',{className:'rf-preview-parts','data-preview-parts':true},t.schematic+' · '+props.labels.pickups+' · '+props.labels.hardware_bridge),
+      h('div',{className:'rf-preview-views','aria-label':t.title},['full','body','neck','head'].map(id=>h('button',{type:'button',key:id,'data-preview-view':id,'aria-pressed':view===id,onClick:()=>{setSample(false);setView(id);}},t[id]))),
+      h('p',{className:'rf-preview-parts','data-preview-parts':true},t.referenceParts+' · '+props.labels.pickups+' / '+props.labels.hardware_bridge),
       h('p',{className:'rf-preview-note'},t.note),
       state.finish.status==='unmapped' && h('p',{className:'rf-preview-warning',role:'status'},t.textOnly),
       state.finish.colour && s.color_top==='top_oil' && h('p',{className:'rf-preview-warning'},t.oil),
@@ -184,7 +232,7 @@
         h('p',null,t.tone),h('p',null,t.symbols),h('p',null,t.geometry),
         state.g && h('a',{href:state.g.source,target:'_blank',rel:'noopener noreferrer'},t.reference),
         h('dl',null,rows.map(id=>{
-          const status=state.pending.includes(id)?t.pending:['hardware_machine_head','color_back_side','body_wing_wood'].includes(id)?t.hidden:['pickups','hardware_bridge','hardware_color'].includes(id)?t.schematic:id.startsWith('body_')&&(state.hasTop||state.finish.opaque)?t.covered:t.material;
+          const status=['pickups','hardware_bridge','hardware_machine_head'].includes(id)?t.schematic:state.pending.includes(id)?t.pending:['hardware_machine_head','color_back_side','body_wing_wood'].includes(id)?t.hidden:['pickups','hardware_bridge','hardware_color'].includes(id)?t.schematic:id.startsWith('body_')&&(state.hasTop||state.finish.opaque)?t.covered:t.material;
           return h('div',{key:id,'data-preview-category':id,'data-option':s[id]},h('dt',null,props.categoryTitles[id]||id),h('dd',null,props.labels[id],h('small',null,status)));
         })),
         state.pending.length>0 && h('p',{'data-preview-pending':true},t.pending+': '+state.pending.map(id=>props.categoryTitles[id]||id).join(', '))),

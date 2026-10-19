@@ -48,7 +48,12 @@ for (const [model,count,price] of [['EDDA',4,2100],['EMBLA',5,2550],['ASKR',5,32
   const opaque=preview.scene(model,defaults,'solid #112233');
   assert.notEqual(preview.renderSvg(base,'full','en'),preview.renderSvg(opaque,'full','en'));
   assert.equal(opaque.finish.colour,'#112233');
-  assert.match(preview.renderSvg(preview.scene(model,{...defaults,pickups:'others'},''),'full','en'),/fill="url\(#rf-preview-.*-unknown\)"/);
+  const retained=preview.scene(model,{...defaults,pickups:'others'},'');
+  assert.ok(retained.pending.includes('pickups'));
+  assert.match(preview.renderSvg(retained,'full','en'),/data-appearance="reference-retained"/);
+  assert.match(preview.renderSvg(base,'body','en'),/<image href="assets\/optimized\//);
+  assert.match(preview.renderSvg(base,'full','en','portrait'),/data-layout="portrait"/);
+  assert.match(preview.renderSvg(base,'full','en'),/data-layout="landscape"/);
   const exotic=preview.scene(model,{...defaults,top_type:'cap',top_wood_selection:'unverified_custom'},'');
   assert.equal(exotic.bodyColour,null);
   assert.ok(exotic.pending.includes('top_wood_selection'));

@@ -30,10 +30,21 @@ async function main() {
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
+          assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-renderer'),'sample-composite');
+          assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-layout'),size.width<1024?'landscape':'portrait');
+          // Confirm original repository rasters load, then compare reference/selected modes.
+          await page.evaluate(async()=>{const src=document.querySelector('[data-layer="body"] image').getAttribute('href');const image=new Image();image.src=src;await image.decode();if(image.naturalWidth<1000)throw new Error('Missing source render');});
+          await page.locator('[data-preview-mode="sample"]').click();
+          assert.equal(await page.locator('.rf-preview-reference img').count(),1);
+          await page.locator('[data-preview-mode="selected"]').click();
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-default.png`)});
           await step(3);
+          const beforeColour=await page.locator('.rf-preview-stage').screenshot();
           await page.locator('[data-preview-swatch="#275f89"]').click();
+          const afterColour=await page.locator('.rf-preview-stage').screenshot();
+          assert.ok(!beforeColour.equals(afterColour),'Colour changes actual instrument pixels');
           assert.equal(await page.locator('#finish-color').inputValue(),'transparent #275f89');
-          assert.equal(await layer('finish').locator('path').getAttribute('fill'),'#275f89');
+          assert.equal(await layer('finish').getAttribute('data-colour'),'#275f89');
           assert.ok((await page.locator('#quote-summary-card').innerText()).includes('transparent #275f89'));
           await choose('top_type','cap');
           await choose('top_wood_selection',model==='GRAMR'?'guitar_top_walnut':'walnut');
@@ -60,7 +71,7 @@ async function main() {
           }
           await step(4);
           await choose('hardware_color','hw_gold');
-          assert.equal(await layer('hardware').getAttribute('fill'),'#c9a75c');
+          assert.equal(await layer('hardware').getAttribute('data-colour'),'#c9a75c');
           if(model==='ASKR') {
             await choose('hardware_bridge','nova_parts');
             assert.equal(await layer('bridge').getAttribute('data-colour'),'#33383d');
@@ -69,9 +80,10 @@ async function main() {
           const pickup=model==='GRAMR'?'guitar_hh_passive_custom':'others';
           await choose('pickups',pickup);
           assert.equal(await layer('pickups').getAttribute('data-option'),pickup);
-          assert.match(await layer('pickups').getAttribute('fill'),/unknown/);
+          assert.equal(await layer('pickups').getAttribute('data-appearance'),'reference-retained');
           await page.locator('[data-preview-view="body"]').click();
           assert.equal(await page.locator('[data-preview-view="body"]').getAttribute('aria-pressed'),'true');
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-body.png`)});
           await page.locator('[data-preview-view="full"]').click();
           const layout=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,preview:document.querySelector('#instrument-preview').getBoundingClientRect().toJSON()}));
           assert.ok(layout.scroll<=layout.width+1,'No horizontal overflow');
@@ -84,7 +96,7 @@ async function main() {
     // A model switch must clear prior finish, custom pickups and gold hardware.
     await step(1);await page.locator('[data-model="EDDA"]').click();
     assert.equal(await layer('finish').count(),0);
-    assert.equal(await layer('hardware').getAttribute('fill'),'#b8c3cc');
+    assert.equal(await layer('hardware').getAttribute('data-colour'),'#b8c3cc');
     assert.equal(await layer('pickups').getAttribute('data-option'),'nova_mm');
     assert.deepEqual(report.errors,[]);
     report.result='PASS';
