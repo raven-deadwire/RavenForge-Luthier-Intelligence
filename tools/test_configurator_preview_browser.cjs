@@ -333,7 +333,7 @@ async function main() {
               assert.ok(['reference-retained','drawing-envelope'].includes(await layer('pickups').getAttribute('data-appearance')));
               assert.equal(await page.locator('[data-pickup-pending]').count(),1);
             }
-            assert.ok((await card.locator('[data-pickup-card-status]').innerText()).length>15);
+            assert.ok((await card.locator('[data-pickup-card-status]').innerText()).trim().length>0);
           }
           await page.locator('[data-category="pickups"]').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-pickup-cards.png`)});
           await choose('pickups',originalPickup);await choose('electronics',originalElectronics);

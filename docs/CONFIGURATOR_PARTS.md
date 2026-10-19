@@ -172,14 +172,19 @@ cannot render a ramp. Reintroducing them is future work requiring a mounting pla
 - Apply each neck piece's actual specified species texture. 9/13-piece walnut
   and bloodwood alternatives can be compared using test-only buttons; the choice
   does not enter the quote. 13-piece also uses a separate bubinga texture.
-- Retain original knobs and independent coil/kill proposals. Dashed outlines
-  indicate unconfirmed new positions. Dual tone marks a push-pull knob, while
+- Repack full EQ layouts and independent coil/kill rows in the current front
+  coordinate system. Added controls never replace knobs. Positions remain
+  proposals; v16 removes dashed halos. Dual tone marks a push-pull knob, while
   an internal buffer has no external part. Quote control-position terms remain.
 
 ## Registered product coverage
 
 | Category | Product option | Visual evidence / representation |
 | --- | --- | --- |
+| Pickup | Nova Omnia B4 MM | 89 × 48.8 cover, three ears, four split rails |
+| Pickup | Häussel MM Triplebucker 4-string | Catalog p15: 89 × 48 cover, three ears, 8 large + 8 small central poles |
+| Pickup · catalog reference | EDDA Nova Custom | Standard MM exterior shown; custom cover pending |
+| Pickup · catalog reference | EMBLA Häussel BassBar Custom | Catalog p18 BB5 101 × 36 exterior shown; ordered custom 100 × 36 cover pending |
 | Pickup | Delano SBC 5 HE/S-4 | Smooth soapbar; two left holes and one right hole |
 | Pickup | Delano SBC 5 TF Times Square | 108 × 32 outline, two rows of five separate rectangular poles |
 | Pickup | Delano SBC 5 HE/S-4 E | Smooth E cover, centred side mounting recesses |
@@ -204,11 +209,14 @@ Front bass tuner positions are sample fits with the configured string count;
 rear ASKR/EMBLA placements use PDF housing centres as display anchors, not drilling
 coordinates. GRAMR uses the existing PDF centres.
 
-Not covered yet: Nova MM/custom pickup covers, Häussel Triplebucker/custom SBC
-BassBar, custom HH; ETS custom, Payson/Nova exact bridge variants, Schaller 3D;
+Not covered yet: EMBLA/ASKR Nova custom pickup covers, unspecified Others and
+custom HH; ETS custom, Payson/Nova exact bridge variants, Schaller 3D;
 Hipshot Xtender, unspecified Graph Tech PRB button variant, Schaller BM and M4
 locking variant. These retain source geometry and remain explicitly pending in
 all three languages. Custom covers and variant selection need usable drawings.
+All active pickup cards use the same original SVG art as the instrument or show
+a missing-reference notice. Catalog references remain pending for the custom fit.
+Häussel reference: https://www.haeussel.com/fileadmin/pdf/Katalog2014_en.pdf (pp15,18).
 Third-pickup layout is still deferred by the existing production restrictions.
 
 ASKR bridge colours remain fixed (Payson reference finish, Nova black anodized)
