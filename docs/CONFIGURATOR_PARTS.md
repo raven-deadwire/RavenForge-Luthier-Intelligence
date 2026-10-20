@@ -373,3 +373,12 @@ read-only quote input, ramp exclusion even with stale input, source knob retenti
 ASKR fixed bridge colours and bindrunes. Native whole-instrument SVG renders are
 inspected. Browser UI/PDF results for the exact published SHA are recorded on PR 35;
 a preceding commit's results are not current-commit validation.
+
+
+### v20 correction — 2026-10-20
+
+- EDDA pickguard materials are acrylic, aluminium and matching wood; generic single-/three-ply plastic choices have been removed. Acrylic edge, brushed aluminium and wood grain are illustrative surface treatments, not manufacturing specifications. Original v17 guard contour and v19 control clearance are retained; there is no control plate.
+- The selected preview colour now covers both body faces, including when the quote still selects natural oil. No selected colour keeps natural body wood. Neck finish remains independent. A visible warning flags oil/colour specification conflicts; the preview does not change quote prices or finish categories.
+- Opaque EDDA rear paint conceals source wood grain. Rear concept shape, bolt centres and installation positions remain unverified; ASKR/EMBLA drawing provenance is unchanged.
+
+- EDDA head: the user-supplied rear reference (20 October, 12:26:36 image) is the shape authority. A curved trace is mirrored and uniformly scaled by 0.62 about rear nut (525,290) to front nut (539,198). The previous angular front contour is removed; no anisotropic distortion is used. Both faces share the same traced head. Tuner post locations are visual reference placements, not approved drilling coordinates.

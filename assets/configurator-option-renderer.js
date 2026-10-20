@@ -50,14 +50,14 @@
   }
   function wings(state,p,d,horizontal,centre,width){
     const s=state.selections;
-    if(!/^3pc_/.test(s.body_construction)||!s.body_wing_wood||!materials.get(s.body_wing_wood)||materials.key(s.body_wing_wood)===materials.key(state.bodyId)||(s.color_back_side!=='back_oil'&&state.finish.opaque))return '';
+    if(!/^3pc_/.test(s.body_construction)||!s.body_wing_wood||!materials.get(s.body_wing_wood)||materials.key(s.body_wing_wood)===materials.key(state.bodyId)||state.finish.opaque)return '';
     // Display-only tone-block width; never a through-neck or a machining boundary.
     const rect=horizontal?`x="0" y="${centre-width/2}" width="1800" height="${width}"`:`x="${centre-width/2}" y="0" width="${width}" height="1800"`;
-    return `<defs><mask id="${p}-wing-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1800" height="1800"><rect width="1800" height="1800" fill="white"/><rect ${rect} fill="black"/></mask></defs><g data-layer="body-wings" data-option="${s.body_wing_wood}" data-appearance="illustrative-body-tone-block"><path d="${d}" fill="url(#${p}-wing-material)" ${state.finish.colour&&s.color_back_side!=='back_oil'?`filter="url(#${p}-surface-dye)"`:''} mask="url(#${p}-wing-mask)" opacity=".9"/><path d="${d}" fill="url(#${p}-light)" mask="url(#${p}-wing-mask)"/></g>`;
+    return `<defs><mask id="${p}-wing-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1800" height="1800"><rect width="1800" height="1800" fill="white"/><rect ${rect} fill="black"/></mask></defs><g data-layer="body-wings" data-option="${s.body_wing_wood}" data-appearance="illustrative-body-tone-block"><path d="${d}" fill="url(#${p}-wing-material)" ${state.finish.colour?`filter="url(#${p}-surface-dye)"`:''} mask="url(#${p}-wing-mask)" opacity=".9"/><path d="${d}" fill="url(#${p}-light)" mask="url(#${p}-wing-mask)"/></g>`;
   }
   function bodyPieces(state,p,d,horizontal,centre,width,back=false){
     const id=state.selections.body_construction||'',count=/^(?:guitar_body_)?1pc/.test(id)?1:/^(?:guitar_body_)?3pc/.test(id)?3:id==='guitar_body_2pc'?2:null;
-    const covered=(!back&&(state.hasTop||(/^3pc_/.test(id)&&state.selections.top_type==='none')))||(state.finish.opaque&&(!back||state.selections.color_back_side!=='back_oil'));
+    const covered=(!back&&(state.hasTop||(/^3pc_/.test(id)&&state.selections.top_type==='none')))||state.finish.opaque;
     if(!count||covered)return '';
     const cuts=count===3?[centre-width/2,centre+width/2]:count===2?[centre]:[];
     return `<defs><clipPath id="${p}-pieces-clip"><path d="${d}"/></clipPath></defs><g data-layer="body-pieces" data-option="${id}" data-count="${count}" data-appearance="illustrative-joins" clip-path="url(#${p}-pieces-clip)">${cuts.map(at=>`<path d="${horizontal?`M0 ${at}H1800`:`M${at} 0V1800`}" stroke="#302317" stroke-opacity=".35" stroke-width=".8"/><path d="${horizontal?`M0 ${at+1}H1800`:`M${at+1} 0V1800`}" stroke="#f4dbb3" stroke-opacity=".23" stroke-width=".6"/>`).join('')}</g>`;

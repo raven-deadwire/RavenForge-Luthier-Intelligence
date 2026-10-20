@@ -16,13 +16,15 @@
   function guard(state,p){
     const id=state.pickguard;if(id==='none')return '';
     const d=state.g.pickguard;if(!d)return '';
-    const material=state.pickguardMaterial||(id==='wood'?'pg_wood':'pg_3ply'),gloss=state.pickguardFinish==='pg_gloss';
+    const material=state.pickguardMaterial||(id==='wood'?'pg_wood':'pg_aluminium'),gloss=state.pickguardFinish==='pg_gloss';
     const colours={black:'#181b1e',white:'#efeee7',ivory:'#d9ceb2',red:'#5d1c2a',match:state.finish.colour||state.bodyColour||'#7b5c3a'};
     const fill=id==='wood'?`url(#${p}-material)`:(colours[id]||colours.black);
     let out=`<g data-layer="pickguard" data-option="${id}" data-material="${material}" data-colour="${id==='wood'?state.topId:fill}" data-finish="${gloss?'gloss':'matte'}" data-appearance="${state.g.pickguardProvenance?.kind||'drawing-contour'}">`;
     out+=path(d,'#080a0b','stroke="#080a0b" stroke-width="4"');
-    if(material==='pg_3ply')out+=path(d,'none','stroke="#d9d5c9" stroke-width="2.8"');
-    out+=path(d,fill,`stroke="${material==='pg_wood'?'#715236':'#343637'}" stroke-width=".8" ${id==='wood'&&state.finish.colour?`filter="url(#${p}-surface-dye)"`:''}`);
+    if(material==='pg_acrylic')out+=path(d,'none','data-surface="acrylic-edge" stroke="#aab7bd" stroke-opacity=".65" stroke-width="2.1"');
+    if(material==='pg_aluminium')out+=`<defs><linearGradient id="${p}-guard-metal" x1="0" y1="0" x2="1" y2=".7"><stop stop-color="${fill}"/><stop offset=".28" stop-color="#e7e9e8"/><stop offset=".4" stop-color="${fill}"/><stop offset=".7" stop-color="#a8afb1"/><stop offset="1" stop-color="${fill}"/></linearGradient><pattern id="${p}-guard-brush" width="4" height="3" patternUnits="userSpaceOnUse"><path d="M0 .5H4" stroke="#fff" stroke-opacity=".16" stroke-width=".35"/><path d="M0 2H4" stroke="#000" stroke-opacity=".12" stroke-width=".35"/></pattern></defs>`;
+    out+=path(d,material==='pg_aluminium'?`url(#${p}-guard-metal)`:fill,`stroke="${material==='pg_wood'?'#715236':'#343637'}" stroke-width=".8" ${id==='wood'&&state.finish.colour?`filter="url(#${p}-surface-dye)"`:''}`);
+    if(material==='pg_aluminium')out+=path(d,`url(#${p}-guard-brush)`,'data-surface="brushed-aluminium"');
     out+=path(d,`url(#${p}-part-sheen)`,`opacity="${gloss?1:.24}"`);
     if(gloss)out+=path(d,'none','stroke="#f3f0e2" stroke-opacity=".28" stroke-width=".65"');
     if(state.model==='GRAMR')for(const [x,y] of state.g.pickguardScrews)out+=screw(x,y,1.8);
@@ -428,7 +430,7 @@ return out;
       // centres between projections; a gear housing's bounding centre is not a hole.
       const rearNut=state.g.back.neck.match(/-?\d+(?:\.\d+)?/g).slice(0,2).map(Number),frontNut=state.g.board[0];
       anchors=state.g.tunerAnchors.map(([x,y,a])=>[y+rearNut[0]-frontNut[1],x+rearNut[1]-frontNut[0],a===180?-90:90]);scale=state.g.unitsPerMm;
-    }else if(back){anchors=[[520,65,0],[528,119,0],[541,177,0],[550,231,0]];scale=1.1;}
+    }else if(back){anchors=[[516,84,10],[528,139,10],[541,194,10],[551,249,10]];scale=1.1;}
     else {anchors=state.g.tunerAnchors||frontTunerAnchors[state.model];scale=state.g.unitsPerMm||(state.model==='EDDA'?.72:.68);}
     return `<g data-layer="${back?'rear-selected-tuners':plane==='rear-mount'?'tuner-rear-mount':state.model==='GRAMR'?'selected-tuners':'hardware'}" data-option="${state.selections.hardware_color}" data-plane="${back?'rear-housing':plane}" data-machine-head="${state.selections.hardware_machine_head}" data-colour="${state.metal}" data-count="${anchors.length}" data-appearance="manufacturer-reference" data-placement="${back&&state.model!=='EDDA'?'drawing-fit':'sample-fit'}" data-profile="${ref.key}" data-units-per-mm="${scale}">`+anchors.map(([x,y,a],i)=>`<g data-tuner-index="${i}" transform="translate(${x} ${y}) rotate(${a}) scale(${scale} ${back?-scale:scale})">${tunerUnit(state,p,ref,back?'rear-housing':plane)}</g>`).join('')+'</g>';
   }

@@ -228,7 +228,7 @@ console.log('PASS: retained knob coordinates, independent non-overlapping switch
   assert.equal(preview.scene('EDDA',d,'').pickguard,'none');
   assert.equal(data.categories.find(c=>c.id==='pickguard').options.find(o=>o.id==='pg_add').prices.EDDA,'request');
   const outputs=new Set();
-  for(const material of ['pg_1ply','pg_3ply','pg_wood'])for(const colour of ['pg_black','pg_white','pg_ivory','pg_red','pg_match'])for(const finish of ['pg_matte','pg_gloss']){
+  for(const material of ['pg_acrylic','pg_aluminium','pg_wood'])for(const colour of ['pg_black','pg_white','pg_ivory','pg_red','pg_match'])for(const finish of ['pg_matte','pg_gloss']){
     const selected=normalize('EDDA',{...d,pickguard:'pg_add',pickguard_material:material,pickguard_colour:colour,pickguard_finish:finish});
     assert.equal(selected.pickguard_material,material);assert.equal(selected.pickguard_finish,finish);
     assert.equal(selected.pickguard_colour,material==='pg_wood'?undefined:colour);
@@ -240,7 +240,7 @@ console.log('PASS: retained knob coordinates, independent non-overlapping switch
     const removed=normalize('EDDA',{...selected,pickguard:'pg_none'});
     for(const id of ['pickguard_material','pickguard_colour','pickguard_finish'])assert.equal(removed[id],undefined,'Hidden details cannot remain in quote');
   }
-  assert.equal(outputs.size,22,'Two plastics × five colours × two surfaces, plus matching wood × two surfaces');
+  assert.equal(outputs.size,22,'Acrylic/aluminium × five colours × two surfaces, plus matching wood × two surfaces');
   for(const model of ['EMBLA','ASKR','GRAMR'])assert.equal(normalize(model,{pickguard:'pg_add'}).pickguard,undefined,'EDDA guard cannot leak into another model');
   assert.equal(JSON.stringify(d),before);
   const invalid=preview.renderSvg(preview.scene('EDDA',{...d,pickguard:'pg_add',pickguard_colour:'" onerror="x',pickguard_material:'" onerror="x'},''),'front','en');
@@ -384,7 +384,7 @@ for(const model of ['ASKR','EMBLA']){
  const rear=preview.renderSvg(state,'back','en');
  assert.match(rear,/data-surface="opaque-paint"[^>]*fill="#275f89"/);
  const natural=preview.renderSvg(preview.scene(model,{...state.selections,color_back_side:'back_oil'},'solid #275f89'),'back','en');
- assert.doesNotMatch(natural,/data-surface="opaque-paint"/);
+ assert.match(natural,/data-surface="opaque-paint"[^>]*fill="#275f89"/,'Preview colour covers both sides even when quote finish is oil');
 }
 const gramrGeometry=require('../assets/configurator-gramr-geometry.js');
 assert.equal(gramrGeometry.back.neck[2][0],gramrGeometry.back.neck[3][0],'Original PDF interface must not follow the diagonal cutaway tangent');
@@ -474,3 +474,13 @@ console.log('PASS: connected ASKR nut transition, rear/front tuner planes, Graph
  }
 }
 console.log('PASS: original EDDA guard contour restored exactly; no control plate');
+
+// One rear reference governs EDDA head proportions on both sides.
+{
+ const g=require('../assets/configurator-geometry.js').EDDA,source=g.back.head.match(/-?\d+(?:\.\d+)?/g).map(Number),front=g.head.match(/-?\d+(?:\.\d+)?/g).map(Number);
+ assert.equal(source.length,front.length);
+ for(let i=0;i<source.length;i++)assert.ok(Math.abs(front[i]-(i%2?198+(source[i]-290)*.62:539+(525-source[i])*.62))<.001,'EDDA head must preserve reference proportions');
+ for(const material of ['pg_acrylic','pg_aluminium','pg_wood'])assert.ok(data.categories.find(c=>c.id==='pickguard_material').options.some(o=>o.id===material));
+ assert.ok(!JSON.stringify(data.categories.find(c=>c.id==='pickguard_material')).includes('plastic'));
+ console.log('PASS: rear-authoritative EDDA head registration and acrylic/aluminium/wood catalog');
+}

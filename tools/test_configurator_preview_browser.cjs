@@ -72,7 +72,7 @@ async function main() {
       await page.setViewportSize({width,height:width===1440?1080:844});
       for(const model of ['EDDA','EMBLA']){
         await step(1);await page.locator(`[data-model="${model}"]`).click();await step(4);
-        if(model==='EDDA'){await choose('pickguard','pg_add');await choose('pickguard_material','pg_3ply');await choose('pickguard_colour','pg_ivory');}
+        if(model==='EDDA'){await choose('pickguard','pg_add');await choose('pickguard_material','pg_aluminium');await choose('pickguard_colour','pg_ivory');}
         for(const bridge of (model==='EDDA'?['ets_custom','gotoh_404BO','hipshot_b','babicz_top']:['ets_custom','schaller_3d'])){
           await choose('hardware_bridge',bridge);
           for(const view of ['front','back']){
@@ -83,7 +83,7 @@ async function main() {
               if(['ets_custom','schaller_3d'].includes(bridge))assert.equal(await layer('bridge').getAttribute('data-profile'),bridge==='ets_custom'?'ets-tuning-fork':'schaller-3d');
               if(model==='EDDA')assert.equal(await layer('control-plate').count(),0);
             }
-            await page.locator('#instrument-preview').screenshot({path:path.join(output,`v19-${width}-${model}-${bridge}-${view}.png`)});
+            await page.locator('#instrument-preview').screenshot({path:path.join(output,`v20-${width}-${model}-${bridge}-${view}.png`)});
             report.bridgeViews.push({width,model,bridge,view,result:'PASS'});
           }
         }
@@ -134,7 +134,7 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
-          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v19');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v20');
           assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').textContent(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
@@ -249,7 +249,11 @@ async function main() {
           const redFront=await colourPixels();assert.ok(redFront.red>redFront.blue*3&&redFront.red>1000,`Red front ${model}: ${JSON.stringify(redFront)}`);
           await choose('color_back_side','back_stain');await side('back');
           const redBack=await colourPixels();assert.ok(redBack.red>redBack.blue*3&&redBack.red>1000,`Red back ${model}: ${JSON.stringify(redBack)}`);
-          await choose('color_back_side','back_oil');await side('front');
+          await choose('color_back_side','back_oil');
+          const oilPreview=await colourPixels();assert.ok(oilPreview.red>oilPreview.blue*3&&oilPreview.red>1000,`Selected red covers oil-category rear ${model}: ${JSON.stringify(oilPreview)}`);
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v20-${size.width}-${model}-colour-back.png`)});
+          await side('front');
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v20-${size.width}-${model}-colour-front.png`)});
           await step(2);
           if(model!=='GRAMR') {
             if(await page.locator('input[name="fretboard"][value="ironwood"]').count()){
@@ -329,7 +333,7 @@ async function main() {
             assert.equal(await page.locator('[data-preview-pickguard]').count(),0,'No duplicate display-only guard state');
             await step(4);await choose('pickguard','pg_add');
             assert.equal(await layer('pickguard').count(),1);
-            for(const material of ['pg_1ply','pg_3ply','pg_wood']){
+            for(const material of ['pg_acrylic','pg_aluminium','pg_wood']){
               await choose('pickguard_material',material);
               assert.equal(await layer('pickguard').getAttribute('data-material'),material);
               assert.equal(await page.locator('[data-summary-category="pickguard_material"]').count(),1);
@@ -339,12 +343,14 @@ async function main() {
                 assert.equal(await layer('pickguard').getAttribute('data-option'),colour.replace('pg_',''));
                 assert.equal(await page.locator('[data-summary-category="pickguard_colour"]').count(),1);
               }
+              await side('front');
+              await page.locator('#instrument-preview').screenshot({path:path.join(output,`v20-${lang}-${size.width}-EDDA-${material}.png`)});
             }
             await choose('pickguard_finish','pg_gloss');assert.equal(await layer('pickguard').getAttribute('data-finish'),'gloss');
             await choose('pickguard','pg_none');assert.equal(await layer('pickguard').count(),0);
             for(const id of ['pickguard_material','pickguard_colour','pickguard_finish'])assert.equal(await page.locator(`[data-summary-category="${id}"]`).count(),0);
             assert.equal(await page.locator('#quote-summary-card').innerText(),guardQuote,'Removing guard restores original quote');
-            await choose('pickguard','pg_add');await choose('pickguard_material','pg_3ply');await choose('pickguard_colour','pg_ivory');
+            await choose('pickguard','pg_add');await choose('pickguard_material','pg_aluminium');await choose('pickguard_colour','pg_ivory');
             await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-EDDA-pickguard.png`)});
             await choose('pickguard','pg_none');await step(5);
           }else if(model==='GRAMR'){

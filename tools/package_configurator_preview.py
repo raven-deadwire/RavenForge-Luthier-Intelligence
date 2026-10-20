@@ -34,7 +34,7 @@ FILES = [
     'Edda Prototype Design.png', 'EMBLA Prototype Design.png',
     'ASKR Prototype Design.png'
 ]
-README = '''RavenForge 컨피규레이터 시각화 테스트 v19 / 2026-10-20
+README = '''RavenForge 컨피규레이터 시각화 테스트 v20 / 2026-10-20
 
 기존 홈페이지나 컨피규레이터를 교체하지 않는 별도 테스트입니다.
 
@@ -49,7 +49,9 @@ README = '''RavenForge 컨피규레이터 시각화 테스트 v19 / 2026-10-20
 
 확인할 기능
 - ETS Tuning Fork 참고 / Schaller 3D 공식 도면 외형, 주문 치수·장착 미확정 구분
-- EDDA 원래 픽가드 복원, 추가한 플레이트 제거, 노브를 픽가드 밖에 재배치
+- EDDA 원래 픽가드·노브 간섭 수정 유지, 컨트롤 플레이트 없음
+- 픽가드 재질: 아크릴 / 알루미늄 / 우드, 기존 추가 비용 별도 견적 유지
+- 미리보기 선택 색상을 바디 앞뒷면에 적용, EDDA 불투명 후면 나뭇결 제거
 - ASKR #001 / EMBLA #002 원본 PDF 전면 윤곽·24프렛, GRAMR 후면 넥 경계 수정
 - ASKR·EMBLA 후면 Opaque 목재 무늬 제거, 8종 독립 724×2172 텍스처 (2048×2048 미충족)
 - 도면 기반 형상 / 설치 예시 / 미확정 가공 위치 구분은 CONFIGURATOR_DRAWING_AUDIT.md 참고
