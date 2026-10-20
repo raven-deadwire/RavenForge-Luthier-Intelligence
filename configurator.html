@@ -1138,7 +1138,7 @@ const handleOptionChange = (categoryId, optionId) => {
         // Capture a stable document before any asynchronous work or model changes.
         const snapshot = document.getElementById('quote-summary-card').cloneNode(true);
         snapshot.classList.remove('sticky', 'top-24', 'shadow-xl');
-        Object.assign(snapshot.style, { width: '190mm', maxWidth: 'none', background: '#fff', boxShadow: 'none' });
+        Object.assign(snapshot.style, { width: '190mm', maxWidth: 'none', background: '#fff', boxShadow: 'none', border: '0', borderRadius: '0', overflow: 'visible' });
         const scrollArea = snapshot.querySelector('#quote-scroll-area');
         const actionsArea = snapshot.querySelector('#quote-actions-area');
         const uiHeader = snapshot.querySelector('#ui-header');
@@ -1150,7 +1150,9 @@ const handleOptionChange = (categoryId, optionId) => {
         pdfHeader.style.padding = '12px';
         scrollArea.classList.remove('mb-6', 'max-h-[calc(100vh-420px)]', 'min-h-[300px]', 'overflow-y-auto', 'custom-scrollbar', 'pr-2');
         Object.assign(scrollArea.style, { maxHeight: 'none', minHeight: '0', overflow: 'visible', paddingRight: '0' });
-        scrollArea.parentElement.style.padding = '12px';
+        // Keep all trailing decoration inside the non-splitting total block.
+        // Outer card padding/borders can otherwise create a border-only PDF page.
+        scrollArea.parentElement.style.padding = '12px 12px 0';
         listContainer.classList.remove('space-y-3');
         Object.assign(listContainer.style, { display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px', rowGap: '2px' });
         Array.from(listContainer.children).forEach(row => {
@@ -1162,6 +1164,7 @@ const handleOptionChange = (categoryId, optionId) => {
         total.classList.add('rf-pdf-total');
         total.style.breakInside = 'avoid';
         total.style.pageBreakInside = 'avoid';
+        total.style.paddingBottom = '12px';
         // The detached snapshot must not duplicate application element IDs.
         snapshot.removeAttribute('id');
         snapshot.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
