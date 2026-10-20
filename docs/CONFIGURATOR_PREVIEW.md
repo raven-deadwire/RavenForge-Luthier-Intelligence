@@ -1,3 +1,36 @@
+## v27 — homepage integration and machine-head corrections (2026-10-21 KST)
+
+The owner approved publishing the reviewed configurator on the existing homepage,
+then reported a remaining machine-head error in v26. This revision addresses the
+reproduced tuner defects before publication. The v26 baseline is PR #35 commit
+`f1067ccd77ada4f8df883bd0f0b8e261b2406614`; its standalone HTML SHA256 is
+`f285b3cc5edcc8736790f37f64fa129bd014a9c3b9ad94dbdacd95208ddcf419`.
+
+- Serve the interactive instrument renderer from the existing `configurator.html`
+  URL. Homepage iframe, language switching and direct links retain their routes.
+- Remove the public test banner, TEST title and noindex override. Keep the separate
+  `configurator-preview.html` for review; customer-facing copy describes the
+  available choices rather than development history.
+- Preserve the pricing, normalization, option handlers and PDF export core, and
+  the already reviewed body/head contours and tuner post centres.
+- Correct Hipshot shaft placement and the EDDA front/rear tuner projection. See
+  the manufacturer evidence and scope in `CONFIGURATOR_PARTS.md`.
+- Restore EDDA's four post-to-nut string segments after the clean head overlay;
+  the lowest string connects to the existing machine nearest the nut. Render the
+  Xtender assembly behind the front head so only genuinely exposed parts show.
+- Run the existing detailed browser and 24-case price/PDF matrix against the
+  production HTTP entry, exercising relative media requests used by the homepage.
+  Add targeted regression checks for the tuner defects missed by v26's direction
+  and count checks. Source contracts retain pricing/PDF equality between entries.
+
+The historical sections below describe earlier isolated-preview revisions. Their
+"production unchanged" / "do not replace" statements apply to those earlier
+stages; the owner's 21 October publication instruction supersedes that staging.
+A source or static-render check is not a substitute for the exact revision's
+browser run and post-deployment inspection.
+
+---
+
 ## v17 — connected ASKR head and product-specific hardware
 
 Closes the missing ASKR angled-nut transition using existing source endpoints;

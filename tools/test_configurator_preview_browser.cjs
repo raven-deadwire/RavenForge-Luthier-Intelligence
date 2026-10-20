@@ -7,7 +7,7 @@ const path=require('node:path');
 const crypto=require('node:crypto');
 const {chromium}=require('playwright');
 const output=process.env.PREVIEW_QA_DIR || '/tmp/ravenforge-preview-qa';
-const url=process.env.PREVIEW_QA_URL || 'http://127.0.0.1:8000/configurator-preview.html';
+const url=process.env.PREVIEW_QA_URL || 'http://127.0.0.1:8000/configurator.html';
 async function main() {
   await fs.mkdir(output,{recursive:true});
   const browser=await chromium.launch();
@@ -133,7 +133,7 @@ async function main() {
       for(const hardware_bridge of ['payson','nova_parts']){
         await step(4);await choose('hardware_bridge',hardware_bridge);
         for(const view of ['front','back']){
-          await side(view);await page.locator('#instrument-preview').screenshot({path:path.join(output,`v26-${width}-ASKR-${hardware_bridge}-${view}.png`)});
+          await side(view);await page.locator('#instrument-preview').screenshot({path:path.join(output,`v27-${width}-ASKR-${hardware_bridge}-${view}.png`)});
           report.askrViews.push({width,hardware_bridge,view,result:'PASS'});
         }
       }
@@ -157,7 +157,7 @@ async function main() {
               if(['ets_custom','schaller_3d'].includes(bridge))assert.equal(await layer('bridge').getAttribute('data-profile'),bridge==='ets_custom'?'ets-tuning-fork':'schaller-3d');
               if(model==='EDDA')assert.equal(await layer('control-plate').count(),0);
             }
-            await page.locator('#instrument-preview').screenshot({path:path.join(output,`v26-${width}-${model}-${bridge}-${view}.png`)});
+            await page.locator('#instrument-preview').screenshot({path:path.join(output,`v27-${width}-${model}-${bridge}-${view}.png`)});
             report.bridgeViews.push({width,model,bridge,view,result:'PASS'});
           }
         }
@@ -171,7 +171,7 @@ async function main() {
         await step(4);
         for(const id of tunerChoices[model]){
           await choose('hardware_machine_head',id);
-          for(const view of ['front','back']){await side(view);await page.locator('#instrument-preview').screenshot({path:path.join(output,`v26-${width}-${model}-${id}-${view}.png`)});report.tunerViews.push({width,model,id,view,result:'PASS'});}
+          for(const view of ['front','back']){await side(view);await page.locator('#instrument-preview').screenshot({path:path.join(output,`v27-${width}-${model}-${id}-${view}.png`)});report.tunerViews.push({width,model,id,view,result:'PASS'});}
         }
       }
     }
@@ -220,7 +220,7 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
-          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v26');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v27');
           assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').textContent(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
@@ -329,9 +329,9 @@ async function main() {
           const redBack=await colourPixels();assert.ok(redBack.red>redBack.blue*3&&redBack.red>1000,`Red back ${model}: ${JSON.stringify(redBack)}`);
           await choose('color_back_side','back_oil');
           const oilPreview=await colourPixels();assert.ok(oilPreview.red>oilPreview.blue*3&&oilPreview.red>1000,`Selected red covers oil-category rear ${model}: ${JSON.stringify(oilPreview)}`);
-          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v26-${size.width}-${model}-colour-back.png`)});
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v27-${size.width}-${model}-colour-back.png`)});
           await side('front');
-          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v26-${size.width}-${model}-colour-front.png`)});
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v27-${size.width}-${model}-colour-front.png`)});
           await step(2);
           if(model!=='GRAMR') {
             if(await page.locator('input[name="fretboard"][value="ironwood"]').count()){
@@ -422,7 +422,7 @@ async function main() {
                 assert.equal(await page.locator('[data-summary-category="pickguard_colour"]').count(),1);
               }
               await side('front');
-              await page.locator('#instrument-preview').screenshot({path:path.join(output,`v26-${lang}-${size.width}-EDDA-${material}.png`)});
+              await page.locator('#instrument-preview').screenshot({path:path.join(output,`v27-${lang}-${size.width}-EDDA-${material}.png`)});
             }
             await choose('pickguard_finish','pg_gloss');assert.equal(await layer('pickguard').getAttribute('data-finish'),'gloss');
             await choose('pickguard','pg_none');assert.equal(await layer('pickguard').count(),0);
@@ -438,7 +438,7 @@ async function main() {
               await choose('pickguard_material',material);
               assert.equal(await layer('pickguard').getAttribute('data-material'),material);
               assert.equal(await page.locator('[data-summary-category="pickguard_material"]').count(),1);
-              await page.locator('#instrument-preview').screenshot({path:path.join(output,`v26-${lang}-${size.width}-GRAMR-${material}.png`)});
+              await page.locator('#instrument-preview').screenshot({path:path.join(output,`v27-${lang}-${size.width}-GRAMR-${material}.png`)});
             }
             await choose('pickguard_material','pg_acrylic');
             assert.equal(await page.locator('#quote-summary-card').innerText(),guardQuote,'Standard GRAMR guard keeps base quote');
@@ -596,7 +596,7 @@ async function main() {
     // composite that could be mistaken for a real option visualization.
     const failurePage=await browser.newPage();
     await failurePage.route(/\.(png|webp)(\?.*)?$/i,route=>route.abort());
-    await failurePage.goto('http://127.0.0.1:8000/configurator-preview.html',{waitUntil:'networkidle'});
+    await failurePage.goto('http://127.0.0.1:8000/configurator.html',{waitUntil:'networkidle'});
     await failurePage.locator('[data-preview-image-status="error"]').waitFor();
     assert.equal(await failurePage.locator('[data-preview-svg]').count(),0);
     await failurePage.close();

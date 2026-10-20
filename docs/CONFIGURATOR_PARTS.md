@@ -463,3 +463,50 @@ Only selected-option front/back previews are shown. Sample/source mode controls,
 raw drawing images and drawing download links are removed from the interface;
 source assets/provenance remain in the repository. Manufacturer links and
 shape-versus-installation status remain available. Production is unchanged.
+
+## Hipshot shaft and EDDA projection repair before publication
+
+The v26 Ultralite profiles omitted `keyOffset`, so their shafts passed through
+the gear centres while the generic housing retained a separate upper arm. The
+old direction-only checks accepted this disconnected shape. Both the standard
+Ultralite and the Ultralite core of the HE6 now use an approximately **11 mm**
+worm-axis offset, a compact Hipshot casing and a connected shaft collar/Y key.
+
+Source: Hipshot's **20650 ULTRALITE 3-8 Y KEY**, revision **2021-02-15**, linked
+from its [HB6 product page](https://hipshotproducts.com/products/hb6-3-8-ultralite-bass-tuning-machine).
+The [official PDF](https://docs.hipshotproducts.com/20650_ULTRALITE_3-8_Y_KEY.pdf)
+was checked against the manufacturer-authored copy served by
+[Warwick's dealer drawing archive](https://dealer.warwick.de/warwick/data/erp/Artikell_PDF/PDF_Drawing/Hipshot/20650_ULTRALITE_3-8_Y_KEY.pdf),
+SHA256 `81b252224f4e9a70dc697c5c10a24bc1eb7740590715e9c1c44ac532d2e81fa9`.
+
+The approximately 11 mm offset is **inferred from the scaled rear-view outline**:
+the post centre is about x=310.7 PDF points and the shaft centre about x=279.4
+points, giving approximately 11.0 mm at 72 points/inch. It is not an explicitly
+dimensioned shaft datum. The drawing's labelled **0.439 inch / 11.2 mm** instead
+locates the mounting-screw centre. The Y-key shoulder (about 26 mm from the post
+axis) and end (about 51 mm), shaft width, collar and compact casing are likewise
+an original simplified reconstruction of the drawing proportions, not certified
+part dimensions or drilling coordinates. No manufacturer logo/artwork is embedded.
+
+The [HE6 manufacturer's photographs](https://hipshotproducts.com/products/he6-3-8-ultralite-bass-xtender)
+remain the basis for its lever/base. That existing photo-based assembly now
+appears on the front's rear-mounted layer as well as the rear, so portions outside
+the wood are visible consistently. The front wood still covers the mechanism;
+only the post/bushing plane is drawn above it. Exactly one HE6 is assigned to the
+last, nearest-nut EDDA post (low E); a standard Ultralite set has none. Its existing
+lever/base outline is not newly approved installation geometry.
+
+EDDA's front head and post centres already follow the rear reference by a 0.62
+reflection/scale. The tuner glyphs now share that same ratio: front scale
+`1.1 * 0.62 = 0.682`, with the rear scale retained at 1.1. This replaces the
+inconsistent 0.72 front glyph scale. No head/body/neck silhouette, post centre,
+orientation or source drawing is moved. Four front nut-to-post strings use the
+existing EDDA anchors, with low E connected to the same nearest-nut post as HE6;
+the original board/body string alignment is retained and rear strings are absent.
+
+Regression checks now cover the independently traced nonzero shaft offset,
+shaft-to-key connection, one HE6 in each physical projection with correct wood
+layering, full front/rear coordinate and distance registration (not only normalized
+direction vectors), and all four EDDA nut-to-post connections. Existing option,
+price, normalization, pickup/bridge/control and PDF logic are unchanged by this
+parts repair. These checks establish the displayed 2D geometry, not hardware fit.

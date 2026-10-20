@@ -175,8 +175,10 @@ return out;
       gotoh_707:{key:'gotoh-butterfly',washer:18,keyOffset:-9,url:'https://g-gotoh.com/images/pdf/GB707-Dim.pdf'},
       gotoh_350:{key:'gotoh-butterfly',washer:20,keyOffset:-9,url:'https://g-gotoh.com/images/pdf/GB350-Dim.pdf'},
       gotoh_528:{key:'gb528-clover',washer:22,keyOffset:-13.5,url:'https://g-gotoh.com/images/pdf/GB528-Dim.pdf'},
-      hipshot_ul_38_xt:{key:'ultralite-y',washer:17,post:9.525,xtender:true,scope:'photo-reference',url:'https://hipshotproducts.com/products/he6-3-8-ultralite-bass-xtender'},
-      hipshot_ul_38:{key:'ultralite-y',washer:17,post:9.525,url:'https://docs.hipshotproducts.com/20650_ULTRALITE_3-8_Y_KEY.pdf'},
+      // The ~11 mm worm-axis offset is scaled from the 20650 rear-view outline;
+      // its dimensioned 11.2 mm value instead locates the mounting screw.
+      hipshot_ul_38_xt:{key:'ultralite-y',washer:17,post:9.525,keyOffset:-11,xtender:true,scope:'photo-reference',url:'https://hipshotproducts.com/products/he6-3-8-ultralite-bass-xtender'},
+      hipshot_ul_38:{key:'ultralite-y',washer:17,post:9.525,keyOffset:-11,url:'https://docs.hipshotproducts.com/20650_ULTRALITE_3-8_Y_KEY.pdf'},
       guitar_gotoh_sg381:{key:'gotoh-07',washer:14,post:6,keyOffset:-7.8,url:'https://g-gotoh.com/images/pdf/SG381-Dim.pdf'}
     }
   };
@@ -428,7 +430,7 @@ return out;
     'm4-90':'M25 -4.5 C34 -5 37 -8 39 -13 Q41 -17.2 46 -17.2 Q51.5 -17.2 51.5 -10 V10 Q51.5 17.2 46 17.2 Q41 17.2 39 13 C37 8 34 5 25 4.5 Z',
     'bm-schaller':'M25 -4 C31 -5 36 -10 40 -16 C44 -23 55 -22 56 -7 Q63 0 56 7 C55 22 44 23 40 16 C36 10 31 5 25 4 Z',
     'gb528-clover':'M29 -3 Q37 -4 42 -15 C47 -28 61 -19 59 -8 C67 -2 67 6 59 9 C60 23 46 28 42 15 Q37 4 29 3 Z',
-    'ultralite-y':'M22 -3 C28 -8 30 -13 34 -16 Q39 -19 40 -13 L40 13 Q39 19 34 16 C30 13 28 8 22 3 Z',
+    'ultralite-y':'M25.9 -3.2 C34.3 -8 37.1 -13 42.8 -16 Q49.8 -19 51.2 -13 L51.2 13 Q49.8 19 42.8 16 C37.1 13 34.3 8 25.9 3.2 Z',
     'bm-light':'M24 -4 C31 -5 31 -12 38 -16 Q48 -20 49 -12 L49 12 Q48 20 38 16 C31 12 31 5 24 4 Z',
     'gotoh-07':'M19 -4 L23 -7 Q29 -10 34 -5 V5 Q29 10 23 7 L19 4 Z'
   };
@@ -440,16 +442,20 @@ return out;
       const r=(ref.post||(key==='gotoh-07'?6:11))/2;
       return `<g data-part="front-bushing-post">`+circle(0,1,ref.washer/2+.6,'#111719')+circle(0,0,ref.washer/2,metal,'stroke="#292f30" stroke-width=".6"')+circle(0,0,r+1.6,metal,'stroke="#60696a" stroke-width=".5"')+circle(0,0,r,metal,'stroke="#303638" stroke-width=".8"')+(ref.locking?circle(0,0,1.1,'#222729'):path(`M${-r*.75} 0H${r*.75}`,'none','stroke="#1b2223" stroke-width="1.4"'))+'</g>';
     }
-    let out=`<g data-part="rear-key-shaft" transform="translate(0 ${offset})">`+path(`M0 -2.4H${key==='gotoh-07'?19:key==='gb528-clover'||key==='bm-schaller'?34:28}V2.4H0Z`,metal,'stroke="#242a2c" stroke-width=".5"')+path(keyPaths[key],metal,'stroke="#272e30" stroke-width=".65"')+path(keyPaths[key],`url(#${p}-part-sheen)`);
+    const shaft=key==='ultralite-y'?'M0 -3.2H25.9V3.2H0Z':`M0 -2.4H${key==='gotoh-07'?19:key==='gb528-clover'||key==='bm-schaller'?34:28}V2.4H0Z`;
+    let out=`<g data-part="rear-key-shaft" transform="translate(0 ${offset})">`+path(shaft,metal,'stroke="#242a2c" stroke-width=".5"')+path(keyPaths[key],metal,'stroke="#272e30" stroke-width=".65"')+path(keyPaths[key],`url(#${p}-part-sheen)`);
+    if(key==='ultralite-y')out+=path('M9 -4.8Q12.6 -4.8 12.6 -3.2V3.2Q12.6 4.8 9 4.8Z',metal,'data-part="worm-shaft-collar" stroke="#303739" stroke-width=".5"');
     if(key==='ratio-y')out+=circle(37,-2.5,.65,'#605e53')+circle(37,2.5,.65,'#605e53');
     if(key==='m4-90')out+=path('M26 0H50 M40 -14V14','none','stroke="#e5e6dc" stroke-opacity=".35" stroke-width=".55"');
     out+='</g>';
-    if(plane==='rear-mount')return out;
     if(ref.xtender){
       // HE6 mechanism/lever from the manufacturer's photograph; this is not a
       // dimensional installation template. Only the E-string unit has it.
       out+=`<g data-part="xtender-assembly" data-scope="manufacturer-photo-reference">`+path('M-30 -7Q-35 0 -32 17Q-31 25 -23 25H11V-10H-16Z',metal,'stroke="#303739" stroke-width=".7"')+path('M-27 18H31Q36 18 35 21Q35 24 30 24H-27Z',metal,'data-part="xtender-lever" stroke="#303739" stroke-width=".65"')+circle(-27,19,5,metal,'stroke="#303739" stroke-width=".6"')+screw(-27,19,2)+path('M-29 -5V-20','none','stroke="#adb5b3" stroke-width="2.6"')+box(-33,-22,8,4,1.1,metal,'stroke="#303739" stroke-width=".6"')+'</g>';
     }
+    // The mechanism remains behind the wood on the front, including any lever
+    // or base that protrudes beyond it; only the gear housing is rear-only.
+    if(plane==='rear-mount')return out;
     out+='<g data-part="rear-gear-housing">';
     if(key==='gotoh-07'){
       out+=path('M-8.3 -11.7H8.3V0Q8.3 7.9 0 8.3L-5 8L-7.1 10.7Q-9 12 -10.5 10L-11 8.2Q-12 6.5 -10 4.8L-8.3 2Z',metal,'data-housing="sg381-closed" stroke="#303739" stroke-width=".7"')+screw(-7.8,7.8,1.2);
@@ -463,6 +469,11 @@ return out;
       out+=box(-11,-15,23,6,1.4,metal,'stroke="#343b3c" stroke-width=".6"');
     }else if(key==='ratio-y')out+=path('M-9 -16H13L27 -11V-5H12Q11 8 0 10Q-9 10 -9 1Z',metal,'stroke="#303739" stroke-width=".7"')+screw(-7,13,1.5);
     else if(key==='m4-90')out+=path('M-8.45 -14.5H8.45V0Q8.45 7 2 13Q0 16 -2 13Q-8.45 7 -8.45 0Z',metal,'data-mount-lug="90-degrees" stroke="#303739" stroke-width=".7"')+screw(0,11.6,1.35);
+    else if(key==='ultralite-y'){
+      // Original simplified outline of the compact 20650 worm casing and lug.
+      // Unlike the generic long-arm casing, the shaft meets this casing at -11.
+      out+=path('M9.15 -16.8Q0 -21.3 -9.15 -16.8V0Q-9.15 3.6 -6.4 7.1L-2.8 13.2Q0 16 2.8 13.2L6.4 7.1Q9.15 3.6 9.15 0Z',metal,'data-housing="hipshot-ultralite" stroke="#303739" stroke-width=".7"')+path('M9.15 -14.4Q0 -19.7 -9.15 -14.4V-4.7Q0 -9.4 9.15 -4.7Z',metal,'stroke="#41494a" stroke-width=".55"')+screw(0,11.2,1.4);
+    }
     else out+=path('M-8.5 -14H9L25 -12V-6L9 -5Q5 15 0 14Q-8.5 10 -8.5 0Z',metal,'stroke="#303739" stroke-width=".7"')+screw(0,11.5,1.4);
     const open=['ultralite-y','gb528-clover','bm-light','bm-schaller'].includes(key);
     out+=circle(0,0,open?9:8,metal,'stroke="#464d4e" stroke-width=".7"');
@@ -489,7 +500,7 @@ return out;
       const rearNut=state.g.back.neck.match(/-?\d+(?:\.\d+)?/g).slice(0,2).map(Number),frontNut=state.g.board[0];
       anchors=state.g.tunerAnchors.map(([x,y,a])=>[y+rearNut[0]-frontNut[1],x+rearNut[1]-frontNut[0],a===180?-90:90]);scale=state.g.unitsPerMm;
     }else if(back){anchors=[[516,84,-10],[528,139,-10],[541,194,-10],[551,249,-10]];scale=1.1;}
-    else {anchors=state.g.tunerAnchors||frontTunerAnchors[state.model];scale=state.g.unitsPerMm||(state.model==='EDDA'?.72:.68);}
+    else {anchors=state.g.tunerAnchors||frontTunerAnchors[state.model];scale=state.g.unitsPerMm||(state.model==='EDDA'?1.1*state.g.headProvenance.scale:.68);}
     return {anchors,scale};
   }
   function tuners(state,p,back=false,plane='front-post'){

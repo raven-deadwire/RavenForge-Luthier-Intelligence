@@ -19,7 +19,10 @@ for (const [a,b] of [
   ['const isCategoryVisible =','      return (\n        <div className="min-h-screen'],
   ['{/* Web UI Header */}','                </div>\n              </div>\n']
 ]) assert.equal(section(html,a,b), section(original.replace(/\r\n/g,'\n'),a,b));
-assert.doesNotMatch(original,/RavenForgePreview|configurator-preview\.js/);
+// The approved preview is now served at the existing customer URL.
+assert.match(original,/<script src="\.\/assets\/configurator-preview\.js\?/);
+assert.match(original,/<RavenForgePreview\.Component\b/);
+assert.doesNotMatch(original,/data-preview-test-page|<title>TEST|content="noindex/);
 const context=vm.createContext({RavenForgePlatforms:platforms});
 vm.runInContext(section(html,'const configData = {','const App = () => {')+
   section(html,'const isCategoryVisible =','const getDefaultSelections =')+
@@ -570,3 +573,87 @@ console.log('PASS: Nova 5-string one-piece identity, 102/18/43.7/55/12 drawing v
  assert.equal(normalize('GRAMR',{pickguard:'pg_none'}).pickguard_material,undefined);
 }
 console.log('PASS: Xtender mechanism, unknown tuner markers, GRAMR catalog guard, A7 overlay and selected-only UI');
+
+// Independent Hipshot 20650 rear-view trace: the worm shaft is ~31.3 PDF pt
+// from the post axis on a 72 pt/in drawing. The labelled 11.2 mm is the screw.
+{
+ const tracedOffset=-(310.7-279.4)*25.4/72;
+ for(const id of ['hipshot_ul_38','hipshot_ul_38_xt']){
+  const state=preview.scene('EDDA',normalize('EDDA',{hardware_machine_head:id}),''),ref=parts.profile(state,'hardware_machine_head');
+  assert.ok(Math.abs(ref.keyOffset-tracedOffset)<.15,id+' worm-axis offset must follow the manufacturer outline, not default to the gear centre');
+  const back=parts.tuners(state,'hipshot-axis',true),mount=parts.tuners(state,'hipshot-axis',false,'rear-mount');
+  for(const svg of [back,mount]){
+   const shafts=[...svg.matchAll(/data-part="rear-key-shaft" transform="translate\(0 ([-\d.]+)\)"/g)];
+   assert.equal(shafts.length,4);
+   for(const shaft of shafts)assert.ok(Math.abs(Number(shaft[1])-tracedOffset)<.15);
+   assert.equal((svg.match(/data-part="worm-shaft-collar"/g)||[]).length,4);
+   const shaftPath=svg.match(/data-part="rear-key-shaft"[^>]*><path d="([^"]+)"[^>]*\/><path d="M([-\d.]+) /);
+   const shaftEnd=Number(shaftPath[1].match(/H([-\d.]+)/)[1]),buttonStart=Number(shaftPath[2]);
+   assert.ok(Math.abs(shaftEnd-25.9)<.2&&Math.abs(buttonStart-shaftEnd)<.001,'Ultralite shaft must meet the Y-key shoulder traced near 26 mm');
+  }
+  assert.equal((back.match(/data-housing="hipshot-ultralite"/g)||[]).length,4,'Ultralite requires its compact worm casing');
+ }
+}
+
+// The HE6 base/lever is one physical rear-mounted assembly, so any portion
+// beyond the wood must exist in both views. The face shows only its post above wood.
+{
+ for(const id of ['hipshot_ul_38','hipshot_ul_38_xt']){
+  const s=preview.scene('EDDA',normalize('EDDA',{hardware_machine_head:id}),''),expected=id.endsWith('_xt')?1:0;
+  const mount=parts.tuners(s,'he6',false,'rear-mount'),back=parts.tuners(s,'he6',true),posts=parts.tuners(s,'he6');
+  for(const svg of [mount,back]){
+   assert.equal((svg.match(/data-part="xtender-assembly"/g)||[]).length,expected);
+   const units=svg.split(/<g data-tuner-index="\d+"/).slice(1);
+   assert.equal(units.length,4);
+   for(let i=0;i<4;i++)assert.equal(units[i].includes('data-part="xtender-assembly"'),!!expected&&i===3,'HE6 belongs only to the nearest-nut low-E machine');
+  }
+  assert.doesNotMatch(posts,/xtender-assembly/);
+  const front=preview.renderSvg(s,'front','en');
+  assert.equal((front.match(/data-part="xtender-assembly"/g)||[]).length,expected);
+  if(expected)assert.ok(front.indexOf('data-part="xtender-assembly"')<front.indexOf('data-layer="headstock"'),'HE6 mechanism must remain below the head wood');
+ }
+}
+
+// Full point/length registration catches the old .72/1.1 glyph ratio: unit
+// direction tests passed it despite the head/post reference using exactly .62.
+{
+ const units=svg=>[...svg.matchAll(/data-tuner-index="(\d+)"[^>]*transform="translate\(([-\d.]+) ([-\d.]+)\) rotate\(([-\d.]+)\) scale\(([-\d.]+) ([-\d.]+)\)"/g)].map(m=>m.slice(1).map(Number));
+ const project=(u,[x,y])=>{const a=u[3]*Math.PI/180;return [u[1]+Math.cos(a)*x*u[4]-Math.sin(a)*y*u[5],u[2]+Math.sin(a)*x*u[4]+Math.cos(a)*y*u[5]];};
+ for(const opt of data.categories.find(c=>c.id==='hardware_machine_head').options.filter(o=>o.prices?.EDDA!==undefined)){
+  const s=preview.scene('EDDA',normalize('EDDA',{hardware_machine_head:opt.id}),'');if(!parts.profile(s,'hardware_machine_head'))continue;
+  const front=units(parts.tuners(s,'edda-registration',false,'rear-mount')),rear=units(parts.tuners(s,'edda-registration',true));
+  assert.equal(front.length,4);assert.equal(rear.length,4);
+  for(let i=0;i<4;i++){
+   const points=[[0,0],[20,-11],[51.2,-11],[0,11.2]],f=points.map(p=>project(front[i],p)),b=points.map(p=>project(rear[i],p));
+   for(let j=0;j<points.length;j++){
+    assert.ok(Math.abs(f[j][0]-(539+(525-b[j][0])*.62))<1e-8,opt.id+' front/rear tuner X registration');
+    assert.ok(Math.abs(f[j][1]-(198+(b[j][1]-290)*.62))<1e-8,opt.id+' front/rear tuner Y registration');
+   }
+   assert.ok(Math.abs(Math.hypot(f[1][0]-f[0][0],f[1][1]-f[0][1])/Math.hypot(b[1][0]-b[0][0],b[1][1]-b[0][1])-.62)<1e-10,'Tuner glyph lengths must share the head projection scale');
+  }
+ }
+}
+
+// EDDA clean head wood must not erase the four strings between nut and posts.
+{
+ for(const id of ['hipshot_ul_38','hipshot_ul_38_xt']){
+  const s=preview.scene('EDDA',normalize('EDDA',{hardware_machine_head:id}),''),front=preview.renderSvg(s,'front','en'),back=preview.renderSvg(s,'back','en');
+  assert.doesNotMatch(back,/data-layer="headstock-strings"/);
+  const start=front.indexOf('data-layer="headstock-strings"'),end=front.indexOf('data-layer="strings"',start);
+  assert.ok(start>front.indexOf('data-part="front-bushing-post"')&&end>start,'Head strings must be painted above posts, before board strings');
+  const strings=[...front.slice(start,end).matchAll(/data-string-index="(\d+)" data-tuner-index="(\d+)">([^]*?)<\/g>/g)];
+  assert.equal(strings.length,4);
+  for(let i=0;i<4;i++){
+   assert.equal(Number(strings[i][1]),i);assert.equal(Number(strings[i][2]),3-i);
+   const lines=[...strings[i][3].matchAll(/<line x1="([-\d.]+)" y1="([-\d.]+)" x2="([-\d.]+)" y2="([-\d.]+)"/g)].map(m=>m.slice(1).map(Number));
+   assert.equal(lines.length,2,'Each head string has its existing shadow/highlight pair');
+   for(const line of lines){
+    assert.deepEqual(line.slice(0,2),s.g.tunerAnchors[3-i].slice(0,2));
+    assert.ok(Math.abs(line[2]-(523.88+10.08*i))<1e-8);assert.equal(line[3],198);
+   }
+  }
+  const nut=[539,198],dist=s.g.tunerAnchors.map(([x,y])=>Math.hypot(x-nut[0],y-nut[1]));
+  assert.equal(dist.indexOf(Math.min(...dist)),3,'Low-E string and HE6 must share the source post nearest the nut');
+ }
+}
+console.log('PASS: Hipshot offset/casing/key connection, HE6 both-view layer/count, EDDA full-size registration and four nut-to-post strings');
