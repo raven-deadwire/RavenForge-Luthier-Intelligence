@@ -1,0 +1,68 @@
+## v15 individual native textures
+
+`native-v15/` replaces atlas cells for ash, elm, maple, rosewood, wenge,
+flame maple, bloodwood and bubinga. Each original generated image is **724 × 2172**
+pixels and is encoded to WebP quality 93 without resizing. The manifest records
+actual dimensions, original/encoded SHA-256 and generation prompts. A requested
+1024 × 3072 prompt is not evidence of that output size. No 2048-square claim is made.
+
+Compared with a 410-square cell, each new source has 1.77× the width, 5.30× the
+length and 9.35× the pixels. Patterns preserve aspect ratio; displayed areas may
+crop the source. Short-axis detail remains below 2048 pixels. The other 21 catalog
+materials remain at their legacy effective cell size. These are illustrative,
+AI-generated wood textures, not inventory photographs or species certification.
+A future true 2048 × 2048 (or larger) capture can replace each independent source
+and its dimension metadata without changing geometry or option calculations.
+Opaque vector paint is independent of these texture resolutions.
+
+---
+
+# Illustrative ash surface
+
+`ash-illustrative.webp` is a material-only illustration generated on 2026-10-19 with the built-in image-generation tool, then encoded as WebP quality 92 at its original 1254 × 1254 dimensions. It is not an actual stock-board photograph and does not certify any selected wood species. No instrument geometry or third-party imagery was generated or copied. GRAMR's geometry comes exclusively from the supplied PDF vectors. Opaque paint hides this texture.
+
+Prompt:
+
+> Use case: product-mockup / material texture. Create a high resolution seamless-looking wood material tile for a guitar configurator (NOT a guitar image). The entire square is filled edge to edge by a close straight-on perpendicular photograph of high quality natural swamp ash wood, tightly filled grain, pale neutral beige/grey-brown with elegant long organic dark cathedral grain running vertically. Subtle grain detail, premium luthier timber, absolutely flat even diffuse illumination, no perspective, no borders, no vignette, no objects, no text, no hardware, no knots, no burl, no quilting, no coloured stain, no specular glare. This will be used only as illustrative material in code with an exact CAD outline; DO NOT depict any instrument, body shape or product. Large-scale sweeping cathedral grain and fine crisp fibers; realistic timber, not graphic lines.
+
+
+## v8 illustrative wood textures — 2026-10-20
+
+Generated with the built-in imagegen tool, as three texture-atlas image assets.
+No supplier photo pixels were copied. Each original PNG is 1254 × 1254 pixels;
+WebP encoding at quality 88 preserves dimensions. The renderer samples a 410 × 410
+interior from each 418-pixel cell to prevent neighbouring material bleeding.
+Full exact prompts are in [prompts-v8.json](prompts-v8.json).
+
+| File | Row-major contents |
+| --- | --- |
+| wood-body-atlas-v8.webp | Ash, alder, zelkova; elm, maple, limba; red toon, jindai ash, jindai zelkova |
+| wood-fretboard-atlas-v8.webp | Rosewood, ebony, wenge; ironwood, bog oak, snakewood; wamara, kingwood, African blackwood |
+| wood-top-atlas-v8.webp | Flame maple, quilted maple, figured ash; figured elm, maple burl, buckeye burl; walnut, jindai elm, purpleheart |
+
+The common prompt asks for an original orthographic, evenly lit, edge-to-edge 3×3
+wood texture atlas without labels, borders, metal, perspective or copied photos.
+Each prompt then describes the distinct grain and palette of its nine cells.
+
+Reference descriptions consulted (not image redistribution licences):
+- https://www.cookwoods.com/collections/desert-ironwood — warm honey/brown/black wood, not metal.
+- https://www.cookwoods.com/collections/snakewood — reddish/brown/black mottled figure.
+- https://www.cookwoods.com/collections/kingwood
+- https://www.cookwoods.com/collections/buckeye-burl — gold/grey/dark swirling figure.
+- https://greenbergwoods.com/bog-oak/ — dark oak retaining visible grain.
+- https://www.wood-database.com/wamara/ — reddish/plum-brown with darker stripes.
+
+The configurator only calls the option "ironwood". Its exact supplied species is
+not established; the warm dense-wood image is an illustrative example, not a claim
+that the final fretboard is Olneya tesota. Natural material variation, actual stock
+selection and bookmatching require separate confirmation. Custom/other wood
+options must remain pending rather than acquire invented final textures.
+
+
+## v11 neck additions
+
+`wood-neck-atlas-v11.webp` is an original AI-created illustrative atlas, generated
+2026-10-20. Left: bloodwood. Right: bubinga. Actual source 1774 × 887 pixels;
+two 887 × 887 cells, inset 4 pixels for sampling. This is not a stock-board photo.
+The prompt requested neutral clear-oiled vertical grain, no labels or hardware.
+The PNG source was converted to WebP without resizing or changing the artwork.
