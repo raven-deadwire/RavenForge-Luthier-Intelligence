@@ -523,3 +523,21 @@ console.log('PASS: all EDDA machine-head choices preserve reference shaft direct
  assert.deepEqual(g.back.provenance.tunerPostDrawingIndices,[2022,2027,2032,2037,2042,2047]);
  console.log('PASS: '+choices+' model/tuner choices, every bank upright, mirrored keys and six GRAMR bore correspondences');
 }
+
+// v24: Nova identity is distinct from retained prototype modules and Payson.
+{
+ const state=preview.scene('ASKR',normalize('ASKR',{hardware_bridge:'nova_parts',hardware_color:'hw_gold'}),'');
+ const svg=parts.bridge(state,'qa-nova'),plan=parts.novaBridgePlan(state);
+ assert.match(svg,/data-profile="nova-dingwall-retrofit-5"/);
+ for(const [attr,value] of [['width-mm',102],['spacing-mm',18],['perpendicular-depth-mm',43.7],['drawing-angle-deg',55],['channel-width-mm',12]])assert.ok(svg.includes(`data-${attr}="${value}"`));
+ assert.equal((svg.match(/data-part="continuous-aluminium-plate"/g)||[]).length,1);
+ assert.equal((svg.match(/data-part="saddle-channel"/g)||[]).length,5);
+ assert.equal((svg.match(/data-part="tail-entry-notch"/g)||[]).length,5);
+ assert.equal((svg.match(/data-saddle=/g)||[]).length,5);
+ assert.match(svg,/data-placement="source-centroid-fit-unconfirmed"/);
+ assert.doesNotMatch(svg,/data-contour="pdf-vector"|reference-retained|payson/);
+ for(let i=0;i<5;i++){assert.ok(svg.includes(`data-string-anchor="${plan.anchors[i]}"`));if(i)assert.ok(Math.abs((plan.anchors[i][0]-plan.anchors[i-1][0])/plan.scale-18)<1e-9);}
+ assert.equal(parts.bridge({...state,metal:'#c9a75c'},'qa-nova'),svg);
+ const s=JSON.stringify(state.selections);parts.bridge(state,'noop');assert.equal(JSON.stringify(state.selections),s);
+}
+console.log('PASS: Nova 5-string one-piece identity, 102/18/43.7/55/12 drawing values, five channels and source-centroid placement boundary');

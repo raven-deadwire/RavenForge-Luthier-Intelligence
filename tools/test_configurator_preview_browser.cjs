@@ -99,7 +99,7 @@ async function main() {
       const edgePoints=q=>q.flatMap((a,i)=>{const b=q[(i+1)%q.length];return Array.from({length:101},(_,j)=>[a[0]+(b[0]-a[0])*j/100,a[1]+(b[1]-a[1])*j/100]);});
       const distance=(p,a,b)=>{const dx=b[0]-a[0],dy=b[1]-a[1],t=Math.max(0,Math.min(1,((p[0]-a[0])*dx+(p[1]-a[1])*dy)/(dx*dx+dy*dy)));return Math.hypot(p[0]-a[0]-t*dx,p[1]-a[1]-t*dy);};
       const polyDistance=(a,b)=>Math.min(...a.flatMap(p=>b.map((q,i)=>distance(p,q,b[(i+1)%b.length]))),...b.flatMap(p=>a.map((q,i)=>distance(p,q,a[(i+1)%a.length]))));
-      let count=0,minPickupGap=Infinity,minControlGap=Infinity;const pending=new Set();
+      let count=0,minPickupGap=Infinity,minControlGap=Infinity,minBridgePickupGap=Infinity;const pending=new Set();
       for(const electronics of Object.keys(parts.electronicsProfiles).filter(x=>!x.startsWith('guitar')))for(const pickups of ['fishman','emg','askr_delano_sbc5_e','nova_custom','others'])for(const hardware_bridge of ['payson','nova_parts']){
         const state=P.scene('ASKR',{electronics,pickups,hardware_bridge,coil_switch:'coil_2_ps'},'',{},null,{specialOptions:['kill_switch']});
         const polys=parts.selectedPickupPlan(state).map(corners),controls=parts.controlPlan(state);
@@ -109,11 +109,11 @@ async function main() {
         for(const c of controls){if(!circle(c.xy,12).every(inside))throw Error('ASKR control outside body '+electronics);for(const q of polys){const d=Math.min(...q.map((a,i)=>distance(c.xy,a,q[(i+1)%q.length])));if(d<12)throw Error('ASKR pickup/control overlap');}}
         for(let i=0;i<controls.length;i++)for(const b of controls.slice(i+1)){const gap=Math.hypot(controls[i].xy[0]-b.xy[0],controls[i].xy[1]-b.xy[1])-24;if(gap<=0)throw Error('ASKR control overlap '+electronics);minControlGap=Math.min(minControlGap,gap);}
         const holder=document.createElementNS(ns,'g');holder.innerHTML=parts.bridge(state,'audit')||parts.referenceBridge(state,'audit');host.append(holder);
-        const outlines=holder.querySelectorAll(hardware_bridge==='payson'?'[data-part="continuous-aluminium-plate"]':'path');
-        for(const shape of outlines){const length=shape.getTotalLength();for(let t=0;t<=1;t+=.002){const p=shape.getPointAtLength(t*length);if(!inside([p.x,p.y]))throw Error('ASKR bridge outside body '+hardware_bridge);for(const c of controls)if(Math.hypot(p.x-c.xy[0],p.y-c.xy[1])<12)throw Error('ASKR bridge/control overlap');}}
+        const outlines=holder.querySelectorAll('[data-part="continuous-aluminium-plate"]');
+        for(const shape of outlines){const length=shape.getTotalLength();for(let t=0;t<=1;t+=.002){const p=shape.getPointAtLength(t*length);if(!inside([p.x,p.y]))throw Error('ASKR bridge outside body '+hardware_bridge);for(const q of polys){const gap=Math.min(...q.map((a,i)=>distance([p.x,p.y],a,q[(i+1)%q.length])));minBridgePickupGap=Math.min(minBridgePickupGap,gap);const crosses=q.every((a,i)=>{const b=q[(i+1)%q.length];return (b[0]-a[0])*(p.y-a[1])-(b[1]-a[1])*(p.x-a[0])>=0;});if(crosses||gap<.5)throw Error('ASKR bridge/pickup overlap '+hardware_bridge); }for(const c of controls)if(Math.hypot(p.x-c.xy[0],p.y-c.xy[1])<12)throw Error('ASKR bridge/control overlap');}}
         for(const x of state.pending)pending.add(x);holder.remove();count++;
       }
-      host.remove();return {result:'PASS',configurations:count,minPickupGapDisplayUnits:minPickupGap,minControlEnvelopeGapDisplayUnits:minControlGap,controlEnvelopeRadius:12,pending:[...pending],scope:'2D exterior only; source placeholders do not validate custom parts, drilling, cavity depth or replacement installation'};
+      host.remove();return {result:'PASS',configurations:count,minBridgePickupGapDisplayUnits:minBridgePickupGap,minPickupGapDisplayUnits:minPickupGap,minControlEnvelopeGapDisplayUnits:minControlGap,controlEnvelopeRadius:12,pending:[...pending],scope:'2D exterior only; source placeholders do not validate custom parts, drilling, cavity depth or replacement installation'};
     });
     report.askrViews=[];
     for(const width of [1440,390]){
@@ -122,7 +122,7 @@ async function main() {
       for(const hardware_bridge of ['payson','nova_parts']){
         await step(4);await choose('hardware_bridge',hardware_bridge);
         for(const view of ['front','back']){
-          await side(view);await page.locator('#instrument-preview').screenshot({path:path.join(output,`v23-${width}-ASKR-${hardware_bridge}-${view}.png`)});
+          await side(view);await page.locator('#instrument-preview').screenshot({path:path.join(output,`v24-${width}-ASKR-${hardware_bridge}-${view}.png`)});
           report.askrViews.push({width,hardware_bridge,view,result:'PASS'});
         }
       }
@@ -146,7 +146,7 @@ async function main() {
               if(['ets_custom','schaller_3d'].includes(bridge))assert.equal(await layer('bridge').getAttribute('data-profile'),bridge==='ets_custom'?'ets-tuning-fork':'schaller-3d');
               if(model==='EDDA')assert.equal(await layer('control-plate').count(),0);
             }
-            await page.locator('#instrument-preview').screenshot({path:path.join(output,`v23-${width}-${model}-${bridge}-${view}.png`)});
+            await page.locator('#instrument-preview').screenshot({path:path.join(output,`v24-${width}-${model}-${bridge}-${view}.png`)});
             report.bridgeViews.push({width,model,bridge,view,result:'PASS'});
           }
         }
@@ -157,7 +157,7 @@ async function main() {
       await page.setViewportSize({width,height:width===1440?1080:844});
       for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
         await step(1);await page.locator(`[data-model="${model}"]`).click();
-        for(const view of ['front','back']){await side(view);await page.locator('#instrument-preview').screenshot({path:path.join(output,`v23-${width}-${model}-tuner-${view}.png`)});report.tunerViews.push({width,model,view,result:'PASS'});}
+        for(const view of ['front','back']){await side(view);await page.locator('#instrument-preview').screenshot({path:path.join(output,`v24-${width}-${model}-tuner-${view}.png`)});report.tunerViews.push({width,model,view,result:'PASS'});}
       }
     }
     await step(1);await page.locator('[data-model="EDDA"]').click();
@@ -205,7 +205,7 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
-          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v23');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v24');
           assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').textContent(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
@@ -322,9 +322,9 @@ async function main() {
           const redBack=await colourPixels();assert.ok(redBack.red>redBack.blue*3&&redBack.red>1000,`Red back ${model}: ${JSON.stringify(redBack)}`);
           await choose('color_back_side','back_oil');
           const oilPreview=await colourPixels();assert.ok(oilPreview.red>oilPreview.blue*3&&oilPreview.red>1000,`Selected red covers oil-category rear ${model}: ${JSON.stringify(oilPreview)}`);
-          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v23-${size.width}-${model}-colour-back.png`)});
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v24-${size.width}-${model}-colour-back.png`)});
           await side('front');
-          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v23-${size.width}-${model}-colour-front.png`)});
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v24-${size.width}-${model}-colour-front.png`)});
           await step(2);
           if(model!=='GRAMR') {
             if(await page.locator('input[name="fretboard"][value="ironwood"]').count()){
@@ -415,7 +415,7 @@ async function main() {
                 assert.equal(await page.locator('[data-summary-category="pickguard_colour"]').count(),1);
               }
               await side('front');
-              await page.locator('#instrument-preview').screenshot({path:path.join(output,`v23-${lang}-${size.width}-EDDA-${material}.png`)});
+              await page.locator('#instrument-preview').screenshot({path:path.join(output,`v24-${lang}-${size.width}-EDDA-${material}.png`)});
             }
             await choose('pickguard_finish','pg_gloss');assert.equal(await layer('pickguard').getAttribute('data-finish'),'gloss');
             await choose('pickguard','pg_none');assert.equal(await layer('pickguard').count(),0);

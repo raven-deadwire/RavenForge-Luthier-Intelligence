@@ -154,6 +154,7 @@ return out;
       fishman:{w:102.11,h:37.89,style:'fluence',url:'https://fishman.com/dp/fluence-bass-soapbar-5-string-pickups/'}
     },
     hardware_bridge:{
+      nova_parts:{style:'nova-dingwall-retrofit-5',scope:'manufacturer-drawing',url:'https://www.ebay.com/itm/188031829511',drawing:'https://i.ebayimg.com/images/g/pBMAAeSwjOZpLylJ/s-l1600.webp',width:102,spacing:18,perpendicularDepth:43.7,angle:55,channelWidth:12,fit:'unconfirmed'},
       ets_custom:{style:'ets-tuning-fork',scope:'catalog-reference',url:'https://www.ets-hardware.com/index.php/en/produkte-2'},
       schaller_3d:{style:'schaller-3d',scope:'manufacturer-drawing',url:'https://schaller.info/en/3d-5/1214'},
       payson:{style:'payson-fanned-v4',url:'https://www.paysonbass.com/store/p152/Payson-Fanned-Fret-Bass-Bridge.html'},
@@ -178,7 +179,7 @@ return out;
   };
   const profile=(state,category)=>category==='pickups'&&state.model==='EDDA'&&state.selections.pickups==='nova_custom'
     ? {...references.pickups.nova_mm,scope:'catalog-reference',note:'nova-custom'}
-    :category==='hardware_bridge'&&state.model==='ASKR'&&state.selections.hardware_bridge==='ets_custom'?undefined:references[category]?.[state.selections[category]];
+    :category==='hardware_bridge'&&((state.model==='ASKR'&&state.selections.hardware_bridge==='ets_custom')||(state.model!=='ASKR'&&state.selections.hardware_bridge==='nova_parts'))?undefined:references[category]?.[state.selections[category]];
   function selectedPickupPlan(state){
     const ref=profile(state,'pickups');if(!ref)return pickupPlan(state);
     const base=state.model==='EDDA'?references.pickups.nova_mm:state.model==='ASKR'?references.pickups.fishman:references.pickups.delano_sbc;
@@ -267,6 +268,7 @@ return out;
     const ref=profile(state,'hardware_bridge');if(!ref)return '';
     if(['ets-tuning-fork','schaller-3d'].includes(ref.style))return referencedBridge(state,p,ref);
     if(ref.style==='payson-fanned-v4')return paysonBridge(state,p);
+    if(ref.style==='nova-dingwall-retrofit-5')return novaBridge(state,p);
     const n=state.g.strings,guitar=state.model==='GRAMR',id=state.selections.hardware_bridge;
     const [a,b]=state.g.bridge,cx=(a[0]+b[0])/2,cy=(a[1]+b[1])/2;
     const w=guitar?83.5:ref.style==='404bo'?(n===4?86:100):(n===4?82:101.6),h=guitar?40:ref.style==='404bo'?58:ref.style==='fch-top'?66.8:ref.style==='masskicker'?60:50.8;
@@ -306,6 +308,7 @@ return out;
   // ETS proportions follow the headed Tuning Fork catalog, NOT the headless MK-III.
   function bridgeAnchors(state){
     const ref=profile(state,'hardware_bridge');
+    if(state.model==='ASKR'&&state.selections.hardware_bridge==='nova_parts')return novaBridgePlan(state).anchors;
     if(state.model==='ASKR'&&state.g.bridgeSaddlePoints)return state.g.bridgeSaddlePoints.map(p=>p.slice());
     if(!ref||!['ets-tuning-fork','schaller-3d'].includes(ref.style))return null;
     const n=state.g.strings,schaller=ref.style==='schaller-3d',spacing=schaller?(n===4?19:16.6):18.5,scale=state.g.unitsPerMm||1.07,[a,b]=state.g.bridge,cx=(a[0]+b[0])/2,cy=(a[1]+b[1])/2;
@@ -360,6 +363,40 @@ return out;
       for(const xx of [-4.4,4.4])for(const yy of [-3.5,4])out+=circle(xx,yy,1,'#101618','stroke="#c4c9c3" stroke-width=".5"');
       out+=box(-2.2,24,4.4,8,1.4,'#171f22','stroke="#a6afb1" stroke-width=".55"')+circle(0,27,1.1,'#080d0f')+'</g>';
     });return out+'</g>';
+  }
+  // Nova / Andre Passini Dingwall Retrofit 5-string drawing: 102 mm overall,
+  // 18 mm spacing, 55 degrees from the transverse axis's normal, 43.7 mm
+  // perpendicular depth and 12 mm channels. The source saddle centroid only
+  // registers the product illustration; it does not approve ASKR installation.
+  function novaBridgePlan(state){
+    const scale=state.g.unitsPerMm||1,source=state.g.bridgeSaddlePoints,cx=source.reduce((s,p)=>s+p[0],0)/5,cy=source.reduce((s,p)=>s+p[1],0)/5;
+    const slope=-Math.tan(35*Math.PI/180),depth=43.7/Math.cos(35*Math.PI/180),front=32-depth,tail=32,lo=-51,hi=51,r=12;
+    const top=x=>slope*x+front,bottom=x=>slope*x+tail,xy=(x,y)=>`${cx+x*scale} ${cy+y*scale}`;
+    const outline=`M${xy(lo,top(lo)+r)}Q${xy(lo,top(lo))} ${xy(lo+r,top(lo+r))}L${xy(hi-r,top(hi-r))}Q${xy(hi,top(hi))} ${xy(hi,top(hi)+r)}V${cy+(bottom(hi)-r)*scale}Q${xy(hi,bottom(hi))} ${xy(hi-r,bottom(hi-r))}L${xy(lo+r,bottom(lo+r))}Q${xy(lo,bottom(lo))} ${xy(lo,bottom(lo)-r)}Z`;
+    return {scale,cx,cy,slope,front,tail,outline,anchors:Array.from({length:5},(_,i)=>{const x=(i-2)*18;return [cx+x*scale,cy+slope*x*scale];})};
+  }
+  function novaBridge(state,p){
+    const plan=novaBridgePlan(state),{scale,outline,front,tail}=plan;
+    const metal=`url(#${p}-nova-anodized)`,mask=`${p}-nova-bore-mask`;
+    let out=`<g data-layer="bridge" data-option="nova_parts" data-profile="nova-dingwall-retrofit-5" data-appearance="manufacturer-drawing" data-placement="source-centroid-fit-unconfirmed" data-colour="${state.bridgeColour}" data-finish-fixed="true" data-width-mm="102" data-perpendicular-depth-mm="43.7" data-spacing-mm="18" data-drawing-angle-deg="55" data-channel-width-mm="12" data-string-count="5"><title>Nova Guitar Parts Dingwall Retrofit 5-string / manufacturer exterior drawing; ASKR mounting and intonation fit unconfirmed</title><defs><linearGradient id="${p}-nova-anodized" x2=".3" y2="1"><stop stop-color="#383e43"/><stop offset=".12" stop-color="#20272c"/><stop offset=".7" stop-color="#11171b"/><stop offset="1" stop-color="#30383d"/></linearGradient><mask id="${mask}" maskUnits="userSpaceOnUse" x="0" y="950" width="325" height="200"><rect x="0" y="950" width="325" height="200" fill="white"/>`;
+    // Five counterbores pass through the one-piece base. Their drawing-derived
+    // appearance is separate from unapproved mounting-hole locations on ASKR.
+    for(const [x,y] of plan.anchors)out+=circle(x,y+18*scale,3.1*scale,'black');
+    out+=`</mask></defs>`;
+    out+=path(outline,'#050809','transform="translate(.6 1.4)" stroke="#080c0f" stroke-width="1.2"')+`<g mask="url(#${mask})">`+path(outline,metal,'data-part="continuous-aluminium-plate" stroke="#485158" stroke-width=".65"');
+    for(const [i,[x,y]] of plan.anchors.entries()){
+      // The open string-entry notch is at the tail. The wide channel opens
+      // towards the neck; paired silver height screws sit on the black saddle.
+      out+=`<g data-saddle="${i}" data-channel-index="${i}" data-string-anchor="${x},${y}" transform="translate(${x} ${y}) scale(${scale})">`;
+      const channel=`M-6 ${front+4.2}V17A6 6 0 0 0 6 17V${front-4.2}Z`;
+      out+=path(channel,'#080d10','data-part="saddle-channel" stroke="#3c454c" stroke-width=".4"')+path(`M0 23V${tail}`,'none','data-part="tail-entry-notch" stroke="#080d10" stroke-width="3.2"');
+      out+=circle(0,18,4.6,'#303940','stroke="#080d10" stroke-width=".6"')+circle(0,18,3.1,'#000');
+      out+=box(-5.4,-4.3,10.8,11,.5,'#10181d','stroke="#4c565e" stroke-width=".45"')+path('M-4 -2L0 5L4 -2','none','stroke="#717b80" stroke-width=".55"');
+      for(const dx of [-3,3])out+=circle(dx,0,2.65,'#666f74')+circle(dx,-.25,2.25,'#cbd0cc','stroke="#777f81" stroke-width=".35"')+path(`M${dx-.8} -.65l.8-.45 .8.45v.9l-.8.45-.8-.45Z`,'#626e72');
+      out+=path(`M0 1V${tail-2}`,'none','data-part="tail-string" stroke="#b1b4aa" stroke-width=".7"')+circle(0,tail-1.4,2,'#9c8248','data-part="ball-entry" stroke="#453c24" stroke-width=".45"')+circle(0,tail-1.4,.8,'#131719');
+      out+=circle(-2.8,-4.5,1.1,'#111a20','stroke="#7c898e" stroke-width=".35"')+path('M0 -7V1','none','stroke="#131a1f" stroke-width=".8"')+'</g>';
+    }
+    return out+'</g></g>';
   }
   function referenceBridge(state,p){
     const g=state.g;if(g.kind!=='bass-drawing')return '';
@@ -440,5 +477,5 @@ return out;
     else {anchors=state.g.tunerAnchors||frontTunerAnchors[state.model];scale=state.g.unitsPerMm||(state.model==='EDDA'?.72:.68);}
     return `<g data-layer="${back?'rear-selected-tuners':plane==='rear-mount'?'tuner-rear-mount':state.model==='GRAMR'?'selected-tuners':'hardware'}" data-option="${state.selections.hardware_color}" data-plane="${back?'rear-housing':plane}" data-machine-head="${state.selections.hardware_machine_head}" data-colour="${state.metal}" data-count="${anchors.length}" data-appearance="manufacturer-reference" data-placement="${back&&state.model!=='EDDA'?'drawing-fit':'sample-fit'}" data-profile="${ref.key}" data-units-per-mm="${scale}">`+anchors.map(([x,y,a],i)=>{const reflectY=['EDDA','GRAMR'].includes(state.model)?(!back&&plane==='rear-mount'):(back?a===90:plane==='rear-mount'&&a===180);return `<g data-tuner-index="${i}" data-y-reflection="${reflectY}" transform="translate(${x} ${y}) rotate(${a}) scale(${scale} ${reflectY?-scale:scale})">${tunerUnit(state,p,ref,back?'rear-housing':plane)}</g>`;}).join('')+'</g>';
   }
-  return {definitions,pickupPlan,guard,bridgeAnchors,ramps,electronicsProfiles,electronicsPlan,knobs,controlPlan,controls,references,profile,selectedPickupPlan,pickupThumbnail,pickups,bridge,referenceBridge,tuners};
+  return {definitions,pickupPlan,guard,bridgeAnchors,novaBridgePlan,ramps,electronicsProfiles,electronicsPlan,knobs,controlPlan,controls,references,profile,selectedPickupPlan,pickupThumbnail,pickups,bridge,referenceBridge,tuners};
 });
