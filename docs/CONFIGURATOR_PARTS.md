@@ -1,3 +1,17 @@
+## v19 correction — restore EDDA guard; remove unrequested plate
+
+The v18 EDDA control plate was an incorrect interpretation and is withdrawn.
+Restore the exact v17 pickguard path from `a651060`; no trimming or reshaping.
+Remove the plate renderer, geometry and mounts. Existing front sample places the
+controls outside the pickguard, so relocate all 3/4/5/6-pot and custom fallback
+banks to that control area with complete knob/shadow discs clear of the guard.
+Keep the prior rear-based body registration, bridge work and rear tuner cleanup.
+No production, pricing, option restrictions or PDF calculation changes.
+The v18 plate-dependent checks below are superseded by body containment, original
+guard identity and guard/knob clearance checks. All positions remain visual proposals.
+
+---
+
 ## v18 — bridge evidence and EDDA registration (2026-10-20 KST)
 
 Supersedes the historical Schaller 3D / ETS coverage rows below.

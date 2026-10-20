@@ -71,10 +71,10 @@ return out;
   // display fits inside each model's control area, never drilling dimensions.
   const controlLayouts={
     EDDA:{
-      3:[[622,906],[645,946],[636,989]],
-      4:[[621,901],[647,927],[624,960],[644,994]],
-      5:[[621,901],[647,925],[621,948],[651,966],[635,996]],
-      6:[[621,901],[646,925],[620,943],[650,960],[621,981],[647,988]]
+      3:[[640,899],[654,940],[642,983]],
+      4:[[637,892],[654,925],[657,959],[642,993]],
+      5:[[635,892],[658,922],[625,937],[660,966],[638,997]],
+      6:[[635,892],[660,920],[626,932],[660,954],[628,973],[652,998]]
     },
     EMBLA:{
       3:[[237,774],[262,808],[249,845]],
@@ -337,10 +337,6 @@ return out;
     if(schaller){for(const x of (n===4?[14.4,39.9,65.4]:[6.8,39.8,72.8]))out+=screw(x,h-17.8,2.55);}
     return out+'</g></g>';
   }
-  function controlPlate(state,p){
-    if(state.model!=='EDDA')return '';
-    return `<g data-layer="control-plate" data-appearance="rear-aligned-proposal" data-placement="visual-fit-unconfirmed">${path(state.g.controlPlate,`url(#${p}-part-metal)`,'stroke="#22292b" stroke-width="1.2"')}${screw(622,887,1.6)}${screw(649,1005,1.6)}</g>`;
-  }
   // Original exterior illustration from Payson's product photos. The continuous
   // aluminium plate is fitted to source string endpoints, not a machining plan.
   function paysonBridge(state,p){
@@ -436,5 +432,5 @@ return out;
     else {anchors=state.g.tunerAnchors||frontTunerAnchors[state.model];scale=state.g.unitsPerMm||(state.model==='EDDA'?.72:.68);}
     return `<g data-layer="${back?'rear-selected-tuners':plane==='rear-mount'?'tuner-rear-mount':state.model==='GRAMR'?'selected-tuners':'hardware'}" data-option="${state.selections.hardware_color}" data-plane="${back?'rear-housing':plane}" data-machine-head="${state.selections.hardware_machine_head}" data-colour="${state.metal}" data-count="${anchors.length}" data-appearance="manufacturer-reference" data-placement="${back&&state.model!=='EDDA'?'drawing-fit':'sample-fit'}" data-profile="${ref.key}" data-units-per-mm="${scale}">`+anchors.map(([x,y,a],i)=>`<g data-tuner-index="${i}" transform="translate(${x} ${y}) rotate(${a}) scale(${scale} ${back?-scale:scale})">${tunerUnit(state,p,ref,back?'rear-housing':plane)}</g>`).join('')+'</g>';
   }
-  return {definitions,pickupPlan,guard,controlPlate,bridgeAnchors,ramps,electronicsProfiles,electronicsPlan,knobs,controlPlan,controls,references,profile,selectedPickupPlan,pickupThumbnail,pickups,bridge,referenceBridge,tuners};
+  return {definitions,pickupPlan,guard,bridgeAnchors,ramps,electronicsProfiles,electronicsPlan,knobs,controlPlan,controls,references,profile,selectedPickupPlan,pickupThumbnail,pickups,bridge,referenceBridge,tuners};
 });

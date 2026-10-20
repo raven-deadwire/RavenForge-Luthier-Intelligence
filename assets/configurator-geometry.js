@@ -18,8 +18,8 @@
       hardware: 'M485 986 L585 982 L588 1040 L486 1041 Z',
       // Visible pickguard traced from the owned EDDA sample: neck pocket,
       // treble horn and control-side scallop. Display reference, not a CNC outline.
-      pickguard: 'M507 707 C494 740 478 776 466 810 C455 837 451 854 460 873 C468 890 487 896 511 896 L568 896 Q582 894 587 883 L587 858 Q590 835 601 817 Q615 793 628 769 L641 730 Q646 713 641 706 C637 731 628 749 610 758 Q579 769 562 744 L564 768 L504 768 Z',
-      pickguardProvenance: {kind:'sample-contour',revision:'rear-aligned-clearance-v18',source:'Edda Prototype Design.png',status:'visual-reference-not-machining',optional:true},
+      pickguard: 'M507 707 C494 740 478 776 466 810 C455 837 451 854 460 873 C468 890 487 896 511 896 L568 897 Q595 893 613 907 C605 895 608 881 620 874 Q635 865 650 874 L640 846 Q627 817 636 785 L650 745 Q661 719 650 704 C647 728 635 750 613 757 Q579 769 562 744 L564 768 L504 768 Z',
+      pickguardProvenance: {kind:'sample-contour',source:'Edda Prototype Design.png',status:'visual-reference-not-machining',optional:true},
       tunerMask: 'M510 47 L520 49 L526 59 L520 69 L511 75 L499 65 L499 59 Z M519 58 L536 62 L534 69 L519 66 Z M499 87 L509 85 L518 91 L517 98 L508 102 L499 99 L489 94 Z M511 91 L534 95 L532 101 L512 98 Z M486 126 Q486 120 499 122 L521 127 L521 133 L497 133 L488 132 Z M481 146 L490 144 L502 151 L504 164 L497 174 L484 173 L472 164 L474 153 Z M496 153 L524 157 L523 164 L498 162 Z',
       transform: 'translate(25 780) rotate(-90)',
       views: { full: '0 0 1120 460', body: '565 55 540 390', neck: '170 175 640 160', head: '35 175 220 170' },
@@ -28,8 +28,7 @@
       board: [[521,198],[557,198],[564,768],[504,768]],
       bridge: [[501,995],[574,995]],
       pickups: [{x:490,y:805,w:100,h:49},{x:489,y:909,w:101,h:49}],
-      controls: [[621,901],[647,927],[624,960],[644,994]],
-      controlPlate: 'M622 880 C640 878 657 901 663 933 C670 965 665 999 650 1012 C638 1021 615 1009 609 991 L606 921 Q604 890 622 880 Z',
+      controls: [[637,892],[654,925],[657,959],[642,993]],
       frontRegistration: {source:'edda-rear-bolton-v6.webp',kind:'mirrored-concept',scale:.712,axis:525,nutY:275,frontNut:[539,198],status:'visual-reference-not-machining'},
       bodyCenter: 539
     },

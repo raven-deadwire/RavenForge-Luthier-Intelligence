@@ -461,3 +461,16 @@ assert.equal((paysonSvg.match(/data-saddle=/g)||[]).length,5);
 for(const line of paysonState.g.stringLines)assert.ok(paysonSvg.includes(`data-string-anchor="${line[1]}"`));
 assert.equal(parts.bridge({...paysonState,metal:'#c9a75c'},'qa-payson'),paysonSvg,'Bridge anodizing cannot follow tuner colour');
 console.log('PASS: connected ASKR nut transition, rear/front tuner planes, Graph Tech and Schaller variants, continuous fixed-finish Payson plate');
+
+// v19: the owner requested the original guard and knob placement only.
+{
+ const g=require('../assets/configurator-geometry.js').EDDA;
+ const crypto=require('node:crypto');
+ assert.equal(crypto.createHash('sha256').update(g.pickguard).digest('hex'),'a29457f7900411f67aa0a53c3296bdd299f6be91bc3599da5c573af5664f7a94');
+ assert.equal(g.controlPlate,undefined);
+ for(const electronics of [...Object.keys(parts.electronicsProfiles).filter(id=>!id.startsWith('guitar')),'dual_filter']){
+  const svg=preview.renderSvg(preview.scene('EDDA',{...normalize('EDDA'),electronics,pickguard:'pg_add'},''),'front','en');
+  assert.doesNotMatch(svg,/data-layer="control-plate"/);
+ }
+}
+console.log('PASS: original EDDA guard contour restored exactly; no control plate');
