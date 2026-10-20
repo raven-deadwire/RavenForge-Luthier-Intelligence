@@ -12,6 +12,48 @@ async function main() {
   await fs.mkdir(output,{recursive:true});
   const browser=await chromium.launch();
   const page=await browser.newPage();
+  // SVG used as an Image cannot load the relative HTTP images that render in
+  // the live document. Embed fetched bytes in a detached copy for canvas QA;
+  // leave the production DOM and its media resolution completely unchanged.
+  await page.addInitScript(()=>{
+    const imageBytes=new Map();
+    const embeddedImage=href=>{
+      const resolved=new URL(href,document.baseURI).href;
+      if(!imageBytes.has(resolved))imageBytes.set(resolved,(async()=>{
+        let embedded=href;
+        if(!href.startsWith('data:')){
+          const response=await fetch(resolved);
+          if(!response.ok)throw new Error('Raster source request failed: '+resolved+' ('+response.status+')');
+          const blob=await response.blob();
+          embedded=await new Promise((resolve,reject)=>{
+            const reader=new FileReader();
+            reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(reader.error||new Error('Raster source read failed: '+resolved));
+            reader.readAsDataURL(blob);
+          });
+        }
+        const decoded=new Image();decoded.src=embedded;await decoded.decode();
+        if(!decoded.naturalWidth||!decoded.naturalHeight)throw new Error('Raster source has no pixels: '+resolved);
+        return embedded;
+      })());
+      return imageBytes.get(resolved);
+    };
+    window.__rfQaRasterizeSvg=async(svg,width,height)=>{
+      const detached=typeof svg==='string'?new DOMParser().parseFromString(svg,'image/svg+xml').documentElement:svg.cloneNode(true);
+      if(detached.localName!=='svg'||detached.querySelector('parsererror'))throw new Error('Invalid raster SVG');
+      await Promise.all([...detached.querySelectorAll('image')].map(async image=>{
+        const href=image.getAttribute('href')||image.getAttributeNS('http://www.w3.org/1999/xlink','href');
+        if(!href)throw new Error('Raster image source is missing');
+        image.setAttribute('href',await embeddedImage(href));
+        image.removeAttributeNS('http://www.w3.org/1999/xlink','href');
+      }));
+      const image=new Image();
+      image.src='data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(new XMLSerializer().serializeToString(detached))));
+      await image.decode();
+      const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
+      const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0,width,height);
+      return ctx.getImageData(0,0,width,height).data;
+    };
+  });
   const report={url,checks:[],errors:[],started:new Date().toISOString()};
   const localAssetRequests=[];
   if(url.startsWith('file:')) page.on('request',request=>{
@@ -23,10 +65,8 @@ async function main() {
   const layer=name=>page.locator(`[data-layer="${name}"]`);
   const side=name=>page.locator(`button[data-preview-side="${name}"]`).click();
   const colourPixels=()=>page.evaluate(async()=>{
-    const svg=document.querySelector('[data-preview-svg]'),image=new Image();
-    image.src='data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(new XMLSerializer().serializeToString(svg))));
-    await image.decode();const canvas=document.createElement('canvas');canvas.width=480;canvas.height=700;const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0,480,700);
-    const data=ctx.getImageData(0,0,480,700).data;let red=0,blue=0;
+    const svg=document.querySelector('[data-preview-svg]');
+    const data=await window.__rfQaRasterizeSvg(svg,480,700);let red=0,blue=0;
     for(let i=0;i<data.length;i+=4){if(data[i+3]<240)continue;const [r,g,b]=data.slice(i,i+3);if(r>35&&r>g*1.8&&r>b*1.8)red++;if(b>35&&b>r*1.4&&b>g*1.12)blue++;}
     return {red,blue};
   });
@@ -204,7 +244,7 @@ async function main() {
       const M=globalThis.RavenForgeMaterials,results=[];
       for(const id of Object.keys(M.catalog))for(const [colour,channel] of [['#9d282b',0],['#275f89',2]]){
         const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96"><defs>${M.pattern('wood',id)}${M.finishFilter('dye',colour)}</defs><rect width="96" height="96" fill="url(#wood)" filter="url(#dye)"/></svg>`;
-        const image=new Image();image.src='data:image/svg+xml;base64,'+btoa(svg);await image.decode();const canvas=document.createElement('canvas');canvas.width=canvas.height=96;const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0);const data=ctx.getImageData(0,0,96,96).data,mean=[0,0,0];let pixels=0;
+        const data=await window.__rfQaRasterizeSvg(svg,96,96),mean=[0,0,0];let pixels=0;
         for(let i=0;i<data.length;i+=4)if(data[i+3]>240){pixels++;for(let c=0;c<3;c++)mean[c]+=data[i+c];}
         if(pixels<9000)throw new Error('Texture not rendered: '+id);
         if(!(mean[channel]>mean[2-channel]*1.5))throw new Error('Dye hue reversal: '+id+' '+colour+' '+mean);
@@ -336,7 +376,17 @@ async function main() {
           if(model!=='GRAMR') {
             if(await page.locator('input[name="fretboard"][value="ironwood"]').count()){
               await choose('fretboard','ironwood');
-              assert.ok((await page.locator('[id$="-board-material"] image').getAttribute('href')).startsWith('data:image/webp'));
+              await page.locator('[id$="-board-material"] image').evaluate(async element=>{
+                const material=RavenForgeMaterials.get('ironwood'),href=element.getAttribute('href');
+                const expected=globalThis.RavenForgePreviewMedia?.[material.source]||material.source;
+                if(!href||new URL(href,document.baseURI).href!==new URL(expected,document.baseURI).href)throw new Error('Ironwood texture source differs from catalog');
+                if(!href.startsWith('data:')){
+                  const response=await fetch(new URL(href,document.baseURI));
+                  if(!response.ok)throw new Error('Ironwood texture request failed: '+response.status);
+                }
+                const image=new Image();image.src=href;await image.decode();
+                if(image.naturalWidth!==(material.sourceWidth||1254)||image.naturalHeight!==(material.sourceHeight||1254))throw new Error('Incorrect ironwood texture dimensions');
+              });
               const ironPixels=await page.locator('.rf-preview-stage').screenshot();
               await choose('fretboard','bog_oak');
               assert.ok(!ironPixels.equals(await page.locator('.rf-preview-stage').screenshot()),'Ironwood and bog oak change visible wood pixels');
