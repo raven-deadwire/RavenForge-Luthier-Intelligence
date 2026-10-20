@@ -42,7 +42,7 @@ return out;
   // Preview coordinates only, deliberately separate from every source knob.
   // They are NOT drilling positions and never enter order/PDF state.
   const controlProposals={
-    EDDA:{kill:[610,991],coils:[]},
+    EDDA:{kill:[601,1026],coils:[]},
     EMBLA:{kill:[224,880],coils:[[250,880],[276,880]]},
     ASKR:{kill:[218,1068],coils:[[244,1068],[270,1068]]},
     // Upright front: right of the pickguard centre, slightly above it.
@@ -71,10 +71,10 @@ return out;
   // display fits inside each model's control area, never drilling dimensions.
   const controlLayouts={
     EDDA:{
-      3:[[620,879],[646,929],[639,981]],
-      4:[[614,867],[645,910],[654,951],[644,996]],
-      5:[[614,866],[647,906],[610,934],[654,953],[643,999]],
-      6:[[612,863],[643,902],[610,933],[655,940],[650,979],[608,1030]]
+      3:[[622,906],[645,946],[636,989]],
+      4:[[621,901],[647,927],[624,960],[644,994]],
+      5:[[621,901],[647,925],[621,948],[651,966],[635,996]],
+      6:[[621,901],[646,925],[620,943],[650,960],[621,981],[647,988]]
     },
     EMBLA:{
       3:[[237,774],[262,808],[249,845]],
@@ -152,6 +152,8 @@ return out;
       fishman:{w:102.11,h:37.89,style:'fluence',url:'https://fishman.com/dp/fluence-bass-soapbar-5-string-pickups/'}
     },
     hardware_bridge:{
+      ets_custom:{style:'ets-tuning-fork',scope:'catalog-reference',url:'https://www.ets-hardware.com/index.php/en/produkte-2'},
+      schaller_3d:{style:'schaller-3d',scope:'manufacturer-drawing',url:'https://schaller.info/en/3d-5/1214'},
       payson:{style:'payson-fanned-v4',url:'https://www.paysonbass.com/store/p152/Payson-Fanned-Fret-Bass-Bridge.html'},
       babicz_top:{style:'fch-top',url:'https://www.fullcontacthardware.com/fch-5-string-bass-bridge'},
       hipshot_kick:{style:'masskicker',url:'https://hipshotproducts.com/products/5-string-masskicker-bass-bridge'},
@@ -174,7 +176,7 @@ return out;
   };
   const profile=(state,category)=>category==='pickups'&&state.model==='EDDA'&&state.selections.pickups==='nova_custom'
     ? {...references.pickups.nova_mm,scope:'catalog-reference',note:'nova-custom'}
-    :references[category]?.[state.selections[category]];
+    :category==='hardware_bridge'&&state.model==='ASKR'&&state.selections.hardware_bridge==='ets_custom'?undefined:references[category]?.[state.selections[category]];
   function selectedPickupPlan(state){
     const ref=profile(state,'pickups');if(!ref)return pickupPlan(state);
     const base=state.model==='EDDA'?references.pickups.nova_mm:state.model==='ASKR'?references.pickups.fishman:references.pickups.delano_sbc;
@@ -259,6 +261,7 @@ return out;
   }
   function bridge(state,p){
     const ref=profile(state,'hardware_bridge');if(!ref)return '';
+    if(['ets-tuning-fork','schaller-3d'].includes(ref.style))return referencedBridge(state,p,ref);
     if(ref.style==='payson-fanned-v4')return paysonBridge(state,p);
     const n=state.g.strings,guitar=state.model==='GRAMR',id=state.selections.hardware_bridge;
     const [a,b]=state.g.bridge,cx=(a[0]+b[0])/2,cy=(a[1]+b[1])/2;
@@ -294,6 +297,49 @@ return out;
     }
     if(!guitar){out+=path(`M2 ${h-3}H${w-2}`,'none','stroke="#d8dcd4" stroke-opacity=".6" stroke-width=".6"');for(const x of [5,w-5])out+=screw(x,5,1.8);}
     return out+'</g></g>';
+  }
+  // Primary drawing dimensions for Schaller; ETS Custom has no ordered SKU.
+  // ETS proportions follow the headed Tuning Fork catalog, NOT the headless MK-III.
+  function bridgeAnchors(state){
+    const ref=profile(state,'hardware_bridge');
+    if(!ref||!['ets-tuning-fork','schaller-3d'].includes(ref.style))return null;
+    const n=state.g.strings,schaller=ref.style==='schaller-3d',spacing=schaller?(n===4?19:16.6):18.5,scale=state.g.unitsPerMm||1.07,[a,b]=state.g.bridge,cx=(a[0]+b[0])/2,cy=(a[1]+b[1])/2;
+    return Array.from({length:n},(_,i)=>[cx+(i-(n-1)/2)*spacing*scale,cy+(1.5+(schaller?(n-1-i)*1.3:0))*scale]);
+  }
+  function referencedBridge(state,p,ref){
+    const n=state.g.strings,schaller=ref.style==='schaller-3d';
+    const w=schaller?(n===4?79.7:86.3):(n===4?82:101),h=schaller?(n===4?57.4:57):52;
+    const spacing=schaller?(n===4?19:16.6):18.5;
+    const scale=state.g.unitsPerMm||1.07,[a,b]=state.g.bridge;
+    const cx=(a[0]+b[0])/2,cy=(a[1]+b[1])/2,top=cy-13*scale;
+    const metal=`url(#${p}-part-metal)`,f=state.bridgeColour;
+    let out=`<g data-layer="bridge" data-option="${state.selections.hardware_bridge}" data-profile="${ref.style}" data-appearance="${schaller?'manufacturer-drawing':'catalog-reference'}" data-placement="visual-fit-unconfirmed" data-colour="${f}" data-finish-fixed="${!!state.bridgeFinishFixed}" data-width-mm="${schaller?w:'unconfirmed'}" data-depth-mm="${schaller?h:'unconfirmed'}" data-string-count="${n}"><g transform="translate(${cx-w*scale/2} ${top}) scale(${scale})">`;
+    out+=box(0,1.4,w,h,2,'#111618')+box(0,0,w,h,2,metal,'stroke="#252b2d" stroke-width=".7"');
+    const offset=(w-(n-1)*spacing)/2;
+    for(let i=0;i<n;i++){
+      const x=offset+i*spacing,y=13+(schaller?(n-1-i)*1.3:0);
+      out+=box(x-spacing/2+1,2,spacing-2,h-10,.8,'#252b2d','stroke="#9ba29e" stroke-width=".45"');
+      if(schaller){
+        // Narrow arms, transverse brass shaft/roller, paired height screws.
+        out+=box(x-6.5,y-5,13,25,1,metal,'stroke="#14191b" stroke-width=".7"');
+        out+=box(x-5.8,y,11.6,3,.4,'#8c713e')+box(x-3.2,y-2,6.4,7,1,'#bda66a','stroke="#594b2e" stroke-width=".5"');
+        for(const dx of [-1.8,0,1.8])out+=path(`M${x+dx} ${y-1}v5`,'none','stroke="#5b4c30" stroke-width=".4"');
+        out+=screw(x-5,y-2,1.5)+screw(x+5,y-2,1.5);
+        out+=path(`M${x} 3v${y-8}`,'none','stroke="#d0d4d0" stroke-width="1.2"');
+      }else{
+        // Open tuning-fork channels and the distinctive teardrop relief wells.
+        out+=path(`M${x-6} 3v${h-18}Q${x} ${h-5} ${x+6} ${h-18}V3`,'none','stroke="#b9bfbb" stroke-width="1.7"');
+        out+=box(x-5.2,9,10.4,11,1,metal,'stroke="#111718" stroke-width=".7"')+path(`M${x} 11v7`,'none','stroke="#171d1e" stroke-width="1"')+screw(x-3.5,11,1)+screw(x+3.5,11,1);
+        out+=path(`M${x-2} 24Q${x-8} 31 ${x-4} 36Q${x} 40 ${x+4} 36Q${x+8} 31 ${x+2} 24Z`,'#b6bdbb','stroke="#3d4545" stroke-width=".5"');
+      }
+    }
+    out+=box(0,h-9,w,9,1,metal,'stroke="#343d3e" stroke-width=".7"');
+    if(schaller){for(const x of (n===4?[14.4,39.9,65.4]:[6.8,39.8,72.8]))out+=screw(x,h-17.8,2.55);}
+    return out+'</g></g>';
+  }
+  function controlPlate(state,p){
+    if(state.model!=='EDDA')return '';
+    return `<g data-layer="control-plate" data-appearance="rear-aligned-proposal" data-placement="visual-fit-unconfirmed">${path(state.g.controlPlate,`url(#${p}-part-metal)`,'stroke="#22292b" stroke-width="1.2"')}${screw(622,887,1.6)}${screw(649,1005,1.6)}</g>`;
   }
   // Original exterior illustration from Payson's product photos. The continuous
   // aluminium plate is fitted to source string endpoints, not a machining plan.
@@ -390,5 +436,5 @@ return out;
     else {anchors=state.g.tunerAnchors||frontTunerAnchors[state.model];scale=state.g.unitsPerMm||(state.model==='EDDA'?.72:.68);}
     return `<g data-layer="${back?'rear-selected-tuners':plane==='rear-mount'?'tuner-rear-mount':state.model==='GRAMR'?'selected-tuners':'hardware'}" data-option="${state.selections.hardware_color}" data-plane="${back?'rear-housing':plane}" data-machine-head="${state.selections.hardware_machine_head}" data-colour="${state.metal}" data-count="${anchors.length}" data-appearance="manufacturer-reference" data-placement="${back&&state.model!=='EDDA'?'drawing-fit':'sample-fit'}" data-profile="${ref.key}" data-units-per-mm="${scale}">`+anchors.map(([x,y,a],i)=>`<g data-tuner-index="${i}" transform="translate(${x} ${y}) rotate(${a}) scale(${scale} ${back?-scale:scale})">${tunerUnit(state,p,ref,back?'rear-housing':plane)}</g>`).join('')+'</g>';
   }
-  return {definitions,pickupPlan,guard,ramps,electronicsProfiles,electronicsPlan,knobs,controlPlan,controls,references,profile,selectedPickupPlan,pickupThumbnail,pickups,bridge,referenceBridge,tuners};
+  return {definitions,pickupPlan,guard,controlPlate,bridgeAnchors,ramps,electronicsProfiles,electronicsPlan,knobs,controlPlan,controls,references,profile,selectedPickupPlan,pickupThumbnail,pickups,bridge,referenceBridge,tuners};
 });

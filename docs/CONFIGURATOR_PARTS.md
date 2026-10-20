@@ -1,3 +1,42 @@
+## v18 — bridge evidence and EDDA registration (2026-10-20 KST)
+
+Supersedes the historical Schaller 3D / ETS coverage rows below.
+
+| Part | Primary evidence | Render and approval boundary |
+|---|---|---|
+| Schaller 3D-4, 1213 | [official drawing](https://schaller.info/media/b6/cb/4e/1707212100/1213.pdf), October 2015 | 79.7 × 57.4 mm plan, nominal 19 mm string spacing, three mounting holes, transverse brass rollers, narrow saddle arms. Separate from BM/M4 tuners. |
+| Schaller 3D-5, 1214 | [official drawing](https://schaller.info/media/92/28/b2/1707212127/1214.pdf), October 2015 | 86.3 × 57 mm plan, drawing nominal 16.6 mm spacing. Instrument positioning, height/radius and drilling remain unapproved. |
+| ETS Custom, EDDA / EMBLA | [manufacturer gallery](https://www.ets-hardware.com/index.php/en/produkte-2), headed Tuning Fork rounded-small photo | Open fork channels, teardrop reliefs, individual saddles and rear rail. Catalog photo reference only; widths/spacing are visual estimates. No evidence identifies the ordered Custom variant. Do not substitute headless MK-III. |
+| ETS / Nova Custom, ASKR | Existing prototype PDF | Keep source contour and pending status: headed parallel Tuning Fork cannot establish a custom fanned bridge. |
+
+Schaller 3D-4 is covered as a four-string reference, but the EDDA production option
+contract does not permit Schaller. This change does not expand allowed options.
+Schaller 3D-5 is used for allowed five-string selections. Neither drawing is a
+RavenForge installation approval. No manufacturer photographs/logos/PDFs are distributed.
+
+EDDA front body uses the mirror of the existing rear-concept body path in
+`configurator-rear-renderer.js`: x = 539 + (525 − rearX) × 0.712,
+y = 198 + (rearY − 275) × 0.712. This registers the nut axis and body outline
+without claiming that the AI rear concept is a fabrication drawing. Original
+front sample remains available for comparison. The board/pickup anchors remain
+front-reference placements; contour, pickup and controls are visual proposals.
+
+The guard's control-side scallop now ends left of the separate metal plate.
+The plate and 3/4/5/6-pot banks are separate layers. Custom-wiring fallback uses
+the same four-control region; its wiring is still pending. Knob discs (including
+stacked knob/shadow allowance), kill switch and pickup envelopes are checked
+against body/guard/plate boundaries. Selected referenced bridge strings now
+terminate at their own saddle centres. Bridge is raised from the lower rim.
+These are 2D visual checks, not cavity depth, hand clearance or fastener approval.
+
+Validation: production calculation/PDF source equality, 565 allowed option
+substitutions × KO/EN/DE × front/back pass locally. Native-SVG body/guard/plate
+clearance checks and existing 24 viewport/language/model UI + 24 PDF matrix run
+in CI; final outcomes are recorded separately in the PR. Local browser installation
+was unavailable, so static render review is not presented as browser acceptance.
+
+---
+
 ## v17 — tuner planes, ASKR nut transition and bridge relief
 
 Front-mounted bushings/posts are now a separate layer above the headstock.

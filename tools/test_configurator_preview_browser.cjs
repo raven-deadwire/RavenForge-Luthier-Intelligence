@@ -34,6 +34,28 @@ async function main() {
   try {
     await page.goto(url,{waitUntil:'networkidle'});
     await page.locator('[data-preview-model="EDDA"]').waitFor();
+    report.eddaClearance=await page.evaluate(()=>{
+      const P=RavenForgePreview,parts=RavenForgeParts,g=RavenForgeGeometry.EDDA;
+      const host=document.createElementNS('http://www.w3.org/2000/svg','svg');document.body.append(host);
+      const shape=d=>{const p=document.createElementNS(host.namespaceURI,'path');p.setAttribute('d',d);host.append(p);return p;};
+      const body=shape(g.body),guard=shape(g.pickguard),plate=shape(g.controlPlate);
+      const inside=(path,x,y)=>{const pt=host.createSVGPoint();pt.x=x;pt.y=y;return path.isPointInFill(pt);};
+      let count=0;
+      for(let x=580;x<=680;x+=.8)for(let y=850;y<=1020;y+=.8)if(inside(guard,x,y)&&inside(plate,x,y))throw new Error('Guard / plate overlap');
+      for(const electronics of [...Object.keys(parts.electronicsProfiles).filter(id=>!id.startsWith('guitar')), 'nova_custom'])for(const pickups of ['nova_mm','haeussel_mm','nova_custom'])for(const bridge of ['ets_custom','gotoh_404BO','hipshot_b','babicz_top']){
+        const state=P.scene('EDDA',{electronics,pickups,hardware_bridge:bridge},'',{},null,{specialOptions:['kill_switch']});
+        for(const c of parts.controlPlan(state))for(let angle=0;angle<360;angle+=15){
+          const radius=c.type==='knob'?12:10,x=c.xy[0]+Math.cos(angle*Math.PI/180)*radius,y=c.xy[1]+Math.sin(angle*Math.PI/180)*radius;
+          if(!inside(body,x,y)||inside(guard,x,y)||(c.type==='knob'&&!inside(plate,x,y)))throw new Error('EDDA control clearance '+electronics+'/'+c.index);
+        }
+        for(const pickup of parts.selectedPickupPlan(state))for(const c of parts.controlPlan(state)){
+          const dx=Math.max(pickup.x-c.xy[0],0,c.xy[0]-pickup.x-pickup.w),dy=Math.max(pickup.y-c.xy[1],0,c.xy[1]-pickup.y-pickup.h);
+          if(Math.hypot(dx,dy)<14)throw new Error('Pickup / control overlap');
+        }
+        count++;
+      }
+      host.remove();return {configurations:count,result:'PASS',scope:'visual proposals, not machining clearance'};
+    });
     if(url.startsWith('file:')) {
       const originals=['Edda Prototype Design.png','EMBLA Prototype Design.png','ASKR Prototype Design.png',...Array.from({length:4},(_,i)=>`assets/configurator-bindrune/c${i+1}.svg`)];
       const hashes=await page.evaluate(async names=>Object.fromEntries(await Promise.all(names.map(async name=>{
@@ -90,7 +112,7 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
-          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v17');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v18');
           assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').textContent(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
