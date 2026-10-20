@@ -93,7 +93,7 @@ async function main() {
       const P=RavenForgePreview,parts=RavenForgeParts,g=RavenForgeGeometry.ASKR;
       const ns='http://www.w3.org/2000/svg',host=document.createElementNS(ns,'svg');document.body.append(host);
       const body=document.createElementNS(ns,'path');body.setAttribute('d',g.body);host.append(body);
-      const inside=([x,y])=>body.isPointInFill(new DOMPoint(x,y));
+      const inside=([x,y])=>{const p=host.createSVGPoint();p.x=x;p.y=y;return body.isPointInFill(p);};
       const circle=(xy,r)=>Array.from({length:72},(_,i)=>[xy[0]+r*Math.cos(i*Math.PI/36),xy[1]+r*Math.sin(i*Math.PI/36)]);
       const corners=r=>{const a=r.angle*Math.PI/180,c=Math.cos(a),s=Math.sin(a);return [[-1,-1],[1,-1],[1,1],[-1,1]].map(([x,y])=>[r.x+r.w/2+x*r.w/2*c-y*r.h/2*s,r.y+r.h/2+x*r.w/2*s+y*r.h/2*c]);};
       const edgePoints=q=>q.flatMap((a,i)=>{const b=q[(i+1)%q.length];return Array.from({length:101},(_,j)=>[a[0]+(b[0]-a[0])*j/100,a[1]+(b[1]-a[1])*j/100]);});
