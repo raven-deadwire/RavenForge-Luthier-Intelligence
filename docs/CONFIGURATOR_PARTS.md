@@ -419,3 +419,8 @@ The v23 Nova selection still displayed the ASKR #001 prototype's five separate m
 - Replace the old modules with an original SVG of the one-piece black anodized base, five open channels, paired silver saddle screws, counterbores and narrow tail entries. No manufacturer photo or logo is redistributed.
 - Width/spacing/angle/depth follow the product drawing. Rounded corners, relief and saddle details are a visual reconstruction of its drawing/photos. The whole plate is registered to the prototype saddle centroid; selected illustration travel and actual ASKR mounting, hole centres, neck angle, saddle height/intonation range remain unconfirmed. Front string endpoints follow the displayed Nova saddle witnesses.
 - Preserve the two bridge options and -€70 Nova adjustment, black fixed bridge finish, all other part locations, source PDFs, price/normalization/PDF logic and production files.
+
+
+### v25 — ASKR Fishman four-control arc
+
+Replace the Fishman-only staggered 2+2 preview with a regular outer arc, ordered volume / blend / bass / treble. Approximately equal 35-display-unit centre spacing follows the control-side body curve. Preserve other EQ layouts, control functions, bridge/pickup locations, option and price state, PDF logic and production files. The arc is a visual proposal, not drilling coordinates.

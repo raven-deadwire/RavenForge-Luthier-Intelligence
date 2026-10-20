@@ -91,12 +91,14 @@ return out;
       6:[[235,935],[265,960],[231,990],[278,998],[230,1031],[275,1032]]
     }
   };
+  // ASKR Fishman: volume / blend / bass / treble in an even outer arc.
+  const askrFishmanArc=[[244,942],[263,972],[273,1006],[273,1041]];
   function electronicsPlan(state){
     const s=state.selections,ref=electronicsProfiles[s.electronics];
     if(!ref||['control_custom','guitar_custom_wiring'].includes(s.control_layout))return null;
-    const guitar=state.model==='GRAMR',positions=guitar?state.g.controls:(controlLayouts[state.model]||state.g.controlLayouts)?.[ref.knobs.length];
+    const guitar=state.model==='GRAMR',fishmanArc=state.model==='ASKR'&&s.electronics==='fishman',positions=fishmanArc?askrFishmanArc:guitar?state.g.controls:(controlLayouts[state.model]||state.g.controlLayouts)?.[ref.knobs.length];
     if(!positions)return null;
-    return {...ref,layout:guitar?'guitar-two-pot':ref.knobs.length===3?'three-control-arc':ref.knobs.length===4?'two-plus-two':ref.knobs.length===5?'two-plus-three':'two-plus-four',knobs:ref.knobs.map((functions,index)=>({xy:[...positions[index]],type:'knob',index,functions:[...functions],stacked:functions.length>1,placement:guitar?'source-retained':'electronics-preview'}))};
+    return {...ref,layout:fishmanArc?'fishman-four-control-arc':guitar?'guitar-two-pot':ref.knobs.length===3?'three-control-arc':ref.knobs.length===4?'two-plus-two':ref.knobs.length===5?'two-plus-three':'two-plus-four',knobs:ref.knobs.map((functions,index)=>({xy:[...positions[index]],type:'knob',index,functions:[...functions],stacked:functions.length>1,placement:guitar?'source-retained':'electronics-preview'}))};
   }
   function controlPlan(state){
     const s=state.selections,extras=state.specialOptions||[],positions=state.g.controls||[];
