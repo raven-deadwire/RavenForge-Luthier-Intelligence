@@ -78,6 +78,7 @@ async function main() {
           await choose('hardware_bridge',bridge);
           for(const view of ['front','back']){
             await side(view);await page.locator('[data-preview-svg]').waitFor();
+            if(view==='back'&&model==='EDDA')assert.equal(await page.locator('[data-layer="rear-headstock"] [data-surface="clean-head"]').count(),1);
             if(view==='front'){
               assert.equal(await layer('bridge').getAttribute('data-option'),bridge);
               if(['ets_custom','schaller_3d'].includes(bridge))assert.equal(await layer('bridge').getAttribute('data-profile'),bridge==='ets_custom'?'ets-tuning-fork':'schaller-3d');

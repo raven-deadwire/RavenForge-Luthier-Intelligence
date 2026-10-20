@@ -22,7 +22,7 @@ front sample remains available for comparison. The board/pickup anchors remain
 front-reference placements; contour, pickup and controls are visual proposals.
 
 The guard's control-side scallop now ends left of the separate metal plate.
-The plate and 3/4/5/6-pot banks are separate layers. Custom-wiring fallback uses
+The plate and 3/4/5/6-pot banks are separate layers. Selected EDDA rear tuners use a clean head surface so the original baked housings cannot show through. Custom-wiring fallback uses
 the same four-control region; its wiring is still pending. Knob discs (including
 stacked knob/shadow allowance), kill switch and pickup envelopes are checked
 against body/guard/plate boundaries. Selected referenced bridge strings now
