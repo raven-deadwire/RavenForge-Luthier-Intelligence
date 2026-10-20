@@ -183,7 +183,7 @@ async function main() {
           if(model==='GRAMR'){
             assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-side'),'back');
             assert.equal(await page.locator('[data-preview-svg]').getAttribute('viewBox'),fullViewBox);
-            assert.equal(await layer('rear-body').getAttribute('data-opaque'),'false','Natural oil stays natural');
+            assert.equal(await layer('rear-body').getAttribute('data-opaque'),'true','Selected opaque colour covers the rear without changing the quote finish');
             assert.equal(await layer('rear-joint-schematic').getAttribute('data-coordinate-status'),'unverified');
             assert.equal(await layer('rear-bolts').getAttribute('data-count'),'5');
             assert.equal(await layer('rear-bolts').getAttribute('data-pattern'),'2-2-1');
