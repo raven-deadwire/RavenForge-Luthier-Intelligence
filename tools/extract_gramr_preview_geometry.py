@@ -76,9 +76,9 @@ rear_cavity,cavity_gap=contour(list(range(2114,2122)))
 heel=[tuple(v*matrix) for v in drawings[5613]['items'][0][1:]]
 rear_neck=[[437.11/2,1486.79/2-offset_y],[437.11/2,1578.56/2-offset_y],[heel[1][0]/2,heel[1][1]/2-offset_y],[heel[0][0]/2,heel[0][1]/2-offset_y]]
 rear_body=rear_body[:-2]+' L'+xy(heel[1])+' L'+xy(heel[0])+' Z'
-rear_tuners=[[x,y-offset_y] for x,y in [center(i) for i in [2024,2029,2034,2039,2044,2049]]]
+rear_tuners=[[x,y-offset_y] for x,y in [center(i) for i in [2022,2027,2032,2037,2042,2047]]]
 data['back']=dict(source='assets/configurator-gramr-rear-reference.svg',body=rear_body,head=rear_head,neck=rear_neck,tuners=rear_tuners,cavity=rear_cavity,jointSeam='M'+xy(heel[0])+' L'+xy(heel[1]),jointSchematic=[[662,271],[662,301],[684,271],[684,301],[704,286]],
- provenance=dict(bodyDrawingIndices=rear_body_ids,neckBoundaryDrawingIndex=5613,headDrawingIndices=rear_head_ids,cavityDrawingIndices=list(range(2114,2122)),displayYOffset=offset_y,maxJoinGapPDFPoints=max(rear_body_gap,rear_head_gap,cavity_gap),scope='Rear projection only; historical neck plate/bolts, lamination widths and exact tuner/cavity internals are not displayed.'))
+ provenance=dict(tunerPostDrawingIndices=[2022,2027,2032,2037,2042,2047],tunerAnchorStatus="source bore centres; old housing bounding-box centres removed",bodyDrawingIndices=rear_body_ids,neckBoundaryDrawingIndex=5613,headDrawingIndices=rear_head_ids,cavityDrawingIndices=list(range(2114,2122)),displayYOffset=offset_y,maxJoinGapPDFPoints=max(rear_body_gap,rear_head_gap,cavity_gap),scope='Rear projection only; historical neck plate/bolts, lamination widths and exact tuner/cavity internals are not displayed.'))
 # Append the rear projection without changing any already extracted front coordinates.
 js=js[:js.index('return ')+7]+json.dumps(data,ensure_ascii=False,separators=(',',':'))+';});\n'
 (ROOT/'assets/configurator-gramr-geometry.js').write_text(js)

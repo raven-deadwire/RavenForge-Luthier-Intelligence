@@ -386,3 +386,16 @@ a preceding commit's results are not current-commit validation.
 
 ### v21 — EDDA machine-head orientation correction
 The v20 rear machines were vertically mirrored and tilted the wrong way. EDDA rear housings now retain their local vertical orientation, with shafts above the gear centres and a -10 degree shaft angle, as in the supplied rear reference. Only the front's rear-mounted key plane is reflected vertically to match that projection. Head contours and post centres are unchanged. Other models retain their existing transforms.
+
+### v22 — all-model tuner projection audit (2026-10-20)
+
+| Model | Compared sources | Correction |
+|---|---|---|
+| EDDA | Supplied rear reference / v21 matched contour | Rechecked; retain rear orientation and mirrored front key plane |
+| ASKR | Original ASKR #001 front/rear PDF projections, existing source hashes | Three-key and two-key banks now use independent local reflection; housing body faces the neck on both faces |
+| EMBLA | Original EMBLA #002 front/rear PDF projections, existing source hashes | Same bank-specific correction; retain all source post centres |
+| GRAMR | Original strict R12 PDF SHA256 `3edaab849e644ba2c1aa2e28abdbed9c92a246cb7a3ca5591da152d22c609b1d`, rear drawing indices 2022/2027/2032/2037/2042/2047; Gotoh SG381 manufacturer drawing | Replace rear housing-bounds centres with actual bore centres, pair tip-to-nut indices, orient rear machines upright and mirror front key plane; use SG381 6 mm post, 7.8 mm shaft offset and closed rear housing |
+
+SG381: https://g-gotoh.com/images/pdf/SG381-Dim.pdf . BM Light: https://schaller.info/media/pdf/65/6a/31/TZ_1027.pdf . GB528: https://g-gotoh.com/images/pdf/GB528-Dim.pdf . BM Light worm-axis placement follows its manufacturer rear view; GB528's roughly 13.5 mm visual axis offset is inferred from the drawing silhouette, not a dimensioned installation datum. Hipshot's existing reference shape is retained; its official dimension PDF was readable through web retrieval but direct download was unavailable during this audit.
+
+All 18 allowed model/product choices are checked for upright housing direction, mirrored front/rear shaft vectors and count. GRAMR's six bore correspondences are checked independently. These source projection centres do not approve replacement hardware drilling or screw-lug placement. The historical SG381 45-degree screw-axis marks are not newly approved mounting holes. The guard, body, neck and head outlines, options, prices and PDF-generation code are retained.

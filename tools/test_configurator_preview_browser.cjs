@@ -67,6 +67,28 @@ async function main() {
       for(const name of originals)assert.equal(hashes[name],crypto.createHash('sha256').update(await fs.readFile(path.join(__dirname,'..',name))).digest('hex'),'Embedded originals must be byte-identical');
       report.embeddedOriginals='PASS';
     }
+    report.tunerDirections=await page.evaluate(()=>{
+      const P=RavenForgePreview,parts=RavenForgeParts;let count=0;
+      const choices={EDDA:['schaller_bm','schaller_bm_lt','gotoh_707','gotoh_350','gotoh_528','hipshot_ul_38'],EMBLA:['schaller_bm','schaller_bm_lt','gotoh_707','gotoh_350','gotoh_528','hipshot_ul_38','graphtech','schaller_m4_locking'],ASKR:['hipshot_ul_38','graphtech','schaller_m4_locking'],GRAMR:['guitar_gotoh_sg381']};
+      for(const [model,ids] of Object.entries(choices))for(const id of ids){
+        const state=P.scene(model,{hardware_machine_head:id},'');const faces=[];
+        for(const side of ['front','back']){
+          const host=document.createElement('div');host.innerHTML=P.renderSvg(state,side,'en','portrait');document.body.append(host);
+          const layer=host.querySelector(side==='front'?'[data-layer="tuner-rear-mount"]':'[data-layer="rear-selected-tuners"]');
+          if(!layer)throw Error('Missing tuner projection '+model+'/'+id);
+          const vectors=[];
+          for(const unit of layer.querySelectorAll('[data-tuner-index]')){
+            const m=unit.getCTM(),origin=new DOMPoint(0,0).matrixTransform(m),body=new DOMPoint(0,10).matrixTransform(m),shaft=unit.querySelector('[data-part="rear-key-shaft"]'),end=new DOMPoint(20,0).matrixTransform(shaft.getCTM());
+            if(body.y<=origin.y||end.y>origin.y+.001)throw Error('Inverted machine housing/shaft '+model+'/'+id+'/'+side);
+            const dx=end.x-origin.x,dy=end.y-origin.y,n=Math.hypot(dx,dy);vectors.push([dx/n,dy/n]);
+          }
+          faces.push(vectors);host.remove();
+        }
+        if(faces[0].length!==faces[1].length)throw Error('Tuner count mismatch');
+        faces[0].forEach((q,i)=>{const z=faces[1][i];if(Math.abs(q[0]+z[0])>1e-6||Math.abs(q[1]-z[1])>1e-6)throw Error('Front/back shaft mismatch '+model+'/'+id);});count++;
+      }
+      return {result:'PASS',choices:count,scope:'SVG projection, not drilling approval'};
+    });
     report.bridgeViews=[];
     for(const width of [1440,390]){
       await page.setViewportSize({width,height:width===1440?1080:844});
@@ -86,10 +108,18 @@ async function main() {
               if(['ets_custom','schaller_3d'].includes(bridge))assert.equal(await layer('bridge').getAttribute('data-profile'),bridge==='ets_custom'?'ets-tuning-fork':'schaller-3d');
               if(model==='EDDA')assert.equal(await layer('control-plate').count(),0);
             }
-            await page.locator('#instrument-preview').screenshot({path:path.join(output,`v21-${width}-${model}-${bridge}-${view}.png`)});
+            await page.locator('#instrument-preview').screenshot({path:path.join(output,`v22-${width}-${model}-${bridge}-${view}.png`)});
             report.bridgeViews.push({width,model,bridge,view,result:'PASS'});
           }
         }
+      }
+    }
+    report.tunerViews=[];
+    for(const width of [1440,390]){
+      await page.setViewportSize({width,height:width===1440?1080:844});
+      for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
+        await step(1);await page.locator(`[data-model="${model}"]`).click();
+        for(const view of ['front','back']){await side(view);await page.locator('#instrument-preview').screenshot({path:path.join(output,`v22-${width}-${model}-tuner-${view}.png`)});report.tunerViews.push({width,model,view,result:'PASS'});}
       }
     }
     await step(1);await page.locator('[data-model="EDDA"]').click();
@@ -137,7 +167,7 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
-          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v21');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v22');
           assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').textContent(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
@@ -254,9 +284,9 @@ async function main() {
           const redBack=await colourPixels();assert.ok(redBack.red>redBack.blue*3&&redBack.red>1000,`Red back ${model}: ${JSON.stringify(redBack)}`);
           await choose('color_back_side','back_oil');
           const oilPreview=await colourPixels();assert.ok(oilPreview.red>oilPreview.blue*3&&oilPreview.red>1000,`Selected red covers oil-category rear ${model}: ${JSON.stringify(oilPreview)}`);
-          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v21-${size.width}-${model}-colour-back.png`)});
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v22-${size.width}-${model}-colour-back.png`)});
           await side('front');
-          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v21-${size.width}-${model}-colour-front.png`)});
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v22-${size.width}-${model}-colour-front.png`)});
           await step(2);
           if(model!=='GRAMR') {
             if(await page.locator('input[name="fretboard"][value="ironwood"]').count()){
@@ -347,7 +377,7 @@ async function main() {
                 assert.equal(await page.locator('[data-summary-category="pickguard_colour"]').count(),1);
               }
               await side('front');
-              await page.locator('#instrument-preview').screenshot({path:path.join(output,`v21-${lang}-${size.width}-EDDA-${material}.png`)});
+              await page.locator('#instrument-preview').screenshot({path:path.join(output,`v22-${lang}-${size.width}-EDDA-${material}.png`)});
             }
             await choose('pickguard_finish','pg_gloss');assert.equal(await layer('pickguard').getAttribute('data-finish'),'gloss');
             await choose('pickguard','pg_none');assert.equal(await layer('pickguard').count(),0);

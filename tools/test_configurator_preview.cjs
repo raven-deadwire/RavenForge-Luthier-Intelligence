@@ -438,7 +438,7 @@ for(const [model,ids] of [['EDDA',['schaller_bm','schaller_bm_lt','gotoh_707']],
   assert.match(back,/rear-key-shaft/);assert.match(back,/rear-gear-housing/);
   assert.equal(back.includes('data-part="locking-wheel"'),id==='schaller_m4_locking');
   if(id==='schaller_m4_locking')assert.match(back,/data-mount-lug="90-degrees"/);
-  if(model!=='EDDA')assert.match(back,/scale\([\d.]+ -[\d.]+\)/,'Drawing projection mirrors the transverse offset');
+  if(!['EDDA','GRAMR'].includes(model))assert.match(back,/scale\([\d.]+ -[\d.]+\)/,'Drawing projection mirrors the transverse offset');
   for(const finish of ['', 'transparent #9d282b', 'solid #9d282b'])for(const head of ['head_match','head_natural']){
    const svg=preview.renderSvg(preview.scene(model,{...state.selections,color_headstock:head},finish),'front','en');
    const rearIndex=svg.indexOf('data-layer="tuner-rear-mount"'),woodIndex=svg.indexOf('data-layer="headstock"'),postIndex=svg.indexOf('data-part="front-bushing-post"');
@@ -488,7 +488,7 @@ console.log('PASS: original EDDA guard contour restored exactly; no control plat
 // EDDA reference has the worm shaft above its gear centre, not below it.
 for(const id of data.categories.find(c=>c.id==='hardware_machine_head').options.filter(o=>o.prices?.EDDA!==undefined).map(o=>o.id)){
  const state=preview.scene('EDDA',{...normalize('EDDA'),hardware_machine_head:id},'');if(!parts.profile(state,'hardware_machine_head'))continue;
- const project=(svg,x,y)=>{const a=svg.match(/data-tuner-index="0" transform="translate\(([-\d.]+) ([-\d.]+)\) rotate\(([-\d.]+)\) scale\(([-\d.]+) ([-\d.]+)\)/).slice(1).map(Number);const r=a[2]*Math.PI/180;return [Math.cos(r)*x*a[3]-Math.sin(r)*y*a[4],Math.sin(r)*x*a[3]+Math.cos(r)*y*a[4]];};
+ const project=(svg,x,y)=>{const a=svg.match(/data-tuner-index="0"[^>]* transform="translate\(([-\d.]+) ([-\d.]+)\) rotate\(([-\d.]+)\) scale\(([-\d.]+) ([-\d.]+)\)/).slice(1).map(Number);const r=a[2]*Math.PI/180;return [Math.cos(r)*x*a[3]-Math.sin(r)*y*a[4],Math.sin(r)*x*a[3]+Math.cos(r)*y*a[4]];};
  const ref=parts.profile(state,'hardware_machine_head'),offset=ref.keyOffset||0;
  const rear=project(parts.tuners(state,'qa',true),20,offset),front=project(parts.tuners(state,'qa',false,'rear-mount'),20,offset);
  assert.ok(rear[0]>0&&rear[1]<0,'EDDA shaft must extend right and above the gear centre');
@@ -496,3 +496,27 @@ for(const id of data.categories.find(c=>c.id==='hardware_machine_head').options.
  const a=Math.hypot(...rear),b=Math.hypot(...front);assert.ok(Math.abs(rear[0]/a+front[0]/b)<1e-8&&Math.abs(rear[1]/a-front[1]/b)<1e-8);
 }
 console.log('PASS: all EDDA machine-head choices preserve reference shaft direction and mirrored front keys');
+// Inspect each emitted transform in the upright instrument coordinate system.
+{
+ const rotate=(q,a)=>{a*=Math.PI/180;return [Math.cos(a)*q[0]-Math.sin(a)*q[1],Math.sin(a)*q[0]+Math.cos(a)*q[1]];};
+ const units=svg=>[...svg.matchAll(/data-tuner-index="(\d+)"[^>]*transform="translate\(([-\d.]+) ([-\d.]+)\) rotate\(([-\d.]+)\) scale\(([-\d.]+) ([-\d.]+)\)"/g)].map(m=>m.slice(1).map(Number));
+ let choices=0;
+ for(const model of ['EDDA','EMBLA','ASKR','GRAMR'])for(const opt of data.categories.find(c=>c.id==='hardware_machine_head').options){
+  const s=normalize(model,{...normalize(model),hardware_machine_head:opt.id});if(s.hardware_machine_head!==opt.id)continue;
+  const state=preview.scene(model,s,''),ref=parts.profile(state,'hardware_machine_head');if(!ref)continue;
+  const f=units(parts.tuners(state,'q',false,'rear-mount')),b=units(parts.tuners(state,'q',true));assert.equal(f.length,b.length);
+  const delta=(u,xy,back)=>{let q=rotate([xy[0]*u[4],xy[1]*u[5]],u[3]);return rotate(q,model==='GRAMR'||(back&&model!=='EDDA')?90:0);};
+  for(let i=0;i<f.length;i++){
+   // The neck-side part of the housing must face the body in both projections.
+   assert.ok(delta(f[i],[0,10],false)[1]>0,model+'/'+opt.id+' front housing inversion');
+   assert.ok(delta(b[i],[0,10],true)[1]>0,model+'/'+opt.id+' rear housing inversion');
+   const x=delta(f[i],[20,ref.keyOffset||0],false),y=delta(b[i],[20,ref.keyOffset||0],true),a=Math.hypot(...x),c=Math.hypot(...y);
+   assert.ok(Math.abs(x[0]/a+y[0]/c)<1e-8&&Math.abs(x[1]/a-y[1]/c)<1e-8,model+'/'+opt.id+' shaft mirror mismatch');
+  }
+  choices++;
+ }
+ const g=require('../assets/configurator-geometry.js').GRAMR;
+ for(let i=0;i<6;i++){const rear=[...g.back.tuners].sort((a,b)=>a[0]-b[0])[i],front=g.tuners[i];assert.ok(Math.abs(front[0]-rear[0])<.001);assert.ok(Math.abs(front[1]+rear[1]-572.51)<.02);}
+ assert.deepEqual(g.back.provenance.tunerPostDrawingIndices,[2022,2027,2032,2037,2042,2047]);
+ console.log('PASS: '+choices+' model/tuner choices, every bank upright, mirrored keys and six GRAMR bore correspondences');
+}

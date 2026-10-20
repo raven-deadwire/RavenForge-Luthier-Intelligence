@@ -34,7 +34,7 @@ FILES = [
     'Edda Prototype Design.png', 'EMBLA Prototype Design.png',
     'ASKR Prototype Design.png'
 ]
-README = '''RavenForge 컨피규레이터 시각화 테스트 v21 / 2026-10-20
+README = '''RavenForge 컨피규레이터 시각화 테스트 v22 / 2026-10-20
 
 기존 홈페이지나 컨피규레이터를 교체하지 않는 별도 테스트입니다.
 
