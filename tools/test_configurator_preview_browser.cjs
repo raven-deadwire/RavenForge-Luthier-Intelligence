@@ -63,7 +63,19 @@ async function main() {
   const step=n=>page.locator(`[data-step="${n}"]`).click();
   const choose=(category,value)=>page.locator(`input[name="${category}"][value="${value}"]`).check();
   const layer=name=>page.locator(`[data-layer="${name}"]`);
-  const side=name=>page.locator(`button[data-preview-side="${name}"]`).click();
+  // HTTP image preloading temporarily replaces the SVG with a loading state.
+  // Wait for the requested completed view before inspecting it or capturing it.
+  const previewReady=(model,view)=>page.locator(`#instrument-preview[data-preview-model="${model}"][data-preview-side="${view}"] .rf-preview-stage[data-view="${view}"] [data-preview-svg="${model}"][data-side="${view}"]`).waitFor({state:'visible'});
+  const selectModel=async model=>{
+    const preview=page.locator('#instrument-preview');
+    const view=await preview.getAttribute('data-preview-model')===model?await preview.getAttribute('data-preview-side'):'front';
+    await page.locator(`[data-model="${model}"]`).click();
+    await previewReady(model,view);
+  };
+  const side=async name=>{
+    await page.locator(`button[data-preview-side="${name}"]`).click();
+    await previewReady(await page.locator('#instrument-preview').getAttribute('data-preview-model'),name);
+  };
   const colourPixels=()=>page.evaluate(async()=>{
     const svg=document.querySelector('[data-preview-svg]');
     const data=await window.__rfQaRasterizeSvg(svg,480,700);let red=0,blue=0;
@@ -73,7 +85,7 @@ async function main() {
 
   try {
     await page.goto(url,{waitUntil:'networkidle'});
-    await page.locator('[data-preview-model="EDDA"]').waitFor();
+    await previewReady('EDDA','front');
     report.eddaClearance=await page.evaluate(()=>{
       const P=RavenForgePreview,parts=RavenForgeParts,g=RavenForgeGeometry.EDDA;
       const host=document.createElementNS('http://www.w3.org/2000/svg','svg');document.body.append(host);
@@ -109,7 +121,7 @@ async function main() {
     }
     const tunerChoices={};
     for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
-      await step(1);await page.locator(`[data-model="${model}"]`).click();await step(4);
+      await step(1);await selectModel(model);await step(4);
       tunerChoices[model]=await page.locator('input[name="hardware_machine_head"]').evaluateAll(inputs=>inputs.map(i=>i.value));
       assert.ok(tunerChoices[model].length>0);
     }
@@ -169,7 +181,7 @@ async function main() {
     report.askrViews=[];
     for(const width of [1440,390]){
       await page.setViewportSize({width,height:width===1440?1080:844});
-      await step(1);await page.locator('[data-model="ASKR"]').click();
+      await step(1);await selectModel('ASKR');
       for(const hardware_bridge of ['payson','nova_parts']){
         await step(4);await choose('hardware_bridge',hardware_bridge);
         for(const view of ['front','back']){
@@ -182,7 +194,7 @@ async function main() {
     for(const width of [1440,390]){
       await page.setViewportSize({width,height:width===1440?1080:844});
       for(const model of ['EDDA','EMBLA']){
-        await step(1);await page.locator(`[data-model="${model}"]`).click();await step(4);
+        await step(1);await selectModel(model);await step(4);
         if(model==='EDDA'){await choose('pickguard','pg_add');await choose('pickguard_material','pg_aluminium');await choose('pickguard_colour','pg_ivory');}
         for(const bridge of (model==='EDDA'?['ets_custom','gotoh_404BO','hipshot_b','babicz_top']:['ets_custom','schaller_3d'])){
           await choose('hardware_bridge',bridge);
@@ -207,7 +219,7 @@ async function main() {
     for(const width of [1440,390]){
       await page.setViewportSize({width,height:width===1440?1080:844});
       for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
-        await step(1);await page.locator(`[data-model="${model}"]`).click();
+        await step(1);await selectModel(model);
         await step(4);
         for(const id of tunerChoices[model]){
           await choose('hardware_machine_head',id);
@@ -215,7 +227,7 @@ async function main() {
         }
       }
     }
-    await step(1);await page.locator('[data-model="EDDA"]').click();
+    await step(1);await selectModel('EDDA');
     // The three independent columns must also fit narrower desktop screens.
     report.layout=[];
     for(const width of [1024,1280]) {
@@ -257,8 +269,8 @@ async function main() {
         await page.locator(`[data-language="${lang}"]`).click();
         for(const [model,count] of [['EDDA',4],['EMBLA',5],['ASKR',5],['GRAMR',6]]) {
           await step(1);
-          if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
-          await page.locator(`[data-model="${model}"]`).click();
+          if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await selectModel(model==='EDDA'?'EMBLA':'EDDA');
+          await selectModel(model);
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v27');
           assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').textContent(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
@@ -635,7 +647,7 @@ async function main() {
       }
     }
     // A model switch must clear prior finish, custom pickups and gold hardware.
-    await step(1);await page.locator('[data-model="EDDA"]').click();
+    await step(1);await selectModel('EDDA');
     assert.equal(await layer('finish').count(),0);
     assert.equal(await layer('hardware').getAttribute('data-colour'),'#b8c3cc');
     assert.equal(await layer('pickups').getAttribute('data-option'),'nova_mm');
@@ -654,6 +666,17 @@ async function main() {
     report.result='PASS';
   } catch(error) {
     report.result='FAIL';report.failure=error.stack;
+    report.previewAtFailure=await page.evaluate(()=>{
+      const preview=document.querySelector('#instrument-preview');
+      return {
+        model:preview?.getAttribute('data-preview-model'),side:preview?.getAttribute('data-preview-side'),
+        imageStatus:preview?.querySelector('[data-preview-image-status]')?.getAttribute('data-preview-image-status')||null,
+        svgCount:preview?.querySelectorAll('[data-preview-svg]').length||0,
+        svgSides:[...preview?.querySelectorAll('[data-preview-svg]')||[]].map(svg=>svg.getAttribute('data-side')),
+        burstCount:preview?.querySelectorAll('[data-effect="burst"]').length||0,
+        selectedBurst:document.querySelector('input[name="extra_finish_burst"]:checked')?.value
+      };
+    }).catch(diagnosticError=>({error:String(diagnosticError)}));
     await page.screenshot({path:path.join(output,'failure.png'),fullPage:true});
     throw error;
   } finally {
