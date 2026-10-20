@@ -175,7 +175,8 @@ return out;
       gotoh_707:{key:'gotoh-butterfly',washer:18,keyOffset:-9,url:'https://g-gotoh.com/images/pdf/GB707-Dim.pdf'},
       gotoh_350:{key:'gotoh-butterfly',washer:20,keyOffset:-9,url:'https://g-gotoh.com/images/pdf/GB350-Dim.pdf'},
       gotoh_528:{key:'gb528-clover',washer:22,keyOffset:-13.5,url:'https://g-gotoh.com/images/pdf/GB528-Dim.pdf'},
-      hipshot_ul_38:{key:'ultralite-y',washer:17,url:'https://docs.hipshotproducts.com/20650_ULTRALITE_3-8_Y_KEY.pdf'},
+      hipshot_ul_38_xt:{key:'ultralite-y',washer:17,post:9.525,xtender:true,scope:'photo-reference',url:'https://hipshotproducts.com/products/he6-3-8-ultralite-bass-xtender'},
+      hipshot_ul_38:{key:'ultralite-y',washer:17,post:9.525,url:'https://docs.hipshotproducts.com/20650_ULTRALITE_3-8_Y_KEY.pdf'},
       guitar_gotoh_sg381:{key:'gotoh-07',washer:14,post:6,keyOffset:-7.8,url:'https://g-gotoh.com/images/pdf/SG381-Dim.pdf'}
     }
   };
@@ -266,6 +267,14 @@ return out;
     const ref=profile({model,selections:{pickups:option}},'pickups');if(!ref)return '';
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -7 ${ref.w+24} ${ref.h+18}" aria-hidden="true" data-pickup-profile="${ref.style}" data-pickup-scope="${ref.scope||'manufacturer-reference'}"><defs>${pickupDefinitions(p)}</defs>${pickupUnit(ref,p)}</svg>`;
   }
+  function tremoloArm(state,p){
+    if(state.model!=='GRAMR'||profile(state,'hardware_bridge')?.style!=='510t-fe1')return '';
+    const [a,b]=state.g.bridge,cx=(a[0]+b[0])/2,cy=(a[1]+b[1])/2,scale=Math.hypot(a[0]-b[0],a[1]-b[1])/54;
+    // A7: official 5.5 mm rod. Bends and displayed swing are reconstructed from
+    // the official product photograph, not an arm length or clearance drawing.
+    const d='M75.5 28L82 7Q84 -1 80 -9L54 -75Q51 -83 50 -89L44 -119';
+    return `<g data-layer="tremolo-arm" data-profile="gotoh-a7" data-diameter-mm="5.5" data-scope="manufacturer-photo-reference" data-pose="illustrative" data-clearance="height-and-sweep-unverified" transform="translate(${cx} ${cy}) rotate(-90) scale(${scale}) translate(-41.75 -18)"><title>GOTOH A7 · 5.5 mm rod; photo-reference bends, illustrative swing; length, height and operating clearance unverified</title>`+circle(75.5,28,4.7,`url(#${p}-bridge-metal)`,'data-part="arm-socket" stroke="#202426" stroke-width=".7"')+path(d,'none','data-part="arm-shadow" transform="translate(2.5 3)" stroke="#000" stroke-width="7" stroke-opacity=".24" stroke-linecap="round"')+path(d,'none',`data-part="arm-rod" stroke="#242a2d" stroke-width="6.2" stroke-linecap="round" stroke-linejoin="round"`)+path(d,'none',`stroke="${state.bridgeColour}" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"`)+path(d,'none','transform="translate(-.7 -.5)" stroke="#f2f3ea" stroke-width="1.15" stroke-opacity=".8" stroke-linecap="round"')+circle(44,-119,2.4,state.bridgeColour,'data-part="arm-rounded-tip"')+'</g>';
+  }
   function bridge(state,p){
     const ref=profile(state,'hardware_bridge');if(!ref)return '';
     if(['ets-tuning-fork','schaller-3d'].includes(ref.style))return referencedBridge(state,p,ref);
@@ -280,7 +289,7 @@ return out;
     out+=box(-.6,1.8,w+1.2,h,3,'#030505','opacity=".8"');
     if(guitar){
       out+=path('M0 4 Q0 0 4 0 H5 Q5 6 9 6 Q13 6 13 0 H61 Q61 6 65 6 Q69 6 69 0 H73.5 V16.5 H83.5 V40 H0 Z',metal,'stroke="#262b2c" stroke-width=".6"');
-      out+=circle(75.5,28,4.7,metal,'stroke="#202426" stroke-width="1"')+path('M75.5 28 L79 6 L90 -18','none',`stroke="${f}" stroke-width="2.3" stroke-linecap="round"`);
+      out+=circle(75.5,28,4.7,metal,'stroke="#202426" stroke-width="1"');
     }else out+=box(0,0,w,h,ref.style==='404bo'?2:ref.style==='b-style'?6.4:3.2,metal,'stroke="#252b2d" stroke-width=".7"');
     if(!guitar&&ref.style!=='404bo')out+=box(4,5,w-8,h-10,ref.style==='b-style'?4:2,'#24292b','stroke="#727978" stroke-width=".6"');
     const spacing=guitar?10.8:18,offset=guitar?9.75:(w-(n-1)*spacing)/2;
@@ -436,6 +445,11 @@ return out;
     if(key==='m4-90')out+=path('M26 0H50 M40 -14V14','none','stroke="#e5e6dc" stroke-opacity=".35" stroke-width=".55"');
     out+='</g>';
     if(plane==='rear-mount')return out;
+    if(ref.xtender){
+      // HE6 mechanism/lever from the manufacturer's photograph; this is not a
+      // dimensional installation template. Only the E-string unit has it.
+      out+=`<g data-part="xtender-assembly" data-scope="manufacturer-photo-reference">`+path('M-30 -7Q-35 0 -32 17Q-31 25 -23 25H11V-10H-16Z',metal,'stroke="#303739" stroke-width=".7"')+path('M-27 18H31Q36 18 35 21Q35 24 30 24H-27Z',metal,'data-part="xtender-lever" stroke="#303739" stroke-width=".65"')+circle(-27,19,5,metal,'stroke="#303739" stroke-width=".6"')+screw(-27,19,2)+path('M-29 -5V-20','none','stroke="#adb5b3" stroke-width="2.6"')+box(-33,-22,8,4,1.1,metal,'stroke="#303739" stroke-width=".6"')+'</g>';
+    }
     out+='<g data-part="rear-gear-housing">';
     if(key==='gotoh-07'){
       out+=path('M-8.3 -11.7H8.3V0Q8.3 7.9 0 8.3L-5 8L-7.1 10.7Q-9 12 -10.5 10L-11 8.2Q-12 6.5 -10 4.8L-8.3 2Z',metal,'data-housing="sg381-closed" stroke="#303739" stroke-width=".7"')+screw(-7.8,7.8,1.2);
@@ -466,8 +480,7 @@ return out;
     EMBLA:[[617,69,190],[607,94,190],[602,120,190],[648,84,-10],[659,113,-10]],
     ASKR:[[614,79,190],[610,113,190],[605,147,190],[644,104,-10],[651,143,-10]]
   };
-  function tuners(state,p,back=false,plane='front-post'){
-    const ref=profile(state,'hardware_machine_head');if(!ref)return '';
+  function tunerPlan(state,back=false){
     let anchors,scale;
     if(state.model==='GRAMR'){anchors=[...(back?state.g.back:state.g).tuners].sort((a,b)=>a[0]-b[0]).map(([x,y])=>[x,y,back?-90:90]);scale=Math.hypot(state.g.board[0][0]-state.g.board[1][0],state.g.board[0][1]-state.g.board[1][1])/43;}
     else if(back&&state.model!=='EDDA'){
@@ -477,7 +490,15 @@ return out;
       anchors=state.g.tunerAnchors.map(([x,y,a])=>[y+rearNut[0]-frontNut[1],x+rearNut[1]-frontNut[0],a===180?-90:90]);scale=state.g.unitsPerMm;
     }else if(back){anchors=[[516,84,-10],[528,139,-10],[541,194,-10],[551,249,-10]];scale=1.1;}
     else {anchors=state.g.tunerAnchors||frontTunerAnchors[state.model];scale=state.g.unitsPerMm||(state.model==='EDDA'?.72:.68);}
-    return `<g data-layer="${back?'rear-selected-tuners':plane==='rear-mount'?'tuner-rear-mount':state.model==='GRAMR'?'selected-tuners':'hardware'}" data-option="${state.selections.hardware_color}" data-plane="${back?'rear-housing':plane}" data-machine-head="${state.selections.hardware_machine_head}" data-colour="${state.metal}" data-count="${anchors.length}" data-appearance="manufacturer-reference" data-placement="${back&&state.model!=='EDDA'?'drawing-fit':'sample-fit'}" data-profile="${ref.key}" data-units-per-mm="${scale}">`+anchors.map(([x,y,a],i)=>{const reflectY=['EDDA','GRAMR'].includes(state.model)?(!back&&plane==='rear-mount'):(back?a===90:plane==='rear-mount'&&a===180);return `<g data-tuner-index="${i}" data-y-reflection="${reflectY}" transform="translate(${x} ${y}) rotate(${a}) scale(${scale} ${reflectY?-scale:scale})">${tunerUnit(state,p,ref,back?'rear-housing':plane)}</g>`;}).join('')+'</g>';
+    return {anchors,scale};
   }
-  return {definitions,pickupPlan,guard,bridgeAnchors,novaBridgePlan,ramps,electronicsProfiles,electronicsPlan,knobs,controlPlan,controls,references,profile,selectedPickupPlan,pickupThumbnail,pickups,bridge,referenceBridge,tuners};
+  function tuners(state,p,back=false,plane='front-post'){
+    const ref=profile(state,'hardware_machine_head'),{anchors,scale}=tunerPlan(state,back);
+    if(!ref){
+      if(plane==='rear-mount'&&!back)return '';
+      return `<g data-layer="${back?'rear-selected-tuners':'hardware'}" data-machine-head="${state.selections.hardware_machine_head}" data-count="${anchors.length}" data-appearance="position-only-unconfirmed" data-placement="source-post-reference"><title>Custom tuner geometry unconfirmed; source post centres only</title>`+anchors.map(([x,y],i)=>`<g data-tuner-index="${i}" data-part="reference-post-marker" transform="translate(${x} ${y})"><circle r="${4*scale}" fill="none" stroke="#d9cba9" stroke-width="${.65*scale}" stroke-dasharray="${1.5*scale} ${scale}"/><path d="M${-2*scale} 0h${4*scale}M0 ${-2*scale}v${4*scale}" stroke="#d9cba9" stroke-width="${.5*scale}"/></g>`).join('')+'</g>';
+    }
+    return `<g data-layer="${back?'rear-selected-tuners':plane==='rear-mount'?'tuner-rear-mount':state.model==='GRAMR'?'selected-tuners':'hardware'}" data-option="${state.selections.hardware_color}" data-plane="${back?'rear-housing':plane}" data-machine-head="${state.selections.hardware_machine_head}" data-colour="${state.metal}" data-count="${anchors.length}" data-appearance="manufacturer-reference" data-placement="${back&&state.model!=='EDDA'?'drawing-fit':'sample-fit'}" data-profile="${ref.key}" data-units-per-mm="${scale}">`+anchors.map(([x,y,a],i)=>{const reflectY=['EDDA','GRAMR'].includes(state.model)?(!back&&plane==='rear-mount'):(back?a===90:plane==='rear-mount'&&a===180);return `<g data-tuner-index="${i}" data-y-reflection="${reflectY}" transform="translate(${x} ${y}) rotate(${a}) scale(${scale} ${reflectY?-scale:scale})">${tunerUnit(state,p,ref.xtender&&i!==anchors.length-1?{...ref,xtender:false}:ref,back?'rear-housing':plane)}</g>`;}).join('')+'</g>';
+  }
+  return {definitions,pickupPlan,guard,bridgeAnchors,novaBridgePlan,ramps,electronicsProfiles,electronicsPlan,knobs,controlPlan,controls,references,profile,selectedPickupPlan,pickupThumbnail,pickups,bridge,tremoloArm,referenceBridge,tunerPlan,tuners};
 });

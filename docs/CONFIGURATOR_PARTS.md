@@ -424,3 +424,42 @@ The v23 Nova selection still displayed the ASKR #001 prototype's five separate m
 ### v25 — ASKR Fishman four-control arc
 
 Replace the Fishman-only staggered 2+2 preview with a regular outer arc, ordered volume / blend / bass / treble. Approximately equal 35-display-unit centre spacing follows the control-side body curve. Preserve other EQ layouts, control functions, bridge/pickup locations, option and price state, PDF logic and production files. The arc is a visual proposal, not drilling coordinates.
+
+## v26 — complete tuner catalog, GRAMR guard and A7 arm
+
+The EDDA `hipshot_ul_38_xt` option previously had no reference profile and fell
+back to clipped source-image tuners from the old head silhouette. That fallback
+is removed on both faces, without reshaping any head or moving source post centres.
+The option now renders three Ultralite Y keys and one low-E HE6 Xtender; the rear
+lever/base is a product-photo reconstruction, not an installation drawing.
+Official HE6: https://hipshotproducts.com/products/he6-3-8-ultralite-bass-xtender .
+Official Y-key dimensions: https://docs.hipshotproducts.com/20650_ULTRALITE_3-8_Y_KEY.pdf .
+The 3/8-inch post diameter is applied to the Ultralite reference. Custom tuners
+without manufacturer geometry display source post markers only, with an explicit
+unconfirmed-shape note. They never restore stale raster keys or invented housings.
+The browser audit enumerates every actual machine-head radio option in the UI,
+then checks both faces and captures every choice at desktop/mobile widths.
+
+GRAMR pickguard choices now use the normal test catalog, summary and PDF path.
+The included standard is black matte acrylic at the unchanged EUR 2000 base.
+Aluminium, matching wood, nonstandard colours/finishes and removal have no approved
+upcharge and are marked request pricing. EDDA remains optional/request pricing;
+ASKR and EMBLA receive no invented pickguard contour. Existing GRAMR source guard,
+screw centres and pickup/control locations are unchanged. Materials remain visual
+references; thickness, bevels, drilling and installation are not approved.
+
+The GRAMR 510T-FE1 now uses a separate A7 arm drawn above the strings: socket,
+continuous bent rod, rounded tip, metal highlight and an offset shadow.
+Manufacturer A7 page: https://g-gotoh.com/product/a7/?lang=en ; 5.5 mm diameter and
+510T compatibility are specified. Shape reference:
+https://g-gotoh.com/global/wp-content/uploads/2020/01/A7-C.jpg .
+Bridge dimensions: https://g-gotoh.com/images/pdf/510T-FE1-Dim.pdf .
+Arm bend proportions and displayed swing are photo-reference choices. Exact
+length, insertion depth, height, range of motion and physical control clearance
+remain unverified. A top-view overlap over strings/guard is an elevated arm
+projection, not proof of a physical collision or clearance approval.
+
+Only selected-option front/back previews are shown. Sample/source mode controls,
+raw drawing images and drawing download links are removed from the interface;
+source assets/provenance remain in the repository. Manufacturer links and
+shape-versus-installation status remain available. Production is unchanged.

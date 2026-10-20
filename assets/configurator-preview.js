@@ -130,7 +130,7 @@
     if (s.nut_material === 'nut_others') pending.push('nut_material');
     if (s.fret_material === 'mat_others') pending.push('fret_material');
     if (['extra','guitar_neck_custom'].includes(s.neck)) pending.push('neck');
-    return {model, g, selections:s, neckAccent:extras.neckAccent==='bloodwood'?'bloodwood':'walnut', specialOptions:Array.isArray(extras.specialOptions)?extras.specialOptions.filter(id=>['kill_switch','dual_tone','delano_buffer'].includes(id)):[], pickguard:g?.pickguard?(model==='EDDA'?(s.pickguard==='pg_add'?(s.pickguard_material==='pg_wood'?'wood':(['pg_black','pg_white','pg_ivory','pg_red','pg_match'].includes(s.pickguard_colour)?s.pickguard_colour:'pg_black').replace('pg_','')):'none'):(['none','black','ivory','wood'].includes(extras.pickguard)?extras.pickguard:'black')):'none', pickguardMaterial:model==='EDDA'?(['pg_acrylic','pg_aluminium','pg_wood'].includes(s.pickguard_material)?s.pickguard_material:'pg_acrylic'):null, pickguardFinish:model==='EDDA'?s.pickguard_finish:null, labels:labels || {}, finish, neckFinish:finish, neckColour:s.neck_finish==='neck_body'?'body':'natural', hasTop, bodyId, topId, pending,
+    return {model, g, selections:s, neckAccent:extras.neckAccent==='bloodwood'?'bloodwood':'walnut', specialOptions:Array.isArray(extras.specialOptions)?extras.specialOptions.filter(id=>['kill_switch','dual_tone','delano_buffer'].includes(id)):[], pickguard:g?.pickguard?(['EDDA','GRAMR'].includes(model)?(['pg_add','pg_standard'].includes(s.pickguard)?(s.pickguard_material==='pg_wood'?'wood':(['pg_black','pg_white','pg_ivory','pg_red','pg_match'].includes(s.pickguard_colour)?s.pickguard_colour:'pg_black').replace('pg_','')):'none'):(['none','black','ivory','wood'].includes(extras.pickguard)?extras.pickguard:'black')):'none', pickguardMaterial:['EDDA','GRAMR'].includes(model)?(['pg_acrylic','pg_aluminium','pg_wood'].includes(s.pickguard_material)?s.pickguard_material:'pg_acrylic'):null, pickguardFinish:['EDDA','GRAMR'].includes(model)?s.pickguard_finish:null, labels:labels || {}, finish, neckFinish:finish, neckColour:s.neck_finish==='neck_body'?'body':'natural', hasTop, bodyId, topId, pending,
       bindruneExample:/^c[1-4]$/.test(bindruneExample)?bindruneExample:null, bodyColour:wood(topId), boardColour:wood(s.fretboard), metal:metals[s.hardware_color] || metals.hw_chrome,
       bridgeColour:s.hardware_bridge === 'nova_parts' ? metals.hw_black : model === 'ASKR' ? metals.hw_chrome : (metals[s.hardware_color] || metals.hw_chrome), bridgeFinishFixed:model==='ASKR'};
   }
@@ -191,7 +191,7 @@
       <title id="${prefix}-title">${esc(state.model+' · '+t.live)}</title><desc id="${prefix}-desc">${esc(bassDrawing?t.drawingNote+' '+t.geometry:t.note+' '+t.tone+' '+t.symbols)}</desc>
       <defs>${options.definitions(prefix,state,false)}${parts.definitions(prefix,state)}${options.materials.pattern(prefix+'-natural-head','maple')}
       <pattern id="${prefix}-unknown" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#5e6670"/><path d="M0 12L12 0" stroke="#b4bdc7" stroke-width="2"/></pattern>
-      <clipPath id="${prefix}-silhouette">${path(g.body)}${path(headPath)}${polygon(g.board)}${drawTuners?'':path(g.tunerMask)}</clipPath>
+      <clipPath id="${prefix}-silhouette">${path(g.body)}${path(headPath)}${polygon(g.board)}</clipPath>
       <linearGradient id="${prefix}-clean-light" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="#ffffff" stop-opacity=".1"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></linearGradient>
       <linearGradient id="${prefix}-body-light" x1="0" y1=".1" x2="1" y2=".85"><stop stop-color="#fffaf0" stop-opacity=".22"/><stop offset=".25" stop-color="#fff" stop-opacity=".05"/><stop offset=".55" stop-color="#000" stop-opacity=".06"/><stop offset="1" stop-color="#000" stop-opacity=".4"/></linearGradient>
       <linearGradient id="${prefix}-body-rim" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#fff8ed" stop-opacity=".65"/><stop offset=".35" stop-color="#fff" stop-opacity=".08"/><stop offset=".65" stop-color="#080b0c" stop-opacity=".35"/><stop offset="1" stop-color="#030405" stop-opacity=".75"/></linearGradient>
@@ -270,7 +270,7 @@
     // flat material patches covering source hardware.
     out+=parts.ramps(state,prefix);
     out+=parts.pickups(state,prefix)||`<g data-layer="pickups" data-option="${esc(s.pickups||'')}" data-count="2" data-appearance="reference-retained"><title>${label('pickups')} · ${esc(t.referenceParts)}</title>${bassDrawing?g.pickupOutlines.map(d=>path(d,'fill="#171a1c" stroke="#55595b" stroke-width=".8"')).join(''):source(`clip-path="url(#${prefix}-pickups)"`)}</g>`;
-    out+=parts.tuners(state,prefix)||`<g data-layer="hardware" data-option="${esc(s.hardware_color||'')}" data-colour="${state.metal}" data-appearance="reference-retained"><title>${label('hardware_color')}</title>${bassDrawing?g.tuners.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="7" fill="${state.metal}" stroke="#303536"/>`).join(''):source(`clip-path="url(#${prefix}-hardware)" filter="url(#${prefix}-metal-tone)"`)}</g>`;
+    out+=parts.tuners(state,prefix);
     out+=parts.bridge(state,prefix)||parts.referenceBridge(state,prefix)||`<g data-layer="bridge" data-option="${esc(s.hardware_bridge||'')}" data-colour="${state.bridgeColour}" data-finish-fixed="${!!state.bridgeFinishFixed}" data-appearance="reference-retained"><title>${label('hardware_bridge')} · ${esc(t.referenceParts)}</title>${bassDrawing?g.bridgeOutlines.map(d=>path(d,`fill="url(#${prefix}-reference-bridge-metal)" stroke="#252a2c" stroke-width=".7"`)).join('')+path(g.bridgeArtwork,`fill="none" stroke="${state.bridgeColour}" stroke-width="1.1"`):source(`clip-path="url(#${prefix}-bridge)" filter="url(#${prefix}-bridge-tone)"`)}</g>`;
     out+=(drawKnobs?parts.knobs(state,prefix,8):`<g data-layer="knobs" data-count="${g.controls.length}" data-placement="source-retained">${(bassDrawing||state.model==='EDDA')?g.controls.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="8" fill="url(#${prefix}-part-metal)" stroke="#222"/>`).join(''):source(`clip-path="url(#${prefix}-knobs)" filter="url(#${prefix}-metal-tone)"`)}${options.knobs(state,prefix,g.controls,8)}</g>`)+parts.controls(state,prefix,8);
     // Only the board is redrawn. Strings/saddles on the body and tuner layout are
@@ -292,9 +292,9 @@
   }
   function renderSvg(state,view,language,layout){return options.orientation(renderUnoriented(state,view,language,layout),state);}
   const guardCopy={
-    ko:{titles:{pickguard:'픽가드',pickguard_material:'픽가드 재질',pickguard_colour:'픽가드 색상',pickguard_finish:'픽가드 표면'},options:{pg_none:'없음',pg_add:'픽가드 추가',pg_acrylic:'아크릴',pg_aluminium:'알루미늄',pg_wood:'바디·탑 매칭 목재',pg_black:'블랙',pg_white:'화이트',pg_ivory:'아이보리',pg_red:'버건디',pg_match:'바디 색상 매칭',pg_matte:'무광',pg_gloss:'유광'},note:'EDDA 선택형 픽가드. 선택은 사양표·PDF에 기록되며 추가 가격은 별도 견적입니다. 외곽·재질·표면은 비교용 시안입니다.',woodNote:'매칭 목재는 선택한 바디·탑 수종과 색상을 따릅니다. 실제 재고 무늬와 가공 도면은 별도 확정합니다.',location:'픽가드 유무·재질·색상·표면은 4단계 하드웨어에서 선택합니다.',pending:'실제 외형 미반영'},
-    en:{titles:{pickguard:'Pickguard',pickguard_material:'Pickguard material',pickguard_colour:'Pickguard colour',pickguard_finish:'Pickguard surface'},options:{pg_none:'None',pg_add:'Add pickguard',pg_acrylic:'Acrylic',pg_aluminium:'Aluminium',pg_wood:'Body / top matching wood',pg_black:'Black',pg_white:'White',pg_ivory:'Ivory',pg_red:'Burgundy',pg_match:'Match body colour',pg_matte:'Matte',pg_gloss:'Gloss'},note:'Optional EDDA pickguard. Choices are saved in the specification and PDF; surcharge quoted separately. Outline, material and surface are visual proposals.',woodNote:'Matching wood follows the selected body/top species and colour. Actual grain and machining drawings are agreed separately.',location:'Choose pickguard, material, colour and surface in step 4: Hardware.',pending:'Actual shape not rendered'},
-    de:{titles:{pickguard:'Schlagbrett',pickguard_material:'Schlagbrettmaterial',pickguard_colour:'Schlagbrettfarbe',pickguard_finish:'Schlagbrettoberfläche'},options:{pg_none:'Ohne',pg_add:'Schlagbrett hinzufügen',pg_acrylic:'Acryl',pg_aluminium:'Aluminium',pg_wood:'Passendes Korpus-/Deckenholz',pg_black:'Schwarz',pg_white:'Weiß',pg_ivory:'Elfenbein',pg_red:'Burgunderrot',pg_match:'An Korpusfarbe anpassen',pg_matte:'Matt',pg_gloss:'Glänzend'},note:'Optionales EDDA-Schlagbrett. Auswahl wird in Spezifikation und PDF gespeichert; Aufpreis auf Anfrage. Kontur, Material und Oberfläche sind Gestaltungsvorschläge.',woodNote:'Passendes Holz folgt der gewählten Korpus-/Deckenholzart und Farbe. Maserung und Fertigungszeichnung werden separat vereinbart.',location:'Schlagbrett, Material, Farbe und Oberfläche in Schritt 4: Hardware wählen.',pending:'Tatsächliche Form nicht dargestellt'}
+    ko:{titles:{pickguard:'픽가드',pickguard_material:'픽가드 재질',pickguard_colour:'픽가드 색상',pickguard_finish:'픽가드 표면'},options:{pg_standard:'기본 픽가드',pg_none:'없음',pg_add:'픽가드 추가',pg_acrylic:'아크릴',pg_aluminium:'알루미늄',pg_wood:'바디·탑 매칭 목재',pg_black:'블랙',pg_white:'화이트',pg_ivory:'아이보리',pg_red:'버건디',pg_match:'바디 색상 매칭',pg_matte:'무광',pg_gloss:'유광'},note:'EDDA 선택형·GRAMR 기본 포함 픽가드. GRAMR의 기본 블랙 아크릴·무광 이외 사양은 별도 견적입니다. 선택은 사양표·PDF에 기록되며 추가 가격은 별도 견적입니다. 외곽·재질·표면은 비교용 시안입니다.',woodNote:'매칭 목재는 선택한 바디·탑 수종과 색상을 따릅니다. 실제 재고 무늬와 가공 도면은 별도 확정합니다.',location:'픽가드 유무·재질·색상·표면은 4단계 하드웨어에서 선택합니다.',pending:'실제 외형 미반영'},
+    en:{titles:{pickguard:'Pickguard',pickguard_material:'Pickguard material',pickguard_colour:'Pickguard colour',pickguard_finish:'Pickguard surface'},options:{pg_standard:'Standard pickguard',pg_none:'None',pg_add:'Add pickguard',pg_acrylic:'Acrylic',pg_aluminium:'Aluminium',pg_wood:'Body / top matching wood',pg_black:'Black',pg_white:'White',pg_ivory:'Ivory',pg_red:'Burgundy',pg_match:'Match body colour',pg_matte:'Matte',pg_gloss:'Gloss'},note:'Optional EDDA / included GRAMR pickguard. GRAMR changes from standard black matte acrylic are quoted separately. Choices are saved in the specification and PDF; surcharge quoted separately. Outline, material and surface are visual proposals.',woodNote:'Matching wood follows the selected body/top species and colour. Actual grain and machining drawings are agreed separately.',location:'Choose pickguard, material, colour and surface in step 4: Hardware.',pending:'Actual shape not rendered'},
+    de:{titles:{pickguard:'Schlagbrett',pickguard_material:'Schlagbrettmaterial',pickguard_colour:'Schlagbrettfarbe',pickguard_finish:'Schlagbrettoberfläche'},options:{pg_standard:'Standard-Schlagbrett',pg_none:'Ohne',pg_add:'Schlagbrett hinzufügen',pg_acrylic:'Acryl',pg_aluminium:'Aluminium',pg_wood:'Passendes Korpus-/Deckenholz',pg_black:'Schwarz',pg_white:'Weiß',pg_ivory:'Elfenbein',pg_red:'Burgunderrot',pg_match:'An Korpusfarbe anpassen',pg_matte:'Matt',pg_gloss:'Glänzend'},note:'Optional bei EDDA, bei GRAMR enthalten. GRAMR-Abweichungen von schwarzem, mattem Acryl auf Anfrage. Auswahl wird in Spezifikation und PDF gespeichert; Aufpreis auf Anfrage. Kontur, Material und Oberfläche sind Gestaltungsvorschläge.',woodNote:'Passendes Holz folgt der gewählten Korpus-/Deckenholzart und Farbe. Maserung und Fertigungszeichnung werden separat vereinbart.',location:'Schlagbrett, Material, Farbe und Oberfläche in Schritt 4: Hardware wählen.',pending:'Tatsächliche Form nicht dargestellt'}
   };
   function configureTestOptions(data,i18n){
     // Test-only catalog extension. Existing calculations/normalization/PDF code
@@ -309,12 +309,19 @@
       {id:'neck_body',label:'Match body colour',spec:'Finish surcharge to be quoted',prices:{EDDA:'request',EMBLA:'request',ASKR:'request',GRAMR:'request'}}]});
     const guardOption=(id,label,price=0,standard=false)=>({id,label,prices:{EDDA:price},...(standard?{isStandard:['EDDA']}:{})});
     const guardCategories=[
-      {id:'pickguard',title:'Pickguard',options:[guardOption('pg_none','None',0,true),guardOption('pg_add','Add pickguard','request')]},
-      {id:'pickguard_material',title:'Pickguard material',dependsOn:{pickguard:'pg_add'},options:[guardOption('pg_acrylic','Acrylic'),guardOption('pg_aluminium','Aluminium'),guardOption('pg_wood','Matching wood')]},
+      {id:'pickguard',title:'Pickguard',options:[{id:'pg_standard',label:'Standard pickguard',prices:{GRAMR:0},isStandard:['GRAMR']},{...guardOption('pg_none','None',0,true),prices:{EDDA:0,GRAMR:'request'}},guardOption('pg_add','Add pickguard','request')]},
+      {id:'pickguard_material',title:'Pickguard material',dependsOn:{pickguard:['pg_add','pg_standard']},options:[guardOption('pg_acrylic','Acrylic'),guardOption('pg_aluminium','Aluminium'),guardOption('pg_wood','Matching wood')]},
       {id:'pickguard_colour',title:'Pickguard colour',dependsOn:{pickguard_material:['pg_acrylic','pg_aluminium']},options:[guardOption('pg_black','Black'),guardOption('pg_white','White'),guardOption('pg_ivory','Ivory'),guardOption('pg_red','Burgundy'),guardOption('pg_match','Match body colour')]},
-      {id:'pickguard_finish',title:'Pickguard surface',dependsOn:{pickguard:'pg_add'},options:[guardOption('pg_matte','Matte'),guardOption('pg_gloss','Gloss')]}
+      {id:'pickguard_finish',title:'Pickguard surface',dependsOn:{pickguard:['pg_add','pg_standard']},options:[guardOption('pg_matte','Matte'),guardOption('pg_gloss','Gloss')]}
     ];
-    for(const category of guardCategories)if(!data.categories.some(c=>c.id===category.id))data.categories.push(category);
+    for(const category of guardCategories){
+      if(category.id!=='pickguard')for(const option of category.options){
+        const standard=['pg_acrylic','pg_black','pg_matte'].includes(option.id);
+        option.prices.GRAMR=standard?0:'request';
+        if(standard)option.isStandard=['GRAMR'];
+      }
+      if(!data.categories.some(c=>c.id===category.id))data.categories.push(category);
+    }
     if(i18n)for(const lang of ['ko','en','de']){
       i18n[lang].categoryTitles.neck_finish=copy[lang].neckColourTitle;
       Object.assign(i18n[lang].categoryTitles,guardCopy[lang].titles);
@@ -349,14 +356,11 @@
   function Component(props) {
     const React = window.React, h = React.createElement;
     const [view,setView] = React.useState('front');
-    const [sample,setSample] = React.useState(false);
-    const [guards,setGuards] = React.useState({});
     const [neckAccents,setNeckAccents] = React.useState({});
     const neckAccent=neckAccents[props.model]||'walnut';
-    const pickguard=props.model==='EDDA'?props.selections.pickguard:(guards[props.model]||'black');
+    const pickguard=props.selections.pickguard;
     const [compact,setCompact] = React.useState(()=>window.matchMedia('(max-width:1023px)').matches);
     React.useEffect(()=>{const media=window.matchMedia('(max-width:1023px)');const change=()=>setCompact(media.matches);media.addEventListener('change',change);return()=>media.removeEventListener('change',change);},[]);
-    React.useEffect(()=>{setSample(false);},[props.model,props.selections,props.finishColor,props.bindruneExample,props.specialOptions,pickguard,neckAccent]);
     React.useEffect(()=>{setView('front');},[props.model,props.selections.pickguard,props.selections.pickguard_material,props.selections.pickguard_colour,props.selections.pickguard_finish]);
     React.useEffect(()=>{if(props.bindruneExample)setView('front');},[props.bindruneExample]);
     const t = copy[props.language] || copy.en;
@@ -366,13 +370,11 @@
     const rear=view==='back',missing=rear&&!state.g?.back;
     const rearConcept=rear&&state.g?.back?.kind==='rear-concept';
     const rearDrawing=rear&&state.g?.back?.kind==='rear-drawing';
-    const referenceTitle=rearConcept?t.rearConcept:isDrawing||rearDrawing?t.drawingView:t.sourceView;
     const rearNote=rearConcept?t.rearConceptNote:rearDrawing?t.bassRearNote:t.backNote;
     const rearParts=rearConcept?t.rearConceptParts:rearDrawing?t.bassRearParts:t.backParts;
-    const rearReference=rearConcept?t.rearConceptNote:rearDrawing?t.bassRearReference:t.backReferenceNote;
     const source=rear?state.g?.back?.source:state.g?.source;
-    const imageSource=source && media(sample?source:isDrawing||rearDrawing?'assets/configurator-materials/ash-illustrative.webp':source);
-    const imageSources=[...new Set([imageSource,...(!sample?options.materials.sources.map(media):[])].filter(Boolean))];
+    const imageSource=source && media(isDrawing||rearDrawing?'assets/configurator-materials/ash-illustrative.webp':source);
+    const imageSources=[...new Set([imageSource,...options.materials.sources.map(media)].filter(Boolean))];
     const imageKey=imageSources.join('|');
     const [imageStatus,setImageStatus]=React.useState({source:null,status:'loading'});
     React.useEffect(()=>{
@@ -386,25 +388,23 @@
     const imageReady=imageStatus.source===imageKey&&imageStatus.status==='ready';
     const imageFailed=imageStatus.source===imageKey&&imageStatus.status==='error';
     const rows = ['pickguard','pickguard_material','pickguard_colour','pickguard_finish','body_construction','electronics','neck_finish','coil_switch','control_layout','orientation','body_wood_single','body_core_wood','body_wing_wood','top_type','top_wood_selection','neck','fretboard','fret_type','fret_material','fret_size','fret_side','inlay_type','inlay_dot_mat','inlay_dot_pos','inlay_oval_mat','nut_material','color_top','color_back_side','color_headstock','extra_finish_burst','extra_finish_flake','knob','pickup_configuration','pickups','hardware_bridge','hardware_machine_head','hardware_color','fretboard_extense'].filter(id=>s[id]);
-    return h('section',{className:'rf-preview',id:'instrument-preview','aria-labelledby':'preview-title','data-preview-model':props.model,'data-preview-side':view,'data-preview-version':'v25'},
-      h('div',{className:'rf-preview-heading'},h('div',null,h('p',null,t.live),h('h2',{id:'preview-title'},props.model),h('p',{'data-neck-construction':'bolt-on'},t.boltOn)),h('span',{className:'rf-preview-mark','aria-hidden':true},'RF / TEST v25')),
-      h('div',{className:'rf-preview-sides','aria-label':t.title},['front','back'].map(id=>h('button',{type:'button',key:id,'data-preview-side':id,'aria-pressed':view===id,onClick:()=>{setSample(false);setView(id);}},t[id]))),
-      !missing && h('div',{className:'rf-preview-mode'},[false,true].map(original=>h('button',{key:String(original),type:'button','data-preview-mode':original?'sample':'selected','aria-pressed':sample===original,onClick:()=>setSample(original)},original?referenceTitle:t.selectedView))),
+    return h('section',{className:'rf-preview',id:'instrument-preview','aria-labelledby':'preview-title','data-preview-model':props.model,'data-preview-side':view,'data-preview-version':'v26'},
+      h('div',{className:'rf-preview-heading'},h('div',null,h('p',null,t.live),h('h2',{id:'preview-title'},props.model),h('p',{'data-neck-construction':'bolt-on'},t.boltOn)),h('span',{className:'rf-preview-mark','aria-hidden':true},'RF / TEST v26')),
+      h('div',{className:'rf-preview-sides','aria-label':t.title},['front','back'].map(id=>h('button',{type:'button',key:id,'data-preview-side':id,'aria-pressed':view===id,onClick:()=>{setView(id);}},t[id]))),
       missing?h('div',{className:'rf-preview-unavailable','data-preview-unavailable':'back',role:'status'},h('strong',null,t.backMissing),h('p',null,t.backMissingNote)):
         !imageReady?h('div',{className:'rf-preview-unavailable','data-preview-image-status':imageFailed?'error':'loading',role:'status'},h('strong',null,imageFailed?t.imageError:t.imageLoading),imageFailed&&h('p',null,t.imageErrorNote)):
-        sample?h('div',{className:'rf-preview-reference'},h('img',{src:media(source),alt:props.model+' · '+t[view]+' · '+referenceTitle}),h('p',null,rear?rearReference:isDrawing?t.drawingReferenceNote:t.referenceNote)):
           h('div',{className:'rf-preview-stage','data-view':view,dangerouslySetInnerHTML:{__html:renderSvg(state,view,props.language,compact?'landscape':'portrait')}}),
       state.finish.status==='unmapped' && h('p',{className:'rf-preview-warning',role:'status'},t.textOnly),
       state.finish.colour && (rear?s.color_back_side==='back_oil':s.color_top==='top_oil') && h('p',{className:'rf-preview-warning'},t.oil),
       !rear&&state.pending.includes('pickups')&&h('p',{className:'rf-preview-warning','data-pickup-pending':true},props.labels.pickups+' · '+pickupStatus(props.model,s.pickups,props.language)),
+      h('p',{className:'rf-preview-note','data-tuner-reference':true},!parts.profile(state,'hardware_machine_head')?({ko:'헤드머신 형상 미확정 · 원본 포스트 기준점만 표시',en:'Tuner shape unconfirmed · source post markers only',de:'Mechanikform offen · nur Quell-Postenmarkierungen'})[props.language]:s.hardware_machine_head==='hipshot_ul_38_xt'?({ko:'Hipshot Ultralite 3개 + E현 Xtender 1개 · 제조사 사진 참고 · 설치 미확정',en:'3 Hipshot Ultralites + 1 E-string Xtender · manufacturer photo reference · fit unconfirmed',de:'3 Hipshot Ultralites + 1 Xtender an E-Saite · Herstellerfotoreferenz · Einbau offen'})[props.language]:(props.labels.hardware_machine_head||s.hardware_machine_head)+' · '+({ko:'제조사 참고 형상 · 설치 미확정',en:'Manufacturer reference · installation unconfirmed',de:'Herstellerreferenz · Einbau offen'})[props.language]),
       !rear&&parts.profile(state,'pickups')&&h('p',{className:'rf-pickup-source','data-pickup-reference':true},props.labels.pickups+' · ',h('a',{href:parts.profile(state,'pickups').url,target:'_blank',rel:'noopener noreferrer'},(pickupCopy[props.language]||pickupCopy.en).source)),
       h('p',{className:'rf-preview-note','data-geometry-scope':true},rear?rearNote:isDrawing?t.drawingParts+' · '+t.geometry:t.note),
       h('details',{className:'rf-preview-settings'},h('summary',null,t.displaySettings),
-      props.model==='EDDA'?h('p',{'data-pickguard-catalog':true},(guardCopy[props.language]||guardCopy.en).location):state.g?.pickguard?h('div',{className:'rf-preview-guard'},h('strong',null,t.guardTitle),
-        h('div',{className:'rf-preview-guard-options','aria-label':t.pickguard},['none','black','ivory','wood'].map((id,i)=>h('button',{type:'button',key:id,'data-preview-pickguard':id,'aria-pressed':pickguard===id,onClick:()=>{setGuards(previous=>({...previous,[props.model]:id}));setView('front');setSample(false);}},t.guardNames[i]))),h('p',null,props.model==='EDDA'?t.eddaGuardNote:t.guardNote)):h('p',{className:'rf-preview-note','data-pickguard-unavailable':true},t.guardUnavailable),
+      ['EDDA','GRAMR'].includes(props.model)?h('p',{'data-pickguard-catalog':true},(guardCopy[props.language]||guardCopy.en).location):h('p',{className:'rf-preview-note','data-pickguard-unavailable':true},t.guardUnavailable),
       h('p',{className:'rf-preview-note','data-preview-construction':true},t.construction+' · '+(props.labels.body_construction||'')+' / '+(props.labels.neck||'')),
       options.laminatePlan(state)&&h('p',{className:'rf-preview-note','data-laminate-note':true},t.laminateNote),
-      ['9pc','13pc'].includes(s.neck)&&h('div',{className:'rf-preview-guard','data-neck-accent-control':true},h('strong',null,t.neckAccentTitle),h('div',{className:'rf-preview-guard-options'},['walnut','bloodwood'].map((id,i)=>h('button',{key:id,type:'button','data-preview-neck-accent':id,'aria-pressed':neckAccent===id,onClick:()=>{setNeckAccents(previous=>({...previous,[props.model]:id}));setSample(false);setView('back');}},t.neckAccentNames[i]))),h('p',null,t.neckAccentNote)),
+      ['9pc','13pc'].includes(s.neck)&&h('div',{className:'rf-preview-guard','data-neck-accent-control':true},h('strong',null,t.neckAccentTitle),h('div',{className:'rf-preview-guard-options'},['walnut','bloodwood'].map((id,i)=>h('button',{key:id,type:'button','data-preview-neck-accent':id,'aria-pressed':neckAccent===id,onClick:()=>{setNeckAccents(previous=>({...previous,[props.model]:id}));setView('back');}},t.neckAccentNames[i]))),h('p',null,t.neckAccentNote)),
       !rear&&h('p',{className:'rf-preview-note','data-fit-scope':true},({ko:'EDDA: 원래 픽가드 외곽 복원 · 노브는 픽가드 밖 컨트롤 영역에 배치 · 가공 도면 아님. ETS: Tuning Fork 참고 외형, 주문 치수 미확정. Schaller 3D: 제조사 도면 외형, 악기 장착 미확정.',en:'EDDA: original pickguard contour restored; controls stay outside its boundary. Not a machining drawing. ETS: Tuning Fork catalog reference; custom dimensions pending. Schaller 3D: manufacturer outline; instrument fit unconfirmed.',de:'EDDA: ursprüngliche Schlagbrettkontur; Regler außerhalb. Keine Fertigungszeichnung. ETS: Tuning-Fork-Katalogreferenz; Sondermaße offen. Schaller 3D: Herstellerkontur; Einbau unbestätigt.'})[props.language]),
       !rear&&h('div',{className:'rf-eq-legend','data-eq-legend':true},h('strong',null,t.eqTitle+' · '+(props.labels.electronics||'')),parts.electronicsPlan(state)?h('ol',null,parts.electronicsPlan(state).knobs.map((k,i)=>h('li',{key:i},(i+1)+'. '+k.functions.map(fn=>controlWords[props.language]?.[fn]||controlWords.en[fn]).join(' / ')+(k.stacked?' · '+t.stacked:'')))):h('p',null,t.eqPending)),
       !rear&&h('p',{className:'rf-preview-note','data-parts-scope':true},t.partsNote),
@@ -419,7 +419,6 @@
       rear&&!missing && h('p',{className:'rf-preview-note'},t.backFinishNote),
       h('details',{className:'rf-preview-scope'},h('summary',null,t.scope),
         h('p',null,rear?rearNote:isDrawing?t.drawingNote:t.tone),!rear&&h('p',null,isDrawing?t.drawingParts:t.symbols),h('p',null,t.geometry),h('p',null,t.constructionNote),h('p',null,t.controlNote),
-        source && h('a',{href:media(source),download:source.split('/').pop()},isDrawing?t.drawingView:t.reference),
         h('dl',null,rows.map(id=>{
           const woodCategory=['body_wood_single','body_core_wood','body_wing_wood','top_wood_selection','fretboard'].includes(id);
           const frontDetails=['coil_switch','control_layout','finger_ramp','fretboard_extense','pickups','pickup_configuration','fretboard','top_type','top_wood_selection','color_headstock','color_top','fret_type','fret_material','fret_size','fret_side','inlay_type','inlay_dot_mat','inlay_dot_pos','inlay_oval_mat','nut_material','knob','extra_finish_flake'];

@@ -51,9 +51,7 @@
       for(const [x,y] of g.jointSchematic)out+=`<circle cx="${x}" cy="${y}" r="6" fill="#20292e" stroke="#e5dcc4" stroke-width="1.3"/><path d="M${x-2},${y}h4 M${x},${y-2}v4" stroke="#e5dcc4" stroke-width=".8"/>`;
       out+='</g></g>';
       out+=`<g data-layer="rear-cavity" data-contour="pdf-vector">${path(g.cavity,'fill="#181b1c" stroke="#978f7e" stroke-width="1.1"')}${path(g.cavity,`fill="${unknown}" opacity=".3"`)}</g>`;
-      out+=`<g data-layer="rear-tuners" data-count="6" data-appearance="drawing-envelope" data-colour="${state.metal}">`;
-      (parts.profile(state,'hardware_machine_head')?[]:g.tuners).forEach(([x,y])=>{out+=`<circle cx="${x}" cy="${y}" r="10" fill="${metal}" stroke="#303536" stroke-width="1"/><circle cx="${x}" cy="${y}" r="4" fill="#424847"/>`;});
-      return out+'</g>'+parts.tuners(state,p,true)+'</g></svg>';
+      return out+parts.tuners(state,p,true)+'</g></svg>';
     }
     out+=`<g data-layer="body" data-option="${esc(state.topId)}" data-material="${esc(state.bodyId)}" data-contour="pdf-vector">${title(state.hasTop?'top_wood_selection':'body_wood_single')}${surface(g.body,'body',texture(535,-4,550,550,'body-wood'))}${!state.bodyColour?path(g.body,`fill="${unknown}" opacity=".4"`):''}</g>`;
     out+=options.bodyPieces(state,p,g.body,true,286,100);
@@ -100,7 +98,7 @@
     out+=options.knobs(state,p,g.controls,10)+'</g>';}
     out+=line(...g.selector,'stroke="#080808" stroke-width="2.7"')+line(...g.selector,'stroke="#878b89" stroke-width=".65"');
     const sel=point(...g.selector,.55);out+=`<rect x="${sel[0]-2}" y="${sel[1]-5}" width="4" height="10" rx="1.5" transform="rotate(54 ${sel[0]} ${sel[1]})" fill="#ddd8c6" stroke="#5c5a52" stroke-width=".5"/>`;
-    (parts.profile(state,'hardware_machine_head')?[]:g.tuners).forEach(([x,y])=>{out+=`<path d="M${x-2},${y+4}v15h4v-15" fill="${metal}" stroke="#202323" stroke-width=".6"/><rect x="${x-7}" y="${y+16}" width="14" height="9" rx="3" fill="${metal}" stroke="#333" stroke-width=".7"/><circle cx="${x}" cy="${y}" r="6.9" fill="${metal}" stroke="#272a2a" stroke-width=".6"/><circle cx="${x}" cy="${y}" r="3.9" fill="${metal}" stroke="#17191a" stroke-width=".9"/>`;});out+='</g>';
+    out+='</g>';
     out+=parts.tuners(state,p)+parts.controls(state,p,10);
     out+='<g data-layer="strings" data-count="6" data-scope="whole-instrument">';
     for(let i=0;i<6;i++){
@@ -108,7 +106,7 @@
       const d=`M${c[0]},${c[1]} L${a[0]},${a[1]} L${b[0]},${b[1]}`;
       out+=path(d,`fill="none" stroke="#111" stroke-width="${1.7-i*.18}" opacity=".9"`)+path(d,`fill="none" stroke="#ded9c8" stroke-width="${1.05-i*.14}"`);
     }
-    return out+'</g></g></svg>';
+    return out+'</g>'+parts.tremoloArm(state,p)+'</g></svg>';
   }
   return {render};
 });

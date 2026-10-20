@@ -67,14 +67,25 @@ async function main() {
       for(const name of originals)assert.equal(hashes[name],crypto.createHash('sha256').update(await fs.readFile(path.join(__dirname,'..',name))).digest('hex'),'Embedded originals must be byte-identical');
       report.embeddedOriginals='PASS';
     }
-    report.tunerDirections=await page.evaluate(()=>{
+    const tunerChoices={};
+    for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
+      await step(1);await page.locator(`[data-model="${model}"]`).click();await step(4);
+      tunerChoices[model]=await page.locator('input[name="hardware_machine_head"]').evaluateAll(inputs=>inputs.map(i=>i.value));
+      assert.ok(tunerChoices[model].length>0);
+    }
+    report.tunerDirections=await page.evaluate((choices)=>{
       const P=RavenForgePreview,parts=RavenForgeParts;let count=0;
-      const choices={EDDA:['schaller_bm','schaller_bm_lt','gotoh_707','gotoh_350','gotoh_528','hipshot_ul_38'],EMBLA:['schaller_bm','schaller_bm_lt','gotoh_707','gotoh_350','gotoh_528','hipshot_ul_38','graphtech','schaller_m4_locking'],ASKR:['hipshot_ul_38','graphtech','schaller_m4_locking'],GRAMR:['guitar_gotoh_sg381']};
+
       for(const [model,ids] of Object.entries(choices))for(const id of ids){
         const state=P.scene(model,{hardware_machine_head:id},'');const faces=[];
         for(const side of ['front','back']){
           const host=document.createElement('div');host.innerHTML=P.renderSvg(state,side,'en','portrait');document.body.append(host);
           const layer=host.querySelector(side==='front'?'[data-layer="tuner-rear-mount"]':'[data-layer="rear-selected-tuners"]');
+          if(!parts.profile(state,'hardware_machine_head')){
+            if(host.querySelectorAll('[data-part="reference-post-marker"]').length!==state.g.strings)throw Error('Missing custom tuner markers');
+            if(host.querySelector('[data-part="rear-gear-housing"]'))throw Error('Invented custom tuner');
+            faces.push([]);host.remove();continue;
+          }
           if(!layer)throw Error('Missing tuner projection '+model+'/'+id);
           const vectors=[];
           for(const unit of layer.querySelectorAll('[data-tuner-index]')){
@@ -87,8 +98,8 @@ async function main() {
         if(faces[0].length!==faces[1].length)throw Error('Tuner count mismatch');
         faces[0].forEach((q,i)=>{const z=faces[1][i];if(Math.abs(q[0]+z[0])>1e-6||Math.abs(q[1]-z[1])>1e-6)throw Error('Front/back shaft mismatch '+model+'/'+id);});count++;
       }
-      return {result:'PASS',choices:count,scope:'SVG projection, not drilling approval'};
-    });
+      return {result:'PASS',choices:count,scope:'Every UI catalog tuner, SVG projection, not drilling approval'};
+    },tunerChoices);
     report.askrHardware=await page.evaluate(()=>{
       const P=RavenForgePreview,parts=RavenForgeParts,g=RavenForgeGeometry.ASKR;
       const ns='http://www.w3.org/2000/svg',host=document.createElementNS(ns,'svg');document.body.append(host);
@@ -122,7 +133,7 @@ async function main() {
       for(const hardware_bridge of ['payson','nova_parts']){
         await step(4);await choose('hardware_bridge',hardware_bridge);
         for(const view of ['front','back']){
-          await side(view);await page.locator('#instrument-preview').screenshot({path:path.join(output,`v25-${width}-ASKR-${hardware_bridge}-${view}.png`)});
+          await side(view);await page.locator('#instrument-preview').screenshot({path:path.join(output,`v26-${width}-ASKR-${hardware_bridge}-${view}.png`)});
           report.askrViews.push({width,hardware_bridge,view,result:'PASS'});
         }
       }
@@ -146,7 +157,7 @@ async function main() {
               if(['ets_custom','schaller_3d'].includes(bridge))assert.equal(await layer('bridge').getAttribute('data-profile'),bridge==='ets_custom'?'ets-tuning-fork':'schaller-3d');
               if(model==='EDDA')assert.equal(await layer('control-plate').count(),0);
             }
-            await page.locator('#instrument-preview').screenshot({path:path.join(output,`v25-${width}-${model}-${bridge}-${view}.png`)});
+            await page.locator('#instrument-preview').screenshot({path:path.join(output,`v26-${width}-${model}-${bridge}-${view}.png`)});
             report.bridgeViews.push({width,model,bridge,view,result:'PASS'});
           }
         }
@@ -157,7 +168,11 @@ async function main() {
       await page.setViewportSize({width,height:width===1440?1080:844});
       for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
         await step(1);await page.locator(`[data-model="${model}"]`).click();
-        for(const view of ['front','back']){await side(view);await page.locator('#instrument-preview').screenshot({path:path.join(output,`v25-${width}-${model}-tuner-${view}.png`)});report.tunerViews.push({width,model,view,result:'PASS'});}
+        await step(4);
+        for(const id of tunerChoices[model]){
+          await choose('hardware_machine_head',id);
+          for(const view of ['front','back']){await side(view);await page.locator('#instrument-preview').screenshot({path:path.join(output,`v26-${width}-${model}-${id}-${view}.png`)});report.tunerViews.push({width,model,id,view,result:'PASS'});}
+        }
       }
     }
     await step(1);await page.locator('[data-model="EDDA"]').click();
@@ -205,7 +220,7 @@ async function main() {
           if(await page.locator(`[data-model="${model}"]`).getAttribute('aria-pressed')==='true') await page.locator(`[data-model="${model==='EDDA'?'EMBLA':'EDDA'}"]`).click();
           await page.locator(`[data-model="${model}"]`).click();
           assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-model'),model);
-          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v25');
+          assert.equal(await page.locator('#instrument-preview').getAttribute('data-preview-version'),'v26');
           assert.equal(await page.locator('#instrument-preview [data-neck-construction="bolt-on"]').textContent(),{ko:'볼트온 넥',en:'Bolt-on neck',de:'Geschraubter Hals'}[lang]);
           assert.equal(await layer('strings').getAttribute('data-count'),String(count));
           const initial=await layer('body').innerHTML();
@@ -224,11 +239,7 @@ async function main() {
           assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-layout'),size.width<1024?'landscape':'portrait');
           // Confirm original repository rasters load, then compare reference/selected modes.
           await page.evaluate(async()=>{const src=(document.querySelector('[data-layer="body"] image')||document.querySelector('[id$="-material"] image')).getAttribute('href');const image=new Image();image.src=src;await image.decode();if(Math.max(image.naturalWidth,image.naturalHeight)<1000)throw new Error('Missing source render');});
-          await page.locator('[data-preview-mode="sample"]').click();
-          await page.locator('.rf-preview-reference img').waitFor();
-          assert.equal(await page.locator('.rf-preview-reference img').count(),1);
-          await page.locator('[data-preview-mode="selected"]').click();
-          await page.locator('[data-preview-svg][data-side="front"]').waitFor();
+          assert.equal(await page.locator('[data-preview-mode], .rf-preview-reference, a[download$=".svg"]').count(),0,'Selected options only: no sample/source mode or drawing download');
           await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-default.png`)});
           await step(3);
           const beforeColour=await page.locator('.rf-preview-stage').screenshot();
@@ -259,11 +270,7 @@ async function main() {
             assert.equal(await layer('rear-bolts').getAttribute('data-count'),'5');
             assert.equal(await layer('rear-bolts').getAttribute('data-pattern'),'2-2-1');
             assert.equal(await layer('rear-bolts').getAttribute('data-placement'),'spec-schematic');
-            await page.locator('[data-preview-mode="sample"]').click();
-            await page.locator('.rf-preview-reference img').waitFor();
-            await page.locator('.rf-preview-reference img').evaluate(image=>image.decode());
-            await page.locator('[data-preview-mode="selected"]').click();
-            await page.locator('[data-preview-svg][data-side="back"]').waitFor();
+
           }else{
             assert.equal(await page.locator('[data-preview-unavailable="back"]').count(),0);
             assert.equal(await page.locator('[data-preview-svg]').getAttribute('data-neck-joint'),'bolt-on');
@@ -322,9 +329,9 @@ async function main() {
           const redBack=await colourPixels();assert.ok(redBack.red>redBack.blue*3&&redBack.red>1000,`Red back ${model}: ${JSON.stringify(redBack)}`);
           await choose('color_back_side','back_oil');
           const oilPreview=await colourPixels();assert.ok(oilPreview.red>oilPreview.blue*3&&oilPreview.red>1000,`Selected red covers oil-category rear ${model}: ${JSON.stringify(oilPreview)}`);
-          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v25-${size.width}-${model}-colour-back.png`)});
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v26-${size.width}-${model}-colour-back.png`)});
           await side('front');
-          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v25-${size.width}-${model}-colour-front.png`)});
+          await page.locator('#instrument-preview').screenshot({path:path.join(output,`v26-${size.width}-${model}-colour-front.png`)});
           await step(2);
           if(model!=='GRAMR') {
             if(await page.locator('input[name="fretboard"][value="ironwood"]').count()){
@@ -415,7 +422,7 @@ async function main() {
                 assert.equal(await page.locator('[data-summary-category="pickguard_colour"]').count(),1);
               }
               await side('front');
-              await page.locator('#instrument-preview').screenshot({path:path.join(output,`v25-${lang}-${size.width}-EDDA-${material}.png`)});
+              await page.locator('#instrument-preview').screenshot({path:path.join(output,`v26-${lang}-${size.width}-EDDA-${material}.png`)});
             }
             await choose('pickguard_finish','pg_gloss');assert.equal(await layer('pickguard').getAttribute('data-finish'),'gloss');
             await choose('pickguard','pg_none');assert.equal(await layer('pickguard').count(),0);
@@ -425,13 +432,18 @@ async function main() {
             await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-EDDA-pickguard.png`)});
             await choose('pickguard','pg_none');await step(5);
           }else if(model==='GRAMR'){
-            for(const guard of ['black','ivory','wood','none']){
-              await page.locator(`[data-preview-pickguard="${guard}"]`).click();
-              assert.equal(await layer('pickguard').count(),guard==='none'?0:1);
-              if(guard!=='none'){assert.equal(await layer('pickguard').getAttribute('data-option'),guard);assert.equal(await layer('pickguard').getAttribute('data-appearance'),model==='EDDA'?'sample-contour':'drawing-contour');}
+            assert.equal(await page.locator('[data-preview-pickguard]').count(),0);
+            await step(4);
+            for(const material of ['pg_acrylic','pg_aluminium','pg_wood']){
+              await choose('pickguard_material',material);
+              assert.equal(await layer('pickguard').getAttribute('data-material'),material);
+              assert.equal(await page.locator('[data-summary-category="pickguard_material"]').count(),1);
+              await page.locator('#instrument-preview').screenshot({path:path.join(output,`v26-${lang}-${size.width}-GRAMR-${material}.png`)});
             }
-            assert.equal(await page.locator('#quote-summary-card').innerText(),guardQuote,'Test pickguard is excluded from quote');
-            await page.locator('[data-preview-pickguard="black"]').click();
+            await choose('pickguard_material','pg_acrylic');
+            assert.equal(await page.locator('#quote-summary-card').innerText(),guardQuote,'Standard GRAMR guard keeps base quote');
+            await choose('pickguard','pg_none');assert.equal(await layer('pickguard').count(),0);
+            await choose('pickguard','pg_standard');await step(5);
           }else{
             assert.equal(await page.locator('[data-preview-pickguard]').count(),0,'Models without source contours have no active guard choice');
             assert.equal(await layer('pickguard').count(),0,'No fabricated box behind pickups');

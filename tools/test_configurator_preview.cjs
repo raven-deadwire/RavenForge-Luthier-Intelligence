@@ -155,7 +155,7 @@ const parts=require('../assets/configurator-parts-renderer.js');
 for(const model of ['EDDA','EMBLA','ASKR','GRAMR']){
   const d=JSON.parse(JSON.stringify(normalize(model))),extras={specialOptions:['kill_switch','dual_tone'],pickguard:'ivory'},before=JSON.stringify([d,extras]);
   const front=preview.renderSvg(preview.scene(model,d,'transparent #9d282b',{},null,extras),'front','en');
-  if(model==='GRAMR')assert.match(front,/data-layer="pickguard" data-option="ivory"/);
+  if(model==='GRAMR')assert.match(front,/data-layer="pickguard" data-option="black"/);
   else if(model==='EDDA')assert.doesNotMatch(front,/data-layer="pickguard"/,'EDDA guard uses catalog state, never display-only extras');
   else {
     assert.doesNotMatch(front,/data-layer="pickguard"/,'Never invent a contour for a model without a source guard');
@@ -241,7 +241,7 @@ console.log('PASS: retained knob coordinates, independent non-overlapping switch
     for(const id of ['pickguard_material','pickguard_colour','pickguard_finish'])assert.equal(removed[id],undefined,'Hidden details cannot remain in quote');
   }
   assert.equal(outputs.size,22,'Acrylic/aluminium × five colours × two surfaces, plus matching wood × two surfaces');
-  for(const model of ['EMBLA','ASKR','GRAMR'])assert.equal(normalize(model,{pickguard:'pg_add'}).pickguard,undefined,'EDDA guard cannot leak into another model');
+  for(const model of ['EMBLA','ASKR'])assert.equal(normalize(model,{pickguard:'pg_add'}).pickguard,undefined,'EDDA guard cannot leak into another model');
   assert.equal(JSON.stringify(d),before);
   const invalid=preview.renderSvg(preview.scene('EDDA',{...d,pickguard:'pg_add',pickguard_colour:'" onerror="x',pickguard_material:'" onerror="x'},''),'front','en');
   assert.doesNotMatch(invalid,/onerror=/);
@@ -541,3 +541,32 @@ console.log('PASS: all EDDA machine-head choices preserve reference shaft direct
  const s=JSON.stringify(state.selections);parts.bridge(state,'noop');assert.equal(JSON.stringify(state.selections),s);
 }
 console.log('PASS: Nova 5-string one-piece identity, 102/18/43.7/55/12 drawing values, five channels and source-centroid placement boundary');
+
+// The previously omitted Xtender must never fall back to clipped raster tuners.
+{
+ const d=normalize('EDDA',{hardware_machine_head:'hipshot_ul_38_xt'}),s=preview.scene('EDDA',d,'');
+ const front=parts.tuners(s,'xt'),back=parts.tuners(s,'xt',true);
+ assert.equal((front.match(/data-tuner-index=/g)||[]).length,4);
+ assert.equal((back.match(/data-part="xtender-assembly"/g)||[]).length,1);
+ assert.match(back,/data-tuner-index="3"[^]*data-part="xtender-assembly"/);
+ assert.doesNotMatch(front,/xtender-assembly/);
+ const custom=preview.scene('GRAMR',normalize('GRAMR',{hardware_machine_head:'guitar_tuner_custom'}),'');
+ for(const side of [false,true]){
+  const svg=parts.tuners(custom,'custom',side);
+  assert.equal((svg.match(/data-part="reference-post-marker"/g)||[]).length,6);
+  assert.doesNotMatch(svg,/rear-gear-housing|rear-key-shaft/);
+ }
+ assert.doesNotMatch(fs.readFileSync(path.join(root,'assets/configurator-preview.js'),'utf8'),/data-preview-mode[\'"]|setSample|rf-preview-reference/);
+}
+{
+ const standard=normalize('GRAMR');assert.equal(standard.pickguard,'pg_standard');
+ assert.equal(standard.pickguard_material,'pg_acrylic');
+ for(const material of ['pg_acrylic','pg_aluminium','pg_wood']){
+  const s=preview.scene('GRAMR',normalize('GRAMR',{pickguard_material:material}),''),front=preview.renderSvg(s,'front','en'),back=preview.renderSvg(s,'back','en');
+  assert.match(front,new RegExp('data-material="'+material+'"'));assert.doesNotMatch(back,/data-layer="pickguard"|data-layer="tremolo-arm"/);
+  assert.ok(front.indexOf('data-layer="tremolo-arm"')>front.indexOf('data-layer="strings"'),'Arm must be above strings');
+  assert.match(front,/data-profile="gotoh-a7" data-diameter-mm="5.5"/);
+ }
+ assert.equal(normalize('GRAMR',{pickguard:'pg_none'}).pickguard_material,undefined);
+}
+console.log('PASS: Xtender mechanism, unknown tuner markers, GRAMR catalog guard, A7 overlay and selected-only UI');
