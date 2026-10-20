@@ -68,6 +68,28 @@ async function main() {
       for(const name of originals)assert.equal(hashes[name],crypto.createHash('sha256').update(await fs.readFile(path.join(__dirname,'..',name))).digest('hex'),'Embedded originals must be byte-identical');
       report.embeddedOriginals='PASS';
     }
+    report.bridgeViews=[];
+    for(const width of [1440,390]){
+      await page.setViewportSize({width,height:width===1440?1080:844});
+      for(const model of ['EDDA','EMBLA']){
+        await step(1);await page.locator(`[data-model="${model}"]`).click();await step(4);
+        if(model==='EDDA'){await choose('pickguard','pg_add');await choose('pickguard_material','pg_3ply');await choose('pickguard_colour','pg_ivory');}
+        for(const bridge of (model==='EDDA'?['ets_custom','gotoh_404BO','hipshot_b','babicz_top']:['ets_custom','schaller_3d'])){
+          await choose('hardware_bridge',bridge);
+          for(const view of ['front','back']){
+            await side(view);await page.locator('[data-preview-svg]').waitFor();
+            if(view==='front'){
+              assert.equal(await layer('bridge').getAttribute('data-option'),bridge);
+              if(['ets_custom','schaller_3d'].includes(bridge))assert.equal(await layer('bridge').getAttribute('data-profile'),bridge==='ets_custom'?'ets-tuning-fork':'schaller-3d');
+              if(model==='EDDA')assert.equal(await layer('control-plate').count(),1);
+            }
+            await page.locator('#instrument-preview').screenshot({path:path.join(output,`v18-${width}-${model}-${bridge}-${view}.png`)});
+            report.bridgeViews.push({width,model,bridge,view,result:'PASS'});
+          }
+        }
+      }
+    }
+    await step(1);await page.locator('[data-model="EDDA"]').click();
     // The three independent columns must also fit narrower desktop screens.
     report.layout=[];
     for(const width of [1024,1280]) {
