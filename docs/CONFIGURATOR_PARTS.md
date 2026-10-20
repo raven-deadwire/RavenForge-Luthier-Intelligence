@@ -382,3 +382,7 @@ a preceding commit's results are not current-commit validation.
 - Opaque EDDA rear paint conceals source wood grain. Rear concept shape, bolt centres and installation positions remain unverified; ASKR/EMBLA drawing provenance is unchanged.
 
 - EDDA head: the user-supplied rear reference (20 October, 12:26:36 image) is the shape authority. A curved trace is mirrored and uniformly scaled by 0.62 about rear nut (525,290) to front nut (539,198). The previous angular front contour is removed; no anisotropic distortion is used. Both faces share the same traced head. Tuner post locations are visual reference placements, not approved drilling coordinates.
+
+
+### v21 — EDDA machine-head orientation correction
+The v20 rear machines were vertically mirrored and tilted the wrong way. EDDA rear housings now retain their local vertical orientation, with shafts above the gear centres and a -10 degree shaft angle, as in the supplied rear reference. Only the front's rear-mounted key plane is reflected vertically to match that projection. Head contours and post centres are unchanged. Other models retain their existing transforms.

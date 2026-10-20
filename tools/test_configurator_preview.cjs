@@ -438,7 +438,7 @@ for(const [model,ids] of [['EDDA',['schaller_bm','schaller_bm_lt','gotoh_707']],
   assert.match(back,/rear-key-shaft/);assert.match(back,/rear-gear-housing/);
   assert.equal(back.includes('data-part="locking-wheel"'),id==='schaller_m4_locking');
   if(id==='schaller_m4_locking')assert.match(back,/data-mount-lug="90-degrees"/);
-  assert.match(back,/scale\([\d.]+ -[\d.]+\)/,'Rear projection mirrors the transverse offset of the key shaft');
+  if(model!=='EDDA')assert.match(back,/scale\([\d.]+ -[\d.]+\)/,'Drawing projection mirrors the transverse offset');
   for(const finish of ['', 'transparent #9d282b', 'solid #9d282b'])for(const head of ['head_match','head_natural']){
    const svg=preview.renderSvg(preview.scene(model,{...state.selections,color_headstock:head},finish),'front','en');
    const rearIndex=svg.indexOf('data-layer="tuner-rear-mount"'),woodIndex=svg.indexOf('data-layer="headstock"'),postIndex=svg.indexOf('data-part="front-bushing-post"');
@@ -484,3 +484,15 @@ console.log('PASS: original EDDA guard contour restored exactly; no control plat
  assert.ok(!JSON.stringify(data.categories.find(c=>c.id==='pickguard_material')).includes('plastic'));
  console.log('PASS: rear-authoritative EDDA head registration and acrylic/aluminium/wood catalog');
 }
+
+// EDDA reference has the worm shaft above its gear centre, not below it.
+for(const id of data.categories.find(c=>c.id==='hardware_machine_head').options.filter(o=>o.prices?.EDDA!==undefined).map(o=>o.id)){
+ const state=preview.scene('EDDA',{...normalize('EDDA'),hardware_machine_head:id},'');if(!parts.profile(state,'hardware_machine_head'))continue;
+ const project=(svg,x,y)=>{const a=svg.match(/data-tuner-index="0" transform="translate\(([-\d.]+) ([-\d.]+)\) rotate\(([-\d.]+)\) scale\(([-\d.]+) ([-\d.]+)\)/).slice(1).map(Number);const r=a[2]*Math.PI/180;return [Math.cos(r)*x*a[3]-Math.sin(r)*y*a[4],Math.sin(r)*x*a[3]+Math.cos(r)*y*a[4]];};
+ const ref=parts.profile(state,'hardware_machine_head'),offset=ref.keyOffset||0;
+ const rear=project(parts.tuners(state,'qa',true),20,offset),front=project(parts.tuners(state,'qa',false,'rear-mount'),20,offset);
+ assert.ok(rear[0]>0&&rear[1]<0,'EDDA shaft must extend right and above the gear centre');
+ assert.ok(front[0]<0&&front[1]<0,'Front key plane must mirror rear without turning the housing upside down');
+ const a=Math.hypot(...rear),b=Math.hypot(...front);assert.ok(Math.abs(rear[0]/a+front[0]/b)<1e-8&&Math.abs(rear[1]/a-front[1]/b)<1e-8);
+}
+console.log('PASS: all EDDA machine-head choices preserve reference shaft direction and mirrored front keys');

@@ -430,9 +430,10 @@ return out;
       // centres between projections; a gear housing's bounding centre is not a hole.
       const rearNut=state.g.back.neck.match(/-?\d+(?:\.\d+)?/g).slice(0,2).map(Number),frontNut=state.g.board[0];
       anchors=state.g.tunerAnchors.map(([x,y,a])=>[y+rearNut[0]-frontNut[1],x+rearNut[1]-frontNut[0],a===180?-90:90]);scale=state.g.unitsPerMm;
-    }else if(back){anchors=[[516,84,10],[528,139,10],[541,194,10],[551,249,10]];scale=1.1;}
+    }else if(back){anchors=[[516,84,-10],[528,139,-10],[541,194,-10],[551,249,-10]];scale=1.1;}
     else {anchors=state.g.tunerAnchors||frontTunerAnchors[state.model];scale=state.g.unitsPerMm||(state.model==='EDDA'?.72:.68);}
-    return `<g data-layer="${back?'rear-selected-tuners':plane==='rear-mount'?'tuner-rear-mount':state.model==='GRAMR'?'selected-tuners':'hardware'}" data-option="${state.selections.hardware_color}" data-plane="${back?'rear-housing':plane}" data-machine-head="${state.selections.hardware_machine_head}" data-colour="${state.metal}" data-count="${anchors.length}" data-appearance="manufacturer-reference" data-placement="${back&&state.model!=='EDDA'?'drawing-fit':'sample-fit'}" data-profile="${ref.key}" data-units-per-mm="${scale}">`+anchors.map(([x,y,a],i)=>`<g data-tuner-index="${i}" transform="translate(${x} ${y}) rotate(${a}) scale(${scale} ${back?-scale:scale})">${tunerUnit(state,p,ref,back?'rear-housing':plane)}</g>`).join('')+'</g>';
+    const reflectY=state.model==='EDDA'?(!back&&plane==='rear-mount'):back;
+    return `<g data-layer="${back?'rear-selected-tuners':plane==='rear-mount'?'tuner-rear-mount':state.model==='GRAMR'?'selected-tuners':'hardware'}" data-option="${state.selections.hardware_color}" data-plane="${back?'rear-housing':plane}" data-machine-head="${state.selections.hardware_machine_head}" data-colour="${state.metal}" data-count="${anchors.length}" data-appearance="manufacturer-reference" data-placement="${back&&state.model!=='EDDA'?'drawing-fit':'sample-fit'}" data-profile="${ref.key}" data-units-per-mm="${scale}">`+anchors.map(([x,y,a],i)=>`<g data-tuner-index="${i}" transform="translate(${x} ${y}) rotate(${a}) scale(${scale} ${reflectY?-scale:scale})">${tunerUnit(state,p,ref,back?'rear-housing':plane)}</g>`).join('')+'</g>';
   }
   return {definitions,pickupPlan,guard,bridgeAnchors,ramps,electronicsProfiles,electronicsPlan,knobs,controlPlan,controls,references,profile,selectedPickupPlan,pickupThumbnail,pickups,bridge,referenceBridge,tuners};
 });
