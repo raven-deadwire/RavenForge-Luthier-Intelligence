@@ -782,10 +782,11 @@ async function run() {
             if(model.id==='EDDA'&&await page.locator('#instrument-preview').count()){
               await step(4);
               await selectOption('pickguard','pg_add');
-              await selectOption('pickguard_material','pg_3ply');
-              await selectOption('pickguard_colour','pg_ivory');
+              const guardMaterial=['pg_acrylic','pg_aluminium','pg_wood'][(['ko','en','de'].indexOf(language)+(viewport.name==='mobile'?1:0))%3];
+              await selectOption('pickguard_material',guardMaterial);
+              if(guardMaterial!=='pg_wood')await selectOption('pickguard_colour','pg_ivory');
               await selectOption('pickguard_finish','pg_gloss');
-              for(const id of ['pickguard','pickguard_material','pickguard_colour','pickguard_finish'])assert.equal(await page.locator(`[data-summary-category="${id}"]`).count(),1);
+              for(const id of ['pickguard','pickguard_material',...(guardMaterial==='pg_wood'?[]:['pickguard_colour']),'pickguard_finish'])assert.equal(await page.locator(`[data-summary-category="${id}"]`).count(),1);
               await step(5);
             }
             const note = `QA ${language} ${viewport.name} ${model.id}`;
