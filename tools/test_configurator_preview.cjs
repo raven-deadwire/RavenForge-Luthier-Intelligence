@@ -458,7 +458,10 @@ const paysonState=preview.scene('ASKR',normalize('ASKR'),'');
 const paysonSvg=parts.bridge(paysonState,'qa-payson');
 assert.match(paysonSvg,/data-part="continuous-aluminium-plate"/);
 assert.equal((paysonSvg.match(/data-saddle=/g)||[]).length,5);
-for(const line of paysonState.g.stringLines)assert.ok(paysonSvg.includes(`data-string-anchor="${line[1]}"`));
+for(const anchor of paysonState.g.bridgeSaddlePoints)assert.ok(paysonSvg.includes(`data-string-anchor="${anchor}"`));
+for(let i=0;i<5;i++)assert.ok(paysonState.g.stringLines[i][1][1]-parts.bridgeAnchors(paysonState)[i][1]>30,'CAD tail is not the saddle witness');
+assert.doesNotMatch(parts.pickups(paysonState,'qa-pickup'),/translate\(\.35 2\.2\)/,'ASKR top-view housing excludes false depth');
+assert.doesNotMatch(preview.renderSvg(paysonState,'front','en'),/data-layer="body-strings"/,'ASKR uses one continuous string path per string');
 assert.equal(parts.bridge({...paysonState,metal:'#c9a75c'},'qa-payson'),paysonSvg,'Bridge anodizing cannot follow tuner colour');
 console.log('PASS: connected ASKR nut transition, rear/front tuner planes, Graph Tech and Schaller variants, continuous fixed-finish Payson plate');
 

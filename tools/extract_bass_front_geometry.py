@@ -146,6 +146,10 @@ def extract(model, folder):
             bridgeDrawingIndices=bridge_indices,maxBodyJoinGapPDFPoints=bgap,maxHeadJoinGapPDFPoints=hgap,
             closure='Body closes under the fingerboard; not a neck-pocket toolpath.',
             scope='Exact source front silhouette and fret lines. Source hardware anchors are prototype display references; selected replacements and EQ layouts are not approved manufacturing positions.'))
+    if model=='ASKR':
+        indices=[5718,5726,5734,5742,5750]
+        data['bridgeSaddlePoints']=[centre(i) for i in indices]
+        data['provenance']['bridgeSaddleIndices']=indices
     shapes=[f'<path d="{body}"/>',f'<path d="{head}"/>',f'<polygon points="{" ".join(",".join(map(str,p)) for p in board)}"/>']
     shapes += [f'<path d="{d}"/>' for d in outlines]
     shapes += [f'<path d="M{a[0]},{a[1]} L{b[0]},{b[1]}"/>' for a,b in frets]

@@ -191,9 +191,9 @@ return out;
   function pickupDefinitions(p){
     return `<linearGradient id="${p}-pickup-face" x1=".18" y1="0" x2=".55" y2="1"><stop stop-color="#323335"/><stop offset=".3" stop-color="#222326"/><stop offset=".8" stop-color="#18191c"/><stop offset="1" stop-color="#101114"/></linearGradient><linearGradient id="${p}-pickup-bevel" x1=".15" y1="0" x2=".65" y2="1"><stop stop-color="#55575a"/><stop offset=".07" stop-color="#35373a"/><stop offset=".4" stop-color="#171a19"/><stop offset=".85" stop-color="#070909"/><stop offset="1" stop-color="#333734"/></linearGradient><radialGradient id="${p}-pickup-crown" cx=".28" cy=".18" r=".95"><stop stop-color="#fff" stop-opacity=".08"/><stop offset=".65" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></radialGradient><radialGradient id="${p}-pole" cx=".32" cy=".25"><stop stop-color="#ddd9cb"/><stop offset=".4" stop-color="#a5a59c"/><stop offset=".83" stop-color="#727975"/><stop offset="1" stop-color="#c6c8bf"/></radialGradient><pattern id="${p}-pickup-grain" width="7" height="7" patternUnits="userSpaceOnUse">${Array.from({length:45},(_,i)=>circle((i*2.371)%7,(i*i*.913)%7,.045+(i%3)*.025,i%3?'#b8bbc0':'#020305',`opacity="${i%3?.09:.20}"`)).join('')}</pattern>`;
   }
-  function pickupUnit(ref,p){
+  function pickupUnit(ref,p,topView=false){
     const w=ref.w,h=ref.h,face=`url(#${p}-pickup-face)`,bevel=`url(#${p}-pickup-bevel)`,grain=`url(#${p}-pickup-grain)`;
-    let out=box(-.8,1.6,w+1.6,h+1.7,3.8,'#000202','opacity=".6"');
+    let out=topView?'':box(-.8,1.6,w+1.6,h+1.7,3.8,'#000202','opacity=".6"');
     if(ref.style==='haeussel-mm-triple'){
       for(const [x,y] of [[-2.5,h*.5],[w+2.5,h*.23],[w+2.5,h*.77]])out+=circle(x,y,5.8,bevel,'stroke="#141719" stroke-width=".6"')+circle(x,y,1.6,'#060809');
       out+=box(0,1.8,w,h,2.6,'#080b0d','stroke="#080b0d" stroke-width=".8"')+box(0,0,w,h-1,2.6,bevel)+box(1,.8,w-2,h-2.8,2,'#33373a')+box(1,.8,w-2,h-2.8,2,grain)+box(1,.8,w-2,h-2.8,2,`url(#${p}-pickup-crown)`);
@@ -232,7 +232,9 @@ return out;
     // Open side mounting recesses belong to the cover silhouette, not a dot
     // painted over a solid rectangle. Delano SBC instead has three round holes.
     const cover=`M${r} 0H${w-r}Q${w} 0 ${w} ${r}V${h/2-3.15}${recess?`H${w-1.1}a3.15 3.15 0 0 0 0 6.3H${w}`:`V${h/2+3.15}`}V${h-r}Q${w} ${h} ${w-r} ${h}H${r}Q0 ${h} 0 ${h-r}V${h/2+3.15}${recess?'H1.1a3.15 3.15 0 0 0 0 -6.3H0':`V${h/2-3.15}`}V${r}Q0 0 ${r} 0Z`;
-    out+=path(cover,'#07080b','transform="translate(.35 2.2)" stroke="#08090c" stroke-width="1.8"')+path(cover,bevel,'stroke="#0b0c0e" stroke-width=".55"');
+    // ASKR's source spacing is a top projection: extrusion must not enlarge
+    // the dimensioned housing or conceal the narrow gap between pickups.
+    out+=(topView?'':path(cover,'#07080b','transform="translate(.35 2.2)" stroke="#08090c" stroke-width="1.8"'))+path(cover,bevel,topView?'':'stroke="#0b0c0e" stroke-width=".55"');
     out+=`<g transform="translate(1.25 1.1) scale(${(w-2.5)/w} ${(h-2.9)/h})">${path(cover,face)}${path(cover,`url(#${p}-pickup-crown)`)}${path(cover,grain)}</g>`;
     out+=path(`M${r+1} 1Q1 1 1 ${r+1}V${h/2-4} M${r+1} 1H${w-r-1}`,'none','stroke="#c0c3b8" stroke-opacity=".2" stroke-width=".4"');
     const mounting=ref.style==='haeussel-bassbar'?[[4,h/2],[w-4,4],[w-4,h-4]]:[[4,5],[4,h-5],[w-4,h/2]];
@@ -254,7 +256,7 @@ return out;
     let out=`<g data-layer="pickups" data-option="${state.selections.pickups}" data-count="${state.g.pickups.length}" data-appearance="${ref.scope||'manufacturer-reference'}" data-placement="sample-fit" data-profile="${ref.style}" data-surface="photo-reference-abs" data-projection="source-envelope">`;
     (guitar?pickupPlan(state):selectedPickupPlan(state)).forEach((r,index)=>{
       const scaleX=guitar?r.h/ref.w:r.w/ref.w,scaleY=guitar?r.w/ref.h:r.h/ref.h;
-      out+=`<g data-pickup-index="${index}" transform="translate(${r.x+r.w/2} ${r.y+r.h/2}) rotate(${guitar?-90:r.angle||0}) scale(${scaleX} ${scaleY}) translate(${-ref.w/2} ${-ref.h/2})">${pickupUnit(ref,p)}</g>`;
+      out+=`<g data-pickup-index="${index}" transform="translate(${r.x+r.w/2} ${r.y+r.h/2}) rotate(${guitar?-90:r.angle||0}) scale(${scaleX} ${scaleY}) translate(${-ref.w/2} ${-ref.h/2})">${pickupUnit(ref,p,state.model==='ASKR')}</g>`;
     });return out+'</g>';
   }
   function pickupThumbnail(model,option,p){
@@ -304,6 +306,7 @@ return out;
   // ETS proportions follow the headed Tuning Fork catalog, NOT the headless MK-III.
   function bridgeAnchors(state){
     const ref=profile(state,'hardware_bridge');
+    if(state.model==='ASKR'&&state.g.bridgeSaddlePoints)return state.g.bridgeSaddlePoints.map(p=>p.slice());
     if(!ref||!['ets-tuning-fork','schaller-3d'].includes(ref.style))return null;
     const n=state.g.strings,schaller=ref.style==='schaller-3d',spacing=schaller?(n===4?19:16.6):18.5,scale=state.g.unitsPerMm||1.07,[a,b]=state.g.bridge,cx=(a[0]+b[0])/2,cy=(a[1]+b[1])/2;
     return Array.from({length:n},(_,i)=>[cx+(i-(n-1)/2)*spacing*scale,cy+(1.5+(schaller?(n-1-i)*1.3:0))*scale]);
@@ -340,12 +343,13 @@ return out;
     return out+'</g></g>';
   }
   // Original exterior illustration from Payson's product photos. The continuous
-  // aluminium plate is fitted to source string endpoints, not a machining plan.
+  // aluminium plate is registered to source saddle witnesses, not ball-entry endpoints.
+  // Product exterior and installation remain visual references, not a machining plan.
   function paysonBridge(state,p){
-    const scale=state.g.unitsPerMm||1,ends=state.g.stringLines.map(l=>l[1]),a=ends[0],b=ends.at(-1),dx=9*scale,top=11*scale,bottom=32*scale;
+    const scale=state.g.unitsPerMm||1,ends=bridgeAnchors(state)||state.g.stringLines.map(l=>l[1]),a=ends[0],b=ends.at(-1),dx=9*scale,top=11*scale,bottom=32*scale;
     const d=`M${a[0]-dx} ${a[1]-top} Q${a[0]-dx} ${a[1]-top-3} ${a[0]-dx+3} ${a[1]-top-5} L${b[0]+dx-3} ${b[1]-top-5} Q${b[0]+dx} ${b[1]-top-3} ${b[0]+dx} ${b[1]-top} V${b[1]+bottom-4} Q${b[0]+dx} ${b[1]+bottom} ${b[0]+dx-4} ${b[1]+bottom+2} L${a[0]-dx+4} ${a[1]+bottom+2} Q${a[0]-dx} ${a[1]+bottom} ${a[0]-dx} ${a[1]+bottom-4} Z`;
     const metal=`url(#${p}-payson-anodized)`;
-    let out=`<g data-layer="bridge" data-option="payson" data-profile="payson-fanned-v4" data-colour="${state.bridgeColour}" data-finish-fixed="true" data-appearance="manufacturer-reference" data-placement="source-string-fit"><defs><linearGradient id="${p}-payson-anodized" x2=".2" y2="1"><stop stop-color="#a5afb3"/><stop offset=".32" stop-color="#677276"/><stop offset=".7" stop-color="#8d989c"/><stop offset="1" stop-color="#3a4347"/></linearGradient></defs>`;
+    let out=`<g data-layer="bridge" data-option="payson" data-profile="payson-fanned-v4" data-colour="${state.bridgeColour}" data-finish-fixed="true" data-appearance="manufacturer-reference" data-placement="source-saddle-registration-unconfirmed"><defs><linearGradient id="${p}-payson-anodized" x2=".2" y2="1"><stop stop-color="#a5afb3"/><stop offset=".32" stop-color="#677276"/><stop offset=".7" stop-color="#8d989c"/><stop offset="1" stop-color="#3a4347"/></linearGradient></defs>`;
     out+=path(d,'#080c0e','transform="translate(1 3)" stroke="#06090b" stroke-width="3"')+path(d,metal,'data-part="continuous-aluminium-plate" stroke="#c1c8c8" stroke-width=".75"');
     ends.forEach(([x,y],i)=>{
       out+=`<g data-saddle="${i}" data-string-anchor="${x},${y}" transform="translate(${x} ${y}) scale(${scale})">`;
