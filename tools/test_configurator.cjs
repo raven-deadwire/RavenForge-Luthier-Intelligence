@@ -779,9 +779,9 @@ async function run() {
             assert.equal(await quotedAmount(), before);
             await selectOption('case', 'case_premium');
             // Preview-only catalog: exercise new guard rows in the real PDF export.
-            if(model.id==='EDDA'&&await page.locator('#instrument-preview').count()){
+            if(['EDDA','GRAMR'].includes(model.id)&&await page.locator('#instrument-preview').count()){
               await step(4);
-              await selectOption('pickguard','pg_add');
+              await selectOption('pickguard',model.id==='GRAMR'?'pg_standard':'pg_add');
               const guardMaterial=['pg_acrylic','pg_aluminium','pg_wood'][(['ko','en','de'].indexOf(language)+(viewport.name==='mobile'?1:0))%3];
               await selectOption('pickguard_material',guardMaterial);
               if(guardMaterial!=='pg_wood')await selectOption('pickguard_colour','pg_ivory');
