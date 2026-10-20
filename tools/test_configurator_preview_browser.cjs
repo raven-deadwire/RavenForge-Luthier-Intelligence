@@ -42,7 +42,7 @@ async function main() {
       const inside=(path,x,y)=>{const pt=host.createSVGPoint();pt.x=x;pt.y=y;return path.isPointInFill(pt);};
       let count=0;
       for(let x=580;x<=680;x+=.8)for(let y=850;y<=1020;y+=.8)if(inside(guard,x,y)&&inside(plate,x,y))throw new Error('Guard / plate overlap');
-      for(const electronics of [...Object.keys(parts.electronicsProfiles).filter(id=>!id.startsWith('guitar')), 'nova_custom'])for(const pickups of ['nova_mm','haeussel_mm','nova_custom'])for(const bridge of ['ets_custom','gotoh_404BO','hipshot_b','babicz_top']){
+      for(const electronics of [...Object.keys(parts.electronicsProfiles).filter(id=>!id.startsWith('guitar')), 'dual_filter'])for(const pickups of ['nova_mm','häussel_triple','nova_custom'])for(const bridge of ['ets_custom','gotoh_404BO','hipshot_b','babicz_top']){
         const state=P.scene('EDDA',{electronics,pickups,hardware_bridge:bridge},'',{},null,{specialOptions:['kill_switch']});
         for(const c of parts.controlPlan(state))for(let angle=0;angle<360;angle+=15){
           const radius=c.type==='knob'?12:10,x=c.xy[0]+Math.cos(angle*Math.PI/180)*radius,y=c.xy[1]+Math.sin(angle*Math.PI/180)*radius;
