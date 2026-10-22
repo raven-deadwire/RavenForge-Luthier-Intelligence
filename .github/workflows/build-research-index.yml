@@ -37,7 +37,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  SITE_ASSET_VERSION: '20261022media2'
+  SITE_ASSET_VERSION: '20261023lazy1'
 
 jobs:
   build:

@@ -267,11 +267,16 @@
     } else if (target.dataset.questBuilder) {
       event.preventDefault();
       goPage('analysis');
-      document.querySelector('#analysis-type-filter [data-k="all"]')?.click();
-      document.getElementById('reset-filters')?.click();
-      const heading = [...document.querySelectorAll('#luthier-grid h3')].find(h => h.textContent.trim() === target.dataset.questBuilder);
-      if (heading) heading.closest('#luthier-grid > div')?.click();
-      else { const status = section.querySelector('[data-quest-status]'); if (status) status.textContent = text(data.ui.analysisFallback, lastLang); }
+      const openBuilder = () => {
+        document.querySelector('#analysis-type-filter [data-k="all"]')?.click();
+        document.getElementById('reset-filters')?.click();
+        const heading = [...document.querySelectorAll('#luthier-grid h3')].find(h => h.textContent.trim() === target.dataset.questBuilder);
+        if (heading) heading.closest('#luthier-grid > div')?.click();
+        else { const status = section.querySelector('[data-quest-status]'); if (status) status.textContent = text(data.ui.analysisFallback, lastLang); }
+      };
+      // Analysis scripts load on first visit to the section (assets/footer.js).
+      if (window.RFAnalysisReady === false) document.addEventListener('rf-analysis-ready', openBuilder, { once: true });
+      else openBuilder();
     }
   }
   function mount() {
