@@ -19,7 +19,7 @@ FILES = [
     'configurator-preview.html', 'ravenforge.png',
     'assets/configurator-platforms.js', 'assets/configurator-ui.js',
     'assets/configurator-geometry.js', 'assets/configurator-preview.js',
-    'assets/configurator-preview.css', 'docs/CONFIGURATOR_PREVIEW.md',
+    'assets/configurator-preview.css', 'assets/configurator-tailwind.css', 'docs/CONFIGURATOR_PREVIEW.md',
     'assets/configurator-gramr-geometry.js', 'assets/configurator-drawing-renderer.js',
     'assets/configurator-gramr-reference.svg', 'assets/configurator-materials/ash-illustrative.webp',
     'assets/configurator-materials/README.md',
@@ -44,7 +44,7 @@ README = '''RavenForge 컨피규레이터 v27 검토본 / 2026-10-21
 3. 앞면·뒷면·바인드룬 이미지와 로컬 코드는 HTML에 내장되어 있습니다.
    이 HTML만 다른 폴더로 옮겨도 됩니다. 별도 서버는 필요하지 않습니다.
 
-기존 페이지와 같이 React / Tailwind / Babel / PDF 도구를 CDN에서 불러오므로
+기존 페이지와 같이 React / Babel / PDF 도구를 CDN에서 불러오므로
 인터넷 연결이 필요합니다. source 폴더는 개발용 소스 사본입니다.
 
 확인할 기능
