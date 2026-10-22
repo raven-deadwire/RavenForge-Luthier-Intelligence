@@ -4,13 +4,14 @@ name: Prebuilt Tailwind CSS
 # runtime; assets/tailwind.css and assets/configurator-tailwind.css are compiled
 # ahead of time. Keep them in sync with the classes used on the pages.
 # The same job keeps the English fallback text of index.html's [data-lang-key]
-# elements in sync with translations.en (tools/prefill_lang_keys.cjs).
+# elements in sync with translations.en (tools/prefill_lang_keys.cjs), and
+# regenerates the de.html / ko.html language pages (tools/build_language_pages.cjs).
 on:
   pull_request:
-    paths: ['index.html', 'configurator.html', 'configurator-preview.html', 'assets/*.js', 'tailwind.config.cjs', 'tailwind.configurator.config.cjs', 'tools/tailwind.input.css', 'tools/build_tailwind_css.sh', 'tools/prefill_lang_keys.cjs', 'assets/tailwind.css', 'assets/configurator-tailwind.css', '.github/workflows/homepage-tailwind.yml']
+    paths: ['index.html', 'configurator.html', 'configurator-preview.html', 'assets/*.js', 'tailwind.config.cjs', 'tailwind.configurator.config.cjs', 'tools/tailwind.input.css', 'tools/build_tailwind_css.sh', 'tools/prefill_lang_keys.cjs', 'tools/build_language_pages.cjs', 'de.html', 'ko.html', 'assets/tailwind.css', 'assets/configurator-tailwind.css', '.github/workflows/homepage-tailwind.yml']
   push:
     branches: [main]
-    paths: ['index.html', 'configurator.html', 'configurator-preview.html', 'assets/*.js', 'tailwind.config.cjs', 'tailwind.configurator.config.cjs', 'tools/tailwind.input.css', 'tools/build_tailwind_css.sh', 'tools/prefill_lang_keys.cjs', '.github/workflows/homepage-tailwind.yml']
+    paths: ['index.html', 'configurator.html', 'configurator-preview.html', 'assets/*.js', 'tailwind.config.cjs', 'tailwind.configurator.config.cjs', 'tools/tailwind.input.css', 'tools/build_tailwind_css.sh', 'tools/prefill_lang_keys.cjs', 'tools/build_language_pages.cjs', '.github/workflows/homepage-tailwind.yml']
   workflow_dispatch:
 
 permissions:
@@ -31,14 +32,16 @@ jobs:
           node-version: '20'
       - name: Prefill English text for [data-lang-key] elements
         run: node tools/prefill_lang_keys.cjs
+      - name: Build de.html and ko.html from index.html
+        run: node tools/build_language_pages.cjs
       - name: Build prebuilt Tailwind CSS
         run: bash tools/build_tailwind_css.sh
       - name: Fail the PR when the committed CSS is stale
         if: github.event_name == 'pull_request'
         run: |
-          if ! git diff --quiet -- assets/tailwind.css assets/configurator-tailwind.css index.html; then
-            echo "::error::Prebuilt Tailwind CSS or index.html fallback text is out of date. Run node tools/prefill_lang_keys.cjs and tools/build_tailwind_css.sh, then commit the result."
-            git diff --stat -- assets/tailwind.css assets/configurator-tailwind.css index.html
+          if ! git diff --quiet -- assets/tailwind.css assets/configurator-tailwind.css index.html de.html ko.html; then
+            echo "::error::Prebuilt Tailwind CSS, index.html fallback text or the language pages are out of date. Run node tools/prefill_lang_keys.cjs, node tools/build_language_pages.cjs and tools/build_tailwind_css.sh, then commit the result."
+            git diff --stat -- assets/tailwind.css assets/configurator-tailwind.css index.html de.html ko.html
             exit 1
           fi
       - name: Commit rebuilt CSS
@@ -46,10 +49,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/tailwind.css assets/configurator-tailwind.css index.html
+          git add assets/tailwind.css assets/configurator-tailwind.css index.html de.html ko.html
           if git diff --cached --quiet; then
-            echo "Prebuilt Tailwind CSS and fallback text are already up to date."
+            echo "Prebuilt Tailwind CSS, fallback text and language pages are already up to date."
             exit 0
           fi
-          git commit -m "Rebuild prebuilt Tailwind CSS and index.html fallback text"
+          git commit -m "Rebuild prebuilt Tailwind CSS, fallback text and language pages"
           git push

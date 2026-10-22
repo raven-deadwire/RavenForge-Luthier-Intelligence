@@ -4,6 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Language pages: / (English, x-default), de.html, ko.html. A ?lang= link
+        // opens that page; on / a language picked earlier, else the browser
+        // language, opens its page. de.html and ko.html are generated from this
+        // file by tools/build_language_pages.cjs.
+        (() => {
+            const pages = { en: './', de: 'de.html', ko: 'ko.html' };
+            const root = document.documentElement;
+            const params = new URLSearchParams(location.search);
+            const store = lang => { try { localStorage.setItem('preferredLang', lang); } catch (e) { /* storage blocked */ } };
+            let target = params.get('lang');
+            if (pages[target]) {
+                store(target);
+            } else if (!root.dataset.pageLang) {
+                let saved = null;
+                try { saved = localStorage.getItem('preferredLang') || sessionStorage.getItem('preferredLang'); } catch (e) { /* storage blocked */ }
+                target = pages[saved] ? saved : (navigator.languages || [navigator.language || ''])
+                    .map(code => String(code).slice(0, 2).toLowerCase())
+                    .find(code => pages[code]);
+            }
+            if (!pages[target] || target === (root.dataset.pageLang || 'en')) return;
+            params.delete('lang');
+            const query = params.toString();
+            location.replace(pages[target] + (query ? `?${query}` : '') + location.hash);
+        })();
+    </script>
     <title>RavenForge Luthier Intelligence — Instrument Design, Research & Prototypes</title>
     <script src="assets/vendor/chart.umd.min.js?v=4.5.1"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -113,8 +139,8 @@
     <meta name="theme-color" content="#101a20">
     <link rel="canonical" href="https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/">
     <link rel="alternate" hreflang="en" href="https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/">
-    <link rel="alternate" hreflang="de" href="https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/?lang=de">
-    <link rel="alternate" hreflang="ko" href="https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/?lang=ko">
+    <link rel="alternate" hreflang="de" href="https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/de.html">
+    <link rel="alternate" hreflang="ko" href="https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/ko.html">
     <link rel="alternate" hreflang="x-default" href="https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/">
     <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
@@ -3144,7 +3170,6 @@ translations.ko.luthierData = [
         let isResearchDataLoaded = false;
         
         const RESEARCH_INDEX_URL = 'research/research-index.json';
-        const SITE_URL = 'https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/';
 
         const researchCategories = [
             { id: 'all', key: 'catAll' }, { id: 'wood', key: 'catWood' },
@@ -3230,14 +3255,6 @@ translations.ko.luthierData = [
 
                 document.documentElement.lang = lang;
                 document.title = t.pageTitle;
-                const pageUrl = new URL(location.href);
-                if (pageUrl.searchParams.has('lang')) {
-                    // Shared ?lang= links follow the visible language, and so does the canonical URL.
-                    pageUrl.searchParams.set('lang', lang);
-                    history.replaceState(history.state, '', pageUrl);
-                    const canonical = document.querySelector('link[rel="canonical"]');
-                    if (canonical) canonical.href = lang === 'en' ? SITE_URL : `${SITE_URL}?lang=${lang}`;
-                }
 
                 document.querySelectorAll('[data-lang-key]').forEach(el => {
                     const key = el.dataset.langKey;
@@ -3645,12 +3662,22 @@ translations.ko.luthierData = [
             });
 
             // --- Event Listeners ---
-            langEnBtn.addEventListener('click', () => switchLanguage('en'));
-            langDeBtn.addEventListener('click', () => switchLanguage('de'));
-            langKrBtn.addEventListener('click', () => switchLanguage('ko'));
-            langEnBtnFloat.addEventListener('click', () => switchLanguage('en'));
-            langDeBtnFloat.addEventListener('click', () => switchLanguage('de'));
-            langKrBtnFloat.addEventListener('click', () => switchLanguage('ko'));
+            // Language buttons switch in place and move the address to that language's
+            // page (same folder, no reload), keeping the query and section hash.
+            const languagePages = { en: './', de: 'de.html', ko: 'ko.html' };
+            function chooseLanguage(lang) {
+                switchLanguage(lang);
+                const params = new URLSearchParams(location.search);
+                params.delete('lang');
+                const query = params.toString();
+                history.replaceState(history.state, '', languagePages[lang] + (query ? `?${query}` : '') + location.hash);
+            }
+            langEnBtn.addEventListener('click', () => chooseLanguage('en'));
+            langDeBtn.addEventListener('click', () => chooseLanguage('de'));
+            langKrBtn.addEventListener('click', () => chooseLanguage('ko'));
+            langEnBtnFloat.addEventListener('click', () => chooseLanguage('en'));
+            langDeBtnFloat.addEventListener('click', () => chooseLanguage('de'));
+            langKrBtnFloat.addEventListener('click', () => chooseLanguage('ko'));
 
             specBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -3711,21 +3738,8 @@ translations.ko.luthierData = [
             }
 
             // --- Initial Load ---
-            // ?lang= link > language picked on an earlier visit > browser language > English.
-            function pickInitialLanguage() {
-                const supported = Object.keys(translations);
-                const fromUrl = new URLSearchParams(location.search).get('lang');
-                if (supported.includes(fromUrl)) return fromUrl;
-                let saved = null;
-                try { saved = localStorage.getItem('preferredLang'); } catch (e) { /* storage blocked */ }
-                saved = saved || sessionStorage.getItem('preferredLang');
-                if (supported.includes(saved)) return saved;
-                const browser = (navigator.languages || [navigator.language || ''])
-                    .map(code => String(code).slice(0, 2).toLowerCase())
-                    .find(code => supported.includes(code));
-                return browser || 'en';
-            }
-            const initialLang = pickInitialLanguage();
+            // Each language has its own page (see the redirect script in <head>).
+            const initialLang = document.documentElement.dataset.pageLang || 'en';
             switchLanguage(initialLang);
 	    loadResearchData();
         });

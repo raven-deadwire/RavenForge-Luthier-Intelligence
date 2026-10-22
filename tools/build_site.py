@@ -49,8 +49,8 @@ if INDEX.exists():
     <meta name="theme-color" content="#101a20">
     <link rel="canonical" href="{SITE}">
     <link rel="alternate" hreflang="en" href="{SITE}">
-    <link rel="alternate" hreflang="de" href="{SITE}?lang=de">
-    <link rel="alternate" hreflang="ko" href="{SITE}?lang=ko">
+    <link rel="alternate" hreflang="de" href="{SITE}de.html">
+    <link rel="alternate" hreflang="ko" href="{SITE}ko.html">
     <link rel="alternate" hreflang="x-default" href="{SITE}">
     <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
@@ -163,7 +163,10 @@ Path('robots.txt').write_text(
     encoding='utf-8',
 )
 
-urls = [(SITE, updated), (urljoin(SITE, 'configurator.html'), updated)]
+# de.html and ko.html are generated from index.html (tools/build_language_pages.cjs).
+urls = [(SITE, updated)]
+urls += [(urljoin(SITE, page), updated) for page in ('de.html', 'ko.html') if Path(page).exists()]
+urls.append((urljoin(SITE, 'configurator.html'), updated))
 research_index = Path('research/research-index.json')
 if research_index.exists():
     data = json.loads(research_index.read_text(encoding='utf-8'))
