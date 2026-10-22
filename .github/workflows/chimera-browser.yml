@@ -11,7 +11,8 @@ permissions:
 jobs:
   chromium:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # The Ubuntu mirror can take 5+ minutes for the 61 MB CJK font package.
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v5
         with:
@@ -20,11 +21,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - name: Cache the Korean font package
+        uses: actions/cache@v4
+        with:
+          path: ~/fonts-noto-cjk
+          key: fonts-noto-cjk-${{ runner.os }}-noble-v1
       - name: Install browser and Korean fonts
         run: |
           npm install --no-save --no-package-lock --no-audit --no-fund playwright@1.49.1
           npx playwright install --with-deps chromium
-          sudo apt-get install -y fonts-noto-cjk
+          if ls ~/fonts-noto-cjk/*.deb >/dev/null 2>&1; then
+            sudo apt-get install -y ~/fonts-noto-cjk/*.deb
+          else
+            sudo apt-get install -y fonts-noto-cjk
+            mkdir -p ~/fonts-noto-cjk && cp /var/cache/apt/archives/fonts-noto-cjk_*.deb ~/fonts-noto-cjk/ || true
+          fi
       - name: Render candidate at ten widths and three languages
         if: github.event_name == 'pull_request'
         env:
