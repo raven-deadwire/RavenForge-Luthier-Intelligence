@@ -83,7 +83,7 @@
 .rf-prototype-note { min-width: 0; padding: .875rem 1rem; border: 1px solid #3d5058; border-left: 3px solid var(--rf-prototype-color); border-radius: .375rem; background-color: #15242b; background-image: linear-gradient(105deg, rgb(16 28 34 / .94), rgb(16 28 34 / .84)), url("ravenforge-worldtree.webp"); background-position: center, 35% 20%; background-size: cover, 180% auto; box-shadow: 0 4px 14px rgb(7 16 22 / .08); overflow-wrap: break-word; hyphens: auto; }
 .rf-prototype-note-heading { display: flex; align-items: baseline; gap: .7rem; margin-bottom: .65rem; padding-bottom: .5rem; border-bottom: 1px solid rgb(218 229 225 / .16); color: var(--rf-prototype-color); }
 .rf-prototype-note-number { font-size: 1.125rem; line-height: 1; font-weight: 400; letter-spacing: .04em; opacity: .75; }
-.rf-prototype-note h4 { margin: 0; color: var(--rf-prototype-color); font-size: .875rem; line-height: 1.5; font-weight: 600; }
+.rf-prototype-note h3 { margin: 0; color: var(--rf-prototype-color); font-size: .875rem; line-height: 1.5; font-weight: 600; }
 .rf-prototype-note p { margin: 0; color: #d7e0dd; font-size: 1rem; line-height: 1.55; }
 .rf-prototype-swipe { display: none; margin: .65rem 0 0; color: var(--rf-muted); font-size: .875rem; }
 .rf-site #innovation-synthesis, .rf-site #luthier-explorer { padding-top: 1.5rem; }
@@ -279,3 +279,14 @@
 .rf-site h1, .rf-site h2, .rf-site h3 { overflow-wrap: break-word; }
 .rf-site #configurator > div > div:first-child { flex-wrap: wrap; gap: .75rem; }
 .rf-site #configurator > div > div:first-child > * { min-width: 0; }
+/* Text contrast: these small grey labels sat at 2.2–4.4:1 on the light panels (WCAG AA asks 4.5:1). */
+.rf-site #analysis .rf-kind,
+.rf-site #luthier-grid .text-slate-500,
+.rf-site #research-grid .text-slate-400,
+.rf-site #about .text-slate-500,
+.rf-site #home .text-slate-500,
+.rf-site #Prototype .text-slate-500 { color: #475569; }
+.rf-site #analysis .rf-featured-card-caption > span { color: #64748b; }
+.rf-site .rune-font.text-amber-600 { color: #92400e; }
+.rf-site .rf-chimera-number { color: #7a4c26; }
+.rf-site #concept .rf-eyebrow { color: #7f4423; }

@@ -485,13 +485,13 @@ def build(manifest_path, root, output, check_external=False):
         if local.get('sourceLink'):
             meta[lang]['sourceLink'] = safe_url(local['sourceLink'])
         nav = ''.join(f'<a href="{code}.html" hreflang="{code}"' + (' aria-current="page"' if code == lang else '') + f'>{code.upper()}</a>' for code in LANGS)
-        alternatives = ''.join(f'<link rel="alternate" hreflang="{code}" href="{code}.html">' for code in LANGS)
+        alternatives = ''.join(f'<link rel="alternate" hreflang="{code}" href="{SITE}/research/{manifest["id"]}/{code}.html">' for code in LANGS)
         toc = ''.join(f'<a href="#{anchor}">{escape(title)}</a>' for anchor, title in converter.headings)
         page = f'''<!doctype html><html lang="{lang}"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>{escape(local['title'])} · RavenForge</title>
 <meta name="description" content="{escape(local['excerpt'], quote=True)}">
 <link rel="canonical" href="{SITE}/{meta[lang]['link']}">{alternatives}
-<link rel="alternate" hreflang="x-default" href="en.html"><link rel="stylesheet" href="article.css"></head>
+<link rel="alternate" hreflang="x-default" href="{SITE}/research/{manifest['id']}/en.html"><link rel="stylesheet" href="article.css"></head>
 <body><main><div class="page-navigation"><a href="../../index.html#research">{LABELS[lang][0]}</a><nav class="languages">{nav}</nav></div>
 <details class="toc"><summary>{LABELS[lang][1]}</summary><nav>{toc}</nav></details>
 <article id="research-log" data-source-sha256="{evidence[lang]['sha256']}">{markup}</article></main></body></html>'''
