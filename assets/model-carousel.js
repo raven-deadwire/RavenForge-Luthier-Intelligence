@@ -4,9 +4,9 @@
 
   const homeLabels = { en: 'Home', de: 'Start', ko: '홈' };
   const releaseMedia = [
-    ['https://image.bugsm.co.kr/album/images/1000/208067/20806769.jpg', 'From Destiny They Called album cover'],
-    ['https://image.bugsm.co.kr/album/images/1000/205923/20592334.jpg', 'Revenant Raven album cover'],
-    ['https://image.bugsm.co.kr/album/images/1000/205975/20597516.jpg', 'A Warrior Betrayed Us album cover']
+    ['assets/music/from-destiny-they-called.webp', 'From Destiny They Called album cover'],
+    ['assets/music/revenant-raven.webp', 'Revenant Raven album cover'],
+    ['assets/music/a-warrior-betrayed-us.webp', 'A Warrior Betrayed Us album cover']
   ];
 
   const language = () => homeLabels[document.documentElement.lang] ? document.documentElement.lang : 'en';

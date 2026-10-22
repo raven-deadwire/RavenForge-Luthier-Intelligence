@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from raven-deadwire.github.io/RavenForge-Luthier-Intelligence/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 24 Mar 2026 07:27:17 GMT -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -107,12 +106,16 @@
             top: 9rem; 
         }
     </style>
-    <link rel="stylesheet" href="assets/ravenforge-design.css?v=20260910-section-intro-width">
+    <link rel="stylesheet" href="assets/ravenforge-design.css?v=20261022-mobile-header-table">
 <!-- RF:SEO START -->
     <meta name="description" content="RavenForge Luthier Intelligence is an independent instrument-design, luthiery research and prototype portfolio by musician and instrument designer Raven Cho.">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="theme-color" content="#101a20">
     <link rel="canonical" href="https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/">
+    <link rel="alternate" hreflang="en" href="https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/">
+    <link rel="alternate" hreflang="de" href="https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/?lang=de">
+    <link rel="alternate" hreflang="ko" href="https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/?lang=ko">
+    <link rel="alternate" hreflang="x-default" href="https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/">
     <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
     <meta property="og:type" content="website">
@@ -146,8 +149,8 @@
                     <img src="assets/optimized/ravenforge-logo.webp" alt="RavenForge Logo" class="h-10 sm:h-12 md:h-14 w-auto object-contain" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><rect width=\'50\' height=\'50\' fill=\'%23ccc\'/><text x=\'50%\' y=\'50%\' fill=\'%23333\' font-size=\'12\' text-anchor=\'middle\' dy=\'.3em\'>LOGO</text></svg>'">
                     
                     <div>
-                        <h1 class="text-lg sm:text-2xl md:text-3xl font-bold" data-lang-key="mainTitle"></h1>
-                        <p class="text-xs sm:text-sm text-slate-300 mt-0.5 sm:mt-1" data-lang-key="headerSubtitle"></p>
+                        <h1 class="text-lg sm:text-2xl md:text-3xl font-bold" data-lang-key="mainTitle">RavenForge Luthier Intelligence</h1>
+                        <p class="text-xs sm:text-sm text-slate-300 mt-0.5 sm:mt-1" data-lang-key="headerSubtitle">A Personal Portfolio and Vision for the Future of Bass Guitar Craftsmanship</p>
                     </div>
                 </div>
                 <div class="rf-languages flex sm:flex-row sm:space-y-0 sm:space-x-2">
@@ -159,18 +162,29 @@
             <nav class="border-t border-slate-600">
                 <div class="flex flex-wrap justify-center gap-x-3 gap-y-2 md:gap-x-8 py-2 sm:py-3 text-[11px] sm:text-sm md:text-base px-2">
                     <!-- 기본 활성 상태(active-nav) 추가 -->
-                    <a href="#about" class="nav-link active-nav text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAbout"></a>
-                    <a href="#Prototype" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navPrototype"></a>
+                    <a href="#about" class="nav-link active-nav text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAbout">About</a>
+                    <a href="#Prototype" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navPrototype">Prototype</a>
                     <a href="#concept" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navConcept">Concept Lab</a>
                     <a href="#chimera" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white">Chimera</a>
-                    <a href="#analysis" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAnalysis"></a>
-                    <a href="#quest" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navQuest"></a>
-		   <a href="#research" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navResearch"></a>
-                    <a href="#configurator" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navConfigurator"></a>
+                    <a href="#analysis" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navAnalysis">Analysis & Explorer</a>
+                    <a href="#quest" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navQuest">Quest & Aspiration</a>
+		   <a href="#research" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navResearch">Research Essay</a>
+                    <a href="#configurator" class="nav-link text-slate-300 hover:text-white border-b-2 border-transparent hover:border-white" data-lang-key="navConfigurator">Configurator</a>
                 </div>
             </nav>
         </div>
     </header>
+    <script>
+        // Lets the brand row scroll away on small screens (see ravenforge-design.css).
+        (() => {
+            const header = document.querySelector('body > header');
+            const row = header && header.querySelector(':scope > .container > div:first-child');
+            if (!row) return;
+            const sync = () => header.style.setProperty('--rf-header-top', `${row.offsetHeight}px`);
+            sync();
+            if ('ResizeObserver' in window) new ResizeObserver(sync).observe(row);
+        })();
+    </script>
 
     <main class="container mx-auto p-4 sm:p-6 lg:p-8 min-h-[70vh]">
         
@@ -193,7 +207,7 @@
                                 <img class="rf-model-original" src="assets/optimized/embla-prototype.webp?v=ba2d303c80fd" alt="EMBLA Prototype Design" fetchpriority="high" decoding="async">
                                 <span class="rf-model-emblem" aria-hidden="true"><img src="assets/optimized/ravenforge-logo.webp" alt="" decoding="async"></span>
                             </div>
-                            <figcaption><span data-lang-key="emblaDesc"></span><span>RAVENFORGE</span></figcaption>
+                            <figcaption><span data-lang-key="emblaDesc">The First Woman: Sensitivity & Balance</span><span>RAVENFORGE</span></figcaption>
                         </figure>
                         <figure class="rf-hero-figure rf-model-slide" data-model="askr" role="group" aria-roledescription="slide" aria-label="2 / 3: ASKR" aria-hidden="true" inert>
                             <div class="rf-figure-heading"><span>ASKR</span><span data-lang-key="designDrawingLabel">PROTOTYPE DESIGN</span></div>
@@ -202,7 +216,7 @@
                                 <img class="rf-model-original" src="assets/optimized/askr-prototype.webp?v=5b9459570f58" alt="ASKR Prototype Design" decoding="async">
                                 <span class="rf-model-emblem" aria-hidden="true"><img src="assets/optimized/ravenforge-logo.webp" alt="" decoding="async"></span>
                             </div>
-                            <figcaption><span data-lang-key="askrDesc"></span><span>RAVENFORGE</span></figcaption>
+                            <figcaption><span data-lang-key="askrDesc">The First Man: Aggression & Instinct</span><span>RAVENFORGE</span></figcaption>
                         </figure>
                         <figure class="rf-hero-figure rf-model-slide" data-model="edda" role="group" aria-roledescription="slide" aria-label="3 / 3: EDDA" aria-hidden="true" inert>
                             <div class="rf-figure-heading"><span>EDDA</span><span data-lang-key="designDrawingLabel">PROTOTYPE DESIGN</span></div>
@@ -211,7 +225,7 @@
                                 <img class="rf-model-original" src="assets/optimized/edda-prototype.webp?v=e039506bd94d" alt="EDDA Prototype Design" decoding="async">
                                 <span class="rf-model-emblem" aria-hidden="true"><img src="assets/optimized/ravenforge-logo.webp" alt="" decoding="async"></span>
                             </div>
-                            <figcaption><span data-lang-key="eddaDesc"></span><span>RAVENFORGE</span></figcaption>
+                            <figcaption><span data-lang-key="eddaDesc">The Elder Poet: Saga & Lore</span><span>RAVENFORGE</span></figcaption>
                         </figure>
                     </div>
                     <div class="rf-carousel-picker" role="group" aria-label="Choose a model">
@@ -230,71 +244,73 @@
                 </div>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="aboutTitle"></h2>
+                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="aboutTitle">About</h2>
 
                 <div class="mb-6 flex flex-wrap gap-2">
-                    <button id="btn-about-intro" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition active" data-target="intro" data-lang-key="aboutTabBrief"></button>
-                    <button id="btn-about-brand" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="brand" data-lang-key="aboutTabBrand"></button>
-                    <button id="btn-about-bio" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="bio" data-lang-key="aboutTabBio"></button>
-                    <button id="btn-about-mentors" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="mentors" data-lang-key="aboutTabMentors"></button>
-                    <button id="btn-about-works" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="works" data-lang-key="aboutTabWorks"></button>
+                    <button id="btn-about-intro" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition active" data-target="intro" data-lang-key="aboutTabBrief">Brief Intro & Vision</button>
+                    <button id="btn-about-brand" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="brand" data-lang-key="aboutTabBrand">What is RavenForge?</button>
+                    <button id="btn-about-bio" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="bio" data-lang-key="aboutTabBio">Bio & Profile</button>
+                    <button id="btn-about-mentors" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="mentors" data-lang-key="aboutTabMentors">My Mentors</button>
+                    <button id="btn-about-works" class="about-tab-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-target="works" data-lang-key="aboutTabWorks">My Works</button>
                 </div>
 
                 <div id="about-content-intro" class="about-content">
                     <div id="personal-intro" class="mb-12 pb-8 border-b">
-                        <h3 class="text-2xl font-bold mb-6" data-lang-key="introTitle"></h3>
+                        <h3 class="text-2xl font-bold mb-6" data-lang-key="introTitle">Introduce: Raven Cho</h3>
                         <div class="flex flex-col sm:flex-row items-center gap-8">
                             <div class="w-48 h-48 bg-slate-200 rounded-full flex-shrink-0 flex items-center justify-center overflow-hidden">
                                <img src="assets/works/profile.webp" loading="lazy" decoding="async" alt="Raven Cho Profile" class="w-full h-full object-cover">
                             </div>
-                            <div class="text-slate-600 leading-relaxed" data-lang-key="introContent"></div>
+                            <div class="text-slate-600 leading-relaxed" data-lang-key="introContent"><p class="mb-4">Hello, I am Raven Cho (@raven_deadwire). My journey is one of two worlds: the intellectual rigor of philosophy and the raw passion of metal music, both of which converge into the craft of lutherie.</p>
+                       <p class="mb-4">As a philosophy major at Yonsei University, I built a worldview grounded in aesthetics and critical thinking. This academic background became the soul of my artistic expression as the leader of DEADWIRE, a Scandinavian-style melodic death metal band. My deep dive into the genre led me to explore Norse mythology and folklore, which ultimately sparked the vision for RavenForge.</p>
+                       <p>My path to becoming a luthier has been hands-on and dedicated. I honed my initial skills from 2010-2013 at renowned Korean workshops like Freebud Mod Shop and Craftshouse. Today, while working professionally in educational publishing and EdTech, I continue my luthier apprenticeship under two great masters, relentlessly pursuing mastery of this craft.</p></div>
                         </div>
                     </div>
                     <div id="ravenforge-identity">
-                        <h3 class="text-2xl font-bold mb-4" data-lang-key="visionTitle"></h3>
-                        <p class="mb-8 text-slate-600" data-lang-key="visionContent"></p>
-                        <h3 class="text-2xl font-bold mb-4 mt-8 pt-4 border-t" data-lang-key="conceptTitle"></h3>
+                        <h3 class="text-2xl font-bold mb-4" data-lang-key="visionTitle">My Purpose & Vision</h3>
+                        <p class="mb-8 text-slate-600" data-lang-key="visionContent">This document contains the in-depth research and vision I have gathered while conceptualizing 'RavenForge,' my long-held dream of a bass brand. With the goal of one day creating instruments that embody my own philosophy, I have analyzed high-end luthiers worldwide to explore the essential requirements of a superior bass.<br><br>This process has been a journey of deep respect for the masters of the craft. I have learned from their diverse philosophies, from their reverence for wood to their pursuit of technical innovation. This portfolio is a testament to that research and a presentation of my own path forward as a luthier.</p>
+                        <h3 class="text-2xl font-bold mb-4 mt-8 pt-4 border-t" data-lang-key="conceptTitle">Project Conception: RavenForge Concept Models</h3>
                         <div class="grid md:grid-cols-3 gap-6">
                             <div class="bg-stone-50 p-4 rounded-md border">
                                 <div class="mb-4">
                                     <img src="assets/optimized/embla-prototype.webp?v=ba2d303c80fd" alt="EMBLA Prototype Design" class="w-full h-auto rounded-md object-cover" onerror="this.style.display='none'">
                                 </div>
-                                <h4 class="text-xl font-bold text-sky-700" data-lang-key="emblaName"></h4>
-                                <p class="text-sm text-slate-500 mb-3" data-lang-key="emblaDesc"></p>
+                                <h4 class="text-xl font-bold text-sky-700" data-lang-key="emblaName">EMBLA – The All-Rounder Session Bass</h4>
+                                <p class="text-sm text-slate-500 mb-3" data-lang-key="emblaDesc">The First Woman: Sensitivity & Balance</p>
                                 <ul class="text-sm space-y-1 text-slate-700">
-                                    <li><span class="font-semibold" data-lang-key="targetLabel"></span>: <span data-lang-key="emblaTarget"></span></li>
-                                    <li><span class="font-semibold" data-lang-key="scaleLabel"></span>: <span data-lang-key="emblaScale"></span></li>
-                                    <li><span class="font-semibold" data-lang-key="bodyLabel"></span>: <span data-lang-key="emblaBody"></span></li>
-                                    <li><span class="font-semibold" data-lang-key="fretboardLabel"></span>: <span data-lang-key="emblaFretboard"></span></li>
-                                    <li><span class="font-semibold" data-lang-key="pickupsLabel"></span>: <span data-lang-key="emblaPickups"></span></li>
+                                    <li><span class="font-semibold" data-lang-key="targetLabel">Target</span>: <span data-lang-key="emblaTarget">Session players, composers, various genres</span></li>
+                                    <li><span class="font-semibold" data-lang-key="scaleLabel">Scale</span>: <span data-lang-key="emblaScale">34″ · 5-string</span></li>
+                                    <li><span class="font-semibold" data-lang-key="bodyLabel">Body</span>: <span data-lang-key="emblaBody">Elm</span></li>
+                                    <li><span class="font-semibold" data-lang-key="fretboardLabel">Fretboard</span>: <span data-lang-key="emblaFretboard">Wenge</span></li>
+                                    <li><span class="font-semibold" data-lang-key="pickupsLabel">Pickups/Preamp</span>: <span data-lang-key="emblaPickups">Delano SBC HE/S-4 / Zuta Bass Core</span></li>
                                 </ul>
                             </div>
                             <div class="bg-stone-50 p-4 rounded-md border">
                                 <div class="mb-4">
                                     <img src="assets/optimized/askr-prototype.webp?v=5b9459570f58" alt="ASKR Prototype Design" class="w-full h-auto rounded-md object-cover" onerror="this.style.display='none'">
                                 </div>
-                                <h4 class="text-xl font-bold text-amber-700" data-lang-key="askrName"></h4>
-                                <p class="text-sm text-slate-500 mb-3" data-lang-key="askrDesc"></p>
+                                <h4 class="text-xl font-bold text-amber-700" data-lang-key="askrName">ASKR – The Metal-Oriented Bass</h4>
+                                <p class="text-sm text-slate-500 mb-3" data-lang-key="askrDesc">The First Man: Aggression & Instinct</p>
                                 <ul class="text-sm space-y-1 text-slate-700">
-                                    <li><span class="font-semibold" data-lang-key="targetLabel"></span>: <span data-lang-key="askrTarget"></span></li>
-                                    <li><span class="font-semibold" data-lang-key="scaleLabel"></span>: <span data-lang-key="askrScale"></span></li>
-                                    <li><span class="font-semibold" data-lang-key="bodyLabel"></span>: <span data-lang-key="askrBody"></span></li>
-                                    <li><span class="font-semibold" data-lang-key="fretboardLabel"></span>: <span data-lang-key="askrFretboard"></span></li>
-                                    <li><span class="font-semibold" data-lang-key="pickupsLabel"></span>: <span data-lang-key="askrPickups"></span></li>
+                                    <li><span class="font-semibold" data-lang-key="targetLabel">Target</span>: <span data-lang-key="askrTarget">Metal, high-gain, down-tuning</span></li>
+                                    <li><span class="font-semibold" data-lang-key="scaleLabel">Scale</span>: <span data-lang-key="askrScale">37–34″ multiscale · 5-string</span></li>
+                                    <li><span class="font-semibold" data-lang-key="bodyLabel">Body</span>: <span data-lang-key="askrBody">Hard Ash</span></li>
+                                    <li><span class="font-semibold" data-lang-key="fretboardLabel">Fretboard</span>: <span data-lang-key="askrFretboard">Wenge</span></li>
+                                    <li><span class="font-semibold" data-lang-key="pickupsLabel">Pickups/Preamp</span>: <span data-lang-key="askrPickups">Fishman Fluence / Fluence 2-band</span></li>
                                 </ul>
                             </div>
                             <div class="bg-stone-50 p-4 rounded-md border">
                                 <div class="mb-4">
                                     <img src="assets/optimized/edda-prototype.webp?v=e039506bd94d" alt="EDDA Prototype Design" class="w-full h-auto rounded-md object-cover" onerror="this.style.display='none'">
                                 </div>
-                                <h4 class="text-xl font-bold text-emerald-700" data-lang-key="eddaName"></h4>
-                                <p class="text-sm text-slate-500 mb-3" data-lang-key="eddaDesc"></p>
+                                <h4 class="text-xl font-bold text-emerald-700" data-lang-key="eddaName">EDDA – The Heritage-Oriented Bass</h4>
+                                <p class="text-sm text-slate-500 mb-3" data-lang-key="eddaDesc">The Elder Poet: Saga & Lore</p>
                                 <ul class="text-sm space-y-1 text-slate-700">
-                                    <li><span class="font-semibold" data-lang-key="targetLabel"></span>: <span data-lang-key="eddaTarget"></span></li>
-                                    <li><span class="font-semibold" data-lang-key="scaleLabel"></span>: <span data-lang-key="eddaScale"></span></li>
-                                    <li><span class="font-semibold" data-lang-key="bodyLabel"></span>: <span data-lang-key="eddaBody"></span></li>
-                                    <li><span class="font-semibold" data-lang-key="fretboardLabel"></span>: <span data-lang-key="eddaFretboard"></span></li>
-                                    <li><span class="font-semibold" data-lang-key="pickupsLabel"></span>: <span data-lang-key="eddaPickups"></span></li>
+                                    <li><span class="font-semibold" data-lang-key="targetLabel">Target</span>: <span data-lang-key="eddaTarget">Heritage, Improved-Vintage</span></li>
+                                    <li><span class="font-semibold" data-lang-key="scaleLabel">Scale</span>: <span data-lang-key="eddaScale">34″ · 4-string</span></li>
+                                    <li><span class="font-semibold" data-lang-key="bodyLabel">Body</span>: <span data-lang-key="eddaBody">Alder</span></li>
+                                    <li><span class="font-semibold" data-lang-key="fretboardLabel">Fretboard</span>: <span data-lang-key="eddaFretboard">Rosewood</span></li>
+                                    <li><span class="font-semibold" data-lang-key="pickupsLabel">Pickups/Preamp</span>: <span data-lang-key="eddaPickups">Custom Multicoil MM / Lusithand Double NFP MKII</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -302,118 +318,123 @@
                 </div>
 
                 <div id="about-content-brand" class="about-content hidden">
-                    <h3 class="text-2xl font-bold mb-6" data-lang-key="brandTitle"></h3>
+                    <h3 class="text-2xl font-bold mb-6" data-lang-key="brandTitle">Brand Identity: RavenForge</h3>
                     
                     <div class="flex flex-col md:flex-row items-center gap-8 mb-12 pb-8 border-b">
                         <div class="w-48 h-48 bg-white rounded-lg flex-shrink-0 flex items-center justify-center p-4 shadow-sm border border-slate-200">
                             <img src="assets/optimized/ravenforge-logo.webp" alt="RavenForge Brand Logo" class="w-full h-auto object-contain" onerror="this.style.display='none'">
                         </div>
                         <div class="text-slate-600 leading-relaxed">
-                            <h4 class="text-xl font-bold text-slate-800 mb-2" data-lang-key="brandIntroSubTitle"></h4>
-                            <div data-lang-key="brandMainDesc"></div>
+                            <h4 class="text-xl font-bold text-slate-800 mb-2" data-lang-key="brandIntroSubTitle"><p class="rune-font text-2xl font-bold text-amber-600 mb-1">ᚠᚱᛟᛗ ᛏᚺᛖ ᚠᛟᚱᚷᛖ ᚹᛖ ᚱᛁᛊᛖ • ᛏᛟ ᛏᚺᛖ ᛏᛟᚱᚲᚺ ᚹᛖ ᛁᚷᚾᛁᛏᛖ</p><p class="text-sm tracking-widest text-slate-500 uppercase">From the forge we rise • To the torch we ignite</p></h4>
+                            <div data-lang-key="brandMainDesc">
+            <p class="mb-4 mt-4">RavenForge is a bass workshop born from a fierce dedication to shaping a player's musical narrative into solid sound and form. Guided by the philosophy that 'Form follows narrative,' we aim to faithfully translate the worldview and attitude a musician wishes to express on stage into the physical structure of the instrument.</p>
+            <p class="mb-4">We explore the intersection where the raw vitality of Norse mythology meets the precision of modern luthier techniques. Each RavenForge platform uses a model-specific structural recipe: EDDA keeps a simpler heritage-oriented neck, while EMBLA and ASKR use configurable 5- to 13-piece laminates. Solid, three-piece and chambered body choices are selected according to the model and the player's priorities rather than imposed as a single universal construction.</p>
+            <p class="mb-4">The sonic direction RavenForge pursues is clear: a tight midrange punch that cuts through the mix, coupled with crystal-clear low-end resolution. By bridging the gap between the limitations of mass-produced instruments and the impracticality of over-designed custom builds, we strive to create a practical tool that allows players to focus entirely on their music.</p>
+            <p>Although we are still on a journey of continuous research and refinement toward our ideal craft, we hope that a RavenForge bass will become your most reliable companion in proving to the world the new saga that begins at your fingertips.</p>
+        </div>
                         </div>
                     </div>
 
                     <div class="grid md:grid-cols-3 gap-6">
                         <div class="bg-stone-50 p-6 rounded-lg border">
                             <h4 class="text-lg font-bold text-slate-800 mb-3 flex items-center">
-                                <span class="mr-2">ᛟ</span> <span data-lang-key="brandWhyNorseTitle"></span>
+                                <span class="mr-2">ᛟ</span> <span data-lang-key="brandWhyNorseTitle">Why Norse?</span>
                             </h4>
-                            <div class="text-sm" data-lang-key="brandWhyNorseContent"></div>
+                            <div class="text-sm" data-lang-key="brandWhyNorseContent"><p>Just as Askr and Embla, the first humans in myth, gained life from trees, RavenForge begins by breathing narrative into tonewoods. We bring out the unique characteristics of each wood, like the tight punch of Ash and the deep resonance of Elm. An instrument must be an organic companion breathing with the player on stage, not merely an assembly of parts.</p></div>
                         </div>
                         <div class="bg-stone-50 p-6 rounded-lg border">
                             <h4 class="text-lg font-bold text-slate-800 mb-3 flex items-center">
-                                <span class="mr-2">ᚱ</span> <span data-lang-key="brandWhyUsTitle"></span>
+                                <span class="mr-2">ᚱ</span> <span data-lang-key="brandWhyUsTitle">Why RavenForge?</span>
                             </h4>
-                            <div class="text-sm" data-lang-key="brandWhyUsContent"></div>
+                            <div class="text-sm" data-lang-key="brandWhyUsContent"><p>Basses getting muddy or losing their presence in a rough band mix has always been a challenge for players. We strictly reject ostentatious designs lacking practicality. By combining an artist's on-stage instincts with a luthier's engineering data, we create flawless 'practical gear' you can trust 100% in any intense environment.</p></div>
                         </div>
                         <div class="bg-stone-50 p-6 rounded-lg border">
                             <h4 class="text-lg font-bold text-slate-800 mb-3 flex items-center">
-                                <span class="mr-2">ᚠ</span> <span data-lang-key="brandEdgeTitle"></span>
+                                <span class="mr-2">ᚠ</span> <span data-lang-key="brandEdgeTitle">Competitive Edge & Technical Direction</span>
                             </h4>
-                            <div class="text-sm" data-lang-key="brandEdgeContent"></div>
+                            <div class="text-sm" data-lang-key="brandEdgeContent"><p>RavenForge's goals are 'unwavering structure' and 'overwhelming resolution.' Our technical direction is model-specific structural stability, controlled weight and clear low-frequency response, using neck laminations and solid/chambered body architecture only where they serve the instrument's actual role. A tight midrange punch that cuts through a thick wall of sound, paired with clear lows—this is the tonal standard we will never compromise.</p></div>
                         </div>
                     </div>
                     <div class="mt-12 pt-8 border-t border-stone-200">
-                        <h4 class="text-xl font-bold text-center mb-8" data-lang-key="brandModelCoreTitle"></h4>
+                        <h4 class="text-xl font-bold text-center mb-8" data-lang-key="brandModelCoreTitle">The Three Sagas: Core Philosophies</h4>
                         <div class="grid md:grid-cols-3 gap-8 items-start">
                             <div class="text-center px-4">
-                                <button type="button" class="w-full mb-4 group" onclick="openImagePopup('EMBLA Prototype Design.png?v=ac5beaaa33f3')" aria-label="Open EMBLA prototype image">
+                                <button type="button" class="w-full mb-4 group" onclick="openImagePopup('assets/optimized/embla-prototype.webp?v=ba2d303c80fd')" aria-label="Open EMBLA prototype image">
                                     <div class="mx-auto max-w-[300px] h-[220px] sm:h-[240px] flex items-center justify-center overflow-hidden rounded-xl border border-stone-200 bg-stone-50 shadow-sm group-hover:shadow-md transition-shadow">
                                         <img src="assets/optimized/embla-prototype.webp?v=ba2d303c80fd" alt="EMBLA Prototype Design" class="max-w-full max-h-full object-contain p-2 group-hover:scale-[1.02] transition-transform" onerror="this.parentElement.parentElement.style.display='none'">
                                     </div>
                                 </button>
                                 <div class="text-3xl mb-3">🌿</div>
-                                <h5 class="font-bold text-sky-800 text-lg mb-2" data-lang-key="emblaName"></h5>
-                                <p class="text-sm text-slate-500 italic" data-lang-key="brandEmblaPhilosophy"></p>
+                                <h5 class="font-bold text-sky-800 text-lg mb-2" data-lang-key="emblaName">EMBLA – The All-Rounder Session Bass</h5>
+                                <p class="text-sm text-slate-500 italic" data-lang-key="brandEmblaPhilosophy">The pinnacle of versatility, transparently projecting every emotion through delicate sensitivity and perfect balance</p>
                             </div>
                             <div class="text-center px-4">
-                                <button type="button" class="w-full mb-4 group" onclick="openImagePopup('ASKR Prototype Design.png?v=a9501705ca15')" aria-label="Open ASKR prototype image">
+                                <button type="button" class="w-full mb-4 group" onclick="openImagePopup('assets/optimized/askr-prototype.webp?v=5b9459570f58')" aria-label="Open ASKR prototype image">
                                     <div class="mx-auto max-w-[300px] h-[220px] sm:h-[240px] flex items-center justify-center overflow-hidden rounded-xl border border-stone-200 bg-stone-50 shadow-sm group-hover:shadow-md transition-shadow">
                                         <img src="assets/optimized/askr-prototype.webp?v=5b9459570f58" alt="ASKR Prototype Design" class="max-w-full max-h-full object-contain p-2 group-hover:scale-[1.02] transition-transform" onerror="this.parentElement.parentElement.style.display='none'">
                                     </div>
                                 </button>
                                 <div class="text-3xl mb-3">🔥</div>
-                                <h5 class="font-bold text-amber-800 text-lg mb-2" data-lang-key="askrName"></h5>
-                                <p class="text-sm text-slate-500 italic" data-lang-key="brandAskrPhilosophy"></p>
+                                <h5 class="font-bold text-amber-800 text-lg mb-2" data-lang-key="askrName">ASKR – The Metal-Oriented Bass</h5>
+                                <p class="text-sm text-slate-500 italic" data-lang-key="brandAskrPhilosophy">Overwhelming aggression that awakens the rawest instincts to dominate high-gain environments</p>
                             </div>
                             <div class="text-center px-4">
-                                <button type="button" class="w-full mb-4 group" onclick="openImagePopup('Edda Prototype Design.png?v=c1491926555f')" aria-label="Open EDDA prototype image">
+                                <button type="button" class="w-full mb-4 group" onclick="openImagePopup('assets/optimized/edda-prototype.webp?v=e039506bd94d')" aria-label="Open EDDA prototype image">
                                     <div class="mx-auto max-w-[300px] h-[220px] sm:h-[240px] flex items-center justify-center overflow-hidden rounded-xl border border-stone-200 bg-stone-50 shadow-sm group-hover:shadow-md transition-shadow">
                                         <img src="assets/optimized/edda-prototype.webp?v=e039506bd94d" alt="EDDA Prototype Design" class="max-w-full max-h-full object-contain p-2 group-hover:scale-[1.02] transition-transform" onerror="this.parentElement.parentElement.style.display='none'">
                                     </div>
                                 </button>
                                 <div class="text-3xl mb-3">📜</div>
-                                <h5 class="font-bold text-emerald-800 text-lg mb-2" data-lang-key="eddaName"></h5>
-                                <p class="text-sm text-slate-500 italic" data-lang-key="brandEddaPhilosophy"></p>
+                                <h5 class="font-bold text-emerald-800 text-lg mb-2" data-lang-key="eddaName">EDDA – The Heritage-Oriented Bass</h5>
+                                <p class="text-sm text-slate-500 italic" data-lang-key="brandEddaPhilosophy">The essence of heritage, where ancient wisdom meets modern legacy to deliver deep narrative resonance</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div id="about-content-bio" class="about-content hidden">
-                    <h3 class="text-2xl font-bold mb-6" data-lang-key="bioProfileTitle"></h3>
+                    <h3 class="text-2xl font-bold mb-6" data-lang-key="bioProfileTitle">Profile</h3>
                 
                     <div class="border-t">
                         <div class="flex border-b">
-                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioNameLabel"></div>
-                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioNameValue"></div>
+                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioNameLabel">Name</div>
+                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioNameValue">'raven</div>
                         </div>
                         <div class="flex border-b">
-                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioOccupationLabel"></div>
-                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioOccupationValue"></div>
+                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioOccupationLabel">Occupation</div>
+                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioOccupationValue">Singer, Philosopher, Content Creator, EdTech Specialist</div>
                         </div>
                         <div class="flex border-b">
-                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioEducationLabel"></div>
-                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioEducationValue"></div>
+                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioEducationLabel">Education</div>
+                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioEducationValue">Yonsei University, College of Liberal Arts, Bachelor of Philosophy</div>
                         </div>
                         <div class="flex border-b">
-                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioDebutLabel"></div>
-                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioDebutValue"></div>
+                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioDebutLabel">Debut</div>
+                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioDebutValue">2011 Purgatorium EP Album [In Between]</div>
                         </div>
                         <div class="flex border-b">
-                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioCareerLabel"></div>
-                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioCareerValue"></div>
+                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioCareerLabel">Career</div>
+                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioCareerValue">2023-Present: Group 'DEADWIRE' - Bassist, Singer-songwriter<br>2012-2013: Group 'Hate Device' - Bassist<br>2011-2013: Group 'Purgatorium' - Bassist</div>
                         </div>
                         <div class="flex border-b">
-                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioTrainingLabel"></div>
-                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioTrainingValue"></div>
+                            <div class="w-1/3 sm:w-1/4 bg-slate-50 p-3 font-semibold" data-lang-key="bioTrainingLabel">Luthier Training</div>
+                            <div class="w-2/3 sm:w-3/4 p-3" data-lang-key="bioTrainingValue">2024-Present: Berklee GT Repair<br>2024-Present: Moon Guitar<br>2012-2013: Mod Shop Craftshouse<br>2010-2011: Freebud Mod Shop</div>
                         </div>
                     </div>
-                    <div class="mt-6 flex flex-wrap gap-4 sm:gap-6 justify-center sm:justify-start">
+                    <div id="contact-links" class="mt-6 flex flex-wrap gap-4 sm:gap-6 justify-center sm:justify-start">
                         <a href="https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%27raven&ackey=zq21eb7z" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 sm:px-5 py-2.5 bg-[#03C75A] text-white text-sm sm:text-base font-bold rounded-md shadow-md hover:bg-[#02a94d] transition-colors">
                             <svg class="w-4 h-4 mr-2 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.273 12.845 7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z"/></svg>
-                            <span data-lang-key="naverProfileBtn"></span>
+                            <span data-lang-key="naverProfileBtn">View Official Naver Profile</span>
                         </a>
 
                         <a href="https://www.instagram.com/raven_deadwire" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 sm:px-5 py-2.5 bg-[#E1306C] text-white text-sm sm:text-base font-bold rounded-md shadow-md hover:bg-[#c3285e] transition-colors">
                             <svg class="w-4 h-4 mr-2 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.058-1.69-.072-4.949-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.209-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                            <span data-lang-key="instaProfileBtn"></span>
+                            <span data-lang-key="instaProfileBtn">Instagram</span>
                         </a>
 
                         <a href="https://www.youtube.com/@raven_deadwire" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 sm:px-5 py-2.5 bg-[#FF0000] text-white text-sm sm:text-base font-bold rounded-md shadow-md hover:bg-[#cc0000] transition-colors">
                             <svg class="w-4 h-4 mr-2 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                            <span data-lang-key="youtubeProfileBtn"></span>
+                            <span data-lang-key="youtubeProfileBtn">YouTube Channel</span>
                         </a>
 
                     </div>
@@ -421,27 +442,27 @@
                 
                 <div id="about-content-mentors" class="about-content hidden">
                     <div id="mentors-section">
-                        <h3 class="text-2xl font-bold mb-6" data-lang-key="mentorsTitle"></h3>
+                        <h3 class="text-2xl font-bold mb-6" data-lang-key="mentorsTitle">My Mentors</h3>
                         <div class="grid md:grid-cols-3 gap-8 text-slate-600 leading-relaxed"> 
                             <div>
-                                <h4 class="text-xl font-semibold mb-2" data-lang-key="mentor1Name"></h4>
-                                <div data-lang-key="mentor1Desc"></div>
+                                <h4 class="text-xl font-semibold mb-2" data-lang-key="mentor1Name">Hojin Jeong (Berklee GT Repair)</h4>
+                                <div data-lang-key="mentor1Desc"><p>Mr. Hojin Jeong is revered among professional musicians and collectors as South Korea's premier master craftsman for vintage and boutique instrument repair, often called the 'Hand of God'. He built a deep understanding of instrument design and construction during his 15-year tenure as the Head of Product Development at Dexter Guitars. Building on that foundation, he has dedicated over 20 years exclusively to high-end instrument repair. His work is renowned for going beyond mere fixes; it is a process of perfectly restoring and maximizing an instrument's original value and potential.</p></div>
                             </div>
                             <div>
-                                <h4 class="text-xl font-semibold mb-2" data-lang-key="mentor2Name"></h4>
-                                <div data-lang-key="mentor2Desc"></div>
+                                <h4 class="text-xl font-semibold mb-2" data-lang-key="mentor2Name">Chanho Moon (Moon Guitar)</h4>
+                                <div data-lang-key="mentor2Desc"><p>Mr. Chanho Moon is a purist luthier who graduated as the valedictorian from the world-renowned Galloup School of Lutherie in the USA. He adheres strictly to a 100% handmade, full-custom build philosophy. He personally controls every stage of the process, from wood selection and drying to final construction, focusing on maximizing the natural resonance of the timber. Instruments imbued with his philosophy have already been chosen by numerous domestic and international artists, and he is preparing to launch a team-built lineup in 2025 to share his craftsmanship with a wider audience.</p></div>
                             </div>
                             <div>
-                                <h4 class="text-xl font-semibold mb-2" data-lang-key="mentor3Name"></h4>
-                                <div data-lang-key="mentor3Desc"></div>
+                                <h4 class="text-xl font-semibold mb-2" data-lang-key="mentor3Name">Dongseok Lee (Lemi Lee)</h4>
+                                <div data-lang-key="mentor3Desc"><p>Professor Dongseok Lee (Lemi Lee) is a living legend who transcends the roles of educator, sound engineer, and master builder. While mentoring future generations at the Yonsei University Conservatory, he engineered numerous classic albums for top-tier musicians, including the legendary band 'Light and Salt'. As the master builder for Freebud Mod Shop and Craftshouse, he was a pioneer who single-handedly opened up the domestic market for boutique amps and effects, personally handling everything from circuit design to final assembly. He currently continues his profound philosophy of sound as the Sound Master at Art N Crew.</p></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div id="about-content-works" class="about-content hidden">
-                    <h3 class="text-2xl font-bold mb-4" data-lang-key="worksTitle"></h3>
-                    <p class="text-slate-600 mb-6" data-lang-key="worksDesc"></p>
+                    <h3 class="text-2xl font-bold mb-4" data-lang-key="worksTitle">My Works Showcase</h3>
+                    <p class="text-slate-600 mb-6" data-lang-key="worksDesc">Here are some examples of the instruments I have crafted or modified. Each piece reflects my journey and dedication to the luthier's art.</p>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         <div class="aspect-square rounded-lg overflow-hidden cursor-pointer group" onclick="openImagePopup('assets/works/work-01.webp')">
@@ -498,15 +519,15 @@
         <!-- 스크롤 용 마진 제거, page-section 적용 -->
         <section id="Prototype" class="page-section mb-16 pt-4">
             <div id="spec-sheet" class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="PrototypeTitle"></h2>
-                <p class="mb-6 text-slate-600" data-lang-key="specSheetDesc"></p>
+                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="PrototypeTitle">Prototype</h2>
+                <p class="mb-6 text-slate-600" data-lang-key="specSheetDesc">Base specifications and custom examples for RavenForge’s three bass models. Material, neck, finish and compatible hardware/electronics choices are available within the existing forms. Additional string counts, scales and new routing layouts are planned; check the configurator for currently selectable combinations.</p>
                 
                 <div class="mb-6 flex flex-wrap gap-2">
                     <button id="btn-spec-embla" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition active">🌿 EMBLA</button>
                     <button id="btn-spec-askr" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">🔥 ASKR</button>
                     <button id="btn-spec-edda" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">📜 EDDA</button>
-                    <button id="btn-spec-common" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specCommonBtn"></button>
-                    <button id="btn-spec-neck" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specNeckBtn"></button>
+                    <button id="btn-spec-common" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specCommonBtn">🧱 Common/Options</button>
+                    <button id="btn-spec-neck" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition" data-lang-key="specNeckBtn">🎸 Neck System</button>
                     <button id="btn-spec-body" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">🎸 Body</button>
                     <button id="btn-spec-options" class="spec-btn px-4 py-2 rounded-md font-semibold border border-slate-300 hover:bg-slate-100 transition">⚙️ Options</button>
                 </div>
@@ -1381,31 +1402,31 @@
         <!-- 3. Analysis & Luthier Explorer 섹션 -->
         <section id="analysis" class="page-section mb-16 pt-4">
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="analysisTitle"></h2>
+                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="analysisTitle">Analysis & Luthier Explorer</h2>
 
                 <div id="innovation-synthesis" class="mb-12">
-                    <h3 class="text-2xl font-bold mb-2" data-lang-key="innovationTitle"></h3>
-                    <p class="mb-6 text-slate-600" data-lang-key="innovationDesc"></p>
+                    <h3 class="text-2xl font-bold mb-2" data-lang-key="innovationTitle">Analysis of Key Innovation Themes</h3>
+                    <p class="mb-6 text-slate-600" data-lang-key="innovationDesc">The core philosophies and technologies of high-end luthiers can be categorized into several key themes. Click on each bar in the chart below to filter the luthiers corresponding to that theme. This summarizes the technological trends in the market and the areas I have focused on in my research.</p>
                     <div class="chart-container">
                         <canvas id="innovationChart"></canvas>
                     </div>
                 </div>
 
                 <div id="luthier-explorer" class="mt-8 pt-8 border-t">
-                    <h3 class="text-2xl font-bold mb-4" data-lang-key="explorerTitle"></h3>
-                    <p class="mb-6 text-slate-600" data-lang-key="explorerDesc"></p>
+                    <h3 class="text-2xl font-bold mb-4" data-lang-key="explorerTitle">Luthier Explorer</h3>
+                    <p class="mb-6 text-slate-600" data-lang-key="explorerDesc">Use the filters below to explore luthiers by region or innovation theme. Click on each card to view a detailed analysis.</p>
                     <div class="flex flex-wrap gap-4 mb-6 items-center">
                         <div>
-                            <label for="region-filter" class="font-semibold mr-2" data-lang-key="regionLabel"></label>
+                            <label for="region-filter" class="font-semibold mr-2" data-lang-key="regionLabel">Region:</label>
                             <select id="region-filter" class="p-2 border rounded-md bg-white">
                             </select>
                         </div>
                         <div>
-                            <label for="theme-filter" class="font-semibold mr-2" data-lang-key="themeLabel"></label>
+                            <label for="theme-filter" class="font-semibold mr-2" data-lang-key="themeLabel">Innovation Theme:</label>
                             <select id="theme-filter" class="p-2 border rounded-md bg-white">
                             </select>
                         </div>
-                        <button id="reset-filters" class="px-4 py-2 bg-slate-600 text-white rounded-md hover:bg-slate-700 transition" data-lang-key="resetBtn"></button>
+                        <button id="reset-filters" class="px-4 py-2 bg-slate-600 text-white rounded-md hover:bg-slate-700 transition" data-lang-key="resetBtn">Reset Filters</button>
                     </div>
                     <div id="luthier-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
                     </div>
@@ -1538,8 +1559,8 @@
         <!-- 5. Research Essay 섹션 -->
 	<section id="research" class="page-section mb-16 pt-4">
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="researchTitle"></h2>
-                <p class="mb-6 text-slate-600" data-lang-key="researchDesc"></p>
+                <h2 class="text-3xl font-bold mb-6 border-b pb-3" data-lang-key="researchTitle">Luthier's Research Essay</h2>
+                <p class="mb-6 text-slate-600" data-lang-key="researchDesc">A collection of my personal research papers and essays detailing the acoustic engineering, tonewood analysis, and design philosophies behind RavenForge instruments.</p>
                 <div id="research-filters" class="flex flex-wrap gap-2 mb-6 border-b pb-4"></div>
                 <div id="research-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
             </div>
@@ -1549,11 +1570,11 @@
         <section id="configurator" class="page-section mb-16 pt-4">
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <div class="flex justify-between items-center mb-6 border-b pb-3">
-                    <h2 class="text-3xl font-bold" data-lang-key="configuratorTitle"></h2>
-                    <a href="configurator.html" target="_blank" rel="noopener" class="text-sm bg-slate-800 text-white px-4 py-2 rounded hover:bg-slate-700 transition" data-lang-key="configuratorOpenBtn"></a>
+                    <h2 class="text-3xl font-bold" data-lang-key="configuratorTitle">RavenForge Instrument Configurator</h2>
+                    <a href="configurator.html" target="_blank" rel="noopener" class="text-sm bg-slate-800 text-white px-4 py-2 rounded hover:bg-slate-700 transition" data-lang-key="configuratorOpenBtn">Open in New Tab</a>
                 </div>
                 
-                <p class="mb-6 text-slate-600" data-lang-key="configuratorDesc"></p>
+                <p class="mb-6 text-slate-600" data-lang-key="configuratorDesc">Configure a RavenForge bass or Gramr guitar with materials, neck feel, finishes, hardware and electronics suited to its existing dimensions and layouts. Additional string counts, scales and new routing layouts are planned. Choose the finish method and specify your desired colour separately.</p>
                 <div class="w-full bg-slate-50 rounded-xl overflow-hidden border border-slate-200" style="height: 900px;">
                     <iframe src="configurator.html" width="100%" height="100%" style="border: none;" title="RavenForge Instrument Configurator" loading="lazy"></iframe>
                 </div>
@@ -1565,7 +1586,7 @@
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row gap-5 md:items-center md:justify-between">
             <p class="text-sm">&copy; 2026 RavenForge Luthier Intelligence.</p>
             <nav class="flex flex-wrap gap-x-5 gap-y-2 text-sm" aria-label="Footer">
-                <a href="#about" data-page-link data-footer-key="contact" class="hover:text-white">Contact</a>
+                <a href="#about" data-page-link data-contact-link data-footer-key="contact" class="hover:text-white">Contact</a>
                 <a href="https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence" target="_blank" rel="noopener" class="hover:text-white">GitHub</a>
                 <a href="https://www.instagram.com/raven_deadwire/" target="_blank" rel="noopener" class="hover:text-white">Instagram</a>
                 <a href="https://www.youtube.com/@raven_deadwire" target="_blank" rel="noopener" class="hover:text-white">YouTube</a>
@@ -3052,6 +3073,15 @@ translations.ko.luthierData = [
                 });
             });
 
+            // Footer "Contact": open About > Biography and bring the profile links into view.
+            document.querySelectorAll('[data-contact-link]').forEach(link => {
+                link.addEventListener('click', e => {
+                    if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+                    document.querySelector('.about-tab-btn[data-target="bio"]')?.click();
+                    requestAnimationFrame(() => document.getElementById('contact-links')?.scrollIntoView({ block: 'center' }));
+                });
+            });
+
             window.addEventListener('hashchange', () => {
                 activatePage(window.location.hash.substring(1) || 'about');
             });
@@ -3114,6 +3144,7 @@ translations.ko.luthierData = [
         let isResearchDataLoaded = false;
         
         const RESEARCH_INDEX_URL = 'research/research-index.json';
+        const SITE_URL = 'https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/';
 
         const researchCategories = [
             { id: 'all', key: 'catAll' }, { id: 'wood', key: 'catWood' },
@@ -3184,6 +3215,7 @@ translations.ko.luthierData = [
             function switchLanguage(lang) {
                 currentLang = lang;
                 sessionStorage.setItem('preferredLang', lang);
+                try { localStorage.setItem('preferredLang', lang); } catch (e) { /* storage blocked */ }
                 const t = translations[lang];
 
                 // 활성화 언어 버튼 스타일링
@@ -3198,6 +3230,14 @@ translations.ko.luthierData = [
 
                 document.documentElement.lang = lang;
                 document.title = t.pageTitle;
+                const pageUrl = new URL(location.href);
+                if (pageUrl.searchParams.has('lang')) {
+                    // Shared ?lang= links follow the visible language, and so does the canonical URL.
+                    pageUrl.searchParams.set('lang', lang);
+                    history.replaceState(history.state, '', pageUrl);
+                    const canonical = document.querySelector('link[rel="canonical"]');
+                    if (canonical) canonical.href = lang === 'en' ? SITE_URL : `${SITE_URL}?lang=${lang}`;
+                }
 
                 document.querySelectorAll('[data-lang-key]').forEach(el => {
                     const key = el.dataset.langKey;
@@ -3391,9 +3431,9 @@ translations.ko.luthierData = [
                 let rows = model.rows.map(row => `
                     <tr>
                         <td class="font-semibold text-slate-700 whitespace-nowrap">${row.item}</td>
-                        <td class="align-top">${row.standard}</td>
-                        <td class="align-top bg-sky-50/60">${row.recommended}</td>
-                        <td class="align-top bg-amber-50/70">${row.premium}</td>
+                        <td class="align-top" data-label="${headers[1]}">${row.standard}</td>
+                        <td class="align-top bg-sky-50/60" data-label="${headers[2]}">${row.recommended}</td>
+                        <td class="align-top bg-amber-50/70" data-label="${headers[3]}">${row.premium}</td>
                     </tr>`).join('');
 
                 return `
@@ -3444,7 +3484,7 @@ translations.ko.luthierData = [
                 
                 const neckImageHTML = `
                     <div class="mb-6 overflow-hidden rounded-lg shadow-sm border border-slate-200">
-                        <img src="./neck.png" alt="Neck System Structure" class="w-full h-auto cursor-pointer hover:opacity-90 transition-opacity" onclick="openImagePopup('neck.png')" onerror="this.style.display='none'">
+                        <img src="assets/optimized/neck-structure.webp" alt="Neck System Structure" class="w-full h-auto cursor-pointer hover:opacity-90 transition-opacity" onclick="openImagePopup('assets/optimized/neck-structure.webp')" onerror="this.style.display='none'">
                     </div>
                 `;
                 specContentNeck.innerHTML = neckImageHTML + createSpecTable(specData.neck, headers.neck);
@@ -3671,7 +3711,21 @@ translations.ko.luthierData = [
             }
 
             // --- Initial Load ---
-            const initialLang = sessionStorage.getItem('preferredLang') || 'en';
+            // ?lang= link > language picked on an earlier visit > browser language > English.
+            function pickInitialLanguage() {
+                const supported = Object.keys(translations);
+                const fromUrl = new URLSearchParams(location.search).get('lang');
+                if (supported.includes(fromUrl)) return fromUrl;
+                let saved = null;
+                try { saved = localStorage.getItem('preferredLang'); } catch (e) { /* storage blocked */ }
+                saved = saved || sessionStorage.getItem('preferredLang');
+                if (supported.includes(saved)) return saved;
+                const browser = (navigator.languages || [navigator.language || ''])
+                    .map(code => String(code).slice(0, 2).toLowerCase())
+                    .find(code => supported.includes(code));
+                return browser || 'en';
+            }
+            const initialLang = pickInitialLanguage();
             switchLanguage(initialLang);
 	    loadResearchData();
         });
@@ -3709,7 +3763,7 @@ translations.ko.luthierData = [
     </div>
     <script src="assets/concept-lab.js?v=20260910-skadi"></script>
     <script src="assets/chimera.js?v=20261019-head-example"></script>
-    <script src="assets/model-carousel.js"></script>
+    <script src="assets/model-carousel.js?v=20261022-local-covers"></script>
     <script src="assets/footer.js?v=20261022media2"></script>
 <!-- RF:QUEST START -->
 <link rel="stylesheet" href="assets/quest-roadmap.css?v=c5777fe6bb26">
