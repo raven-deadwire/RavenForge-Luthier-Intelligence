@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Build one review HTML with exact original image bytes and local code embedded.
 
-CDN dependencies remain the same as the existing configurator. No pixel conversion
+React, Babel and html2pdf still load from the same CDNs as the existing
+configurator; the prebuilt Tailwind CSS is inlined. No pixel conversion
 or source modification is performed. The output is safe to move out of its folder.
 """
 import argparse
@@ -43,6 +44,8 @@ def build():
         return '<script>\n' + source + '\n</script>'
 
     html = re.sub(r'<script src="(\./assets/[^"]+)"></script>', script, html)
+    html = re.sub(r'<link rel="stylesheet" href="assets/configurator-tailwind\.css[^"]*">',
+                  lambda _: '<style>' + (ROOT / 'assets/configurator-tailwind.css').read_text() + '</style>', html)
     html = re.sub(r'<link rel="stylesheet" href="\./assets/configurator-preview\.css[^"]*">',
                   lambda _: '<style>' + (ROOT / 'assets/configurator-preview.css').read_text() + '</style>', html)
     html = html.replace('src="./ravenforge.png"', 'src="' + data_url('ravenforge.png') + '"')
