@@ -11,7 +11,7 @@ permissions:
 jobs:
   chromium:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
         with:
@@ -20,11 +20,25 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - name: Cache the Korean fonts
+        uses: actions/cache@v4
+        with:
+          path: ~/fonts-noto-cjk
+          key: noto-sans-cjk-2.004-v1
       - name: Install browser and Korean fonts
         run: |
           npm install --no-save --no-package-lock --no-audit --no-fund playwright@1.49.1
           npx playwright install --with-deps chromium
-          sudo apt-get install -y fonts-noto-cjk
+          # Noto Sans CJK (the same 2.004 fonts the fonts-noto-cjk package ships),
+          # fetched from GitHub: azure.archive.ubuntu.com stalled for 15+ minutes.
+          if ! ls ~/fonts-noto-cjk/*.ttc >/dev/null 2>&1; then
+            mkdir -p ~/fonts-noto-cjk
+            curl -fsSL --retry 3 -o "$RUNNER_TEMP/noto-cjk.zip" https://github.com/notofonts/noto-cjk/releases/download/Sans2.004/03_NotoSansCJK-OTC.zip
+            unzip -j -o "$RUNNER_TEMP/noto-cjk.zip" NotoSansCJK-Regular.ttc NotoSansCJK-Bold.ttc -d ~/fonts-noto-cjk
+          fi
+          sudo mkdir -p /usr/share/fonts/opentype/noto
+          sudo cp ~/fonts-noto-cjk/*.ttc /usr/share/fonts/opentype/noto/
+          sudo fc-cache -f
       - name: Render candidate at ten widths and three languages
         if: github.event_name == 'pull_request'
         env:

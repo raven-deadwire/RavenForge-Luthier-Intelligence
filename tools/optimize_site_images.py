@@ -79,6 +79,15 @@ if logo.exists():
         (OUT / 'ravenforge-social-preview.png').parent.mkdir(parents=True, exist_ok=True)
         social_canvas.convert('RGB').save(OUT / 'ravenforge-social-preview.png', 'PNG', optimize=True)
 
+        # Smaller logos: 160px for the header and model emblems (shown at most
+        # ~68px), 400px for the About > Brand panel (a 192px box).
+        for size in (160, 400):
+            small = im.copy()
+            if small.mode != 'RGBA':
+                small = small.convert('RGBA')
+            small.thumbnail((size, size), Image.Resampling.LANCZOS)
+            small.save(OUT / f'ravenforge-logo-{size}.webp', 'WEBP', quality=90, method=6)
+
 # Point concept source metadata at optimized GRAMR media when available.
 gramr_meta = Path('concepts/gramr-superstrat-24f/meta.json')
 if gramr_meta.exists() and (OUT / 'gramr-superstrat-24f.webp').exists():

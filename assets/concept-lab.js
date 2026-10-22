@@ -115,10 +115,11 @@
         const figure = document.createElement('figure');
         figure.className = 'rf-concept-scroll-figure';
         const image = document.createElement('img');
-        image.src = imageUrl(entry.image);
-        image.alt = text(entry.alt,current) || text(entry.title,current);
+        // loading must be set before src, or the request starts right away.
         image.loading = 'lazy';
         image.decoding = 'async';
+        image.src = imageUrl(entry.image);
+        image.alt = text(entry.alt,current) || text(entry.title,current);
         figure.append(image);
         article.append(heading,figure);
 
