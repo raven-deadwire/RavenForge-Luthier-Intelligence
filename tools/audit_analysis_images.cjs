@@ -64,6 +64,9 @@ async function check(url) {
   }
 }
 
+module.exports = { check, size };
+if (require.main !== module) return;
+
 (async () => {
   const list = shots();
   const results = [];
