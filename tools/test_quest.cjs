@@ -106,22 +106,26 @@ async function integration(url, storageSeed = null) {
   await new Promise(resolve => dom.window.addEventListener('load', resolve, { once: true }));
   await delay(500);
   const w = dom.window, d = w.document;
+  const linked = new URL(url).searchParams.get('quest');
+  const expectedOpen = data.quests.some(q => q.id === linked) ? ['quest-' + linked] : [];
+  const openCards = () => [...d.querySelectorAll('#quest details[open]')].map(n => n.id);
   const diagnostics = () => JSON.stringify({ href: w.location.href, active: [...d.querySelectorAll('.page-section.active')].map(n => n.id), errors });
   assert.ok(d.querySelector('#quest.active'));
   assert.equal(d.querySelectorAll('#quest details').length, 6);
-  assert.equal(d.querySelectorAll('#quest details[open]').length, 0, 'first visit/reload ignores stored expansion and query links');
+  assert.deepEqual(openCards(), expectedOpen, 'a ?quest= link opens only that card; stored expansion is ignored');
   for (const [lang, button] of [['ko', 'kr'], ['en', 'en'], ['de', 'de']]) {
     d.querySelector('#lang-' + button + '-btn').click();
     await delay(30);
     assert.equal(d.querySelector('#quest .rf-q-shell').lang, lang);
-    assert.equal(d.querySelectorAll('#quest details[open]').length, 0, 'translation does not auto-open a query-linked card');
+    assert.deepEqual(openCards(), expectedOpen, 'translation keeps the linked card state');
   }
   for (const quest of data.quests) {
     const card = d.getElementById('quest-' + quest.id);
+    const wasOpen = card.open;
     card.querySelector('summary').click();
-    assert.ok(card.open, quest.code + ' opens on click');
+    assert.equal(card.open, !wasOpen, quest.code + ' toggles on click');
     card.querySelector('summary').click();
-    assert.ok(!card.open, quest.code + ' closes on click');
+    assert.equal(card.open, wasOpen, quest.code + ' toggles back on click');
   }
   d.querySelector('.rf-q-atlas [data-quest-target="neck"]').click();
   assert.ok(d.querySelector('#quest-neck').open, 'explicit in-page navigation opens a card');
@@ -167,5 +171,5 @@ async function integration(url, storageSeed = null) {
   const first = await integration(ORIGIN + '#quest');
   const second = await integration(ORIGIN + '?quest=neck#quest', JSON.stringify(data.quests.map(q => q.id)));
   const third = await integration(ORIGIN + '?quest=workflow#quest', 'invalid json');
-  console.log(JSON.stringify({ pass: true, nativeDiagrams: 6, visualNavigator: true, interactiveResearchMap: true, mapLanguageState: true, languages: 3, quests: 6, uniqueSources: Object.keys(data.sources).length, staticFallback: true, idempotent: true, state: true, collapsedOnLoad: true, legacyStateIgnored: true, explicitDeepLinks: true, history: true, modelNavigation: true, builderModal: true, otherNavigation: true, corruptStorage: true, runtimeErrors: [...first.runtimeErrors, ...second.runtimeErrors, ...third.runtimeErrors], teardownWarnings: [...new Set([...first.teardownWarnings, ...second.teardownWarnings, ...third.teardownWarnings])], scope: 'Full local site scripts in JSDOM; Chart/canvas are stubs and external network is disabled. Layout is checked separately in Chromium.' }, null, 2));
+  console.log(JSON.stringify({ pass: true, nativeDiagrams: 6, visualNavigator: true, interactiveResearchMap: true, mapLanguageState: true, languages: 3, quests: 6, uniqueSources: Object.keys(data.sources).length, staticFallback: true, idempotent: true, state: true, collapsedOnLoad: true, linkedCardOpensOnLoad: true, legacyStateIgnored: true, explicitDeepLinks: true, history: true, modelNavigation: true, builderModal: true, otherNavigation: true, corruptStorage: true, runtimeErrors: [...first.runtimeErrors, ...second.runtimeErrors, ...third.runtimeErrors], teardownWarnings: [...new Set([...first.teardownWarnings, ...second.teardownWarnings, ...third.teardownWarnings])], scope: 'Full local site scripts in JSDOM; Chart/canvas are stubs and external network is disabled. Layout is checked separately in Chromium.' }, null, 2));
 })().catch(error => { console.error(error); process.exit(1); });
