@@ -60,6 +60,8 @@ staticDOM.window.close();
 class LocalResources extends ResourceLoader {
   fetch(url) {
     if (!url.startsWith(ORIGIN)) return null;
+    // jsdom has no canvas; Chart.js is exercised in the real-browser tests instead.
+    if (url.includes('/assets/vendor/chart.umd.min.js')) return null;
     const file = localPath(url);
     return file ? Promise.resolve(fs.readFileSync(file)) : null;
   }

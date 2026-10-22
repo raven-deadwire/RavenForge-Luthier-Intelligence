@@ -1,0 +1,50 @@
+name: Homepage Tailwind CSS
+
+# index.html no longer uses the cdn.tailwindcss.com runtime; assets/tailwind.css
+# is compiled ahead of time. Keep it in sync with the classes used on the page.
+on:
+  pull_request:
+    paths: ['index.html', 'assets/*.js', 'tailwind.config.cjs', 'tools/tailwind.input.css', 'tools/build_tailwind_css.sh', 'assets/tailwind.css', '.github/workflows/homepage-tailwind.yml']
+  push:
+    branches: [main]
+    paths: ['index.html', 'assets/*.js', 'tailwind.config.cjs', 'tools/tailwind.input.css', 'tools/build_tailwind_css.sh', '.github/workflows/homepage-tailwind.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: homepage-tailwind-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Build assets/tailwind.css
+        run: bash tools/build_tailwind_css.sh
+      - name: Fail the PR when the committed CSS is stale
+        if: github.event_name == 'pull_request'
+        run: |
+          if ! git diff --quiet -- assets/tailwind.css; then
+            echo "::error file=assets/tailwind.css::assets/tailwind.css is out of date. Run tools/build_tailwind_css.sh and commit the result."
+            git diff --stat -- assets/tailwind.css
+            exit 1
+          fi
+      - name: Commit rebuilt CSS
+        if: github.event_name != 'pull_request'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/tailwind.css
+          if git diff --cached --quiet; then
+            echo "assets/tailwind.css is already up to date."
+            exit 0
+          fi
+          git commit -m "Rebuild homepage Tailwind CSS"
+          git push
