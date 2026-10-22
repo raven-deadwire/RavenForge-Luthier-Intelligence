@@ -288,9 +288,11 @@
     new MutationObserver(() => render(document.documentElement.lang)).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
     window.addEventListener('popstate', () => route(true));
     window.addEventListener('hashchange', () => route(true));
-    // Query parameters may select the research map, but never expand cards on load.
-    const start = () => render(document.documentElement.lang);
+    // A shared ?quest= link opens that card on load; it is scrolled into view once the
+    // page has settled, since page activation resets the scroll position first.
+    const start = () => { render(document.documentElement.lang); route(false); };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true }); else start();
+    if (document.readyState === 'complete') route(true); else window.addEventListener('load', () => route(true), { once: true });
   }
   return { markup, render, mount };
 });
