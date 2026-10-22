@@ -122,7 +122,9 @@ if INDEX.exists():
             <p class="text-xs text-slate-400"><span data-footer-key="updated">Last Updated</span> · <time datetime="{updated}">{updated}</time></p>
         </div>
     </footer>'''
-    html = re.sub(r'<footer\b[\s\S]*?</footer>', footer, html, count=1, flags=re.I)
+    # Match the indentation in front of <footer> too: the template brings its own,
+    # and keeping the old run made it grow by four spaces on every build.
+    html = re.sub(r'[ \t]*<footer\b[\s\S]*?</footer>', lambda _: footer, html, count=1, flags=re.I)
 
     footer_script = f'<script src="assets/footer.js?v={FOOTER_SCRIPT_VERSION}"></script>'
     if 'assets/footer.js' in html:
