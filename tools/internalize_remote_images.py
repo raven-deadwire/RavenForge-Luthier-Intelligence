@@ -56,7 +56,8 @@ def save_webp(im: Image.Image, dst: Path, max_px: int, quality: int) -> None:
 
 
 def main() -> int:
-    text = INDEX.read_text(encoding='utf-8', newline='')
+    with INDEX.open(encoding='utf-8', newline='') as fh:
+        text = fh.read()
     urls = list(dict.fromkeys(re.findall(REMOTE, text)))
     if not urls:
         print('index.html has no hotlinked dcinside/pstatic images; nothing to do.')
