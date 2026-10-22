@@ -154,7 +154,8 @@ async function integration(url, storageSeed = null) {
   assert.ok(d.querySelector('#quest-neck').open);
   d.querySelector('#quest-neck [data-quest-builder="Marleaux Basses"]').click();
   assert.ok(d.querySelector('#analysis.active'));
-  assert.ok(d.querySelector('#modal-title').textContent.includes('Marleaux'));
+  // Analysis scripts load on the first visit to the section; the builder opens once they are ready.
+  await waitFor(() => w.RFAnalysisReady === true && d.querySelector('#modal-title').textContent.includes('Marleaux'), diagnostics);
   d.querySelector('#modal-close').click(); await delay(350);
   for (const id of ['about', 'concept', 'chimera', 'research', 'configurator', 'quest']) {
     d.querySelector('header .nav-link[href="#' + id + '"]').click();

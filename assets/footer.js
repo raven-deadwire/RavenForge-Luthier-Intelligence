@@ -52,9 +52,31 @@ const installLoader=()=>{
 installLoader();
 
 const load=src=>new Promise(done=>{const s=document.createElement('script');s.src=src;s.async=false;s.onload=s.onerror=done;document.body.appendChild(s)});
-(async()=>{
+const base=(async()=>{
  await load('assets/footer-core.js?v=20260915s5');
  await load('assets/mentor-section.js?v=20260915s2');
- await load('assets/analysis-review.js?v=20261022media2');
 })();
+
+// The ~40 Analysis scripts (about 400 KB) load only when the Analysis section is
+// first opened, or when a link to it is hovered, focused or touched. Until then
+// window.RFAnalysisReady is false; analysis-review.js sets it and fires
+// 'rf-analysis-ready' when everything has run.
+window.RFAnalysisReady=false;
+let analysisRequested=false;
+const loadAnalysis=()=>{
+ if(analysisRequested)return;
+ analysisRequested=true;
+ base.then(()=>load('assets/analysis-review.js?v=20261023lazy1'));
+};
+const analysis=document.getElementById('analysis');
+if(!analysis||analysis.classList.contains('active')){
+ loadAnalysis();
+}else{
+ new MutationObserver((_,observer)=>{
+  if(analysis.classList.contains('active')){observer.disconnect();loadAnalysis();}
+ }).observe(analysis,{attributes:true,attributeFilter:['class']});
+ document.querySelectorAll('a[href="#analysis"]').forEach(link=>{
+  ['pointerenter','focus','touchstart'].forEach(type=>link.addEventListener(type,loadAnalysis,{once:true,passive:true}));
+ });
+}
 })();
