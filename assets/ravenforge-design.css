@@ -274,3 +274,8 @@
   .rf-site .rf-prototype-table-wrap .spec-table td:first-child { border-top: 0; background: #eef1ef; white-space: normal; }
   .rf-site .rf-prototype-table-wrap .spec-table td[data-label]::before { content: attr(data-label); display: block; margin-bottom: .15rem; color: var(--rf-muted); font-size: .75rem; font-weight: 600; letter-spacing: .02em; }
 }
+/* Long German compounds ("Instrumentenkonfigurator") must not push the page wider than the
+   screen: headings break at a soft hyphen (&shy;) and, failing that, inside the word. */
+.rf-site h1, .rf-site h2, .rf-site h3 { overflow-wrap: break-word; }
+.rf-site #configurator > div > div:first-child { flex-wrap: wrap; gap: .75rem; }
+.rf-site #configurator > div > div:first-child > * { min-width: 0; }

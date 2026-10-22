@@ -1,10 +1,15 @@
 name: Analysis image link audit
 
 # The Analysis card images are hotlinked from makers' and retailers' sites and
-# can disappear. This reports every shot whose src and fallback both fail.
+# can disappear. This reports every shot whose src and fallback both fail, and
+# the run fails when any are broken. It also runs weekly, so a photo that
+# vanishes from a maker's site is noticed without waiting for the next commit
+# (GitHub emails the failure of a scheduled run).
 on:
   push:
     paths: ['assets/analysis-media-data.js', 'assets/analysis-media.js', 'tools/audit_analysis_images.cjs', 'tools/find_image_candidates.cjs', 'tools/image-candidates.json', '.github/workflows/analysis-image-audit.yml']
+  schedule:
+    - cron: '23 6 * * 1'
   workflow_dispatch:
 
 permissions:

@@ -82,6 +82,13 @@ if (require.main !== module) return;
       return { ...s, primary, fallbackResult: fallback, broken: !primary.ok && !(fallback && fallback.ok) };
     })));
   }
+  // A host can blip during one run; re-check the broken shots once before reporting them.
+  for (const r of results.filter(r => r.broken)) {
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    r.primary = await check(r.src);
+    r.fallbackResult = r.fallback ? await check(r.fallback) : null;
+    r.broken = !r.primary.ok && !(r.fallbackResult && r.fallbackResult.ok);
+  }
   const broken = results.filter(r => r.broken);
   const primaryOnly = results.filter(r => !r.broken && !r.primary.ok);
   for (const r of broken) console.log(`BROKEN  ${r.name} #${r.index + 1} ${r.label} [${r.file}] src=${JSON.stringify(r.primary)} ${r.fallback ? 'fallback=' + JSON.stringify(r.fallbackResult) : ''}\n        ${r.src}`);
@@ -91,4 +98,6 @@ if (require.main !== module) return;
   for (const { r, used } of slow) console.log(`SLOW    ${r.name} #${r.index + 1} ${r.label}: ${(used.bytes / 1e6).toFixed(1)}MB ${used.dim ? used.dim.join('x') : '?'} ${used.ms}ms\n        ${r.primary.ok ? r.src : r.fallback}`);
   console.log(`\n${results.length} shots, ${broken.length} broken, ${primaryOnly.length} served by fallback, ${slow.length} slow (>${HEAVY_BYTES / 1e6}MB or >${SLOW_MS / 1000}s).`);
   if (process.argv[2]) fs.writeFileSync(process.argv[2], JSON.stringify(results, null, 1));
+  // Fail the run when a card would show the placeholder, so the weekly schedule sends a notice.
+  if (broken.length) process.exitCode = 1;
 })();
