@@ -1,0 +1,41 @@
+name: Internalize hotlinked homepage photos
+
+# One-off: the sandbox that prepared this change cannot reach dcinside/pstatic,
+# so the photos are fetched on a GitHub runner. The script is a no-op once
+# index.html no longer references those hosts.
+on:
+  push:
+    paths: ['tools/internalize_remote_images.py', '.github/workflows/internalize-remote-images.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: internalize-images-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  internalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Pillow
+        run: python -m pip install --disable-pip-version-check Pillow
+      - name: Download photos and rewrite index.html
+        run: python tools/internalize_remote_images.py
+      - name: Commit local copies
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html assets/works
+          if git diff --cached --quiet; then
+            echo "No hotlinked photos left to internalize."
+            exit 0
+          fi
+          git commit -m "Internalize hotlinked homepage photos as local WebP"
+          git push
