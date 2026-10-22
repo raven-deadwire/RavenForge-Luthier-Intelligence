@@ -66,6 +66,13 @@ function build(source, lang, translations, siteCopy) {
     ...Object.entries(LOCALES).filter(([code]) => code !== lang).map(([, alt]) => `    <meta property="og:locale:alternate" content="${alt}">`),
   ].join('\n'), 'og:locale');
   html = replaceOnce(html, /<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${escapeAttr(copy.headerSubtitle)}">`, 'twitter:description');
+  html = replaceOnce(html, /(<script type="application\/ld\+json">)([\s\S]*?)(<\/script>)/, (all, open, json, close) => {
+    const data = JSON.parse(json);
+    data.url = url;
+    data.inLanguage = lang;
+    data.description = copy.headerSubtitle;
+    return open + JSON.stringify(data).replace(/</g, '\\u003c') + close;
+  }, 'JSON-LD');
 
   return prefill(html, translations[lang]).text;
 }
