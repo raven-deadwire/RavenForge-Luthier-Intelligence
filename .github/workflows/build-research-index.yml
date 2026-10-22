@@ -77,6 +77,7 @@ jobs:
           python research/A06/assemble.py
           python tools/build_research_index.py
           node tools/build_research_static.mjs
+          python tools/research_seo_links.py
 
       - name: Build site shell, SEO and sitemap
         run: |

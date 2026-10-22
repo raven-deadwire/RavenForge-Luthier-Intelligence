@@ -196,7 +196,7 @@ def build(lang, css_version):
             assert actual[index] == original, f"{lang}: source text mismatch in block {index}"
     home, contents, language, _ = LABELS[lang]
     links = "".join(f'<a href="{code}.html" lang="{code}" hreflang="{code}"' + (' aria-current="page"' if code == lang else '') + f'>{code.upper()}</a>' for code in LANGS)
-    alternatives = "\n".join(f'<link rel="alternate" hreflang="{code}" href="{code}.html">' for code in LANGS)
+    alternatives = "\n".join(f'<link rel="alternate" hreflang="{code}" href="{SITE}/research/B03/{code}.html">' for code in LANGS)
     toc = f'<details class="toc"><summary>{contents}</summary><nav aria-label="{contents}">' + "".join(headings) + "</nav></details>"
     page = f'''<!doctype html>
 <html lang="{lang}">
@@ -207,7 +207,7 @@ def build(lang, css_version):
 <meta name="description" content="{escape(subtitle, quote=True)}">
 <link rel="canonical" href="{SITE}/research/B03/{lang}.html">
 {alternatives}
-<link rel="alternate" hreflang="x-default" href="en.html">
+<link rel="alternate" hreflang="x-default" href="{SITE}/research/B03/en.html">
 <link rel="stylesheet" href="b03.css?v={css_version}">
 </head>
 <body>
