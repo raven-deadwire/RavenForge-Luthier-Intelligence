@@ -261,7 +261,7 @@
 (() => {
   const modules = [
     ['rf-profile-enhancements', 'assets/profile-enhancements.js?v=20260912-profile'],
-    ['rf-site-context', 'assets/site-context.js?v=20260912-context']
+    ['rf-site-context', 'assets/site-context.js?v=20261023-a11y']
   ];
   modules.forEach(([id, src]) => {
     if (document.querySelector(`script[data-${id}]`)) return;

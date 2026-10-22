@@ -189,13 +189,13 @@
     }).join('\n');
     return `<div class="rf-q-shell" data-quest-version="${esc(data.version)}" lang="${lang}">
       <header class="rf-q-hero"><div><p class="rf-q-eyebrow">${esc(u('eyebrow'))}</p><p class="rf-q-section-name">Quest &amp; Aspiration</p><h2 id="quest-title">${esc(u('title'))}</h2><p class="rf-q-intro">${esc(u('intro'))}</p></div>${atlas(data,lang)}</header>
-      <aside class="rf-q-boundary"><strong>${esc(u('boundary'))}</strong><p>${esc(u('boundaryText'))}</p><p>${esc(u('sourceNote'))}</p></aside>
+      <div class="rf-q-boundary"><strong>${esc(u('boundary'))}</strong><p>${esc(u('boundaryText'))}</p><p>${esc(u('sourceNote'))}</p></div>
       <div class="rf-q-visual-intro"><h3>${esc(VISUAL[lang].drawings)}</h3><p>${esc(VISUAL[lang].drawingNote)}</p></div>
       <div class="rf-q-grid">${cards}</div>
       ${relationships(data,lang,selectedId)}
       <section class="rf-q-method"><p class="rf-q-eyebrow">RAVENFORGE / WORKING METHOD</p><h3>${esc(u('methodTitle'))}</h3><p>${esc(u('methodIntro'))}</p>${method(u('steps'),lang)}<p class="rf-q-record">${esc(u('record'))}</p></section>
       <section class="rf-q-aspiration"><h3>${esc(u('aspiration'))}</h3><p>${esc(u('aspirationText'))}</p></section>
-      <aside class="rf-q-revision"><p><strong>${esc(u('revision'))}</strong> · <time datetime="${esc(data.updated)}">${esc(data.updated)}</time> · v${esc(data.version)}</p><p>${esc(u('revisionText'))}</p><p class="rf-q-visual-revision">2026-09-27 · Visual layer v1.1 — ${esc(VISUAL[lang].revision)}</p></aside>
+      <div class="rf-q-revision"><p><strong>${esc(u('revision'))}</strong> · <time datetime="${esc(data.updated)}">${esc(data.updated)}</time> · v${esc(data.version)}</p><p>${esc(u('revisionText'))}</p><p class="rf-q-visual-revision">2026-09-27 · Visual layer v1.1 — ${esc(VISUAL[lang].revision)}</p></div>
       <p class="rf-q-sr" role="status" aria-live="polite" data-quest-status></p>
     </div>`;
   }

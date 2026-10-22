@@ -172,13 +172,13 @@
           <p>${t.soundBody}</p>
         </div>
       </div>
-      <aside class="rf-home-vision-panel">
+      <div class="rf-home-vision-panel">
         <p class="rf-home-vision-eyebrow">${t.homeVisionEyebrow}</p>
         <h3>${t.homeVisionTitle}</h3>
         <span class="rf-home-vision-rule" aria-hidden="true"></span>
         <p>${t.homeVisionBody}</p>
         <a href="#about" data-page-link>${t.homeVisionLink}<span aria-hidden="true"> →</span></a>
-      </aside>`;
+      </div>`;
   }
 
   function render() {
