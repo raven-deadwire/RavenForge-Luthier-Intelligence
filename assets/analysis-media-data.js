@@ -149,13 +149,13 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
   "source": "https://www.elrick.com/"
  },
  "G. Gould Music": {
-  "model": "GGi5 / GGi6",
-  "shots": [ { "label": "GGi5", "src": "https://www.rocketmusicshop.com/cdn/shop/files/8041-BODY-SQ-2000.jpg?v=1730567333&width=1445", "pos": "50% 62%" }, { "label": "GGi6", "src": "https://ties.jp/store/html/upload/save_image/1021224333_67165a85d63f4.jpg", "pos": "50% 62%" } ],
+  "model": "GGi5 / GGi5-Studio³",
+  "shots": [ { "label": "GGi5", "src": "https://www.rocketmusicshop.com/cdn/shop/files/8041-BODY-SQ-2000.jpg?v=1730567333&width=1445", "pos": "50% 62%" }, { "label": "GGi5-Studio³", "src": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2025/12/G.-Gould-GGi5-Studio3-Bass-Body.jpg?w=2000&ssl=1", "pos": "50% 62%", "fallback": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2025/12/G.-Gould-GGi5-Studio3-Bass-1000x667.jpg" } ],
   "source": "https://www.ggould.com/"
  },
  "Halo Custom Guitars": {
   "model": "Octavia 5 Multiscale / MERUS 6 Headless",
-  "shots": [ { "label": "Octavia 5 Multiscale", "src": "https://www.haloguitars.com/store/image/cache/catalog/Halo-OCTAVIA-5-MS-Bassb-1200x1200.jpg", "fallback": "https://rvb-img.reverb.com/image/upload/s--ffViC94y--/a_0/t_card-square/v1684948130/rxrrrf8unulux2io62vt.jpg", "pos": "50% 60%", "zoom": 1.52, "origin": "50% 60%" }, { "label": "MERUS 6 Headless", "src": "https://www.haloguitars.com/store/image/cache/catalog/stock/guitars/HEADLESS-MERUS-6-R-26-HIPSHOT-POPLAR.BURL-TCR-HH/halo-custom-guitars-headless-merus-6-body-1200x1200.jpg", "pos": "50% 64%", "zoom": 1.38, "origin": "50% 64%" } ],
+  "shots": [ { "label": "Octavia 5 Multiscale", "src": "https://www.haloguitars.com/store/image/cache/catalog/Halo-OCTAVIA-5-MS-Bassb-1200x1200.jpg", "fallback": "https://rvb-img.reverb.com/image/upload/s--ffViC94y--/a_0/t_card-square/v1684948130/rxrrrf8unulux2io62vt.jpg", "pos": "50% 60%", "zoom": 1.52, "origin": "50% 60%" }, { "label": "MERUS 6 Headless", "src": "https://www.haloguitars.com/store/image/cache/catalog/stock/guitars/HEADLESS-MERUS-6-R-26-HIPSHOT-POPLAR.BURL-TCR-HH/halo-custom-guitars-headless-merus-6-body-1200x1200.jpg", "pos": "50% 64%", "zoom": 1.38, "origin": "50% 64%", "fallback": "https://www.haloguitars.com/store/image/cache/catalog/stock/guitars/HEADLESS-MERUS-6-R-26-HIPSHOT-POPLAR.BURL-TCR-HH/halo-custom-guitars-headless-merus-6-body-500x500.jpg" } ],
   "source": "https://www.haloguitars.com/"
  },
  "Skjold Design Guitars": {
