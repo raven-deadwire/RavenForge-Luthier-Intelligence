@@ -75,6 +75,7 @@ if INDEX.exists():
         '@type': 'WebSite',
         'name': 'RavenForge Luthier Intelligence',
         'url': SITE,
+        'inLanguage': 'en',
         'description': 'Independent instrument-design, luthiery research and prototype portfolio.',
         'creator': {
             '@type': 'Person',
