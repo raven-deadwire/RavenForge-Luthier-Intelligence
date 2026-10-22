@@ -48,6 +48,10 @@ if INDEX.exists():
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="theme-color" content="#101a20">
     <link rel="canonical" href="{SITE}">
+    <link rel="alternate" hreflang="en" href="{SITE}">
+    <link rel="alternate" hreflang="de" href="{SITE}?lang=de">
+    <link rel="alternate" hreflang="ko" href="{SITE}?lang=ko">
+    <link rel="alternate" hreflang="x-default" href="{SITE}">
     <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
     <meta property="og:type" content="website">
@@ -110,7 +114,7 @@ if INDEX.exists():
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row gap-5 md:items-center md:justify-between">
             <p class="text-sm">&copy; 2026 RavenForge Luthier Intelligence.</p>
             <nav class="flex flex-wrap gap-x-5 gap-y-2 text-sm" aria-label="Footer">
-                <a href="#about" data-page-link data-footer-key="contact" class="hover:text-white">Contact</a>
+                <a href="#about" data-page-link data-contact-link data-footer-key="contact" class="hover:text-white">Contact</a>
                 <a href="https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence" target="_blank" rel="noopener" class="hover:text-white">GitHub</a>
                 <a href="https://www.instagram.com/raven_deadwire/" target="_blank" rel="noopener" class="hover:text-white">Instagram</a>
                 <a href="https://www.youtube.com/@raven_deadwire" target="_blank" rel="noopener" class="hover:text-white">YouTube</a>

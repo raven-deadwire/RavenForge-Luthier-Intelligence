@@ -85,6 +85,7 @@ jobs:
           python tools/normalize_site_title.py
           sed -i -E "s#assets/footer\\.js\\?v=[^\"]+#assets/footer.js?v=${SITE_ASSET_VERSION}#" index.html
           python tools/build_quest.py
+          node tools/prefill_lang_keys.cjs
 
       - name: Validate Quest roadmap and navigation
         run: timeout 90s node tools/test_quest.cjs
