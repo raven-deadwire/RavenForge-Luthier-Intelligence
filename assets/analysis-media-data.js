@@ -43,7 +43,7 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
  },
  "Sugi Guitars": {
   "model": "Night Breeze NB5 / NB4",
-  "shots": [ { "label": "Night Breeze NB5", "src": "https://guitarsele.com/article/img/uploads/shimastaff05/2023/09/0e38ac7339ebaccd960006d55f285101.jpg", "pos": "50% 63%" }, { "label": "Night Breeze NB4", "src": "https://www.shimamura.co.jp/shop/koube/wp-content/uploads/sites/62/2021/11/20211103-05_2370000489463_11.jpg", "pos": "50% 63%" } ],
+  "shots": [ { "label": "Night Breeze NB5", "src": "https://www.sugiguitars.com/wp/wp-content/uploads/2020/08/NB5Standard-1-480x360.jpg", "pos": "50% 63%" }, { "label": "Night Breeze NB4", "src": "https://www.sugiguitars.com/wp/wp-content/uploads/2020/08/NB4Standard-1-480x360.jpg", "pos": "50% 63%" } ],
   "source": "https://www.sugiguitars.com/en/"
  },
  "Adamovic Basses": {
@@ -78,8 +78,8 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
   "source": "https://www.public-peace.de/info/frog.html?language=en"
  },
  "Stradi Basses": {
-  "model": "Symphony / Custom Bass",
-  "shots": [ { "label": "Symphony", "src": "https://www.public-peace.de/images/product_images/original_images/Shopbilder/Stradi/HF5A1595.png", "pos": "50% 64%" }, { "label": "Custom Bass", "src": "https://www.talkbass.com/attachments/fb-img-1619017321863-jpg.4242617/", "pos": "50% 62%" } ],
+  "model": "Symphony / Reformer",
+  "shots": [ { "label": "Symphony", "src": "https://www.public-peace.de/images/product_images/original_images/Shopbilder/Stradi/HF5A1595.png", "pos": "50% 64%" }, { "label": "Reformer", "src": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2020/11/Stradi-Reformer-Bass-Body-1000x667.jpg", "pos": "50% 62%", "fallback": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2020/11/Stradi-Reformer-Bass-Body-2-1000x667.jpg" } ],
   "source": "https://stradi.pl/"
  },
  "Benevolent Basses": {
@@ -94,7 +94,7 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
  },
  "Lorita Basses": {
   "model": "Century / Century Series II",
-  "shots": [ { "label": "Century", "src": "https://www.doctorbass.net/imagftp/im21005173113lorita-andre769s-rotmistrovsky-signature.jpg", "fallback": "https://www.talkbass.com/classifieds/lorita-century-5-hollow-body-5-24-33.1620511/cover-image", "pos": "50% 61%" }, { "label": "Century Series II", "src": "https://rvb-img.reverb.com/image/upload/s--MY59dzJK--/a_0/f_auto%2Ct_large/v1721778387/bnp6qyviw3qjrtd3w9o0.jpg", "fallback": "https://www.talkbass.com/media/lorita-century.10138/full?d=1465940124", "pos": "50% 54%" } ],
+  "shots": [ { "label": "Century", "src": "https://www.doctorbass.net/imagftp/im21005173113lorita-andre769s-rotmistrovsky-signature.jpg", "fallback": "https://www.talkbass.com/classifieds/lorita-century-5-hollow-body-5-24-33.1620511/cover-image", "pos": "50% 61%" }, { "label": "Century Series II", "src": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2017/02/Lorita-Century-Series-II-Body-1000x667.jpg", "fallback": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2017/02/Lorita-Century-Series-II-Cutaway.jpg?fit=704%2C471&ssl=1", "pos": "50% 54%" } ],
   "source": "https://www.talkbass.com/threads/lorita-basses-new-model.1305507/"
  },
  "Mattisson Basses": {
@@ -139,8 +139,8 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
   "source": "https://www.brubakerguitars.com/"
  },
  "Drake Custom Bass": {
-  "model": "Cricket Semi-Hollow / Model 4",
-  "shots": [ { "label": "Cricket Semi-Hollow", "src": "https://www.chicagomusicexchange.com/cdn/shop/products/drake-bass-guitars-4-string-drake-custom-cricket-semi-hollow-medium-scale-bass-natural-2017-u3747090201-29301065515143_2000x.jpg?v=1655489300", "pos": "50% 63%" }, { "label": "Model 4", "src": "https://www.talkbass.com/attachments/1-jpg.4571020/", "pos": "50% 62%" } ],
+  "model": "Cricket Semi-Hollow / Custom Fretless 4",
+  "shots": [ { "label": "Cricket Semi-Hollow", "src": "https://www.chicagomusicexchange.com/cdn/shop/products/drake-bass-guitars-4-string-drake-custom-cricket-semi-hollow-medium-scale-bass-natural-2017-u3747090201-29301065515143_2000x.jpg?v=1655489300", "pos": "50% 63%" }, { "label": "Custom Fretless 4", "src": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2024/09/Drake-Bass-Custom-Fretless-4-String-Bass-Body-1000x667.jpg", "pos": "50% 62%", "fallback": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2024/09/Drake-Bass-Custom-Fretless-4-String-Bass-Body-2-1000x667.jpg" } ],
   "source": "https://drakecustombass.com/"
  },
  "Elrick Bass Guitars": {
@@ -160,7 +160,7 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
  },
  "Skjold Design Guitars": {
   "model": "Drakkar / Lion’s Pride",
-  "shots": [ { "label": "Drakkar", "src": "https://www.talkbass.com/attachments/3480843/", "pos": "50% 62%" }, { "label": "Lion’s Pride", "src": "https://cdn.basschat.co.uk/monthly_2020_06/IMG-2662.jpg.5b33386b1b4002f59bdbed5fc7abf55a.jpg", "pos": "50% 62%" } ],
+  "shots": [ { "label": "Drakkar", "src": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2016/03/Skjold-Design-Drakkar-Bass-Body-Angle-1000x667.jpg", "pos": "50% 62%", "fallback": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2016/03/Skjold-Design-Drakkar-6-String-Bass-Full-1000x667.jpg" }, { "label": "Lion’s Pride", "src": "https://cdn.basschat.co.uk/monthly_2020_06/IMG-2662.jpg.5b33386b1b4002f59bdbed5fc7abf55a.jpg", "pos": "50% 62%" } ],
   "source": "https://www.skjolddesign.com/"
  },
  "Spector Basses": {
@@ -266,8 +266,8 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
  },
  "Vanderkley Amplification": {
   "pair": true,
-  "model": "Aurora / Spartan 2",
-  "shots": [ { "label": "Aurora", "src": "https://rvb-img.reverb.com/i/s--GFVZwzZe--/quality%3Dmedium-low%2Cheight%3D800%2Cwidth%3D800%2Cfit%3Dcontain/mswatk31fk0blormthfe.jpg", "fallback": "https://images.equipboard.com/uploads/item/image/50775/vanderkley-aurora-bass-head-s.webp?v=1754869121", "pos": "50% 50%", "zoom": 1.02, "origin": "50% 50%", "fit": "cover", "modalFit": "contain", "modalZoom": 1 }, { "label": "Spartan 2", "src": "https://www.talkbass.com/attachments/spartan-2-jpg.4036715/", "fallback": "https://rvb-img.reverb.com/i/s--qZstuDao--/quality%3Dmedium-low%2Cheight%3D800%2Cwidth%3D800%2Cfit%3Dcontain/lqzerrd0lwnwfvpyzbqt.jpg", "pos": "50% 50%", "zoom": 1, "origin": "50% 50%", "fit": "contain", "modalFit": "contain", "modalPos": "50% 50%", "modalZoom": 0.92 } ],
+  "model": "Aurora / Spartan",
+  "shots": [ { "label": "Aurora", "src": "https://rvb-img.reverb.com/i/s--GFVZwzZe--/quality%3Dmedium-low%2Cheight%3D800%2Cwidth%3D800%2Cfit%3Dcontain/mswatk31fk0blormthfe.jpg", "fallback": "https://images.equipboard.com/uploads/item/image/50775/vanderkley-aurora-bass-head-s.webp?v=1754869121", "pos": "50% 50%", "zoom": 1.02, "origin": "50% 50%", "fit": "cover", "modalFit": "contain", "modalZoom": 1 }, { "label": "Spartan", "src": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2017/05/Vanderkley-Spartan-Bass-Amp.jpg?w=900&ssl=1", "fallback": "https://cdn.mos.cms.futurecdn.net/3USMkV3fWfMYTX8awoykuW-1200-80.jpg", "pos": "50% 50%", "zoom": 1, "origin": "50% 50%", "fit": "contain", "modalFit": "contain", "modalPos": "50% 50%", "modalZoom": 0.92 } ],
   "source": "https://vanderkley.blogspot.com/"
  },
  "Moon Guitar — Chanho Moon": {
