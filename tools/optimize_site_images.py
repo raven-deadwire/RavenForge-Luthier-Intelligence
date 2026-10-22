@@ -7,11 +7,14 @@ import re
 OUT = Path('assets/optimized')
 OUT.mkdir(parents=True, exist_ok=True)
 
+# Body Structure.png (8.4 MB) was removed from the repository once
+# assets/optimized/body-structure.webp existed; restore it from git history to
+# re-encode it.
 JOBS = [
     (Path('EMBLA Prototype Design.png'), OUT / 'embla-prototype.webp', 2000, 88),
     (Path('ASKR Prototype Design.png'), OUT / 'askr-prototype.webp', 2000, 88),
     (Path('Edda Prototype Design.png'), OUT / 'edda-prototype.webp', 2000, 88),
-    (Path('Body Structure.png'), OUT / 'body-structure.webp', 2200, 86),
+    (Path('neck.png'), OUT / 'neck-structure.webp', 2000, 88),
     (Path('assets/concepts/gramr-superstrat-24f.png'), OUT / 'gramr-superstrat-24f.webp', 1800, 88),
     (Path('ravenforge.png'), OUT / 'ravenforge-logo.webp', 1200, 90),
 ]
@@ -98,6 +101,8 @@ if index.exists():
         'Body%20Structure.png': 'assets/optimized/body-structure.webp',
         'Body Structure.png': 'assets/optimized/body-structure.webp',
         'src="ravenforge.png"': 'src="assets/optimized/ravenforge-logo.webp"',
+        './neck.png': 'assets/optimized/neck-structure.webp',
+        "openImagePopup('neck.png')": "openImagePopup('assets/optimized/neck-structure.webp')",
     }
     for old, new in replacements.items():
         text = text.replace(old, new)
@@ -108,16 +113,6 @@ if index.exists():
         'assets/optimized/edda-prototype.webp': OUT / 'edda-prototype.webp',
     }
     for url, path in versioned_assets.items():
-        versioned = f'{url}?v={content_version(path)}'
-        text = re.sub(re.escape(url) + r'(?:\?v=[^"\'\s<>)]+)?', versioned, text)
-
-    # The larger image popup still opens the archival PNG, so version that URL too.
-    popup_sources = {
-        'EMBLA Prototype Design.png': Path('EMBLA Prototype Design.png'),
-        'ASKR Prototype Design.png': Path('ASKR Prototype Design.png'),
-        'Edda Prototype Design.png': Path('Edda Prototype Design.png'),
-    }
-    for url, path in popup_sources.items():
         versioned = f'{url}?v={content_version(path)}'
         text = re.sub(re.escape(url) + r'(?:\?v=[^"\'\s<>)]+)?', versioned, text)
 

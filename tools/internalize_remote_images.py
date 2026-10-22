@@ -1,4 +1,4 @@
-"""Copy the homepage's hotlinked photos (dcinside / Naver) into the repo.
+"""Copy the homepage's hotlinked photos (dcinside / Naver / Bugs) into the repo.
 
 The About > Works gallery and the profile photo used to load straight from
 dcinside and search.pstatic.net. Those links are hotlink-protected and can
@@ -10,8 +10,13 @@ copies:
   assets/works/work-NN-thumb.webp  grid thumbnail
   assets/works/profile.webp        About > Introduction portrait
 
-It is idempotent: once index.html no longer references those hosts it does
-nothing. Any failed download aborts before index.html is touched.
+The About > Biography release covers in assets/model-carousel.js came from
+image.bugsm.co.kr and are saved the same way:
+
+  assets/music/<release-title>.webp
+
+It is idempotent: once nothing references those hosts it does nothing. Any
+failed download aborts before the page files are touched.
 """
 from __future__ import annotations
 
@@ -26,6 +31,9 @@ from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / 'index.html'
+CAROUSEL = ROOT / 'assets' / 'model-carousel.js'
+MUSIC = ROOT / 'assets' / 'music'
+COVER = re.compile(r"\['(https://image\.bugsm\.co\.kr/[^']+)', '([^']+?) album cover'\]")
 OUT = ROOT / 'assets' / 'works'
 REMOTE = r'https://(?:dcimg\d\.dcinside\.(?:co\.kr|com)|search\.pstatic\.net)/[^"\']+'
 UA = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
@@ -55,7 +63,32 @@ def save_webp(im: Image.Image, dst: Path, max_px: int, quality: int) -> None:
     print(f'  {dst.relative_to(ROOT)}: {im.width}x{im.height}, {dst.stat().st_size:,} bytes')
 
 
+def internalize_covers() -> int:
+    with CAROUSEL.open(encoding='utf-8', newline='') as fh:
+        text = fh.read()
+    covers = COVER.findall(text)
+    if not covers:
+        print('model-carousel.js has no hotlinked release covers; nothing to do.')
+        return 0
+    images = {}
+    for url, title in covers:
+        print(f'Downloading {url}...')
+        images[url] = download(url)
+    for url, title in covers:
+        local = f"assets/music/{re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')}.webp"
+        save_webp(images[url], ROOT / local, 640, 86)
+        text = text.replace(f"'{url}'", f"'{local}'")
+    if 'bugsm.co.kr' in text:
+        print('Unreplaced release cover URLs remain', file=sys.stderr)
+        return 1
+    CAROUSEL.write_text(text, encoding='utf-8', newline='')
+    print(f'Rewrote {len(covers)} release covers in model-carousel.js')
+    return 0
+
+
 def main() -> int:
+    if internalize_covers():
+        return 1
     with INDEX.open(encoding='utf-8', newline='') as fh:
         text = fh.read()
     urls = list(dict.fromkeys(re.findall(REMOTE, text)))

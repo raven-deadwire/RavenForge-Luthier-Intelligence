@@ -257,3 +257,20 @@
   .rf-site .rf-concept-image-button img { transition: none; }
   .rf-site .rf-model-slide { transition: none; transform: none; }
 }
+/* Phones and tablets: the brand/language row scrolls away and only the section
+   menu stays pinned. --rf-header-top is the brand row's height, set by index.html. */
+@media (max-width: 1023px) {
+  .rf-site > header { top: calc(-1 * var(--rf-header-top, 0px)); }
+}
+/* Phones: the configuration comparison becomes one card per spec instead of a
+   760px-wide table that only showed its first column. */
+@media (max-width: 640px) {
+  .rf-site .rf-prototype-table-wrap { overflow: visible; border: 0; background: transparent; }
+  .rf-site .rf-prototype-table-wrap .spec-table { min-width: 0; }
+  .rf-site .rf-prototype-table-wrap .spec-table thead { display: none; }
+  .rf-site .rf-prototype-table-wrap .spec-table, .rf-site .rf-prototype-table-wrap .spec-table tbody { display: block; }
+  .rf-site .rf-prototype-table-wrap .spec-table tr { display: block; margin-bottom: .75rem; border: 1px solid var(--rf-line); border-radius: .5rem; background: #fff; overflow: hidden; }
+  .rf-site .rf-prototype-table-wrap .spec-table td { display: block; border: 0; border-top: 1px solid var(--rf-line); padding: .6rem .8rem; white-space: normal; overflow-wrap: anywhere; font-size: .875rem; }
+  .rf-site .rf-prototype-table-wrap .spec-table td:first-child { border-top: 0; background: #eef1ef; white-space: normal; }
+  .rf-site .rf-prototype-table-wrap .spec-table td[data-label]::before { content: attr(data-label); display: block; margin-bottom: .15rem; color: var(--rf-muted); font-size: .75rem; font-weight: 600; letter-spacing: .02em; }
+}

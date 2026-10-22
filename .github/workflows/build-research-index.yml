@@ -18,7 +18,6 @@ on:
       - 'EMBLA Prototype Design.png'
       - 'ASKR Prototype Design.png'
       - 'Edda Prototype Design.png'
-      - 'Body Structure.png'
       - 'ravenforge.png'
       - 'assets/concepts/*.png'
       - 'assets/footer.js'
