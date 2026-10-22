@@ -3,11 +3,15 @@
 // Usage: node tools/audit_analysis_images.cjs [report.json]
 // A shot counts as broken when neither src nor fallback returns a decodable
 // image of at least 40px (hotlink blockers often answer 200 with a 1x1 GIF).
+// Shots whose working image is over HEAVY_BYTES or takes over SLOW_MS are
+// listed as SLOW: they load, but hold up the card grid.
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 
 const ROOT = path.resolve(__dirname, '..');
+const HEAVY_BYTES = 1_000_000;
+const SLOW_MS = 4000;
 const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 
 function shots() {
@@ -49,6 +53,7 @@ function size(b) {
 
 async function check(url) {
   if (!/^https?:/.test(url)) return fs.existsSync(path.join(ROOT, url.split('?')[0])) ? { ok: true, status: 'local' } : { ok: false, status: 'missing local file' };
+  const started = Date.now();
   try {
     // Browsers send these images with referrerpolicy="no-referrer".
     const res = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(25000), headers: {
@@ -58,7 +63,7 @@ async function check(url) {
     const body = Buffer.from(await res.arrayBuffer());
     const dim = size(body);
     const ok = res.ok && (type.startsWith('image/') || dim) && (!dim || dim[0] >= 40 || dim[1] >= 40) && body.length > 500;
-    return { ok: !!ok, status: res.status, type, bytes: body.length, dim, finalUrl: res.url !== url ? res.url : undefined };
+    return { ok: !!ok, status: res.status, type, bytes: body.length, dim, ms: Date.now() - started, finalUrl: res.url !== url ? res.url : undefined };
   } catch (e) {
     return { ok: false, status: e.name === 'TimeoutError' ? 'timeout' : String(e.cause?.code || e.message) };
   }
@@ -81,6 +86,9 @@ if (require.main !== module) return;
   const primaryOnly = results.filter(r => !r.broken && !r.primary.ok);
   for (const r of broken) console.log(`BROKEN  ${r.name} #${r.index + 1} ${r.label} [${r.file}] src=${JSON.stringify(r.primary)} ${r.fallback ? 'fallback=' + JSON.stringify(r.fallbackResult) : ''}\n        ${r.src}`);
   for (const r of primaryOnly) console.log(`FALLBACK ${r.name} #${r.index + 1} ${r.label}: src failed ${JSON.stringify(r.primary)}`);
-  console.log(`\n${results.length} shots, ${broken.length} broken, ${primaryOnly.length} served by fallback.`);
+  const slow = results.filter(r => !r.broken).map(r => ({ r, used: r.primary.ok ? r.primary : r.fallbackResult }))
+    .filter(({ used }) => used.bytes > HEAVY_BYTES || used.ms > SLOW_MS);
+  for (const { r, used } of slow) console.log(`SLOW    ${r.name} #${r.index + 1} ${r.label}: ${(used.bytes / 1e6).toFixed(1)}MB ${used.dim ? used.dim.join('x') : '?'} ${used.ms}ms\n        ${r.primary.ok ? r.src : r.fallback}`);
+  console.log(`\n${results.length} shots, ${broken.length} broken, ${primaryOnly.length} served by fallback, ${slow.length} slow (>${HEAVY_BYTES / 1e6}MB or >${SLOW_MS / 1000}s).`);
   if (process.argv[2]) fs.writeFileSync(process.argv[2], JSON.stringify(results, null, 1));
 })();
