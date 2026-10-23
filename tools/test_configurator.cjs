@@ -650,7 +650,8 @@ async function run() {
           await home.locator(button).click();
           await frame.waitForFunction(lang => document.documentElement.lang === lang, language, { timeout: 10000 });
           assert.equal(await frame.evaluate(() => performance.timeOrigin), loadedAt, `Switching the homepage to ${language} must not reload the configurator`);
-          assert.equal(await embedded.locator('button[data-model="EMBLA"]').getAttribute('aria-pressed'), 'true', `${language}: selected model survives`);
+          // Model buttons only render on step 1; the header names the selected model on every step.
+          assert.match(await embedded.locator('#ui-header').innerText(), /EMBLA/, `${language}: selected model survives`);
           assert.equal(await embedded.locator('input[data-finish-color]').inputValue(), finish, `${language}: finish request survives`);
         }
       } finally {
