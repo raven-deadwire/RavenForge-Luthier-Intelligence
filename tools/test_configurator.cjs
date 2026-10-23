@@ -631,6 +631,33 @@ async function run() {
       }
     });
 
+    await check('Homepage: language switch keeps the embedded configuration', async () => {
+      const home = await page.context().newPage();
+      // Recorded separately: this check covers the configurator embed, not every homepage script.
+      home.on('pageerror', error => (report.homepageErrors ||= []).push(error.message));
+      try {
+        await home.goto(new URL('index.html?lang=en#configurator', url).href, { waitUntil: 'load', timeout: 60000 });
+        const iframe = home.locator('#configurator iframe');
+        await iframe.scrollIntoViewIfNeeded();
+        const embedded = home.frameLocator('#configurator iframe');
+        await embedded.locator('button[data-model="EMBLA"]').click();
+        await embedded.locator('button[data-step="3"]').click();
+        const finish = 'Homepage language QA: smoked black top';
+        await embedded.locator('input[data-finish-color]').fill(finish);
+        const frame = await (await iframe.elementHandle()).contentFrame();
+        const loadedAt = await frame.evaluate(() => performance.timeOrigin);
+        for (const [button, language] of [['#lang-de-btn', 'de'], ['#lang-kr-btn', 'ko'], ['#lang-en-btn', 'en']]) {
+          await home.locator(button).click();
+          await frame.waitForFunction(lang => document.documentElement.lang === lang, language, { timeout: 10000 });
+          assert.equal(await frame.evaluate(() => performance.timeOrigin), loadedAt, `Switching the homepage to ${language} must not reload the configurator`);
+          assert.equal(await embedded.locator('button[data-model="EMBLA"]').getAttribute('aria-pressed'), 'true', `${language}: selected model survives`);
+          assert.equal(await embedded.locator('input[data-finish-color]').inputValue(), finish, `${language}: finish request survives`);
+        }
+      } finally {
+        await home.close();
+      }
+    });
+
     await check('Actual Gramr PDF exports the premium gigbag and its net upgrade price', async () => {
       await freshModel('GRAMR');
       await step(3);

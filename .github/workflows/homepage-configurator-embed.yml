@@ -1,0 +1,35 @@
+name: Homepage configurator embed
+on:
+  pull_request:
+    paths: ['index.html', 'de.html', 'ko.html', 'configurator.html', 'assets/configurator-ui.js', 'tools/test_configurator.cjs', '.github/workflows/homepage-configurator-embed.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  embed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install browser
+        run: |
+          npm install --no-save --no-package-lock --no-audit --no-fund playwright@1.49.1
+          npx playwright install --with-deps chromium
+      - name: Homepage language switch keeps the embedded configuration
+        env:
+          CONFIGURATOR_QA_DIR: ${{ runner.temp }}/homepage-embed
+        run: node tools/test_configurator.cjs --case homepage
+      - name: Upload report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: homepage-embed-${{ github.event.pull_request.head.sha || github.sha }}
+          path: ${{ runner.temp }}/homepage-embed
+          if-no-files-found: warn
+          retention-days: 14
