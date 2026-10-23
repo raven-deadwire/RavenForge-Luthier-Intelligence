@@ -183,7 +183,7 @@
           <section class="rf-q-checks"><h4>${esc(u('checks'))}</h4><ol>${c.checks.map(s => `<li>${esc(s)}</li>`).join('')}</ol></section>
           <section class="rf-q-decision"><h4>${esc(u('decision'))}</h4><p>${esc(c.decision)}</p></section>
           <section class="rf-q-sources"><h4>${esc(u('sources'))}</h4><ul>${sourceHTML}</ul></section>
-          ${q.id === 'workflow' ? `<p><a class="rf-q-tool-link" href="configurator.html">${esc(u('configurator'))} ↗</a></p>` : ''}
+          ${q.id === 'workflow' ? `<p><a class="rf-q-tool-link" href="configurator.html?lang=${esc(lang)}">${esc(u('configurator'))} ↗</a></p>` : ''}
           <div class="rf-q-references"><h4>${esc(u('references'))}</h4><div>${q.builders.map(name => `<a href="#analysis" data-quest-builder="${esc(name)}">${esc(name)}</a>`).join('')}</div><p>${esc(u('referenceNote'))}</p></div>
         </div></details>`;
     }).join('\n');
