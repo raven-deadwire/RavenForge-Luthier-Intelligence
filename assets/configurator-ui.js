@@ -53,6 +53,21 @@ window.RF_CONFIG_I18N = {
     neckJointLabel: "Neck joint",
     plannedElectronicsNote: "ZUTA CORE integration and supply are to be confirmed.",
     supplyPending: "To be confirmed",
+    stepLabel: "Step {n}",
+    requestShort: "Req",
+    supplies: {
+      noBattery: "No battery",
+      passiveGuitar: "passive guitar pickups and controls",
+      emgPassive: "active EMG pickups with passive controls",
+      xpure: "Delano xPure buffer power",
+      passivePath: "fully passive signal path",
+      darkglass: "high-headroom configuration for Darkglass Tone Capsule",
+      glockenklang: "high-headroom configuration for Glockenklang onboard preamp",
+      lhzHigh: "LHZ high-headroom / transparent response",
+      lhzClassic: "LHZ classic HAZ-style response",
+      fishman: "standard Fishman Fluence bass supply",
+      active: "standard active-electronics supply"
+    },
     statusLabel: "Status",
     modelLabel: "Model",
     categoryNotes: {
@@ -125,7 +140,7 @@ window.RF_CONFIG_I18N = {
   },
   ko: {
     optionLabels: {
-      guitar_indian_rosewood: "rosewood",
+      guitar_indian_rosewood: "로즈우드",
       case_standard: "기본 긱백",
       case_premium: "프리미엄 긱백"
     },
@@ -177,6 +192,40 @@ window.RF_CONFIG_I18N = {
     neckJointLabel: "넥 접합",
     plannedElectronicsNote: "ZUTA CORE의 적용과 전원 사양은 확인 후 확정됩니다.",
     supplyPending: "추후 확정",
+    stepLabel: "{n}단계",
+    requestShort: "문의",
+    supplies: {
+      noBattery: "배터리 없음",
+      passiveGuitar: "패시브 기타 픽업 및 컨트롤",
+      emgPassive: "액티브 EMG 픽업, 패시브 컨트롤",
+      xpure: "Delano xPure 버퍼 전원",
+      passivePath: "완전 패시브 신호 경로",
+      darkglass: "Darkglass Tone Capsule용 고헤드룸 구성",
+      glockenklang: "Glockenklang 온보드 프리앰프용 고헤드룸 구성",
+      lhzHigh: "LHZ 고헤드룸 / 투명한 응답",
+      lhzClassic: "LHZ 클래식 HAZ 스타일 응답",
+      fishman: "Fishman Fluence 베이스 기본 전원",
+      active: "액티브 회로 기본 전원"
+    },
+    platformSummaries: {
+      EDDA: {
+        strings: "4현",
+        scale: "34인치 싱글 스케일"
+      },
+      EMBLA: {
+        strings: "5현",
+        scale: "34인치 싱글 스케일"
+      },
+      ASKR: {
+        strings: "5현",
+        scale: "37–34인치 멀티스케일"
+      },
+      GRAMR: {
+        strings: "기타 6현",
+        scale: "25.5인치 싱글 스케일",
+        joint: "익스텐디드 볼트온 딥 테넌; 2-2-1 배열 볼트 5개; 스레드 인서트; 넥 플레이트 없음"
+      }
+    },
     statusLabel: "진행 상태",
     modelLabel: "모델",
     categoryNotes: {
@@ -249,7 +298,7 @@ window.RF_CONFIG_I18N = {
   },
   de: {
     optionLabels: {
-      guitar_indian_rosewood: "rosewood",
+      guitar_indian_rosewood: "Palisander",
       case_standard: "Standard-Gigbag",
       case_premium: "Premium-Gigbag"
     },
@@ -301,6 +350,40 @@ window.RF_CONFIG_I18N = {
     neckJointLabel: "Halsverbindung",
     plannedElectronicsNote: "Die Einbindung von ZUTA CORE und die Stromversorgung sind noch zu bestätigen.",
     supplyPending: "Noch zu bestätigen",
+    stepLabel: "Schritt {n}",
+    requestShort: "Anfrage",
+    supplies: {
+      noBattery: "Keine Batterie",
+      passiveGuitar: "passive Gitarren-Tonabnehmer und Regler",
+      emgPassive: "aktive EMG-Tonabnehmer mit passiven Reglern",
+      xpure: "Stromversorgung für den Delano-xPure-Buffer",
+      passivePath: "vollständig passiver Signalweg",
+      darkglass: "High-Headroom-Konfiguration für Darkglass Tone Capsule",
+      glockenklang: "High-Headroom-Konfiguration für den Glockenklang-Onboard-Preamp",
+      lhzHigh: "LHZ High-Headroom / transparente Wiedergabe",
+      lhzClassic: "LHZ klassische Wiedergabe im HAZ-Stil",
+      fishman: "Standardversorgung für Fishman Fluence Bass",
+      active: "Standardversorgung für aktive Elektronik"
+    },
+    platformSummaries: {
+      EDDA: {
+        strings: "4 Saiten",
+        scale: "34 Zoll Single-Scale"
+      },
+      EMBLA: {
+        strings: "5 Saiten",
+        scale: "34 Zoll Single-Scale"
+      },
+      ASKR: {
+        strings: "5 Saiten",
+        scale: "37–34 Zoll Multiscale"
+      },
+      GRAMR: {
+        strings: "6 Gitarrensaiten",
+        scale: "25,5 Zoll Single-Scale",
+        joint: "Verlängerter Schraubhals mit tiefem Zapfen; 5 Schrauben im 2-2-1-Muster; Gewindeeinsätze; keine Halsplatte"
+      }
+    },
     statusLabel: "Status",
     modelLabel: "Modell",
     categoryNotes: {

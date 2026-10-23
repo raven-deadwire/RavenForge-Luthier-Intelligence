@@ -655,7 +655,7 @@
       const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
       const [pdfError, setPdfError] = useState('');
       const fixedSelections = RavenForgePlatforms.fixed(selectedModel);
-      const platform = RavenForgePlatforms.summary(selectedModel);
+      const platform = { ...RavenForgePlatforms.summary(selectedModel), ...(ui.platformSummaries?.[selectedModel] || {}) };
       const currentSpecialOptions = selectedModel === 'GRAMR'
         ? specialOptionsList.filter(option => ['kill_switch', 'dual_tone'].includes(option.id))
         : specialOptionsList.filter(option => option.id !== 'locking_jack');
@@ -669,6 +669,13 @@
         url.searchParams.set('lang', language);
         window.history.replaceState(null, '', url);
       }, [language]);
+      // The homepage switches language in place so an embedded configuration is not lost to an iframe reload.
+      useEffect(() => {
+        window.RavenForgeConfigurator = {
+          setLanguage: lang => { if (['en', 'ko', 'de'].includes(lang)) setLanguage(lang); }
+        };
+        return () => { delete window.RavenForgeConfigurator; };
+      }, []);
 
       const stepConfig = [
         { step: 1, title: ui.steps[0], categories: ['orientation', 'strings', 'factory_setup', 'scale', 'string_spacing'] },
@@ -683,40 +690,40 @@
       const getAutomaticPowerSupply = (currentSelections, currentSpecialOptions = []) => {
         const eq = currentSelections?.electronics;
         if (selectedModel === 'GRAMR') {
-          if (eq === 'guitar_passive') return { label: 'No battery', spec: 'passive guitar pickups and controls' };
+          if (eq === 'guitar_passive') return { label: ui.supplies.noBattery, spec: ui.supplies.passiveGuitar };
           return { label: ui.supplyPending, spec: ui.plannedElectronicsNote };
         }
         const hasXpureBuffer = currentSpecialOptions.includes('delano_buffer');
 
         if (!eq || eq === 'passive') {
-          if (currentSelections?.pickups === 'emg') return { label: '9V', spec: 'active EMG pickups with passive controls' };
+          if (currentSelections?.pickups === 'emg') return { label: '9V', spec: ui.supplies.emgPassive };
           if (hasXpureBuffer) {
-            return { label: '9V', spec: 'Delano xPure buffer power' };
+            return { label: '9V', spec: ui.supplies.xpure };
           }
-          return { label: 'No battery', spec: 'fully passive signal path' };
+          return { label: ui.supplies.noBattery, spec: ui.supplies.passivePath };
         }
 
         // High-headroom house configuration where the selected preamp explicitly supports 18V.
         if (eq === 'darkglass') {
-          return { label: '18V', spec: 'high-headroom configuration for Darkglass Tone Capsule' };
+          return { label: '18V', spec: ui.supplies.darkglass };
         }
         if (eq === 'glockenklang') {
-          return { label: '18V', spec: 'high-headroom configuration for Glockenklang onboard preamp' };
+          return { label: '18V', spec: ui.supplies.glockenklang };
         }
 
         // LHZ supports both 9V and 18V; voltage is a tonal preference rather than a compatibility requirement.
         if (eq === 'lhz') {
           if (currentSelections?.lhz_voltage === 'lhz_18v') {
-            return { label: '18V', spec: 'LHZ high-headroom / transparent response' };
+            return { label: '18V', spec: ui.supplies.lhzHigh };
           }
-          return { label: '9V', spec: 'LHZ classic HAZ-style response' };
+          return { label: '9V', spec: ui.supplies.lhzClassic };
         }
 
         if (eq === 'fishman') {
-          return { label: '9V', spec: 'standard Fishman Fluence bass supply' };
+          return { label: '9V', spec: ui.supplies.fishman };
         }
 
-        return { label: '9V', spec: 'standard active-electronics supply' };
+        return { label: '9V', spec: ui.supplies.active };
       };
 
       const handleNext = () => {
@@ -912,7 +919,7 @@
               }
 
               const isRecommended = option.recModels?.includes(selectedModel);
-              const recSuffix = isRecommended ? " (*recommended)" : "";
+              const recSuffix = isRecommended ? ` (*${ui.recommended})` : "";
               
               breakdown.push({
                 categoryId: category.id,
@@ -956,7 +963,7 @@
           // passive 의존성 조건 확인
           if (opt && (!opt.requiresPassive || isPassiveCircuit)) {
              breakdown.push({
-               categoryTitle: 'Instrument Options',
+               categoryTitle: ui.instrumentOptions,
                label: opt.spec ? `${opt.label} ${opt.spec}` : opt.label,
                price: opt.price,
                isStandard: false
@@ -970,7 +977,7 @@
           const opt = currentAccessories.find(o => o.id === optId);
           if (opt) {
              breakdown.push({
-               categoryTitle: 'Accessories',
+               categoryTitle: ui.accessories,
                label: opt.label,
                price: opt.price,
                isStandard: false
@@ -1239,7 +1246,7 @@ const handleOptionChange = (categoryId, optionId) => {
                       onClick={() => { setCurrentStep(s.step); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
                       className={`flex-1 min-w-[110px] text-center pb-3 pt-3 px-2 border-b-4 transition-all duration-200 ${currentStep === s.step ? 'border-red-700 text-red-700' : 'border-transparent text-slate-400 hover:text-slate-600 hover:border-slate-300'}`}
                     >
-                      <div className="text-[10px] font-black uppercase tracking-widest mb-1">Step {s.step}</div>
+                      <div className="text-[10px] font-black uppercase tracking-widest mb-1">{ui.stepLabel.replace('{n}', s.step)}</div>
                       <div className="text-xs font-bold sm:text-sm">{s.title}</div>
                     </button>
                   ))}
@@ -1414,7 +1421,7 @@ const handleOptionChange = (categoryId, optionId) => {
                                           {(optionSpec(option) || isRecommended) && (
                                             <p className="text-xs text-slate-500 mt-1">
                                               {optionSpec(option) && <FormattedText text={optionSpec(option)} />}
-                                              {isRecommended && <FormattedText text=" (*recommended)" />}
+                                              {isRecommended && <FormattedText text={` (*${ui.recommended})`} />}
                                             </p>
                                           )}
                                         </div>
@@ -1529,7 +1536,7 @@ const handleOptionChange = (categoryId, optionId) => {
                                         )}
                                       </div>
                                       <span className={`text-xs font-medium ml-2 shrink-0 ${opt.price === 0 ? 'text-slate-400' : 'text-red-700'}`}>
-                                        {opt.price === 0 ? 'Included' : `+ €${opt.price}`}
+                                        {opt.price === 0 ? ui.included : `+ €${opt.price}`}
                                       </span>
                                     </div>
                                   </div>
@@ -1574,9 +1581,10 @@ const handleOptionChange = (categoryId, optionId) => {
                           
                           {/* Special Instructions */}
                           <div className="border-t-2 border-slate-100 pt-6">
-                            <label className="block text-sm font-semibold text-slate-700 mb-2">{ui.specialInstructions}</label>
-                            <p className="text-xs text-slate-500 mb-3">{ui.instructionsNote}</p>
+                            <label htmlFor="special-instructions" className="block text-sm font-semibold text-slate-700 mb-2">{ui.specialInstructions}</label>
+                            <p id="special-instructions-note" className="text-xs text-slate-500 mb-3">{ui.instructionsNote}</p>
                             <textarea
+                              id="special-instructions" aria-describedby="special-instructions-note"
                               value={specialInstructions}
                               onChange={(e) => setSpecialInstructions(e.target.value)}
                               className="w-full p-4 border-2 border-slate-200 rounded-lg focus:border-red-700 focus:outline-none focus:ring-1 focus:ring-red-700 text-sm transition-colors duration-200 custom-scrollbar"
@@ -1652,7 +1660,7 @@ const handleOptionChange = (categoryId, optionId) => {
                             </div>
                             <div className="shrink-0 text-slate-900 font-medium text-right text-xs">
                               {item.price === 0 ? <span className="text-slate-400">{item.categoryId === 'case' ? ui.included : '-'}</span> :
-                               item.price === 'request' ? <span className="text-yellow-600 font-bold">{item.categoryId === 'case' ? ui.requestPrice : 'Req'}</span> :
+                               item.price === 'request' ? <span className="text-yellow-600 font-bold">{item.categoryId === 'case' ? ui.requestPrice : ui.requestShort}</span> :
                                item.price < 0 ? `-€${Math.abs(item.price)}` : `€${item.price}`}
                             </div>
                           </div>
@@ -1708,7 +1716,7 @@ const handleOptionChange = (categoryId, optionId) => {
             <a href="#config-options">{language === 'ko' ? '옵션' : language === 'de' ? 'Optionen' : 'Options'}</a>
             <a href="#instrument-preview">{language === 'ko' ? '미리보기' : language === 'de' ? 'Vorschau' : 'Preview'}</a>
             <a href="#quote-summary-card">{language === 'ko' ? '견적' : language === 'de' ? 'Angebot' : 'Quote'}</a>
-            <strong>{typeof summary.totalPrice === 'number' ? '€' + summary.totalPrice : ui.requestPrice}{summary.requiresRequest ? ' + Req' : ''}</strong>
+            <strong>{typeof summary.totalPrice === 'number' ? '€' + summary.totalPrice : ui.requestPrice}{summary.requiresRequest ? ` + ${ui.requestShort}` : ''}</strong>
           </nav>
         </div>
       );
