@@ -43,4 +43,11 @@ for (const model of configData.models) {
   const cases = group('case').options;
   assert.equal(cases.find(option => option.id === 'case_premium').prices[model.id] - cases.find(option => option.id === 'case_standard').prices[model.id], 200);
 }
-console.log('PASS: code-only stale coil/nut normalization, other models, bridges and €200 gigbag difference');
+for (const category of configData.categories) {
+  for (const entry of category.options) {
+    for (const model of entry.isStandard || []) {
+      assert.equal(entry.prices?.[model], 0, `${model} standard ${category.id}/${entry.id} is included at no charge`);
+    }
+  }
+}
+console.log('PASS: code-only stale coil/nut normalization, other models, bridges, €0 standard options and €200 gigbag difference');

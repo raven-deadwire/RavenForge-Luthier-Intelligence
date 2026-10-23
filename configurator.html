@@ -341,7 +341,7 @@
           options: [
             { id: 'dot_avalon', label: 'avalon', spec: '', prices: { EDDA: 110, EMBLA: 110, ASKR: 110 } },
             { id: 'dot_mop', label: 'mother of pearl', spec: '', prices: { EDDA: 110, EMBLA: 110, ASKR: 110 } },
-            { id: 'dot_bw', label: 'black or white', spec: '', prices: { EDDA: 110, EMBLA: 110, ASKR: 110 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
+            { id: 'dot_bw', label: 'black or white', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
             { id: 'dot_lum', label: 'luminlay', spec: 'blue or green', prices: { EDDA: 100, EMBLA: 100, ASKR: 100 } }
           ]
         },
@@ -859,6 +859,12 @@
       const getDefaultSelections = modelId => normalizeSelections(modelId);
       const selections = normalizeSelections(selectedModel, selectionState);
       const isPassiveCircuit = ['passive', 'guitar_passive'].includes(selections.electronics);
+      // Passive-only extras are hidden under an active EQ; drop them so they are not re-added on return to passive.
+      useEffect(() => {
+        if (isPassiveCircuit) return;
+        const requiresPassive = id => specialOptionsList.some(option => option.id === id && option.requiresPassive);
+        setSpecialOptions(prev => prev.some(requiresPassive) ? prev.filter(id => !requiresPassive(id)) : prev);
+      }, [isPassiveCircuit]);
       const hasNovaBridge = selectedModel === 'ASKR' && selections.hardware_bridge === 'nova_parts';
       const selectedOptionLabel = categoryId => {
         const option = configData.categories.find(category => category.id === categoryId)?.options.find(option => option.id === selections[categoryId]);
