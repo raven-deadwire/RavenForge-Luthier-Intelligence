@@ -3270,7 +3270,18 @@ translations.ko.luthierData = [
                 const configuratorFrame = document.querySelector('#configurator iframe');
                 if (configuratorFrame) {
                     configuratorFrame.title = t.configuratorTitle.replace(/&shy;/g, '');
-                    if (configuratorFrame.getAttribute('src') !== configuratorUrl) {
+                    // A loaded configurator switches language itself; reloading it would discard the configuration.
+                    let switchedInPlace = false;
+                    try {
+                        const configurator = configuratorFrame.contentWindow && configuratorFrame.contentWindow.RavenForgeConfigurator;
+                        if (configurator) {
+                            configurator.setLanguage(lang);
+                            switchedInPlace = true;
+                        }
+                    } catch (err) {
+                        // Not loaded yet or not readable; fall back to the URL.
+                    }
+                    if (!switchedInPlace && configuratorFrame.getAttribute('src') !== configuratorUrl) {
                         configuratorFrame.setAttribute('src', configuratorUrl);
                     }
                 }

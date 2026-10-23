@@ -50,4 +50,23 @@ for (const category of configData.categories) {
     }
   }
 }
-console.log('PASS: code-only stale coil/nut normalization, other models, bridges, €0 standard options and €200 gigbag difference');
+const i18nContext = vm.createContext({ window: {} });
+vm.runInContext(fs.readFileSync(path.join(root, 'assets', 'configurator-ui.js'), 'utf8'), i18nContext);
+const i18n = i18nContext.window.RF_CONFIG_I18N;
+for (const language of ['en', 'ko', 'de']) {
+  const ui = i18n[language];
+  for (const key of ['stepLabel', 'requestShort', 'included', 'recommended', 'instrumentOptions', 'accessories']) {
+    assert.ok(ui[key], `${language} defines ${key}`);
+  }
+  assert.match(ui.stepLabel, /\{n\}/, `${language} step label carries the step number`);
+  for (const key of Object.keys(i18n.en.supplies)) assert.ok(ui.supplies?.[key], `${language} power supply ${key}`);
+  if (language !== 'en') {
+    for (const model of configData.models) {
+      const summary = platforms.summary(model.id);
+      for (const field of ['strings', 'scale', 'joint'].filter(field => summary[field])) {
+        assert.ok(ui.platformSummaries?.[model.id]?.[field], `${language} ${model.id} platform ${field}`);
+      }
+    }
+  }
+}
+console.log('PASS: code-only stale coil/nut normalization, other models, bridges, €0 standard options, €200 gigbag difference and localized UI strings');
