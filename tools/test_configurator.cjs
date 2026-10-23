@@ -760,7 +760,7 @@ async function run() {
               }
             }
             if (model.id === 'ASKR') {
-              assert.match(await page.locator('[data-summary-category="hardware_bridge"]').innerText(), /Nova Parts multiscale bridge/);
+              assert.match(await page.locator('[data-summary-category="hardware_bridge"]').innerText(), /Nova Parts multiscale bridge|Nova Parts 멀티스케일 브리지|Nova-Parts-Multiscale-Brücke/);
               assert.doesNotMatch(await summary(), /Nova Parts 5-string multiscale bridge/);
             }
             await selectOption('hardware_color', 'hw_gold');
