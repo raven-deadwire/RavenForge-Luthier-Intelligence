@@ -642,7 +642,9 @@
       });
       const ui = window.RF_CONFIG_I18N[language] || window.RF_CONFIG_I18N.en;
       const categoryTitle = category => ui.categoryTitles[category.id] || category.title;
-      const optionLabel = option => ui.optionLabels?.[option.id] || option.label;
+      // Catalog text is keyed by its English source, so model-specific specs translate too and changed source text falls back to English.
+      const catalogText = text => (text && ui.catalog?.[text]) || text;
+      const optionLabel = option => ui.optionLabels?.[option.id] || catalogText(option.label);
 
       const [selectedModel, setSelectedModel] = useState('EDDA');
       const [selectionState, setSelections] = useState({});
@@ -659,7 +661,7 @@
       const currentSpecialOptions = selectedModel === 'GRAMR'
         ? specialOptionsList.filter(option => ['kill_switch', 'dual_tone'].includes(option.id))
         : specialOptionsList.filter(option => option.id !== 'locking_jack');
-      const optionSpec = (option, modelId = selectedModel) => ui.optionSpecs?.[option.id] || option.specByModel?.[modelId] || option.spec || '';
+      const optionSpec = (option, modelId = selectedModel) => ui.optionSpecs?.[option.id] || catalogText(option.specByModel?.[modelId] || option.spec || '');
       const currentAccessories = selectedModel === 'GRAMR'
         ? accessoriesList.filter(option => option.id === 'leather_strap') : accessoriesList;
 
@@ -964,7 +966,7 @@
           if (opt && (!opt.requiresPassive || isPassiveCircuit)) {
              breakdown.push({
                categoryTitle: ui.instrumentOptions,
-               label: opt.spec ? `${opt.label} ${opt.spec}` : opt.label,
+               label: optionSpec(opt) ? `${optionLabel(opt)} ${optionSpec(opt)}` : optionLabel(opt),
                price: opt.price,
                isStandard: false
              });
@@ -978,7 +980,7 @@
           if (opt) {
              breakdown.push({
                categoryTitle: ui.accessories,
-               label: opt.label,
+               label: optionLabel(opt),
                price: opt.price,
                isStandard: false
              });
@@ -1529,10 +1531,10 @@ const handleOptionChange = (categoryId, optionId) => {
                                     <div className="flex justify-between items-start">
                                       <div>
                                         <span className={`text-sm font-semibold ${isSelected ? 'text-red-700' : 'text-slate-700'}`}>
-                                          {opt.label}
+                                          {optionLabel(opt)}
                                         </span>
-                                        {opt.spec && (
-                                          <p className="text-xs text-slate-500 mt-1"><FormattedText text={opt.spec} /></p>
+                                        {optionSpec(opt) && (
+                                          <p className="text-xs text-slate-500 mt-1"><FormattedText text={optionSpec(opt)} /></p>
                                         )}
                                       </div>
                                       <span className={`text-xs font-medium ml-2 shrink-0 ${opt.price === 0 ? 'text-slate-400' : 'text-red-700'}`}>
@@ -1567,8 +1569,8 @@ const handleOptionChange = (categoryId, optionId) => {
                                     <div className="ml-3 flex-1">
                                       <div className="flex justify-between items-start">
                                         <div>
-                                          <span className={`text-sm font-semibold ${isSelected ? 'text-red-700' : 'text-slate-700'}`}>{opt.label}</span>
-                                          {opt.spec && <p className="text-xs text-slate-500 mt-1"><FormattedText text={opt.spec} /></p>}
+                                          <span className={`text-sm font-semibold ${isSelected ? 'text-red-700' : 'text-slate-700'}`}>{optionLabel(opt)}</span>
+                                          {optionSpec(opt) && <p className="text-xs text-slate-500 mt-1"><FormattedText text={optionSpec(opt)} /></p>}
                                         </div>
                                         <span className="text-xs font-medium ml-2 shrink-0 text-red-700">+ €{opt.price}</span>
                                       </div>

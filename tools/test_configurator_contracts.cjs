@@ -69,4 +69,17 @@ for (const language of ['en', 'ko', 'de']) {
     }
   }
 }
-console.log('PASS: code-only stale coil/nut normalization, other models, bridges, €0 standard options, €200 gigbag difference and localized UI strings');
+const catalogSource = new Set();
+require('../assets/configurator-preview.js').configureTestOptions(configData, null);
+const extraContext = vm.createContext({});
+vm.runInContext(`${between('const specialOptionsList', 'const configData = {')}\nthis.extras = [...specialOptionsList, ...accessoriesList];`, extraContext);
+const addSource = text => { if (typeof text === 'string' && text) catalogSource.add(text); };
+for (const entry of [...configData.categories.flatMap(category => category.options), ...extraContext.extras]) {
+  addSource(entry.label);
+  addSource(entry.spec);
+  Object.values(entry.specByModel || {}).forEach(addSource);
+}
+for (const model of configData.models) platforms.upcoming(model.id, configData).forEach(group => group.options.forEach(entry => addSource(entry.label)));
+assert.deepEqual(Object.keys(i18n.de.catalog).sort(), Object.keys(i18n.ko.catalog).sort(), 'ko and de translate the same catalog text');
+for (const text of Object.keys(i18n.ko.catalog)) assert.ok(catalogSource.has(text), `Catalog translation key matches current source text: ${text}`);
+console.log('PASS: code-only stale coil/nut normalization, other models, bridges, €0 standard options, €200 gigbag difference, localized UI strings and catalog translations');

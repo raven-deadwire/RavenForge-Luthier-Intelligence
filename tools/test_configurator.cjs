@@ -53,10 +53,10 @@ const runtimeRequire = process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES
 const { chromium } = runtimeRequire('playwright');
 
 const expectedModels = [
-  { id: 'EDDA', basePrice: 2100, strings: /\b4[ -]?strings?\b/i, scale: /\b34(?:["″”]|[ -]inch)/ },
-  { id: 'EMBLA', basePrice: 2550, strings: /\b5[ -]?strings?\b/i, scale: /\b34(?:["″”]|[ -]inch)/ },
-  { id: 'ASKR', basePrice: 3200, strings: /\b5[ -]?strings?\b/i, scale: /37["″”]?\s*[–—-]\s*34(?:["″”]|[ -]inch)/, bridge: /Payson/i },
-  { id: 'GRAMR', basePrice: 2000, strings: /\b6[ -]?(?:guitar )?strings?\b/i, scale: /25\.5(?:["″”]|[ -]inch)/, bridge: /Gotoh\s+510T-FE1/i },
+  { id: 'EDDA', basePrice: 2100, strings: /\b4[ -]?strings?\b|4현|\b4 Saiten\b/i, scale: /\b34(?:["″”]|[ -]inch)/ },
+  { id: 'EMBLA', basePrice: 2550, strings: /\b5[ -]?strings?\b|5현|\b5 Saiten\b/i, scale: /\b34(?:["″”]|[ -]inch)/ },
+  { id: 'ASKR', basePrice: 3200, strings: /\b5[ -]?strings?\b|5현|\b5 Saiten\b/i, scale: /37["″”]?\s*[–—-]\s*34(?:["″”]|[ -]inch|인치| Zoll)/, bridge: /Payson/i },
+  { id: 'GRAMR', basePrice: 2000, strings: /\b6[ -]?(?:guitar )?strings?\b|기타 6현|\b6 Gitarrensaiten\b/i, scale: /25[.,]5(?:["″”]|[ -]inch|인치| Zoll)/, bridge: /Gotoh\s+510T-FE1/i },
 ];
 const fixedCategories = ['orientation', 'strings', 'scale', 'nut_size', 'string_spacing', 'hardware_bridge', 'pickup_configuration', 'fretboard_extense'];
 const noShortScale = /short[ -]?scale|숏\s*스케일|\b(?:30|32|33)["″”]/i;
@@ -626,7 +626,7 @@ async function run() {
         assert.equal(await page.locator('html').getAttribute('lang'), language);
         assert.equal(await option('hardware_color', 'hw_gold').isChecked(), true);
         assertSpecs(await summary(), expectedModels[0]);
-        assert.match(await summary(), /gold/i);
+        assert.match(await summary(), /gold|골드/i);
         assert.ok((await summary()).includes(finish), 'Language changes must retain the finish request');
       }
     });
@@ -745,7 +745,7 @@ async function run() {
             if (model.id === 'GRAMR') {
               assert.deepEqual(await page.locator('input[name="nut_material"]').evaluateAll(inputs => inputs.map(input => input.value)), ['guitar_bone_nut']);
               await selectOption('nut_material', 'guitar_bone_nut');
-              assert.match(await page.locator('[data-summary-category="nut_material"]').innerText(), /buffalo bone/i);
+              assert.match(await page.locator('[data-summary-category="nut_material"]').innerText(), /buffalo bone|버팔로 본|Büffelknochen/i);
             }
             await step(4);
             const bridges = await page.locator('input[name="hardware_bridge"]').evaluateAll(inputs => inputs.map(input => input.value));
