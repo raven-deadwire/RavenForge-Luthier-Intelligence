@@ -1524,6 +1524,7 @@ const handleOptionChange = (categoryId, optionId) => {
                                       type="checkbox" 
                                       checked={isSelected} 
                                       onChange={() => handleSpecialOptionToggle(opt.id)} 
+                                      data-special-option={opt.id}
                                       className="w-4 h-4 text-red-700 border-slate-300 rounded focus:ring-red-700" 
                                     />
                                   </div>
@@ -1563,6 +1564,7 @@ const handleOptionChange = (categoryId, optionId) => {
                                         type="checkbox"
                                         checked={isSelected}
                                         onChange={() => handleAccessoryToggle(opt.id)}
+                                        data-accessory={opt.id}
                                         className="w-4 h-4 text-red-700 border-slate-300 rounded focus:ring-red-700"
                                       />
                                     </div>

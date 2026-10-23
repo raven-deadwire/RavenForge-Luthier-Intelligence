@@ -587,7 +587,7 @@ async function run() {
     await check('Model switching: bass configuration does not leak into Gramr', async () => {
       await chooseModel('ASKR');
       await step(5);
-      await page.getByRole('checkbox', { name: /Castle flight hard case/ }).check();
+      await page.locator('input[data-accessory="flight_case"]').check();
       await page.locator('textarea').fill('Bass-only setup: BEADG');
       assert.match(await summary(), /Castle flight hard case/);
       await chooseModel('GRAMR');

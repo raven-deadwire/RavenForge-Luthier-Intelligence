@@ -601,7 +601,7 @@ async function main() {
               await choose('coil_switch','coil_2_ps');
             }
           }
-          await page.locator('label').filter({hasText:'Kill switch'}).getByRole('checkbox').check();
+          await page.locator('input[data-special-option="kill_switch"]').check();
           assert.equal(await page.locator('[data-control-type="kill"]').count(),1);
           if(model==='GRAMR')assert.equal(await page.locator('[data-control-type="kill"]').getAttribute('transform'),'translate(796 210)');
           if(['ASKR','EMBLA'].includes(model)){
@@ -619,11 +619,11 @@ async function main() {
           if(model==='EDDA'||model==='GRAMR'){
             await choose('electronics',model==='GRAMR'?'guitar_passive':'passive');
             retainedKnobs=await layer('knobs').innerHTML();retainedKnobCount=await layer('knobs').getAttribute('data-count');
-            await page.locator('label').filter({hasText:'Dual tone capacity'}).getByRole('checkbox').check();
+            await page.locator('input[data-special-option="dual_tone"]').check();
             assert.equal(await page.locator('[data-functions~="dual_tone"]').count(),1);
           }
           await page.locator('#instrument-preview').screenshot({path:path.join(output,`${lang}-${size.width}-${model}-parts.png`)});
-          await page.locator('label').filter({hasText:'Kill switch'}).getByRole('checkbox').uncheck();assert.equal(await page.locator('[data-control-type="kill"]').count(),0);
+          await page.locator('input[data-special-option="kill_switch"]').uncheck();assert.equal(await page.locator('[data-control-type="kill"]').count(),0);
           assert.equal(await layer('knobs').innerHTML(),retainedKnobs,'Removing extras preserves knobs');
           await step(2);await choose('neck',model==='GRAMR'?'guitar_neck_3pc':model==='EDDA'?'3pc':'7pc');await side('back');
           assert.equal(await layer('neck-laminates').getAttribute('data-count'),model==='EDDA'||model==='GRAMR'?'3':'7');
