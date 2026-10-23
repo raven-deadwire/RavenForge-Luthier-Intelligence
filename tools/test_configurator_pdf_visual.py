@@ -6,7 +6,6 @@ Requires PyMuPDF, Pillow and the tesseract executable (English data suffices
 for model IDs and numeric totals). Korean-capable fonts must be installed
 before browser exports. Saves page PNGs/contact sheets for human visual QA.
 """
-import concurrent.futures
 import json
 import os
 import re
@@ -56,8 +55,10 @@ def inspect(pdf):
     return {"filename": pdf.name, "pages": len(pages), "rendered_model": model, "rendered_total": expected_total, "page_images": pages, "result": "PASS"}
 
 
-with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
-    results = list(executor.map(inspect, pdfs))
+# PyMuPDF does not support multithreaded use. Keep rendering sequential;
+# concurrent renders produced truncated PNG evidence during the live audit.
+# https://pymupdf.readthedocs.io/en/latest/recipes-multiprocessing.html
+results = [inspect(pdf) for pdf in pdfs]
 images = [Path(filename) for result in results for filename in result["page_images"]]
 for offset in range(0, len(images), 12):
     sheet = Image.new("RGB", (1520, 1635), "white")

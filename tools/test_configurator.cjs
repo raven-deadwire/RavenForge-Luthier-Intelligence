@@ -99,7 +99,7 @@ async function run() {
   const output = process.env.CONFIGURATOR_QA_DIR || await fs.mkdtemp(path.join(os.tmpdir(), 'ravenforge-configurator-qa-'));
   await fs.mkdir(output, { recursive: true });
   const ignoreHTTPSErrors = process.env.CONFIGURATOR_IGNORE_HTTPS_ERRORS === '1';
-  const report = { started: new Date().toISOString(), bootstrapOnly, pdfOnly, matrixOnly, matrixUiOnly, caseFilter, fromFilter, ignoreHTTPSErrors, output, checks: [], pageErrors: [], failedRequests: [], consoleErrors: [] };
+  const report = { started: new Date().toISOString(), bootstrapOnly, pdfOnly, matrixOnly, matrixUiOnly, homepageOnly, caseFilter, fromFilter, ignoreHTTPSErrors, output, checks: [], pageErrors: [], failedRequests: [], consoleErrors: [] };
   let server;
   let browser;
   let page;
@@ -250,6 +250,7 @@ async function run() {
     };
 
     if (homepageOnly) {
+      activeCheck = 'homepage regression summary';
       await require('./test_configurator_homepage.cjs')({
         page, hostPage, report, output, expectedModels, step, selectOption,
         option, freshModel, quotedAmount, observePdf, summary,
