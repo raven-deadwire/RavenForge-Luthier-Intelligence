@@ -21,7 +21,8 @@ root = Path(sys.argv[1])
 output = root / "pdf-visual"
 output.mkdir(exist_ok=True)
 pdfs = sorted(root.glob("*.pdf"))
-assert len(pdfs) == 24, f"Expected all 24 matrix PDFs; found {len(pdfs)}"
+expected_count = int(sys.argv[2]) if len(sys.argv) > 2 else 24
+assert len(pdfs) == expected_count, f"Expected all {expected_count} PDFs; found {len(pdfs)}"
 
 
 def inspect(pdf):
