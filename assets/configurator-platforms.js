@@ -302,7 +302,7 @@
     shareGuitarOptions(data, 'inlay_type', null, 'inlay_none');
     shareGuitarOptions(data, 'inlay_oval_mat', null, null);
     shareGuitarOptions(data, 'inlay_dot_pos', null, null);
-    shareGuitarOptions(data, 'inlay_dot_mat', null, null);
+    shareGuitarOptions(data, 'inlay_dot_mat', null, 'dot_bw');
     shareGuitarOptions(data, 'inlay_custom_spec', null, null);
     shareGuitarOptions(data, 'side_dot', null, 'sdot_std');
     shareGuitarOptions(data, 'fret_side', null, 'side_no');

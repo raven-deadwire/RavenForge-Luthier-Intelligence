@@ -9,6 +9,7 @@
  *   node tools/test_configurator.cjs --bootstrap
  *   node tools/test_configurator.cjs --pdf-only
  *   node tools/test_configurator.cjs --matrix
+ *   node tools/test_configurator.cjs --homepage --url https://example.test/index.html
  *   node tools/test_configurator.cjs --matrix-ui-only --url https://example.test/configurator.html
  *   node tools/test_configurator.cjs --case 'ASKR: electronics'
  *   node tools/test_configurator.cjs --from 'EDDA: neck'
@@ -44,6 +45,7 @@ const bootstrapOnly = args.includes('--bootstrap');
 const pdfOnly = args.includes('--pdf-only');
 const matrixUiOnly = args.includes('--matrix-ui-only');
 const matrixOnly = args.includes('--matrix') || matrixUiOnly;
+const homepageOnly = args.includes('--homepage');
 const caseFilter = arg('--case');
 const fromFilter = arg('--from');
 const root = path.resolve(__dirname, '..');
@@ -97,10 +99,11 @@ async function run() {
   const output = process.env.CONFIGURATOR_QA_DIR || await fs.mkdtemp(path.join(os.tmpdir(), 'ravenforge-configurator-qa-'));
   await fs.mkdir(output, { recursive: true });
   const ignoreHTTPSErrors = process.env.CONFIGURATOR_IGNORE_HTTPS_ERRORS === '1';
-  const report = { started: new Date().toISOString(), bootstrapOnly, pdfOnly, matrixOnly, matrixUiOnly, caseFilter, fromFilter, ignoreHTTPSErrors, output, checks: [], pageErrors: [], failedRequests: [], consoleErrors: [] };
+  const report = { started: new Date().toISOString(), bootstrapOnly, pdfOnly, matrixOnly, matrixUiOnly, homepageOnly, caseFilter, fromFilter, ignoreHTTPSErrors, output, checks: [], pageErrors: [], failedRequests: [], consoleErrors: [] };
   let server;
   let browser;
   let page;
+  let hostPage;
   let activeCheck = 'bootstrap';
   try {
     let url = arg('--url') || process.env.CONFIGURATOR_URL;
@@ -110,6 +113,7 @@ async function run() {
     report.browser = browser.version();
     const context = await browser.newContext({ viewport: { width: 1440, height: 1080 }, acceptDownloads: true, ignoreHTTPSErrors });
     page = await context.newPage();
+    hostPage = page;
     page.setDefaultTimeout(10000);
     page.on('pageerror', error => {
       report.pageErrors.push(error.message);
@@ -121,7 +125,19 @@ async function run() {
       console.error(`REQUEST FAILED: ${failure.url} (${failure.error})`);
     });
     page.on('console', message => { if (message.type() === 'error') report.consoleErrors.push(message.text()); });
+    if (homepageOnly) {
+      url = new URL(/(?:index|ko|de)\.html$/.test(new URL(url).pathname) ? url : 'index.html', url).href;
+      url = url.replace(/#.*$/, '') + '#configurator';
+      report.url = url;
+    }
     await page.goto(url, { waitUntil: 'load', timeout: 60000 });
+    if (homepageOnly) {
+      const element = await hostPage.locator('#configurator iframe').elementHandle();
+      assert.ok(element, 'Homepage must embed the configurator');
+      await hostPage.locator('#configurator iframe').scrollIntoViewIfNeeded();
+      page = await element.contentFrame();
+      assert.ok(page, 'Homepage iframe must have a document');
+    }
     await page.getByRole('button', { name: /EDDA/ }).waitFor({ timeout: 30000 });
     assert.equal(await page.evaluate(() => typeof React), 'object', 'React must load from the actual page');
     assert.equal(await page.evaluate(() => typeof html2pdf), 'function', 'PDF dependency must load from the actual page');
@@ -232,6 +248,18 @@ async function run() {
         if (fullSummary) assert.match(text, /\bHH\b|dual humbucker|2 humbuckers/i, 'Gramr must retain its HH layout');
       }
     };
+
+    if (homepageOnly) {
+      activeCheck = 'homepage regression summary';
+      await require('./test_configurator_homepage.cjs')({
+        page, hostPage, report, output, expectedModels, step, selectOption,
+        option, freshModel, quotedAmount, observePdf, summary,
+      });
+      assert.deepEqual(report.pageErrors, [], 'No browser runtime errors during homepage interaction');
+      assert.equal(report.checks.filter(check => check.result === 'FAIL').length, 0, 'Homepage regression failures are recorded above');
+      report.result = 'PASS';
+      return;
+    }
 
     for (const model of expectedModels) {
       await check(`${model.id}: fixed core and read-only future options`, async () => {
@@ -874,7 +902,7 @@ async function run() {
     report.checks.push({ name: activeCheck, result: 'FAIL', error: error.stack });
     if (page) {
       report.pdfErrors = await page.evaluate(() => window.__configuratorPdfErrors || []).catch(() => []);
-      await page.screenshot({ path: path.join(output, 'failure.png'), fullPage: true }).catch(() => {});
+      await hostPage.screenshot({ path: path.join(output, 'failure.png'), fullPage: true }).catch(() => {});
       await fs.writeFile(path.join(output, 'failure-body.txt'), await page.locator('body').innerText().catch(() => '')).catch(() => {});
     }
     console.error(`FAIL: ${activeCheck}\n${error.stack}`);

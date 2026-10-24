@@ -1,0 +1,43 @@
+{
+  "checked_at": "2026-10-23T07:14Z",
+  "source_commit": "42bf1d4284b78e4a6c60fe692dc6b9ae26af45a4",
+  "url": "https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/",
+  "files": [
+    {
+      "file": "index.html",
+      "matches": true,
+      "sha256": "87d778695e36e5721b998fc536e52bece9e37396005f7ec3a11f7b294becd086"
+    },
+    {
+      "file": "ko.html",
+      "matches": true,
+      "sha256": "5af0a9fe0e290c4f871fb07e18a66f9e94b6b9914a205e809e226798ed0ad7f3"
+    },
+    {
+      "file": "de.html",
+      "matches": true,
+      "sha256": "57680b0c053e0183724649c4adfc9a7fbb2343d1615ad41e26ba0aee3ae46da9"
+    },
+    {
+      "file": "configurator.html",
+      "matches": true,
+      "sha256": "42cdaa913c20e74f78cf57a91fba06fd071cfdba2f5cb9ea9c4cb65351fee9c0"
+    },
+    {
+      "file": "assets/configurator-platforms.js",
+      "matches": true,
+      "sha256": "2017465252afee1a024b251f0ac2ec2d721e60836d362b5cb6a9dcd26d2f7c88"
+    },
+    {
+      "file": "assets/configurator-ui.js",
+      "matches": true,
+      "sha256": "62aaee7dbb20366aff54e9b7e880ca14511c9e01b16664ad56ead232b2b58826"
+    },
+    {
+      "file": "assets/configurator-preview.js",
+      "matches": true,
+      "sha256": "c12e98f08e23db462cf4c77b48686ef8d7022eeb9b908bfb629715daf90db72b"
+    }
+  ],
+  "scope": "Homepage, native language pages, configurator and pricing/translation/preview logic; not every binary asset."
+}
