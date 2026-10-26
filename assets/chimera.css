@@ -18,6 +18,12 @@
 .rf-chimera-preview a { display: block; border: 1px solid var(--chimera-border); box-shadow: 0 18px 36px rgb(0 0 0 / .25); }
 .rf-chimera-preview img { display: block; width: 100%; height: auto; }
 .rf-chimera-preview figcaption { margin-top: .7rem; color: #b4bfba; font-size: .8rem; text-align: right; }
+.rf-chimera-start { grid-column: 1 / -1; border-top: 1px solid var(--chimera-border); padding-top: 1.5rem; }
+.rf-chimera-start h3 { margin: 0 0 1rem; color: #f3f0e8; font-size: 1.2rem; font-weight: 500; }
+.rf-chimera-start ol { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; margin: 0; padding: 0; list-style: none; }
+.rf-chimera-start li { background: rgb(255 255 255 / .04); border: 1px solid var(--chimera-border); border-radius: 6px; padding: 1rem 1.1rem; color: #c3cbc8; line-height: 1.6; }
+.rf-chimera-start strong { display: block; margin-bottom: .35rem; color: var(--chimera-gold); font-weight: 600; }
+.rf-chimera-start-note { margin: 1rem 0 0; color: #a9b3b0; font-size: .9rem; }
 .rf-chimera-stats { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; border-top: 1px solid var(--chimera-border); padding-top: 1.5rem; margin: .25rem 0 0; }
 .rf-chimera-stats > div { display: flex; flex-direction: column-reverse; justify-content: flex-end; align-items: center; gap: .25rem; }
 .rf-chimera-stats > div + div { border-left: 1px solid var(--chimera-border); }
@@ -56,6 +62,7 @@
 @media (max-width: 1000px) {
   .rf-chimera-hero { grid-template-columns: 1fr; gap: 1.75rem; }
   .rf-chimera-copy { max-width: 46rem; }
+  .rf-chimera-start ol { grid-template-columns: 1fr; }
   .rf-chimera h2 { font-size: clamp(2.65rem,9vw,5rem); }
   .rf-chimera-preview { width: 100%; }
 }

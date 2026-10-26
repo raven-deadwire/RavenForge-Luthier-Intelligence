@@ -1240,6 +1240,15 @@ const handleOptionChange = (categoryId, optionId) => {
                   labels={Object.fromEntries(configData.categories.filter(cat => selections[cat.id]).map(cat => [cat.id, selectedOptionLabel(cat.id)]))} />
               </aside>
               <div id="config-options" className="rf-config-options space-y-8">
+                {/* First-visit guide: the defaults already form a complete instrument. */}
+                <section data-first-visit className="rounded-xl border-2 border-slate-200 bg-slate-50 p-5">
+                  <h2 className="font-bold text-slate-900">{ui.introTitle}</h2>
+                  <ol className="mt-2 text-sm text-slate-600">
+                    {ui.introSteps.map((text, index) => (
+                      <li key={index} className="mt-1">{(index + 1) + '. ' + text.replace('{pdf}', ui.savePDF)}</li>
+                    ))}
+                  </ol>
+                </section>
                 {/* Step Indicator */}
                 <div className="flex justify-between items-center mb-4 bg-white rounded-xl p-2 shadow-sm border border-slate-200 overflow-x-auto custom-scrollbar">
                   {stepConfig.map(s => (
@@ -1284,7 +1293,7 @@ const handleOptionChange = (categoryId, optionId) => {
                               </div>
                             )}
                             <h3 className="text-xl font-bold text-slate-900">{model.name}</h3>
-                            <p className="text-sm text-slate-500 mt-1 mb-4">{model.desc}</p>
+                            <p className="text-sm text-slate-500 mt-1 mb-4">{(model.id === 'GRAMR' ? ui.instrumentGuitar : ui.instrumentBass) + ' · ' + model.desc}</p>
                             <div className="text-lg font-semibold text-slate-800">
                               {typeof model.basePrice === 'number' ? '€' + (model.startingPrice ?? model.basePrice) : ui.requestPrice}
                             </div>
