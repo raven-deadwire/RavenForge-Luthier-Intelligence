@@ -11,9 +11,8 @@
     const back=view==='back',g=back?Object.assign({},state.g,state.g.back):state.g,s=state.selections,t=copy[language]||copy.en,p='rf-preview-gramr';
     const path=(d,a='')=>`<path d="${d}" ${a}/>`;
     const line=(a,b,attr='')=>`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" ${attr}/>`;
-    const dye=(base,colour)=>'#'+[0,1,2].map(i=>Math.round(parseInt(base.slice(1+i*2,3+i*2),16)*.16+parseInt(colour.slice(1+i*2,3+i*2),16)*.84).toString(16).padStart(2,'0')).join('');
     const metal=`url(#${p}-metal)`,poleMetal='#aeb4b5',unknown=`url(#${p}-unknown)`,base=state.bodyColour||'#8d9196';
-    const colour=state.finish.colour?(state.finish.opaque?state.finish.colour:dye(base,state.finish.colour)):base;
+    const colour=state.finish.colour||state.bodyColour?options.materials.finishLook(state,back).base:base;
     const opaque=state.finish.opaque&&!!state.finish.colour;
     const woodFilter=(id,hex)=>{
       const c=hex.match(/[a-f0-9]{2}/gi).map(x=>parseInt(x,16)/255);
@@ -21,7 +20,7 @@
     };
     const texture=(x,y,w,h,filter)=>`<image href="${media('assets/configurator-materials/ash-illustrative.webp')}" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="none" transform="rotate(90 ${x+w/2} ${y+h/2})" filter="url(#${p}-${filter})"/>`;
     const title=id=>`<title>${esc(state.labels[id]||s[id])}</title>`;
-    let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${(layout==='portrait'?g.portrait:g.views).full}" role="img" aria-labelledby="${p}-title ${p}-desc" data-preview-svg="GRAMR" data-neck-joint="bolt-on" data-renderer="drawing-composite" data-side="${back?'back':'front'}" data-layout="${layout==='portrait'?'portrait':'landscape'}"><title id="${p}-title">GRAMR · ${esc(back?t.back:t.front)}</title><desc id="${p}-desc">${esc(back?t.backNote:t.drawingNote)}</desc><defs>${options.definitions(p,state,true)}${parts.definitions(p,state)}${options.materials.pattern(p+'-head-natural','maple',true)}
+    let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${(layout==='portrait'?g.portrait:g.views).full}" role="img" aria-labelledby="${p}-title ${p}-desc" data-preview-svg="GRAMR" data-neck-joint="bolt-on" data-renderer="drawing-composite" data-side="${back?'back':'front'}" data-layout="${layout==='portrait'?'portrait':'landscape'}"><title id="${p}-title">GRAMR · ${esc(back?t.back:t.front)}</title><desc id="${p}-desc">${esc(back?t.backNote:t.drawingNote)}</desc><defs>${options.definitions(p,state,true,back)}${parts.definitions(p,state)}${options.materials.pattern(p+'-head-natural','maple',true)}
       <clipPath id="${p}-neck-clip"><polygon points="${polygon(back?g.neck:g.board)}"/></clipPath><clipPath id="${p}-body-clip">${path(g.body)}</clipPath><clipPath id="${p}-head-clip">${path(g.head)}</clipPath><clipPath id="${p}-board-clip"><polygon points="${polygon(g.board)}"/></clipPath>
       <pattern id="${p}-unknown" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#5e6670"/><path d="M0 12L12 0" stroke="#b4bdc7" stroke-width="2"/></pattern>
       <radialGradient id="${p}-joint-fade"><stop offset=".5" stop-color="white"/><stop offset="1" stop-color="black"/></radialGradient>
@@ -38,7 +37,7 @@
       </defs><g transform="${layout==='portrait'?g.portraitTransform:g.transform}">`;
     // The outline is the extracted curve itself, not a hand-traced approximation.
     out+=`<g filter="url(#${p}-shadow)">${path(g.body,'fill="#16120e"')}${path(g.head,'fill="#16120e"')}</g>`;
-    const surface=(d,clip,tex)=>`<g filter="url(#${p}-relief)">${path(d,`fill="${colour}"`)}${!opaque?`<g clip-path="url(#${p}-${clip}-clip)">${options.materials.get(state.topId)?path(d,`fill="url(#${p}-material)" ${state.finish.colour?`filter="url(#${p}-surface-dye)"`:""}`):tex}</g>`:''}${path(d,`fill="url(#${p}-body-light)"`)}<g clip-path="url(#${p}-${clip}-clip)">${path(d,'fill="none" stroke="#100e0b" stroke-width="9" stroke-opacity=".25"')}${path(d,`fill="none" stroke="url(#${p}-rim)" stroke-width="1.7"`)}${path(d,'fill="none" stroke="#fff7e2" stroke-width=".45" stroke-opacity=".35"')}</g>${options.finish(state,p,d,back,clip==='body')}</g>`;
+    const surface=(d,clip,tex)=>`<g filter="url(#${p}-relief)">${path(d,`fill="${colour}"`)}${!opaque?`<g clip-path="url(#${p}-${clip}-clip)">${options.materials.get(state.topId)?path(d,`fill="url(#${p}-material)" filter="url(#${p}-surface-dye)"`):tex}</g>`:''}${path(d,`fill="url(#${p}-body-light)"`)}<g clip-path="url(#${p}-${clip}-clip)">${path(d,'fill="none" stroke="#100e0b" stroke-width="9" stroke-opacity=".25"')}${path(d,`fill="none" stroke="url(#${p}-rim)" stroke-width="1.7"`)}${path(d,'fill="none" stroke="#fff7e2" stroke-width=".45" stroke-opacity=".35"')}</g>${options.finish(state,p,d,back,clip==='body')}</g>`;
     if(back){
       out+=`<g data-layer="rear-body" data-material="${esc(state.bodyId)}" data-finish="${esc(s.color_back_side)}" data-colour="${colour}" data-opaque="${opaque}" data-contour="pdf-vector">${surface(g.body,'body',texture(535,-4,550,550,'body-wood'))}</g>`;
       out+=options.bodyPieces(state,p,g.body,true,286,100,true);

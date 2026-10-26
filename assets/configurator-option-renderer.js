@@ -8,17 +8,21 @@
   const point=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
   const line=(a,b,attrs)=>`<path d="M${a} L${b}" fill="none" ${attrs}/>`;
   const polygon=p=>p.map(q=>q.join(',')).join(' ');
-  function definitions(p,state,horizontal=false){
-    return materials.finishFilter(p+'-surface-dye',state.finish.colour)+materials.pattern(p+'-material',state.topId,horizontal)+materials.pattern(p+'-board-material',state.selections.fretboard,horizontal)+materials.pattern(p+'-knob-material',state.topId,horizontal)+materials.pattern(p+'-wing-material',state.selections.body_wing_wood,horizontal)+
+  function definitions(p,state,horizontal=false,back=false){
+    // Open-pore finishes fill the pores darker than the surrounding grain.
+    const pores=`<filter id="${p}-pores" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 .07 0 0 0 0 .05 0 0 0 0 .04 -.2126 -.7152 -.0722 0 1"/><feComponentTransfer><feFuncA type="table" tableValues="0 0 0 .12 .55 .9"/></feComponentTransfer></filter>`;
+    return materials.surfaceFilter(p+'-surface-dye',materials.finishLook(state,back))+pores+materials.pattern(p+'-material',state.topId,horizontal)+materials.pattern(p+'-board-material',state.selections.fretboard,horizontal)+materials.pattern(p+'-knob-material',state.topId,horizontal)+materials.pattern(p+'-wing-material',state.selections.body_wing_wood,horizontal)+
       `<linearGradient id="${p}-detail-gloss" x1="0" y1="0" x2="1" y2="1"><stop stop-color="white" stop-opacity="0"/><stop offset=".25" stop-color="white" stop-opacity="0"/><stop offset=".32" stop-color="white" stop-opacity=".26"/><stop offset=".36" stop-color="white" stop-opacity=".01"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient>
       <radialGradient id="${p}-knob-shade" cx=".3" cy=".25"><stop stop-color="#fff6df" stop-opacity=".4"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".75"/></radialGradient>
       <pattern id="${p}-flakes" width="31" height="37" patternUnits="userSpaceOnUse">${Array.from({length:18},(_,i)=>{const x=(i*17.73)%31,y=(i*11.81)%37;return `<circle cx="${x}" cy="${y}" r="${i%4===0?.65:.3}" fill="${i%3?'#f5dfac':'#fff'}" opacity="${i%3?.6:.95}"/>`;}).join('')}</pattern>`;
   }
   function finish(state,p,d,back=false,body=true){
-    const s=state.selections,id=back?s.color_back_side:s.color_top;
-    let out=`<g data-layer="${back?'rear-':''}finish-details" data-finish="${id||''}" data-appearance="illustrative">`;
-    if(id?.endsWith('gloss'))out+=`<path d="${d}" fill="url(#${p}-detail-gloss)"/>`;
-    if(id?.endsWith('stain')||id?.endsWith('tint'))out+=`<path d="${d}" fill="#b7aea0" opacity=".055"/>`;
+    const s=state.selections,id=back?s.color_back_side:s.color_top,look=materials.finishLook(state,back);
+    let out=`<g data-layer="${back?'rear-':''}finish-details" data-finish="${id||''}" data-finish-kind="${look.kind}" data-sheen="${look.sheen}" data-appearance="illustrative">`;
+    // Sheen: gloss keeps the full clear-coat highlight, satin a softened one, matte none.
+    if(look.sheen==='gloss')out+=`<path d="${d}" fill="url(#${p}-detail-gloss)"/>`;
+    if(look.sheen==='satin')out+=`<path d="${d}" fill="url(#${p}-detail-gloss)" opacity=".4"/>`;
+    if(look.pore&&!look.opaque&&materials.get(state.topId))out+=`<path data-effect="open-pore" d="${d}" fill="url(#${p}-material)" filter="url(#${p}-pores)" opacity=".5"/>`;
     if(body&&s.extra_finish_burst==='burst_add'){
       // Derive the band from the actual silhouette, including both cutaways.
       // A centred ellipse puts the dark patch in the wrong place on asymmetry.

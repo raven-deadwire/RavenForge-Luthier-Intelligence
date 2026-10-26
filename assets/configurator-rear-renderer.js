@@ -16,7 +16,7 @@
     const eddaHead=g.head,eddaNeck=g.neck;
     const finish=state.finish;
     state={...state,finish};
-    const colour=finish.colour||state.bodyColour||'#a6a8aa';
+    const colour=finish.colour||state.bodyColour?options.materials.finishLook(state,true).base:'#a6a8aa';
     const vb=concept?(portrait?'220 0 600 1536':'0 180 1536 660'):(portrait?g.portraitBox:g.viewBox);
     const transform=concept?(portrait?'':'translate(0 1024) rotate(-90)'):(portrait?g.portraitTransform:'');
     const path=(d,a='')=>`<path d="${d}" ${a}/>`;
@@ -26,7 +26,7 @@
     // One base surface prevents a cast shadow / dark seam across the nut line.
     const joinedNeck=concept?'':g.head.replace(/Z\s*$/,'')+neckPoints.slice(1).reverse().map(q=>` L${q}`).join('')+` L${neckPoints[0]} Z`;
 
-    let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" role="img" aria-labelledby="${p}-title ${p}-desc" data-preview-svg="${state.model}" data-renderer="${concept?'rear-concept-composite':'rear-drawing-composite'}" data-side="back" data-layout="${portrait?'portrait':'landscape'}" data-neck-joint="bolt-on"><title id="${p}-title">${esc(state.model+' · '+t.back)}</title><desc id="${p}-desc">${esc(concept?t.rearConceptNote:t.bassRearNote)}</desc><defs>${options.definitions(p,state,!concept)}${parts.definitions(p,state)}${tone(p+'-wood',colour,finish.opaque)}${tone(p+'-neck','#eddbb5')}${tone(p+'-metal-tint',state.metal)}
+    let out=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" role="img" aria-labelledby="${p}-title ${p}-desc" data-preview-svg="${state.model}" data-renderer="${concept?'rear-concept-composite':'rear-drawing-composite'}" data-side="back" data-layout="${portrait?'portrait':'landscape'}" data-neck-joint="bolt-on"><title id="${p}-title">${esc(state.model+' · '+t.back)}</title><desc id="${p}-desc">${esc(concept?t.rearConceptNote:t.bassRearNote)}</desc><defs>${options.definitions(p,state,!concept,true)}${parts.definitions(p,state)}${tone(p+'-wood',colour,finish.opaque)}${tone(p+'-neck','#eddbb5')}${tone(p+'-metal-tint',state.metal)}
       <linearGradient id="${p}-light" x1="0" y1="0" x2="0.3" y2="1"><stop stop-color="#fff7dd" stop-opacity=".40"/><stop offset=".18" stop-color="#fff" stop-opacity=".04"/><stop offset=".65" stop-color="#000" stop-opacity=".04"/><stop offset="1" stop-color="#000" stop-opacity=".42"/></linearGradient>
       <linearGradient id="${p}-metal" x1="0" y1="0" x2=".4" y2="1"><stop stop-color="#23292c"/><stop offset=".27" stop-color="${state.metal}"/><stop offset=".4" stop-color="#f8f7ec"/><stop offset=".52" stop-color="${state.metal}"/><stop offset="1" stop-color="#22272a"/></linearGradient>
       <pattern id="${p}-grain" width="600" height="600" patternUnits="userSpaceOnUse"><image href="${texture}" width="600" height="600" transform="rotate(90 300 300)"/></pattern>
@@ -44,7 +44,7 @@
       out+=`<g data-layer="rear-neck" data-neck-joint="bolt-on" data-appearance="concept-retained">${options.neckFinish(state,p,eddaNeck,source(`clip-path="url(#${p}-neck-clip)"`)+options.lamination(state,[[495,290],[553,290],[565,925],[486,922]],p+'-neck-clip'))}</g><g data-layer="rear-bolts" data-count="5" data-placement="concept-only"/><g data-layer="rear-headstock">${options.neckFinish(state,p,eddaHead,path(eddaHead,`data-surface="clean-head" fill="url(#${p}-neck-grain)" filter="url(#${p}-neck)"`),'rear-head-finish')}</g><g data-layer="rear-hardware" data-colour="${state.metal}" clip-path="url(#${p}-metal-clip)">${source(`filter="url(#${p}-metal-tint)"`)}</g>`;
     }else{
       out+=`<clipPath id="${p}-neck-clip">${path(g.neck)}</clipPath><clipPath id="${p}-head-clip">${path(headPath)}</clipPath></defs><g transform="${transform}">`;
-      const surface=(d,filter,stroke=1)=>`<g filter="url(#${p}-shadow)">${filter==='wood'&&finish.opaque?path(d,`data-surface="opaque-paint" fill="${colour}"`):path(d,`fill="url(#${p}-${filter==='neck'?'neck-grain':state.bodyColour?'material':'grain'})" ${filter==='neck'||finish.colour||!state.bodyColour?`filter="url(#${p}-${filter==='wood'&&finish.colour?'surface-dye':filter})"`:''}`)}${path(d,`fill="url(#${p}-${filter==='neck'?'neck-round':'light'})" stroke="#5b4934" stroke-width="${stroke}"`)}${path(d,'fill="none" stroke="#fff0cd" stroke-width=".6" stroke-opacity=".6"')}</g>`;
+      const surface=(d,filter,stroke=1)=>`<g filter="url(#${p}-shadow)">${filter==='wood'&&finish.opaque?path(d,`data-surface="opaque-paint" fill="${colour}"`):path(d,`fill="url(#${p}-${filter==='neck'?'neck-grain':state.bodyColour?'material':'grain'})" ${filter==='neck'?`filter="url(#${p}-neck)"`:`filter="url(#${p}-${state.bodyColour||finish.colour?'surface-dye':'wood'})"`}`)}${path(d,`fill="url(#${p}-${filter==='neck'?'neck-round':'light'})" stroke="#5b4934" stroke-width="${stroke}"`)}${path(d,'fill="none" stroke="#fff0cd" stroke-width=".6" stroke-opacity=".6"')}</g>`;
       // The neck ends at the source heel. No stripe continues through the body.
       out+=`<g data-layer="rear-neck" data-part="detachable-neck" data-grain="independent-neck" data-neck-joint="bolt-on" data-lamination="illustrative">`;
       let neckContents=surface(joinedNeck,'neck')+`<g clip-path="url(#${p}-neck-clip)">`;
@@ -57,7 +57,7 @@
       // Trace the actual neck/body boundary, not the heel relief contour.
       // A continuous seam remains readable at full-instrument mobile size.
       out+=`<g data-layer="rear-joint-seam" data-placement="pdf-boundary" data-relief="illustrative">${path(g.jointSeam,'fill="none" stroke="#050403" stroke-width="3.2" stroke-opacity=".55" vector-effect="non-scaling-stroke" stroke-linecap="round"')}${path(g.jointSeam,'fill="none" stroke="#fff0cc" stroke-width=".8" transform="translate(-2 0)" vector-effect="non-scaling-stroke"')}${path(g.jointSeam,'fill="none" stroke="#15120f" stroke-width="1.3" vector-effect="non-scaling-stroke" stroke-linecap="round"')}</g>`;
-      out+=`<g data-layer="rear-cavity" data-contour="pdf-vector">${finish.opaque?path(g.cavity,`fill="${colour}"`):path(g.cavity,`fill="url(#${p}-material)" ${finish.colour?`filter="url(#${p}-surface-dye)"`:''}`)}${path(g.cavity,'fill="#000" fill-opacity=".12" stroke="#302c27" stroke-width="1.3"')}</g>`;
+      out+=`<g data-layer="rear-cavity" data-contour="pdf-vector">${finish.opaque?path(g.cavity,`fill="${colour}"`):path(g.cavity,`fill="url(#${p}-material)" filter="url(#${p}-surface-dye)"`)}${path(g.cavity,'fill="#000" fill-opacity=".12" stroke="#302c27" stroke-width="1.3"')}</g>`;
       out+=`<g data-layer="rear-battery" data-contour="pdf-vector">${path(g.battery,'fill="#262827" stroke="#777b78" stroke-width="1"')}</g>`;
       out+=`<g data-layer="rear-bolts" data-count="5" data-placement="pdf-centres">`;
       for(const [x,y,r] of g.bolts)out+=`<circle cx="${x}" cy="${y}" r="${r}" fill="#2a2521"/><circle cx="${x}" cy="${y}" r="${r*.82}" fill="url(#${p}-metal)" stroke="#151617" stroke-width=".6"/><circle cx="${x}" cy="${y}" r="${r*.27}" fill="#282b2a"/>`;
