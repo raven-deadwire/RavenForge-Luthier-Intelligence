@@ -657,3 +657,36 @@ console.log('PASS: Xtender mechanism, unknown tuner markers, GRAMR catalog guard
  }
 }
 console.log('PASS: Hipshot offset/casing/key connection, HE6 both-view layer/count, EDDA full-size registration and four nut-to-post strings');
+// Finish appearance: colour depends on the wood and the finish type; every filter
+// or pattern an SVG references must exist, or the browser silently drops the layer.
+{
+ const materials=require('../assets/configurator-materials.js');
+ const look=(top,wood,colour,opaque=false)=>materials.finishLook({selections:{color_top:top},finish:{colour,opaque},bodyColour:wood},false);
+ const lum=hex=>{const [r,g,b]=hex.match(/[a-f\d]{2}/gi).map(v=>parseInt(v,16));return .2126*r+.7152*g+.0722*b;};
+ const rgb=hex=>hex.match(/[a-f\d]{2}/gi).map(v=>parseInt(v,16));
+ const kinds=['top_oil','top_stain','top_tint','top_open','top_gloss'];
+ for(const kind of kinds){
+  assert.ok(lum(look(kind,'#765644','#9d282b').base)<lum(look(kind,'#e2c695','#9d282b').base)*.8,`${kind}: the same transparent colour is darker on walnut than on maple`);
+  for(const opaque of ['#275f89','#112233'])assert.equal(look(kind,'#765644',opaque,true).base,opaque,`${kind}: opaque paint keeps the exact colour`);
+  for(const wood of ['#e2c695','#c5a779','#bd8d61']){
+   const red=rgb(look(kind,wood,'#9d282b').dye),blue=rgb(look(kind,wood,'#275f89').dye);
+   assert.ok(red[0]>red[2]*1.5,`${kind}: red stays red over ${wood}`);
+   assert.ok(blue[2]>blue[0]*1.5,`${kind}: blue stays blue over ${wood}`);
+  }
+ }
+ assert.equal(new Set(kinds.map(kind=>look(kind,'#e2c695','#9d282b').dye)).size,kinds.length,'Each finish type changes the transparent colour');
+ assert.notEqual(look('top_oil','#e2c695',null).base,look('top_tint','#e2c695',null).base,'Oil warms natural wood');
+ for(const language of ['en','ko','de'])assert.equal(preview.copy[language].colourNames.length,14,`${language}: one name per colour swatch`);
+ let renders=0;
+ for(const model of ['EDDA','EMBLA','ASKR','GRAMR'])for(const kind of ['oil','stain','tint','open','gloss'])for(const colour of ['','transparent #9d282b','solid #275f89'])for(const side of ['front','back']){
+  // Wood knobs and a wood guard also use the surface dye, including under opaque paint.
+  const s={...normalize(model),color_top:'top_'+kind,color_back_side:'back_'+kind,extra_finish_burst:'burst_add',neck_finish:'neck_body',knob:'knob_wood',pickguard:model==='GRAMR'?'pg_standard':'pg_add',pickguard_material:'pg_wood'};
+  const svg=preview.renderSvg(preview.scene(model,s,colour),side,'en');renders++;
+  const ids=new Set([...svg.matchAll(/\sid="([^"]+)"/g)].map(m=>m[1]));
+  for(const m of svg.matchAll(/url\(#([^)]+)\)/g))assert.ok(ids.has(m[1]),`${model}/${kind}/${colour||'natural'}/${side}: #${m[1]} must be defined`);
+  if(!/data-sheen="/.test(svg))continue;
+  assert.match(svg,new RegExp(`data-finish-kind="${kind}" data-sheen="${{oil:'matte',stain:'satin',tint:'satin',open:'matte',gloss:'gloss'}[kind]}"`));
+ }
+ assert.equal(renders,120);
+}
+console.log('PASS: finish appearance follows wood and finish type, opaque keeps exact colour, 14 named swatches and 120 renders with resolved references');
