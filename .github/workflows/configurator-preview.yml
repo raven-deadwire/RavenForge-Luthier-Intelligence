@@ -5,7 +5,8 @@ on:
   # Live-site regressions are owned by main: audit Pages after each deploy and
   # daily, so a cancelled or stuck deploy is also reported.
   workflow_run:
-    workflows: ['pages-build-deployment']
+    # Registered name and run display name of the dynamic Pages workflow.
+    workflows: ['pages-build-deployment', 'pages build and deployment']
     types: [completed]
     branches: [main]
   schedule:
