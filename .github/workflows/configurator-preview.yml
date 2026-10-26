@@ -1,32 +1,65 @@
 name: Configurator production QA
 on:
   pull_request:
-    paths: ['configurator.html', 'assets/configurator-platforms.js', 'assets/configurator-ui.js', 'tools/test_configurator_contracts.cjs', 'tools/test_configurator.cjs', 'tools/test_configurator_homepage.cjs', 'tools/test_configurator_pdf_visual.py', 'index.html', 'ko.html', 'de.html', 'configurator-preview.html', 'assets/configurator-preview.*', 'assets/configurator-tailwind.css', 'tailwind.configurator.config.cjs', 'assets/configurator-materials.js', 'assets/configurator-option-renderer.js', 'assets/configurator-parts-renderer.js', 'assets/configurator-bindrune-motifs.js', 'assets/configurator-geometry.js', 'assets/configurator-gramr-*', 'assets/configurator-bass-rear-geometry.js', 'assets/configurator-bass-front-geometry.js', 'assets/configurator-front/**', 'tools/extract_bass_front_geometry.py', 'assets/configurator-rear*', 'assets/configurator-rear/**', 'assets/configurator-drawing-renderer.js', 'assets/configurator-materials/**', 'assets/configurator-bindrune/**', 'tools/test_configurator_preview*.cjs', 'tools/package_configurator_preview.py', 'tools/build_configurator_standalone.py', '.github/workflows/configurator-preview.yml']
+    paths: ['configurator.html', 'assets/configurator-platforms.js', 'assets/configurator-ui.js', 'tools/test_configurator_contracts.cjs', 'tools/test_configurator.cjs', 'tools/test_configurator_homepage.cjs', 'tools/test_configurator_pdf_visual.py', 'index.html', 'ko.html', 'de.html', 'configurator-preview.html', 'assets/configurator-preview.*', 'assets/configurator-tailwind.css', 'tailwind.configurator.config.cjs', 'assets/configurator-materials.js', 'assets/configurator-option-renderer.js', 'assets/configurator-parts-renderer.js', 'assets/configurator-bindrune-motifs.js', 'assets/configurator-geometry.js', 'assets/configurator-gramr-*', 'assets/configurator-bass-rear-geometry.js', 'assets/configurator-bass-front-geometry.js', 'assets/configurator-front/**', 'tools/extract_bass_front_geometry.py', 'assets/configurator-rear*', 'assets/configurator-rear/**', 'assets/configurator-drawing-renderer.js', 'assets/configurator-materials/**', 'assets/configurator-bindrune/**', 'tools/test_configurator_preview*.cjs', 'tools/package_configurator_preview.py', 'tools/build_configurator_standalone.py', '.github/workflows/configurator-preview.yml', 'tools/check_pages_freshness.py']
+  # Live-site regressions are owned by main: audit Pages after each deploy and
+  # daily, so a cancelled or stuck deploy is also reported.
+  workflow_run:
+    workflows: ['pages-build-deployment']
+    types: [completed]
+    branches: [main]
+  schedule:
+    - cron: '23 5 * * *'
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   homepage:
     name: Homepage quote QA (${{ matrix.target }})
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    # A live audit reports the already-published defect independently of the
-    # candidate. Only the local candidate must pass to accept this change.
-    continue-on-error: ${{ matrix.target == 'live' }}
+    # The live audit tests deployed main against main's own tests, so it says
+    # nothing about this PR. Only the local candidate must pass to accept it;
+    # on main (deploy, schedule) a live failure fails the run.
+    continue-on-error: ${{ matrix.target == 'live' && github.event_name == 'pull_request' }}
     strategy:
       fail-fast: false
       matrix:
-        target: [candidate, live]
+        target: ${{ fromJSON(contains(fromJSON('["workflow_run","schedule"]'), github.event_name) && '["live"]' || '["candidate","live"]') }}
     steps:
       - uses: actions/checkout@v5
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ matrix.target == 'live' && github.event.repository.default_branch || github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+      - name: Load freshness check from this workflow's commit
+        if: matrix.target == 'live'
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          path: .workflow-tools
+          sparse-checkout: tools/check_pages_freshness.py
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - name: Check that Pages serves current main
+        id: freshness
+        if: matrix.target == 'live'
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          python3 .workflow-tools/tools/check_pages_freshness.py https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/
+          # Deploy lag is not a regression; the post-deploy run covers it.
+          # Only the daily audit treats a still-stale site as a failed deploy.
+          if [ "$EVENT_NAME" = schedule ] && grep -qx 'current=false' "$GITHUB_OUTPUT"; then
+            echo '::error title=Pages behind main::GitHub Pages has not deployed the latest main; check the pages-build-deployment runs.'
+            exit 1
+          fi
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
       - name: Install browser and PDF inspection dependencies
         id: dependencies
+        if: steps.freshness.outputs.current != 'false'
         run: |
           npm install --no-save --no-package-lock --no-audit --no-fund playwright@1.49.1
           npx playwright install --with-deps chromium
@@ -36,6 +69,7 @@ jobs:
         if: matrix.target == 'candidate'
         run: python3 -m http.server 8000 --bind 127.0.0.1 > /tmp/homepage-http.log 2>&1 &
       - name: Verify embedded configurations and download 24 actual PDFs
+        if: steps.freshness.outputs.current != 'false'
         env:
           CONFIGURATOR_QA_DIR: ${{ runner.temp }}/homepage-${{ matrix.target }}
           HOMEPAGE_URL: ${{ matrix.target == 'live' && 'https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/index.html' || 'http://127.0.0.1:8000/index.html' }}
@@ -44,7 +78,7 @@ jobs:
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
         run: python3 tools/test_configurator_pdf_visual.py "${{ runner.temp }}/homepage-${{ matrix.target }}" 24
       - name: Upload separate homepage evidence
-        if: always()
+        if: always() && steps.freshness.outputs.current != 'false'
         uses: actions/upload-artifact@v4
         with:
           name: configurator-homepage-${{ matrix.target }}-${{ github.event.pull_request.head.sha || github.sha }}
@@ -52,6 +86,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
   preview:
+    if: contains(fromJSON('["pull_request","workflow_dispatch"]'), github.event_name)
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
