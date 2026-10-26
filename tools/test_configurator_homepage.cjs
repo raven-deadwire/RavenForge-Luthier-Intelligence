@@ -42,6 +42,7 @@ module.exports = async function homepageCases({ page, hostPage, report, output,
     de: { colour: 'Gewünschte Farbe', power: 'Stromversorgung', notes: 'Besondere Wünsche', total: 'Geschätzter Gesamtpreis', partial: 'Zwischensumme mit Preisangabe' },
   };
   report.homepagePdfs = [];
+  report.dotPrices = [];
   for (const model of expectedModels) {
     await hostLanguage('en');
     await freshModel(model.id);
@@ -60,6 +61,23 @@ module.exports = async function homepageCases({ page, hostPage, report, output,
       await selectOption('inlay_dot_mat', 'dot_bw');
       assert.equal(await quotedAmount(), model.basePrice);
     });
+    for (const language of ['ko', 'de', 'en']) {
+      await verify(`${model.id}/${language}: paid dots survive language changes and reselection clears the surcharge`, async () => {
+        await selectOption('inlay_dot_mat', 'dot_avalon');
+        await hostLanguage(language);
+        assert.equal(await option('inlay_dot_mat', 'dot_avalon').isChecked(), true);
+        assert.equal(await quotedAmount(), model.basePrice + 110);
+        await selectOption('inlay_type', 'inlay_none');
+        assert.equal(await option('inlay_dot_mat', 'dot_avalon').count(), 0);
+        assert.equal(await quotedAmount(), model.basePrice);
+        await selectOption('inlay_type', 'inlay_dot');
+        assert.equal(await option('inlay_dot_mat', 'dot_bw').isChecked(), true);
+        assert.equal(await quotedAmount(), model.basePrice);
+        report.dotPrices.push({ model: model.id, language, included: model.basePrice, abalone: model.basePrice + 110 });
+      });
+      // Recover the known deployed defect so independent checks still run.
+      await selectOption('inlay_dot_mat', 'dot_bw');
+    }
     await step(5);
     const passive = model.id === 'EDDA' ? 'passive' : model.id === 'GRAMR' ? 'guitar_passive' : null;
     if (passive) {
@@ -115,14 +133,19 @@ module.exports = async function homepageCases({ page, hostPage, report, output,
         }
         if (language === 'en') assert.equal(text, englishSummary, 'Full summary must survive a round trip');
       });
-      await verify(`${model.id}/${language}: actual PDF matches every quote row and amount`, async () => {
+      for (const material of ['dot_bw', 'dot_avalon']) {
+      await verify(`${model.id}/${language}/${material}: actual PDF matches every quote row and amount`, async () => {
+        await step(2);
+        await selectOption('inlay_dot_mat', material);
+        const expectedAmount = totalAmount + (material === 'dot_avalon' ? 110 : 0);
+        assert.equal(await quotedAmount(), expectedAmount);
         const rows = await page.locator('#quote-list-container > div').allInnerTexts();
         const total = await page.locator('[data-summary-total]').innerText();
         await observePdf();
         const pending = hostPage.waitForEvent('download', { timeout: 60000 });
         await page.locator('#quote-actions-area button').click();
         const download = await pending;
-        const key = `${language}-homepage-${model.id}`;
+        const key = `${language}-homepage-${material}-${model.id}`;
         const filename = `${key}.pdf`;
         await download.saveAs(path.join(output, filename));
         assert.equal(await download.failure(), null);
@@ -137,9 +160,11 @@ module.exports = async function homepageCases({ page, hostPage, report, output,
         await fs.writeFile(path.join(output, `${key}-pdf-source.txt`), inputs[0].text);
         await fs.writeFile(path.join(output, `${key}-summary.txt`), await summary());
         await hostPage.screenshot({ path: path.join(output, `${key}.png`), fullPage: true });
-        report.homepagePdfs.push({ filename, bytes: bytes.length, totalAmount, rows: rows.length });
+        report.homepagePdfs.push({ filename, bytes: bytes.length, totalAmount: expectedAmount, material, rows: rows.length });
       });
+      }
+      await selectOption('inlay_dot_mat', 'dot_bw');
     }
   }
-  assert.equal(report.homepagePdfs.length, 12, 'All four models in all three languages must produce real PDFs');
+  assert.equal(report.homepagePdfs.length, 24, 'All four models, both dot materials and all three languages must produce real PDFs');
 };
