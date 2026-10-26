@@ -42,6 +42,16 @@ for (const [model, count] of [['EDDA', 4], ['EMBLA', 7]]) {
 for (const model of configData.models) {
   const cases = group('case').options;
   assert.equal(cases.find(option => option.id === 'case_premium').prices[model.id] - cases.find(option => option.id === 'case_standard').prices[model.id], 200);
+  const dots = normalizeSelections(model.id, { inlay_type: 'inlay_dot' });
+  assert.equal(dots.inlay_dot_mat, 'dot_bw', `${model.id}: choosing included dots defaults to the included material`);
+  assert.equal(group('inlay_dot_mat').options.find(option => option.id === dots.inlay_dot_mat).prices[model.id], 0);
+  const paidDots = normalizeSelections(model.id, { inlay_type: 'inlay_dot', inlay_dot_mat: 'dot_avalon' });
+  assert.equal(paidDots.inlay_dot_mat, 'dot_avalon', `${model.id}: explicit paid material remains selectable`);
+  assert.equal(group('inlay_dot_mat').options.find(option => option.id === paidDots.inlay_dot_mat).prices[model.id], 110);
+  const noDots = normalizeSelections(model.id, { ...paidDots, inlay_type: 'inlay_none' });
+  assert.equal(Object.hasOwn(noDots, 'inlay_dot_mat'), false, `${model.id}: hidden paid dot material is removed`);
+  const reselectedDots = normalizeSelections(model.id, { ...noDots, inlay_type: 'inlay_dot' });
+  assert.equal(reselectedDots.inlay_dot_mat, 'dot_bw', `${model.id}: reselecting dots starts with the included material`);
 }
 for (const category of configData.categories) {
   for (const entry of category.options) {

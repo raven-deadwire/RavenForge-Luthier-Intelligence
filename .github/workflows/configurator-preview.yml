@@ -1,11 +1,56 @@
 name: Configurator production QA
 on:
   pull_request:
-    paths: ['configurator.html', 'assets/configurator-platforms.js', 'assets/configurator-ui.js', 'tools/test_configurator_contracts.cjs', 'tools/test_configurator.cjs', 'configurator-preview.html', 'assets/configurator-preview.*', 'assets/configurator-tailwind.css', 'tailwind.configurator.config.cjs', 'assets/configurator-materials.js', 'assets/configurator-option-renderer.js', 'assets/configurator-parts-renderer.js', 'assets/configurator-bindrune-motifs.js', 'assets/configurator-geometry.js', 'assets/configurator-gramr-*', 'assets/configurator-bass-rear-geometry.js', 'assets/configurator-bass-front-geometry.js', 'assets/configurator-front/**', 'tools/extract_bass_front_geometry.py', 'assets/configurator-rear*', 'assets/configurator-rear/**', 'assets/configurator-drawing-renderer.js', 'assets/configurator-materials/**', 'assets/configurator-bindrune/**', 'tools/test_configurator_preview*.cjs', 'tools/package_configurator_preview.py', 'tools/build_configurator_standalone.py', '.github/workflows/configurator-preview.yml']
+    paths: ['configurator.html', 'assets/configurator-platforms.js', 'assets/configurator-ui.js', 'tools/test_configurator_contracts.cjs', 'tools/test_configurator.cjs', 'tools/test_configurator_homepage.cjs', 'tools/test_configurator_pdf_visual.py', 'index.html', 'ko.html', 'de.html', 'configurator-preview.html', 'assets/configurator-preview.*', 'assets/configurator-tailwind.css', 'tailwind.configurator.config.cjs', 'assets/configurator-materials.js', 'assets/configurator-option-renderer.js', 'assets/configurator-parts-renderer.js', 'assets/configurator-bindrune-motifs.js', 'assets/configurator-geometry.js', 'assets/configurator-gramr-*', 'assets/configurator-bass-rear-geometry.js', 'assets/configurator-bass-front-geometry.js', 'assets/configurator-front/**', 'tools/extract_bass_front_geometry.py', 'assets/configurator-rear*', 'assets/configurator-rear/**', 'assets/configurator-drawing-renderer.js', 'assets/configurator-materials/**', 'assets/configurator-bindrune/**', 'tools/test_configurator_preview*.cjs', 'tools/package_configurator_preview.py', 'tools/build_configurator_standalone.py', '.github/workflows/configurator-preview.yml']
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
+  homepage:
+    name: Homepage quote QA (${{ matrix.target }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # A live audit reports the already-published defect independently of the
+    # candidate. Only the local candidate must pass to accept this change.
+    continue-on-error: ${{ matrix.target == 'live' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [candidate, live]
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install browser and PDF inspection dependencies
+        id: dependencies
+        run: |
+          npm install --no-save --no-package-lock --no-audit --no-fund playwright@1.49.1
+          npx playwright install --with-deps chromium
+          sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=60 -o Acquire::https::Timeout=60 install -y fonts-noto-cjk tesseract-ocr
+          python3 -m pip install --disable-pip-version-check PyMuPDF Pillow
+      - name: Serve candidate
+        if: matrix.target == 'candidate'
+        run: python3 -m http.server 8000 --bind 127.0.0.1 > /tmp/homepage-http.log 2>&1 &
+      - name: Verify embedded configurations and download 24 actual PDFs
+        env:
+          CONFIGURATOR_QA_DIR: ${{ runner.temp }}/homepage-${{ matrix.target }}
+          HOMEPAGE_URL: ${{ matrix.target == 'live' && 'https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/index.html' || 'http://127.0.0.1:8000/index.html' }}
+        run: node tools/test_configurator.cjs --homepage --url "$HOMEPAGE_URL"
+      - name: Inspect rendered PDF pages and amounts
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: python3 tools/test_configurator_pdf_visual.py "${{ runner.temp }}/homepage-${{ matrix.target }}" 24
+      - name: Upload separate homepage evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: configurator-homepage-${{ matrix.target }}-${{ github.event.pull_request.head.sha || github.sha }}
+          path: ${{ runner.temp }}/homepage-${{ matrix.target }}
+          if-no-files-found: warn
+          retention-days: 30
   preview:
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -29,7 +74,7 @@ jobs:
         run: |
           npm install --no-save --no-package-lock --no-audit --no-fund playwright@1.49.1
           npx playwright install --with-deps chromium
-          sudo apt-get install -y fonts-noto-cjk tesseract-ocr
+          sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=60 -o Acquire::https::Timeout=60 install -y fonts-noto-cjk tesseract-ocr
           python3 -m pip install --disable-pip-version-check PyMuPDF Pillow
       - name: Serve production configurator
         run: python3 -m http.server 8000 --bind 127.0.0.1 > /tmp/preview-http.log 2>&1 &
