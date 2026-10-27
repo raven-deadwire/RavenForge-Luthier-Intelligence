@@ -10,7 +10,8 @@
   const polygon=p=>p.map(q=>q.join(',')).join(' ');
   function definitions(p,state,horizontal=false,back=false){
     // Open-pore finishes fill the pores darker than the surrounding grain.
-    const pores=`<filter id="${p}-pores" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 .07 0 0 0 0 .05 0 0 0 0 .04 -.2126 -.7152 -.0722 0 1"/><feComponentTransfer><feFuncA type="table" tableValues="0 0 0 .12 .55 .9"/></feComponentTransfer></filter>`;
+    // Transparent pixels read as black, so the result is clipped to the shape.
+    const pores=`<filter id="${p}-pores" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 .07 0 0 0 0 .05 0 0 0 0 .04 -.2126 -.7152 -.0722 0 1"/><feComponentTransfer><feFuncA type="table" tableValues="0 0 0 .12 .55 .9"/></feComponentTransfer><feComposite in2="SourceAlpha" operator="in"/></filter>`;
     return materials.surfaceFilter(p+'-surface-dye',materials.finishLook(state,back))+pores+materials.pattern(p+'-material',state.topId,horizontal)+materials.pattern(p+'-board-material',state.selections.fretboard,horizontal)+materials.pattern(p+'-knob-material',state.topId,horizontal)+materials.pattern(p+'-wing-material',state.selections.body_wing_wood,horizontal)+
       `<linearGradient id="${p}-detail-gloss" x1="0" y1="0" x2="1" y2="1"><stop stop-color="white" stop-opacity="0"/><stop offset=".25" stop-color="white" stop-opacity="0"/><stop offset=".32" stop-color="white" stop-opacity=".26"/><stop offset=".36" stop-color="white" stop-opacity=".01"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient>
       <radialGradient id="${p}-knob-shade" cx=".3" cy=".25"><stop stop-color="#fff6df" stop-opacity=".4"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".75"/></radialGradient>

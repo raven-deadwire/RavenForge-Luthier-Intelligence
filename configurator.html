@@ -71,7 +71,7 @@
   <script src="./assets/configurator-materials.js?v=20261026-finish"></script>
   <script src="./assets/configurator-bindrune-motifs.js?v=20261021-v27"></script>
   <script src="./assets/configurator-parts-renderer.js?v=20261021-v27"></script>
-  <script src="./assets/configurator-option-renderer.js?v=20261026-finish"></script>
+  <script src="./assets/configurator-option-renderer.js?v=20261027-pores"></script>
   <script src="./assets/configurator-drawing-renderer.js?v=20261026-finish"></script>
   <script src="./assets/configurator-bass-rear-geometry.js?v=20261021-v27"></script>
   <script src="./assets/configurator-rear-renderer.js?v=20261026-finish"></script>
@@ -1228,9 +1228,11 @@ const handleOptionChange = (categoryId, optionId) => {
         // A4 portrait with a full-width header on every page. One page holds
         // the front and back side by side at 1:8 when the summary fits beside
         // them; otherwise page 1 shows the front and page 2 the back at 1:5,
-        // each beside the specification sheet. Every model uses the same scale.
+        // each beside the specification sheet. GRAMR's shorter body stacks its
+        // two sides at 1:9 on one page, leaving the summary two columns.
+        const onePageLayout = { scale: 8, stacked: false, ...(exportModel === 'GRAMR' ? { scale: 9, stacked: true } : {}) };
         const build = (images, onePage) => {
-          const scale = onePage ? 8 : 5;
+          const scale = onePage ? onePageLayout.scale : 5;
           const source = card.cloneNode(true);
           const header = source.querySelector('#pdf-header');
           const scrollArea = source.querySelector('#quote-scroll-area');
@@ -1241,10 +1243,13 @@ const handleOptionChange = (categoryId, optionId) => {
           Object.assign(header.style, { display: 'flex', padding: '12px', flex: '0 0 auto' });
           list.classList.remove('space-y-3');
           const rows = Array.from(list.children);
+          const stacked = onePage && onePageLayout.stacked;
+          // The wide summary beside stacked images splits into two columns.
+          if (stacked) Object.assign(list.style, { display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '6mm', rowGap: '2px' });
           rows.forEach(row => {
             row.classList.add('rf-pdf-row');
             Object.assign(row.style, { breakInside: 'avoid', pageBreakInside: 'avoid', padding: onePage ? '1px 0' : '2px 0' });
-            if (!onePage) return;
+            if (!onePage || stacked) return;
             // One line per item: category, then the selected value.
             const [text] = row.children;
             const [category, value] = text.children;
@@ -1261,7 +1266,7 @@ const handleOptionChange = (categoryId, optionId) => {
             Object.assign(element.style, { margin: '0', display: 'flex', flexDirection: 'column', alignItems: 'center' });
             const caption = document.createElement('figcaption');
             caption.className = 'text-[10px] text-slate-500 font-bold uppercase tracking-wider';
-            caption.style.marginTop = '6px';
+            Object.assign(caption.style, { marginTop: '6px', whiteSpace: 'nowrap' });
             caption.textContent = exportModel + ' · ' + previewCopy[sides[index].side] + (images[index] ? ' · 1:' + scale : '');
             const image = images[index];
             if (image) {
@@ -1305,7 +1310,15 @@ const handleOptionChange = (categoryId, optionId) => {
             return { sheet, body, left, right };
           });
           const nextList = list.cloneNode(false);
-          if (onePage) {
+          if (stacked) {
+            const stack = document.createElement('div');
+            Object.assign(stack.style, { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3mm', width: imageWidth + 'mm' });
+            stack.append(figure(0), figure(1));
+            pages[0].left.appendChild(stack);
+            pages[0].right.append(baseRow, list);
+            if (instructions) pages[0].right.appendChild(instructions);
+            pages[0].right.appendChild(total);
+          } else if (onePage) {
             const pair = document.createElement('div');
             Object.assign(pair.style, { display: 'flex', alignItems: 'flex-end', gap: '4mm' });
             pair.append(figure(0), figure(1));
