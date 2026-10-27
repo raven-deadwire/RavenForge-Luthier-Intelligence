@@ -139,8 +139,13 @@ module.exports = async function homepageCases({ page, hostPage, report, output,
         await selectOption('inlay_dot_mat', material);
         const expectedAmount = totalAmount + (material === 'dot_avalon' ? 110 : 0);
         assert.equal(await quotedAmount(), expectedAmount);
+        // The PDF is always issued in English; compare it with the English summary.
+        await page.evaluate(() => window.RavenForgeConfigurator.setLanguage('en'));
+        await page.waitForFunction(() => document.documentElement.lang === 'en');
         const rows = await page.locator('#quote-list-container > div').allInnerTexts();
         const total = await page.locator('[data-summary-total]').innerText();
+        await page.evaluate(lang => window.RavenForgeConfigurator.setLanguage(lang), language);
+        await page.waitForFunction(lang => document.documentElement.lang === lang, language);
         await observePdf();
         const pending = hostPage.waitForEvent('download', { timeout: 60000 });
         await page.locator('#quote-actions-area button').click();

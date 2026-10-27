@@ -45,7 +45,10 @@ def inspect(pdf):
     actual = "\n".join(text)
     source = (root / f"{pdf.stem}-pdf-source.txt").read_text()
     model = pdf.stem.split("-")[-1]
-    expected_total = re.findall(r"€\s*([\d,]+)", source)[-1].replace(",", "")
+    # The total follows its "(excl. VAT)" label; on a one-page layout it is not
+    # the last amount in document order, because the summary rows follow it.
+    labelled = re.search(r"(?:VAT|MwSt\.|VAT 별도)\)\s*€\s*([\d,]+)", source, re.I)
+    expected_total = (labelled.group(1) if labelled else re.findall(r"€\s*([\d,]+)", source)[-1]).replace(",", "")
     assert model in actual, f"Model missing from rendered PDF: {pdf.name}"
     # OCR may insert separators into a large amount, but may not substitute
     # another amount. Source text assertions independently compare every row.

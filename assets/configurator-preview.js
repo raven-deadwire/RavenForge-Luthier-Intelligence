@@ -251,7 +251,7 @@
       frets.forEach(pair=>{if(fretted) out+=line(...pair,'stroke="#161616" stroke-width="3.1"');out+=line(...pair,`stroke="${colour}" stroke-width="${fretted?options.fretWidth(s):.8}"`);});
       out+='</g>';
     }
-    const nutColours={guitar_bone_nut:'#e8dfcc',nut_bone:'#e8dfcc',nut_horn:'#262420',nut_guayacan:'#79663e',nut_brass:'#d6b872',nut_guide:'#b8c3cc'};
+    const nutColours={guitar_bone_nut:'#e8dfcc',nut_bone:'#e8dfcc',nut_horn:'#262420',nut_verawood:'#5d6438',nut_brass:'#d6b872',nut_guide:'#b8c3cc'};
     out+=`<g data-layer="nut" data-option="${esc(s.nut_material||'')}" data-zero-fret="${state.model!=='GRAMR'&&fretted}">${line(g.board[0],g.board[1],`stroke="${nutColours[s.nut_material]||'#77808b'}" stroke-width="3"`)}`;
     if(state.model!=='GRAMR'&&fretted) out+=line(point(g.board[0],g.board[3],.008),point(g.board[1],g.board[2],.008),'stroke="#c2c9cc" stroke-width="1.25"');
     out+='</g>';
@@ -303,6 +303,12 @@
     }
     return out+'</g></svg>';
   }
+  // Drawing units per millimetre of each rendered side, so the quote PDF can
+  // print every model at one scale. EMBLA/ASKR come from their drawing
+  // extraction; GRAMR is fret 1 to 12 over its 25.5" scale; EDDA (photo sample)
+  // is nut to bridge over 34", and its rear concept is registered at .712.
+  const drawingUnits={EDDA:{front:.923,back:.923/.712},EMBLA:{front:.8236,back:.8236},ASKR:{front:.946,back:.946},GRAMR:{front:1.0675,back:1.0675}};
+  function unitsPerMm(model,side){return drawingUnits[model]?.[side]||null;}
   function renderSvg(state,view,language,layout){return options.orientation(renderUnoriented(state,view,language,layout),state);}
   const guardCopy={
     ko:{titles:{pickguard:'픽가드',pickguard_material:'픽가드 재질',pickguard_colour:'픽가드 색상',pickguard_finish:'픽가드 표면'},options:{pg_standard:'기본 픽가드',pg_none:'없음',pg_add:'픽가드 추가',pg_acrylic:'아크릴',pg_aluminium:'알루미늄',pg_wood:'바디·탑 매칭 목재',pg_black:'블랙',pg_white:'화이트',pg_ivory:'아이보리',pg_red:'버건디',pg_match:'바디 색상 매칭',pg_matte:'무광',pg_gloss:'유광'},note:'EDDA 선택형·GRAMR 기본 포함 픽가드. GRAMR의 기본 블랙 아크릴·무광 이외 사양은 별도 견적입니다. 선택은 사양표·PDF에 기록되며 추가 가격은 별도 견적입니다. 외곽·재질·표면은 비교용 시안입니다.',woodNote:'매칭 목재는 선택한 바디·탑 수종과 색상을 따릅니다. 실제 재고 무늬와 가공 도면은 별도 확정합니다.',location:'픽가드 유무·재질·색상·표면은 4단계 하드웨어에서 선택합니다.',pending:'실제 외형 미반영'},
@@ -401,7 +407,7 @@
     const imageReady=imageStatus.source===imageKey&&imageStatus.status==='ready';
     const imageFailed=imageStatus.source===imageKey&&imageStatus.status==='error';
     const rows = ['pickguard','pickguard_material','pickguard_colour','pickguard_finish','body_construction','electronics','neck_finish','coil_switch','control_layout','orientation','body_wood_single','body_core_wood','body_wing_wood','top_type','top_wood_selection','neck','fretboard','fret_type','fret_material','fret_size','fret_side','inlay_type','inlay_dot_mat','inlay_dot_pos','inlay_oval_mat','nut_material','color_top','color_back_side','color_headstock','extra_finish_burst','extra_finish_flake','knob','pickup_configuration','pickups','hardware_bridge','hardware_machine_head','hardware_color','fretboard_extense'].filter(id=>s[id]);
-    return h('section',{className:'rf-preview',id:'instrument-preview','aria-labelledby':'preview-title','data-preview-model':props.model,'data-preview-side':view,'data-preview-version':'v27'},
+    return h('section',{className:'rf-preview',id:'instrument-preview','aria-labelledby':'preview-title','data-preview-model':props.model,'data-preview-side':view,'data-neck-accent':neckAccent,'data-preview-version':'v27'},
       h('div',{className:'rf-preview-heading'},h('div',null,h('p',null,t.live),h('h2',{id:'preview-title'},props.model),h('p',{'data-neck-construction':'bolt-on'},t.boltOn)),h('span',{className:'rf-preview-mark','aria-hidden':true},'RAVENFORGE')),
       h('div',{className:'rf-preview-sides','aria-label':t.title},['front','back'].map(id=>h('button',{type:'button',key:id,'data-preview-side':id,'aria-pressed':view===id,onClick:()=>{setView(id);}},t[id]))),
       missing?h('div',{className:'rf-preview-unavailable','data-preview-unavailable':'back',role:'status'},h('strong',null,t.backMissing),h('p',null,t.backMissingNote)):
@@ -472,5 +478,5 @@
       h('div',{className:'rf-colour-modes'},[false,true].map(opaque=>h('button',{type:'button',key:String(opaque),disabled:!finish.colour,'aria-pressed':finish.opaque===opaque,onClick:()=>props.onChange((opaque?'solid ':'transparent ')+finish.colour)},opaque?t.solid:t.transparent)))
     );
   }
-  return {configureTestOptions,scene, renderSvg, parseColour, wood, copy, Component, ColourControls, BindruneExamples, OvalExample, PickupExample, pickupStatus, ovalMark};
+  return {configureTestOptions,scene, renderSvg, unitsPerMm, parseColour, wood, copy, Component, ColourControls, BindruneExamples, OvalExample, PickupExample, pickupStatus, ovalMark};
 }));

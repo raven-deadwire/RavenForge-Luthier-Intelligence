@@ -62,7 +62,7 @@
 </head>
 <body>
   <script src="./assets/configurator-platforms.js?v=20261008-edda-no-coil-switch"></script>
-  <script src="./assets/configurator-ui.js?v=20261026-jindai-elm"></script>
+  <script src="./assets/configurator-ui.js?v=20261027-verawood"></script>
   <!-- Root element for React App -->
   <div id="root"></div>
 
@@ -72,13 +72,13 @@
   <script src="./assets/configurator-materials.js?v=20261026-finish"></script>
   <script src="./assets/configurator-bindrune-motifs.js?v=20261021-v27"></script>
   <script src="./assets/configurator-parts-renderer.js?v=20261021-v27"></script>
-  <script src="./assets/configurator-option-renderer.js?v=20261026-finish"></script>
+  <script src="./assets/configurator-option-renderer.js?v=20261027-pores"></script>
   <script src="./assets/configurator-drawing-renderer.js?v=20261026-finish"></script>
   <script src="./assets/configurator-bass-rear-geometry.js?v=20261021-v27"></script>
   <script src="./assets/configurator-rear-renderer.js?v=20261026-finish"></script>
   <script src="./assets/configurator-bass-front-geometry.js?v=20261021-v27"></script>
   <script src="./assets/configurator-geometry.js?v=20261021-v27"></script>
-  <script src="./assets/configurator-preview.js?v=20261026-finish"></script>
+  <script src="./assets/configurator-preview.js?v=20261027-verawood"></script>
   <script type="text/babel">
     const { useState, useEffect, useMemo } = React;
 
@@ -119,7 +119,7 @@
 
     // Accessories are kept separate from instrument specifications
     const accessoriesList = [
-      { id: 'leather_strap', label: 'Leather strap with Schaller strap lock', spec: '', price: 300 },
+      { id: 'leather_strap', label: 'Leather strap with Schaller S-Lock', spec: 'Schaller S-Lock strap pins matched to the selected hardware colour', price: 300 },
       { id: 'flight_case', label: 'Castle flight hard case', spec: '', price: 400 },
     ];
 
@@ -192,7 +192,7 @@
             { id: 'nut_bone', label: 'white buffalo bone', spec: '', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
             { id: 'nut_horn', label: 'black buffalo horn', spec: '', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
             { id: 'nut_brass', label: 'brass', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'nut_guayacan', label: 'guayacan (lignum vitae)', spec: '(* only for fretless)', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
+            { id: 'nut_verawood', label: 'verawood (Argentine lignum vitae)', spec: '(* only for fretless)', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
             { id: 'nut_guide', label: 'zero-fret string retainer', spec: '(* no separate nut; the retainer guides the strings at the zero fret)', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
             { id: 'nut_others', label: 'others', spec: '', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
@@ -260,7 +260,7 @@
           title: 'Fret Type',
           options: [
             { id: 'fret_24', label: '24 frets with zero fret', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'fretless', label: 'fretless with guayacan nut', spec: '(* must choose guayacan nut)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
+            { id: 'fretless', label: 'fretless with verawood nut', spec: '(* must choose verawood nut)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
           ]
         },
         {
@@ -825,7 +825,7 @@
   // Keep nut function compatible with the selected fret format; materials remain selectable.
   if (categoryId === 'nut_material') {
     if (currentSelections['fret_type'] === 'fretless' && ['nut_brass', 'nut_guide'].includes(optionId)) return false;
-    if (currentSelections['fret_type'] !== 'fretless' && optionId === 'nut_guayacan') return false;
+    if (currentSelections['fret_type'] !== 'fretless' && optionId === 'nut_verawood') return false;
   }
 
   // 3. 3 pickup 옵션 선택 시 특정 프리앰프, 픽업 및 별도 핑거램프 제한
@@ -982,6 +982,8 @@
              breakdown.push({
                categoryTitle: ui.accessories,
                label: optionLabel(opt),
+               // The strap lock's S-Lock pins follow the selected hardware colour.
+               detail: opt.id === 'leather_strap' && selections.hardware_color ? ui.strapPins.replace('{colour}', selectedOptionLabel('hardware_color')) : '',
                price: opt.price,
                isStandard: false
              });
@@ -1042,11 +1044,11 @@ const handleOptionChange = (categoryId, optionId) => {
       }
     }
 
-    // Fretless 선택 시 guayacan nut 자동 적용; fretted로 복귀 시 기본 brass nut으로 복귀
+    // Fretless 선택 시 verawood nut 자동 적용; fretted로 복귀 시 기본 brass nut으로 복귀
     if (categoryId === 'fret_type') {
       if (optionId === 'fretless') {
-        nextSelections['nut_material'] = 'nut_guayacan';
-      } else if (nextSelections['nut_material'] === 'nut_guayacan') {
+        nextSelections['nut_material'] = 'nut_verawood';
+      } else if (nextSelections['nut_material'] === 'nut_verawood') {
         nextSelections['nut_material'] = 'nut_brass';
       }
     }
@@ -1146,52 +1148,278 @@ const handleOptionChange = (categoryId, optionId) => {
         );
       };
 
+      // Labels shown in the live preview and in the PDF images.
+      const previewLabels = Object.fromEntries(configData.categories.filter(cat => selections[cat.id]).map(cat => [cat.id, selectedOptionLabel(cat.id)]));
+
+      // html2canvas cannot resolve the preview SVG's texture references, so each
+      // side is drawn to a bitmap with its referenced files inlined first. The
+      // blank margin is trimmed and the result's real size returned in mm.
+      const rasterizePreview = async (svg, unitsPerMm) => {
+        const sources = [...new Set(Array.from(svg.matchAll(/href="([^"#][^"]*)"/g), match => match[1]).filter(src => !src.startsWith('data:')))];
+        const inlined = await Promise.all(sources.map(async src => {
+          const response = await fetch(src);
+          if (!response.ok) throw new Error('Preview texture unavailable: ' + src);
+          const blob = await response.blob();
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+          });
+        }));
+        sources.forEach((src, index) => { svg = svg.split('href="' + src + '"').join('href="' + inlined[index] + '"'); });
+        const [, , width, height] = svg.match(/viewBox="([^"]+)"/)[1].trim().split(/[\s,]+/).map(Number);
+        const pxPerUnit = 2400 / height;
+        const rootEnd = svg.indexOf('>');
+        svg = svg.slice(0, rootEnd).replace(/\s(?:width|height)="[^"]*"/g, '') + ` width="${width * pxPerUnit}" height="${height * pxPerUnit}"` + svg.slice(rootEnd);
+        const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+        try {
+          const image = new Image();
+          await new Promise((resolve, reject) => { image.onload = resolve; image.onerror = reject; image.src = url; });
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.round(width * pxPerUnit);
+          canvas.height = Math.round(height * pxPerUnit);
+          const context = canvas.getContext('2d');
+          context.fillStyle = '#fff';
+          context.fillRect(0, 0, canvas.width, canvas.height);
+          context.drawImage(image, 0, 0, canvas.width, canvas.height);
+          const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+          // Scan inwards from each edge and stop at the first inked row or column.
+          const ink = (x, y) => {
+            const offset = (y * canvas.width + x) * 4;
+            return pixels[offset] < 245 || pixels[offset + 1] < 245 || pixels[offset + 2] < 245;
+          };
+          const rowHasInk = y => { for (let x = 0; x < canvas.width; x++) if (ink(x, y)) return true; return false; };
+          let top = 0;
+          while (top < canvas.height && !rowHasInk(top)) top++;
+          if (top === canvas.height) throw new Error('Preview image is blank');
+          let bottom = canvas.height - 1;
+          while (!rowHasInk(bottom)) bottom--;
+          const columnHasInk = x => { for (let y = top; y <= bottom; y++) if (ink(x, y)) return true; return false; };
+          let left = 0;
+          while (!columnHasInk(left)) left++;
+          let right = canvas.width - 1;
+          while (!columnHasInk(right)) right--;
+          const crop = document.createElement('canvas');
+          crop.width = right - left + 1;
+          crop.height = bottom - top + 1;
+          crop.getContext('2d').drawImage(canvas, left, top, crop.width, crop.height, 0, 0, crop.width, crop.height);
+          return {
+            src: crop.toDataURL('image/jpeg', 0.92),
+            widthMm: crop.width / pxPerUnit / unitsPerMm,
+            heightMm: crop.height / pxPerUnit / unitsPerMm
+          };
+        } finally {
+          URL.revokeObjectURL(url);
+        }
+      };
+
       const handleRequestQuote = async () => {
         if (isGeneratingPDF) return;
         setPdfError('');
         setIsGeneratingPDF(true);
         const exportModel = selectedModel;
-        // Capture a stable document before any asynchronous work or model changes.
-        const snapshot = document.getElementById('quote-summary-card').cloneNode(true);
-        snapshot.classList.remove('sticky', 'top-24', 'shadow-xl');
-        Object.assign(snapshot.style, { width: '190mm', maxWidth: 'none', background: '#fff', boxShadow: 'none', border: '0', borderRadius: '0', overflow: 'visible' });
-        const scrollArea = snapshot.querySelector('#quote-scroll-area');
-        const actionsArea = snapshot.querySelector('#quote-actions-area');
-        const uiHeader = snapshot.querySelector('#ui-header');
-        const pdfHeader = snapshot.querySelector('#pdf-header');
-        const listContainer = snapshot.querySelector('#quote-list-container');
-        actionsArea.remove();
-        uiHeader.remove();
-        pdfHeader.style.display = 'flex';
-        pdfHeader.style.padding = '12px';
-        scrollArea.classList.remove('mb-6', 'max-h-[calc(100vh-420px)]', 'min-h-[300px]', 'overflow-y-auto', 'custom-scrollbar', 'pr-2');
-        Object.assign(scrollArea.style, { maxHeight: 'none', minHeight: '0', overflow: 'visible', paddingRight: '0' });
-        // Keep all trailing decoration inside the non-splitting total block.
-        // Outer card padding/borders can otherwise create a border-only PDF page.
-        scrollArea.parentElement.style.padding = '12px 12px 0';
-        listContainer.classList.remove('space-y-3');
-        Object.assign(listContainer.style, { display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px', rowGap: '2px' });
-        Array.from(listContainer.children).forEach(row => {
-          row.classList.add('rf-pdf-row');
-          row.style.breakInside = 'avoid';
-          row.style.pageBreakInside = 'avoid';
-        });
-        const total = snapshot.querySelector('[data-summary-total]');
-        total.classList.add('rf-pdf-total');
-        total.style.breakInside = 'avoid';
-        total.style.pageBreakInside = 'avoid';
-        total.style.paddingBottom = '12px';
-        // The detached snapshot must not duplicate application element IDs.
-        snapshot.removeAttribute('id');
-        snapshot.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
-        // Materialize CSS uppercase in the export copy. html2canvas 1.x uses
-        // transformed text offsets against the original node; German ß -> SS
-        // otherwise exceeds the Range length (for example, Bundgröße).
-        snapshot.querySelectorAll('.uppercase').forEach(element => {
-          const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
-          while (walker.nextNode()) walker.currentNode.data = walker.currentNode.data.toUpperCase();
-          element.style.textTransform = 'none';
-        });
+        // The quote is always issued in English, whatever the page language:
+        // render the summary in English for the copy, then restore the page.
+        if (language !== 'en') ReactDOM.flushSync(() => setLanguage('en'));
+        let card;
+        try {
+          // Capture a stable document before any asynchronous work or model changes.
+          card = document.getElementById('quote-summary-card').cloneNode(true);
+        } finally {
+          if (language !== 'en') ReactDOM.flushSync(() => setLanguage(language));
+        }
+        const previewState = RavenForgePreview.scene(exportModel, selections, finishColor, previewLabels, previewBindrunes[exportModel],
+          { specialOptions, pickguard: selections.pickguard, neckAccent: document.getElementById('instrument-preview')?.dataset.neckAccent });
+        const sides = ['front', 'back'].map(side => ({
+          side,
+          svg: RavenForgePreview.renderSvg(previewState, side, 'en', 'portrait'),
+          unitsPerMm: RavenForgePreview.unitsPerMm(exportModel, side)
+        }));
+        const previewCopy = RavenForgePreview.copy.en;
+
+        // A4 portrait with a full-width header on every page, never more than
+        // two pages. One page holds the front and back side by side at 1:8
+        // (GRAMR's shorter body stacked at 1:9) when the summary fits beside
+        // them, shrunk at most to MIN_ONE_PAGE. Otherwise page 1 shows the
+        // front and page 2 the back at 1:5, each beside the specification;
+        // the remainder on page 2 splits into two columns and, if needed,
+        // shrinks to fit. Every model uses the same scale in each layout.
+        const MIN_ONE_PAGE = 0.85;
+        const onePageLayout = { scale: 8, stacked: false, ...(exportModel === 'GRAMR' ? { scale: 9, stacked: true } : {}) };
+        // Shrink a column uniformly so it fits its page; the wider layout
+        // width lets its text reflow into fewer lines.
+        const fitColumn = (column, available, ratio) => {
+          const height = column.offsetHeight;
+          Object.assign(column.style, { flex: '0 0 auto', width: column.offsetWidth / ratio + 'px', transform: `scale(${ratio})`, transformOrigin: 'top left', marginBottom: -(height * (1 - ratio)) + 'px' });
+        };
+        const build = (images, onePage) => {
+          const scale = onePage ? onePageLayout.scale : 5;
+          const source = card.cloneNode(true);
+          const header = source.querySelector('#pdf-header');
+          const scrollArea = source.querySelector('#quote-scroll-area');
+          const list = source.querySelector('#quote-list-container');
+          const baseRow = scrollArea.firstElementChild;
+          const instructions = list.nextElementSibling;
+          const total = source.querySelector('[data-summary-total]');
+          Object.assign(header.style, { display: 'flex', padding: '12px', flex: '0 0 auto' });
+          list.classList.remove('space-y-3');
+          const rows = Array.from(list.children);
+          const stacked = onePage && onePageLayout.stacked;
+          // The wide summary beside stacked images splits into two columns.
+          if (stacked) Object.assign(list.style, { display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '6mm', rowGap: '2px' });
+          rows.forEach(row => {
+            row.classList.add('rf-pdf-row');
+            Object.assign(row.style, { breakInside: 'avoid', pageBreakInside: 'avoid', padding: onePage ? '1px 0' : '2px 0' });
+            if (!onePage || stacked) return;
+            // One line per item: category, then the selected value.
+            const [text] = row.children;
+            const [category, value] = text.children;
+            Object.assign(text.style, { display: 'flex', gap: '2mm', flex: '1 1 auto', minWidth: '0' });
+            Object.assign(category.style, { flex: '0 0 26mm', marginBottom: '0', paddingTop: '2px', lineHeight: '1.25' });
+            Object.assign(value.style, { flex: '1 1 auto', minWidth: '0', marginTop: '0' });
+          });
+          total.classList.add('rf-pdf-total');
+          Object.assign(total.style, { breakInside: 'avoid', pageBreakInside: 'avoid', marginTop: '12px' });
+          if (instructions) instructions.style.marginTop = '12px';
+
+          const figure = index => {
+            const element = document.createElement('figure');
+            Object.assign(element.style, { margin: '0', display: 'flex', flexDirection: 'column', alignItems: 'center' });
+            const caption = document.createElement('figcaption');
+            caption.className = 'text-[10px] text-slate-500 font-bold uppercase tracking-wider';
+            Object.assign(caption.style, { marginTop: '6px', whiteSpace: 'nowrap' });
+            caption.textContent = exportModel + ' · ' + previewCopy[sides[index].side] + (images[index] ? ' · 1:' + scale : '');
+            const image = images[index];
+            if (image) {
+              const img = document.createElement('img');
+              img.src = image.src;
+              img.alt = caption.textContent;
+              Object.assign(img.style, { display: 'block', width: image.widthMm / scale + 'mm', height: image.heightMm / scale + 'mm', maxWidth: 'none' });
+              element.appendChild(img);
+            } else {
+              const note = document.createElement('p');
+              note.className = 'text-xs text-slate-500';
+              note.style.width = '60mm';
+              note.textContent = sides[index].svg ? previewCopy.imageError : previewCopy.backMissing;
+              element.appendChild(note);
+            }
+            element.appendChild(caption);
+            return element;
+          };
+          const imageWidth = Math.max(...images.map(image => image ? image.widthMm / scale : 60));
+
+          const snapshot = document.createElement('div');
+          Object.assign(snapshot.style, { width: '190mm', background: '#fff' });
+          const pages = Array.from({ length: onePage ? 1 : 2 }, (_, index) => {
+            const sheet = document.createElement('section');
+            sheet.setAttribute('data-pdf-page', String(index + 1));
+            // html2pdf slices one canvas into pages; the white top strip keeps
+            // a rounded page boundary from showing the next header's edge.
+            Object.assign(sheet.style, { display: 'flex', flexDirection: 'column', gap: '5mm', paddingTop: '2mm', boxSizing: 'border-box', height: '276mm', overflow: 'hidden' });
+            if (index > 0) Object.assign(sheet.style, { breakBefore: 'page', pageBreakBefore: 'always' });
+            const body = document.createElement('div');
+            Object.assign(body.style, { display: 'flex', alignItems: 'flex-start', gap: '6mm', flex: '1 1 auto', minHeight: '0' });
+            const left = document.createElement('div');
+            Object.assign(left.style, { flex: '0 0 auto', display: 'flex', flexDirection: 'column' });
+            const right = document.createElement('div');
+            right.className = 'text-sm';
+            Object.assign(right.style, { flex: '1 1 auto', minWidth: '0' });
+            body.append(left, right);
+            sheet.append(index === 0 ? header : header.cloneNode(true), body);
+            snapshot.appendChild(sheet);
+            return { sheet, body, left, right };
+          });
+          const nextList = list.cloneNode(false);
+          if (stacked) {
+            const stack = document.createElement('div');
+            Object.assign(stack.style, { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3mm', width: imageWidth + 'mm' });
+            stack.append(figure(0), figure(1));
+            pages[0].left.appendChild(stack);
+            pages[0].right.append(baseRow, list);
+            if (instructions) pages[0].right.appendChild(instructions);
+            pages[0].right.appendChild(total);
+          } else if (onePage) {
+            const pair = document.createElement('div');
+            Object.assign(pair.style, { display: 'flex', alignItems: 'flex-end', gap: '4mm' });
+            pair.append(figure(0), figure(1));
+            // The images set the column width; long text below them wraps.
+            pages[0].left.style.width = images.reduce((sum, image) => sum + (image ? image.widthMm / scale : 60), 4) + 'mm';
+            pages[0].left.appendChild(pair);
+            // Special instructions follow the price under the images.
+            pages[0].left.appendChild(total);
+            if (instructions) pages[0].left.appendChild(instructions);
+            pages[0].right.append(baseRow, list);
+          } else {
+            pages.forEach((page, index) => {
+              page.left.style.width = imageWidth + 'mm';
+              page.left.appendChild(figure(index));
+            });
+            pages[0].right.append(baseRow, list);
+            if (instructions) pages[0].right.appendChild(instructions);
+            pages[0].right.appendChild(total);
+            pages[1].right.appendChild(nextList);
+          }
+          // The detached snapshot must not duplicate application element IDs.
+          snapshot.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
+          // Materialize CSS uppercase in the export copy. html2canvas 1.x uses
+          // transformed text offsets against the original node; German ß -> SS
+          // otherwise exceeds the Range length (for example, Bundgröße).
+          snapshot.querySelectorAll('.uppercase').forEach(element => {
+            const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+            while (walker.nextNode()) walker.currentNode.data = walker.currentNode.data.toUpperCase();
+            element.style.textTransform = 'none';
+          });
+          // html2canvas splits hyphenated words differently from the browser's
+          // line breaks and overprints them ("2-2-1 layout"); keep each such word
+          // in one unbreakable box. The text itself is unchanged.
+          const hyphenated = /\S*\w-\w\S*/g;
+          const textNodes = [];
+          const textWalker = document.createTreeWalker(snapshot, NodeFilter.SHOW_TEXT);
+          while (textWalker.nextNode()) if (/\w-\w/.test(textWalker.currentNode.data)) textNodes.push(textWalker.currentNode);
+          textNodes.forEach(node => {
+            const fragment = document.createDocumentFragment();
+            let last = 0;
+            for (const match of node.data.matchAll(hyphenated)) {
+              fragment.append(node.data.slice(last, match.index));
+              const word = document.createElement('span');
+              Object.assign(word.style, { display: 'inline-block', whiteSpace: 'nowrap' });
+              word.textContent = match[0];
+              fragment.append(word);
+              last = match.index + match[0].length;
+            }
+            fragment.append(node.data.slice(last));
+            node.replaceWith(fragment);
+          });
+          // Lay out off-screen at the PDF width to measure what fits.
+          Object.assign(snapshot.style, { position: 'fixed', left: '-10000px', top: '0' });
+          document.body.appendChild(snapshot);
+          let fits = true;
+          const [first, second] = pages;
+          const available = first.body.clientHeight;
+          if (onePage) {
+            const millimetre = first.sheet.clientHeight / 276;
+            const ratio = Math.min(1, available / first.right.offsetHeight);
+            fits = first.left.offsetHeight <= available && first.right.clientWidth >= 80 * millimetre && ratio >= MIN_ONE_PAGE;
+            if (fits && ratio < 1) fitColumn(first.right, available, ratio);
+          } else {
+            // Move the trailing summary blocks to page 2 until page 1 fits.
+            const tail = [...rows, instructions, total].filter(Boolean);
+            while (first.right.offsetHeight > available && tail.length) {
+              const item = tail.pop();
+              if (rows.includes(item)) nextList.prepend(item);
+              else nextList.after(item);
+            }
+            if (second.right.offsetHeight > available) {
+              Object.assign(nextList.style, { display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '6mm', rowGap: '2px' });
+            }
+            if (second.right.offsetHeight > available) fitColumn(second.right, available, available / second.right.offsetHeight);
+          }
+          snapshot.remove();
+          Object.assign(snapshot.style, { position: '', left: '', top: '' });
+          return { snapshot, fits };
+        };
+
         const opt = {
           margin: 10,
           filename: 'RavenForge_' + exportModel + '_Specification.pdf',
@@ -1201,11 +1429,14 @@ const handleOptionChange = (categoryId, optionId) => {
           jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
         try {
-          await html2pdf().set(opt).from(snapshot).save();
+          const images = await Promise.all(sides.map(({ svg, unitsPerMm }) => svg && unitsPerMm ? rasterizePreview(svg, unitsPerMm).catch(() => null) : null));
+          await Promise.all(images.filter(Boolean).map(image => { const img = new Image(); img.src = image.src; return img.decode().catch(() => {}); }));
+          let layout = build(images, true);
+          if (!layout.fits) layout = build(images, false);
+          await html2pdf().set(opt).from(layout.snapshot).save();
         } catch (error) {
           setPdfError(ui.pdfError);
         } finally {
-          snapshot.remove();
           setIsGeneratingPDF(false);
         }
       };
@@ -1241,7 +1472,7 @@ const handleOptionChange = (categoryId, optionId) => {
               <aside className="rf-preview-column">
                 <RavenForgePreview.Component model={selectedModel} selections={selections} finishColor={finishColor}
                   language={language} categoryTitles={ui.categoryTitles} specialOptions={specialOptions} bindruneExample={previewBindrunes[selectedModel]}
-                  labels={Object.fromEntries(configData.categories.filter(cat => selections[cat.id]).map(cat => [cat.id, selectedOptionLabel(cat.id)]))} />
+                  labels={previewLabels} />
               </aside>
               <div id="config-options" className="rf-config-options space-y-8">
                 {/* Step Indicator */}
@@ -1592,13 +1823,15 @@ const handleOptionChange = (categoryId, optionId) => {
                             <label htmlFor="special-instructions" className="block text-sm font-semibold text-slate-700 mb-2">{ui.specialInstructions}</label>
                             <p id="special-instructions-note" className="text-xs text-slate-500 mb-3">{ui.instructionsNote}</p>
                             <textarea
-                              id="special-instructions" aria-describedby="special-instructions-note"
+                              id="special-instructions" aria-describedby="special-instructions-note special-instructions-count"
+                              maxLength={1000}
                               value={specialInstructions}
-                              onChange={(e) => setSpecialInstructions(e.target.value)}
+                              onChange={(e) => setSpecialInstructions(e.target.value.slice(0, 1000))}
                               className="w-full p-4 border-2 border-slate-200 rounded-lg focus:border-red-700 focus:outline-none focus:ring-1 focus:ring-red-700 text-sm transition-colors duration-200 custom-scrollbar"
                               rows="4"
                               placeholder={ui.instructionsPlaceholder}
                             ></textarea>
+                            <p id="special-instructions-count" className="text-xs text-slate-500 mt-1 text-right">{specialInstructions.length} / 1000</p>
                           </div>
                         </div>
                       </div>

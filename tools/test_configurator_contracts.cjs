@@ -92,4 +92,15 @@ for (const entry of [...configData.categories.flatMap(category => category.optio
 for (const model of configData.models) platforms.upcoming(model.id, configData).forEach(group => group.options.forEach(entry => addSource(entry.label)));
 assert.deepEqual(Object.keys(i18n.de.catalog).sort(), Object.keys(i18n.ko.catalog).sort(), 'ko and de translate the same catalog text');
 for (const text of Object.keys(i18n.ko.catalog)) assert.ok(catalogSource.has(text), `Catalog translation key matches current source text: ${text}`);
-console.log('PASS: code-only stale coil/nut normalization, other models, bridges, €0 standard options, €200 gigbag difference, localized UI strings and catalog translations');
+// Special instructions stay within 1,000 characters so the PDF fits two pages,
+// and the quote is always rendered in English.
+assert.match(html, /maxLength=\{1000\}/);
+assert.match(html, /setSpecialInstructions\(e\.target\.value\.slice\(0, 1000\)\)/);
+assert.match(html, /flushSync\(\(\) => setLanguage\('en'\)\)/);
+// Fretless nuts are verawood (guayacan is no longer sourced), and the strap
+// lock's Schaller S-Lock pins follow the selected hardware colour.
+assert.doesNotMatch(html, /guayacan/i);
+assert.match(html, /id: 'nut_verawood', label: 'verawood \(Argentine lignum vitae\)'/);
+assert.match(html, /detail: opt\.id === 'leather_strap' && selections\.hardware_color \? ui\.strapPins\.replace\('\{colour\}', selectedOptionLabel\('hardware_color'\)\)/);
+for (const language of ['en', 'ko', 'de']) assert.match(i18n[language].strapPins, /S-Lock.*\{colour\}/);
+console.log('PASS: code-only stale coil/nut normalization, other models, bridges, €0 standard options, €200 gigbag difference, localized UI strings and catalog translations, 1,000-character instructions, English PDF, verawood nut and S-Lock pin colour');
