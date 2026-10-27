@@ -36,7 +36,7 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
  },
  "Maurizio Über Basses": {
   "model": "X3M / Airborne",
-  "shots": [ { "label": "X3M", "src": "assets/analysis/maurizio-ber-basses-1.webp", "pos": "50% 66%" }, { "label": "Airborne", "src": "assets/analysis/maurizio-ber-basses-2.webp", "pos": "50% 65%" } ],
+  "shots": [ { "label": "X3M", "src": "assets/analysis/maurizio-uber-basses-1.webp", "pos": "50% 66%" }, { "label": "Airborne", "src": "assets/analysis/maurizio-uber-basses-2.webp", "pos": "50% 65%" } ],
   "source": "https://www.mubcustom.com/"
  },
  "Oroboro Guitars": {
@@ -252,7 +252,7 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
  "Häussel Pickups": {
   "pair": true,
   "model": "MM 5-string / JB 5-string 70ies",
-  "shots": [ { "label": "MM 5-string", "src": "assets/analysis/h-ussel-pickups-1.webp", "pos": "50% 50%", "zoom": 1.03, "origin": "50% 50%", "fit": "cover" }, { "label": "JB 5-string 70ies", "src": "assets/analysis/h-ussel-pickups-2.webp", "pos": "50% 50%", "zoom": 1.03, "origin": "50% 50%", "fit": "cover" } ],
+  "shots": [ { "label": "MM 5-string", "src": "assets/analysis/haussel-pickups-1.webp", "pos": "50% 50%", "zoom": 1.03, "origin": "50% 50%", "fit": "cover" }, { "label": "JB 5-string 70ies", "src": "assets/analysis/haussel-pickups-2.webp", "pos": "50% 50%", "zoom": 1.03, "origin": "50% 50%", "fit": "cover" } ],
   "source": "https://www.haeussel.com/"
  },
  "McGrath Guitars — 12-Way Rotary Selector": {

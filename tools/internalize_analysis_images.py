@@ -30,6 +30,7 @@ import json
 import re
 import sys
 import time
+import unicodedata
 import urllib.request
 from pathlib import Path
 
@@ -64,6 +65,8 @@ def unwrap(url: str) -> str | None:
 
 
 def slug(text: str) -> str:
+    # Häussel -> haussel, not h-ussel
+    text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii')
     return re.sub(r'[^a-z0-9]+', '-', text.lower()).strip('-')[:48]
 
 
@@ -121,7 +124,7 @@ def process(path: Path, shot_re: re.Pattern, entry_re: re.Pattern, quote: str, m
         bg = 'mode:' in m.group('rest') and "'bg'" in m.group('rest')
         local = f'{LOCAL}{slug(name)}-{counts[name]}.webp'
         used, img = None, None
-        for url in dict.fromkeys(u for u in (src, fallback, unwrap(src), fallback and unwrap(fallback)) if u):
+        for url in dict.fromkeys(u for u in (src, unwrap(src), fallback, fallback and unwrap(fallback)) if u):
             img = fetch(url)
             if img is not None:
                 used = url
