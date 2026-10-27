@@ -1337,9 +1337,12 @@ const handleOptionChange = (categoryId, optionId) => {
             const pair = document.createElement('div');
             Object.assign(pair.style, { display: 'flex', alignItems: 'flex-end', gap: '4mm' });
             pair.append(figure(0), figure(1));
+            // The images set the column width; long text below them wraps.
+            pages[0].left.style.width = images.reduce((sum, image) => sum + (image ? image.widthMm / scale : 60), 4) + 'mm';
             pages[0].left.appendChild(pair);
-            if (instructions) pages[0].left.appendChild(instructions);
+            // Special instructions follow the price under the images.
             pages[0].left.appendChild(total);
+            if (instructions) pages[0].left.appendChild(instructions);
             pages[0].right.append(baseRow, list);
           } else {
             pages.forEach((page, index) => {
@@ -1360,6 +1363,27 @@ const handleOptionChange = (categoryId, optionId) => {
             const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
             while (walker.nextNode()) walker.currentNode.data = walker.currentNode.data.toUpperCase();
             element.style.textTransform = 'none';
+          });
+          // html2canvas splits hyphenated words differently from the browser's
+          // line breaks and overprints them ("2-2-1 layout"); keep each such word
+          // in one unbreakable box. The text itself is unchanged.
+          const hyphenated = /\S*\w-\w\S*/g;
+          const textNodes = [];
+          const textWalker = document.createTreeWalker(snapshot, NodeFilter.SHOW_TEXT);
+          while (textWalker.nextNode()) if (/\w-\w/.test(textWalker.currentNode.data)) textNodes.push(textWalker.currentNode);
+          textNodes.forEach(node => {
+            const fragment = document.createDocumentFragment();
+            let last = 0;
+            for (const match of node.data.matchAll(hyphenated)) {
+              fragment.append(node.data.slice(last, match.index));
+              const word = document.createElement('span');
+              Object.assign(word.style, { display: 'inline-block', whiteSpace: 'nowrap' });
+              word.textContent = match[0];
+              fragment.append(word);
+              last = match.index + match[0].length;
+            }
+            fragment.append(node.data.slice(last));
+            node.replaceWith(fragment);
           });
           // Lay out off-screen at the PDF width to measure what fits.
           Object.assign(snapshot.style, { position: 'fixed', left: '-10000px', top: '0' });
