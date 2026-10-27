@@ -92,4 +92,9 @@ for (const entry of [...configData.categories.flatMap(category => category.optio
 for (const model of configData.models) platforms.upcoming(model.id, configData).forEach(group => group.options.forEach(entry => addSource(entry.label)));
 assert.deepEqual(Object.keys(i18n.de.catalog).sort(), Object.keys(i18n.ko.catalog).sort(), 'ko and de translate the same catalog text');
 for (const text of Object.keys(i18n.ko.catalog)) assert.ok(catalogSource.has(text), `Catalog translation key matches current source text: ${text}`);
-console.log('PASS: code-only stale coil/nut normalization, other models, bridges, €0 standard options, €200 gigbag difference, localized UI strings and catalog translations');
+// Special instructions stay within 1,000 characters so the PDF fits two pages,
+// and the quote is always rendered in English.
+assert.match(html, /maxLength=\{1000\}/);
+assert.match(html, /setSpecialInstructions\(e\.target\.value\.slice\(0, 1000\)\)/);
+assert.match(html, /flushSync\(\(\) => setLanguage\('en'\)\)/);
+console.log('PASS: code-only stale coil/nut normalization, other models, bridges, €0 standard options, €200 gigbag difference, localized UI strings and catalog translations, 1,000-character instructions and English PDF');

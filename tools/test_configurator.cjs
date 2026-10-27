@@ -847,8 +847,13 @@ async function run() {
             }
             const note = `QA ${language} ${viewport.name} ${model.id}`;
             await page.locator('textarea').fill(note);
+            // The PDF is always issued in English; compare it with the English summary.
+            await page.evaluate(() => window.RavenForgeConfigurator.setLanguage('en'));
+            await page.waitForFunction(() => document.documentElement.lang === 'en');
             const rows = await page.locator('#quote-list-container > div').evaluateAll(elements => elements.map(element => element.innerText));
             const total = await page.locator('[data-summary-total]').innerText();
+            await page.evaluate(lang => window.RavenForgeConfigurator.setLanguage(lang), language);
+            await page.waitForFunction(lang => document.documentElement.lang === lang, language);
             if (!matrixUiOnly) {
               await observePdf();
               const downloading = page.waitForEvent('download', { timeout: 60000 });

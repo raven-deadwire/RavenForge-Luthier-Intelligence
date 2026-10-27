@@ -1214,24 +1214,40 @@ const handleOptionChange = (categoryId, optionId) => {
         setPdfError('');
         setIsGeneratingPDF(true);
         const exportModel = selectedModel;
-        const exportLanguage = language;
-        // Capture a stable document before any asynchronous work or model changes.
-        const card = document.getElementById('quote-summary-card').cloneNode(true);
+        // The quote is always issued in English, whatever the page language:
+        // render the summary in English for the copy, then restore the page.
+        if (language !== 'en') ReactDOM.flushSync(() => setLanguage('en'));
+        let card;
+        try {
+          // Capture a stable document before any asynchronous work or model changes.
+          card = document.getElementById('quote-summary-card').cloneNode(true);
+        } finally {
+          if (language !== 'en') ReactDOM.flushSync(() => setLanguage(language));
+        }
         const previewState = RavenForgePreview.scene(exportModel, selections, finishColor, previewLabels, previewBindrunes[exportModel],
           { specialOptions, pickguard: selections.pickguard, neckAccent: document.getElementById('instrument-preview')?.dataset.neckAccent });
         const sides = ['front', 'back'].map(side => ({
           side,
-          svg: RavenForgePreview.renderSvg(previewState, side, exportLanguage, 'portrait'),
+          svg: RavenForgePreview.renderSvg(previewState, side, 'en', 'portrait'),
           unitsPerMm: RavenForgePreview.unitsPerMm(exportModel, side)
         }));
-        const previewCopy = RavenForgePreview.copy[exportLanguage] || RavenForgePreview.copy.en;
+        const previewCopy = RavenForgePreview.copy.en;
 
-        // A4 portrait with a full-width header on every page. One page holds
-        // the front and back side by side at 1:8 when the summary fits beside
-        // them; otherwise page 1 shows the front and page 2 the back at 1:5,
-        // each beside the specification sheet. GRAMR's shorter body stacks its
-        // two sides at 1:9 on one page, leaving the summary two columns.
+        // A4 portrait with a full-width header on every page, never more than
+        // two pages. One page holds the front and back side by side at 1:8
+        // (GRAMR's shorter body stacked at 1:9) when the summary fits beside
+        // them, shrunk at most to MIN_ONE_PAGE. Otherwise page 1 shows the
+        // front and page 2 the back at 1:5, each beside the specification;
+        // the remainder on page 2 splits into two columns and, if needed,
+        // shrinks to fit. Every model uses the same scale in each layout.
+        const MIN_ONE_PAGE = 0.85;
         const onePageLayout = { scale: 8, stacked: false, ...(exportModel === 'GRAMR' ? { scale: 9, stacked: true } : {}) };
+        // Shrink a column uniformly so it fits its page; the wider layout
+        // width lets its text reflow into fewer lines.
+        const fitColumn = (column, available, ratio) => {
+          const height = column.offsetHeight;
+          Object.assign(column.style, { flex: '0 0 auto', width: column.offsetWidth / ratio + 'px', transform: `scale(${ratio})`, transformOrigin: 'top left', marginBottom: -(height * (1 - ratio)) + 'px' });
+        };
         const build = (images, onePage) => {
           const scale = onePage ? onePageLayout.scale : 5;
           const source = card.cloneNode(true);
@@ -1295,9 +1311,8 @@ const handleOptionChange = (categoryId, optionId) => {
             sheet.setAttribute('data-pdf-page', String(index + 1));
             // html2pdf slices one canvas into pages; the white top strip keeps
             // a rounded page boundary from showing the next header's edge.
-            Object.assign(sheet.style, { display: 'flex', flexDirection: 'column', gap: '5mm', paddingTop: '2mm', boxSizing: 'border-box' });
-            if (index === 0) sheet.style.height = '276mm';
-            else Object.assign(sheet.style, { minHeight: '276mm', breakBefore: 'page', pageBreakBefore: 'always' });
+            Object.assign(sheet.style, { display: 'flex', flexDirection: 'column', gap: '5mm', paddingTop: '2mm', boxSizing: 'border-box', height: '276mm', overflow: 'hidden' });
+            if (index > 0) Object.assign(sheet.style, { breakBefore: 'page', pageBreakBefore: 'always' });
             const body = document.createElement('div');
             Object.assign(body.style, { display: 'flex', alignItems: 'flex-start', gap: '6mm', flex: '1 1 auto', minHeight: '0' });
             const left = document.createElement('div');
@@ -1350,20 +1365,26 @@ const handleOptionChange = (categoryId, optionId) => {
           // Lay out off-screen at the PDF width to measure what fits.
           Object.assign(snapshot.style, { position: 'fixed', left: '-10000px', top: '0' });
           document.body.appendChild(snapshot);
-          const first = pages[0];
-          const overflows = () => first.right.offsetHeight > first.body.clientHeight || first.left.offsetHeight > first.body.clientHeight;
           let fits = true;
+          const [first, second] = pages;
+          const available = first.body.clientHeight;
           if (onePage) {
             const millimetre = first.sheet.clientHeight / 276;
-            fits = !overflows() && first.right.clientWidth >= 80 * millimetre;
+            const ratio = Math.min(1, available / first.right.offsetHeight);
+            fits = first.left.offsetHeight <= available && first.right.clientWidth >= 80 * millimetre && ratio >= MIN_ONE_PAGE;
+            if (fits && ratio < 1) fitColumn(first.right, available, ratio);
           } else {
             // Move the trailing summary blocks to page 2 until page 1 fits.
             const tail = [...rows, instructions, total].filter(Boolean);
-            while (overflows() && tail.length) {
+            while (first.right.offsetHeight > available && tail.length) {
               const item = tail.pop();
               if (rows.includes(item)) nextList.prepend(item);
               else nextList.after(item);
             }
+            if (second.right.offsetHeight > available) {
+              Object.assign(nextList.style, { display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '6mm', rowGap: '2px' });
+            }
+            if (second.right.offsetHeight > available) fitColumn(second.right, available, available / second.right.offsetHeight);
           }
           snapshot.remove();
           Object.assign(snapshot.style, { position: '', left: '', top: '' });
@@ -1773,13 +1794,15 @@ const handleOptionChange = (categoryId, optionId) => {
                             <label htmlFor="special-instructions" className="block text-sm font-semibold text-slate-700 mb-2">{ui.specialInstructions}</label>
                             <p id="special-instructions-note" className="text-xs text-slate-500 mb-3">{ui.instructionsNote}</p>
                             <textarea
-                              id="special-instructions" aria-describedby="special-instructions-note"
+                              id="special-instructions" aria-describedby="special-instructions-note special-instructions-count"
+                              maxLength={1000}
                               value={specialInstructions}
-                              onChange={(e) => setSpecialInstructions(e.target.value)}
+                              onChange={(e) => setSpecialInstructions(e.target.value.slice(0, 1000))}
                               className="w-full p-4 border-2 border-slate-200 rounded-lg focus:border-red-700 focus:outline-none focus:ring-1 focus:ring-red-700 text-sm transition-colors duration-200 custom-scrollbar"
                               rows="4"
                               placeholder={ui.instructionsPlaceholder}
                             ></textarea>
+                            <p id="special-instructions-count" className="text-xs text-slate-500 mt-1 text-right">{specialInstructions.length} / 1000</p>
                           </div>
                         </div>
                       </div>
