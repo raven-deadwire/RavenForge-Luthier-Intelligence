@@ -62,7 +62,7 @@
 </head>
 <body>
   <script src="./assets/configurator-platforms.js?v=20261008-edda-no-coil-switch"></script>
-  <script src="./assets/configurator-ui.js?v=20261026-jindai-elm"></script>
+  <script src="./assets/configurator-ui.js?v=20261027-verawood"></script>
   <!-- Root element for React App -->
   <div id="root"></div>
 
@@ -78,7 +78,7 @@
   <script src="./assets/configurator-rear-renderer.js?v=20261026-finish"></script>
   <script src="./assets/configurator-bass-front-geometry.js?v=20261021-v27"></script>
   <script src="./assets/configurator-geometry.js?v=20261021-v27"></script>
-  <script src="./assets/configurator-preview.js?v=20261027-pdf-scale"></script>
+  <script src="./assets/configurator-preview.js?v=20261027-verawood"></script>
   <script type="text/babel">
     const { useState, useEffect, useMemo } = React;
 
@@ -119,7 +119,7 @@
 
     // Accessories are kept separate from instrument specifications
     const accessoriesList = [
-      { id: 'leather_strap', label: 'Leather strap with Schaller strap lock', spec: '', price: 300 },
+      { id: 'leather_strap', label: 'Leather strap with Schaller S-Lock', spec: 'Schaller S-Lock strap pins matched to the selected hardware colour', price: 300 },
       { id: 'flight_case', label: 'Castle flight hard case', spec: '', price: 400 },
     ];
 
@@ -192,7 +192,7 @@
             { id: 'nut_bone', label: 'white buffalo bone', spec: '', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
             { id: 'nut_horn', label: 'black buffalo horn', spec: '', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
             { id: 'nut_brass', label: 'brass', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'nut_guayacan', label: 'guayacan (lignum vitae)', spec: '(* only for fretless)', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
+            { id: 'nut_verawood', label: 'verawood (Argentine lignum vitae)', spec: '(* only for fretless)', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
             { id: 'nut_guide', label: 'zero-fret string retainer', spec: '(* no separate nut; the retainer guides the strings at the zero fret)', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
             { id: 'nut_others', label: 'others', spec: '', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
@@ -260,7 +260,7 @@
           title: 'Fret Type',
           options: [
             { id: 'fret_24', label: '24 frets with zero fret', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'fretless', label: 'fretless with guayacan nut', spec: '(* must choose guayacan nut)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
+            { id: 'fretless', label: 'fretless with verawood nut', spec: '(* must choose verawood nut)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
           ]
         },
         {
@@ -825,7 +825,7 @@
   // Keep nut function compatible with the selected fret format; materials remain selectable.
   if (categoryId === 'nut_material') {
     if (currentSelections['fret_type'] === 'fretless' && ['nut_brass', 'nut_guide'].includes(optionId)) return false;
-    if (currentSelections['fret_type'] !== 'fretless' && optionId === 'nut_guayacan') return false;
+    if (currentSelections['fret_type'] !== 'fretless' && optionId === 'nut_verawood') return false;
   }
 
   // 3. 3 pickup 옵션 선택 시 특정 프리앰프, 픽업 및 별도 핑거램프 제한
@@ -982,6 +982,8 @@
              breakdown.push({
                categoryTitle: ui.accessories,
                label: optionLabel(opt),
+               // The strap lock's S-Lock pins follow the selected hardware colour.
+               detail: opt.id === 'leather_strap' && selections.hardware_color ? ui.strapPins.replace('{colour}', selectedOptionLabel('hardware_color')) : '',
                price: opt.price,
                isStandard: false
              });
@@ -1042,11 +1044,11 @@ const handleOptionChange = (categoryId, optionId) => {
       }
     }
 
-    // Fretless 선택 시 guayacan nut 자동 적용; fretted로 복귀 시 기본 brass nut으로 복귀
+    // Fretless 선택 시 verawood nut 자동 적용; fretted로 복귀 시 기본 brass nut으로 복귀
     if (categoryId === 'fret_type') {
       if (optionId === 'fretless') {
-        nextSelections['nut_material'] = 'nut_guayacan';
-      } else if (nextSelections['nut_material'] === 'nut_guayacan') {
+        nextSelections['nut_material'] = 'nut_verawood';
+      } else if (nextSelections['nut_material'] === 'nut_verawood') {
         nextSelections['nut_material'] = 'nut_brass';
       }
     }

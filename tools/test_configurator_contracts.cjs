@@ -97,4 +97,10 @@ for (const text of Object.keys(i18n.ko.catalog)) assert.ok(catalogSource.has(tex
 assert.match(html, /maxLength=\{1000\}/);
 assert.match(html, /setSpecialInstructions\(e\.target\.value\.slice\(0, 1000\)\)/);
 assert.match(html, /flushSync\(\(\) => setLanguage\('en'\)\)/);
-console.log('PASS: code-only stale coil/nut normalization, other models, bridges, €0 standard options, €200 gigbag difference, localized UI strings and catalog translations, 1,000-character instructions and English PDF');
+// Fretless nuts are verawood (guayacan is no longer sourced), and the strap
+// lock's Schaller S-Lock pins follow the selected hardware colour.
+assert.doesNotMatch(html, /guayacan/i);
+assert.match(html, /id: 'nut_verawood', label: 'verawood \(Argentine lignum vitae\)'/);
+assert.match(html, /detail: opt\.id === 'leather_strap' && selections\.hardware_color \? ui\.strapPins\.replace\('\{colour\}', selectedOptionLabel\('hardware_color'\)\)/);
+for (const language of ['en', 'ko', 'de']) assert.match(i18n[language].strapPins, /S-Lock.*\{colour\}/);
+console.log('PASS: code-only stale coil/nut normalization, other models, bridges, €0 standard options, €200 gigbag difference, localized UI strings and catalog translations, 1,000-character instructions, English PDF, verawood nut and S-Lock pin colour');

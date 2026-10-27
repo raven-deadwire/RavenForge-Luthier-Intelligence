@@ -364,7 +364,7 @@ async function run() {
       await summaryValue(/^Neck Profile/i, /custom profile/i);
       await summaryValue(/^Radius/i, /compound/i);
       await selectOption('fret_type', 'fretless');
-      await summaryValue(/^Nut Material/i, /guayacan/i);
+      await summaryValue(/^Nut Material/i, /verawood/i);
       await summaryValue(/^Fret Type/i, /fretless/i);
       assert.match(await page.locator('[data-fixed-platform]').innerText(), /fretless/i,
         'The current specification overview must reflect fretless selection');
