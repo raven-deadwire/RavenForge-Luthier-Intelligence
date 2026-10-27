@@ -1181,19 +1181,22 @@ const handleOptionChange = (categoryId, optionId) => {
           context.fillRect(0, 0, canvas.width, canvas.height);
           context.drawImage(image, 0, 0, canvas.width, canvas.height);
           const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
-          let left = canvas.width, top = canvas.height, right = -1, bottom = -1;
-          for (let y = 0; y < canvas.height; y++) {
-            for (let x = 0; x < canvas.width; x++) {
-              const offset = (y * canvas.width + x) * 4;
-              if (pixels[offset] < 245 || pixels[offset + 1] < 245 || pixels[offset + 2] < 245) {
-                if (x < left) left = x;
-                if (x > right) right = x;
-                if (y < top) top = y;
-                if (y > bottom) bottom = y;
-              }
-            }
-          }
-          if (right < 0) throw new Error('Preview image is blank');
+          // Scan inwards from each edge and stop at the first inked row or column.
+          const ink = (x, y) => {
+            const offset = (y * canvas.width + x) * 4;
+            return pixels[offset] < 245 || pixels[offset + 1] < 245 || pixels[offset + 2] < 245;
+          };
+          const rowHasInk = y => { for (let x = 0; x < canvas.width; x++) if (ink(x, y)) return true; return false; };
+          let top = 0;
+          while (top < canvas.height && !rowHasInk(top)) top++;
+          if (top === canvas.height) throw new Error('Preview image is blank');
+          let bottom = canvas.height - 1;
+          while (!rowHasInk(bottom)) bottom--;
+          const columnHasInk = x => { for (let y = top; y <= bottom; y++) if (ink(x, y)) return true; return false; };
+          let left = 0;
+          while (!columnHasInk(left)) left++;
+          let right = canvas.width - 1;
+          while (!columnHasInk(right)) right--;
           const crop = document.createElement('canvas');
           crop.width = right - left + 1;
           crop.height = bottom - top + 1;
