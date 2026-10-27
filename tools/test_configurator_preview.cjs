@@ -690,3 +690,16 @@ console.log('PASS: Hipshot offset/casing/key connection, HE6 both-view layer/cou
  assert.equal(renders,120);
 }
 console.log('PASS: finish appearance follows wood and finish type, opaque keeps exact colour, 14 named swatches and 120 renders with resolved references');
+{
+ // The PDF prints every model at one scale from these drawing units.
+ const fretRatio=0.5-(1-2**(-1/12));
+ for (const model of ['EDDA','EMBLA','ASKR','GRAMR']) {
+  const g=preview.scene(model,JSON.parse(JSON.stringify(normalize(model))),'').g;
+  if (g.unitsPerMm) assert.equal(preview.unitsPerMm(model,'front'),g.unitsPerMm);
+  if (model==='GRAMR') assert.ok(Math.abs((g.frets[11][0][0]-g.frets[0][0][0])/(647.7*fretRatio)/preview.unitsPerMm(model,'front')-1)<.005);
+  if (model==='EDDA') assert.ok(Math.abs((g.bridge[0][1]-g.board[0][1])/863.6/preview.unitsPerMm(model,'front')-1)<.005);
+  const back=g.back.kind==='rear-concept'?g.frontRegistration.scale:1;
+  assert.ok(Math.abs(preview.unitsPerMm(model,'back')*back/preview.unitsPerMm(model,'front')-1)<.001);
+ }
+}
+console.log('PASS: drawing units per millimetre match each model drawing for scaled PDF images');

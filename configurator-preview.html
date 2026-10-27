@@ -78,7 +78,7 @@
   <script src="./assets/configurator-rear-renderer.js?v=20261026-finish"></script>
   <script src="./assets/configurator-bass-front-geometry.js?v=20261021-v27"></script>
   <script src="./assets/configurator-geometry.js?v=20261021-v27"></script>
-  <script src="./assets/configurator-preview.js?v=20261027-pdf-sides"></script>
+  <script src="./assets/configurator-preview.js?v=20261027-pdf-scale"></script>
   <script type="text/babel">
     const { useState, useEffect, useMemo } = React;
 
@@ -1150,8 +1150,9 @@ const handleOptionChange = (categoryId, optionId) => {
       const previewLabels = Object.fromEntries(configData.categories.filter(cat => selections[cat.id]).map(cat => [cat.id, selectedOptionLabel(cat.id)]));
 
       // html2canvas cannot resolve the preview SVG's texture references, so each
-      // side is drawn to a bitmap with its referenced files inlined first.
-      const rasterizePreview = async svg => {
+      // side is drawn to a bitmap with its referenced files inlined first. The
+      // blank margin is trimmed and the result's real size returned in mm.
+      const rasterizePreview = async (svg, unitsPerMm) => {
         const sources = [...new Set(Array.from(svg.matchAll(/href="([^"#][^"]*)"/g), match => match[1]).filter(src => !src.startsWith('data:')))];
         const inlined = await Promise.all(sources.map(async src => {
           const response = await fetch(src);
@@ -1166,21 +1167,43 @@ const handleOptionChange = (categoryId, optionId) => {
         }));
         sources.forEach((src, index) => { svg = svg.split('href="' + src + '"').join('href="' + inlined[index] + '"'); });
         const [, , width, height] = svg.match(/viewBox="([^"]+)"/)[1].trim().split(/[\s,]+/).map(Number);
-        const scale = 2400 / height;
+        const pxPerUnit = 2400 / height;
         const rootEnd = svg.indexOf('>');
-        svg = svg.slice(0, rootEnd).replace(/\s(?:width|height)="[^"]*"/g, '') + ` width="${width * scale}" height="${height * scale}"` + svg.slice(rootEnd);
+        svg = svg.slice(0, rootEnd).replace(/\s(?:width|height)="[^"]*"/g, '') + ` width="${width * pxPerUnit}" height="${height * pxPerUnit}"` + svg.slice(rootEnd);
         const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
         try {
           const image = new Image();
           await new Promise((resolve, reject) => { image.onload = resolve; image.onerror = reject; image.src = url; });
           const canvas = document.createElement('canvas');
-          canvas.width = Math.round(width * scale);
-          canvas.height = Math.round(height * scale);
+          canvas.width = Math.round(width * pxPerUnit);
+          canvas.height = Math.round(height * pxPerUnit);
           const context = canvas.getContext('2d');
           context.fillStyle = '#fff';
           context.fillRect(0, 0, canvas.width, canvas.height);
           context.drawImage(image, 0, 0, canvas.width, canvas.height);
-          return canvas.toDataURL('image/jpeg', 0.92);
+          const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+          let left = canvas.width, top = canvas.height, right = -1, bottom = -1;
+          for (let y = 0; y < canvas.height; y++) {
+            for (let x = 0; x < canvas.width; x++) {
+              const offset = (y * canvas.width + x) * 4;
+              if (pixels[offset] < 245 || pixels[offset + 1] < 245 || pixels[offset + 2] < 245) {
+                if (x < left) left = x;
+                if (x > right) right = x;
+                if (y < top) top = y;
+                if (y > bottom) bottom = y;
+              }
+            }
+          }
+          if (right < 0) throw new Error('Preview image is blank');
+          const crop = document.createElement('canvas');
+          crop.width = right - left + 1;
+          crop.height = bottom - top + 1;
+          crop.getContext('2d').drawImage(canvas, left, top, crop.width, crop.height, 0, 0, crop.width, crop.height);
+          return {
+            src: crop.toDataURL('image/jpeg', 0.92),
+            widthMm: crop.width / pxPerUnit / unitsPerMm,
+            heightMm: crop.height / pxPerUnit / unitsPerMm
+          };
         } finally {
           URL.revokeObjectURL(url);
         }
@@ -1196,72 +1219,144 @@ const handleOptionChange = (categoryId, optionId) => {
         const card = document.getElementById('quote-summary-card').cloneNode(true);
         const previewState = RavenForgePreview.scene(exportModel, selections, finishColor, previewLabels, previewBindrunes[exportModel],
           { specialOptions, pickguard: selections.pickguard, neckAccent: document.getElementById('instrument-preview')?.dataset.neckAccent });
-        const sides = ['front', 'back'].map(side => ({ side, svg: RavenForgePreview.renderSvg(previewState, side, exportLanguage, 'portrait') }));
-        const pdfHeader = card.querySelector('#pdf-header');
-        const scrollArea = card.querySelector('#quote-scroll-area');
-        const listContainer = card.querySelector('#quote-list-container');
-        const baseRow = scrollArea.firstElementChild;
-        const instructions = listContainer.nextElementSibling;
-        const total = card.querySelector('[data-summary-total]');
-        pdfHeader.style.display = 'flex';
-        pdfHeader.style.padding = '12px';
-        pdfHeader.style.marginBottom = '12px';
-        listContainer.classList.remove('space-y-3');
-        const rows = Array.from(listContainer.children);
-        rows.forEach(row => {
-          row.classList.add('rf-pdf-row');
-          row.style.breakInside = 'avoid';
-          row.style.pageBreakInside = 'avoid';
-          row.style.padding = '2px 0';
-        });
-        total.classList.add('rf-pdf-total');
-        total.style.breakInside = 'avoid';
-        total.style.pageBreakInside = 'avoid';
-        total.style.marginTop = '12px';
-
-        // Two A4 pages: the instrument image on the left, the specification
-        // sheet on the right; page 1 shows the front and page 2 the back.
+        const sides = ['front', 'back'].map(side => ({
+          side,
+          svg: RavenForgePreview.renderSvg(previewState, side, exportLanguage, 'portrait'),
+          unitsPerMm: RavenForgePreview.unitsPerMm(exportModel, side)
+        }));
         const previewCopy = RavenForgePreview.copy[exportLanguage] || RavenForgePreview.copy.en;
-        const snapshot = document.createElement('div');
-        Object.assign(snapshot.style, { width: '190mm', background: '#fff' });
-        const pages = sides.map(({ side }, index) => {
-          const sheet = document.createElement('section');
-          sheet.setAttribute('data-pdf-page', side);
-          Object.assign(sheet.style, { display: 'flex', alignItems: 'flex-start', gap: '6mm', boxSizing: 'border-box' });
-          if (index === 0) sheet.style.height = '276mm';
-          else Object.assign(sheet.style, { minHeight: '276mm', breakBefore: 'page', pageBreakBefore: 'always' });
-          const figure = document.createElement('figure');
-          Object.assign(figure.style, { flex: '0 0 70mm', width: '70mm', margin: '0', display: 'flex', flexDirection: 'column', alignItems: 'center' });
-          const caption = document.createElement('figcaption');
-          caption.className = 'text-[10px] text-slate-500 font-bold uppercase tracking-wider';
-          caption.style.marginTop = '6px';
-          caption.textContent = exportModel + ' · ' + previewCopy[side];
-          figure.appendChild(caption);
-          const column = document.createElement('div');
-          column.className = 'text-sm';
-          Object.assign(column.style, { flex: '1 1 auto', minWidth: '0' });
-          column.appendChild(index === 0 ? pdfHeader : pdfHeader.cloneNode(true));
-          sheet.append(figure, column);
-          snapshot.appendChild(sheet);
-          return { sheet, figure, caption, column };
-        });
-        const firstList = listContainer;
-        const nextList = listContainer.cloneNode(false);
-        pages[0].column.append(baseRow, firstList);
-        if (instructions) pages[0].column.appendChild(instructions);
-        pages[0].column.appendChild(total);
-        pages[1].column.appendChild(nextList);
-        // The detached snapshot must not duplicate application element IDs.
-        snapshot.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
-        // Materialize CSS uppercase in the export copy. html2canvas 1.x uses
-        // transformed text offsets against the original node; German ß -> SS
-        // otherwise exceeds the Range length (for example, Bundgröße).
-        const materializeUppercase = root => root.querySelectorAll('.uppercase').forEach(element => {
-          const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
-          while (walker.nextNode()) walker.currentNode.data = walker.currentNode.data.toUpperCase();
-          element.style.textTransform = 'none';
-        });
-        materializeUppercase(snapshot);
+
+        // A4 portrait with a full-width header on every page. One page holds
+        // the front and back side by side at 1:8 when the summary fits beside
+        // them; otherwise page 1 shows the front and page 2 the back at 1:5,
+        // each beside the specification sheet. Every model uses the same scale.
+        const build = (images, onePage) => {
+          const scale = onePage ? 8 : 5;
+          const source = card.cloneNode(true);
+          const header = source.querySelector('#pdf-header');
+          const scrollArea = source.querySelector('#quote-scroll-area');
+          const list = source.querySelector('#quote-list-container');
+          const baseRow = scrollArea.firstElementChild;
+          const instructions = list.nextElementSibling;
+          const total = source.querySelector('[data-summary-total]');
+          Object.assign(header.style, { display: 'flex', padding: '12px', flex: '0 0 auto' });
+          list.classList.remove('space-y-3');
+          const rows = Array.from(list.children);
+          rows.forEach(row => {
+            row.classList.add('rf-pdf-row');
+            Object.assign(row.style, { breakInside: 'avoid', pageBreakInside: 'avoid', padding: onePage ? '1px 0' : '2px 0' });
+            if (!onePage) return;
+            // One line per item: category, then the selected value.
+            const [text] = row.children;
+            const [category, value] = text.children;
+            Object.assign(text.style, { display: 'flex', gap: '2mm', flex: '1 1 auto', minWidth: '0' });
+            Object.assign(category.style, { flex: '0 0 26mm', marginBottom: '0', paddingTop: '2px', lineHeight: '1.25' });
+            Object.assign(value.style, { flex: '1 1 auto', minWidth: '0', marginTop: '0' });
+          });
+          total.classList.add('rf-pdf-total');
+          Object.assign(total.style, { breakInside: 'avoid', pageBreakInside: 'avoid', marginTop: '12px' });
+          if (instructions) instructions.style.marginTop = '12px';
+
+          const figure = index => {
+            const element = document.createElement('figure');
+            Object.assign(element.style, { margin: '0', display: 'flex', flexDirection: 'column', alignItems: 'center' });
+            const caption = document.createElement('figcaption');
+            caption.className = 'text-[10px] text-slate-500 font-bold uppercase tracking-wider';
+            caption.style.marginTop = '6px';
+            caption.textContent = exportModel + ' · ' + previewCopy[sides[index].side] + (images[index] ? ' · 1:' + scale : '');
+            const image = images[index];
+            if (image) {
+              const img = document.createElement('img');
+              img.src = image.src;
+              img.alt = caption.textContent;
+              Object.assign(img.style, { display: 'block', width: image.widthMm / scale + 'mm', height: image.heightMm / scale + 'mm', maxWidth: 'none' });
+              element.appendChild(img);
+            } else {
+              const note = document.createElement('p');
+              note.className = 'text-xs text-slate-500';
+              note.style.width = '60mm';
+              note.textContent = sides[index].svg ? previewCopy.imageError : previewCopy.backMissing;
+              element.appendChild(note);
+            }
+            element.appendChild(caption);
+            return element;
+          };
+          const imageWidth = Math.max(...images.map(image => image ? image.widthMm / scale : 60));
+
+          const snapshot = document.createElement('div');
+          Object.assign(snapshot.style, { width: '190mm', background: '#fff' });
+          const pages = Array.from({ length: onePage ? 1 : 2 }, (_, index) => {
+            const sheet = document.createElement('section');
+            sheet.setAttribute('data-pdf-page', String(index + 1));
+            // html2pdf slices one canvas into pages; the white top strip keeps
+            // a rounded page boundary from showing the next header's edge.
+            Object.assign(sheet.style, { display: 'flex', flexDirection: 'column', gap: '5mm', paddingTop: '2mm', boxSizing: 'border-box' });
+            if (index === 0) sheet.style.height = '276mm';
+            else Object.assign(sheet.style, { minHeight: '276mm', breakBefore: 'page', pageBreakBefore: 'always' });
+            const body = document.createElement('div');
+            Object.assign(body.style, { display: 'flex', alignItems: 'flex-start', gap: '6mm', flex: '1 1 auto', minHeight: '0' });
+            const left = document.createElement('div');
+            Object.assign(left.style, { flex: '0 0 auto', display: 'flex', flexDirection: 'column' });
+            const right = document.createElement('div');
+            right.className = 'text-sm';
+            Object.assign(right.style, { flex: '1 1 auto', minWidth: '0' });
+            body.append(left, right);
+            sheet.append(index === 0 ? header : header.cloneNode(true), body);
+            snapshot.appendChild(sheet);
+            return { sheet, body, left, right };
+          });
+          const nextList = list.cloneNode(false);
+          if (onePage) {
+            const pair = document.createElement('div');
+            Object.assign(pair.style, { display: 'flex', alignItems: 'flex-end', gap: '4mm' });
+            pair.append(figure(0), figure(1));
+            pages[0].left.appendChild(pair);
+            if (instructions) pages[0].left.appendChild(instructions);
+            pages[0].left.appendChild(total);
+            pages[0].right.append(baseRow, list);
+          } else {
+            pages.forEach((page, index) => {
+              page.left.style.width = imageWidth + 'mm';
+              page.left.appendChild(figure(index));
+            });
+            pages[0].right.append(baseRow, list);
+            if (instructions) pages[0].right.appendChild(instructions);
+            pages[0].right.appendChild(total);
+            pages[1].right.appendChild(nextList);
+          }
+          // The detached snapshot must not duplicate application element IDs.
+          snapshot.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
+          // Materialize CSS uppercase in the export copy. html2canvas 1.x uses
+          // transformed text offsets against the original node; German ß -> SS
+          // otherwise exceeds the Range length (for example, Bundgröße).
+          snapshot.querySelectorAll('.uppercase').forEach(element => {
+            const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+            while (walker.nextNode()) walker.currentNode.data = walker.currentNode.data.toUpperCase();
+            element.style.textTransform = 'none';
+          });
+          // Lay out off-screen at the PDF width to measure what fits.
+          Object.assign(snapshot.style, { position: 'fixed', left: '-10000px', top: '0' });
+          document.body.appendChild(snapshot);
+          const first = pages[0];
+          const overflows = () => first.right.offsetHeight > first.body.clientHeight || first.left.offsetHeight > first.body.clientHeight;
+          let fits = true;
+          if (onePage) {
+            const millimetre = first.sheet.clientHeight / 276;
+            fits = !overflows() && first.right.clientWidth >= 80 * millimetre;
+          } else {
+            // Move the trailing summary blocks to page 2 until page 1 fits.
+            const tail = [...rows, instructions, total].filter(Boolean);
+            while (overflows() && tail.length) {
+              const item = tail.pop();
+              if (rows.includes(item)) nextList.prepend(item);
+              else nextList.after(item);
+            }
+          }
+          snapshot.remove();
+          Object.assign(snapshot.style, { position: '', left: '', top: '' });
+          return { snapshot, fits };
+        };
+
         const opt = {
           margin: 10,
           filename: 'RavenForge_' + exportModel + '_Specification.pdf',
@@ -1271,39 +1366,14 @@ const handleOptionChange = (categoryId, optionId) => {
           jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
         try {
-          const images = await Promise.all(sides.map(({ svg }) => svg ? rasterizePreview(svg).catch(() => null) : null));
-          images.forEach((source, index) => {
-            const { figure, caption } = pages[index];
-            const media = document.createElement(source ? 'img' : 'p');
-            if (source) {
-              media.src = source;
-              media.alt = caption.textContent;
-              Object.assign(media.style, { display: 'block', maxWidth: '70mm', maxHeight: '258mm', width: 'auto', height: 'auto' });
-            } else {
-              media.className = 'text-xs text-slate-500';
-              media.textContent = sides[index].svg ? previewCopy.imageError : previewCopy.backMissing;
-            }
-            figure.insertBefore(media, caption);
-          });
-          await Promise.all(Array.from(snapshot.querySelectorAll('img'), image => image.decode().catch(() => {})));
-          // Lay out off-screen at the PDF width, then move the trailing summary
-          // blocks to page 2 until the first page fits its fixed height.
-          Object.assign(snapshot.style, { position: 'fixed', left: '-10000px', top: '0' });
-          document.body.appendChild(snapshot);
-          const first = pages[0];
-          const tail = [...rows, instructions, total].filter(Boolean);
-          while (first.column.offsetHeight > first.sheet.clientHeight && tail.length) {
-            const item = tail.pop();
-            if (rows.includes(item)) nextList.prepend(item);
-            else nextList.after(item);
-          }
-          snapshot.remove();
-          Object.assign(snapshot.style, { position: '', left: '', top: '' });
-          await html2pdf().set(opt).from(snapshot).save();
+          const images = await Promise.all(sides.map(({ svg, unitsPerMm }) => svg && unitsPerMm ? rasterizePreview(svg, unitsPerMm).catch(() => null) : null));
+          await Promise.all(images.filter(Boolean).map(image => { const img = new Image(); img.src = image.src; return img.decode().catch(() => {}); }));
+          let layout = build(images, true);
+          if (!layout.fits) layout = build(images, false);
+          await html2pdf().set(opt).from(layout.snapshot).save();
         } catch (error) {
           setPdfError(ui.pdfError);
         } finally {
-          snapshot.remove();
           setIsGeneratingPDF(false);
         }
       };
