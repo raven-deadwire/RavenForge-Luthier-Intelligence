@@ -77,7 +77,7 @@
   <script src="./assets/configurator-rear-renderer.js?v=20261026-finish"></script>
   <script src="./assets/configurator-bass-front-geometry.js?v=20261021-v27"></script>
   <script src="./assets/configurator-geometry.js?v=20261021-v27"></script>
-  <script src="./assets/configurator-preview.js?v=20261026-finish"></script>
+  <script src="./assets/configurator-preview.js?v=20261027-pdf-sides"></script>
   <script type="text/babel">
     const { useState, useEffect, useMemo } = React;
 
@@ -1145,52 +1145,122 @@ const handleOptionChange = (categoryId, optionId) => {
         );
       };
 
+      // Labels shown in the live preview and in the PDF images.
+      const previewLabels = Object.fromEntries(configData.categories.filter(cat => selections[cat.id]).map(cat => [cat.id, selectedOptionLabel(cat.id)]));
+
+      // html2canvas cannot resolve the preview SVG's texture references, so each
+      // side is drawn to a bitmap with its referenced files inlined first.
+      const rasterizePreview = async svg => {
+        const sources = [...new Set(Array.from(svg.matchAll(/href="([^"#][^"]*)"/g), match => match[1]).filter(src => !src.startsWith('data:')))];
+        const inlined = await Promise.all(sources.map(async src => {
+          const response = await fetch(src);
+          if (!response.ok) throw new Error('Preview texture unavailable: ' + src);
+          const blob = await response.blob();
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+          });
+        }));
+        sources.forEach((src, index) => { svg = svg.split('href="' + src + '"').join('href="' + inlined[index] + '"'); });
+        const [, , width, height] = svg.match(/viewBox="([^"]+)"/)[1].trim().split(/[\s,]+/).map(Number);
+        const scale = 2400 / height;
+        const rootEnd = svg.indexOf('>');
+        svg = svg.slice(0, rootEnd).replace(/\s(?:width|height)="[^"]*"/g, '') + ` width="${width * scale}" height="${height * scale}"` + svg.slice(rootEnd);
+        const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+        try {
+          const image = new Image();
+          await new Promise((resolve, reject) => { image.onload = resolve; image.onerror = reject; image.src = url; });
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.round(width * scale);
+          canvas.height = Math.round(height * scale);
+          const context = canvas.getContext('2d');
+          context.fillStyle = '#fff';
+          context.fillRect(0, 0, canvas.width, canvas.height);
+          context.drawImage(image, 0, 0, canvas.width, canvas.height);
+          return canvas.toDataURL('image/jpeg', 0.92);
+        } finally {
+          URL.revokeObjectURL(url);
+        }
+      };
+
       const handleRequestQuote = async () => {
         if (isGeneratingPDF) return;
         setPdfError('');
         setIsGeneratingPDF(true);
         const exportModel = selectedModel;
+        const exportLanguage = language;
         // Capture a stable document before any asynchronous work or model changes.
-        const snapshot = document.getElementById('quote-summary-card').cloneNode(true);
-        snapshot.classList.remove('sticky', 'top-24', 'shadow-xl');
-        Object.assign(snapshot.style, { width: '190mm', maxWidth: 'none', background: '#fff', boxShadow: 'none', border: '0', borderRadius: '0', overflow: 'visible' });
-        const scrollArea = snapshot.querySelector('#quote-scroll-area');
-        const actionsArea = snapshot.querySelector('#quote-actions-area');
-        const uiHeader = snapshot.querySelector('#ui-header');
-        const pdfHeader = snapshot.querySelector('#pdf-header');
-        const listContainer = snapshot.querySelector('#quote-list-container');
-        actionsArea.remove();
-        uiHeader.remove();
+        const card = document.getElementById('quote-summary-card').cloneNode(true);
+        const previewState = RavenForgePreview.scene(exportModel, selections, finishColor, previewLabels, previewBindrunes[exportModel],
+          { specialOptions, pickguard: selections.pickguard, neckAccent: document.getElementById('instrument-preview')?.dataset.neckAccent });
+        const sides = ['front', 'back'].map(side => ({ side, svg: RavenForgePreview.renderSvg(previewState, side, exportLanguage, 'portrait') }));
+        const pdfHeader = card.querySelector('#pdf-header');
+        const scrollArea = card.querySelector('#quote-scroll-area');
+        const listContainer = card.querySelector('#quote-list-container');
+        const baseRow = scrollArea.firstElementChild;
+        const instructions = listContainer.nextElementSibling;
+        const total = card.querySelector('[data-summary-total]');
         pdfHeader.style.display = 'flex';
         pdfHeader.style.padding = '12px';
-        scrollArea.classList.remove('mb-6', 'max-h-[calc(100vh-420px)]', 'min-h-[300px]', 'overflow-y-auto', 'custom-scrollbar', 'pr-2');
-        Object.assign(scrollArea.style, { maxHeight: 'none', minHeight: '0', overflow: 'visible', paddingRight: '0' });
-        // Keep all trailing decoration inside the non-splitting total block.
-        // Outer card padding/borders can otherwise create a border-only PDF page.
-        scrollArea.parentElement.style.padding = '12px 12px 0';
+        pdfHeader.style.marginBottom = '12px';
         listContainer.classList.remove('space-y-3');
-        Object.assign(listContainer.style, { display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px', rowGap: '2px' });
-        Array.from(listContainer.children).forEach(row => {
+        const rows = Array.from(listContainer.children);
+        rows.forEach(row => {
           row.classList.add('rf-pdf-row');
           row.style.breakInside = 'avoid';
           row.style.pageBreakInside = 'avoid';
+          row.style.padding = '2px 0';
         });
-        const total = snapshot.querySelector('[data-summary-total]');
         total.classList.add('rf-pdf-total');
         total.style.breakInside = 'avoid';
         total.style.pageBreakInside = 'avoid';
-        total.style.paddingBottom = '12px';
+        total.style.marginTop = '12px';
+
+        // Two A4 pages: the instrument image on the left, the specification
+        // sheet on the right; page 1 shows the front and page 2 the back.
+        const previewCopy = RavenForgePreview.copy[exportLanguage] || RavenForgePreview.copy.en;
+        const snapshot = document.createElement('div');
+        Object.assign(snapshot.style, { width: '190mm', background: '#fff' });
+        const pages = sides.map(({ side }, index) => {
+          const sheet = document.createElement('section');
+          sheet.setAttribute('data-pdf-page', side);
+          Object.assign(sheet.style, { display: 'flex', alignItems: 'flex-start', gap: '6mm', boxSizing: 'border-box' });
+          if (index === 0) sheet.style.height = '276mm';
+          else Object.assign(sheet.style, { minHeight: '276mm', breakBefore: 'page', pageBreakBefore: 'always' });
+          const figure = document.createElement('figure');
+          Object.assign(figure.style, { flex: '0 0 70mm', width: '70mm', margin: '0', display: 'flex', flexDirection: 'column', alignItems: 'center' });
+          const caption = document.createElement('figcaption');
+          caption.className = 'text-[10px] text-slate-500 font-bold uppercase tracking-wider';
+          caption.style.marginTop = '6px';
+          caption.textContent = exportModel + ' · ' + previewCopy[side];
+          figure.appendChild(caption);
+          const column = document.createElement('div');
+          column.className = 'text-sm';
+          Object.assign(column.style, { flex: '1 1 auto', minWidth: '0' });
+          column.appendChild(index === 0 ? pdfHeader : pdfHeader.cloneNode(true));
+          sheet.append(figure, column);
+          snapshot.appendChild(sheet);
+          return { sheet, figure, caption, column };
+        });
+        const firstList = listContainer;
+        const nextList = listContainer.cloneNode(false);
+        pages[0].column.append(baseRow, firstList);
+        if (instructions) pages[0].column.appendChild(instructions);
+        pages[0].column.appendChild(total);
+        pages[1].column.appendChild(nextList);
         // The detached snapshot must not duplicate application element IDs.
-        snapshot.removeAttribute('id');
         snapshot.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
         // Materialize CSS uppercase in the export copy. html2canvas 1.x uses
         // transformed text offsets against the original node; German ß -> SS
         // otherwise exceeds the Range length (for example, Bundgröße).
-        snapshot.querySelectorAll('.uppercase').forEach(element => {
+        const materializeUppercase = root => root.querySelectorAll('.uppercase').forEach(element => {
           const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
           while (walker.nextNode()) walker.currentNode.data = walker.currentNode.data.toUpperCase();
           element.style.textTransform = 'none';
         });
+        materializeUppercase(snapshot);
         const opt = {
           margin: 10,
           filename: 'RavenForge_' + exportModel + '_Specification.pdf',
@@ -1200,6 +1270,34 @@ const handleOptionChange = (categoryId, optionId) => {
           jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
         try {
+          const images = await Promise.all(sides.map(({ svg }) => svg ? rasterizePreview(svg).catch(() => null) : null));
+          images.forEach((source, index) => {
+            const { figure, caption } = pages[index];
+            const media = document.createElement(source ? 'img' : 'p');
+            if (source) {
+              media.src = source;
+              media.alt = caption.textContent;
+              Object.assign(media.style, { display: 'block', maxWidth: '70mm', maxHeight: '258mm', width: 'auto', height: 'auto' });
+            } else {
+              media.className = 'text-xs text-slate-500';
+              media.textContent = sides[index].svg ? previewCopy.imageError : previewCopy.backMissing;
+            }
+            figure.insertBefore(media, caption);
+          });
+          await Promise.all(Array.from(snapshot.querySelectorAll('img'), image => image.decode().catch(() => {})));
+          // Lay out off-screen at the PDF width, then move the trailing summary
+          // blocks to page 2 until the first page fits its fixed height.
+          Object.assign(snapshot.style, { position: 'fixed', left: '-10000px', top: '0' });
+          document.body.appendChild(snapshot);
+          const first = pages[0];
+          const tail = [...rows, instructions, total].filter(Boolean);
+          while (first.column.offsetHeight > first.sheet.clientHeight && tail.length) {
+            const item = tail.pop();
+            if (rows.includes(item)) nextList.prepend(item);
+            else nextList.after(item);
+          }
+          snapshot.remove();
+          Object.assign(snapshot.style, { position: '', left: '', top: '' });
           await html2pdf().set(opt).from(snapshot).save();
         } catch (error) {
           setPdfError(ui.pdfError);
@@ -1237,7 +1335,7 @@ const handleOptionChange = (categoryId, optionId) => {
               <aside className="rf-preview-column">
                 <RavenForgePreview.Component model={selectedModel} selections={selections} finishColor={finishColor}
                   language={language} categoryTitles={ui.categoryTitles} specialOptions={specialOptions} bindruneExample={previewBindrunes[selectedModel]}
-                  labels={Object.fromEntries(configData.categories.filter(cat => selections[cat.id]).map(cat => [cat.id, selectedOptionLabel(cat.id)]))} />
+                  labels={previewLabels} />
               </aside>
               <div id="config-options" className="rf-config-options space-y-8">
                 {/* First-visit guide: the defaults already form a complete instrument. */}
