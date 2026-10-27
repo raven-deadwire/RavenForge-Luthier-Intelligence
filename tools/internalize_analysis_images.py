@@ -14,7 +14,9 @@ Each entry keeps its `source` link to the maker, and
 tools/analysis-image-sources.json records the original URL of every copy.
 
 A shot whose src fails is saved from its fallback instead (as the page itself
-would show it). A shot whose src and fallback both fail stays hotlinked and is
+would show it). i0.wp.com (the WordPress image CDN) answers 404 to scripted
+requests, so a URL behind it is also tried directly on the original host.
+Shots that already point at a file in this repo are left alone. A shot whose src and fallback both fail stays hotlinked and is
 listed as SKIPPED, so the runtime fallbacks (Instagram embeds, the missing-image
 placeholder) keep working. It is idempotent: shots already pointing at
 assets/analysis/ are left alone.
@@ -55,6 +57,12 @@ EXTRA_SHOT = re.compile(r'\{ "label": "(?P<label>[^"]*)", "src": "(?P<src>[^"]*)
 EXTRA_ENTRY = re.compile(r'^ "(?P<name>[^"]+)": \{', re.M)
 
 
+def unwrap(url: str) -> str | None:
+    """https://i0.wp.com/host/path?w=… -> https://host/path"""
+    m = re.match(r'https://i\d\.wp\.com/([^?]+)', url)
+    return f'https://{m.group(1)}' if m else None
+
+
 def slug(text: str) -> str:
     return re.sub(r'[^a-z0-9]+', '-', text.lower()).strip('-')[:48]
 
@@ -63,7 +71,8 @@ def fetch(url: str) -> Image.Image | None:
     for attempt in range(2):
         try:
             req = urllib.request.Request(url, headers={
-                'User-Agent': UA, 'Accept': 'image/avif,image/webp,image/apng,image/*,*/*;q=0.8'})
+                'User-Agent': UA, 'Accept': 'image/avif,image/webp,image/apng,image/*,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9', 'Sec-Fetch-Dest': 'image'})
             with urllib.request.urlopen(req, timeout=30) as res:
                 body = res.read()
             img = Image.open(io.BytesIO(body))
@@ -107,14 +116,16 @@ def process(path: Path, shot_re: re.Pattern, entry_re: re.Pattern, quote: str, m
         name = owner(entries, m.start())
         counts[name] = counts.get(name, 0) + 1
         src, fallback = m.group('src'), m.group('fallback')
-        if src.startswith(LOCAL):
+        if not src.startswith('http'):
             return m.group(0)
         bg = 'mode:' in m.group('rest') and "'bg'" in m.group('rest')
         local = f'{LOCAL}{slug(name)}-{counts[name]}.webp'
-        used = src
-        img = fetch(src)
-        if img is None and fallback:
-            used, img = fallback, fetch(fallback)
+        used, img = None, None
+        for url in dict.fromkeys(u for u in (src, fallback, unwrap(src), fallback and unwrap(fallback)) if u):
+            img = fetch(url)
+            if img is not None:
+                used = url
+                break
         if img is None:
             skipped.append(f'{name} #{counts[name]} {m.group("label")}')
             return m.group(0)
@@ -122,7 +133,7 @@ def process(path: Path, shot_re: re.Pattern, entry_re: re.Pattern, quote: str, m
         manifest[local] = {'maker': name, 'label': m.group('label'), 'original': used}
         print(f'  {local} <- {used}')
         rest = m.group('rest')
-        if used != src and bg:
+        if used not in (src, unwrap(src)) and bg:
             # The runtime fallback switches the background to cover/centre; keep that look.
             rest = re.sub(r",bgSize:'[^']*'", ",bgSize:'cover'", rest)
             rest = re.sub(r",bgPos:'[^']*'", ",bgPos:'50% 50%'", rest)
