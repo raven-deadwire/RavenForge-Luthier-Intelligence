@@ -19,6 +19,11 @@
   "label": "Saturn 5",
   "original": "https://assets.bassbuddha.com/app/uploads/2023/04/Adamovic-Saturn-from-2011-2012-No.001-PRE-OWNED-Banner-V2.jpg"
  },
+ "assets/analysis/alan-cringean-guitars-acg-1.webp": {
+  "maker": "Alan Cringean Guitars (ACG)",
+  "label": "Krell",
+  "original": "https://cdn.basschat.co.uk/monthly_2024_02/IMG_5513.jpeg.77ee5bdbd63ad01e889d802d8d0819c9.jpeg"
+ },
  "assets/analysis/alan-cringean-guitars-acg-2.webp": {
   "maker": "Alan Cringean Guitars (ACG)",
   "label": "Recurve",
@@ -59,6 +64,21 @@
   "label": "Crusher CXE Elite",
   "original": "https://lirp.cdn-website.com/7604c249/dms3rep/multi/opt/Crusher%2BCXE6%2BWeb%2BMulti-Photoroom-1920w.jpg"
  },
+ "assets/analysis/anaconda-basses-2.webp": {
+  "maker": "Anaconda Basses",
+  "label": "Ultra J5 Essence",
+  "original": "https://assets.bassbuddha.com/app/uploads/2023/01/Anaconda-Ultra-J5-Essence-Seafoam-Green-PRE-OWNED-1.jpg"
+ },
+ "assets/analysis/anka-custom-1.webp": {
+  "maker": "Anka Custom",
+  "label": "Hathor Deluxe 5",
+  "original": "https://www.notreble.com/wp-content/uploads/2017/09/Anka-Custom-Guitars-Hathor-Deluxe-5-String-Body-Bass-Body-Angle-3-1500x1000.jpg"
+ },
+ "assets/analysis/anka-custom-2.webp": {
+  "maker": "Anka Custom",
+  "label": "Noumeno DX",
+  "original": "https://www.notreble.com/wp-content/uploads/2023/11/Anka-Custom-Noumeno-DX-Bass-Body-1000x667.jpeg"
+ },
  "assets/analysis/aristides-guitars-1.webp": {
   "maker": "Aristides Guitars",
   "label": "050 Bass",
@@ -98,6 +118,11 @@
   "maker": "Brubaker Guitars",
   "label": "JXB",
   "original": "https://images.squarespace-cdn.com/content/v1/662d99cac176cb75f7f42dc6/1721689811501-9NFBY4IRD1165A8OR8UR/JXB4MLPBCCF_VERT_F_640x1262.jpg"
+ },
+ "assets/analysis/carl-thompson-1.webp": {
+  "maker": "Carl Thompson",
+  "label": "Full Frills #12520",
+  "original": "https://www.notreble.com/wp-content/uploads/2021/01/Carl-Thompson-Full-Frills-Serial-12520-Bass-Body-scaled-1000x667.jpeg"
  },
  "assets/analysis/carl-thompson-2.webp": {
   "maker": "Carl Thompson",
@@ -159,6 +184,11 @@
   "label": "Cricket Semi-Hollow",
   "original": "https://www.chicagomusicexchange.com/cdn/shop/products/drake-bass-guitars-4-string-drake-custom-cricket-semi-hollow-medium-scale-bass-natural-2017-u3747090201-29301065515143_2000x.jpg?v=1655489300"
  },
+ "assets/analysis/drake-custom-bass-2.webp": {
+  "maker": "Drake Custom Bass",
+  "label": "Custom Fretless 4",
+  "original": "https://www.notreble.com/wp-content/uploads/2024/09/Drake-Bass-Custom-Fretless-4-String-Bass-Body-1000x667.jpg"
+ },
  "assets/analysis/eich-amplification-1.webp": {
   "maker": "EICH Amplification",
   "label": "T900",
@@ -204,15 +234,10 @@
   "label": "GGi5",
   "original": "https://www.rocketmusicshop.com/cdn/shop/files/8041-BODY-SQ-2000.jpg?v=1730567333&width=1445"
  },
- "assets/analysis/haussel-pickups-1.webp": {
-  "maker": "Häussel Pickups",
-  "label": "MM 5-string",
-  "original": "https://www.bassparts.de/WebRoot/Store/Shops/61038859/5A0D/970C/C14E/F577/C5F3/0A0C/6D05/795D/MM5_ohne_Ohren_-_black.jpg"
- },
- "assets/analysis/haussel-pickups-2.webp": {
-  "maker": "Häussel Pickups",
-  "label": "JB 5-string 70ies",
-  "original": "https://www.bassparts.de/WebRoot/Store/Shops/61038859/6409/C790/E40F/83A3/8156/0A0C/6D0F/CE80/003.jpg"
+ "assets/analysis/g-gould-music-2.webp": {
+  "maker": "G. Gould Music",
+  "label": "GGi5-Studio³",
+  "original": "https://www.notreble.com/wp-content/uploads/2025/12/G.-Gould-GGi5-Studio3-Bass-Body.jpg"
  },
  "assets/analysis/halo-custom-guitars-1.webp": {
   "maker": "Halo Custom Guitars",
@@ -223,6 +248,16 @@
   "maker": "Halo Custom Guitars",
   "label": "MERUS 6 Headless",
   "original": "https://www.haloguitars.com/store/image/cache/catalog/stock/guitars/HEADLESS-MERUS-6-R-26-HIPSHOT-POPLAR.BURL-TCR-HH/halo-custom-guitars-headless-merus-6-body-1200x1200.jpg"
+ },
+ "assets/analysis/haussel-pickups-1.webp": {
+  "maker": "Häussel Pickups",
+  "label": "MM 5-string",
+  "original": "https://www.bassparts.de/WebRoot/Store/Shops/61038859/5A0D/970C/C14E/F577/C5F3/0A0C/6D05/795D/MM5_ohne_Ohren_-_black.jpg"
+ },
+ "assets/analysis/haussel-pickups-2.webp": {
+  "maker": "Häussel Pickups",
+  "label": "JB 5-string 70ies",
+  "original": "https://www.bassparts.de/WebRoot/Store/Shops/61038859/6409/C790/E40F/83A3/8156/0A0C/6D0F/CE80/003.jpg"
  },
  "assets/analysis/herrick-pickups-1.webp": {
   "maker": "Herrick Pickups",
@@ -299,6 +334,11 @@
   "label": "Century",
   "original": "https://www.doctorbass.net/imagftp/im21005173113lorita-andre769s-rotmistrovsky-signature.jpg"
  },
+ "assets/analysis/lorita-basses-2.webp": {
+  "maker": "Lorita Basses",
+  "label": "Century Series II",
+  "original": "https://www.notreble.com/wp-content/uploads/2017/02/Lorita-Century-Series-II-Body-1000x667.jpg"
+ },
  "assets/analysis/lusithand-devices-1.webp": {
   "maker": "Lusithand Devices",
   "label": "Double NFP Special MKII",
@@ -374,6 +414,11 @@
   "label": "Veil B5 Midscale",
   "original": "https://assets.bassbuddha.com/app/uploads/2024/11/Meta-Guitars-Veil-B-5-Midscale-Almond-1.jpg"
  },
+ "assets/analysis/meta-guitars-2.webp": {
+  "maker": "Meta Guitars",
+  "label": "Pragma Sutkin Signature",
+  "original": "https://www.notreble.com/wp-content/uploads/2025/10/Meta-Guitars-Pragma-Sutkin-Body.jpg"
+ },
  "assets/analysis/michael-tobias-design-mtd-1.webp": {
   "maker": "Michael Tobias Design (MTD)",
   "label": "735-24 — 7-string Myrtle Burl",
@@ -419,6 +464,11 @@
   "label": "Progress Series IV Custom",
   "original": "https://bassfreaks.net/cdn/shop/files/OverwaterProgressSeriesIVCustom530_-Bubinga0BassFreaks1.jpg?v=1763551684&width=940"
  },
+ "assets/analysis/overwater-basses-2.webp": {
+  "maker": "Overwater Basses",
+  "label": "CONTEMPORARY J Custom",
+  "original": "https://overwaterbasses.com/wp-content/uploads/2026/06/Contemporary-J-4278.png"
+ },
  "assets/analysis/padalka-guitars-1.webp": {
   "maker": "Padalka Guitars",
   "label": "Ennea №156",
@@ -428,6 +478,11 @@
   "maker": "Padalka Guitars",
   "label": "Ennea-H SN236",
   "original": "https://pzgnnyvyrmlfxdsgoiji.supabase.co/storage/v1/object/public/instrument-images/catalog/c09628122fda-DSCF2869.webp"
+ },
+ "assets/analysis/payson-bass-multi-scale-hardware-1.webp": {
+  "maker": "Payson Bass — Multi-Scale Hardware",
+  "label": "Multi-Scale Bass Bridge",
+  "original": "https://www.paysonbass.com/uploads/6/1/0/3/61038345/s819557713351887655_p132_i2_w2553.jpeg"
  },
  "assets/analysis/payson-bass-multi-scale-hardware-2.webp": {
   "maker": "Payson Bass — Multi-Scale Hardware",
@@ -449,6 +504,11 @@
   "label": "Futura",
   "original": "https://www.notreble.com/wp-content/uploads/2016/02/Roks-Instruments-Futura-Body-Angle.jpg"
  },
+ "assets/analysis/roks-instruments-2.webp": {
+  "maker": "Roks Instruments",
+  "label": "Microtonal Futura",
+  "original": "https://www.notreble.com/wp-content/uploads/2017/05/Roks-Instruments-Microtonal-Futura-Bass-Body-Front.jpg"
+ },
  "assets/analysis/sandberg-guitars-1.webp": {
   "maker": "Sandberg Guitars",
   "label": "California TM4 Patchwork",
@@ -459,15 +519,35 @@
   "label": "California VM5 Patchwork",
   "original": "https://www.chicagomusicexchange.com/cdn/shop/products/sandberg-bass-guitars-5-string-or-more-sandberg-vm5-patchwork-bass-namm-2020-sandpatch-34396-28568317591687_2000x.jpg?v=1650504192"
  },
+ "assets/analysis/shuker-basses-1.webp": {
+  "maker": "Shuker Basses",
+  "label": "JJ Burnel Signature",
+  "original": "https://cdn.basschat.co.uk/monthly_2022_09/PXL_20220909_154558980.jpg.3cc63b211ae25c3cfeff407e8cb0a64a.jpg"
+ },
  "assets/analysis/shuker-basses-2.webp": {
   "maker": "Shuker Basses",
   "label": "Horn",
   "original": "https://www.andybaxterbass.com/cdn/shop/files/IMG_1500.jpg?v=1726062380"
  },
+ "assets/analysis/skervesen-guitars-1.webp": {
+  "maker": "Skervesen Guitars",
+  "label": "Mondo Bass",
+  "original": "https://www.notreble.com/wp-content/uploads/2014/05/Skervesen-Mondo-Bass-Body-667x667.jpg"
+ },
  "assets/analysis/skervesen-guitars-2.webp": {
   "maker": "Skervesen Guitars",
   "label": "Raptor 7 Multiscale",
   "original": "https://www.musicstorelive.com/media/catalog/product/1/_/1_skervesen_raptor_7_guitar_blue_graphite_burst_flame_maple_top_bare_knuckle_pickups.jpg?bg-color=255%2C255%2C255&fit=bounds&height=700&optimize=medium&width=700"
+ },
+ "assets/analysis/skjold-design-guitars-1.webp": {
+  "maker": "Skjold Design Guitars",
+  "label": "Drakkar",
+  "original": "https://www.notreble.com/wp-content/uploads/2016/03/Skjold-Design-Drakkar-Bass-Body-Angle-1000x667.jpg"
+ },
+ "assets/analysis/skjold-design-guitars-2.webp": {
+  "maker": "Skjold Design Guitars",
+  "label": "Lion’s Pride",
+  "original": "https://cdn.basschat.co.uk/monthly_2020_06/IMG-2662.jpg.5b33386b1b4002f59bdbed5fc7abf55a.jpg"
  },
  "assets/analysis/spector-basses-1.webp": {
   "maker": "Spector Basses",
@@ -478,6 +558,16 @@
   "maker": "Spector Basses",
   "label": "NS-5",
   "original": "https://spectorbass.com/cdn/shop/files/Custom_Shop_Basses_2024_0085_223081C.webp?v=1757967530&width=400"
+ },
+ "assets/analysis/stradi-basses-1.webp": {
+  "maker": "Stradi Basses",
+  "label": "Symphony",
+  "original": "https://www.public-peace.de/images/product_images/original_images/Shopbilder/Stradi/HF5A1595.png"
+ },
+ "assets/analysis/stradi-basses-2.webp": {
+  "maker": "Stradi Basses",
+  "label": "Reformer",
+  "original": "https://www.notreble.com/wp-content/uploads/2020/11/Stradi-Reformer-Bass-Body-1000x667.jpg"
  },
  "assets/analysis/sugi-guitars-1.webp": {
   "maker": "Sugi Guitars",

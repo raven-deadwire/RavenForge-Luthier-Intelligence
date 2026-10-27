@@ -66,7 +66,7 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
  },
  "Roks Instruments": {
   "model": "Futura / Microtonal Futura",
-  "shots": [ { "label": "Futura", "src": "assets/analysis/roks-instruments-1.webp", "pos": "50% 58%" }, { "label": "Microtonal Futura", "src": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2017/05/Roks-Instruments-Microtonal-Futura-Bass-Body-Front.jpg?w=1000&ssl=1", "pos": "50% 60%", "fallback": "https://www.notreble.com/wp-content/uploads/2017/05/Roks-Instruments-Microtonal-Futura-Bass-Body-Front.jpg" } ],
+  "shots": [ { "label": "Futura", "src": "assets/analysis/roks-instruments-1.webp", "pos": "50% 58%" }, { "label": "Microtonal Futura", "src": "assets/analysis/roks-instruments-2.webp", "pos": "50% 60%", "fallback": "https://www.notreble.com/wp-content/uploads/2017/05/Roks-Instruments-Microtonal-Futura-Bass-Body-Front.jpg" } ],
   "source": "https://www.notreble.com/buzz/tag/roks-instruments/"
  },
  "Aviator Guitars": {
@@ -82,7 +82,7 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
  },
  "Stradi Basses": {
   "model": "Symphony / Reformer",
-  "shots": [ { "label": "Symphony", "src": "https://i0.wp.com/www.public-peace.de/images/product_images/original_images/Shopbilder/Stradi/HF5A1595.png?w=1000&ssl=1", "pos": "50% 64%", "fallback": "https://www.public-peace.de/images/product_images/original_images/Shopbilder/Stradi/HF5A1595.png" }, { "label": "Reformer", "src": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2020/11/Stradi-Reformer-Bass-Body-1000x667.jpg", "pos": "50% 62%", "fallback": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2020/11/Stradi-Reformer-Bass-Body-2-1000x667.jpg" } ],
+  "shots": [ { "label": "Symphony", "src": "assets/analysis/stradi-basses-1.webp", "pos": "50% 64%", "fallback": "https://www.public-peace.de/images/product_images/original_images/Shopbilder/Stradi/HF5A1595.png" }, { "label": "Reformer", "src": "assets/analysis/stradi-basses-2.webp", "pos": "50% 62%", "fallback": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2020/11/Stradi-Reformer-Bass-Body-2-1000x667.jpg" } ],
   "source": "https://stradi.pl/"
  },
  "Benevolent Basses": {
@@ -97,7 +97,7 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
  },
  "Lorita Basses": {
   "model": "Century / Century Series II",
-  "shots": [ { "label": "Century", "src": "assets/analysis/lorita-basses-1.webp", "pos": "50% 61%" }, { "label": "Century Series II", "src": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2017/02/Lorita-Century-Series-II-Body-1000x667.jpg", "fallback": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2017/02/Lorita-Century-Series-II-Cutaway.jpg?fit=704%2C471&ssl=1", "pos": "50% 54%" } ],
+  "shots": [ { "label": "Century", "src": "assets/analysis/lorita-basses-1.webp", "pos": "50% 61%" }, { "label": "Century Series II", "src": "assets/analysis/lorita-basses-2.webp", "pos": "50% 54%" } ],
   "source": "https://www.talkbass.com/threads/lorita-basses-new-model.1305507/"
  },
  "Mattisson Basses": {
@@ -107,23 +107,23 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
  },
  "Alan Cringean Guitars (ACG)": {
   "model": "Krell / Recurve",
-  "shots": [ { "label": "Krell", "src": "https://i0.wp.com/cdn.basschat.co.uk/monthly_2024_02/IMG_5513.jpeg.77ee5bdbd63ad01e889d802d8d0819c9.jpeg?w=1000&ssl=1", "pos": "50% 62%", "fallback": "https://cdn.basschat.co.uk/monthly_2024_02/IMG_5513.jpeg.77ee5bdbd63ad01e889d802d8d0819c9.jpeg" }, { "label": "Recurve", "src": "assets/analysis/alan-cringean-guitars-acg-2.webp", "pos": "50% 63%" } ],
+  "shots": [ { "label": "Krell", "src": "assets/analysis/alan-cringean-guitars-acg-1.webp", "pos": "50% 62%", "fallback": "https://cdn.basschat.co.uk/monthly_2024_02/IMG_5513.jpeg.77ee5bdbd63ad01e889d802d8d0819c9.jpeg" }, { "label": "Recurve", "src": "assets/analysis/alan-cringean-guitars-acg-2.webp", "pos": "50% 63%" } ],
   "source": "https://acguitars.co.uk/"
  },
  "Anaconda Basses": {
   "pair": true,
   "model": "Crusher CXE Elite / Ultra J5 Essence",
-  "shots": [ { "label": "Crusher CXE Elite", "src": "assets/analysis/anaconda-basses-1.webp", "pos": "50% 50%", "fit": "cover", "modalFit": "contain" }, { "label": "Ultra J5 Essence", "src": "https://i0.wp.com/assets.bassbuddha.com/app/uploads/2023/01/Anaconda-Ultra-J5-Essence-Seafoam-Green-PRE-OWNED-1.jpg?w=1000&ssl=1", "pos": "50% 50%", "fit": "cover", "modalFit": "contain", "fallback": "https://assets.bassbuddha.com/app/uploads/2023/01/Anaconda-Ultra-J5-Essence-Seafoam-Green-PRE-OWNED-1.jpg" } ],
+  "shots": [ { "label": "Crusher CXE Elite", "src": "assets/analysis/anaconda-basses-1.webp", "pos": "50% 50%", "fit": "cover", "modalFit": "contain" }, { "label": "Ultra J5 Essence", "src": "assets/analysis/anaconda-basses-2.webp", "pos": "50% 50%", "fit": "cover", "modalFit": "contain", "fallback": "https://assets.bassbuddha.com/app/uploads/2023/01/Anaconda-Ultra-J5-Essence-Seafoam-Green-PRE-OWNED-1.jpg" } ],
   "source": "https://www.anacondabasses.co.uk/crusher-cxe---elite567c9839"
  },
  "Overwater Basses": {
   "model": "Progress Series IV Custom / CONTEMPORARY J Custom",
-  "shots": [ { "label": "Progress Series IV Custom", "src": "assets/analysis/overwater-basses-1.webp", "pos": "50% 60%", "zoom": 1.12, "origin": "50% 60%" }, { "label": "CONTEMPORARY J Custom", "src": "https://i0.wp.com/overwaterbasses.com/wp-content/uploads/2026/06/Contemporary-J-4278.png?w=1000&ssl=1", "pos": "50% 60%", "zoom": 1.1, "origin": "50% 60%", "fallback": "https://overwaterbasses.com/wp-content/uploads/2026/06/Contemporary-J-4278.png" } ],
+  "shots": [ { "label": "Progress Series IV Custom", "src": "assets/analysis/overwater-basses-1.webp", "pos": "50% 60%", "zoom": 1.12, "origin": "50% 60%" }, { "label": "CONTEMPORARY J Custom", "src": "assets/analysis/overwater-basses-2.webp", "pos": "50% 60%", "zoom": 1.1, "origin": "50% 60%", "fallback": "https://overwaterbasses.com/wp-content/uploads/2026/06/Contemporary-J-4278.png" } ],
   "source": "https://overwaterbasses.com/"
  },
  "Shuker Basses": {
   "model": "JJ Burnel Signature / Horn",
-  "shots": [ { "label": "JJ Burnel Signature", "src": "https://i0.wp.com/cdn.basschat.co.uk/monthly_2022_09/PXL_20220909_154558980.jpg.3cc63b211ae25c3cfeff407e8cb0a64a.jpg?w=1000&ssl=1", "pos": "50% 64%", "fallback": "https://cdn.basschat.co.uk/monthly_2022_09/PXL_20220909_154558980.jpg.3cc63b211ae25c3cfeff407e8cb0a64a.jpg" }, { "label": "Horn", "src": "assets/analysis/shuker-basses-2.webp", "pos": "50% 63%" } ],
+  "shots": [ { "label": "JJ Burnel Signature", "src": "assets/analysis/shuker-basses-1.webp", "pos": "50% 64%", "fallback": "https://cdn.basschat.co.uk/monthly_2022_09/PXL_20220909_154558980.jpg.3cc63b211ae25c3cfeff407e8cb0a64a.jpg" }, { "label": "Horn", "src": "assets/analysis/shuker-basses-2.webp", "pos": "50% 63%" } ],
   "source": "https://shukerguitars.co.uk/"
  },
  "Wal Basses": {
@@ -143,7 +143,7 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
  },
  "Drake Custom Bass": {
   "model": "Cricket Semi-Hollow / Custom Fretless 4",
-  "shots": [ { "label": "Cricket Semi-Hollow", "src": "assets/analysis/drake-custom-bass-1.webp", "pos": "50% 63%" }, { "label": "Custom Fretless 4", "src": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2024/09/Drake-Bass-Custom-Fretless-4-String-Bass-Body-1000x667.jpg", "pos": "50% 62%", "fallback": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2024/09/Drake-Bass-Custom-Fretless-4-String-Bass-Body-2-1000x667.jpg" } ],
+  "shots": [ { "label": "Cricket Semi-Hollow", "src": "assets/analysis/drake-custom-bass-1.webp", "pos": "50% 63%" }, { "label": "Custom Fretless 4", "src": "assets/analysis/drake-custom-bass-2.webp", "pos": "50% 62%", "fallback": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2024/09/Drake-Bass-Custom-Fretless-4-String-Bass-Body-2-1000x667.jpg" } ],
   "source": "https://drakecustombass.com/"
  },
  "Elrick Bass Guitars": {
@@ -153,7 +153,7 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
  },
  "G. Gould Music": {
   "model": "GGi5 / GGi5-Studio³",
-  "shots": [ { "label": "GGi5", "src": "assets/analysis/g-gould-music-1.webp", "pos": "50% 62%" }, { "label": "GGi5-Studio³", "src": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2025/12/G.-Gould-GGi5-Studio3-Bass-Body.jpg?w=2000&ssl=1", "pos": "50% 62%", "fallback": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2025/12/G.-Gould-GGi5-Studio3-Bass-1000x667.jpg" } ],
+  "shots": [ { "label": "GGi5", "src": "assets/analysis/g-gould-music-1.webp", "pos": "50% 62%" }, { "label": "GGi5-Studio³", "src": "assets/analysis/g-gould-music-2.webp", "pos": "50% 62%", "fallback": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2025/12/G.-Gould-GGi5-Studio3-Bass-1000x667.jpg" } ],
   "source": "https://www.ggould.com/"
  },
  "Halo Custom Guitars": {
@@ -163,7 +163,7 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
  },
  "Skjold Design Guitars": {
   "model": "Drakkar / Lion’s Pride",
-  "shots": [ { "label": "Drakkar", "src": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2016/03/Skjold-Design-Drakkar-Bass-Body-Angle-1000x667.jpg", "pos": "50% 62%", "fallback": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2016/03/Skjold-Design-Drakkar-6-String-Bass-Full-1000x667.jpg" }, { "label": "Lion’s Pride", "src": "https://i0.wp.com/cdn.basschat.co.uk/monthly_2020_06/IMG-2662.jpg.5b33386b1b4002f59bdbed5fc7abf55a.jpg?w=1000&ssl=1", "pos": "50% 62%", "fallback": "https://cdn.basschat.co.uk/monthly_2020_06/IMG-2662.jpg.5b33386b1b4002f59bdbed5fc7abf55a.jpg" } ],
+  "shots": [ { "label": "Drakkar", "src": "assets/analysis/skjold-design-guitars-1.webp", "pos": "50% 62%", "fallback": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2016/03/Skjold-Design-Drakkar-6-String-Bass-Full-1000x667.jpg" }, { "label": "Lion’s Pride", "src": "assets/analysis/skjold-design-guitars-2.webp", "pos": "50% 62%", "fallback": "https://cdn.basschat.co.uk/monthly_2020_06/IMG-2662.jpg.5b33386b1b4002f59bdbed5fc7abf55a.jpg" } ],
   "source": "https://www.skjolddesign.com/"
  },
  "Spector Basses": {
@@ -174,13 +174,13 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
  "Carl Thompson": {
   "pair": true,
   "model": "Full Frills #12520 / 4-String Scroll Bass",
-  "shots": [ { "label": "Full Frills #12520", "src": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2021/01/Carl-Thompson-Full-Frills-Serial-12520-Bass-Body-scaled-1000x667.jpeg", "fallback": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2021/01/Carl-Thompson-Full-Frills-Serial-12520-Bass.jpg?w=1779&ssl=1", "pos": "50% 58%", "zoom": 1.08, "origin": "50% 58%", "fit": "cover", "modalFit": "contain", "modalPos": "50% 50%", "modalZoom": 1 }, { "label": "4-String Scroll Bass", "src": "assets/analysis/carl-thompson-2.webp", "pos": "50% 56%", "zoom": 1.06, "origin": "50% 56%", "fit": "cover", "modalFit": "contain", "modalPos": "50% 50%", "modalZoom": 1 } ],
+  "shots": [ { "label": "Full Frills #12520", "src": "assets/analysis/carl-thompson-1.webp", "pos": "50% 58%", "zoom": 1.08, "origin": "50% 58%", "fit": "cover", "modalFit": "contain", "modalPos": "50% 50%", "modalZoom": 1 }, { "label": "4-String Scroll Bass", "src": "assets/analysis/carl-thompson-2.webp", "pos": "50% 56%", "zoom": 1.06, "origin": "50% 56%", "fit": "cover", "modalFit": "contain", "modalPos": "50% 50%", "modalZoom": 1 } ],
   "source": "https://www.notreble.com/buzz/2021/01/04/bass-of-the-week-carl-thompson-full-frills-serial-12520/"
  },
  "Meta Guitars": {
   "pair": true,
   "model": "Veil B5 / Pragma Sutkin Signature",
-  "shots": [ { "label": "Veil B5 Midscale", "src": "assets/analysis/meta-guitars-1.webp", "pos": "50% 58%", "zoom": 1.06, "origin": "50% 58%", "fit": "cover", "modalFit": "contain", "modalPos": "50% 50%", "modalZoom": 1 }, { "label": "Pragma Sutkin Signature", "src": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2025/10/Meta-Guitars-Pragma-Sutkin-Body.jpg?resize=1200%2C630&ssl=1", "fallback": "https://metaguitars.fr/wp-content/uploads/2025/06/Sutkin-Signature-Pragma-4M-scaled.jpg", "pos": "50% 54%", "zoom": 1.05, "origin": "50% 54%", "fit": "cover", "modalFit": "contain", "modalPos": "50% 50%", "modalZoom": 1 } ],
+  "shots": [ { "label": "Veil B5 Midscale", "src": "assets/analysis/meta-guitars-1.webp", "pos": "50% 58%", "zoom": 1.06, "origin": "50% 58%", "fit": "cover", "modalFit": "contain", "modalPos": "50% 50%", "modalZoom": 1 }, { "label": "Pragma Sutkin Signature", "src": "assets/analysis/meta-guitars-2.webp", "pos": "50% 54%", "zoom": 1.05, "origin": "50% 54%", "fit": "cover", "modalFit": "contain", "modalPos": "50% 50%", "modalZoom": 1 } ],
   "source": "https://metaguitars.fr/basses/"
  },
  "Fodera Guitars": {
@@ -240,7 +240,7 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
  "Payson Bass — Multi-Scale Hardware": {
   "pair": true,
   "model": "Multi-Scale Bridge / 37–34 in Fanned Nickel Steel Set",
-  "shots": [ { "label": "Multi-Scale Bass Bridge", "src": "https://i0.wp.com/www.paysonbass.com/uploads/6/1/0/3/61038345/s819557713351887655_p132_i2_w2553.jpeg?w=1000&ssl=1", "pos": "50% 50%", "zoom": 1.05, "origin": "50% 50%", "fit": "cover", "fallback": "https://www.paysonbass.com/uploads/6/1/0/3/61038345/s819557713351887655_p132_i2_w2553.jpeg" }, { "label": "37–34 in Fanned Nickel Steel Set", "src": "assets/analysis/payson-bass-multi-scale-hardware-2.webp", "pos": "50% 50%", "zoom": 1, "origin": "50% 50%", "fit": "cover" } ],
+  "shots": [ { "label": "Multi-Scale Bass Bridge", "src": "assets/analysis/payson-bass-multi-scale-hardware-1.webp", "pos": "50% 50%", "zoom": 1.05, "origin": "50% 50%", "fit": "cover", "fallback": "https://www.paysonbass.com/uploads/6/1/0/3/61038345/s819557713351887655_p132_i2_w2553.jpeg" }, { "label": "37–34 in Fanned Nickel Steel Set", "src": "assets/analysis/payson-bass-multi-scale-hardware-2.webp", "pos": "50% 50%", "zoom": 1, "origin": "50% 50%", "fit": "cover" } ],
   "source": "https://www.paysonbass.com/"
  },
  "Delano Pickup Systems": {
@@ -304,7 +304,7 @@ window.RF_ANALYSIS_EXTRA_MEDIA = {
  "Anka Custom": {
   "pair": true,
   "model": "Hathor Deluxe 5 / Noumeno DX",
-  "shots": [ { "label": "Hathor Deluxe 5", "src": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2017/09/Anka-Custom-Guitars-Hathor-Deluxe-5-String-Body-Bass-Body-Angle-3-1500x1000.jpg?w=1000&ssl=1", "fallback": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2017/09/Anka-Custom-Guitars-Hathor-Deluxe-5-String-Bass.jpg?fit=960%2C640&ssl=1", "pos": "50% 52%", "fit": "cover", "modalFit": "contain" }, { "label": "Noumeno DX", "src": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2023/11/Anka-Custom-Noumeno-DX-Bass-Body-1000x667.jpeg", "fallback": "https://i0.wp.com/www.notreble.com/wp-content/uploads/2023/11/Anka-Custom-Noumeno-DX-Bass.jpeg?resize=1200%2C395&ssl=1", "pos": "50% 50%", "fit": "cover", "modalFit": "contain" } ],
+  "shots": [ { "label": "Hathor Deluxe 5", "src": "assets/analysis/anka-custom-1.webp", "pos": "50% 52%", "fit": "cover", "modalFit": "contain" }, { "label": "Noumeno DX", "src": "assets/analysis/anka-custom-2.webp", "pos": "50% 50%", "fit": "cover", "modalFit": "contain" } ],
   "source": "https://ankacustom.com/electric-basses/"
  },
  "Cormac McGrath / McGrath Guitars": {
