@@ -1,6 +1,9 @@
 /* Representative model images for the Analysis luthier cards and modals,
- * rendered by analysis-media-extra-render.js. Images are hotlinked from the
- * makers' and retailers' sites (not redistributed); each entry links its source.
+ * rendered by analysis-media-extra-render.js. Each entry links its source. The
+ * photos are scaled-down WebP copies in assets/analysis/, made by
+ * tools/internalize_analysis_images.py; tools/analysis-image-sources.json lists
+ * the original URL of each. Shots still on a remote URL failed to download and
+ * fall back at runtime (fallback, embed, then a placeholder).
  * Merged from the former per-batch patch files:
  * analysis-media-extra.js, analysis-carl-thompson-media.js, analysis-meta-media.js, analysis-fodera-media.js, analysis-cautionary-alleva-media.js, analysis-components-media.js, analysis-components-media-pair-1.js, analysis-components-media-pair-2.js, analysis-components-media-pair-3.js, analysis-components-media-pair-4.js, analysis-components-media-pair-5.js, analysis-components-media-pair-6.js, analysis-moon-media.js, analysis-media-hotfix.js, analysis-media-curation.js, analysis-media-final.js, analysis-darkglass-mtd-media.js, analysis-stenback-media.js, analysis-anka-media.js, analysis-mcgrath-media.js.
  * McGrath: the official About page replaced IMG_3833_copy.jpg, which now returns 404.
