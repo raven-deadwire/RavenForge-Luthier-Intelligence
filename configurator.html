@@ -61,7 +61,7 @@
 </head>
 <body>
   <script src="./assets/configurator-platforms.js?v=20261008-edda-no-coil-switch"></script>
-  <script src="./assets/configurator-ui.js?v=20261027-verawood"></script>
+  <script src="./assets/configurator-ui.js?v=20261028-fretless-nut"></script>
   <!-- Root element for React App -->
   <div id="root"></div>
 
@@ -259,7 +259,7 @@
           title: 'Fret Type',
           options: [
             { id: 'fret_24', label: '24 frets with zero fret', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'fretless', label: 'fretless with verawood nut', spec: '(* must choose verawood nut)', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
+            { id: 'fretless', label: 'fretless', spec: 'verawood nut selected automatically; bone, horn or other nuts can be chosen instead', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 } }
           ]
         },
         {
@@ -821,7 +821,7 @@
 
   // Both Fishman selectors remain reachable; handleOptionChange pairs the pickup and EQ.
 
-  // Keep nut function compatible with the selected fret format; materials remain selectable.
+  // Fretless has no zero fret, so the brass zero-fret guide and the retainer cannot work; verawood is reserved for fretless.
   if (categoryId === 'nut_material') {
     if (currentSelections['fret_type'] === 'fretless' && ['nut_brass', 'nut_guide'].includes(optionId)) return false;
     if (currentSelections['fret_type'] !== 'fretless' && optionId === 'nut_verawood') return false;
@@ -1606,6 +1606,7 @@ const handleOptionChange = (categoryId, optionId) => {
                                 </h3>
                                 {ui.categoryNotes?.[category.id] && <p className="text-xs text-slate-500 mt-2 leading-relaxed">{ui.categoryNotes[category.id]}</p>}
                                 {category.id === 'hardware_color' && hasNovaBridge && <p data-nova-hardware-color-note className="text-xs text-slate-600 mt-2 leading-relaxed">{ui.novaHardwareColorNote}</p>}
+                                {category.id === 'nut_material' && selections.fret_type === 'fretless' && <p data-fretless-nut-note className="text-xs text-slate-600 mt-2 leading-relaxed">{ui.fretlessNutNote}</p>}
                               </div>
                               <div className="p-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
