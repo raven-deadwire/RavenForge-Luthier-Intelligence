@@ -46,6 +46,7 @@ const pdfOnly = args.includes('--pdf-only');
 const matrixUiOnly = args.includes('--matrix-ui-only');
 const matrixOnly = args.includes('--matrix') || matrixUiOnly;
 const homepageOnly = args.includes('--homepage');
+const pdfLayoutOnly = args.includes('--pdf-layout');
 const caseFilter = arg('--case');
 const fromFilter = arg('--from');
 const root = path.resolve(__dirname, '..');
@@ -248,6 +249,17 @@ async function run() {
         if (fullSummary) assert.match(text, /\bHH\b|dual humbucker|2 humbuckers/i, 'Gramr must retain its HH layout');
       }
     };
+
+    if (pdfLayoutOnly) {
+      activeCheck = 'PDF layout matrix';
+      await require('./test_configurator_pdf_layout.cjs')({
+        page, hostPage, report, output, expectedModels, step, freshModel, quotedAmount,
+      });
+      assert.deepEqual(report.pageErrors, [], 'No browser runtime errors during PDF layout tests');
+      assert.equal(report.checks.filter(check => check.result === 'FAIL').length, 0);
+      report.result = 'PASS';
+      return;
+    }
 
     if (homepageOnly) {
       activeCheck = 'homepage regression summary';
