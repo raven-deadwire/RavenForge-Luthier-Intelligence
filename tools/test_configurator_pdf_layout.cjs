@@ -56,13 +56,16 @@ module.exports = async ({ page, hostPage, report, output, expectedModels, step, 
   };
   report.pdfLayouts = [];
   const reference = new Map();
-  for (const model of expectedModels) {
+  const models = stress ? expectedModels.flatMap(model => [
+    {...model, fixtureType:'fretted'}, ...(model.id === 'GRAMR' ? [] : [{...model, fixtureType:'fretless'}])
+  ]) : expectedModels;
+  for (const model of models) {
     await page.getByRole('button', { name: 'EN', exact: true }).click();
     await freshModel(model.id);
     let fixture;
     if (stress) fixture = await require('./test_configurator_pdf_max.cjs')({page, step, selectOption, model});
     const amount = fixture ? fixture.total : model.basePrice;
-    const profiles = stress ? { max: notes.multiline, token: 'W'.repeat(996) + 'END!' } : notes;
+    const profiles = stress ? { ['max-' + model.fixtureType]: notes.multiline, ['token-' + model.fixtureType]: 'W'.repeat(996) + 'END!' } : notes;
     for (const language of ['en', 'ko', 'de']) {
       await page.getByRole('button', { name: language === 'ko' ? 'KR' : language.toUpperCase(), exact: true }).click();
       for (const [profile, note] of Object.entries(profiles)) {
@@ -98,7 +101,7 @@ module.exports = async ({ page, hostPage, report, output, expectedModels, step, 
             const norm = text => text.replace(/\s+/g, ' ').trim();
             for (const row of fixture.rows) assert.ok(norm(layout.text).includes(norm(row)), 'Retain selected quote row: ' + row);
             assert.match(layout.text, new RegExp('Schaller S-Lock strap pins · ' + fixture.colour));
-            if (model.id !== 'GRAMR') assert.match(layout.text, /verawood/);
+            if (model.fixtureType === 'fretless') assert.match(layout.text, /verawood/);
           }
           if (note) assert.ok(layout.text.includes(note), 'Keep every instruction character');
           for (const img of layout.images) {
@@ -118,6 +121,6 @@ module.exports = async ({ page, hostPage, report, output, expectedModels, step, 
       }
     }
   }
-  assert.equal(report.pdfLayouts.length, stress ? 24 : 48, 'Every matrix case must download a real PDF');
+  assert.equal(report.pdfLayouts.length, stress ? 42 : 48, 'Every matrix case must download a real PDF');
   assert.ok(report.pdfLayouts.some(layout => layout.pages === 2), 'Exercise the two-page branch');
 };

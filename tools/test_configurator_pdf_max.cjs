@@ -37,7 +37,7 @@ module.exports = async ({page, step, selectOption, model}) => {
       Object.assign(selections, await page.locator('input[type="radio"]:checked').evaluateAll(inputs => Object.fromEntries(inputs.map(i => [i.name,i.value]))));
     }
   }
-  if (model.id !== 'GRAMR') {
+  if (model.fixtureType === 'fretless') {
     await step(2);
     await selectOption('fret_type', 'fretless');
     // #67 keeps the nut independent: first confirm an alternative is allowed.

@@ -94,7 +94,7 @@ jobs:
         run: node tools/test_configurator.cjs --pdf-layout --url http://127.0.0.1:8000/configurator.html
       - name: Inspect maximum option PDFs
         if: ${{ !cancelled() && matrix.target == 'candidate' && steps.dependencies.outcome == 'success' }}
-        run: python3 tools/test_configurator_pdf_visual.py "${{ runner.temp }}/homepage-candidate/max-options" 24
+        run: python3 tools/test_configurator_pdf_visual.py "${{ runner.temp }}/homepage-candidate/max-options" 42
       - name: Upload separate homepage evidence
         if: always() && steps.freshness.outputs.current != 'false'
         uses: actions/upload-artifact@v4
