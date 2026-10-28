@@ -50,13 +50,24 @@ def inspect(pdf):
     # the last amount in document order, because the summary rows follow it.
     labelled = re.search(r"(?:VAT|MwSt\.|VAT 별도)\)\s*€\s*([\d,]+)", source, re.I)
     expected_total = (labelled.group(1) if labelled else re.findall(r"€\s*([\d,]+)", source)[-1]).replace(",", "")
-    assert model in actual, f"Model missing from rendered PDF: {pdf.name}"
     # OCR may insert separators into a large amount, but may not substitute
     # another amount. Source text assertions independently compare every row.
     pattern = r"\b" + r"[\s,.]*".join(expected_total) + r"\b"
+    ocr_modes = [6]
+    if model not in actual or not re.search(pattern, actual):
+        # Two-column GRAMR pages are not a single uniform text block. Retry
+        # automatic layout segmentation; still require the literal model and
+        # exact numeric total from rendered pixels, never from source fallback.
+        ocr_modes.append(3)
+        for filename in pages:
+            ocr = subprocess.run(["tesseract", filename, "stdout", "-l", "eng", "--psm", "3"],
+                                 capture_output=True, text=True, check=True, timeout=30,
+                                 env={**os.environ, "OMP_THREAD_LIMIT": "1"})
+            actual += "\n" + ocr.stdout
+    assert model in actual, f"Model missing from rendered PDF: {pdf.name}"
     assert re.search(pattern, actual), f"Total €{expected_total} missing from rendered PDF: {pdf.name}"
     (output / f"{pdf.stem}-ocr.txt").write_text(actual)
-    return {"filename": pdf.name, "pages": len(pages), "rendered_model": model, "rendered_total": expected_total, "page_images": pages, "result": "PASS"}
+    return {"filename": pdf.name, "pages": len(pages), "rendered_model": model, "rendered_total": expected_total, "page_images": pages, "ocr_modes": ocr_modes, "result": "PASS"}
 
 
 # PyMuPDF does not support multithreaded use. Keep rendering sequential;

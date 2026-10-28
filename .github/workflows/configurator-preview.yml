@@ -79,7 +79,7 @@ jobs:
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
         run: python3 tools/test_configurator_pdf_visual.py "${{ runner.temp }}/homepage-${{ matrix.target }}" 24
       - name: Check PDF layout, scale and 1000-character instructions
-        if: matrix.target == 'candidate' && steps.dependencies.outcome == 'success'
+        if: ${{ !cancelled() && matrix.target == 'candidate' && steps.dependencies.outcome == 'success' }}
         env:
           CONFIGURATOR_QA_DIR: ${{ runner.temp }}/homepage-candidate/layout
         run: node tools/test_configurator.cjs --pdf-layout --url http://127.0.0.1:8000/configurator.html
