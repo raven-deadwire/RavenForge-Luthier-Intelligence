@@ -632,7 +632,7 @@ window.RF_CONFIG_I18N = {
     finishColorNote: "Beschreiben Sie die Farben von Decke, Rückseite, Seiten und Kopfplatte sowie transparente oder deckende Oberflächen.",
     finishColorPlaceholder: "z. B. Natur, transparentes Blau, deckendes Schwarz…",
     strapPins: "Schaller-S-Lock-Gurtpins · {colour}",
-    fretlessNutNote: "Bundlos hat keinen Nullbund; die Messing-Saitenführung und der Zero-Fret-Retainer entfallen, ein separater Sattel ist erforderlich.",
+    fretlessNutNote: "Bei Fretless gibt es keinen Nullbund; die Messing-Saitenführung und der Zero-Fret-Retainer entfallen, ein separater Sattel ist erforderlich.",
     novaHardwareColorNote: "Der Preis der Nova-Brücke gilt für schwarz eloxiertes Aluminium. Die gewählte Hardwarefarbe gilt für die übrige Hardware; Sonderfarben der Brücke werden separat kalkuliert.",
     instrumentOptions: "Instrumentenoptionen",
     accessories: "Zubehör",
