@@ -349,7 +349,7 @@ async function run() {
         assert.equal(await quotedAmount(), model.basePrice + 200,
           'The €300 premium case must add only €200 after the included €100 case budget');
         const premiumTotal = await page.locator('[data-summary-total]').innerText();
-        assert.match(premiumTotal, /Estimated total\s*\(excl\. VAT\)/i);
+        assert.match(premiumTotal, /Estimated total\s*\(excl\. taxes & shipping\)/i);
         assert.doesNotMatch(premiumTotal, /subtotal|on.request|quoted separately/i,
           'The premium case has a confirmed surcharge and must not require a separate quote');
 
@@ -360,7 +360,7 @@ async function run() {
         assert.equal(await caseRow.innerText(), standardCase);
         assert.equal(await quotedAmount(), model.basePrice, 'Returning to the included case must restore the exact base total');
         const restoredTotal = await page.locator('[data-summary-total]').innerText();
-        assert.match(restoredTotal, /Estimated total\s*\(excl\. VAT\)/i);
+        assert.match(restoredTotal, /Estimated total\s*\(excl\. taxes & shipping\)/i);
         assert.doesNotMatch(restoredTotal, /subtotal|on-request items/i);
       }
     });
@@ -550,7 +550,7 @@ async function run() {
       assert.match(text, /saddle travel, mounting angle and screw positions to be confirmed/i);
       assert.match(text, /-\s*€\s*70/);
       assert.ok(text.includes(novaNote), 'The other-hardware colour exception must be exported');
-      assert.match(text, /Estimated total\s*\(excl\. VAT\)\s*€\s*3,?130/i);
+      assert.match(text, /Estimated total\s*\(excl\. taxes & shipping\)\s*€\s*3,?130/i);
       assert.doesNotMatch(text, /Priced items subtotal|Price on request/i);
       report.novaPdf = { filename: path.basename(pdf), bytes: buffer.length };
       await page.getByRole('button', { name: /Save.*PDF/i }).waitFor();
@@ -560,7 +560,7 @@ async function run() {
 
     await check('GRAMR: shared option prices and top changes update the total once', async () => {
       await freshModel('GRAMR');
-      assert.match(await page.locator('[data-summary-total]').innerText(), /Estimated total\s*\(excl\. VAT\)\s*€\s*2,?000\b/i);
+      assert.match(await page.locator('[data-summary-total]').innerText(), /Estimated total\s*\(excl\. taxes & shipping\)\s*€\s*2,?000\b/i);
       await step(3);
       assert.equal(await option('color_top', 'top_oil').isChecked(), true);
       assert.equal(await option('color_back_side', 'back_oil').isChecked(), true);
@@ -580,10 +580,10 @@ async function run() {
       assert.doesNotMatch(await page.locator('[data-summary-total]').innerText(), /subtotal|on.request/i);
       await selectOption('top_wood_selection', 'guitar_top_maple_burl');
       const customTop = await page.locator('[data-summary-total]').innerText();
-      assert.match(customTop, /Priced items subtotal\s*\(excl\. VAT\)\s*€\s*2,?450\b/i);
+      assert.match(customTop, /Priced items subtotal\s*\(excl\. taxes & shipping\)\s*€\s*2,?450\b/i);
       assert.match(customTop, /on-request items.*confirmed separately/i);
       await selectOption('top_type', 'guitar_top_none');
-      assert.match(await page.locator('[data-summary-total]').innerText(), /Estimated total\s*\(excl\. VAT\)\s*€\s*2,?450\b/i);
+      assert.match(await page.locator('[data-summary-total]').innerText(), /Estimated total\s*\(excl\. taxes & shipping\)\s*€\s*2,?450\b/i);
     });
 
     await check('GRAMR: passive HH, neck and material customization survives same-model selection', async () => {
@@ -643,7 +643,7 @@ async function run() {
       const text = await summary();
       assertSpecs(text, expectedModels[3]);
       assert.doesNotMatch(text, /Payson|LHZ|Tone Capsule|Bass Core|Fluence 2 band|Lusithand|Cali Dub|BEADG|fretless|slap ramp|finger ramp|Castle flight hard case/i);
-      assert.match(text, /Estimated total\s*\(excl\. VAT\)\s*€\s*2,?000\b/i, 'Standard GRAMR must total €2,000 before VAT');
+      assert.match(text, /Estimated total\s*\(excl\. taxes & shipping\)\s*€\s*2,?000\b/i, 'Standard GRAMR must total €2,000 before taxes and shipping');
       assert.doesNotMatch(text, /€\s*(?:0(?:\.00)?|null|undefined|NaN)\b/, 'GRAMR pricing must not render a zero or invalid total');
       await step(5);
       assert.equal(await page.locator('input[name="lhz_voltage"]').count(), 0);
@@ -741,8 +741,8 @@ async function run() {
       assert.ok(inputs[0].text.includes(finish), 'Requested finish color must be exported');
       assert.ok(inputs[0].text.replace(/\s+/g, ' ').includes(caseSummary.replace(/\s+/g, ' ')),
         'The PDF must include the premium gigbag name and its €200 upgrade price');
-      assert.match(inputs[0].text, /Estimated total\s*\(excl\. VAT\)\s*€\s*2,?200\b/i,
-        'GRAMR with the premium gigbag must total €2,200 before VAT');
+      assert.match(inputs[0].text, /Estimated total\s*\(excl\. taxes & shipping\)\s*€\s*2,?200\b/i,
+        'GRAMR with the premium gigbag must total €2,200 before taxes and shipping');
       assert.doesNotMatch(inputs[0].text, /Priced items subtotal|Price on request|on-request items/i);
       assert.doesNotMatch(inputs[0].text, /€\s*(?:0(?:\.00)?|null|undefined|NaN)\b|Payson|LHZ|BEADG/i);
       await page.getByRole('button', { name: /Save.*PDF/i }).waitFor();
