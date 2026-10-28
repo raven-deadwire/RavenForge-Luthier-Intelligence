@@ -26,6 +26,7 @@ assert len(pdfs) == expected_count, f"Expected all {expected_count} PDFs; found 
 
 def inspect(pdf):
     document = fitz.open(pdf)
+    assert 1 <= len(document) <= 2, f"Expected 1-2 A4 pages: {pdf.name} has {len(document)}"
     pages = []
     text = []
     for number, page in enumerate(document, 1):

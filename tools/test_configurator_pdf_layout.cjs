@@ -27,9 +27,14 @@ module.exports = async ({ page, hostPage, report, output, expectedModels, step, 
         const walker = document.createTreeWalker(sheet, NodeFilter.SHOW_TEXT);
         while (walker.nextNode()) {
           if (!walker.currentNode.data.trim()) continue;
-          const range = document.createRange();
-          range.selectNodeContents(walker.currentNode);
-          for (const rect of range.getClientRects()) inside(rect, walker.currentNode.data);
+          // pre-wrap preserves trailing spaces which may legally hang past
+          // the line box. Measure ink-bearing tokens, not invisible spaces.
+          for (const match of walker.currentNode.data.matchAll(/\S+/gu)) {
+            const range = document.createRange();
+            range.setStart(walker.currentNode, match.index);
+            range.setEnd(walker.currentNode, match.index + match[0].length);
+            for (const rect of range.getClientRects()) inside(rect, match[0]);
+          }
         }
         for (const img of sheet.querySelectorAll('figure img')) {
           const rect = img.getBoundingClientRect(); inside(rect, img.alt);
@@ -76,6 +81,11 @@ module.exports = async ({ page, hostPage, report, output, expectedModels, step, 
           assert.equal(layout.images.length, 2, 'Both rendered sides must be present');
           assert.deepEqual(layout.violations, [], 'No image or text may extend outside an A4 content page');
           assert.match(layout.text, /SPECIFICATION SUMMARY/);
+          assert.match(layout.text, /Dimensions require approved drawings/);
+          if (model.id === 'EDDA') {
+            assert.match(layout.text, /Approximate photo\/concept scale/);
+            for (const img of layout.images) assert.match(img.alt, /approx\. 1:/i);
+          }
           assert.ok(layout.text.includes('€' + model.basePrice));
           if (note) assert.ok(layout.text.includes(note), 'Keep every instruction character');
           for (const img of layout.images) {

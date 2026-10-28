@@ -703,3 +703,18 @@ console.log('PASS: finish appearance follows wood and finish type, opaque keeps 
  }
 }
 console.log('PASS: drawing units per millimetre match each model drawing for scaled PDF images');
+
+// Independent scale check against fret spacing, rather than copying the same
+// unitsPerMm constant from another table. These are drawing checks, not physical QA.
+{
+ const ratio=0.5-(1-2**(-1/12));
+ for(const [model,lengths] of Object.entries({EMBLA:[863.6,863.6],ASKR:[939.8,863.6],GRAMR:[647.7,647.7]})) {
+  const g=preview.scene(model,JSON.parse(JSON.stringify(normalize(model))),'').g;
+  for(let side=0;side<2;side++) {
+   const a=g.frets[0][side],b=g.frets[11][side];
+   const mm=Math.hypot(b[0]-a[0],b[1]-a[1])/ratio/preview.unitsPerMm(model,'front');
+   assert.ok(Math.abs(mm/lengths[side]-1)<.005, `${model}: fret spacing must agree with nominal scale within 0.5%`);
+  }
+ }
+}
+console.log('PASS: independent fret-spacing calibration; EDDA physical scale remains unverified');
