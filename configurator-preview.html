@@ -62,7 +62,7 @@
 </head>
 <body>
   <script src="./assets/configurator-platforms.js?v=20261008-edda-no-coil-switch"></script>
-  <script src="./assets/configurator-ui.js?v=20261028-fretless-nut-de"></script>
+  <script src="./assets/configurator-ui.js?v=20261028-verawood-label"></script>
   <!-- Root element for React App -->
   <div id="root"></div>
 
@@ -192,7 +192,7 @@
             { id: 'nut_bone', label: 'white buffalo bone', spec: '', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
             { id: 'nut_horn', label: 'black buffalo horn', spec: '', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
             { id: 'nut_brass', label: 'brass', spec: '', prices: { EDDA: 0, EMBLA: 0, ASKR: 0 }, isStandard: ['EDDA', 'EMBLA', 'ASKR'] },
-            { id: 'nut_verawood', label: 'verawood (Argentine lignum vitae)', spec: '(* only for fretless)', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
+            { id: 'nut_verawood', label: 'verawood', spec: '(* only for fretless)', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
             { id: 'nut_guide', label: 'zero-fret string retainer', spec: '(* no separate nut; the retainer guides the strings at the zero fret)', prices: { EDDA: 300, EMBLA: 300, ASKR: 300 } },
             { id: 'nut_others', label: 'others', spec: '', prices: { EDDA: 'request', EMBLA: 'request', ASKR: 'request' } }
           ]
@@ -1263,11 +1263,14 @@ const handleOptionChange = (categoryId, optionId) => {
           const instructions = list.nextElementSibling;
           const total = source.querySelector('[data-summary-total]');
           Object.assign(header.style, { display: 'flex', padding: '12px', flex: '0 0 auto' });
-          const scaleNote = document.createElement('p');
-          scaleNote.setAttribute('data-pdf-scale-note', '');
-          Object.assign(scaleNote.style, { margin: '3px 0 0', fontSize: '9px', lineHeight: '12px', color: '#cbd5e1' });
-          scaleNote.textContent = (exportModel === 'EDDA' ? 'Approximate photo/concept scale. ' : 'Illustrative views. ') + 'Dimensions require approved drawings. Print A4 at 100%.';
-          header.firstElementChild.appendChild(scaleNote);
+          // EDDA has no dimensioned drawing yet, so only its scale is qualified.
+          if (exportModel === 'EDDA') {
+            const scaleNote = document.createElement('p');
+            scaleNote.setAttribute('data-pdf-scale-note', '');
+            Object.assign(scaleNote.style, { margin: '3px 0 0', fontSize: '9px', lineHeight: '12px', color: '#cbd5e1' });
+            scaleNote.textContent = 'Approximate photo/concept scale. Dimensions require approved drawings. Print A4 at 100%.';
+            header.firstElementChild.appendChild(scaleNote);
+          }
           list.classList.remove('space-y-3');
           const rows = Array.from(list.children);
           const stacked = onePage && onePageLayout.stacked;

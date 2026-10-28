@@ -100,7 +100,7 @@ assert.match(html, /flushSync\(\(\) => setLanguage\('en'\)\)/);
 // Fretless nuts are verawood (guayacan is no longer sourced), and the strap
 // lock's Schaller S-Lock pins follow the selected hardware colour.
 assert.doesNotMatch(html, /guayacan/i);
-assert.match(html, /id: 'nut_verawood', label: 'verawood \(Argentine lignum vitae\)'/);
+assert.match(html, /id: 'nut_verawood', label: 'verawood',/);
 assert.match(html, /detail: opt\.id === 'leather_strap' && selections\.hardware_color \? ui\.strapPins\.replace\('\{colour\}', selectedOptionLabel\('hardware_color'\)\)/);
 for (const language of ['en', 'ko', 'de']) assert.match(i18n[language].strapPins, /S-Lock.*\{colour\}/);
 // Fretless defaults to verawood (fretless-only) and keeps bone, horn and other
