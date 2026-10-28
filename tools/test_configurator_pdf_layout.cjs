@@ -81,9 +81,10 @@ module.exports = async ({ page, hostPage, report, output, expectedModels, step, 
           assert.equal(layout.images.length, 2, 'Both rendered sides must be present');
           assert.deepEqual(layout.violations, [], 'No image or text may extend outside an A4 content page');
           assert.match(layout.text, /SPECIFICATION SUMMARY/);
-          assert.match(layout.text, /Dimensions require approved drawings/);
+          // Only EDDA, which has no dimensioned drawing yet, carries the scale note.
+          if (model.id !== 'EDDA') assert.doesNotMatch(layout.text, /Dimensions require approved drawings/);
           if (model.id === 'EDDA') {
-            assert.match(layout.text, /Approximate photo\/concept scale/);
+            assert.match(layout.text, /Approximate photo\/concept scale\. Dimensions require approved drawings/);
             for (const img of layout.images) assert.match(img.alt, /approx\. 1:/i);
           }
           assert.ok(layout.text.includes('€' + model.basePrice));

@@ -378,6 +378,15 @@ async function run() {
       await selectOption('fret_type', 'fretless');
       await summaryValue(/^Nut Material/i, /verawood/i);
       await summaryValue(/^Fret Type/i, /fretless/i);
+      // Fretless defaults to verawood; with no zero fret the brass guide and retainer are hidden,
+      // while bone, horn and other nuts keep the fretless selection.
+      assert.equal(await option('nut_material', 'nut_guide').count(), 0, 'Fretless has no zero fret for the retainer');
+      assert.equal(await option('nut_material', 'nut_brass').count(), 0, 'Fretless has no zero fret for the brass guide');
+      assert.equal(await page.locator('[data-fretless-nut-note]').count(), 1);
+      await selectOption('nut_material', 'nut_bone');
+      await summaryValue(/^Nut Material/i, /bone/i);
+      await summaryValue(/^Fret Type/i, /fretless/i);
+      await selectOption('nut_material', 'nut_verawood');
       assert.match(await page.locator('[data-fixed-platform]').innerText(), /fretless/i,
         'The current specification overview must reflect fretless selection');
       assert.equal(await page.locator('input[name="fret_material"], input[name="fret_size"]').count(), 0);

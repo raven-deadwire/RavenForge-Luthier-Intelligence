@@ -100,7 +100,18 @@ assert.match(html, /flushSync\(\(\) => setLanguage\('en'\)\)/);
 // Fretless nuts are verawood (guayacan is no longer sourced), and the strap
 // lock's Schaller S-Lock pins follow the selected hardware colour.
 assert.doesNotMatch(html, /guayacan/i);
-assert.match(html, /id: 'nut_verawood', label: 'verawood \(Argentine lignum vitae\)'/);
+assert.match(html, /id: 'nut_verawood', label: 'verawood',/);
 assert.match(html, /detail: opt\.id === 'leather_strap' && selections\.hardware_color \? ui\.strapPins\.replace\('\{colour\}', selectedOptionLabel\('hardware_color'\)\)/);
 for (const language of ['en', 'ko', 'de']) assert.match(i18n[language].strapPins, /S-Lock.*\{colour\}/);
-console.log('PASS: code-only stale coil/nut normalization, other models, bridges, €0 standard options, €200 gigbag difference, localized UI strings and catalog translations, 1,000-character instructions, English PDF, verawood nut and S-Lock pin colour');
+// Fretless defaults to verawood (fretless-only) and keeps bone, horn and other
+// nuts; with no zero fret the brass guide and the retainer are hidden.
+{
+  const fretless = { ...normalizeSelections('EDDA'), fret_type: 'fretless' };
+  assert.equal(normalizeSelections('EDDA', { ...fretless, nut_material: 'nut_bone' }).nut_material, 'nut_bone');
+  for (const nut of ['nut_brass', 'nut_guide']) assert.equal(isOptionVisible('nut_material', nut, 'EDDA', fretless), false);
+  assert.equal(isOptionVisible('nut_material', 'nut_verawood', 'EDDA', normalizeSelections('EDDA')), false);
+  assert.equal(normalizeSelections('EDDA', { ...normalizeSelections('EDDA'), nut_material: 'nut_verawood' }).nut_material, 'nut_brass');
+  assert.match(html, /if \(optionId === 'fretless'\) \{\s*nextSelections\['nut_material'\] = 'nut_verawood';/);
+  for (const language of ['en', 'ko', 'de']) assert.ok(i18n[language].fretlessNutNote);
+}
+console.log('PASS: code-only stale coil/nut normalization, other models, bridges, €0 standard options, €200 gigbag difference, localized UI strings and catalog translations, 1,000-character instructions, English PDF, fretless-only verawood nut and S-Lock pin colour');
