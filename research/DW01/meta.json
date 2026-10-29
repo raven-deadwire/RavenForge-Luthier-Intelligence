@@ -1,0 +1,20 @@
+{
+  "id": "DW01",
+  "date": "2026-10-29",
+  "category": "log",
+  "ko": {
+    "title": "DEADWIRE 모던 메탈 믹싱 시스템",
+    "excerpt": "Develop Device 중심의 DAW 작업 템플릿 연구일지. 도구 선정 이유, Drop A 기타·베이스의 데모/DI 운용, 드럼 8스템, 보컬·공간계·마스터 라우팅과 WORK/FULL 운용 기준을 정리한다.",
+    "link": "research/DW01/ko.html"
+  },
+  "en": {
+    "title": "DEADWIRE Modern Metal Mixing System",
+    "excerpt": "Research journal on a Develop Device-centered DAW template: tool selection, Drop A guitar and bass demo/DI workflows, eight drum stems, vocal and effects routing, mastering, and WORK/FULL operating criteria.",
+    "link": "research/DW01/en.html"
+  },
+  "de": {
+    "title": "DEADWIRE Modern Metal Mixsystem",
+    "excerpt": "Forschungsjournal zu einer DAW-Vorlage mit Develop Device: Werkzeugauswahl, Demo- und DI-Workflows für Drop-A-Gitarre und -Bass, acht Drum-Stems, Vocal- und Effekt-Routing, Mastering sowie WORK/FULL-Betrieb.",
+    "link": "research/DW01/de.html"
+  }
+}

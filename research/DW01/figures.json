@@ -1,0 +1,125 @@
+{
+  "version": "1.3",
+  "figures": [
+    {
+      "id": "routing",
+      "lang": "ko",
+      "width": 1200,
+      "height": 620,
+      "caption": "전체 신호 흐름",
+      "alt": "DRUM, BASS, GUITAR, SYNTH, ORCHESTRA 파트 버스는 MUSIC BUS로, 리드와 백킹은 VOCAL BUS로 합류한다. MUSIC과 VOCAL은 MIX BUS, PREMASTER, MAIN OUT Post로 이어진다. ROOM과 HALL은 MUSIC BUS, PLATE와 DELAY는 MIX BUS로 반환된다.",
+      "png": "assets/ko-routing.png",
+      "svg": "assets/ko-routing.svg"
+    },
+    {
+      "id": "sources-bass",
+      "lang": "ko",
+      "width": 1200,
+      "height": 620,
+      "caption": "데모에서 DI 실녹음으로",
+      "alt": "기타 데모 Odin x Ari 또는 실녹음 기타 DI는 Gojira X와 GUITAR BUS를 사용한다. 베이스 데모 Behemoth 또는 실녹음 베이스 DI는 Parallax X 뒤에서 LOW LP 200 Hz와 HIGH HP 200 Hz로 나뉘어 BASS BUS로 합쳐진다. HIGH 페이더는 -6 dB이다. Parallax 내부 LP 80 Hz는 외부 200 Hz 분할과 다르다.",
+      "png": "assets/ko-sources-bass.png",
+      "svg": "assets/ko-sources-bass.svg"
+    },
+    {
+      "id": "vocals-fx",
+      "lang": "ko",
+      "width": 1200,
+      "height": 620,
+      "caption": "보컬과 공간계의 역할",
+      "alt": "클린, 스크림, 그로울은 LEAD VOCAL BUS의 VMR로, 백킹 L/R은 BACKING VOCAL BUS의 VMR로 합류하고 VOCAL BUS를 거쳐 MIX BUS로 연결된다. 개별 Mantra와 VOCALITH의 모듈은 발성과 구간에 맞춰 선택한다. ContextVerb의 ROOM/HALL은 MUSIC BUS, PLATE와 H3000 딜레이는 MIX BUS로 반환된다.",
+      "png": "assets/ko-vocals-fx.png",
+      "svg": "assets/ko-vocals-fx.svg"
+    },
+    {
+      "id": "work-master",
+      "lang": "ko",
+      "width": 1200,
+      "height": 620,
+      "caption": "WORK / FULL과 마스터 처리",
+      "alt": "마스터 Post 순서는 OBSIDIAN 음색, SQUEEZOR 다이내믹스, REFRACT 참조 분석과 EQ, LIMITRON 최종 피크 제어이다. WORK는 활성 FX 슬롯 45개와 MAIN Post 비활성, FULL은 활성 슬롯 64개와 저장된 MAIN Post 상태를 유지한다. 이 수치는 CPU 측정값이 아니다.",
+      "png": "assets/ko-work-master.png",
+      "svg": "assets/ko-work-master.svg"
+    },
+    {
+      "id": "routing",
+      "lang": "en",
+      "width": 1200,
+      "height": 620,
+      "caption": "Complete signal flow",
+      "alt": "DRUM, BASS, GUITAR, SYNTH and ORCHESTRA part buses feed MUSIC BUS. Lead and backing subgroups feed VOCAL BUS. MUSIC and VOCAL feed MIX BUS, then PREMASTER and MAIN OUT Post. ROOM and HALL return to MUSIC BUS; PLATE and DELAY return to MIX BUS.",
+      "png": "assets/en-routing.png",
+      "svg": "assets/en-routing.svg"
+    },
+    {
+      "id": "sources-bass",
+      "lang": "en",
+      "width": 1200,
+      "height": 620,
+      "caption": "From demo to recorded DI",
+      "alt": "Either the Odin x Ari guitar demo or recorded guitar DI feeds Gojira X and GUITAR BUS. Either the Behemoth bass demo or recorded bass DI feeds Parallax X, then LOW LP 200 Hz and HIGH HP 200 Hz, which sum at BASS BUS. The HIGH fader starts at -6 dB. Parallax internal LP 80 Hz is distinct from the external 200 Hz split.",
+      "png": "assets/en-sources-bass.png",
+      "svg": "assets/en-sources-bass.svg"
+    },
+    {
+      "id": "vocals-fx",
+      "lang": "en",
+      "width": 1200,
+      "height": 620,
+      "caption": "Vocal and spatial roles",
+      "alt": "Clean, scream and growl feed VMR on LEAD VOCAL BUS; backing L/R feed VMR on BACKING VOCAL BUS. Both feed VOCAL BUS and then MIX BUS. Individual Mantra and VOCALITH modules are selected by vocal style and passage. ContextVerb ROOM/HALL return to MUSIC BUS; PLATE and H3000 delays return to MIX BUS.",
+      "png": "assets/en-vocals-fx.png",
+      "svg": "assets/en-vocals-fx.svg"
+    },
+    {
+      "id": "work-master",
+      "lang": "en",
+      "width": 1200,
+      "height": 620,
+      "caption": "WORK / FULL and master processing",
+      "alt": "Master Post order: OBSIDIAN for tone, SQUEEZOR for dynamics, REFRACT for reference analysis and EQ, LIMITRON for final peaks. WORK has 45 active FX slots with MAIN Post off. FULL has 64 active slots and retains the saved MAIN Post state. These counts are not CPU measurements.",
+      "png": "assets/en-work-master.png",
+      "svg": "assets/en-work-master.svg"
+    },
+    {
+      "id": "routing",
+      "lang": "de",
+      "width": 1200,
+      "height": 620,
+      "caption": "Gesamter Signalfluss",
+      "alt": "Die Part-Busse DRUM, BASS, GUITAR, SYNTH und ORCHESTRA führen zum MUSIC BUS. Lead- und Backing-Untergruppen führen zum VOCAL BUS. MUSIC und VOCAL führen zum MIX BUS, dann zu PREMASTER und MAIN OUT Post. ROOM und HALL kehren zum MUSIC BUS zurück; PLATE und DELAY zum MIX BUS.",
+      "png": "assets/de-routing.png",
+      "svg": "assets/de-routing.svg"
+    },
+    {
+      "id": "sources-bass",
+      "lang": "de",
+      "width": 1200,
+      "height": 620,
+      "caption": "Vom Demo zur DI-Aufnahme",
+      "alt": "Entweder das Gitarrendemo aus Odin x Ari oder die aufgenommene Gitarren-DI führt über Gojira X zum GUITAR BUS. Entweder das Bassdemo aus Behemoth oder die Bass-DI führt über Parallax X zu LOW LP 200 Hz und HIGH HP 200 Hz. Beide summieren sich im BASS BUS. HIGH startet bei -6 dB. Das interne Parallax-LP bei 80 Hz ist von der externen Trennung bei 200 Hz zu unterscheiden.",
+      "png": "assets/de-sources-bass.png",
+      "svg": "assets/de-sources-bass.svg"
+    },
+    {
+      "id": "vocals-fx",
+      "lang": "de",
+      "width": 1200,
+      "height": 620,
+      "caption": "Gesang und Raumeffekte",
+      "alt": "Clean, Scream und Growl führen zu VMR im LEAD VOCAL BUS; Backing L/R zu VMR im BACKING VOCAL BUS. Beide führen zum VOCAL BUS und dann zum MIX BUS. Die Module von Mantra und VOCALITH werden nach Gesangsart und Passage ausgewählt. ContextVerb ROOM/HALL kehren zum MUSIC BUS zurück; PLATE und H3000-Delays zum MIX BUS.",
+      "png": "assets/de-vocals-fx.png",
+      "svg": "assets/de-vocals-fx.svg"
+    },
+    {
+      "id": "work-master",
+      "lang": "de",
+      "width": 1200,
+      "height": 620,
+      "caption": "WORK / FULL und Master-Bearbeitung",
+      "alt": "Reihenfolge im Master Post: OBSIDIAN für Klang, SQUEEZOR für Dynamik, REFRACT für Referenzanalyse und EQ, LIMITRON für Endpegelspitzen. WORK besitzt 45 aktive FX-Slots bei deaktiviertem MAIN Post. FULL besitzt 64 aktive Slots und behält den gespeicherten MAIN-Post-Zustand. Die Zahlen sind keine CPU-Messwerte.",
+      "png": "assets/de-work-master.png",
+      "svg": "assets/de-work-master.svg"
+    }
+  ]
+}
