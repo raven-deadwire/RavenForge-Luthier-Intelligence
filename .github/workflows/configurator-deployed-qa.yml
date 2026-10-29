@@ -10,7 +10,9 @@ permissions:
   contents: read
 jobs:
   deployed:
-    runs-on: ubuntu-latest
+    # The PDF checks OCR rendered pages with the image's tesseract; ubuntu-latest
+    # moved to 26.04, where they no longer read the totals. Pin the image they pass on.
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
       DEPLOYED_SHA: ${{ inputs.deployed_sha }}
