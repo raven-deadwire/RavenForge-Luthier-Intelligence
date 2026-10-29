@@ -280,9 +280,9 @@ return out;
     for(const [,cmd,args] of body.matchAll(/([MLQCZ])([^MLQCZ]*)/gi)){
       const n=(args.match(/-?\d+(?:\.\d+)?/g)||[]).map(Number),size={M:2,L:2,Q:4,C:6}[cmd.toUpperCase()];
       for(let i=0;size&&i+size<=n.length;i+=size){
-        const q=[at];for(let j=0;j<size;j+=2)q.push([n[i+j],n[i+j+1]]);
+        const q=[at],o=cmd===cmd.toLowerCase()?at:[0,0];for(let j=0;j<size;j+=2)q.push([o[0]+n[i+j],o[1]+n[i+j+1]]);
         if(size===2)points.push(q[1]);
-        else for(let t=.05;t<=1.001;t+=.05){let r=q;while(r.length>1)r=r.slice(1).map((b,j)=>[r[j][0]+(b[0]-r[j][0])*t,r[j][1]+(b[1]-r[j][1])*t]);points.push(r[0]);}
+        else for(let step=1;step<=20;step++){const t=step/20;let r=q;while(r.length>1)r=r.slice(1).map((b,j)=>[r[j][0]+(b[0]-r[j][0])*t,r[j][1]+(b[1]-r[j][1])*t]);points.push(r[0]);}
         at=q[q.length-1];
       }
     }
