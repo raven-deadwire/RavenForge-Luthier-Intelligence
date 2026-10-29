@@ -150,7 +150,7 @@
     if (s.nut_material === 'nut_others') pending.push('nut_material');
     if (s.fret_material === 'mat_others') pending.push('fret_material');
     if (['extra','guitar_neck_custom'].includes(s.neck)) pending.push('neck');
-    return {model, g, selections:s, neckAccent:extras.neckAccent==='bloodwood'?'bloodwood':'walnut', specialOptions:Array.isArray(extras.specialOptions)?extras.specialOptions.filter(id=>['kill_switch','dual_tone','delano_buffer'].includes(id)):[], pickguard:g?.pickguard?(['EDDA','GRAMR'].includes(model)?(['pg_add','pg_standard'].includes(s.pickguard)?(s.pickguard_material==='pg_wood'?'wood':(['pg_black','pg_white','pg_ivory','pg_red','pg_match'].includes(s.pickguard_colour)?s.pickguard_colour:'pg_black').replace('pg_','')):'none'):(['none','black','ivory','wood'].includes(extras.pickguard)?extras.pickguard:'black')):'none', pickguardMaterial:['EDDA','GRAMR'].includes(model)?(['pg_acrylic','pg_aluminium','pg_wood'].includes(s.pickguard_material)?s.pickguard_material:'pg_acrylic'):null, pickguardFinish:['EDDA','GRAMR'].includes(model)?s.pickguard_finish:null, labels:labels || {}, finish, neckFinish:finish, neckColour:s.neck_finish==='neck_body'?'body':'natural', hasTop, bodyId, topId, pending,
+    return {model, g, selections:s, strapLock:Array.isArray(extras.accessories)&&extras.accessories.includes('leather_strap'), unitsPerMm:drawingUnits[model], neckAccent:extras.neckAccent==='bloodwood'?'bloodwood':'walnut', specialOptions:Array.isArray(extras.specialOptions)?extras.specialOptions.filter(id=>['kill_switch','dual_tone','delano_buffer'].includes(id)):[], pickguard:g?.pickguard?(['EDDA','GRAMR'].includes(model)?(['pg_add','pg_standard'].includes(s.pickguard)?(s.pickguard_material==='pg_wood'?'wood':(['pg_black','pg_white','pg_ivory','pg_red','pg_match'].includes(s.pickguard_colour)?s.pickguard_colour:'pg_black').replace('pg_','')):'none'):(['none','black','ivory','wood'].includes(extras.pickguard)?extras.pickguard:'black')):'none', pickguardMaterial:['EDDA','GRAMR'].includes(model)?(['pg_acrylic','pg_aluminium','pg_wood'].includes(s.pickguard_material)?s.pickguard_material:'pg_acrylic'):null, pickguardFinish:['EDDA','GRAMR'].includes(model)?s.pickguard_finish:null, labels:labels || {}, finish, neckFinish:finish, neckColour:s.neck_finish==='neck_body'?'body':'natural', hasTop, bodyId, topId, pending,
       bindruneExample:/^c[1-4]$/.test(bindruneExample)?bindruneExample:null, bodyColour:wood(topId), boardColour:wood(s.fretboard), metal:metals[s.hardware_color] || metals.hw_chrome,
       bridgeColour:s.hardware_bridge === 'nova_parts' ? metals.hw_black : model === 'ASKR' ? metals.hw_chrome : (metals[s.hardware_color] || metals.hw_chrome), bridgeFinishFixed:model==='ASKR'};
   }
@@ -318,6 +318,7 @@
       for(let i=0;i<g.strings;i++)out+=line(point(g.board[3],g.board[2],.08+.84*i/(g.strings-1)),(parts.bridgeAnchors(state)?.[i]||point(g.bridge[0],g.bridge[1],i/(g.strings-1))),`stroke="#d6d0b9" stroke-width="${1.15-i*.12}" opacity=".7"`);
       out+='</g>';
     }
+    out+=parts.strapPins(state,prefix,g.body,'y','front');
     return out+'</g></svg>';
   }
   // Drawing units per millimetre of each rendered side, so the quote PDF can
@@ -400,7 +401,7 @@
     React.useEffect(()=>{setView('front');},[props.model,props.selections.pickguard,props.selections.pickguard_material,props.selections.pickguard_colour,props.selections.pickguard_finish]);
     React.useEffect(()=>{if(props.bindruneExample)setView('front');},[props.bindruneExample]);
     const t = copy[props.language] || copy.en;
-    const state = scene(props.model,props.selections,props.finishColor,props.labels,props.bindruneExample,{specialOptions:props.specialOptions,pickguard,neckAccent});
+    const state = scene(props.model,props.selections,props.finishColor,props.labels,props.bindruneExample,{specialOptions:props.specialOptions,accessories:props.accessories,pickguard,neckAccent});
     const s = state.selections;
     const isDrawing=state.g && ['drawing','bass-drawing'].includes(state.g.kind);
     const rear=view==='back',missing=rear&&!state.g?.back;

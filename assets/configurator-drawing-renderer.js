@@ -50,7 +50,7 @@
       for(const [x,y] of g.jointSchematic)out+=`<circle cx="${x}" cy="${y}" r="6" fill="#20292e" stroke="#e5dcc4" stroke-width="1.3"/><path d="M${x-2},${y}h4 M${x},${y-2}v4" stroke="#e5dcc4" stroke-width=".8"/>`;
       out+='</g></g>';
       out+=`<g data-layer="rear-cavity" data-contour="pdf-vector">${path(g.cavity,'fill="#181b1c" stroke="#978f7e" stroke-width="1.1"')}${path(g.cavity,`fill="${unknown}" opacity=".3"`)}</g>`;
-      return out+parts.tuners(state,p,true)+'</g></svg>';
+      return out+parts.tuners(state,p,true)+parts.strapPins(state,p,g.body,'x','back')+'</g></svg>';
     }
     out+=`<g data-layer="body" data-option="${esc(state.topId)}" data-material="${esc(state.bodyId)}" data-contour="pdf-vector">${title(state.hasTop?'top_wood_selection':'body_wood_single')}${surface(g.body,'body',texture(535,-4,550,550,'body-wood'))}${!state.bodyColour?path(g.body,`fill="${unknown}" opacity=".4"`):''}</g>`;
     out+=options.bodyPieces(state,p,g.body,true,286,100);
@@ -105,7 +105,7 @@
       const d=`M${c[0]},${c[1]} L${a[0]},${a[1]} L${b[0]},${b[1]}`;
       out+=path(d,`fill="none" stroke="#111" stroke-width="${1.7-i*.18}" opacity=".9"`)+path(d,`fill="none" stroke="#ded9c8" stroke-width="${1.05-i*.14}"`);
     }
-    return out+'</g>'+parts.tremoloArm(state,p)+'</g></svg>';
+    return out+'</g>'+parts.strapPins(state,p,g.body,'x','front')+parts.tremoloArm(state,p)+'</g></svg>';
   }
   return {render};
 });

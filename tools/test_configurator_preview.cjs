@@ -742,3 +742,15 @@ console.log('PASS: independent fret-spacing calibration; EDDA physical scale rem
  for(const model of ['EDDA','EMBLA','GRAMR'])assert.deepEqual(preview.scene(model,{...normalize(model),pickup_position:'pos_front_bridge'},'').g.pickups,preview.scene(model,normalize(model),'').g.pickups);
 }
 console.log('PASS: ASKR front + bridge pickup position moves the neck pickup by one pickup spacing');
+{
+ // Leather strap with Schaller S-Lock draws two hardware-coloured strap pins on every model and side.
+ for(const model of ['EDDA','EMBLA','ASKR','GRAMR'])for(const side of ['front','back']){
+  const s=normalize(model);
+  const plain=preview.renderSvg(preview.scene(model,s,''),side,'en');
+  assert.doesNotMatch(plain,/data-layer="strap-pins"/,`${model}/${side}: no pins without the strap`);
+  const svg=preview.renderSvg(preview.scene(model,s,'',undefined,undefined,{accessories:['leather_strap']}),side,'en');
+  assert.match(svg,/data-layer="strap-pins" data-option="schaller_s_lock"/,`${model}/${side}: strap pins drawn`);
+  assert.equal((svg.match(/data-strap-pin="/g)||[]).length,2,`${model}/${side}: horn and tail pin`);
+ }
+}
+console.log('PASS: Schaller S-Lock strap pins appear on all models and sides only with the leather strap');

@@ -70,14 +70,14 @@
   <script src="./assets/configurator-gramr-geometry.js?v=20261019-v4"></script>
   <script src="./assets/configurator-materials.js?v=20261026-finish"></script>
   <script src="./assets/configurator-bindrune-motifs.js?v=20261021-v27"></script>
-  <script src="./assets/configurator-parts-renderer.js?v=20261021-v27"></script>
+  <script src="./assets/configurator-parts-renderer.js?v=20261029-strap-pins"></script>
   <script src="./assets/configurator-option-renderer.js?v=20261027-pores"></script>
-  <script src="./assets/configurator-drawing-renderer.js?v=20261026-finish"></script>
+  <script src="./assets/configurator-drawing-renderer.js?v=20261029-strap-pins"></script>
   <script src="./assets/configurator-bass-rear-geometry.js?v=20261021-v27"></script>
-  <script src="./assets/configurator-rear-renderer.js?v=20261026-finish"></script>
+  <script src="./assets/configurator-rear-renderer.js?v=20261029-strap-pins"></script>
   <script src="./assets/configurator-bass-front-geometry.js?v=20261021-v27"></script>
   <script src="./assets/configurator-geometry.js?v=20261021-v27"></script>
-  <script src="./assets/configurator-preview.js?v=20261029-stains"></script>
+  <script src="./assets/configurator-preview.js?v=20261029-strap-pins"></script>
   <script type="text/babel">
     const { useState, useEffect, useMemo } = React;
 
@@ -1238,7 +1238,7 @@ const handleOptionChange = (categoryId, optionId) => {
           if (language !== 'en') ReactDOM.flushSync(() => setLanguage(language));
         }
         const previewState = RavenForgePreview.scene(exportModel, selections, finishColor, previewLabels, previewBindrunes[exportModel],
-          { specialOptions, pickguard: selections.pickguard, neckAccent: document.getElementById('instrument-preview')?.dataset.neckAccent });
+          { specialOptions, accessories, pickguard: selections.pickguard, neckAccent: document.getElementById('instrument-preview')?.dataset.neckAccent });
         const sides = ['front', 'back'].map(side => ({
           side,
           svg: RavenForgePreview.renderSvg(previewState, side, 'en', 'portrait'),
@@ -1484,7 +1484,7 @@ const handleOptionChange = (categoryId, optionId) => {
             <div className="rf-config-grid">
               <aside className="rf-preview-column">
                 <RavenForgePreview.Component model={selectedModel} selections={selections} finishColor={finishColor}
-                  language={language} categoryTitles={ui.categoryTitles} specialOptions={specialOptions} bindruneExample={previewBindrunes[selectedModel]}
+                  language={language} categoryTitles={ui.categoryTitles} specialOptions={specialOptions} accessories={accessories} bindruneExample={previewBindrunes[selectedModel]}
                   labels={previewLabels} />
               </aside>
               <div id="config-options" className="rf-config-options space-y-8">
