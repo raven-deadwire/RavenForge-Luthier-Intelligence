@@ -1897,7 +1897,7 @@ const handleOptionChange = (categoryId, optionId) => {
                       <h3 className="text-xl font-bold uppercase tracking-tight">{ui.summary}</h3>
                       <div className="text-slate-400 text-sm mt-1">{selectedModel} · {ui.customBuild}</div>
                     </div>
-                    {RavenForgeQuoteChat.enabled && (
+                    {window.RavenForgeQuoteChat?.enabled && (
                       <button type="button" className="rf-chat-launcher" onClick={() => setChatOpen(true)}>
                         {RavenForgeQuoteChat.openLabel(language)}
                       </button>
@@ -1991,12 +1991,12 @@ const handleOptionChange = (categoryId, optionId) => {
             <a href="#config-options">{language === 'ko' ? '옵션' : language === 'de' ? 'Optionen' : 'Options'}</a>
             <a href="#instrument-preview">{language === 'ko' ? '미리보기' : language === 'de' ? 'Vorschau' : 'Preview'}</a>
             <a href="#quote-summary-card">{language === 'ko' ? '견적' : language === 'de' ? 'Angebot' : 'Quote'}</a>
-            {RavenForgeQuoteChat.enabled && (
+            {window.RavenForgeQuoteChat?.enabled && (
               <button type="button" onClick={() => setChatOpen(true)}>{language === 'ko' ? '상담' : language === 'de' ? 'Beratung' : 'Ask'}</button>
             )}
             <strong>{typeof summary.totalPrice === 'number' ? '€' + summary.totalPrice : ui.requestPrice}{summary.requiresRequest ? ` + ${ui.requestShort}` : ''}</strong>
           </nav>
-          {RavenForgeQuoteChat.enabled && (
+          {window.RavenForgeQuoteChat?.enabled && (
             <RavenForgeQuoteChat.Component language={language} open={chatOpen} onClose={() => setChatOpen(false)}
               configuration={{ model: selectedModel, selections, specialOptions, accessories }} />
           )}
