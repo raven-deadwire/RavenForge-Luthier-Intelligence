@@ -1,7 +1,7 @@
 name: Configurator production QA
 on:
   pull_request:
-    paths: ['configurator.html', 'assets/configurator-platforms.js', 'assets/configurator-ui.js', 'tools/test_configurator_contracts.cjs', 'tools/test_configurator.cjs', 'tools/test_configurator_homepage.cjs', 'tools/test_configurator_pdf_visual.py', 'tools/test_configurator_pdf_layout.cjs', 'index.html', 'ko.html', 'de.html', 'configurator-preview.html', 'assets/configurator-preview.*', 'assets/configurator-tailwind.css', 'tailwind.configurator.config.cjs', 'assets/configurator-materials.js', 'assets/configurator-option-renderer.js', 'assets/configurator-parts-renderer.js', 'assets/configurator-bindrune-motifs.js', 'assets/configurator-geometry.js', 'assets/configurator-gramr-*', 'assets/configurator-bass-rear-geometry.js', 'assets/configurator-bass-front-geometry.js', 'assets/configurator-front/**', 'tools/extract_bass_front_geometry.py', 'assets/configurator-rear*', 'assets/configurator-rear/**', 'assets/configurator-drawing-renderer.js', 'assets/configurator-materials/**', 'assets/configurator-bindrune/**', 'tools/test_configurator_preview*.cjs', 'tools/package_configurator_preview.py', 'tools/build_configurator_standalone.py', '.github/workflows/configurator-preview.yml', 'tools/check_pages_freshness.py']
+    paths: ['configurator.html', 'assets/configurator-platforms.js', 'assets/configurator-ui.js', 'tools/test_configurator_contracts.cjs', 'tools/test_configurator.cjs', 'tools/test_configurator_homepage.cjs', 'tools/test_configurator_pdf_visual.py', 'tools/test_configurator_pdf_layout.cjs', 'tools/test_configurator_pdf_max.cjs', 'index.html', 'ko.html', 'de.html', 'configurator-preview.html', 'assets/configurator-preview.*', 'assets/configurator-tailwind.css', 'tailwind.configurator.config.cjs', 'assets/configurator-materials.js', 'assets/configurator-option-renderer.js', 'assets/configurator-parts-renderer.js', 'assets/configurator-bindrune-motifs.js', 'assets/configurator-geometry.js', 'assets/configurator-gramr-*', 'assets/configurator-bass-rear-geometry.js', 'assets/configurator-bass-front-geometry.js', 'assets/configurator-front/**', 'tools/extract_bass_front_geometry.py', 'assets/configurator-rear*', 'assets/configurator-rear/**', 'assets/configurator-drawing-renderer.js', 'assets/configurator-materials/**', 'assets/configurator-bindrune/**', 'tools/test_configurator_preview*.cjs', 'tools/package_configurator_preview.py', 'tools/build_configurator_standalone.py', '.github/workflows/configurator-preview.yml', 'tools/check_pages_freshness.py']
   # Live-site regressions are owned by main: audit Pages after each deploy and
   # daily, so a cancelled or stuck deploy is also reported.
   workflow_run:
@@ -86,6 +86,15 @@ jobs:
       - name: Inspect layout matrix PDF pages
         if: ${{ !cancelled() && matrix.target == 'candidate' && steps.dependencies.outcome == 'success' }}
         run: python3 tools/test_configurator_pdf_visual.py "${{ runner.temp }}/homepage-candidate/layout" 48
+      - name: Check maximum priced option combinations and unbroken requests
+        if: ${{ !cancelled() && matrix.target == 'candidate' && steps.dependencies.outcome == 'success' }}
+        env:
+          CONFIGURATOR_QA_DIR: ${{ runner.temp }}/homepage-candidate/max-options
+          CONFIGURATOR_PDF_STRESS: '1'
+        run: node tools/test_configurator.cjs --pdf-layout --url http://127.0.0.1:8000/configurator.html
+      - name: Inspect maximum option PDFs
+        if: ${{ !cancelled() && matrix.target == 'candidate' && steps.dependencies.outcome == 'success' }}
+        run: python3 tools/test_configurator_pdf_visual.py "${{ runner.temp }}/homepage-candidate/max-options" 42
       - name: Upload separate homepage evidence
         if: always() && steps.freshness.outputs.current != 'false'
         uses: actions/upload-artifact@v4

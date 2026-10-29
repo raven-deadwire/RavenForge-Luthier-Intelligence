@@ -5,8 +5,12 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
+const stress = process.env.CONFIGURATOR_PDF_STRESS === '1';
+// Resolve the dense fixture once, without coupling ordinary layout runs to
+// its catalog extraction when stress coverage is not requested.
+const testConfiguratorPdfMax = stress ? require('./test_configurator_pdf_max.cjs') : null;
 
-module.exports = async ({ page, hostPage, report, output, expectedModels, step, freshModel, quotedAmount }) => {
+module.exports = async ({ page, hostPage, report, output, expectedModels, step, freshModel, quotedAmount, selectOption }) => {
   await page.evaluate(() => {
     const originalFrom = html2pdf.Worker.prototype.from;
     html2pdf.Worker.prototype.from = function (source, ...args) {
@@ -55,17 +59,25 @@ module.exports = async ({ page, hostPage, report, output, expectedModels, step, 
   };
   report.pdfLayouts = [];
   const reference = new Map();
-  for (const model of expectedModels) {
+  const models = stress ? expectedModels.flatMap(model => [
+    {...model, fixtureType:'fretted'}, ...(model.id === 'GRAMR' ? [] : [{...model, fixtureType:'fretless'}])
+  ]) : expectedModels;
+  for (const model of models) {
+    await page.getByRole('button', { name: 'EN', exact: true }).click();
     await freshModel(model.id);
+    let fixture;
+    if (stress) fixture = await testConfiguratorPdfMax({page, step, selectOption, model});
+    const amount = fixture ? fixture.total : model.basePrice;
+    const profiles = stress ? { ['max-' + model.fixtureType]: notes.multiline, ['token-' + model.fixtureType]: 'W'.repeat(996) + 'END!' } : notes;
     for (const language of ['en', 'ko', 'de']) {
       await page.getByRole('button', { name: language === 'ko' ? 'KR' : language.toUpperCase(), exact: true }).click();
-      for (const [profile, note] of Object.entries(notes)) {
+      for (const [profile, note] of Object.entries(profiles)) {
         const key = `${language}-layout-${profile}-${model.id}`;
         try {
           await step(5);
           await page.locator('textarea').fill(note);
           assert.equal(await page.locator('textarea').inputValue(), note);
-          assert.equal(await quotedAmount(), model.basePrice);
+          assert.equal(await quotedAmount(), amount);
           const pending = hostPage.waitForEvent('download', { timeout: 60000 });
           await page.locator('#quote-actions-area button').click();
           const download = await pending;
@@ -74,7 +86,7 @@ module.exports = async ({ page, hostPage, report, output, expectedModels, step, 
           const layout = await page.evaluate(() => window.__pdfLayout);
           await fs.writeFile(path.join(output, key + '-layout.json'), JSON.stringify(layout, null, 2));
           await fs.writeFile(path.join(output, key + '-pdf-source.txt'), layout.text);
-          report.pdfLayouts.push({ filename: key + '.pdf', profile, language, model: model.id, ...layout });
+          report.pdfLayouts.push({ filename: key + '.pdf', profile, language, model: model.id, fixture, ...layout });
           assert.equal(await page.evaluate(() => document.documentElement.lang), language, 'Export must restore page language');
           assert.equal(layout.pages, ['default'].includes(profile) ? 1 : layout.pages);
           assert.ok(layout.pages >= 1 && layout.pages <= 2);
@@ -87,7 +99,13 @@ module.exports = async ({ page, hostPage, report, output, expectedModels, step, 
             assert.match(layout.text, /Approximate photo\/concept scale\. Dimensions require approved drawings/);
             for (const img of layout.images) assert.match(img.alt, /approx\. 1:/i);
           }
-          assert.ok(layout.text.includes('€' + model.basePrice));
+          assert.ok(layout.text.includes('€' + amount));
+          if (fixture) {
+            const norm = text => text.replace(/\s+/g, ' ').trim();
+            for (const row of fixture.rows) assert.ok(norm(layout.text).includes(norm(row)), 'Retain selected quote row: ' + row);
+            assert.match(layout.text, new RegExp('Schaller S-Lock strap pins · ' + fixture.colour));
+            if (model.fixtureType === 'fretless') assert.match(layout.text, /verawood/);
+          }
           if (note) assert.ok(layout.text.includes(note), 'Keep every instruction character');
           for (const img of layout.images) {
             assert.ok(Math.abs(img.widthMm - img.cssWidthMm) < .1);
@@ -106,6 +124,6 @@ module.exports = async ({ page, hostPage, report, output, expectedModels, step, 
       }
     }
   }
-  assert.equal(report.pdfLayouts.length, 48, 'Every matrix case must download a real PDF');
+  assert.equal(report.pdfLayouts.length, stress ? 42 : 48, 'Every matrix case must download a real PDF');
   assert.ok(report.pdfLayouts.some(layout => layout.pages === 2), 'Exercise the two-page branch');
 };

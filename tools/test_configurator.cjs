@@ -253,7 +253,7 @@ async function run() {
     if (pdfLayoutOnly) {
       activeCheck = 'PDF layout matrix';
       await require('./test_configurator_pdf_layout.cjs')({
-        page, hostPage, report, output, expectedModels, step, freshModel, quotedAmount,
+        page, hostPage, report, output, expectedModels, step, freshModel, quotedAmount, selectOption,
       });
       assert.deepEqual(report.pageErrors, [], 'No browser runtime errors during PDF layout tests');
       assert.equal(report.checks.filter(check => check.result === 'FAIL').length, 0);
