@@ -752,5 +752,9 @@ console.log('PASS: ASKR front + bridge pickup position moves the neck pickup by 
   assert.match(svg,/data-layer="strap-pins" data-option="schaller_s_lock"/,`${model}/${side}: strap pins drawn`);
   assert.equal((svg.match(/data-strap-pin="/g)||[]).length,2,`${model}/${side}: horn and tail pin`);
  }
+ // Pins sit on the outline, not on a Bezier control point outside it (EDDA horn control point is at y 549.7, the tip at 555.9).
+ const edda=preview.renderSvg(preview.scene('EDDA',normalize('EDDA'),'',undefined,undefined,{accessories:['leather_strap']}),'front','en');
+ const [,hornY]=edda.match(/data-strap-pin="horn" transform="translate\([-\d.]+ ([-\d.]+)\)/);
+ assert.ok(Math.abs(Number(hornY)-555.9)<0.5,`EDDA horn pin on the horn tip, got y ${hornY}`);
 }
 console.log('PASS: Schaller S-Lock strap pins appear on all models and sides only with the leather strap');
