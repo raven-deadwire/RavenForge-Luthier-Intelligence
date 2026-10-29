@@ -64,6 +64,7 @@
       out+='</g>';
     }
     out+=parts.tuners(state,p,true);
+    out+=parts.strapPins(state,p,concept?eddaBody:g.body,concept?'y':'x','back');
     return out+'</g></svg>';
   }
   return {render};

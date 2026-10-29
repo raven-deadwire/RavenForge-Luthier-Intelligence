@@ -25,7 +25,7 @@
       headPending: 'Headstock plate artwork is not available.',
       geometry: 'Final geometry / exact parts require approved drawings.',
       updated: 'Preview updated', material: 'Material colour', schematic: 'Sample part retained', hidden: 'Not visible from the front',
-      noShape: 'No verified outline is available for this model.', sampleGrain: 'Sample grain retained', referenceParts: 'Sample parts retained', sourceView: 'Sample render', drawingView:'Source drawing', drawingNote:'Front contours and positions follow the supplied drawing. Material and part surfaces are illustrative.', drawingParts:'Drawing geometry · illustrative surfaces', selectedView: 'Selected finish', drawingReferenceNote:'Source drawing; selected finishes are not applied.', referenceNote: 'Original sample only. It does not represent the selected options.', finishNote: 'Transparent colours are shown over the selected wood, so the same colour looks darker on darker species. Oil, stain, tint, open pore and UV gloss change depth, grain contrast and sheen. Illustrative only, not a colour proof.', colourNames: ['Natural', 'Cherry red', 'Ocean blue', 'Black', 'White', 'Forest green', 'Amber', 'Tobacco brown', 'Wine red', 'Orange', 'Teal', 'Purple', 'Charcoal grey', 'Vintage cream']
+      noShape: 'No verified outline is available for this model.', sampleGrain: 'Sample grain retained', referenceParts: 'Sample parts retained', sourceView: 'Sample render', drawingView:'Source drawing', drawingNote:'Front contours and positions follow the supplied drawing. Material and part surfaces are illustrative.', drawingParts:'Drawing geometry · illustrative surfaces', selectedView: 'Selected finish', drawingReferenceNote:'Source drawing; selected finishes are not applied.', referenceNote: 'Original sample only. It does not represent the selected options.', finishNote: 'Transparent colours are shown over the selected wood, so the same colour looks darker on darker species. Oil, stain, tint, open pore and UV gloss change depth, grain contrast and sheen. Illustrative only, not a colour proof.', stainNames:['Inferno red','Burgundy','Turquoise blue','Sapphire blue','Emerald green','Royal purple','Plum','Cognac','Honey amber','Ebony'], colourGroups:['Basic colours','Deep stain colours · transparent'], colourNames: ['Natural', 'Cherry red', 'Ocean blue', 'Black', 'White', 'Forest green', 'Amber', 'Tobacco brown', 'Wine red', 'Orange', 'Teal', 'Purple', 'Charcoal grey', 'Vintage cream']
     },
     ko: {
       title: '선택한 악기', live: '실시간 마감 미리보기', full: '전체', body: '바디', neck: '지판', head: '헤드스톡',
@@ -40,7 +40,7 @@
       headPending: '헤드스톡 플레이트 도안이 없어 표현하지 않습니다.',
       geometry: '최종 형상·부품 세부는 승인 도면 확인이 필요합니다.',
       updated: '미리보기 갱신', material: '소재 색조', schematic: '샘플 부품 유지', hidden: '정면에서 보이지 않음',
-      noShape: '이 모델은 확인된 외곽 자료가 없습니다.', sampleGrain: '샘플 나뭇결 유지', referenceParts: '샘플 부품 유지', sourceView: '샘플 원본', drawingView:'기준 도면', drawingNote:'첨부 도면의 정면 외곽·배치를 적용했습니다. 재질과 부품 표면은 참고 표현입니다.', drawingParts:'도면 외곽 · 재질·부품 표면은 참고', selectedView: '선택한 마감', drawingReferenceNote:'기준 도면입니다. 현재 마감 옵션은 반영하지 않습니다.', referenceNote: '원본 샘플입니다. 현재 선택 옵션을 반영하지 않습니다.', finishNote: '투명 색상은 선택한 목재 위에 표시되므로 같은 색이라도 어두운 수종에서는 더 짙게 보입니다. 오일·스테인·틴트·오픈포어·UV 하이글로스에 따라 깊이, 나뭇결 대비, 광택이 달라집니다. 참고용 시안이며 실제 색상 견본이 아닙니다.', colourNames: ['내추럴', '체리 레드', '오션 블루', '블랙', '화이트', '포레스트 그린', '앰버', '타바코 브라운', '와인 레드', '오렌지', '틸', '퍼플', '차콜 그레이', '빈티지 크림']
+      noShape: '이 모델은 확인된 외곽 자료가 없습니다.', sampleGrain: '샘플 나뭇결 유지', referenceParts: '샘플 부품 유지', sourceView: '샘플 원본', drawingView:'기준 도면', drawingNote:'첨부 도면의 정면 외곽·배치를 적용했습니다. 재질과 부품 표면은 참고 표현입니다.', drawingParts:'도면 외곽 · 재질·부품 표면은 참고', selectedView: '선택한 마감', drawingReferenceNote:'기준 도면입니다. 현재 마감 옵션은 반영하지 않습니다.', referenceNote: '원본 샘플입니다. 현재 선택 옵션을 반영하지 않습니다.', finishNote: '투명 색상은 선택한 목재 위에 표시되므로 같은 색이라도 어두운 수종에서는 더 짙게 보입니다. 오일·스테인·틴트·오픈포어·UV 하이글로스에 따라 깊이, 나뭇결 대비, 광택이 달라집니다. 참고용 시안이며 실제 색상 견본이 아닙니다.', stainNames:['인페르노 레드','버건디','터콰이즈 블루','사파이어 블루','에메랄드 그린','로열 퍼플','플럼','코냑','허니 앰버','에보니'], colourGroups:['기본 컬러','진한 스테인 컬러 · 투명'], colourNames: ['내추럴', '체리 레드', '오션 블루', '블랙', '화이트', '포레스트 그린', '앰버', '타바코 브라운', '와인 레드', '오렌지', '틸', '퍼플', '차콜 그레이', '빈티지 크림']
     },
     de: {
       title: 'Ihr Instrument', live: 'Live-Finish-Vorschau', full: 'Gesamt', body: 'Korpus', neck: 'Griffbrett', head: 'Kopfplatte',
@@ -55,7 +55,7 @@
       headPending: 'Für die Kopfplattenplakette liegt keine Vorlage vor.',
       geometry: 'Endgültige Geometrie / genaue Teile benötigen freigegebene Zeichnungen.',
       updated: 'Vorschau aktualisiert', material: 'Materialfarbe', schematic: 'Musterteil beibehalten', hidden: 'Von vorn nicht sichtbar',
-      noShape: 'Für dieses Modell liegt keine geprüfte Kontur vor.', sampleGrain: 'Mustermaserung beibehalten', referenceParts: 'Musterteile beibehalten', sourceView: 'Musterrendering', drawingView:'Referenzzeichnung', drawingNote:'Frontkonturen und Positionen folgen der vorgelegten Zeichnung. Material- und Bauteiloberflächen sind illustrativ.', drawingParts:'Zeichnungsgeometrie · illustrative Oberflächen', selectedView: 'Gewähltes Finish', drawingReferenceNote:'Referenzzeichnung; gewählte Finishes werden nicht angewendet.', referenceNote: 'Originalmuster. Die gewählten Optionen sind hier nicht dargestellt.', finishNote: 'Transparente Farben werden über dem gewählten Holz gezeigt; dieselbe Farbe wirkt auf dunklen Hölzern dunkler. Öl, Beize, Tönung, offenporig und UV-Hochglanz verändern Tiefe, Maserungskontrast und Glanz. Nur zur Veranschaulichung, kein Farbmuster.', colourNames: ['Natur', 'Kirschrot', 'Ozeanblau', 'Schwarz', 'Weiß', 'Waldgrün', 'Bernstein', 'Tabakbraun', 'Weinrot', 'Orange', 'Petrol', 'Violett', 'Anthrazit', 'Vintage-Creme']
+      noShape: 'Für dieses Modell liegt keine geprüfte Kontur vor.', sampleGrain: 'Mustermaserung beibehalten', referenceParts: 'Musterteile beibehalten', sourceView: 'Musterrendering', drawingView:'Referenzzeichnung', drawingNote:'Frontkonturen und Positionen folgen der vorgelegten Zeichnung. Material- und Bauteiloberflächen sind illustrativ.', drawingParts:'Zeichnungsgeometrie · illustrative Oberflächen', selectedView: 'Gewähltes Finish', drawingReferenceNote:'Referenzzeichnung; gewählte Finishes werden nicht angewendet.', referenceNote: 'Originalmuster. Die gewählten Optionen sind hier nicht dargestellt.', finishNote: 'Transparente Farben werden über dem gewählten Holz gezeigt; dieselbe Farbe wirkt auf dunklen Hölzern dunkler. Öl, Beize, Tönung, offenporig und UV-Hochglanz verändern Tiefe, Maserungskontrast und Glanz. Nur zur Veranschaulichung, kein Farbmuster.', stainNames:['Infernorot','Burgund','Türkisblau','Saphirblau','Smaragdgrün','Königsviolett','Pflaume','Cognac','Honigbernstein','Ebenholz'], colourGroups:['Grundfarben','Kräftige Beizfarben · transparent'], colourNames: ['Natur', 'Kirschrot', 'Ozeanblau', 'Schwarz', 'Weiß', 'Waldgrün', 'Bernstein', 'Tabakbraun', 'Weinrot', 'Orange', 'Petrol', 'Violett', 'Anthrazit', 'Vintage-Creme']
     }
   };
   const viewCopy = {
@@ -85,6 +85,16 @@
     wine:'#5c1a2b', 와인:'#5c1a2b', weinrot:'#5c1a2b', orange:'#c4562b', 오렌지:'#c4562b', teal:'#1d6a68', 틸:'#1d6a68', petrol:'#1d6a68',
     charcoal:'#45484c', 차콜:'#45484c', anthrazit:'#45484c', cream:'#e4d6b0', 크림:'#e4d6b0', creme:'#e4d6b0'
   };
+  // Deep, saturated dyes that let the grain show through; always transparent.
+  // Order matches copy.stainNames.
+  const stainColours = ['#b3121c','#5e0f22','#0f7d8c','#12326e','#0c5a3a','#4b1d6b','#5a1a4a','#7a3b12','#b8730f','#1c1714'];
+  // Typed stain names resolve too: every listed name plus one-word aliases.
+  ['en','ko','de'].forEach(language => copy[language].stainNames.forEach((name,i) => { colourWords[name.toLowerCase()] = stainColours[i]; }));
+  Object.assign(colourWords, {
+    inferno:'#b3121c', burgundy:'#5e0f22', 버건디:'#5e0f22', burgund:'#5e0f22', turquoise:'#0f7d8c', 터콰이즈:'#0f7d8c', türkis:'#0f7d8c',
+    sapphire:'#12326e', 사파이어:'#12326e', saphir:'#12326e', emerald:'#0c5a3a', 에메랄드:'#0c5a3a', smaragd:'#0c5a3a',
+    plum:'#5a1a4a', 플럼:'#5a1a4a', pflaume:'#5a1a4a', cognac:'#7a3b12', 코냑:'#7a3b12', ebony:'#1c1714', 에보니:'#1c1714', ebenholz:'#1c1714'
+  });
   function parseColour(input) {
     let value = String(input || '').trim().toLowerCase();
     if (!value || /^(natural|natur|내추럴|내츄럴)$/.test(value)) return {status:'natural', colour:null, opaque:false};
@@ -140,7 +150,7 @@
     if (s.nut_material === 'nut_others') pending.push('nut_material');
     if (s.fret_material === 'mat_others') pending.push('fret_material');
     if (['extra','guitar_neck_custom'].includes(s.neck)) pending.push('neck');
-    return {model, g, selections:s, neckAccent:extras.neckAccent==='bloodwood'?'bloodwood':'walnut', specialOptions:Array.isArray(extras.specialOptions)?extras.specialOptions.filter(id=>['kill_switch','dual_tone','delano_buffer'].includes(id)):[], pickguard:g?.pickguard?(['EDDA','GRAMR'].includes(model)?(['pg_add','pg_standard'].includes(s.pickguard)?(s.pickguard_material==='pg_wood'?'wood':(['pg_black','pg_white','pg_ivory','pg_red','pg_match'].includes(s.pickguard_colour)?s.pickguard_colour:'pg_black').replace('pg_','')):'none'):(['none','black','ivory','wood'].includes(extras.pickguard)?extras.pickguard:'black')):'none', pickguardMaterial:['EDDA','GRAMR'].includes(model)?(['pg_acrylic','pg_aluminium','pg_wood'].includes(s.pickguard_material)?s.pickguard_material:'pg_acrylic'):null, pickguardFinish:['EDDA','GRAMR'].includes(model)?s.pickguard_finish:null, labels:labels || {}, finish, neckFinish:finish, neckColour:s.neck_finish==='neck_body'?'body':'natural', hasTop, bodyId, topId, pending,
+    return {model, g, selections:s, strapLock:Array.isArray(extras.accessories)&&extras.accessories.includes('leather_strap'), unitsPerMm:drawingUnits[model], neckAccent:extras.neckAccent==='bloodwood'?'bloodwood':'walnut', specialOptions:Array.isArray(extras.specialOptions)?extras.specialOptions.filter(id=>['kill_switch','dual_tone','delano_buffer'].includes(id)):[], pickguard:g?.pickguard?(['EDDA','GRAMR'].includes(model)?(['pg_add','pg_standard'].includes(s.pickguard)?(s.pickguard_material==='pg_wood'?'wood':(['pg_black','pg_white','pg_ivory','pg_red','pg_match'].includes(s.pickguard_colour)?s.pickguard_colour:'pg_black').replace('pg_','')):'none'):(['none','black','ivory','wood'].includes(extras.pickguard)?extras.pickguard:'black')):'none', pickguardMaterial:['EDDA','GRAMR'].includes(model)?(['pg_acrylic','pg_aluminium','pg_wood'].includes(s.pickguard_material)?s.pickguard_material:'pg_acrylic'):null, pickguardFinish:['EDDA','GRAMR'].includes(model)?s.pickguard_finish:null, labels:labels || {}, finish, neckFinish:finish, neckColour:s.neck_finish==='neck_body'?'body':'natural', hasTop, bodyId, topId, pending,
       bindruneExample:/^c[1-4]$/.test(bindruneExample)?bindruneExample:null, bodyColour:wood(topId), boardColour:wood(s.fretboard), metal:metals[s.hardware_color] || metals.hw_chrome,
       bridgeColour:s.hardware_bridge === 'nova_parts' ? metals.hw_black : model === 'ASKR' ? metals.hw_chrome : (metals[s.hardware_color] || metals.hw_chrome), bridgeFinishFixed:model==='ASKR'};
   }
@@ -308,6 +318,7 @@
       for(let i=0;i<g.strings;i++)out+=line(point(g.board[3],g.board[2],.08+.84*i/(g.strings-1)),(parts.bridgeAnchors(state)?.[i]||point(g.bridge[0],g.bridge[1],i/(g.strings-1))),`stroke="#d6d0b9" stroke-width="${1.15-i*.12}" opacity=".7"`);
       out+='</g>';
     }
+    out+=parts.strapPins(state,prefix,g.body,'y','front');
     return out+'</g></svg>';
   }
   // Drawing units per millimetre of each rendered side, so the quote PDF can
@@ -390,7 +401,7 @@
     React.useEffect(()=>{setView('front');},[props.model,props.selections.pickguard,props.selections.pickguard_material,props.selections.pickguard_colour,props.selections.pickguard_finish]);
     React.useEffect(()=>{if(props.bindruneExample)setView('front');},[props.bindruneExample]);
     const t = copy[props.language] || copy.en;
-    const state = scene(props.model,props.selections,props.finishColor,props.labels,props.bindruneExample,{specialOptions:props.specialOptions,pickguard,neckAccent});
+    const state = scene(props.model,props.selections,props.finishColor,props.labels,props.bindruneExample,{specialOptions:props.specialOptions,accessories:props.accessories,pickguard,neckAccent});
     const s = state.selections;
     const isDrawing=state.g && ['drawing','bass-drawing'].includes(state.g.kind);
     const rear=view==='back',missing=rear&&!state.g?.back;
@@ -470,20 +481,26 @@
         h('img',{src:media('assets/configurator-bindrune/c'+(i+1)+'.svg'),alt:'C'+(i+1)+' · '+name}),
         h('span',null,'C'+(i+1)+' · '+name)))),h('small',null,t.bindruneSource),h('a',{href:media('assets/configurator-bindrune/layouts-v5.png'),download:'RavenForge_Bindrune_Layouts_v5.png'},t.bindruneOriginal));
   }
+  // Order matches copy.colourNames; the first six keep their original values.
+  const swatchColours = ['', '#9d282b','#275f89','#24262a','#eee8dc','#35624b','#c8892c','#5b3a1e','#5c1a2b','#c4562b','#1d6a68','#64476f','#45484c','#e4d6b0'];
   function ColourControls(props) {
     const h = window.React.createElement, t = copy[props.language] || copy.en, finish = parseColour(props.value);
-    // Order matches copy.colourNames; the first six keep their original values.
-    const colours = ['', '#9d282b','#275f89','#24262a','#eee8dc','#35624b','#c8892c','#5b3a1e','#5c1a2b','#c4562b','#1d6a68','#64476f','#45484c','#e4d6b0'];
     const change = colour => props.onChange(colour ? (finish.opaque?'solid ':'transparent ')+colour : '');
     return h('div',{className:'rf-colour-controls'},
       h('p',null,t.colourHelp),
       h('p',{className:'rf-colour-finish-note','data-finish-note':''},t.finishNote),
-      h('div',{className:'rf-colour-swatches'},colours.map((colour,i)=>h('button',{
+      h('p',{className:'rf-colour-group'},t.colourGroups[0]),
+      h('div',{className:'rf-colour-swatches'},swatchColours.map((colour,i)=>h('button',{
         type:'button',key:i,title:t.colourNames[i],'aria-label':t.colourNames[i],'aria-pressed':(finish.colour||'')===colour&&finish.status!=='unmapped',
         style:{background:colour||'#c5a779'},onClick:()=>change(colour),'data-preview-swatch':colour||'natural'
       },i===0?'N':'')),h('label',null,t.colour,h('input',{type:'color',value:finish.colour||'#9d282b',onChange:event=>change(event.target.value),'aria-label':t.colour}))),
+      h('p',{className:'rf-colour-group'},t.colourGroups[1]),
+      h('div',{className:'rf-colour-swatches','data-stain-swatches':''},stainColours.map((colour,i)=>h('button',{
+        type:'button',key:colour,title:t.stainNames[i],'aria-label':t.stainNames[i],'aria-pressed':finish.colour===colour&&!finish.opaque,
+        style:{background:colour},onClick:()=>props.onChange('transparent '+colour),'data-preview-swatch':colour,'data-stain-swatch':colour
+      }))),
       h('div',{className:'rf-colour-modes'},[false,true].map(opaque=>h('button',{type:'button',key:String(opaque),disabled:!finish.colour,'aria-pressed':finish.opaque===opaque,onClick:()=>props.onChange((opaque?'solid ':'transparent ')+finish.colour)},opaque?t.solid:t.transparent)))
     );
   }
-  return {configureTestOptions,scene, renderSvg, unitsPerMm, parseColour, wood, copy, Component, ColourControls, BindruneExamples, OvalExample, PickupExample, pickupStatus, ovalMark};
+  return {configureTestOptions,scene, renderSvg, unitsPerMm, swatchColours, stainColours, parseColour, wood, copy, Component, ColourControls, BindruneExamples, OvalExample, PickupExample, pickupStatus, ovalMark};
 }));

@@ -378,6 +378,13 @@
         setStandard(data, categoryId, modelDefaults[modelId][categoryId], modelId);
       });
     });
+    // Options appended above (Delano SBC5 E, Nova bridge, top woods) must not
+    // land after a catch-all "others" choice; keep those last in every list.
+    data.categories.forEach(function (group) {
+      var isOther = function (entry) { return entry.id === 'others' || /_others$/.test(entry.id); };
+      group.options = group.options.filter(function (entry) { return !isOther(entry); })
+        .concat(group.options.filter(isOther));
+    });
     return data;
   }
 

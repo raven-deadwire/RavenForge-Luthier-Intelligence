@@ -269,6 +269,19 @@ return out;
     const ref=profile({model,selections:{pickups:option}},'pickups');if(!ref)return '';
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -7 ${ref.w+24} ${ref.h+18}" aria-hidden="true" data-pickup-profile="${ref.style}" data-pickup-scope="${ref.scope||'manufacturer-reference'}"><defs>${pickupDefinitions(p)}</defs>${pickupUnit(ref,p)}</svg>`;
   }
+  // Schaller S-Lock strap pins in the hardware colour, drawn where they sit on
+  // the body edge: the horn tip nearest the neck and the tail. `axis` is the
+  // instrument's length axis in the drawing's own coordinates.
+  function strapPins(state,p,body,axis,side){
+    const mm=state.unitsPerMm?.[side];
+    if(!state.strapLock||!body||!mm)return '';
+    const n=(body.match(/-?\d+(?:\.\d+)?/g)||[]).map(Number),points=[];
+    for(let i=0;i+1<n.length;i+=2)points.push([n[i],n[i+1]]);
+    const k=axis==='y'?1:0,horn=points.reduce((a,b)=>b[k]<a[k]?b:a),tail=points.reduce((a,b)=>b[k]>a[k]?b:a);
+    const pin=(q,name,rotation)=>`<g data-strap-pin="${name}" transform="translate(${q[0]} ${q[1]}) rotate(${rotation})"><rect x="${-6*mm}" y="${-mm}" width="${12*mm}" height="${9*mm}" rx="${3*mm}" fill="url(#${p}-part-metal)" stroke="#151617" stroke-width="${.4*mm}"/><path d="M${-6*mm} ${3.5*mm}H${6*mm}" stroke="#151617" stroke-width="${.8*mm}" opacity=".55"/></g>`;
+    // Local +y points away from the body: up/down for portrait, left/right for horizontal.
+    return `<g data-layer="strap-pins" data-option="schaller_s_lock" data-colour="${state.metal}">${pin(horn,'horn',axis==='y'?180:90)}${pin(tail,'tail',axis==='y'?0:-90)}</g>`;
+  }
   function tremoloArm(state,p){
     if(state.model!=='GRAMR'||profile(state,'hardware_bridge')?.style!=='510t-fe1')return '';
     const [a,b]=state.g.bridge,cx=(a[0]+b[0])/2,cy=(a[1]+b[1])/2,scale=Math.hypot(a[0]-b[0],a[1]-b[1])/54;
@@ -511,5 +524,5 @@ return out;
     }
     return `<g data-layer="${back?'rear-selected-tuners':plane==='rear-mount'?'tuner-rear-mount':state.model==='GRAMR'?'selected-tuners':'hardware'}" data-option="${state.selections.hardware_color}" data-plane="${back?'rear-housing':plane}" data-machine-head="${state.selections.hardware_machine_head}" data-colour="${state.metal}" data-count="${anchors.length}" data-appearance="manufacturer-reference" data-placement="${back&&state.model!=='EDDA'?'drawing-fit':'sample-fit'}" data-profile="${ref.key}" data-units-per-mm="${scale}">`+anchors.map(([x,y,a],i)=>{const reflectY=['EDDA','GRAMR'].includes(state.model)?(!back&&plane==='rear-mount'):(back?a===90:plane==='rear-mount'&&a===180);return `<g data-tuner-index="${i}" data-y-reflection="${reflectY}" transform="translate(${x} ${y}) rotate(${a}) scale(${scale} ${reflectY?-scale:scale})">${tunerUnit(state,p,ref.xtender&&i!==anchors.length-1?{...ref,xtender:false}:ref,back?'rear-housing':plane)}</g>`;}).join('')+'</g>';
   }
-  return {definitions,pickupPlan,guard,bridgeAnchors,novaBridgePlan,ramps,electronicsProfiles,electronicsPlan,knobs,controlPlan,controls,references,profile,selectedPickupPlan,pickupThumbnail,pickups,bridge,tremoloArm,referenceBridge,tunerPlan,tuners};
+  return {definitions,strapPins,pickupPlan,guard,bridgeAnchors,novaBridgePlan,ramps,electronicsProfiles,electronicsPlan,knobs,controlPlan,controls,references,profile,selectedPickupPlan,pickupThumbnail,pickups,bridge,tremoloArm,referenceBridge,tunerPlan,tuners};
 });
