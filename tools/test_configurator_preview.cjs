@@ -677,6 +677,12 @@ console.log('PASS: Hipshot offset/casing/key connection, HE6 both-view layer/cou
  assert.equal(new Set(kinds.map(kind=>look(kind,'#e2c695','#9d282b').dye)).size,kinds.length,'Each finish type changes the transparent colour');
  assert.notEqual(look('top_oil','#e2c695',null).base,look('top_tint','#e2c695',null).base,'Oil warms natural wood');
  for(const language of ['en','ko','de'])assert.equal(preview.copy[language].colourNames.length,14,`${language}: one name per colour swatch`);
+ // Deep stain presets are a separate, always-transparent group with their own names.
+ assert.equal(preview.swatchColours.length,14);
+ assert.equal(preview.stainColours.length,10);
+ assert.equal(new Set([...preview.swatchColours,...preview.stainColours]).size,24,'Stain presets do not repeat a basic colour');
+ for(const language of ['en','ko','de']){assert.equal(preview.copy[language].stainNames.length,preview.stainColours.length,`${language}: one name per stain swatch`);assert.equal(preview.copy[language].colourGroups.length,2);}
+ for(const colour of preview.stainColours){const finish=preview.parseColour('transparent '+colour);assert.equal(finish.colour,colour);assert.equal(finish.opaque,false);}
  let renders=0;
  for(const model of ['EDDA','EMBLA','ASKR','GRAMR'])for(const kind of ['oil','stain','tint','open','gloss'])for(const colour of ['','transparent #9d282b','solid #275f89'])for(const side of ['front','back']){
   // Wood knobs and a wood guard also use the surface dye, including under opaque paint.
@@ -689,7 +695,7 @@ console.log('PASS: Hipshot offset/casing/key connection, HE6 both-view layer/cou
  }
  assert.equal(renders,120);
 }
-console.log('PASS: finish appearance follows wood and finish type, opaque keeps exact colour, 14 named swatches and 120 renders with resolved references');
+console.log('PASS: finish appearance follows wood and finish type, opaque keeps exact colour, 14 named swatches plus 10 transparent stain presets and 120 renders with resolved references');
 {
  // The PDF prints every model at one scale from these drawing units.
  const fretRatio=0.5-(1-2**(-1/12));
