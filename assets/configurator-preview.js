@@ -111,9 +111,9 @@
   // ASKR can move its neck-side pickup from the middle position to the front,
   // leaving one pickup's spacing free between it and the bridge pickup.
   function pickupLayout(model, g, s) {
-    if (model !== 'ASKR' || s.pickup_position !== 'pos_front_bridge' || !g?.pickups?.length) return g;
-    const [front, bridge] = g.pickups, spacing = bridge.y - front.y;
-    return Object.assign({}, g, {pickups: [Object.assign({}, front, {y: front.y - spacing}), bridge]});
+    if (model !== 'ASKR' || s.pickup_position !== 'pos_front_bridge' || !(g?.pickups?.length >= 2)) return g;
+    const [front, bridge, ...rest] = g.pickups, spacing = bridge.y - front.y;
+    return Object.assign({}, g, {pickups: [Object.assign({}, front, {y: front.y - spacing}), bridge, ...rest]});
   }
   function scene(model, selections, finishColour, labels, bindruneExample, extras={}) {
     const s = Object.assign({}, selections); // Read-only boundary; pricing owns normalization.
