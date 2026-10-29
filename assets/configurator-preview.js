@@ -108,9 +108,16 @@
   Object.assign(copy.ko,{"symbols": "확인한 제조사 자료를 기준으로 부품 외형을 그립니다. 장착 크기·위치는 시각 비교용이며 미확인 부품은 원본 형상과 미표현 표시를 유지합니다.", "partsNote": "제조사 자료 기반 외형 · 장착 위치는 참고용", "assembly": "선택 부품", "rampDeferred": "핑거램프는 추후 추가 예정입니다."});
   Object.assign(copy.en,{"symbols": "Product shapes follow verified manufacturer references. Display fit is illustrative; unsupported parts retain their source shapes and are marked not visualized.", "partsNote": "Manufacturer reference shapes · illustrative installation fit", "assembly": "Selected parts", "rampDeferred": "Finger ramps are planned for a later update."});
   Object.assign(copy.de,{"symbols": "Teileformen folgen geprüften Herstellerunterlagen. Die Einpassung ist beispielhaft; nicht unterstützte Teile behalten die Vorlagenform und werden als nicht dargestellt markiert.", "partsNote": "Formen nach Herstellerreferenz · Einpassung beispielhaft", "assembly": "Gewählte Teile", "rampDeferred": "Fingerrampen sind für eine spätere Aktualisierung vorgesehen."});
+  // ASKR can move its neck-side pickup from the middle position to the front,
+  // leaving one pickup's spacing free between it and the bridge pickup.
+  function pickupLayout(model, g, s) {
+    if (model !== 'ASKR' || s.pickup_position !== 'pos_front_bridge' || !g?.pickups?.length) return g;
+    const [front, bridge] = g.pickups, spacing = bridge.y - front.y;
+    return Object.assign({}, g, {pickups: [Object.assign({}, front, {y: front.y - spacing}), bridge]});
+  }
   function scene(model, selections, finishColour, labels, bindruneExample, extras={}) {
     const s = Object.assign({}, selections); // Read-only boundary; pricing owns normalization.
-    const g = geometry[model];
+    const g = pickupLayout(model, geometry[model], s);
     const finish = parseColour(finishColour);
     const hasTop = ['cap','veneer'].includes(s.top_type);
     const bodyId = s.body_wood_single || s.body_core_wood;
@@ -406,7 +413,7 @@
     },[imageKey]);
     const imageReady=imageStatus.source===imageKey&&imageStatus.status==='ready';
     const imageFailed=imageStatus.source===imageKey&&imageStatus.status==='error';
-    const rows = ['pickguard','pickguard_material','pickguard_colour','pickguard_finish','body_construction','electronics','neck_finish','coil_switch','control_layout','orientation','body_wood_single','body_core_wood','body_wing_wood','top_type','top_wood_selection','neck','fretboard','fret_type','fret_material','fret_size','fret_side','inlay_type','inlay_dot_mat','inlay_dot_pos','inlay_oval_mat','nut_material','color_top','color_back_side','color_headstock','extra_finish_burst','extra_finish_flake','knob','pickup_configuration','pickups','hardware_bridge','hardware_machine_head','hardware_color','fretboard_extense'].filter(id=>s[id]);
+    const rows = ['pickguard','pickguard_material','pickguard_colour','pickguard_finish','body_construction','electronics','neck_finish','coil_switch','control_layout','orientation','body_wood_single','body_core_wood','body_wing_wood','top_type','top_wood_selection','neck','fretboard','fret_type','fret_material','fret_size','fret_side','inlay_type','inlay_dot_mat','inlay_dot_pos','inlay_oval_mat','nut_material','color_top','color_back_side','color_headstock','extra_finish_burst','extra_finish_flake','knob','pickup_configuration','pickup_position','pickups','hardware_bridge','hardware_machine_head','hardware_color','fretboard_extense'].filter(id=>s[id]);
     return h('section',{className:'rf-preview',id:'instrument-preview','aria-labelledby':'preview-title','data-preview-model':props.model,'data-preview-side':view,'data-neck-accent':neckAccent,'data-preview-version':'v27'},
       h('div',{className:'rf-preview-heading'},h('div',null,h('p',null,t.live),h('h2',{id:'preview-title'},props.model),h('p',{'data-neck-construction':'bolt-on'},t.boltOn)),h('span',{className:'rf-preview-mark','aria-hidden':true},'RAVENFORGE')),
       h('div',{className:'rf-preview-sides','aria-label':t.title},['front','back'].map(id=>h('button',{type:'button',key:id,'data-preview-side':id,'aria-pressed':view===id,onClick:()=>{setView(id);}},t[id]))),
@@ -440,7 +447,7 @@
         h('p',null,rear?rearNote:isDrawing?t.drawingNote:t.tone),!rear&&h('p',null,isDrawing?t.drawingParts:t.symbols),h('p',null,t.geometry),h('p',null,t.constructionNote),h('p',null,t.controlNote),
         h('dl',null,rows.map(id=>{
           const woodCategory=['body_wood_single','body_core_wood','body_wing_wood','top_wood_selection','fretboard'].includes(id);
-          const frontDetails=['coil_switch','control_layout','finger_ramp','fretboard_extense','pickups','pickup_configuration','fretboard','top_type','top_wood_selection','color_headstock','color_top','fret_type','fret_material','fret_size','fret_side','inlay_type','inlay_dot_mat','inlay_dot_pos','inlay_oval_mat','nut_material','knob','extra_finish_flake'];
+          const frontDetails=['coil_switch','control_layout','finger_ramp','fretboard_extense','pickups','pickup_configuration','pickup_position','fretboard','top_type','top_wood_selection','color_headstock','color_top','fret_type','fret_material','fret_size','fret_side','inlay_type','inlay_dot_mat','inlay_dot_pos','inlay_oval_mat','nut_material','knob','extra_finish_flake'];
           const status=state.pending.includes(id)?t.shapePending:id==='hardware_bridge'&&state.bridgeFinishFixed?t.fixedStatus:['neck','neck_finish','body_construction','body_wing_wood','color_back_side'].includes(id)&&!rear?t.rearOnly:rear&&frontDetails.includes(id)?t.frontOnly:['pickups','hardware_bridge','hardware_machine_head','finger_ramp','fretboard_extense','coil_switch','control_layout'].includes(id)?t.proposalStatus:woodCategory&&id!=='fretboard'&&!rear&&(state.finish.opaque||(['body_wood_single','body_core_wood'].includes(id)&&state.hasTop))?t.covered:woodCategory?t.textureStatus:t.detailStatus;
           return h('div',{key:id,'data-preview-category':id,'data-option':s[id]},h('dt',null,props.categoryTitles[id]||id),h('dd',null,props.labels[id],h('small',null,status)));
         })),

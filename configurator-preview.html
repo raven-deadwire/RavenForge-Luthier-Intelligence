@@ -62,7 +62,7 @@
 </head>
 <body>
   <script src="./assets/configurator-platforms.js?v=20261008-edda-no-coil-switch"></script>
-  <script src="./assets/configurator-ui.js?v=20261028-taxes-shipping-intro"></script>
+  <script src="./assets/configurator-ui.js?v=20261029-pickup-position"></script>
   <!-- Root element for React App -->
   <div id="root"></div>
 
@@ -78,7 +78,7 @@
   <script src="./assets/configurator-rear-renderer.js?v=20261026-finish"></script>
   <script src="./assets/configurator-bass-front-geometry.js?v=20261021-v27"></script>
   <script src="./assets/configurator-geometry.js?v=20261021-v27"></script>
-  <script src="./assets/configurator-preview.js?v=20261027-verawood"></script>
+  <script src="./assets/configurator-preview.js?v=20261029-pickup-position"></script>
   <script type="text/babel">
     const { useState, useEffect, useMemo } = React;
 
@@ -551,6 +551,15 @@
           ]
         },
         {
+          id: 'pickup_position',
+          title: 'Pickup Position',
+          dependsOn: { pickup_configuration: 'pickup_2' },
+          options: [
+            { id: 'pos_middle_bridge', label: 'middle + bridge', spec: 'standard placement; both pickups grouped towards the bridge', prices: { ASKR: 0 }, isStandard: ['ASKR'] },
+            { id: 'pos_front_bridge', label: 'front + bridge', spec: 'neck pickup moved forward, leaving one pickup width of space between the pickups', prices: { ASKR: 0 } }
+          ]
+        },
+        {
           id: 'pickups',
           title: 'Pickups',
           options: [
@@ -685,7 +694,7 @@
         { step: 2, title: ui.steps[1], categories: ['nut_size', 'nut_material', 'neck', 'neck_profile', 'fretboard', 'radius', 'fret_type', 'fret_material', 'fret_size', 'fretline', 'fret_side', 'inlay_type', 'inlay_oval_mat', 'inlay_dot_pos', 'inlay_dot_mat', 'inlay_custom_spec', 'side_dot', 'fretboard_extense'] },
         { step: 3, title: ui.steps[2], categories: ['body_construction', 'body_wood_single', 'body_core_wood', 'body_wing_wood', 'top_type', 'top_wood_selection', 'color_top', 'color_back_side', 'extra_finish_burst', 'extra_finish_flake', 'color_headstock', 'neck_finish'] },
         { step: 4, title: ui.steps[3], categories: ['hardware_bridge', 'hardware_machine_head', 'knob', 'hardware_color', 'pickguard', 'pickguard_material', 'pickguard_colour', 'pickguard_finish'] },
-        { step: 5, title: ui.steps[4], categories: ['pickup_configuration', 'pickups', 'electronics', 'lhz_voltage', 'control_layout', 'coil_switch', 'case'] }
+        { step: 5, title: ui.steps[4], categories: ['pickup_configuration', 'pickup_position', 'pickups', 'electronics', 'lhz_voltage', 'control_layout', 'coil_switch', 'case'] }
       ];
 
 
