@@ -718,3 +718,18 @@ console.log('PASS: drawing units per millimetre match each model drawing for sca
  }
 }
 console.log('PASS: independent fret-spacing calibration; EDDA physical scale remains unverified');
+{
+ // ASKR front + bridge moves only the neck-side pickup forward by one spacing.
+ const base=JSON.parse(JSON.stringify(normalize('ASKR')));
+ const middle=preview.scene('ASKR',{...base,pickup_position:'pos_middle_bridge'},'').g.pickups;
+ const front=preview.scene('ASKR',{...base,pickup_position:'pos_front_bridge'},'').g.pickups;
+ const spacing=middle[1].y-middle[0].y;
+ assert.ok(spacing>0);
+ assert.equal(front[0].y,middle[0].y-spacing);
+ assert.deepEqual(front[1],middle[1]);
+ assert.ok(front[0].y>Math.max(...preview.scene('ASKR',base,'').g.board.map(p=>p[1])),'Front pickup stays clear of the fretboard end');
+ const svg=preview.renderSvg(preview.scene('ASKR',{...base,pickup_position:'pos_front_bridge'},''),'front','en','portrait');
+ assert.match(svg,/data-layer="pickups"[^>]*data-count="2"/);
+ for(const model of ['EDDA','EMBLA','GRAMR'])assert.deepEqual(preview.scene(model,{...normalize(model),pickup_position:'pos_front_bridge'},'').g.pickups,preview.scene(model,normalize(model),'').g.pickups);
+}
+console.log('PASS: ASKR front + bridge pickup position moves the neck pickup by one pickup spacing');

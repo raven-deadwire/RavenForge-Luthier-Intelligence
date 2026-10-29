@@ -114,4 +114,13 @@ for (const language of ['en', 'ko', 'de']) assert.match(i18n[language].strapPins
   assert.match(html, /if \(optionId === 'fretless'\) \{\s*nextSelections\['nut_material'\] = 'nut_verawood';/);
   for (const language of ['en', 'ko', 'de']) assert.ok(i18n[language].fretlessNutNote);
 }
-console.log('PASS: code-only stale coil/nut normalization, other models, bridges, €0 standard options, €200 gigbag difference, localized UI strings and catalog translations, 1,000-character instructions, English PDF, fretless-only verawood nut and S-Lock pin colour');
+// ASKR alone offers a front + bridge pickup position, and only with two pickups.
+{
+  const askr = normalizeSelections('ASKR');
+  assert.equal(askr.pickup_position, 'pos_middle_bridge');
+  assert.equal(normalizeSelections('ASKR', { ...askr, pickup_position: 'pos_front_bridge' }).pickup_position, 'pos_front_bridge');
+  // Three pickups are still planned; the position choice is tied to two pickups.
+  assert.match(html, /id: 'pickup_position',\s*title: 'Pickup Position',\s*dependsOn: \{ pickup_configuration: 'pickup_2' \}/);
+  for (const model of ['EDDA', 'EMBLA', 'GRAMR']) assert.equal(normalizeSelections(model).pickup_position, undefined, `${model} keeps its pickup position`);
+}
+console.log('PASS: code-only stale coil/nut normalization, other models, bridges, €0 standard options, €200 gigbag difference, localized UI strings and catalog translations, 1,000-character instructions, English PDF, fretless-only verawood nut, S-Lock pin colour and ASKR pickup position');
