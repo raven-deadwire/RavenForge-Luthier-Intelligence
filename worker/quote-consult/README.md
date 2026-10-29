@@ -27,7 +27,17 @@ Configurator 옆에서 고객의 견적 상담에 답하는 Cloudflare Worker입
 
 응답: `{ "reply": "...", "quote": { "total": 2600, "lines": [...], ... } | null, "stop_reason": "end_turn" }`
 
-페이지에서 호출하는 예:
+### Configurator 채팅 UI
+
+`configurator.html`에는 이미 채팅 UI가 붙어 있습니다(`assets/configurator-chat.js`, `assets/configurator-chat.css`). Worker를 배포한 뒤 `configurator.html`의 아래 태그에 Worker URL을 넣으면 켜집니다. 비어 있으면 채팅이 보이지 않습니다.
+
+```html
+<script src="./assets/configurator-chat.js?v=..." data-endpoint="https://ravenforge-quote-consult.<your-subdomain>.workers.dev"></script>
+```
+
+사양 요약 카드 머리글의 "견적 상담" 버튼과 모바일 하단 바의 "상담" 링크로 열립니다. 대화는 패널을 닫아도 유지되고, 새로고침하면 사라집니다.
+
+다른 페이지에서 직접 호출하는 예:
 
 ```js
 const history = [];

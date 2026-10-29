@@ -1,0 +1,27 @@
+/* Quote consultation chat (assets/configurator-chat.js). */
+.rf-chat-launcher { flex:0 0 auto; padding:7px 12px; border:1px solid #eee4cc; border-radius:999px; color:#eee4cc; font-weight:700; font-size:12px; white-space:nowrap; }
+.rf-chat-launcher:hover { background:#eee4cc; color:#101818; }
+.rf-mobile-review button { padding:8px; text-decoration:underline; }
+.rf-chat-panel { position:fixed; z-index:50; right:20px; bottom:20px; width:min(380px,calc(100vw - 32px)); height:min(560px,calc(100vh - 40px)); display:flex; flex-direction:column; background:#fff; border:1px solid #cbd5e1; border-radius:14px; box-shadow:0 16px 40px rgba(16,24,24,.35); overflow:hidden; font-size:14px; }
+.rf-chat-header { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:12px 14px; background:#101818; color:#eee4cc; }
+.rf-chat-header-actions { display:flex; align-items:center; gap:10px; }
+.rf-chat-header button { color:#eee4cc; font-size:12px; text-decoration:underline; }
+.rf-chat-header button[aria-label] { font-size:22px; line-height:1; text-decoration:none; }
+.rf-chat-header button:disabled { opacity:.5; }
+.rf-chat-log { flex:1 1 auto; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:10px; background:#f8fafc; }
+.rf-chat-msg { max-width:85%; padding:9px 12px; border-radius:12px; line-height:1.45; white-space:pre-wrap; overflow-wrap:anywhere; }
+.rf-chat-assistant { align-self:flex-start; background:#fff; border:1px solid #e2e8f0; color:#0f172a; }
+.rf-chat-user { align-self:flex-end; background:#101818; color:#f8fafc; }
+.rf-chat-pending { color:#64748b; font-style:italic; }
+.rf-chat-error { margin:0; padding:6px 14px; font-size:12px; color:#b91c1c; background:#fef2f2; }
+.rf-chat-form { display:flex; gap:8px; padding:10px; border-top:1px solid #e2e8f0; }
+.rf-chat-form textarea { flex:1 1 auto; resize:none; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; font:inherit; }
+.rf-chat-form textarea:focus { outline:2px solid #b91c1c; outline-offset:-1px; }
+.rf-chat-form button { align-self:stretch; padding:0 14px; border-radius:8px; background:#b91c1c; color:#fff; font-weight:700; }
+.rf-chat-form button:disabled { background:#94a3b8; cursor:not-allowed; }
+.rf-chat-note { margin:0; padding:0 12px 10px; font-size:11px; color:#64748b; }
+/* Keep clear of the fixed mobile summary bar. */
+@media (max-width:1023px) {
+  .rf-chat-panel { right:8px; left:8px; bottom:68px; width:auto; height:min(560px,calc(100vh - 84px)); }
+}
+@media print { .rf-chat-panel { display:none; } }

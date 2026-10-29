@@ -78,6 +78,9 @@
   <script src="./assets/configurator-bass-front-geometry.js?v=20261021-v27"></script>
   <script src="./assets/configurator-geometry.js?v=20261021-v27"></script>
   <script src="./assets/configurator-preview.js?v=20261029-strap-pins-2"></script>
+  <!-- Quote consultation chat: set data-endpoint to the deployed worker/quote-consult URL; empty hides the chat. -->
+  <link rel="stylesheet" href="./assets/configurator-chat.css?v=20261029-chat">
+  <script src="./assets/configurator-chat.js?v=20261029-chat" data-endpoint=""></script>
   <script type="text/babel">
     const { useState, useEffect, useMemo } = React;
 
@@ -665,6 +668,7 @@
       const [currentStep, setCurrentStep] = useState(1);
       const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
       const [pdfError, setPdfError] = useState('');
+      const [chatOpen, setChatOpen] = useState(false);
       const fixedSelections = RavenForgePlatforms.fixed(selectedModel);
       const platform = { ...RavenForgePlatforms.summary(selectedModel), ...(ui.platformSummaries?.[selectedModel] || {}) };
       const currentSpecialOptions = selectedModel === 'GRAMR'
@@ -1888,9 +1892,16 @@ const handleOptionChange = (categoryId, optionId) => {
                 <div id="quote-summary-card" className="sticky top-24 bg-white rounded-xl shadow-xl border-2 border-slate-200 overflow-hidden">
                   
                   {/* Web UI Header */}
-                  <div id="ui-header" className="bg-slate-900 p-6 text-white border-b-2 border-slate-800">
-                    <h3 className="text-xl font-bold uppercase tracking-tight">{ui.summary}</h3>
-                    <div className="text-slate-400 text-sm mt-1">{selectedModel} · {ui.customBuild}</div>
+                  <div id="ui-header" className="bg-slate-900 p-6 text-white border-b-2 border-slate-800 flex justify-between items-start gap-3">
+                    <div>
+                      <h3 className="text-xl font-bold uppercase tracking-tight">{ui.summary}</h3>
+                      <div className="text-slate-400 text-sm mt-1">{selectedModel} · {ui.customBuild}</div>
+                    </div>
+                    {RavenForgeQuoteChat.enabled && (
+                      <button type="button" className="rf-chat-launcher" onClick={() => setChatOpen(true)}>
+                        {RavenForgeQuoteChat.openLabel(language)}
+                      </button>
+                    )}
                   </div>
                   
                   {/* PDF Only Header */}
@@ -1980,8 +1991,15 @@ const handleOptionChange = (categoryId, optionId) => {
             <a href="#config-options">{language === 'ko' ? '옵션' : language === 'de' ? 'Optionen' : 'Options'}</a>
             <a href="#instrument-preview">{language === 'ko' ? '미리보기' : language === 'de' ? 'Vorschau' : 'Preview'}</a>
             <a href="#quote-summary-card">{language === 'ko' ? '견적' : language === 'de' ? 'Angebot' : 'Quote'}</a>
+            {RavenForgeQuoteChat.enabled && (
+              <button type="button" onClick={() => setChatOpen(true)}>{language === 'ko' ? '상담' : language === 'de' ? 'Beratung' : 'Ask'}</button>
+            )}
             <strong>{typeof summary.totalPrice === 'number' ? '€' + summary.totalPrice : ui.requestPrice}{summary.requiresRequest ? ` + ${ui.requestShort}` : ''}</strong>
           </nav>
+          {RavenForgeQuoteChat.enabled && (
+            <RavenForgeQuoteChat.Component language={language} open={chatOpen} onClose={() => setChatOpen(false)}
+              configuration={{ model: selectedModel, selections, specialOptions, accessories }} />
+          )}
         </div>
       );
     };
