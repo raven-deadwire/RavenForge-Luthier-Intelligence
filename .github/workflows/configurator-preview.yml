@@ -18,7 +18,9 @@ jobs:
   homepage:
     name: Homepage quote QA (${{ matrix.target }})
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
-    runs-on: ubuntu-latest
+    # The PDF checks OCR rendered pages with the image's tesseract; ubuntu-latest
+    # moved to 26.04, where they no longer read the totals. Pin the image they pass on.
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     # The live audit tests deployed main against main's own tests, so it says
     # nothing about this PR. Only the local candidate must pass to accept it;
@@ -105,7 +107,9 @@ jobs:
           retention-days: 30
   preview:
     if: contains(fromJSON('["pull_request","workflow_dispatch"]'), github.event_name)
-    runs-on: ubuntu-latest
+    # The PDF checks OCR rendered pages with the image's tesseract; ubuntu-latest
+    # moved to 26.04, where they no longer read the totals. Pin the image they pass on.
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
