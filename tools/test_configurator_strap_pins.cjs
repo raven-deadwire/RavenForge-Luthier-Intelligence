@@ -10,10 +10,12 @@ module.exports = async ({page, hostPage, report, output, expectedModels, step, f
     window.__strapSignature = svg => {
       const doc = typeof svg === 'string' ? new DOMParser().parseFromString(svg, 'image/svg+xml') : svg;
       const pins = doc.querySelector('[data-layer="strap-pins"]');
-      const fill = pins?.querySelector('rect').getAttribute('fill');
+      const root = doc.querySelector('svg');
+      const fill = pins?.querySelector('rect')?.getAttribute('fill');
       const gradient = fill && doc.querySelector('[id="' + fill.slice(5,-1) + '"]');
+      if(!root||!pins||!gradient)throw new Error('Missing strap-pin SVG, pin shape or metal gradient');
       const xml=new XMLSerializer();
-      return {pins:pins&&xml.serializeToString(pins), stops:gradient&&xml.serializeToString(gradient), orientation:doc.querySelector('svg').dataset.orientation};
+      return {pins:xml.serializeToString(pins), stops:xml.serializeToString(gradient), orientation:root.dataset.orientation};
     };
     const render = RavenForgePreview.renderSvg;
     RavenForgePreview.renderSvg = function(...args) {
@@ -42,7 +44,9 @@ module.exports = async ({page, hostPage, report, output, expectedModels, step, f
         const layer=svg.querySelector('[data-layer="strap-pins"]'),pins=[...layer.querySelectorAll('[data-strap-pin]')];
         if(pins.length!==2||layer.dataset.colour!==metal)throw new Error('Pin count/colour '+model+'/'+side);
         for(const pin of pins) {
-          const id=pin.querySelector('rect').getAttribute('fill').slice(5,-1);
+          const fill=pin.querySelector('rect')?.getAttribute('fill');
+          if(!fill?.startsWith('url(#'))throw new Error('Missing pin shape or gradient fill');
+          const id=fill.slice(5,-1);
           if(!svg.querySelector('[id="'+id+'"] stop[stop-color="'+metal+'"]'))throw new Error('Unresolved metal gradient');
         }
         const body = side==='back' ? svg.querySelector('clipPath[id$="-body"] path') || svg.querySelector('[data-layer="rear-body"] path') : svg.querySelector('[data-layer="body"] path');
@@ -57,6 +61,7 @@ module.exports = async ({page, hostPage, report, output, expectedModels, step, f
         // paths and pin transforms. Colour and screen transforms are checked above.
         const key=body.getAttribute('d')+'|'+pins.map(pin=>pin.getAttribute('transform')).join('|');
         const measured=measurements.get(key)||pins.map(pin=>{
+          if(!pin.transform.baseVal.numberOfItems)throw new Error('Missing pin anchor transform');
           const matrix=pin.transform.baseVal.getItem(0).matrix,anchor={x:matrix.e,y:matrix.f};
           const distance=t=>{const q=measure.getPointAtLength(t);return Math.hypot(q.x-anchor.x,q.y-anchor.y);};
           let best=0;
