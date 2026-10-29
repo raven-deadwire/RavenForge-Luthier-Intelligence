@@ -3,6 +3,13 @@ main = "src/index.js"
 compatibility_date = "2026-10-01"
 compatibility_flags = ["nodejs_compat"]
 
+# Run the Worker next to api.anthropic.com instead of the visitor's nearest
+# data center: requests leaving some locations are refused with
+# 403 "Request not allowed", and the API call dominates latency anyway.
+[placement]
+mode = "targeted"
+hostname = "api.anthropic.com"
+
 [vars]
 # Pages allowed to call /chat (comma-separated, exact origins).
 ALLOWED_ORIGINS = "https://raven-deadwire.github.io"
