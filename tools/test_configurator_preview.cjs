@@ -683,6 +683,9 @@ console.log('PASS: Hipshot offset/casing/key connection, HE6 both-view layer/cou
  assert.equal(new Set([...preview.swatchColours,...preview.stainColours]).size,24,'Stain presets do not repeat a basic colour');
  for(const language of ['en','ko','de']){assert.equal(preview.copy[language].stainNames.length,preview.stainColours.length,`${language}: one name per stain swatch`);assert.equal(preview.copy[language].colourGroups.length,2);}
  for(const colour of preview.stainColours){const finish=preview.parseColour('transparent '+colour);assert.equal(finish.colour,colour);assert.equal(finish.opaque,false);}
+ // Typed stain names resolve in every language and default to transparent.
+ for(const language of ['en','ko','de'])preview.copy[language].stainNames.forEach((name,i)=>{const finish=preview.parseColour(name);assert.equal(finish.colour,preview.stainColours[i],`${language}: ${name}`);assert.equal(finish.opaque,false);});
+ for(const word of ['burgundy','버건디','Burgund','ebony','에보니','cognac'])assert.equal(preview.parseColour(word).status,'colour',word);
  let renders=0;
  for(const model of ['EDDA','EMBLA','ASKR','GRAMR'])for(const kind of ['oil','stain','tint','open','gloss'])for(const colour of ['','transparent #9d282b','solid #275f89'])for(const side of ['front','back']){
   // Wood knobs and a wood guard also use the surface dye, including under opaque paint.

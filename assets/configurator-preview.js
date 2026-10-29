@@ -85,6 +85,16 @@
     wine:'#5c1a2b', 와인:'#5c1a2b', weinrot:'#5c1a2b', orange:'#c4562b', 오렌지:'#c4562b', teal:'#1d6a68', 틸:'#1d6a68', petrol:'#1d6a68',
     charcoal:'#45484c', 차콜:'#45484c', anthrazit:'#45484c', cream:'#e4d6b0', 크림:'#e4d6b0', creme:'#e4d6b0'
   };
+  // Deep, saturated dyes that let the grain show through; always transparent.
+  // Order matches copy.stainNames.
+  const stainColours = ['#b3121c','#5e0f22','#0f7d8c','#12326e','#0c5a3a','#4b1d6b','#5a1a4a','#7a3b12','#b8730f','#1c1714'];
+  // Typed stain names resolve too: every listed name plus one-word aliases.
+  ['en','ko','de'].forEach(language => copy[language].stainNames.forEach((name,i) => { colourWords[name.toLowerCase()] = stainColours[i]; }));
+  Object.assign(colourWords, {
+    inferno:'#b3121c', burgundy:'#5e0f22', 버건디:'#5e0f22', burgund:'#5e0f22', turquoise:'#0f7d8c', 터콰이즈:'#0f7d8c', türkis:'#0f7d8c',
+    sapphire:'#12326e', 사파이어:'#12326e', saphir:'#12326e', emerald:'#0c5a3a', 에메랄드:'#0c5a3a', smaragd:'#0c5a3a',
+    plum:'#5a1a4a', 플럼:'#5a1a4a', pflaume:'#5a1a4a', cognac:'#7a3b12', 코냑:'#7a3b12', ebony:'#1c1714', 에보니:'#1c1714', ebenholz:'#1c1714'
+  });
   function parseColour(input) {
     let value = String(input || '').trim().toLowerCase();
     if (!value || /^(natural|natur|내추럴|내츄럴)$/.test(value)) return {status:'natural', colour:null, opaque:false};
@@ -472,9 +482,6 @@
   }
   // Order matches copy.colourNames; the first six keep their original values.
   const swatchColours = ['', '#9d282b','#275f89','#24262a','#eee8dc','#35624b','#c8892c','#5b3a1e','#5c1a2b','#c4562b','#1d6a68','#64476f','#45484c','#e4d6b0'];
-  // Deep, saturated dyes that let the grain show through; always transparent.
-  // Order matches copy.stainNames.
-  const stainColours = ['#b3121c','#5e0f22','#0f7d8c','#12326e','#0c5a3a','#4b1d6b','#5a1a4a','#7a3b12','#b8730f','#1c1714'];
   function ColourControls(props) {
     const h = window.React.createElement, t = copy[props.language] || copy.en, finish = parseColour(props.value);
     const change = colour => props.onChange(colour ? (finish.opaque?'solid ':'transparent ')+colour : '');
