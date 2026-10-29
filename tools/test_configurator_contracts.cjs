@@ -123,4 +123,11 @@ for (const language of ['en', 'ko', 'de']) assert.match(i18n[language].strapPins
   assert.match(html, /id: 'pickup_position',\s*title: 'Pickup Position',\s*dependsOn: \{ pickup_configuration: 'pickup_2' \}/);
   for (const model of ['EDDA', 'EMBLA', 'GRAMR']) assert.equal(normalizeSelections(model).pickup_position, undefined, `${model} keeps its pickup position`);
 }
-console.log('PASS: code-only stale coil/nut normalization, other models, bridges, €0 standard options, €200 gigbag difference, localized UI strings and catalog translations, 1,000-character instructions, English PDF, fretless-only verawood nut, S-Lock pin colour and ASKR pickup position');
+// A catch-all "others" choice is always the last option, including after
+// options the platform layer appends (for example ASKR's Delano SBC5 E).
+for (const group of configData.categories) {
+  const ids = group.options.map(option => option.id);
+  const other = ids.findIndex(id => id === 'others' || /_others$/.test(id));
+  if (other >= 0) assert.equal(other, ids.length - 1, `${group.id}: "others" must be last`);
+}
+console.log('PASS: code-only stale coil/nut normalization, other models, bridges, €0 standard options, €200 gigbag difference, localized UI strings and catalog translations, 1,000-character instructions, English PDF, fretless-only verawood nut, S-Lock pin colour, ASKR pickup position and "others" last');
