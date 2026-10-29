@@ -1,0 +1,19 @@
+{
+  "name": "ravenforge-quote-consult",
+  "private": true,
+  "type": "module",
+  "description": "Cloudflare Worker that answers configurator quote questions with Claude, using the configurator's own catalog and pricing rules.",
+  "scripts": {
+    "build:catalog": "node tools/build-catalog.mjs",
+    "check:catalog": "node tools/build-catalog.mjs --check",
+    "test": "node --test test/*.test.js",
+    "dev": "wrangler dev",
+    "deploy": "npm run check:catalog && wrangler deploy"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.3.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.155.0"
+  }
+}

@@ -1,0 +1,27 @@
+name: Quote consultation Worker
+on:
+  pull_request:
+    paths: ['configurator.html', 'assets/configurator-platforms.js', 'worker/quote-consult/**', '.github/workflows/quote-consult-worker.yml']
+  push:
+    branches: [main]
+    paths: ['configurator.html', 'assets/configurator-platforms.js', 'worker/quote-consult/**', '.github/workflows/quote-consult-worker.yml']
+permissions:
+  contents: read
+jobs:
+  test:
+    name: Catalog copy and pricing tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: worker/quote-consult
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm run check:catalog
+      - run: npm ci --omit=dev
+      - run: npm test
