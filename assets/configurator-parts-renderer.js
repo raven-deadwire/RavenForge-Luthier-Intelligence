@@ -275,8 +275,17 @@ return out;
   function strapPins(state,p,body,axis,side){
     const mm=state.unitsPerMm?.[side];
     if(!state.strapLock||!body||!mm)return '';
-    const n=(body.match(/-?\d+(?:\.\d+)?/g)||[]).map(Number),points=[];
-    for(let i=0;i+1<n.length;i+=2)points.push([n[i],n[i+1]]);
+    // Sample the outline itself: Bezier control points lie outside the body.
+    const points=[];let at=[0,0];
+    for(const [,cmd,args] of body.matchAll(/([MLQCZ])([^MLQCZ]*)/gi)){
+      const n=(args.match(/-?\d+(?:\.\d+)?/g)||[]).map(Number),size={M:2,L:2,Q:4,C:6}[cmd.toUpperCase()];
+      for(let i=0;size&&i+size<=n.length;i+=size){
+        const q=[at],o=cmd===cmd.toLowerCase()?at:[0,0];for(let j=0;j<size;j+=2)q.push([o[0]+n[i+j],o[1]+n[i+j+1]]);
+        if(size===2)points.push(q[1]);
+        else for(let step=1;step<=20;step++){const t=step/20;let r=q;while(r.length>1)r=r.slice(1).map((b,j)=>[r[j][0]+(b[0]-r[j][0])*t,r[j][1]+(b[1]-r[j][1])*t]);points.push(r[0]);}
+        at=q[q.length-1];
+      }
+    }
     const k=axis==='y'?1:0,horn=points.reduce((a,b)=>b[k]<a[k]?b:a),tail=points.reduce((a,b)=>b[k]>a[k]?b:a);
     const pin=(q,name,rotation)=>`<g data-strap-pin="${name}" transform="translate(${q[0]} ${q[1]}) rotate(${rotation})"><rect x="${-6*mm}" y="${-mm}" width="${12*mm}" height="${9*mm}" rx="${3*mm}" fill="url(#${p}-part-metal)" stroke="#151617" stroke-width="${.4*mm}"/><path d="M${-6*mm} ${3.5*mm}H${6*mm}" stroke="#151617" stroke-width="${.8*mm}" opacity=".55"/></g>`;
     // Local +y points away from the body: up/down for portrait, left/right for horizontal.
