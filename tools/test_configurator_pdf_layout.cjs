@@ -5,6 +5,10 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
+const stress = process.env.CONFIGURATOR_PDF_STRESS === '1';
+// Resolve the dense fixture once, without coupling ordinary layout runs to
+// its catalog extraction when stress coverage is not requested.
+const testConfiguratorPdfMax = stress ? require('./test_configurator_pdf_max.cjs') : null;
 
 module.exports = async ({ page, hostPage, report, output, expectedModels, step, freshModel, quotedAmount, selectOption }) => {
   await page.evaluate(() => {
@@ -47,7 +51,6 @@ module.exports = async ({ page, hostPage, report, output, expectedModels, step, 
       return originalFrom.call(this, source, ...args);
     };
   });
-  const stress = process.env.CONFIGURATOR_PDF_STRESS === '1';
   const notes = {
     default: '',
     prose: ('Check the finish, nut and setup before delivery. ').repeat(30).slice(0, 1000),
@@ -63,7 +66,7 @@ module.exports = async ({ page, hostPage, report, output, expectedModels, step, 
     await page.getByRole('button', { name: 'EN', exact: true }).click();
     await freshModel(model.id);
     let fixture;
-    if (stress) fixture = await require('./test_configurator_pdf_max.cjs')({page, step, selectOption, model});
+    if (stress) fixture = await testConfiguratorPdfMax({page, step, selectOption, model});
     const amount = fixture ? fixture.total : model.basePrice;
     const profiles = stress ? { ['max-' + model.fixtureType]: notes.multiline, ['token-' + model.fixtureType]: 'W'.repeat(996) + 'END!' } : notes;
     for (const language of ['en', 'ko', 'de']) {

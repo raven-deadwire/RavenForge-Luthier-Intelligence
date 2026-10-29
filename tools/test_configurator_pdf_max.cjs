@@ -8,7 +8,13 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const html = fs.readFileSync(path.join(__dirname, '../configurator.html'), 'utf8');
-const section = (start, end) => html.slice(html.indexOf(start), html.indexOf(end, html.indexOf(start)));
+const section = (start, end) => {
+  const startIndex = html.indexOf(start);
+  assert.ok(startIndex !== -1, `Start boundary not found: ${start}`);
+  const endIndex = html.indexOf(end, startIndex + start.length);
+  assert.ok(endIndex !== -1, `End boundary not found after ${start}: ${end}`);
+  return html.slice(startIndex, endIndex);
+};
 const context = vm.createContext({ RavenForgePlatforms: require('../assets/configurator-platforms.js') });
 vm.runInContext(section('const specialOptionsList', 'const configData = {') +
   section('const configData = {', 'const App = () => {') +

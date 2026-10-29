@@ -1,5 +1,50 @@
 # Quote PDF follow-up audit — 2026-10-28 KST
 
+## Execution addendum — 2026-10-29 KST
+
+The original pending-run statements below describe the 2026-10-28 audit cutoff.
+They are superseded for head `68afc5f437a684dd57ad561de8ababb992dba386` by
+[production QA run 40626877479](https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/40626877479):
+the candidate, live and preview jobs all completed successfully. The separate
+[homepage embed run 40626877542](https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/40626877542)
+also passed. Candidate steps 12 and 13 actually executed; they were not skipped.
+
+- Dense matrix: **42 actual PDFs / 84 A4 pages**, all PASS. This is seven
+  configurations × EN/KO/DE × two 1,000-character request patterns.
+- Candidate homepage: 61 assertions / 24 PDFs / 24 pages, PASS.
+- Candidate boundary matrix: 48 PDFs / 81 pages, PASS.
+- Artifact `12797880716` was downloaded and its SHA-256 independently matched
+  `0a9e09c50d0caea8b1e4a52e1aa4511f25bf76fbd90d9718cb331d86bc75271d`.
+  Its 42 dense PDFs were rasterized/OCR-checked again locally: 84 nonblank A4
+  pages, correct model IDs and exact totals, PASS. All 28 corresponding page
+  groups (84 pages) are pixel-identical across the three UI languages.
+- The catalog ledger was independently resummed: EDDA EUR 5660, EMBLA EUR 6670,
+  ASKR EUR 6875 (each fretted and fretless), GRAMR EUR 3760. These are the
+  deterministic fixture totals, not guaranteed global maxima or final offers.
+- Every saved layout has two image boxes, zero page-bound violations, all
+  expected English specification rows, and intact request text. Representative
+  full-resolution second pages confirm the final `END!` marker and multiline
+  tail are visible. Verawood and gold/black/chrome S-Lock rows are retained.
+
+The completed run predates #68. For current-main integration, main
+`4f04dc8d3916f949d90b12de7ed26fce9ea23f66` was merged without conflict, preserving
+#68's taxes/shipping labels and its rendered-total matcher. No #65–#68 product
+fix was reimplemented. Code contracts and 577-option preview regression passed
+on this integration. Local Chromium export could not start because the executor
+denied its process-singleton socket; this is **not** a PDF regression or an
+integration-browser PASS. The integration commit reruns the 42-export matrix
+and the existing CI suites on GitHub; consult the PR's current-head checks and
+description for that separate result.
+
+Review hardening adds explicit HTML extraction-boundary assertions and resolves
+the dense fixture once at module scope only in stress mode. Pricing, PDF layout,
+model geometry and the scope/thresholds of the tests are unchanged.
+
+EDDA remains a photo/concept illustration with its existing approximate-scale
+qualification and 12.92% local head-registration discrepancy. Automatic PDF
+acceptance is not manufacturing approval. No physical A4 paper print, ruler
+measurement, or Firefox/Safari validation was performed.
+
 ## Decision and scope
 
 The deployed quotation PDF is suitable for the tested default and representative
