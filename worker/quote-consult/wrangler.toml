@@ -1,0 +1,30 @@
+name = "ravenforge-quote-consult"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Run the Worker next to api.anthropic.com instead of the visitor's nearest
+# data center: the API calls dominate each request's latency.
+[placement]
+mode = "targeted"
+hostname = "api.anthropic.com"
+
+[vars]
+# Pages allowed to call /chat (comma-separated, exact origins).
+ALLOWED_ORIGINS = "https://raven-deadwire.github.io"
+# claude-sonnet-5-5 costs half as much per token as claude-opus-5-5.
+MODEL = "claude-opus-5-5"
+# low | medium | high: how much the model thinks before answering.
+EFFORT = "medium"
+
+# ANTHROPIC_API_KEY is a secret: `npx wrangler secret put ANTHROPIC_API_KEY`
+# (for `wrangler dev`, put ANTHROPIC_API_KEY=... in .dev.vars).
+
+# 10 messages per minute per visitor IP.
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 10
+  period = 60
