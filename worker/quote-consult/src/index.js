@@ -99,8 +99,10 @@ export async function handleChat(body, env, client) {
     if (response.stop_reason === 'refusal') return { reply: FALLBACK_REPLY[language], quote: lastQuote, stop_reason: 'refusal' };
 
     if (response.stop_reason === 'tool_use') {
-      conversation.push({ role: 'assistant', content: echoable(response.content) });
-      const results = response.content.filter(block => block.type === 'tool_use').map(block => {
+      const echoed = echoable(response.content);
+      conversation.push({ role: 'assistant', content: echoed });
+      // Answer only the tool calls that were echoed back, so every tool_result has its tool_use.
+      const results = echoed.filter(block => block.type === 'tool_use').map(block => {
         if (block.name !== PRICE_TOOL.name) {
           return { type: 'tool_result', tool_use_id: block.id, content: `Unknown tool ${block.name}.`, is_error: true };
         }

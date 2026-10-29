@@ -35,6 +35,22 @@ test('runs the price tool and returns the final reply', async () => {
   assert.equal(JSON.parse(second.messages[2].content[0].content).total, 2600);
 });
 
+test('after a mid-output fallback, only tool calls after the marker are echoed and answered', async () => {
+  const call = id => ({ type: 'tool_use', id, name: 'price_configuration', input: { model: 'EDDA', start_from: 'standard', changes: [], instrument_options: [], accessories: [] } });
+  const client = fakeClient([
+    { stop_reason: 'tool_use', content: [
+      { type: 'thinking', thinking: '', signature: 'declined' }, call('tu_declined'),
+      { type: 'fallback', from: { model: 'claude-opus-5-5' }, to: { model: 'claude-opus-5' } },
+      call('tu_kept')
+    ] },
+    { stop_reason: 'end_turn', content: [{ type: 'text', text: '€2100.' }] }
+  ]);
+  await handleChat({ messages: [{ role: 'user', content: 'Price?' }] }, env, client);
+  const [, assistant, toolResults] = client.requests[1].messages;
+  assert.deepEqual(assistant.content.map(block => block.id || block.type), ['fallback', 'tu_kept']);
+  assert.deepEqual(toolResults.content.map(block => block.tool_use_id), ['tu_kept']);
+});
+
 test('a refusal returns a fixed reply in the page language', async () => {
   const client = fakeClient([{ stop_reason: 'refusal', content: [] }]);
   const result = await handleChat({ messages: [{ role: 'user', content: '…' }], language: 'ko' }, env, client);
