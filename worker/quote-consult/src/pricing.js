@@ -1,9 +1,45 @@
 import {
   RavenForgePlatforms, configData, specialOptionsList, accessoriesList,
-  isCategoryVisible, isOptionVisible, normalizeSelections, applyOptionChange
+  isCategoryVisible, isOptionVisible, normalizeSelections, applyOptionChange, pageCopy
 } from './catalog.generated.js';
 
 export const MODEL_IDS = configData.models.map(model => model.id);
+export const PAGE_LANGUAGES = Object.keys(pageCopy);
+
+// Mirror categoryTitle / optionLabel in configurator.html, so replies can use the names on screen.
+export const pageCategoryTitle = (language, category) => pageCopy[language]?.categoryTitles?.[category.id] || category.title;
+export const pageOptionLabel = (language, option) => {
+  const ui = pageCopy[language];
+  return ui?.optionLabels?.[option.id] || (option.label && ui?.catalog?.[option.label]) || option.label;
+};
+const extraGroups = {
+  instrument_options: { title: 'Instrument Options', key: 'instrumentOptions', list: specialOptionsList },
+  accessories: { title: 'Accessories', key: 'accessories', list: accessoriesList }
+};
+
+// Adds the page-language category and option names to every priced line.
+export function withPageNames(quote, language) {
+  if (!quote?.lines) return quote; // a rejected call: keep its error as is
+  return {
+    ...quote,
+    lines: quote.lines.map(line => {
+      const extra = extraGroups[line.category];
+      const category = extra ? null : categoryById.get(line.category);
+      const option = (extra ? extra.list : category?.options || []).find(entry => entry.id === line.option);
+      return {
+        ...line,
+        page_title: extra ? pageCopy[language]?.[extra.key] || extra.title : category ? pageCategoryTitle(language, category) : line.title,
+        page_label: option ? pageOptionLabel(language, option) : line.label
+      };
+    })
+  };
+}
+
+// " (ko: 지판; de: Griffbrett)" for the languages whose page name differs from the catalog name.
+const pageNames = (name, nameIn) => {
+  const names = PAGE_LANGUAGES.map(language => [language, nameIn(language)]).filter(([, local]) => local && local !== name);
+  return names.length ? ` (${names.map(([language, local]) => `${language}: ${local}`).join('; ')})` : '';
+};
 
 // Mirrors currentSpecialOptions / currentAccessories in configurator.html's App.
 export const specialOptionsFor = modelId => modelId === 'GRAMR'
@@ -121,7 +157,7 @@ export function catalogText() {
     const summary = RavenForgePlatforms.summary(model.id);
     out.push(`- ${model.id} (${model.desc}): base €${model.basePrice}. ${summary.description || ''} Standard: ${[summary.strings, summary.scale, summary.frets, summary.bridge].filter(Boolean).join(', ')}.`);
   }
-  out.push('', 'Options per category. Format: option_id: label [spec] — price per model; models not listed do not offer it.');
+  out.push('', 'Options per category. Format: option_id: label (page names where they differ) [spec] — price per model; models not listed do not offer it.');
   for (const category of configData.categories) {
     const rows = [];
     for (const option of category.options) {
@@ -139,21 +175,22 @@ export function catalogText() {
       }
       if (!prices.length) continue;
       const spec = option.spec ? ` [${option.spec}]` : '';
-      rows.push(`  ${option.id}: ${option.label}${spec} — ${prices.join('; ')}`);
+      rows.push(`  ${option.id}: ${option.label}${pageNames(option.label, language => pageOptionLabel(language, option))}${spec} — ${prices.join('; ')}`);
     }
     if (!rows.length) continue;
     const dependency = category.dependsOn ? ` (only when ${Object.entries(category.dependsOn).map(([key, value]) => `${key} = ${[].concat(value).join(' or ')}`).join(', ')})` : '';
-    out.push(`${category.id} — ${category.title}${dependency}`, ...rows);
+    out.push(`${category.id} — ${category.title}${pageNames(category.title, language => pageCategoryTitle(language, category))}${dependency}`, ...rows);
   }
-  const extras = (title, list, forModel) => {
-    out.push(`${title}`);
+  const extras = (id, list, forModel) => {
+    const { title, key } = extraGroups[id];
+    out.push(`${id} — ${title}${pageNames(title, language => pageCopy[language]?.[key])}`);
     for (const option of list) {
       const models = MODEL_IDS.filter(id => forModel(id).some(entry => entry.id === option.id));
       const passive = option.requiresPassive ? ' (passive electronics only)' : '';
-      out.push(`  ${option.id}: ${option.label}${option.spec ? ` [${option.spec}]` : ''}${passive} — ${formatPrice(option.price)}; ${models.join(', ')}`);
+      out.push(`  ${option.id}: ${option.label}${pageNames(option.label, language => pageOptionLabel(language, option))}${option.spec ? ` [${option.spec}]` : ''}${passive} — ${formatPrice(option.price)}; ${models.join(', ')}`);
     }
   };
-  extras('instrument_options — Instrument Options', specialOptionsList, specialOptionsFor);
-  extras('accessories — Accessories', accessoriesList, accessoriesFor);
+  extras('instrument_options', specialOptionsList, specialOptionsFor);
+  extras('accessories', accessoriesList, accessoriesFor);
   return out.join('\n');
 }

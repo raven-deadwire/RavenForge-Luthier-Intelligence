@@ -7,6 +7,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import vm from 'node:vm';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const site = path.resolve(here, '../../..');
@@ -14,6 +15,19 @@ const output = path.resolve(here, '../src/catalog.generated.js');
 
 const html = fs.readFileSync(path.join(site, 'configurator.html'), 'utf8');
 let platforms = fs.readFileSync(path.join(site, 'assets/configurator-platforms.js'), 'utf8');
+
+// The page's own names for categories and options in each language
+// (assets/configurator-ui.js), so replies can name what the customer sees.
+const uiContext = vm.createContext({ window: {} });
+vm.runInContext(fs.readFileSync(path.join(site, 'assets/configurator-ui.js'), 'utf8'), uiContext);
+if (!uiContext.window.RF_CONFIG_I18N) throw new Error('assets/configurator-ui.js no longer sets window.RF_CONFIG_I18N');
+const pageCopy = Object.fromEntries(Object.entries(uiContext.window.RF_CONFIG_I18N).map(([language, ui]) => [language, {
+  categoryTitles: ui.categoryTitles || {},
+  optionLabels: ui.optionLabels || {},
+  catalog: ui.catalog || {},
+  instrumentOptions: ui.instrumentOptions,
+  accessories: ui.accessories
+}]));
 
 function between(start, end) {
   const first = html.indexOf(start);
@@ -54,7 +68,9 @@ ${between('const isCategoryVisible =', 'const getDefaultSelections =')}
 
 ${transition}
 
-export { RavenForgePlatforms, configData, specialOptionsList, accessoriesList, isCategoryVisible, isOptionVisible, normalizeSelections, applyOptionChange };
+const pageCopy = ${JSON.stringify(pageCopy, null, 1)};
+
+export { RavenForgePlatforms, configData, specialOptionsList, accessoriesList, isCategoryVisible, isOptionVisible, normalizeSelections, applyOptionChange, pageCopy };
 `;
 
 if (process.argv.includes('--check')) {
