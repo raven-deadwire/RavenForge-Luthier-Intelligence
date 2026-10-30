@@ -19,6 +19,7 @@ const extraGroups = {
 
 // Adds the page-language category and option names to every priced line.
 export function withPageNames(quote, language) {
+  if (!quote?.lines) return quote; // a rejected call: keep its error as is
   return {
     ...quote,
     lines: quote.lines.map(line => {

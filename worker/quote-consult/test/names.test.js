@@ -40,3 +40,9 @@ test('the catalog in the prompt lists the page names next to the catalog names',
   assert.ok(text.includes(`fretboard — Fretboard (ko: ${pageCopy.ko.categoryTitles.fretboard}; de: ${pageCopy.de.categoryTitles.fretboard})`));
   assert.ok(text.includes(`ebony: ebony (ko: ${pageCopy.ko.catalog.ebony}; de: ${pageCopy.de.catalog.ebony})`));
 });
+
+test('a rejected tool call keeps its error instead of failing on page names', () => {
+  const start = sanitizeConfiguration({ model: 'EMBLA', selections: {}, specialOptions: [], accessories: [] });
+  const tooMany = Array.from({ length: 51 }, () => ({ category: 'fretboard', option: 'ebony' }));
+  assert.deepEqual(withPageNames(priceWithChanges(start, { changes: tooMany }), 'ko'), { error: 'Invalid configuration changes.' });
+});
