@@ -1,0 +1,111 @@
+{
+  "cases": [
+    {
+      "name": "disallowed origin",
+      "status": 403,
+      "expected": 403,
+      "version": "20261030-quote-review-1",
+      "retryAfter": null,
+      "allowOrigin": null,
+      "body": "{\"error\":\"Origin not allowed.\"}"
+    },
+    {
+      "name": "missing origin",
+      "status": 403,
+      "expected": 403,
+      "version": "20261030-quote-review-1",
+      "retryAfter": null,
+      "allowOrigin": null,
+      "body": "{\"error\":\"Origin not allowed.\"}"
+    },
+    {
+      "name": "preflight",
+      "status": 204,
+      "expected": 204,
+      "version": null,
+      "retryAfter": null,
+      "allowOrigin": "https://raven-deadwire.github.io",
+      "body": ""
+    },
+    {
+      "name": "method",
+      "status": 405,
+      "expected": 405,
+      "version": "20261030-quote-review-1",
+      "retryAfter": null,
+      "allowOrigin": "https://raven-deadwire.github.io",
+      "body": "{\"error\":\"Use POST.\"}"
+    },
+    {
+      "name": "content type",
+      "status": 415,
+      "expected": 415,
+      "version": "20261030-quote-review-1",
+      "retryAfter": null,
+      "allowOrigin": "https://raven-deadwire.github.io",
+      "body": "{\"error\":\"Use application/json.\"}"
+    },
+    {
+      "name": "128 KiB body limit",
+      "status": 413,
+      "expected": 413,
+      "version": "20261030-quote-review-1",
+      "retryAfter": null,
+      "allowOrigin": "https://raven-deadwire.github.io",
+      "body": "{\"error\":\"Request is too large.\"}"
+    }
+  ],
+  "burst": [
+    {
+      "status": 400,
+      "retryAfter": null
+    },
+    {
+      "status": 400,
+      "retryAfter": null
+    },
+    {
+      "status": 400,
+      "retryAfter": null
+    },
+    {
+      "status": 400,
+      "retryAfter": null
+    },
+    {
+      "status": 400,
+      "retryAfter": null
+    },
+    {
+      "status": 400,
+      "retryAfter": null
+    },
+    {
+      "status": 400,
+      "retryAfter": null
+    },
+    {
+      "status": 400,
+      "retryAfter": null
+    },
+    {
+      "status": 400,
+      "retryAfter": null
+    },
+    {
+      "status": 400,
+      "retryAfter": null
+    },
+    {
+      "status": 400,
+      "retryAfter": null
+    },
+    {
+      "status": 400,
+      "retryAfter": null
+    }
+  ],
+  "pass": false,
+  "worker_version": "20261030-quote-review-1",
+  "note": "Six HTTP boundary checks passed. Native rate-limit binding configured for 10 requests/60 seconds; live 429 was NOT reproduced by sequential/concurrent bursts or 15 requests over one persistent HTTP/1.1 connection. This is not a strict enforcement PASS."
+}
