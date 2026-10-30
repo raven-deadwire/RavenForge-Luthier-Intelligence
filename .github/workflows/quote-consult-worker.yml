@@ -1,10 +1,10 @@
 name: Quote consultation Worker
 on:
   pull_request:
-    paths: ['configurator.html', 'assets/configurator-platforms.js', 'assets/configurator-chat.*', 'tools/test_configurator_chat.cjs', 'worker/quote-consult/**', '.github/workflows/quote-consult-worker.yml']
+    paths: ['configurator.html', 'assets/configurator-platforms.js', 'assets/configurator-ui.js', 'assets/configurator-chat.*', 'tools/test_configurator_chat.cjs', 'worker/quote-consult/**', '.github/workflows/quote-consult-worker.yml']
   push:
     branches: [main]
-    paths: ['configurator.html', 'assets/configurator-platforms.js', 'assets/configurator-chat.*', 'tools/test_configurator_chat.cjs', 'worker/quote-consult/**', '.github/workflows/quote-consult-worker.yml']
+    paths: ['configurator.html', 'assets/configurator-platforms.js', 'assets/configurator-ui.js', 'assets/configurator-chat.*', 'tools/test_configurator_chat.cjs', 'worker/quote-consult/**', '.github/workflows/quote-consult-worker.yml']
 permissions:
   contents: read
 jobs:
