@@ -19,8 +19,10 @@ jobs:
     name: Homepage quote QA (${{ matrix.target }})
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     # The PDF checks OCR rendered pages with the image's tesseract; ubuntu-latest
-    # moved to 26.04, where they no longer read the totals. Pin the image they pass on.
-    runs-on: ubuntu-24.04
+    # moved to 26.04, where they no longer read the totals. Keep 24.04 userland
+    # in a container while using the available current hosted runner pool.
+    runs-on: ubuntu-latest
+    container: ubuntu:24.04
     timeout-minutes: 20
     # The live audit tests deployed main against main's own tests, so it says
     # nothing about this PR. Only the local candidate must pass to accept it;
@@ -31,6 +33,12 @@ jobs:
       matrix:
         target: ${{ fromJSON(contains(fromJSON('["workflow_run","schedule"]'), github.event_name) && '["live"]' || '["candidate","live"]') }}
     steps:
+      - name: Prepare Ubuntu 24.04 validation container
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates git curl sudo python3-venv
+          python3 -m venv /opt/ravenforge-qa
+          echo /opt/ravenforge-qa/bin >> "$GITHUB_PATH"
       - uses: actions/checkout@v5
         with:
           ref: ${{ matrix.target == 'live' && github.event.repository.default_branch || github.event.pull_request.head.sha || github.sha }}
@@ -108,10 +116,18 @@ jobs:
   preview:
     if: contains(fromJSON('["pull_request","workflow_dispatch"]'), github.event_name)
     # The PDF checks OCR rendered pages with the image's tesseract; ubuntu-latest
-    # moved to 26.04, where they no longer read the totals. Pin the image they pass on.
-    runs-on: ubuntu-24.04
+    # moved to 26.04, where they no longer read the totals. Keep 24.04 userland
+    # in a container while using the available current hosted runner pool.
+    runs-on: ubuntu-latest
+    container: ubuntu:24.04
     timeout-minutes: 20
     steps:
+      - name: Prepare Ubuntu 24.04 validation container
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates git curl sudo python3-venv
+          python3 -m venv /opt/ravenforge-qa
+          echo /opt/ravenforge-qa/bin >> "$GITHUB_PATH"
       - uses: actions/checkout@v5
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}

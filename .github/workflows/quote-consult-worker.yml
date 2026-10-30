@@ -10,12 +10,19 @@ permissions:
 jobs:
   test:
     name: Catalog copy and pricing tests
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+    container: ubuntu:24.04
     timeout-minutes: 10
     defaults:
       run:
         working-directory: worker/quote-consult
     steps:
+      - name: Prepare Ubuntu 24.04 validation container
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates git curl sudo python3-venv
+          python3 -m venv /opt/ravenforge-qa
+          echo /opt/ravenforge-qa/bin >> "$GITHUB_PATH"
       - uses: actions/checkout@v5
         with:
           persist-credentials: false
@@ -28,9 +35,16 @@ jobs:
 
   browser:
     name: Quote chat browser and PDF smoke
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+    container: ubuntu:24.04
     timeout-minutes: 15
     steps:
+      - name: Prepare Ubuntu 24.04 validation container
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates git curl sudo python3-venv
+          python3 -m venv /opt/ravenforge-qa
+          echo /opt/ravenforge-qa/bin >> "$GITHUB_PATH"
       - uses: actions/checkout@v5
         with:
           persist-credentials: false
