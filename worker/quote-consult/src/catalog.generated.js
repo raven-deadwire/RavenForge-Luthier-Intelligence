@@ -1120,4 +1120,119 @@ const isCategoryVisible = (category, currentSelections) => {
         return { ...next, ...fixed };
       };
 
-export { RavenForgePlatforms, configData, specialOptionsList, accessoriesList, isCategoryVisible, isOptionVisible, normalizeSelections };
+const applyOptionChange = (selectedModel, current, categoryId, optionId) => {
+  const selections = normalizeSelections(selectedModel, current);
+  if (!isOptionVisible(categoryId, optionId, selectedModel, selections)) return selections;
+  const prev = selections;
+    const nextSelections = { ...prev, [categoryId]: optionId };
+
+    // [수정됨] 스케일 변경 시 브릿지 강제 조정 로직
+    if (categoryId === 'scale') {
+      if (optionId === 'multi') {
+        if (selectedModel === 'ASKR') {
+          // payson 추가
+          const allowedAskrMulti = ['payson', 'nova_parts'];
+          if (!allowedAskrMulti.includes(nextSelections['hardware_bridge'])) {
+            nextSelections['hardware_bridge'] = RavenForgePlatforms.defaults(selectedModel).hardware_bridge;
+          }
+        } else if (nextSelections['hardware_bridge'] === 'kahler_2400') {
+          nextSelections['hardware_bridge'] = RavenForgePlatforms.defaults(selectedModel).hardware_bridge;
+        }
+      } else {
+        // [추가됨] 멀티스케일에서 다른 스케일로 바꿨는데 브릿지가 payson으로 남아있다면 기본값으로 리셋
+        if (nextSelections['hardware_bridge'] === 'payson') {
+          nextSelections['hardware_bridge'] = RavenForgePlatforms.defaults(selectedModel).hardware_bridge;
+        }
+      }
+    }
+
+    // Fretless 선택 시 verawood nut 자동 적용; fretted로 복귀 시 기본 brass nut으로 복귀
+    if (categoryId === 'fret_type') {
+      if (optionId === 'fretless') {
+        nextSelections['nut_material'] = 'nut_verawood';
+      } else if (nextSelections['nut_material'] === 'nut_verawood') {
+        nextSelections['nut_material'] = 'nut_brass';
+      }
+    }
+
+    // [Update] EMG TWX 또는 Fishman 선택 시 Select Coil Switch 숨김 및 값 초기화
+    if ((categoryId === 'pickups' && (optionId === 'emg' || optionId === 'fishman')) ||
+        (categoryId === 'electronics' && optionId === 'fishman')) {
+      nextSelections['coil_switch'] = 'coil_none';
+    }
+
+    // [Update] 3 pickup option 선택 시 충돌 옵션 자동 정리
+    if (categoryId === 'pickup_configuration' && optionId === 'pickup_3') {
+      // 별도 Wood Finger Ramp는 사용할 수 없으므로 None으로 강제 전환
+      nextSelections['finger_ramp'] = 'ramp_none';
+
+
+      if (nextSelections['electronics'] === 'fishman' || nextSelections['electronics'] === 'underhill') {
+        const elCategory = configData.categories.find(c => c.id === 'electronics');
+        // 3픽업과 충돌하는 Fishman / Underhill을 제외한 사용 가능한 프리앰프로 폴백
+        const fallback = elCategory.options.find(opt =>
+          opt.id !== 'fishman' &&
+          opt.id !== 'underhill' &&
+          opt.prices[selectedModel] !== undefined &&
+          opt.prices[selectedModel] !== null
+        );
+        if (fallback) {
+          nextSelections['electronics'] = fallback.id;
+        }
+      }
+
+      // [수정된 부분] fishman 뿐만 아니라 delano_oval일 때도 처리
+      if (nextSelections['pickups'] === 'fishman' || nextSelections['pickups'] === 'delano_oval') {
+        const puCategory = configData.categories.find(c => c.id === 'pickups');
+        const fallback = puCategory.options.find(opt =>
+          opt.id !== 'fishman' &&
+          opt.id !== 'delano_oval' && // delano_oval도 제외하고 폴백 찾기
+          opt.prices[selectedModel] !== undefined &&
+          opt.prices[selectedModel] !== null
+        );
+        if (fallback) {
+          nextSelections['pickups'] = fallback.id;
+        }
+      }
+    }
+
+    // Underhill Cali Dub은 2픽업 전용: 3픽업 상태에서 선택하면 2픽업으로 자동 복귀
+    if (categoryId === 'electronics' && optionId === 'underhill' && nextSelections['pickup_configuration'] === 'pickup_3') {
+      nextSelections['pickup_configuration'] = 'pickup_2';
+    }
+
+    // [Update] Fishman Fluence 연동 (EQ - 픽업)
+    if (categoryId === 'pickups') {
+      if (optionId === 'fishman') {
+        nextSelections['electronics'] = 'fishman';
+        nextSelections['pickup_configuration'] = 'pickup_2';
+      } else if (nextSelections['electronics'] === 'fishman') {
+        const elCategory = configData.categories.find(c => c.id === 'electronics');
+        const fallback = elCategory.options.find(opt =>
+          opt.id !== 'fishman' &&
+          opt.prices[selectedModel] !== undefined &&
+          opt.prices[selectedModel] !== null
+        );
+        if (fallback) nextSelections['electronics'] = fallback.id;
+      }
+    }
+
+    if (categoryId === 'electronics') {
+      if (optionId === 'fishman') {
+        nextSelections['pickups'] = 'fishman';
+        nextSelections['pickup_configuration'] = 'pickup_2';
+      } else if (nextSelections['pickups'] === 'fishman') {
+        const puCategory = configData.categories.find(c => c.id === 'pickups');
+        const fallback = puCategory.options.find(opt =>
+          opt.id !== 'fishman' &&
+          opt.prices[selectedModel] !== undefined &&
+          opt.prices[selectedModel] !== null
+        );
+        if (fallback) nextSelections['pickups'] = fallback.id;
+      }
+    }
+
+    return normalizeSelections(selectedModel, nextSelections);
+};
+
+export { RavenForgePlatforms, configData, specialOptionsList, accessoriesList, isCategoryVisible, isOptionVisible, normalizeSelections, applyOptionChange };

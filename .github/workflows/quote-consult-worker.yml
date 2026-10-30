@@ -1,16 +1,16 @@
 name: Quote consultation Worker
 on:
   pull_request:
-    paths: ['configurator.html', 'assets/configurator-platforms.js', 'worker/quote-consult/**', '.github/workflows/quote-consult-worker.yml']
+    paths: ['configurator.html', 'assets/configurator-platforms.js', 'assets/configurator-chat.*', 'tools/test_configurator_chat.cjs', 'worker/quote-consult/**', '.github/workflows/quote-consult-worker.yml']
   push:
     branches: [main]
-    paths: ['configurator.html', 'assets/configurator-platforms.js', 'worker/quote-consult/**', '.github/workflows/quote-consult-worker.yml']
+    paths: ['configurator.html', 'assets/configurator-platforms.js', 'assets/configurator-chat.*', 'tools/test_configurator_chat.cjs', 'worker/quote-consult/**', '.github/workflows/quote-consult-worker.yml']
 permissions:
   contents: read
 jobs:
   test:
     name: Catalog copy and pricing tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     defaults:
       run:
@@ -25,3 +25,28 @@ jobs:
       - run: npm run check:catalog
       - run: npm ci --omit=dev
       - run: npm test
+
+  browser:
+    name: Quote chat browser and PDF smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm install --no-save --no-package-lock --no-audit --no-fund playwright@1.49.1
+      - run: npx playwright install --with-deps chromium
+      - run: python3 -m http.server 8000 --bind 127.0.0.1 > /tmp/chat-http.log 2>&1 &
+      - name: Verify 24 model-language-viewport combinations and PDF exports
+        env:
+          CHAT_QA_DIR: ${{ runner.temp }}/quote-chat
+        run: node tools/test_configurator_chat.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: quote-chat-${{ github.event.pull_request.head.sha || github.sha }}
+          path: ${{ runner.temp }}/quote-chat
+          retention-days: 30
