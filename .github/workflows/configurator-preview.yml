@@ -61,6 +61,8 @@ jobs:
         env:
           EVENT_NAME: ${{ github.event_name }}
         run: |
+          # checkout's temporary HOME does not persist into container shell steps.
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           python3 .workflow-tools/tools/check_pages_freshness.py https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/
           # Deploy lag is not a regression; the post-deploy run covers it.
           # Only the daily audit treats a still-stale site as a failed deploy.
