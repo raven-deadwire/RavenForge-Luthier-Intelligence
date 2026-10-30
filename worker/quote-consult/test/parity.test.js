@@ -79,3 +79,26 @@ test('active-only exclusions are reported and malformed tool inputs do not throw
   assert.ok(q.extras_not_available.includes('delano_buffer'));
   for(const changes of [null,{},[null],Array(51).fill({category:'fretboard',option:'ebony'})]) assert.ok(priceWithChanges({model:'EDDA'},{changes}).error);
 });
+
+test('fretless, nut overrides, premium gigbag and strap retain page pricing in combination',()=>{
+  for(const model of MODEL_IDS){
+    let selections=JSON.parse(JSON.stringify(context.norm(model)));
+    for(const change of [
+      {category:'fret_type',option:'fretless'},
+      {category:'case',option:'case_premium'},
+      {category:'nut_material',option:'nut_bone'},
+      {category:'fret_type',option:'fret_24'},
+      {category:'fret_type',option:'fretless'}
+    ]){
+      const expected=pageClick(model,selections,change);
+      const result=priceWithChanges({model,selections,specialOptions:[],accessories:['leather_strap']},{changes:[change]});
+      assert.deepEqual(result.selections,expected,`${model}/${change.category}/${change.option}`);
+      assert.equal(result.total,pageQuote(model,expected,[],['leather_strap']).totalPrice);
+      assert.equal(result.price_on_request,pageQuote(model,expected,[],['leather_strap']).requiresRequest);
+      assert.equal(result.lines.find(l=>l.option==='leather_strap').price,300);
+      selections=result.selections;
+    }
+    if(model==='GRAMR') assert.equal(selections.nut_material,'guitar_bone_nut');
+    else assert.equal(selections.nut_material,'nut_verawood');
+  }
+});

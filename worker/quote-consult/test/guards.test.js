@@ -47,3 +47,42 @@ test('output budget, tool count and truncated replies stop without further API c
     assert.equal(calls,1);
   }
 });
+
+test('cumulative output budget stops repeated tool rounds at 8192 tokens',async()=>{
+  let calls=0;
+  const signals=[];
+  const client={beta:{messages:{create:async(params,options)=>{
+    calls++; signals.push(options.signal);
+    assert.equal(params.max_tokens,4096);
+    return {stop_reason:'tool_use',usage:{output_tokens:4096},content:[{type:'tool_use',id:`budget-${calls}`,name:'price_configuration',input:{model:'EDDA'}}]};
+  }}}};
+  await assert.rejects(handleChat({messages:[{role:'user',content:'Compare again'}]},env,client),e=>e.status===502);
+  assert.equal(calls,2);
+  assert.equal(signals[0],signals[1]); // One deadline for the entire consultation.
+});
+
+test('tool loops stop after four API calls or eight cumulative tool calls',async()=>{
+  for(const batch of [1,5]){
+    let calls=0;
+    const client={beta:{messages:{create:async()=>{
+      calls++;
+      return {stop_reason:'tool_use',usage:{output_tokens:1},content:Array.from({length:batch},(_,i)=>({type:'tool_use',id:`loop-${calls}-${i}`,name:'price_configuration',input:{model:'EDDA'}}))};
+    }}}};
+    await assert.rejects(handleChat({messages:[{role:'user',content:'Keep comparing'}]},env,client),e=>e.status===502);
+    assert.equal(calls,batch===1?4:2);
+  }
+});
+
+test('HTTP provider failures are bounded, sanitized, and never retried',async()=>{
+  const originalFetch=globalThis.fetch;
+  try {
+    for(const status of [400,429,500]){
+      let calls=0;
+      globalThis.fetch=async()=>{calls++;return new Response(JSON.stringify({type:'error',error:{type:status===429?'rate_limit_error':'api_error',message:'private provider detail'}}),{status,headers:{'Content-Type':'application/json'}});};
+      const response=await worker.fetch(req({messages:[{role:'user',content:'Check price'}]}),env);
+      assert.equal(response.status,status===429?429:502);
+      assert.equal(calls,1);
+      assert.doesNotMatch(await response.text(),/private|test-placeholder/);
+    }
+  } finally {globalThis.fetch=originalFetch;}
+});
