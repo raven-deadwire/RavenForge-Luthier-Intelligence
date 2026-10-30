@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { MODEL_IDS, priceConfiguration, priceWithChanges, sanitizeConfiguration } from './pricing.js';
+import { MODEL_IDS, priceConfiguration, priceWithChanges, sanitizeConfiguration, withPageNames } from './pricing.js';
 import { PRICE_TOOL, SYSTEM_PROMPT } from './prompt.js';
 
 const MAX_MESSAGES = 30;
@@ -54,7 +54,7 @@ function parseRequest(body) {
   };
 }
 
-function runPriceTool(input, current) {
+function runPriceTool(input, current, language) {
   if (!input || typeof input !== 'object') return { error: 'Invalid tool input.' };
   if (!MODEL_IDS.includes(input.model)) return { error: `Unknown model ${input.model}.` };
   const start = input.start_from === 'current' && current?.model === input.model
@@ -66,7 +66,7 @@ function runPriceTool(input, current) {
     accessories: input.accessories
   });
   if (input.start_from === 'current' && start !== current) result.note = 'No current configuration for this model; priced from the standard build.';
-  return result;
+  return withPageNames(result, language);
 }
 
 // After a mid-output fallback, blocks of the declined attempt before the last
@@ -80,7 +80,7 @@ function echoable(content) {
 export async function handleChat(body, env, client) {
   const { messages, configuration, language } = parseRequest(body);
   const model = env.MODEL || 'claude-opus-5-5';
-  const currentQuote = configuration ? priceConfiguration(configuration) : null;
+  const currentQuote = configuration ? withPageNames(priceConfiguration(configuration), language) : null;
 
   // The configurator state rides along with the newest user turn only.
   const state = { page_language: language, current_configuration: currentQuote
@@ -130,7 +130,7 @@ export async function handleChat(body, env, client) {
         if (block.name !== PRICE_TOOL.name) {
           return { type: 'tool_result', tool_use_id: block.id, content: `Unknown tool ${block.name}.`, is_error: true };
         }
-        const result = runPriceTool(block.input, configuration);
+        const result = runPriceTool(block.input, configuration, language);
         if (!result.error) lastQuote = result;
         return { type: 'tool_result', tool_use_id: block.id, content: JSON.stringify(result), is_error: Boolean(result.error) };
       });
