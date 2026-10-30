@@ -6,6 +6,7 @@
   // data-endpoint attribute, and the chat stays hidden while it is empty.
   var script = typeof document !== 'undefined' ? document.currentScript : null;
   var endpoint = (script && script.dataset.endpoint || '').trim();
+  var MAX_HISTORY_CHARS = 20000;
   var MAX_TURNS = 29; // the Worker accepts 30 turns ending with the user's
 
   var copy = {
@@ -54,7 +55,7 @@
       if (open && inputRef.current) inputRef.current.focus();
     }, [open]);
 
-    var full = history.length >= MAX_TURNS;
+    var full = history.length >= MAX_TURNS || history.reduce(function (sum, message) { return sum + message.content.length; }, 0) + 2000 > MAX_HISTORY_CHARS;
 
     function send(event) {
       event.preventDefault();
@@ -65,8 +66,10 @@
       setInput('');
       setError('');
       setPending(true);
+      var controller = new AbortController();
+      var timeout = setTimeout(function () { controller.abort(); }, 100000);
       fetch(endpoint.replace(/\/$/, '') + '/chat', {
-        method: 'POST',
+        method: 'POST', signal: controller.signal,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: next, configuration: props.configuration, language: props.language })
       }).then(function (response) {
@@ -79,7 +82,7 @@
         setHistory(history);
         setInput(text);
         setError(ui.error);
-      }).then(function () { setPending(false); });
+      }).then(function () { clearTimeout(timeout); setPending(false); });
     }
 
     function restart() {
@@ -110,7 +113,7 @@
       h('form', { className: 'rf-chat-form', onSubmit: send },
         h('textarea', {
           ref: inputRef, value: input, rows: 2, maxLength: 2000, placeholder: ui.placeholder, 'aria-label': ui.placeholder,
-          disabled: full,
+          disabled: full || pending,
           onChange: function (event) { setInput(event.target.value); },
           onKeyDown: function (event) {
             if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) send(event);

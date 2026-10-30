@@ -65,6 +65,18 @@ def inspect(pdf):
                                  capture_output=True, text=True, check=True, timeout=30,
                                  env={**os.environ, "OMP_THREAD_LIMIT": "1"})
             actual += "\n" + ocr.stdout
+    if model not in actual or not re.search(pattern, actual):
+        # Small labels and totals beside dense instructions can be missed at
+        # 101 DPI. Retry actual rendered pixels at 216 DPI, retaining the exact
+        # model/amount assertions below. Never substitute source text for OCR.
+        ocr_modes.append("3@216dpi")
+        for number, page in enumerate(document, 1):
+            filename = output / f"{pdf.stem}-p{number}-216dpi.png"
+            page.get_pixmap(matrix=fitz.Matrix(3, 3)).save(filename)
+            ocr = subprocess.run(["tesseract", str(filename), "stdout", "-l", "eng", "--psm", "3"],
+                                 capture_output=True, text=True, check=True, timeout=30,
+                                 env={**os.environ, "OMP_THREAD_LIMIT": "1"})
+            actual += "\n" + ocr.stdout
     assert model in actual, f"Model missing from rendered PDF: {pdf.name}"
     assert re.search(pattern, actual), f"Total €{expected_total} missing from rendered PDF: {pdf.name}"
     (output / f"{pdf.stem}-ocr.txt").write_text(actual)

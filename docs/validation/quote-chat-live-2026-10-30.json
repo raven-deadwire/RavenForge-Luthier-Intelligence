@@ -1,0 +1,364 @@
+{
+  "started": "2026-10-30T01:01:11.863Z",
+  "worker_version": "20261030-quote-review-1",
+  "deployment": "18792a77",
+  "cases": [
+    {
+      "model": "EDDA",
+      "language": "ko",
+      "status": 200,
+      "expected_total_eur": 2800,
+      "actual_total_eur": 2800,
+      "pass": true,
+      "latency_ms": 15041,
+      "selections": {
+        "hardware_bridge": "ets_custom",
+        "hardware_machine_head": "gotoh_707",
+        "case": "case_premium",
+        "pickups": "nova_mm",
+        "electronics": "passive",
+        "fretboard": "ebony",
+        "hardware_color": "hw_gold"
+      },
+      "extras": [
+        {
+          "category": "accessories",
+          "title": "Accessories",
+          "option": "leather_strap",
+          "label": "Leather strap with Schaller S-Lock",
+          "price": 300
+        }
+      ],
+      "reply": "현재 EDDA 구성을 price_configuration 도구로 다시 계산했습니다. 결과는 configurator 화면과 같고, 바뀌거나 빠진 옵션은 없습니다.\n\n기본가: EDDA €2,100\n\n- 지판(Fretboard): ebony +€50\n- 픽업(Pickups): Nova Omnia MM 2개(2 pickups), 기본 포함\n- EQ(Onboard EQ): passive, 기본 포함\n- 브리지(Hardware - Bridge): ETS Custom, 기본 포함\n- 튜너(Hardware - Machine Head): Gotoh GB707, 기본 포함\n- 하드웨어 색상(Hardware Color): gold +€150\n- 긱백(Gigbag): Premium gigbag +€200\n- 액세서리(Accessories): Leather strap with Schaller S-Lock +€300\n- 악기 옵션(Instrument Options): 선택 없음\n\n총액: €2,800(부가세 별도)\n\n가격 미정(on request) 옵션이 없어서 이 금액이 현재 구성의 전체 견적입니다. 다만 configurator 규칙에 따라 계산한 예상 금액이므로, 최종 가격은 RavenForge가 확정합니다. 이 구성으로 견적을 요청하시려면 configurator에서 \"Save specification PDF\"로 사양서를 저장해 문의할 때 함께 보내 주세요."
+    },
+    {
+      "model": "EMBLA",
+      "language": "ko",
+      "status": 200,
+      "expected_total_eur": 3250,
+      "actual_total_eur": 3250,
+      "pass": true,
+      "latency_ms": 10822,
+      "selections": {
+        "hardware_bridge": "ets_custom",
+        "hardware_machine_head": "gotoh_707",
+        "case": "case_premium",
+        "pickups": "delano_sbc",
+        "electronics": "zuta",
+        "fretboard": "ebony",
+        "hardware_color": "hw_gold"
+      },
+      "extras": [
+        {
+          "category": "accessories",
+          "title": "Accessories",
+          "option": "leather_strap",
+          "label": "Leather strap with Schaller S-Lock",
+          "price": 300
+        }
+      ],
+      "reply": "price_configuration 도구로 현재 EMBLA 구성의 가격을 다시 계산했어요. 페이지에 표시된 금액과 같습니다. 선택하신 옵션과 추가 옵션은 모두 그대로 유지했고, 적용되지 않은 옵션은 없습니다.\n\n- 기본 가격(EMBLA): €2550\n- 지판(Fretboard): ebony +€50\n- 픽업(Pickups): Delano SBC HE/S-4, 포함\n- EQ(Onboard EQ): Zuta Bass Core, 포함\n- 브리지(Hardware - Bridge): ETS Custom, 포함\n- 튜너(Hardware - Machine Head): Gotoh GB707, 포함\n- 하드웨어 색상(Hardware Color): gold +€150\n- 긱백(Gigbag): Premium gigbag +€200\n- 액세서리(Accessories): Leather strap with Schaller S-Lock +€300\n\n총액: €3250 (부가세 별도)\n\n가격을 따로 확인해야 하는(on request) 옵션은 없어서, 위 총액에는 선택하신 옵션이 모두 반영돼 있습니다. 다만 이 금액은 컨피규레이터 규칙으로 계산한 예상 견적이고, 최종 가격은 RavenForge가 확정합니다.\n\n견적을 요청하실 때는 컨피규레이터에서 \"Save specification PDF\"로 사양서를 저장해 함께 보내 주세요. 바꾸고 싶은 옵션이 있으면 말씀해 주시면 바로 다시 계산해 드릴게요."
+    },
+    {
+      "model": "ASKR",
+      "language": "ko",
+      "status": 200,
+      "expected_total_eur": 3900,
+      "actual_total_eur": 3900,
+      "pass": true,
+      "latency_ms": 10740,
+      "selections": {
+        "hardware_bridge": "payson",
+        "hardware_machine_head": "gotoh_707",
+        "case": "case_premium",
+        "pickups": "fishman",
+        "electronics": "fishman",
+        "fretboard": "ebony",
+        "hardware_color": "hw_gold"
+      },
+      "extras": [
+        {
+          "category": "accessories",
+          "title": "Accessories",
+          "option": "leather_strap",
+          "label": "Leather strap with Schaller S-Lock",
+          "price": 300
+        }
+      ],
+      "reply": "price_configuration 도구로 현재 ASKR 사양을 다시 계산했습니다. 선택과 추가 옵션은 하나도 바꾸지 않았고, 계산 결과 빠지거나 바뀐 옵션도 없습니다.\n\n- 기본 가격(ASKR): €3200\n- 지판(Fretboard): ebony, +€50\n- 픽업(Pickups): Fishman Fluence, 포함\n- EQ(Onboard EQ): Fishman Fluence 2 band, 포함\n- 브리지(Hardware - Bridge): Payson Multi-Scale Bass Bridge, 포함\n- 튜너(Hardware - Machine Head): Gotoh GB707, 포함\n- 하드웨어 색상(Hardware Color): gold, +€150\n- 긱백(Gigbag): Premium gigbag, +€200\n- 액세서리(Accessories): Leather strap with Schaller S-Lock, +€300\n\n총액은 €3900(부가세 별도)이고, 페이지에 표시된 금액과 같습니다. \"on request\" 옵션은 없어서 가격이 정해지지 않은 항목은 없습니다.\n\n이 금액은 구성기 규칙으로 계산한 예상 견적이고, 최종 가격은 RavenForge가 확인합니다. 견적을 문의하실 때는 지금 사양 그대로 \"Save specification PDF\"로 사양서를 저장해 함께 보내 주세요."
+    },
+    {
+      "model": "GRAMR",
+      "language": "ko",
+      "status": 200,
+      "expected_total_eur": 2650,
+      "actual_total_eur": 2650,
+      "pass": true,
+      "latency_ms": 9452,
+      "selections": {
+        "hardware_bridge": "guitar_gotoh_510t",
+        "hardware_machine_head": "guitar_gotoh_sg381",
+        "pickups": "guitar_lundgren_m6",
+        "electronics": "guitar_zuta_core",
+        "case": "case_premium",
+        "fretboard": "guitar_indian_rosewood",
+        "hardware_color": "hw_gold"
+      },
+      "extras": [
+        {
+          "category": "accessories",
+          "title": "Accessories",
+          "option": "leather_strap",
+          "label": "Leather strap with Schaller S-Lock",
+          "price": 300
+        }
+      ],
+      "reply": "현재 GRAMR 구성을 price_configuration 도구로 다시 계산했어요. 바꾼 항목은 없고, 화면에 표시된 금액과 같습니다.\n\n- 지판(Fretboard): rosewood, 포함\n- 픽업(Pickups): Lundgren M6 Neck + Bridge, 포함\n- EQ(Onboard EQ): Zuta Core — planned, 포함 (최종 배선은 RavenForge에서 확정해요)\n- 브리지(Hardware - Bridge): Gotoh 510T-FE1, 포함\n- 튜너(Hardware - Machine Head): Gotoh SG381-07-MGT, 포함\n- 하드웨어 색상(Hardware Color): gold, +€150\n- 긱백(Gigbag): Premium gigbag, +€200\n- 액세서리(Accessories): Leather strap with Schaller S-Lock, +€300\n- 추가 옵션(Instrument Options): 선택 없음\n\n기본가는 €2000이고, 예상 총액은 €2650입니다(VAT 별도). 별도 문의(on request) 옵션이 없어서 이 금액에 빠진 항목은 없어요.\n\n이 금액은 구성기 규칙으로 계산한 견적이고, 최종 가격은 RavenForge가 확정합니다. 지금 구성 그대로 \"Save specification PDF\"로 사양서를 저장해서 문의할 때 함께 보내 주세요."
+    },
+    {
+      "model": "EDDA",
+      "language": "en",
+      "status": 200,
+      "expected_total_eur": 2800,
+      "actual_total_eur": 2800,
+      "pass": true,
+      "latency_ms": 7555,
+      "selections": {
+        "hardware_bridge": "ets_custom",
+        "hardware_machine_head": "gotoh_707",
+        "case": "case_premium",
+        "pickups": "nova_mm",
+        "electronics": "passive",
+        "fretboard": "ebony",
+        "hardware_color": "hw_gold"
+      },
+      "extras": [
+        {
+          "category": "accessories",
+          "title": "Accessories",
+          "option": "leather_strap",
+          "label": "Leather strap with Schaller S-Lock",
+          "price": 300
+        }
+      ],
+      "reply": "I checked your EDDA quote in the pricing tool and it matches the configurator. Nothing was changed or dropped.\n\n- Fretboard: ebony, +€50\n- Pickups: Nova Omnia MM, included\n- Onboard EQ: passive, included\n- Bridge: ETS Custom, included\n- Tuners: Gotoh GB707, included\n- Hardware colour: gold, +€150\n- Gigbag: Premium gigbag, +€200\n- Accessories: Leather strap with Schaller S-Lock, +€300\n\nEstimated total: €2,800 excluding VAT. The base price is €2,100. No options are priced \"on request\", so this total is complete.\n\nThis is an estimate based on the configurator's rules, and RavenForge will confirm the final price. Please click \"Save specification PDF\" and send it with your enquiry."
+    },
+    {
+      "model": "EMBLA",
+      "language": "en",
+      "status": 200,
+      "expected_total_eur": 3250,
+      "actual_total_eur": 3250,
+      "pass": true,
+      "latency_ms": 11065,
+      "selections": {
+        "hardware_bridge": "ets_custom",
+        "hardware_machine_head": "gotoh_707",
+        "case": "case_premium",
+        "pickups": "delano_sbc",
+        "electronics": "zuta",
+        "fretboard": "ebony",
+        "hardware_color": "hw_gold"
+      },
+      "extras": [
+        {
+          "category": "accessories",
+          "title": "Accessories",
+          "option": "leather_strap",
+          "label": "Leather strap with Schaller S-Lock",
+          "price": 300
+        }
+      ],
+      "reply": "I checked your current EMBLA configuration in the pricing tool, keeping all your selections and accessories. The total is the same as on your page: €3,250, excluding VAT.\n\n- Base price for the EMBLA: €2,550\n- Fretboard: ebony, +€50\n- Pickups: Delano SBC HE/S-4, included\n- Onboard EQ: Zuta Bass Core, included\n- Bridge (Hardware - Bridge): ETS Custom, included\n- Tuners (Hardware - Machine Head): Gotoh GB707, included\n- Hardware colour: gold, +€150\n- Gigbag: Premium gigbag, +€200\n- Accessories: Leather strap with Schaller S-Lock, +€300\n\nTotal: €3,250, excluding VAT. Nothing in this configuration is \"on request\", so no prices still need to be confirmed separately.\n\nThis is an estimate based on the configurator's rules, and RavenForge confirms the final price. Click \"Save specification PDF\" and send the PDF with your enquiry."
+    },
+    {
+      "model": "ASKR",
+      "language": "en",
+      "status": 200,
+      "expected_total_eur": 3900,
+      "actual_total_eur": 3900,
+      "pass": true,
+      "latency_ms": 7083,
+      "selections": {
+        "hardware_bridge": "payson",
+        "hardware_machine_head": "gotoh_707",
+        "case": "case_premium",
+        "pickups": "fishman",
+        "electronics": "fishman",
+        "fretboard": "ebony",
+        "hardware_color": "hw_gold"
+      },
+      "extras": [
+        {
+          "category": "accessories",
+          "title": "Accessories",
+          "option": "leather_strap",
+          "label": "Leather strap with Schaller S-Lock",
+          "price": 300
+        }
+      ],
+      "reply": "I checked your quote with the configurator's pricing, keeping all your selections and accessories. Nothing was changed and every option was kept. The ASKR base price is €3200.\n\n- Fretboard: ebony, +€50\n- Pickups: Fishman Fluence, included\n- Onboard EQ: Fishman Fluence 2 band, included\n- Bridge: Payson Multi-Scale Bass Bridge, included\n- Machine heads: Gotoh GB707, included\n- Hardware colour: gold, +€150\n- Gigbag: Premium gigbag, +€200\n- Accessories: Leather strap with Schaller S-Lock, +€300\n\nTotal: €3900 excluding VAT. This is the same as the total on your page, and none of your options are priced \"on request.\"\n\nThis is an estimate based on the configurator's rules. RavenForge will confirm the final price. Please click \"Save specification PDF\" and send it with your enquiry."
+    },
+    {
+      "model": "GRAMR",
+      "language": "en",
+      "status": 200,
+      "expected_total_eur": 2650,
+      "actual_total_eur": 2650,
+      "pass": true,
+      "latency_ms": 9835,
+      "selections": {
+        "hardware_bridge": "guitar_gotoh_510t",
+        "hardware_machine_head": "guitar_gotoh_sg381",
+        "pickups": "guitar_lundgren_m6",
+        "electronics": "guitar_zuta_core",
+        "case": "case_premium",
+        "fretboard": "guitar_indian_rosewood",
+        "hardware_color": "hw_gold"
+      },
+      "extras": [
+        {
+          "category": "accessories",
+          "title": "Accessories",
+          "option": "leather_strap",
+          "label": "Leather strap with Schaller S-Lock",
+          "price": 300
+        }
+      ],
+      "reply": "I checked your GRAMR quote with the price tool and kept all your current choices. The total matches your page: €2650.\n\n- Fretboard: rosewood, included\n- Pickups: Lundgren M6 Neck + Bridge, included\n- Onboard EQ: Zuta Core (planned), included. The final wiring still needs to be confirmed.\n- Bridge: Gotoh 510T-FE1, included\n- Tuners: Gotoh SG381-07-MGT, included\n- Hardware colour: gold, +€150\n- Gigbag: Premium gigbag, +€200\n- Accessories: Leather strap with Schaller S-Lock, +€300\n\nTotal: €2650 excluding VAT, starting from the €2000 base price. Nothing in your build is priced \"on request\".\n\nThis is an estimate from the configurator's rules, and RavenForge will confirm the final price. To send your enquiry, click \"Save specification PDF\" and attach the file."
+    },
+    {
+      "model": "EDDA",
+      "language": "de",
+      "status": 200,
+      "expected_total_eur": 2800,
+      "actual_total_eur": 2800,
+      "pass": true,
+      "latency_ms": 8032,
+      "selections": {
+        "hardware_bridge": "ets_custom",
+        "hardware_machine_head": "gotoh_707",
+        "case": "case_premium",
+        "pickups": "nova_mm",
+        "electronics": "passive",
+        "fretboard": "ebony",
+        "hardware_color": "hw_gold"
+      },
+      "extras": [
+        {
+          "category": "accessories",
+          "title": "Accessories",
+          "option": "leather_strap",
+          "label": "Leather strap with Schaller S-Lock",
+          "price": 300
+        }
+      ],
+      "reply": "Ich habe Ihr EDDA-Angebot geprüft. Alle Optionen und das Zubehör sind unverändert übernommen, keine Option wurde abgelehnt.\n\n- Griffbrett: Ebenholz (ebony), +50 €\n- Tonabnehmer: Nova Omnia MM, inklusive\n- Onboard EQ: passiv, inklusive\n- Brücke: ETS Custom, inklusive\n- Mechaniken: Gotoh GB707, inklusive\n- Hardwarefarbe: Gold, +150 €\n- Gigbag: Premium gigbag, +200 €\n- Zubehör: Lederriemen mit Schaller S-Lock, +300 €\n\nGrundpreis EDDA: 2.100 €\nGesamtpreis: 2.800 € (ohne MwSt.)\n\nKeine Option ist \"auf Anfrage\", der Preis ist also vollständig. Es ist aber eine Schätzung nach den Regeln des Konfigurators. Den endgültigen Preis bestätigt RavenForge.\n\nSpeichern Sie die Konfiguration bitte mit \"Save specification PDF\" und schicken Sie das PDF mit Ihrer Anfrage."
+    },
+    {
+      "model": "EMBLA",
+      "language": "de",
+      "status": 200,
+      "expected_total_eur": 3250,
+      "actual_total_eur": 3250,
+      "pass": true,
+      "latency_ms": 9236,
+      "selections": {
+        "hardware_bridge": "ets_custom",
+        "hardware_machine_head": "gotoh_707",
+        "case": "case_premium",
+        "pickups": "delano_sbc",
+        "electronics": "zuta",
+        "fretboard": "ebony",
+        "hardware_color": "hw_gold"
+      },
+      "extras": [
+        {
+          "category": "accessories",
+          "title": "Accessories",
+          "option": "leather_strap",
+          "label": "Leather strap with Schaller S-Lock",
+          "price": 300
+        }
+      ],
+      "reply": "Ich habe dein Angebot mit price_configuration nachgerechnet. Alle Optionen und das Zubehör sind unverändert übernommen worden. Das Ergebnis passt zum Konfigurator:\n\n- Griffbrett: Ebenholz (ebony), +50 €\n- Tonabnehmer: Delano SBC HE/S-4, inklusive\n- EQ (Onboard EQ): Zuta Bass Core, inklusive\n- Brücke: ETS Custom, inklusive\n- Mechaniken: Gotoh GB707, inklusive\n- Hardwarefarbe: Gold, +150 €\n- Gigbag: Premium gigbag, +200 €\n- Zubehör: Leather strap with Schaller S-Lock, +300 €\n\nGesamtpreis für die EMBLA: 3.250 € ohne MwSt. (Grundpreis 2.550 €). Keine Option ist \"auf Anfrage\". Es ist also nichts offen und keine Option wurde abgelehnt.\n\nDer Preis ist eine Schätzung nach den Regeln des Konfigurators. Den endgültigen Preis bestätigt RavenForge. Speichere am besten mit \"Save specification PDF\" die Spezifikation und schick sie mit deiner Anfrage."
+    },
+    {
+      "model": "ASKR",
+      "language": "de",
+      "status": 200,
+      "expected_total_eur": 3900,
+      "actual_total_eur": 3900,
+      "pass": true,
+      "latency_ms": 13970,
+      "selections": {
+        "hardware_bridge": "payson",
+        "hardware_machine_head": "gotoh_707",
+        "case": "case_premium",
+        "pickups": "fishman",
+        "electronics": "fishman",
+        "fretboard": "ebony",
+        "hardware_color": "hw_gold"
+      },
+      "extras": [
+        {
+          "category": "accessories",
+          "title": "Accessories",
+          "option": "leather_strap",
+          "label": "Leather strap with Schaller S-Lock",
+          "price": 300
+        }
+      ],
+      "reply": "Ich habe Ihr Angebot geprüft. Alle Optionen und Zubehörteile bleiben unverändert, und der Preis stimmt mit Ihrem Konfigurator überein.\n\nASKR, Grundpreis 3.200 €:\n- Griffbrett: Ebenholz, +50 €\n- Tonabnehmer: Fishman Fluence, inklusive\n- Onboard-EQ: Fishman Fluence 2 band, inklusive\n- Brücke: Payson Multi-Scale Bass Bridge, inklusive\n- Mechaniken: Gotoh GB707, inklusive\n- Hardwarefarbe: Gold, +150 €\n- Gigbag: Premium gigbag, +200 €\n- Zubehör: Leather strap with Schaller S-Lock (Ledergurt), +300 €\n\nGesamtpreis: 3.900 € ohne MwSt. Es gibt keine Optionen mit Preis auf Anfrage.\n\nDas ist eine Schätzung nach den Regeln des Konfigurators. Den endgültigen Preis bestätigt RavenForge. Speichern Sie die Konfiguration bitte mit „Save specification PDF“ und senden Sie das PDF mit Ihrer Anfrage."
+    },
+    {
+      "model": "GRAMR",
+      "language": "de",
+      "status": 200,
+      "expected_total_eur": 2650,
+      "actual_total_eur": 2650,
+      "pass": true,
+      "latency_ms": 9670,
+      "selections": {
+        "hardware_bridge": "guitar_gotoh_510t",
+        "hardware_machine_head": "guitar_gotoh_sg381",
+        "pickups": "guitar_lundgren_m6",
+        "electronics": "guitar_zuta_core",
+        "case": "case_premium",
+        "fretboard": "guitar_indian_rosewood",
+        "hardware_color": "hw_gold"
+      },
+      "extras": [
+        {
+          "category": "accessories",
+          "title": "Accessories",
+          "option": "leather_strap",
+          "label": "Leather strap with Schaller S-Lock",
+          "price": 300
+        }
+      ],
+      "reply": "Ich habe Ihre GRAMR-Konfiguration ohne Änderungen nachgerechnet. Alle Optionen und Zubehörteile sind geblieben, und der Preis stimmt mit der Seite überein:\n\n- Griffbrett (Fretboard): rosewood, inklusive\n- Tonabnehmer (Pickups): Lundgren M6 Neck + Bridge, inklusive\n- EQ (Onboard EQ): Zuta Core — planned, inklusive (die Verdrahtung wird noch bestätigt)\n- Brücke (Hardware - Bridge): Gotoh 510T-FE1, inklusive\n- Mechaniken (Hardware - Machine Head): Gotoh SG381-07-MGT, inklusive\n- Hardwarefarbe (Hardware Color): gold, +€150\n- Gigbag: Premium gigbag, +€200\n- Zubehör (Accessories): Leather strap with Schaller S-Lock, +€300\n\nGesamtpreis: €2650 ohne MwSt. (Grundpreis €2000). Keine Option ist „on request“, der Preis ist also vollständig.\n\nDer Betrag ist eine Schätzung nach den Regeln des Konfigurators. Den endgültigen Preis bestätigt RavenForge. Speichern Sie am besten im Konfigurator „Save specification PDF“ und schicken Sie es mit Ihrer Anfrage mit."
+    },
+    {
+      "model": "ASKR",
+      "language": "en",
+      "status": 200,
+      "expected_total_eur": 3655,
+      "actual_total_eur": 3655,
+      "pass": true,
+      "latency_ms": 10308,
+      "selections": {
+        "hardware_bridge": "payson",
+        "hardware_machine_head": "gotoh_707",
+        "case": "case_standard",
+        "pickups": "emg",
+        "electronics": "glockenklang",
+        "fretboard": "wenge",
+        "hardware_color": "hw_chrome"
+      },
+      "extras": [],
+      "reply": "I priced it with one change, as you asked: the standard ASKR with the pickup set to EMG 40TWX.\n\nThe EQ switches by itself to the Glockenklang 3 band. The standard Fishman Fluence 2 band EQ only works with Fishman Fluence pickups, so the configurator drops it when you choose the EMG. Every change was applied.\n\nPrice lines:\n- ASKR base: €3200\n- Pickups, EMG 40TWX: +€245\n- Onboard EQ, Glockenklang 3 band (switched automatically): +€210\n- Everything else stays at the standard build: €0\n\nTotal: €3655, excluding VAT. Every option has a listed price, so nothing is still to be confirmed separately.\n\nThis is an estimate from the configurator's rules, and RavenForge confirms the final price. The EMG 40TWX housing for the ASKR comes with a note to confirm depth, mounting and wiring before the build.\n\nIf you'd like another EQ with the EMG, the Onboard EQ category also has the Darkglass Tone Capsule 3 band (+€165) and the LHZ HAZ clone 3 band (+€270). I can price either one. When you're happy, select the options in the configurator and click \"Save specification PDF\" to send with your enquiry."
+    }
+  ],
+  "bundle_sha256": "d273a06f47412d5b7da711f222f03e119cb47aadd725c4f2bd21e2dea8a1b639"
+}

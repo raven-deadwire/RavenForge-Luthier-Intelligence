@@ -1,6 +1,6 @@
 import {
   RavenForgePlatforms, configData, specialOptionsList, accessoriesList,
-  isCategoryVisible, isOptionVisible, normalizeSelections
+  isCategoryVisible, isOptionVisible, normalizeSelections, applyOptionChange
 } from './catalog.generated.js';
 
 export const MODEL_IDS = configData.models.map(model => model.id);
@@ -19,7 +19,7 @@ const isPassive = selections => ['passive', 'guitar_passive'].includes(selection
 export function sanitizeConfiguration(input) {
   if (!input || typeof input !== 'object' || !MODEL_IDS.includes(input.model)) return null;
   const selections = {};
-  for (const [categoryId, optionId] of Object.entries(input.selections || {})) {
+  for (const [categoryId, optionId] of Object.entries(input.selections && typeof input.selections === 'object' && !Array.isArray(input.selections) ? input.selections : {})) {
     if (categoryById.get(categoryId)?.options.some(option => option.id === optionId)) selections[categoryId] = optionId;
   }
   const pick = (ids, list) => Array.isArray(ids) ? list.filter(option => ids.includes(option.id)).map(option => option.id) : [];
@@ -75,14 +75,26 @@ export function priceConfiguration({ model, selections = {}, specialOptions = []
 // Applies requested changes on top of a starting configuration and reports the
 // ones the configurator's rules did not keep (unknown, unavailable, or replaced).
 export function priceWithChanges(start, { changes = [], instrumentOptions, accessories }) {
-  const requested = { ...start.selections };
-  for (const { category, option } of changes) requested[category] = option;
+  if (!Array.isArray(changes) || changes.length > 50 || changes.some(change =>
+    !change || typeof change.category !== 'string' || typeof change.option !== 'string') ||
+    [instrumentOptions, accessories].some(ids => ids !== undefined &&
+      (!Array.isArray(ids) || ids.length > 50 || ids.some(id => typeof id !== 'string')))) {
+    return { error: 'Invalid configuration changes.' };
+  }
+  let requested = normalizeSelections(start.model, start.selections);
+  for (const { category, option } of changes) {
+    const definition = categoryById.get(category);
+    if (definition && isCategoryVisible(definition, requested)) {
+      requested = applyOptionChange(start.model, requested, category, option);
+    }
+  }
   const sanitized = sanitizeConfiguration({
     model: start.model,
     selections: requested,
     specialOptions: instrumentOptions ?? start.specialOptions,
     accessories: accessories ?? start.accessories
   });
+  if (!sanitized) return { error: 'Unknown model.' };
   const quote = priceConfiguration(sanitized);
   const notApplied = changes
     .filter(({ category, option }) => quote.selections[category] !== option)
@@ -92,7 +104,7 @@ export function priceWithChanges(start, { changes = [], instrumentOptions, acces
         ? 'not available for this model or combination' : 'unknown category or option'
     }));
   const extrasDropped = [
-    ...(instrumentOptions || []).filter(id => !sanitized.specialOptions.includes(id)),
+    ...(instrumentOptions || []).filter(id => !quote.lines.some(line => line.category === 'instrument_options' && line.option === id)),
     ...(accessories || []).filter(id => !sanitized.accessories.includes(id))
   ];
   return { ...quote, not_applied: notApplied, extras_not_available: extrasDropped };

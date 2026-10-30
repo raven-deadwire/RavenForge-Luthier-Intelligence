@@ -15,7 +15,7 @@
 .rf-chat-pending { color:#64748b; font-style:italic; }
 .rf-chat-error { margin:0; padding:6px 14px; font-size:12px; color:#b91c1c; background:#fef2f2; }
 .rf-chat-form { display:flex; gap:8px; padding:10px; border-top:1px solid #e2e8f0; }
-.rf-chat-form textarea { flex:1 1 auto; resize:none; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; font:inherit; }
+.rf-chat-form textarea { flex:1 1 auto; min-width:0; resize:none; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; font:inherit; }
 .rf-chat-form textarea:focus { outline:2px solid #b91c1c; outline-offset:-1px; }
 .rf-chat-form button { align-self:stretch; padding:0 14px; border-radius:8px; background:#b91c1c; color:#fff; font-weight:700; }
 .rf-chat-form button:disabled { background:#94a3b8; cursor:not-allowed; }
