@@ -75,7 +75,7 @@ npm run deploy
 
 API 응답은 호출당 최대 4096 출력 토큰, 요청 전체 최대 8192 출력 토큰·4회 호출·8개 가격 도구 호출·90초로 제한하고 SDK 자동 재시도는 끕니다. 키나 rate-limit binding이 없으면 요청을 차단합니다.
 
-방문자 IP당 분당 10회를 Cloudflare Rate Limiting binding에 설정합니다(`[[ratelimits]]`). 이는 위치별·eventual consistency 기반 근사 제한이며 정확한 11번째 요청 차단 또는 전역 비용 한도를 보장하지 않습니다 ([Cloudflare 공식 문서](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/#accuracy)). 실제 반복 요청 시험에서는 429를 재현하지 못했으므로 엄격한 차단 시험 PASS로 기록하지 않습니다. 엄격한 전역 제한이 필요하면 Durable Objects로 별도 구현해야 합니다. Origin 검사는 브라우저 밖에서는 우회할 수 있으니, Claude Console에서 월 지출 한도도 걸어 두세요.
+방문자 IP당 분당 5회를 Cloudflare Rate Limiting binding에 설정합니다(`[[ratelimits]]`). 이는 위치별·eventual consistency 기반 근사 제한이며 정확한 6번째 요청 차단 또는 전역 비용 한도를 보장하지 않습니다 ([Cloudflare 공식 문서](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/#accuracy)). 2026-10-30 고정 IP 시험(분당 10회 설정)에서는 몇 초 안에 몰아 보낸 15회가 모두 통과했고, 1초 간격으로 보낸 25회 중에서는 약 20회 이후 일부만 429로 차단되어 설정값을 5로 낮췄습니다. 엄격한 전역 제한이 필요하면 Durable Objects로 별도 구현해야 합니다. Origin 검사는 브라우저 밖에서는 우회할 수 있으니, Claude Console에서 월 지출 한도도 걸어 두세요.
 
 로컬 실행: `.dev.vars`에 `ANTHROPIC_API_KEY=...`와 `ALLOWED_ORIGINS=http://localhost:8000`을 넣고 `npm run dev`를 실행합니다.
 
