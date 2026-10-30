@@ -12,6 +12,9 @@ on:
   schedule:
     - cron: '23 5 * * *'
   workflow_dispatch:
+# Use one container-local path for env, shell arguments and artifact actions.
+# runner.temp expressions embedded in shell commands retain the host path,
+# while Actions translates env/action inputs to /__w/_temp in job containers.
 permissions:
   contents: read
 jobs:
@@ -82,35 +85,35 @@ jobs:
       - name: Verify embedded configurations and download 24 actual PDFs
         if: steps.freshness.outputs.current != 'false'
         env:
-          CONFIGURATOR_QA_DIR: ${{ runner.temp }}/homepage-${{ matrix.target }}
+          CONFIGURATOR_QA_DIR: /tmp/ravenforge-qa/homepage-${{ matrix.target }}
           HOMEPAGE_URL: ${{ matrix.target == 'live' && 'https://raven-deadwire.github.io/RavenForge-Luthier-Intelligence/index.html' || 'http://127.0.0.1:8000/index.html' }}
         run: node tools/test_configurator.cjs --homepage --url "$HOMEPAGE_URL"
       - name: Inspect rendered PDF pages and amounts
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
-        run: python3 tools/test_configurator_pdf_visual.py "${{ runner.temp }}/homepage-${{ matrix.target }}" 24
+        run: python3 tools/test_configurator_pdf_visual.py "/tmp/ravenforge-qa/homepage-${{ matrix.target }}" 24
       - name: Check PDF layout, scale and 1000-character instructions
         if: ${{ !cancelled() && matrix.target == 'candidate' && steps.dependencies.outcome == 'success' }}
         env:
-          CONFIGURATOR_QA_DIR: ${{ runner.temp }}/homepage-candidate/layout
+          CONFIGURATOR_QA_DIR: /tmp/ravenforge-qa/homepage-candidate/layout
         run: node tools/test_configurator.cjs --pdf-layout --url http://127.0.0.1:8000/configurator.html
       - name: Inspect layout matrix PDF pages
         if: ${{ !cancelled() && matrix.target == 'candidate' && steps.dependencies.outcome == 'success' }}
-        run: python3 tools/test_configurator_pdf_visual.py "${{ runner.temp }}/homepage-candidate/layout" 48
+        run: python3 tools/test_configurator_pdf_visual.py "/tmp/ravenforge-qa/homepage-candidate/layout" 48
       - name: Check maximum priced option combinations and unbroken requests
         if: ${{ !cancelled() && matrix.target == 'candidate' && steps.dependencies.outcome == 'success' }}
         env:
-          CONFIGURATOR_QA_DIR: ${{ runner.temp }}/homepage-candidate/max-options
+          CONFIGURATOR_QA_DIR: /tmp/ravenforge-qa/homepage-candidate/max-options
           CONFIGURATOR_PDF_STRESS: '1'
         run: node tools/test_configurator.cjs --pdf-layout --url http://127.0.0.1:8000/configurator.html
       - name: Inspect maximum option PDFs
         if: ${{ !cancelled() && matrix.target == 'candidate' && steps.dependencies.outcome == 'success' }}
-        run: python3 tools/test_configurator_pdf_visual.py "${{ runner.temp }}/homepage-candidate/max-options" 42
+        run: python3 tools/test_configurator_pdf_visual.py "/tmp/ravenforge-qa/homepage-candidate/max-options" 42
       - name: Upload separate homepage evidence
         if: always() && steps.freshness.outputs.current != 'false'
         uses: actions/upload-artifact@v4
         with:
           name: configurator-homepage-${{ matrix.target }}-${{ github.event.pull_request.head.sha || github.sha }}
-          path: ${{ runner.temp }}/homepage-${{ matrix.target }}
+          path: /tmp/ravenforge-qa/homepage-${{ matrix.target }}
           if-no-files-found: warn
           retention-days: 30
   preview:
@@ -141,8 +144,8 @@ jobs:
           node tools/test_configurator_preview.cjs
       - name: Package isolated test files for review
         run: |
-          python3 tools/package_configurator_preview.py "${{ runner.temp }}/configurator-preview/RavenForge-Configurator-Test.zip"
-          python3 tools/build_configurator_standalone.py "${{ runner.temp }}/configurator-preview/RavenForge-Configurator-Test.html"
+          python3 tools/package_configurator_preview.py "/tmp/ravenforge-qa/configurator-preview/RavenForge-Configurator-Test.zip"
+          python3 tools/build_configurator_standalone.py "/tmp/ravenforge-qa/configurator-preview/RavenForge-Configurator-Test.html"
       - name: Install browser and Korean fonts
         run: |
           npm install --no-save --no-package-lock --no-audit --no-fund playwright@1.49.1
@@ -153,20 +156,20 @@ jobs:
         run: python3 -m http.server 8000 --bind 127.0.0.1 > /tmp/preview-http.log 2>&1 &
       - name: Verify live preview in 24 model-language-viewport combinations
         env:
-          PREVIEW_QA_DIR: ${{ runner.temp }}/configurator-preview/live
+          PREVIEW_QA_DIR: /tmp/ravenforge-qa/configurator-preview/live
           PREVIEW_QA_URL: http://127.0.0.1:8000/configurator.html
         run: node tools/test_configurator_preview_browser.cjs
       - name: Preserve existing price, dependencies and PDF exports in 24 combinations
         env:
-          CONFIGURATOR_QA_DIR: ${{ runner.temp }}/configurator-preview/regression
+          CONFIGURATOR_QA_DIR: /tmp/ravenforge-qa/configurator-preview/regression
         run: node tools/test_configurator.cjs --matrix --url "http://127.0.0.1:8000/configurator.html"
       - name: Check every rendered PDF page for content, model and total
-        run: python3 tools/test_configurator_pdf_visual.py "${{ runner.temp }}/configurator-preview/regression"
+        run: python3 tools/test_configurator_pdf_visual.py "/tmp/ravenforge-qa/configurator-preview/regression"
       - name: Upload reviewable screenshots and PDFs
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: configurator-preview-${{ github.event.pull_request.head.sha || github.sha }}
-          path: ${{ runner.temp }}/configurator-preview
+          path: /tmp/ravenforge-qa/configurator-preview
           if-no-files-found: warn
           retention-days: 30

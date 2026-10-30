@@ -46,3 +46,9 @@ The repaired Worker is deployed as `18792a77` (100% traffic), response marker `2
 1. Obtain green revised-head chat/browser, candidate PDF and existing regression checks, inspect artifacts and fix failures.
 2. Merge #77 only after those checks pass; verify Pages deployment serves the merged version.
 3. On the deployed homepage, test real chat for each model, language and mobile/desktop layout; download a quote PDF after chatting and capture evidence.
+
+## CI follow-up — 2026-10-30 12:00 KST
+
+At head `29020818db105dd43e2acf012fe51ceb91340f6f`, Worker CI passed all 24 tests and 1,048 option transitions; chat UI passed 24 combinations and four PDF downloads (mock Claude responses, separate from live API evidence). Tailwind and embed checks passed. Chat evidence archive SHA-256: `50d510d01ce63688cd53c129d4fbe968eeba673177c69688c249fb32ee319a7c`.
+
+Production candidate job [123837062649](https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/40986002339/job/123837062649) generated all 24 quote, 48 layout and 42 stress PDFs, but each OCR step failed before inspection: Node wrote `/__w/_temp/...` while shell-expanded `runner.temp` pointed Python at `/home/runner/work/_temp/...`. This is a CI container path mismatch, not evidence of a quote/PDF content defect. Set all producer, inspector, packager and artifact paths in that workflow to `/tmp/ravenforge-qa`, retaining every test and assertion. The corrected head still requires a complete green rerun and artifact inspection before merge. Candidate archive SHA-256: `93532306fe42fe2a162ca44c4ec71e8f176cf109b30c72a6f3f17379fadc75bd`.
