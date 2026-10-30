@@ -4,7 +4,7 @@ PR: https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/pull/77
 
 ## Release gate
 
-**Hold until the revised branch's browser and PDF workflows pass.** Earlier green runs on the original activation commit do not validate these changes. At review time GitHub reported all hosted runners busy, on both `ubuntu-24.04` and `ubuntu-latest`; Ubuntu 24.04 userland is retained in the CI container. The local sandbox cannot launch Chromium. No successful new browser/PDF run or public-site chat verification is claimed here.
+**Hold until the revised branch's browser and PDF workflows pass.** Earlier green runs on the original activation commit do not validate these changes. At review time GitHub reported all hosted runners busy, on both `ubuntu-24.04` and `ubuntu-latest`; Ubuntu 24.04 userland is retained in the CI container. The local sandbox cannot launch Chromium. Later CI findings are recorded below; public-site chat verification remains pending.
 
 ## Reproduced defects and corrections
 
@@ -24,7 +24,7 @@ PR: https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/pull/77
 | Real Claude requests | 4 models × 3 languages plus ASKR Fishman → EMG = 13/13 passed |
 | Actual public-page fretboards before activation | EMBLA and ASKR each show all six offered fretboards; ebony is +€50, totals €2,600 and €3,250 respectively |
 | HTTP origin/method/content/body boundaries | 6/6 passed; see JSON evidence |
-| Revised chat desktop/mobile and PDF export | Automated 24-case matrix added; execution pending |
+| Revised chat desktop/mobile and PDF export | Head `2902081`: 24 mocked-response UI cases and four PDF downloads passed; latest head must rerun |
 
 The 12 model/language live requests include gold hardware (+€150), premium gigbag (+€200), leather strap (+€300), and ebony (+€50) on the three bass models. Expected/actual ex-VAT totals: EDDA €2,800; EMBLA €3,250; ASKR €3,900; GRAMR €2,650. The JSON evidence records options, tool totals and actual KO/EN/DE answers. This verifies model coverage separately from the other API prototype; that prototype's reported omission is not attributed to this implementation.
 
@@ -52,3 +52,13 @@ The repaired Worker is deployed as `18792a77` (100% traffic), response marker `2
 At head `29020818db105dd43e2acf012fe51ceb91340f6f`, Worker CI passed all 24 tests and 1,048 option transitions; chat UI passed 24 combinations and four PDF downloads (mock Claude responses, separate from live API evidence). Tailwind and embed checks passed. Chat evidence archive SHA-256: `50d510d01ce63688cd53c129d4fbe968eeba673177c69688c249fb32ee319a7c`.
 
 Production candidate job [123837062649](https://github.com/raven-deadwire/RavenForge-Luthier-Intelligence/actions/runs/40986002339/job/123837062649) generated all 24 quote, 48 layout and 42 stress PDFs, but each OCR step failed before inspection: Node wrote `/__w/_temp/...` while shell-expanded `runner.temp` pointed Python at `/home/runner/work/_temp/...`. This is a CI container path mismatch, not evidence of a quote/PDF content defect. Set all producer, inspector, packager and artifact paths in that workflow to `/tmp/ravenforge-qa`, retaining every test and assertion. The corrected head still requires a complete green rerun and artifact inspection before merge. Candidate archive SHA-256: `93532306fe42fe2a162ca44c4ec71e8f176cf109b30c72a6f3f17379fadc75bd`.
+
+### Additional CI repairs and independent PDF inspection — 12:01 KST
+
+The live audit also failed because checkout's temporary Git configuration did not persist into container shell steps. Commit `0231a69` trusts only `$GITHUB_WORKSPACE` immediately before the freshness check. No wildcard safe-directory exemption is used.
+
+The prior-head preview job completed all 24 visual preview and 24 model/language/viewport price/PDF combinations, then hit the same OCR path mismatch. Those are generation/UI successes, not a full green regression result.
+
+Downloaded candidate PDFs were inspected locally with the repository's OCR checker. All 24 quote PDFs passed. At the default 101 DPI, three ASKR layout labels and three EDDA dense-instruction totals were missed even though rendered images showed the correct text. A fallback now rerenders actual PDF pixels at 216 DPI with automatic segmentation. Every existing assertion is unchanged; there is no source-text OCR fallback. Negative controls with a wrong model and an expected €999999 both still fail.
+
+With that fallback, all **114 PDFs / 189 A4 pages** passed locally: 24 quote PDFs / 24 pages, 48 layout PDFs / 81 pages, and 42 maximum-option PDFs / 84 pages. Six PDFs needed the high-resolution retry. Representative Korean quote, long multiline and unbroken-token pages, and maximum-option GRAMR pages were visually inspected without clipping. Local runtime: PyMuPDF 1.26.6, Tesseract 5.3.4. This is supplemental inspection of the `2902081` artifact, **not a replacement for corrected-head CI** (whose PyMuPDF version differs). All mandatory corrected-head workflows and post-deploy live UI/PDF checks remain release gates.
