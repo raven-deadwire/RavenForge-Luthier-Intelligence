@@ -20,11 +20,12 @@ EFFORT = "medium"
 # ANTHROPIC_API_KEY is a secret: `npx wrangler secret put ANTHROPIC_API_KEY`
 # (for `wrangler dev`, put ANTHROPIC_API_KEY=... in .dev.vars).
 
-# 10 messages per minute per visitor IP.
+# 5 messages per minute per visitor IP. Cloudflare counts approximately:
+# paced requests from one IP were first refused after about 20 at limit = 10.
 [[ratelimits]]
 name = "RATE_LIMITER"
 namespace_id = "1001"
 
   [ratelimits.simple]
-  limit = 10
+  limit = 5
   period = 60
