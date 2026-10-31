@@ -1,0 +1,294 @@
+{
+  "key": "de-GRAMR",
+  "source": "2546afa584d662243cd48646a9100dba387cc74d",
+  "mode": "live deployed OpenAI Worker API; browser application recorded separately",
+  "calls": [
+    {
+      "phase": "recommend",
+      "at": "2026-10-31T14:28:20.411Z",
+      "request": {
+        "language": "de",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Ich spiele Metal auf einer sechssaitigen 25,5-Zoll-HH-Gitarre, keinem Bass. Hohe Bünde sind bei meiner Gitarre schwer erreichbar. Passt GRAMR? Bitte mit Gründen empfehlen und die Standardkonfiguration berechnen."
+          }
+        ],
+        "configuration": {
+          "model": "GRAMR",
+          "selections": {
+            "orientation": "right_hand",
+            "strings": "guitar_6",
+            "scale": "guitar_25_5",
+            "string_spacing": "spacing_std",
+            "nut_size": "guitar_nut_43",
+            "nut_material": "guitar_bone_nut",
+            "neck": "guitar_neck_5pc",
+            "radius": "guitar_radius_16",
+            "fret_type": "guitar_fret_24",
+            "fretboard_extense": "extense_none",
+            "body_construction": "guitar_body_2pc",
+            "hardware_bridge": "guitar_gotoh_510t",
+            "hardware_machine_head": "guitar_gotoh_sg381",
+            "pickup_configuration": "guitar_hh",
+            "pickups": "guitar_lundgren_m6",
+            "electronics": "guitar_zuta_core",
+            "control_layout": "guitar_controls",
+            "coil_switch": "guitar_blade_selection",
+            "color_top": "top_oil",
+            "color_back_side": "back_oil",
+            "case": "case_standard",
+            "factory_setup": "guitar_setup_reference",
+            "neck_profile": "guitar_profile_reference",
+            "fretboard": "guitar_indian_rosewood",
+            "fret_material": "mat_nickel",
+            "fret_size": "size_xjumbo",
+            "fret_side": "side_no",
+            "inlay_type": "inlay_none",
+            "side_dot": "sdot_std",
+            "body_wood_single": "guitar_swamp_ash",
+            "top_type": "guitar_top_none",
+            "extra_finish_burst": "burst_none",
+            "extra_finish_flake": "flake_none",
+            "color_headstock": "head_match",
+            "knob": "knob_metal",
+            "hardware_color": "hw_chrome"
+          },
+          "specialOptions": [],
+          "accessories": []
+        }
+      },
+      "status": 200,
+      "body": "{\"reply\":\"Kurz: Ja — GRAMR passt gut für Metal auf einer 6‑saitigen 25,5\\\"-HH‑Gitarre. Gründe:\\n\\n- Design: GRAMR ist ein 6‑saitiger 25,5\\\" Superstrat mit HH‑Routing und kräftiger Hardware (Gotoh 510T), also tonales und spielmechanisches Fundament für Metal.\\n- Spielbarkeit: 25,5\\\" Mensur und extra‑jumbo Bünde unterstützen aggressive Anschlagtechnik und tiefe Saitenstimmung; die Standard-5‑teilige Halskonstruktion ist stabil für starke Saiten.\\n- High‑fret‑Zugänglichkeit: die Standard‑GRAMR‑Halskontur ist eine Referenz — sie kann gut funktionieren, aber wenn du jetzt Probleme hast, helfen typischerweise:\\n  - schlankere Halskontur oder individuell angepasste Profile (guitar_profile_custom — auf Anfrage),\\n  - compound Radius (für leichteres Bending und flacheres Spiel) — auf Anfrage,\\n  - tiefer ausgeschnittene Cutaway‑Formen oder gezielte Heel‑Relief‑Arbeiten (beschreiben in Special Instructions) — klären wir mit RavenForge.\\n\\nStandardkonfiguration berechnet (aktuelle Auswahl):\\n- Model: GRAMR — Basis €2000\\n- Alle gewählten Optionen (Rechts, 6 Saiten, 25.5\\\", Gotoh 510T, Lundgren M6 HH, 5pc Hals, 16\\\" Radius, extra jumbo Bünde, Swamp Ash body, Naturöl Finish, Standard Setup, Standard Gigbag usw.)\\n- Total (ohne Mehrwertsteuer): €2000\\n\\nDies ist ein Kostenvoranschlag basierend auf der Konfigurator‑Regelung; RavenForge bestätigt den endgültigen Preis. Wenn du die Konfiguration sichern willst: wähle auf der Seite \\\"Spezifikation als PDF speichern\\\" und sende die PDF mit deiner Anfrage an den Hersteller.\\n\\nEine Frage zur Feinabstimmung: Welche Bünde genau sind schwer erreichbar — die höchsten (22–24) oder eher Mittelbereich? Bevorzugst du einen sehr schlanken Hals oder eher flacheres Profil zum Greifen?\",\"quote\":{\"model\":\"GRAMR\",\"currency\":\"EUR\",\"base_price\":2000,\"lines\":[{\"category\":\"orientation\",\"title\":\"Orientation\",\"option\":\"right_hand\",\"label\":\"right-handed\",\"price\":0,\"page_title\":\"Rechts-/Linkshänder\",\"page_label\":\"Rechtshänder\"},{\"category\":\"strings\",\"title\":\"Strings\",\"option\":\"guitar_6\",\"label\":\"6 guitar strings\",\"price\":0,\"page_title\":\"Saitenzahl\",\"page_label\":\"6 Gitarrensaiten\"},{\"category\":\"factory_setup\",\"title\":\"Factory Setup\",\"option\":\"guitar_setup_reference\",\"label\":\"standard guitar setup\",\"price\":0,\"page_title\":\"Setup ab Werk\",\"page_label\":\"Standard-Gitarreneinstellung\"},{\"category\":\"scale\",\"title\":\"Scale\",\"option\":\"guitar_25_5\",\"label\":\"25.5-inch single scale\",\"price\":0,\"page_title\":\"Mensur\",\"page_label\":\"25,5 Zoll Single-Scale\"},{\"category\":\"string_spacing\",\"title\":\"String Spacing\",\"option\":\"spacing_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"Saitenabstand\",\"page_label\":\"Standard\"},{\"category\":\"nut_size\",\"title\":\"Nut Width\",\"option\":\"guitar_nut_43\",\"label\":\"43.0 mm\",\"price\":0,\"page_title\":\"Sattelbreite\",\"page_label\":\"43.0 mm\"},{\"category\":\"nut_material\",\"title\":\"Nut Material\",\"option\":\"guitar_bone_nut\",\"label\":\"buffalo bone nut\",\"price\":0,\"page_title\":\"Sattelmaterial\",\"page_label\":\"Sattel aus Büffelknochen\"},{\"category\":\"neck\",\"title\":\"Neck\",\"option\":\"guitar_neck_5pc\",\"label\":\"5-piece laminated guitar neck\",\"price\":0,\"page_title\":\"Hals\",\"page_label\":\"5-teiliger laminierter Gitarrenhals\"},{\"category\":\"neck_profile\",\"title\":\"Neck Profile\",\"option\":\"guitar_profile_reference\",\"label\":\"GRAMR reference profile\",\"price\":0,\"page_title\":\"Halsprofil\",\"page_label\":\"GRAMR-Referenzprofil\"},{\"category\":\"fretboard\",\"title\":\"Fretboard\",\"option\":\"guitar_indian_rosewood\",\"label\":\"rosewood\",\"price\":0,\"page_title\":\"Griffbrett\",\"page_label\":\"Palisander\"},{\"category\":\"radius\",\"title\":\"Radius\",\"option\":\"guitar_radius_16\",\"label\":\"16-inch radius\",\"price\":0,\"page_title\":\"Griffbrettradius\",\"page_label\":\"16-Zoll-Radius\"},{\"category\":\"fret_type\",\"title\":\"Fret Type\",\"option\":\"guitar_fret_24\",\"label\":\"24 frets; no zero fret\",\"price\":0,\"page_title\":\"Bundausführung\",\"page_label\":\"24 Bünde; kein Nullbund\"},{\"category\":\"fret_material\",\"title\":\"Fret Material\",\"option\":\"mat_nickel\",\"label\":\"18% nickel-silver\",\"price\":0,\"page_title\":\"Bundmaterial\",\"page_label\":\"18 % Neusilber\"},{\"category\":\"fret_size\",\"title\":\"Fret Size\",\"option\":\"size_xjumbo\",\"label\":\"extra jumbo\",\"price\":0,\"page_title\":\"Bundgröße\",\"page_label\":\"Extra Jumbo\"},{\"category\":\"fret_side\",\"title\":\"Fret Side\",\"option\":\"side_no\",\"label\":\"none\",\"price\":0,\"page_title\":\"Griffbrettrand\",\"page_label\":\"keine\"},{\"category\":\"inlay_type\",\"title\":\"Inlay\",\"option\":\"inlay_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"Einlagen\",\"page_label\":\"keine\"},{\"category\":\"side_dot\",\"title\":\"Side Dot\",\"option\":\"sdot_std\",\"label\":\"standard (black or white)\",\"price\":0,\"page_title\":\"Seitliche Markierungen\",\"page_label\":\"Standard (schwarz oder weiß)\"},{\"category\":\"body_construction\",\"title\":\"Body Construction\",\"option\":\"guitar_body_2pc\",\"label\":\"2-piece solid body\",\"price\":0,\"page_title\":\"Korpuskonstruktion\",\"page_label\":\"2-teiliger massiver Korpus\"},{\"category\":\"body_wood_single\",\"title\":\"Body Wood\",\"option\":\"guitar_swamp_ash\",\"label\":\"swamp ash\",\"price\":0,\"page_title\":\"Korpusholz\",\"page_label\":\"Swamp Ash\"},{\"category\":\"top_type\",\"title\":\"Top Type\",\"option\":\"guitar_top_none\",\"label\":\"no separate top\",\"price\":0,\"page_title\":\"Deckenausführung\",\"page_label\":\"keine separate Decke\"},{\"category\":\"color_top\",\"title\":\"Finish Color - Top\",\"option\":\"top_oil\",\"label\":\"natural oil\",\"price\":0,\"page_title\":\"Finish der Decke\",\"page_label\":\"Naturöl\"},{\"category\":\"color_back_side\",\"title\":\"Finish Color - Back & Side\",\"option\":\"back_oil\",\"label\":\"natural oil\",\"price\":0,\"page_title\":\"Finish von Rückseite und Seiten\",\"page_label\":\"Naturöl\"},{\"category\":\"extra_finish_burst\",\"title\":\"Burst Option\",\"option\":\"burst_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"Burst-Finish\",\"page_label\":\"keine\"},{\"category\":\"extra_finish_flake\",\"title\":\"Flake Option\",\"option\":\"flake_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"Flake-Finish\",\"page_label\":\"keine\"},{\"category\":\"color_headstock\",\"title\":\"Finish Color - Headstock\",\"option\":\"head_match\",\"label\":\"match\",\"price\":0,\"page_title\":\"Kopfplatten-Finish\",\"page_label\":\"passend\"},{\"category\":\"hardware_bridge\",\"title\":\"Hardware - Bridge\",\"option\":\"guitar_gotoh_510t\",\"label\":\"Gotoh 510T-FE1\",\"price\":0,\"page_title\":\"Brücke\",\"page_label\":\"Gotoh 510T-FE1\"},{\"category\":\"hardware_machine_head\",\"title\":\"Hardware - Machine Head\",\"option\":\"guitar_gotoh_sg381\",\"label\":\"Gotoh SG381-07-MGT\",\"price\":0,\"page_title\":\"Stimmmechaniken\",\"page_label\":\"Gotoh SG381-07-MGT\"},{\"category\":\"electronics\",\"title\":\"Onboard EQ\",\"option\":\"guitar_zuta_core\",\"label\":\"Zuta Core — planned\",\"price\":0,\"page_title\":\"Onboard-EQ\",\"page_label\":\"Zuta Core — geplant\"},{\"category\":\"pickup_configuration\",\"title\":\"Pickup Configuration\",\"option\":\"guitar_hh\",\"label\":\"HH / 2 guitar humbuckers\",\"price\":0,\"page_title\":\"Tonabnehmer-Konfiguration\",\"page_label\":\"HH / 2 Gitarren-Humbucker\"},{\"category\":\"pickups\",\"title\":\"Pickups\",\"option\":\"guitar_lundgren_m6\",\"label\":\"Lundgren M6 Neck + Bridge\",\"price\":0,\"page_title\":\"Tonabnehmer\",\"page_label\":\"Lundgren M6 Hals + Steg\"},{\"category\":\"knob\",\"title\":\"Control Knobs\",\"option\":\"knob_metal\",\"label\":\"metal dome\",\"price\":0,\"page_title\":\"Reglerknöpfe\",\"page_label\":\"Metall-Dome\"},{\"category\":\"hardware_color\",\"title\":\"Hardware Color\",\"option\":\"hw_chrome\",\"label\":\"chrome\",\"price\":0,\"page_title\":\"Hardwarefarbe\",\"page_label\":\"Chrom\"},{\"category\":\"control_layout\",\"title\":\"Control Layout\",\"option\":\"guitar_controls\",\"label\":\"1 Volume / 1 Tone / 5-way blade\",\"price\":0,\"page_title\":\"Regler & Verdrahtung\",\"page_label\":\"1 Volume / 1 Tone / 5-Wege-Schalter\"},{\"category\":\"coil_switch\",\"title\":\"Select Coil Switch\",\"option\":\"guitar_blade_selection\",\"label\":\"5-way blade selection\",\"price\":0,\"page_title\":\"Spulenumschaltung\",\"page_label\":\"5-Wege-Schalter\"},{\"category\":\"fretboard_extense\",\"title\":\"Fretboard Extension\",\"option\":\"extense_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"Griffbrettverlängerung\",\"page_label\":\"keine\"},{\"category\":\"case\",\"title\":\"Gigbag\",\"option\":\"case_standard\",\"label\":\"Standard gigbag\",\"price\":0,\"page_title\":\"Gigbag\",\"page_label\":\"Standard-Gigbag\"}],\"total\":2000,\"price_on_request\":false,\"selections\":{\"orientation\":\"right_hand\",\"strings\":\"guitar_6\",\"scale\":\"guitar_25_5\",\"string_spacing\":\"spacing_std\",\"nut_size\":\"guitar_nut_43\",\"nut_material\":\"guitar_bone_nut\",\"neck\":\"guitar_neck_5pc\",\"radius\":\"guitar_radius_16\",\"fret_type\":\"guitar_fret_24\",\"fretboard_extense\":\"extense_none\",\"body_construction\":\"guitar_body_2pc\",\"hardware_bridge\":\"guitar_gotoh_510t\",\"hardware_machine_head\":\"guitar_gotoh_sg381\",\"pickup_configuration\":\"guitar_hh\",\"pickups\":\"guitar_lundgren_m6\",\"electronics\":\"guitar_zuta_core\",\"control_layout\":\"guitar_controls\",\"coil_switch\":\"guitar_blade_selection\",\"color_top\":\"top_oil\",\"color_back_side\":\"back_oil\",\"case\":\"case_standard\",\"factory_setup\":\"guitar_setup_reference\",\"neck_profile\":\"guitar_profile_reference\",\"fretboard\":\"guitar_indian_rosewood\",\"fret_material\":\"mat_nickel\",\"fret_size\":\"size_xjumbo\",\"fret_side\":\"side_no\",\"inlay_type\":\"inlay_none\",\"side_dot\":\"sdot_std\",\"body_wood_single\":\"guitar_swamp_ash\",\"top_type\":\"guitar_top_none\",\"extra_finish_burst\":\"burst_none\",\"extra_finish_flake\":\"flake_none\",\"color_headstock\":\"head_match\",\"knob\":\"knob_metal\",\"hardware_color\":\"hw_chrome\"},\"not_applied\":[],\"extras_not_available\":[]},\"stop_reason\":\"end_turn\"}",
+      "elapsedMs": 11574,
+      "parity": true
+    },
+    {
+      "phase": "explain",
+      "at": "2026-10-31T14:28:31.467Z",
+      "request": {
+        "language": "de",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Ich spiele Metal auf einer sechssaitigen 25,5-Zoll-HH-Gitarre, keinem Bass. Hohe Bünde sind bei meiner Gitarre schwer erreichbar. Passt GRAMR? Bitte mit Gründen empfehlen und die Standardkonfiguration berechnen."
+          },
+          {
+            "role": "assistant",
+            "content": "Kurz: Ja — GRAMR passt gut für Metal auf einer 6‑saitigen 25,5\"-HH‑Gitarre. Gründe:\n\n- Design: GRAMR ist ein 6‑saitiger 25,5\" Superstrat mit HH‑Routing und kräftiger Hardware (Gotoh 510T), also tonales und spielmechanisches Fundament für Metal.\n- Spielbarkeit: 25,5\" Mensur und extra‑jumbo Bünde unterstützen aggressive Anschlagtechnik und tiefe Saitenstimmung; die Standard-5‑teilige Halskonstruktion ist stabil für starke Saiten.\n- High‑fret‑Zugänglichkeit: die Standard‑GRAMR‑Halskontur ist eine Referenz — sie kann gut funktionieren, aber wenn du jetzt Probleme hast, helfen typischerweise:\n  - schlankere Halskontur oder individuell angepasste Profile (guitar_profile_custom — auf Anfrage),\n  - compound Radius (für leichteres Bending und flacheres Spiel) — auf Anfrage,\n  - tiefer ausgeschnittene Cutaway‑Formen oder gezielte Heel‑Relief‑Arbeiten (beschreiben in Special Instructions) — klären wir mit RavenForge.\n\nStandardkonfiguration berechnet (aktuelle Auswahl):\n- Model: GRAMR — Basis €2000\n- Alle gewählten Optionen (Rechts, 6 Saiten, 25.5\", Gotoh 510T, Lundgren M6 HH, 5pc Hals, 16\" Radius, extra jumbo Bünde, Swamp Ash body, Naturöl Finish, Standard Setup, Standard Gigbag usw.)\n- Total (ohne Mehrwertsteuer): €2000\n\nDies ist ein Kostenvoranschlag basierend auf der Konfigurator‑Regelung; RavenForge bestätigt den endgültigen Preis. Wenn du die Konfiguration sichern willst: wähle auf der Seite \"Spezifikation als PDF speichern\" und sende die PDF mit deiner Anfrage an den Hersteller.\n\nEine Frage zur Feinabstimmung: Welche Bünde genau sind schwer erreichbar — die höchsten (22–24) oder eher Mittelbereich? Bevorzugst du einen sehr schlanken Hals oder eher flacheres Profil zum Greifen?"
+          },
+          {
+            "role": "user",
+            "content": "Erkläre mein AKTUELL gewähltes Modell, Griffbrett, Pickups und EQ mit Funktionen und Einschränkungen."
+          }
+        ],
+        "configuration": {
+          "model": "GRAMR",
+          "selections": {
+            "orientation": "right_hand",
+            "strings": "guitar_6",
+            "scale": "guitar_25_5",
+            "string_spacing": "spacing_std",
+            "nut_size": "guitar_nut_43",
+            "nut_material": "guitar_bone_nut",
+            "neck": "guitar_neck_5pc",
+            "radius": "guitar_radius_16",
+            "fret_type": "guitar_fret_24",
+            "fretboard_extense": "extense_none",
+            "body_construction": "guitar_body_2pc",
+            "hardware_bridge": "guitar_gotoh_510t",
+            "hardware_machine_head": "guitar_gotoh_sg381",
+            "pickup_configuration": "guitar_hh",
+            "pickups": "guitar_lundgren_m6",
+            "electronics": "guitar_zuta_core",
+            "control_layout": "guitar_controls",
+            "coil_switch": "guitar_blade_selection",
+            "color_top": "top_oil",
+            "color_back_side": "back_oil",
+            "case": "case_standard",
+            "factory_setup": "guitar_setup_reference",
+            "neck_profile": "guitar_profile_reference",
+            "fretboard": "guitar_indian_rosewood",
+            "fret_material": "mat_nickel",
+            "fret_size": "size_xjumbo",
+            "fret_side": "side_no",
+            "inlay_type": "inlay_none",
+            "side_dot": "sdot_std",
+            "body_wood_single": "guitar_swamp_ash",
+            "top_type": "guitar_top_none",
+            "extra_finish_burst": "burst_none",
+            "extra_finish_flake": "flake_none",
+            "color_headstock": "head_match",
+            "knob": "knob_metal",
+            "hardware_color": "hw_chrome"
+          },
+          "specialOptions": [],
+          "accessories": []
+        }
+      },
+      "status": 200,
+      "body": "{\"reply\":\"Kurz und konkret — Beschreibung deines AKTUELL gewählten Setups (Seitebegriffe verwendet):\\n\\n- Model — GRAMR (Superstrat 24F · 6-string / 25.5-inch)\\n  - Was es ist: 6‑saitige Superstrat im 25,5\\\" Format, 24 Bünde, Gotoh 510T‑Brücke. Gut geeignet für Metal‑Stilistik, stabile Hardware und klassische Mensuransprache.\\n  - Einschränkungen: kein Nullbund; Hals/Body‑Kontur ist ein Referenz‑Profil (GRAMR reference profile) — Änderungen am Profil oder Radius sind möglich, aber oft als \\\"on request\\\" definiert.\\n\\n- Griffbrett — Griffbrett: rosewood (Palisander)\\n  - Funktionen: warmer, leicht gedämpfter Anschlagssound und vertraute Haptik; kombinierbar mit 16\\\" Radius für gutes Saitenbending und Akkordspiel.\\n  - Einschränkungen: Palisander nimmt nicht die extreme Glätte eines Ebenholzes; für sehr flache, schnelle Spielweisen helfen oft flacherer Radius oder glattere Holzwahl (auf Anfrage).\\n\\n- Pickups — Tonabnehmer: Lundgren M6 Hals + Steg\\n  - Funktionen: aktive/passiv? Die Lundgren M6 im Katalog sind passive, offen‑coil Humbucker mit klarer, aggressive Ansprache; gut für tightes High‑gain, definierte Mitten und Schnelligkeit bei Metal.\\n  - Einschränkungen: sie haben feste klangliche Charakteristika; wenn du spezielle Splits/Coiltaps oder andere Voice‑Optionen willst, braucht das zusätzliche Schalttechnik (und Bestätigung der Montage- /Wiring‑Details).\\n\\n- EQ / Onboard‑EQ — Onboard‑EQ: Zuta Core — geplant\\n  - Funktionen: Paket ist als \\\"planned\\\" gelistet — vorgesehenes Gitarren‑Elektronikpaket, wird in der Konfiguration als enthalten gezeigt.\\n  - Einschränkungen: \\\"planned\\\" bedeutet: finale Schaltungsdetails und Verdrahtung sind noch zu bestätigen; Endgültige Funktion, Komponenten und Frequenzantwort werden von RavenForge bestätigt. Wenn du aktive 2‑ oder 3‑Band‑Preamp‑Funktionen, Batterieplatz oder spezielle Regelanordnungen brauchst, klären wir das vor dem Angebot.\\n\\nMöchtest du, dass ich Vorschläge mache, um die Erreichbarkeit hoher Bünde zu verbessern (z. B. schlankeres Halsprofil, Heel‑Relief oder Radius‑Änderung)?\",\"quote\":null,\"stop_reason\":\"end_turn\"}",
+      "elapsedMs": 9628
+    },
+    {
+      "phase": "compare",
+      "at": "2026-10-31T14:28:46.202Z",
+      "request": {
+        "language": "de",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Ich spiele Metal auf einer sechssaitigen 25,5-Zoll-HH-Gitarre, keinem Bass. Hohe Bünde sind bei meiner Gitarre schwer erreichbar. Passt GRAMR? Bitte mit Gründen empfehlen und die Standardkonfiguration berechnen."
+          },
+          {
+            "role": "assistant",
+            "content": "Kurz: Ja — GRAMR passt gut für Metal auf einer 6‑saitigen 25,5\"-HH‑Gitarre. Gründe:\n\n- Design: GRAMR ist ein 6‑saitiger 25,5\" Superstrat mit HH‑Routing und kräftiger Hardware (Gotoh 510T), also tonales und spielmechanisches Fundament für Metal.\n- Spielbarkeit: 25,5\" Mensur und extra‑jumbo Bünde unterstützen aggressive Anschlagtechnik und tiefe Saitenstimmung; die Standard-5‑teilige Halskonstruktion ist stabil für starke Saiten.\n- High‑fret‑Zugänglichkeit: die Standard‑GRAMR‑Halskontur ist eine Referenz — sie kann gut funktionieren, aber wenn du jetzt Probleme hast, helfen typischerweise:\n  - schlankere Halskontur oder individuell angepasste Profile (guitar_profile_custom — auf Anfrage),\n  - compound Radius (für leichteres Bending und flacheres Spiel) — auf Anfrage,\n  - tiefer ausgeschnittene Cutaway‑Formen oder gezielte Heel‑Relief‑Arbeiten (beschreiben in Special Instructions) — klären wir mit RavenForge.\n\nStandardkonfiguration berechnet (aktuelle Auswahl):\n- Model: GRAMR — Basis €2000\n- Alle gewählten Optionen (Rechts, 6 Saiten, 25.5\", Gotoh 510T, Lundgren M6 HH, 5pc Hals, 16\" Radius, extra jumbo Bünde, Swamp Ash body, Naturöl Finish, Standard Setup, Standard Gigbag usw.)\n- Total (ohne Mehrwertsteuer): €2000\n\nDies ist ein Kostenvoranschlag basierend auf der Konfigurator‑Regelung; RavenForge bestätigt den endgültigen Preis. Wenn du die Konfiguration sichern willst: wähle auf der Seite \"Spezifikation als PDF speichern\" und sende die PDF mit deiner Anfrage an den Hersteller.\n\nEine Frage zur Feinabstimmung: Welche Bünde genau sind schwer erreichbar — die höchsten (22–24) oder eher Mittelbereich? Bevorzugst du einen sehr schlanken Hals oder eher flacheres Profil zum Greifen?"
+          },
+          {
+            "role": "user",
+            "content": "Erkläre mein AKTUELL gewähltes Modell, Griffbrett, Pickups und EQ mit Funktionen und Einschränkungen."
+          },
+          {
+            "role": "assistant",
+            "content": "Kurz und konkret — Beschreibung deines AKTUELL gewählten Setups (Seitebegriffe verwendet):\n\n- Model — GRAMR (Superstrat 24F · 6-string / 25.5-inch)\n  - Was es ist: 6‑saitige Superstrat im 25,5\" Format, 24 Bünde, Gotoh 510T‑Brücke. Gut geeignet für Metal‑Stilistik, stabile Hardware und klassische Mensuransprache.\n  - Einschränkungen: kein Nullbund; Hals/Body‑Kontur ist ein Referenz‑Profil (GRAMR reference profile) — Änderungen am Profil oder Radius sind möglich, aber oft als \"on request\" definiert.\n\n- Griffbrett — Griffbrett: rosewood (Palisander)\n  - Funktionen: warmer, leicht gedämpfter Anschlagssound und vertraute Haptik; kombinierbar mit 16\" Radius für gutes Saitenbending und Akkordspiel.\n  - Einschränkungen: Palisander nimmt nicht die extreme Glätte eines Ebenholzes; für sehr flache, schnelle Spielweisen helfen oft flacherer Radius oder glattere Holzwahl (auf Anfrage).\n\n- Pickups — Tonabnehmer: Lundgren M6 Hals + Steg\n  - Funktionen: aktive/passiv? Die Lundgren M6 im Katalog sind passive, offen‑coil Humbucker mit klarer, aggressive Ansprache; gut für tightes High‑gain, definierte Mitten und Schnelligkeit bei Metal.\n  - Einschränkungen: sie haben feste klangliche Charakteristika; wenn du spezielle Splits/Coiltaps oder andere Voice‑Optionen willst, braucht das zusätzliche Schalttechnik (und Bestätigung der Montage- /Wiring‑Details).\n\n- EQ / Onboard‑EQ — Onboard‑EQ: Zuta Core — geplant\n  - Funktionen: Paket ist als \"planned\" gelistet — vorgesehenes Gitarren‑Elektronikpaket, wird in der Konfiguration als enthalten gezeigt.\n  - Einschränkungen: \"planned\" bedeutet: finale Schaltungsdetails und Verdrahtung sind noch zu bestätigen; Endgültige Funktion, Komponenten und Frequenzantwort werden von RavenForge bestätigt. Wenn du aktive 2‑ oder 3‑Band‑Preamp‑Funktionen, Batterieplatz oder spezielle Regelanordnungen brauchst, klären wir das vor dem Angebot.\n\nMöchtest du, dass ich Vorschläge mache, um die Erreichbarkeit hoher Bünde zu verbessern (z. B. schlankeres Halsprofil, Heel‑Relief oder Radius‑Änderung)?"
+          },
+          {
+            "role": "user",
+            "content": "Vergleiche GRAMR in Standardausführung mit GRAMR mit Ebenholzgriffbrett. Andere Optionen bleiben Standard. Erkläre beide Preise und Unterschiede; berechne letztere Variante zuletzt. Noch nicht angenommen, bitte nicht übernehmen."
+          }
+        ],
+        "configuration": {
+          "model": "GRAMR",
+          "selections": {
+            "orientation": "right_hand",
+            "strings": "guitar_6",
+            "scale": "guitar_25_5",
+            "string_spacing": "spacing_std",
+            "nut_size": "guitar_nut_43",
+            "nut_material": "guitar_bone_nut",
+            "neck": "guitar_neck_5pc",
+            "radius": "guitar_radius_16",
+            "fret_type": "guitar_fret_24",
+            "fretboard_extense": "extense_none",
+            "body_construction": "guitar_body_2pc",
+            "hardware_bridge": "guitar_gotoh_510t",
+            "hardware_machine_head": "guitar_gotoh_sg381",
+            "pickup_configuration": "guitar_hh",
+            "pickups": "guitar_lundgren_m6",
+            "electronics": "guitar_zuta_core",
+            "control_layout": "guitar_controls",
+            "coil_switch": "guitar_blade_selection",
+            "color_top": "top_oil",
+            "color_back_side": "back_oil",
+            "case": "case_standard",
+            "factory_setup": "guitar_setup_reference",
+            "neck_profile": "guitar_profile_reference",
+            "fretboard": "guitar_indian_rosewood",
+            "fret_material": "mat_nickel",
+            "fret_size": "size_xjumbo",
+            "fret_side": "side_no",
+            "inlay_type": "inlay_none",
+            "side_dot": "sdot_std",
+            "body_wood_single": "guitar_swamp_ash",
+            "top_type": "guitar_top_none",
+            "extra_finish_burst": "burst_none",
+            "extra_finish_flake": "flake_none",
+            "color_headstock": "head_match",
+            "knob": "knob_metal",
+            "hardware_color": "hw_chrome"
+          },
+          "specialOptions": [],
+          "accessories": []
+        }
+      },
+      "status": 200,
+      "body": "{\"reply\":\"Kurzvergleich — beide Preise stammen aus dem Konfigurator.\\n\\n- GRAMR Standardausführung (aktuelle Auswahl):\\n  - Griffbrett: guitar_indian_rosewood (Palisander)\\n  - Pickups: guitar_lundgren_m6 (Lundgren M6 Hals + Steg)\\n  - Onboard‑EQ: guitar_zuta_core (Zuta Core — planned)\\n  - Funktionen/Einschränkungen wie vorher beschrieben: 6‑Saiter, 25,5\\\" Mensur, 24 Bünde, Gotoh 510T, 16\\\" Radius; Lundgren M6 sind passive HH, Zuta Core ist als \\\"planned\\\" gelistet (finale Schaltung noch zu bestätigen).\\n  - Preis (Konfigurator‑Zeile): Total 2.000 EUR (ohne MwSt). Dies ist ein Kostenvoranschlag basierend auf den Konfiguratorregeln; RavenForge bestätigt den finalen Preis.\\n\\n- GRAMR mit Ebenholzgriffbrett (von dir gewünscht):\\n  - Ich habe die Option \\\"fretboard = ebony\\\" geprüft. Der Konfigurator hat die Änderung nicht angewendet: diese Option ist für GRAMR nicht verfügbar.\\n  - Ergebnis der Prüfung: die Änderung wurde nicht übernommen; die konfigurierte Auswahl blieb bei rosewood (guitar_indian_rosewood).\\n  - Preis nach Versuch (Konfigurator‑Zeile): Total 2.000 EUR (ohne MwSt). Kein Aufpreis wurde angewandt, weil Ebenholz nicht verfügbar war.\\n\\nWas heißt das praktisch:\\n- Du kannst direkt im Konfigurator das Griffbrett ändern: Öffne die Kategorie \\\"Griffbrett\\\".\\n- Für Ebenholz wäre es ein \\\"on request\\\" / nicht standard Fall — ich kann auf Wunsch anfragen, ob RavenForge Ebenholz als Sonderoption machen kann; das würde separate Preis‑ und Machbarkeitsprüfung erfordern.\\n- Alternative sofort verfügbar: Palisander (aktuell), oder du fragst explizit nach einem Ebenholz‑Upgrade (RavenForge bestätigt Preis und Verfügbarkeit).\\n\\nWenn du möchtest, frage ich für dich an (dann formuliere ich die Frage an den Hersteller). Wenn du die Konfiguration sichern willst, klicke \\\"Spezifikation als PDF speichern\\\". Was möchtest du als nächsten Schritt — Sonderanfrage für Ebenholz oder eine andere Griffbrettoption?\",\"quote\":{\"model\":\"GRAMR\",\"currency\":\"EUR\",\"base_price\":2000,\"lines\":[{\"category\":\"orientation\",\"title\":\"Orientation\",\"option\":\"right_hand\",\"label\":\"right-handed\",\"price\":0,\"page_title\":\"Rechts-/Linkshänder\",\"page_label\":\"Rechtshänder\"},{\"category\":\"strings\",\"title\":\"Strings\",\"option\":\"guitar_6\",\"label\":\"6 guitar strings\",\"price\":0,\"page_title\":\"Saitenzahl\",\"page_label\":\"6 Gitarrensaiten\"},{\"category\":\"factory_setup\",\"title\":\"Factory Setup\",\"option\":\"guitar_setup_reference\",\"label\":\"standard guitar setup\",\"price\":0,\"page_title\":\"Setup ab Werk\",\"page_label\":\"Standard-Gitarreneinstellung\"},{\"category\":\"scale\",\"title\":\"Scale\",\"option\":\"guitar_25_5\",\"label\":\"25.5-inch single scale\",\"price\":0,\"page_title\":\"Mensur\",\"page_label\":\"25,5 Zoll Single-Scale\"},{\"category\":\"string_spacing\",\"title\":\"String Spacing\",\"option\":\"spacing_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"Saitenabstand\",\"page_label\":\"Standard\"},{\"category\":\"nut_size\",\"title\":\"Nut Width\",\"option\":\"guitar_nut_43\",\"label\":\"43.0 mm\",\"price\":0,\"page_title\":\"Sattelbreite\",\"page_label\":\"43.0 mm\"},{\"category\":\"nut_material\",\"title\":\"Nut Material\",\"option\":\"guitar_bone_nut\",\"label\":\"buffalo bone nut\",\"price\":0,\"page_title\":\"Sattelmaterial\",\"page_label\":\"Sattel aus Büffelknochen\"},{\"category\":\"neck\",\"title\":\"Neck\",\"option\":\"guitar_neck_5pc\",\"label\":\"5-piece laminated guitar neck\",\"price\":0,\"page_title\":\"Hals\",\"page_label\":\"5-teiliger laminierter Gitarrenhals\"},{\"category\":\"neck_profile\",\"title\":\"Neck Profile\",\"option\":\"guitar_profile_reference\",\"label\":\"GRAMR reference profile\",\"price\":0,\"page_title\":\"Halsprofil\",\"page_label\":\"GRAMR-Referenzprofil\"},{\"category\":\"fretboard\",\"title\":\"Fretboard\",\"option\":\"guitar_indian_rosewood\",\"label\":\"rosewood\",\"price\":0,\"page_title\":\"Griffbrett\",\"page_label\":\"Palisander\"},{\"category\":\"radius\",\"title\":\"Radius\",\"option\":\"guitar_radius_16\",\"label\":\"16-inch radius\",\"price\":0,\"page_title\":\"Griffbrettradius\",\"page_label\":\"16-Zoll-Radius\"},{\"category\":\"fret_type\",\"title\":\"Fret Type\",\"option\":\"guitar_fret_24\",\"label\":\"24 frets; no zero fret\",\"price\":0,\"page_title\":\"Bundausführung\",\"page_label\":\"24 Bünde; kein Nullbund\"},{\"category\":\"fret_material\",\"title\":\"Fret Material\",\"option\":\"mat_nickel\",\"label\":\"18% nickel-silver\",\"price\":0,\"page_title\":\"Bundmaterial\",\"page_label\":\"18 % Neusilber\"},{\"category\":\"fret_size\",\"title\":\"Fret Size\",\"option\":\"size_xjumbo\",\"label\":\"extra jumbo\",\"price\":0,\"page_title\":\"Bundgröße\",\"page_label\":\"Extra Jumbo\"},{\"category\":\"fret_side\",\"title\":\"Fret Side\",\"option\":\"side_no\",\"label\":\"none\",\"price\":0,\"page_title\":\"Griffbrettrand\",\"page_label\":\"keine\"},{\"category\":\"inlay_type\",\"title\":\"Inlay\",\"option\":\"inlay_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"Einlagen\",\"page_label\":\"keine\"},{\"category\":\"side_dot\",\"title\":\"Side Dot\",\"option\":\"sdot_std\",\"label\":\"standard (black or white)\",\"price\":0,\"page_title\":\"Seitliche Markierungen\",\"page_label\":\"Standard (schwarz oder weiß)\"},{\"category\":\"body_construction\",\"title\":\"Body Construction\",\"option\":\"guitar_body_2pc\",\"label\":\"2-piece solid body\",\"price\":0,\"page_title\":\"Korpuskonstruktion\",\"page_label\":\"2-teiliger massiver Korpus\"},{\"category\":\"body_wood_single\",\"title\":\"Body Wood\",\"option\":\"guitar_swamp_ash\",\"label\":\"swamp ash\",\"price\":0,\"page_title\":\"Korpusholz\",\"page_label\":\"Swamp Ash\"},{\"category\":\"top_type\",\"title\":\"Top Type\",\"option\":\"guitar_top_none\",\"label\":\"no separate top\",\"price\":0,\"page_title\":\"Deckenausführung\",\"page_label\":\"keine separate Decke\"},{\"category\":\"color_top\",\"title\":\"Finish Color - Top\",\"option\":\"top_oil\",\"label\":\"natural oil\",\"price\":0,\"page_title\":\"Finish der Decke\",\"page_label\":\"Naturöl\"},{\"category\":\"color_back_side\",\"title\":\"Finish Color - Back & Side\",\"option\":\"back_oil\",\"label\":\"natural oil\",\"price\":0,\"page_title\":\"Finish von Rückseite und Seiten\",\"page_label\":\"Naturöl\"},{\"category\":\"extra_finish_burst\",\"title\":\"Burst Option\",\"option\":\"burst_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"Burst-Finish\",\"page_label\":\"keine\"},{\"category\":\"extra_finish_flake\",\"title\":\"Flake Option\",\"option\":\"flake_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"Flake-Finish\",\"page_label\":\"keine\"},{\"category\":\"color_headstock\",\"title\":\"Finish Color - Headstock\",\"option\":\"head_match\",\"label\":\"match\",\"price\":0,\"page_title\":\"Kopfplatten-Finish\",\"page_label\":\"passend\"},{\"category\":\"hardware_bridge\",\"title\":\"Hardware - Bridge\",\"option\":\"guitar_gotoh_510t\",\"label\":\"Gotoh 510T-FE1\",\"price\":0,\"page_title\":\"Brücke\",\"page_label\":\"Gotoh 510T-FE1\"},{\"category\":\"hardware_machine_head\",\"title\":\"Hardware - Machine Head\",\"option\":\"guitar_gotoh_sg381\",\"label\":\"Gotoh SG381-07-MGT\",\"price\":0,\"page_title\":\"Stimmmechaniken\",\"page_label\":\"Gotoh SG381-07-MGT\"},{\"category\":\"electronics\",\"title\":\"Onboard EQ\",\"option\":\"guitar_zuta_core\",\"label\":\"Zuta Core — planned\",\"price\":0,\"page_title\":\"Onboard-EQ\",\"page_label\":\"Zuta Core — geplant\"},{\"category\":\"pickup_configuration\",\"title\":\"Pickup Configuration\",\"option\":\"guitar_hh\",\"label\":\"HH / 2 guitar humbuckers\",\"price\":0,\"page_title\":\"Tonabnehmer-Konfiguration\",\"page_label\":\"HH / 2 Gitarren-Humbucker\"},{\"category\":\"pickups\",\"title\":\"Pickups\",\"option\":\"guitar_lundgren_m6\",\"label\":\"Lundgren M6 Neck + Bridge\",\"price\":0,\"page_title\":\"Tonabnehmer\",\"page_label\":\"Lundgren M6 Hals + Steg\"},{\"category\":\"knob\",\"title\":\"Control Knobs\",\"option\":\"knob_metal\",\"label\":\"metal dome\",\"price\":0,\"page_title\":\"Reglerknöpfe\",\"page_label\":\"Metall-Dome\"},{\"category\":\"hardware_color\",\"title\":\"Hardware Color\",\"option\":\"hw_chrome\",\"label\":\"chrome\",\"price\":0,\"page_title\":\"Hardwarefarbe\",\"page_label\":\"Chrom\"},{\"category\":\"control_layout\",\"title\":\"Control Layout\",\"option\":\"guitar_controls\",\"label\":\"1 Volume / 1 Tone / 5-way blade\",\"price\":0,\"page_title\":\"Regler & Verdrahtung\",\"page_label\":\"1 Volume / 1 Tone / 5-Wege-Schalter\"},{\"category\":\"coil_switch\",\"title\":\"Select Coil Switch\",\"option\":\"guitar_blade_selection\",\"label\":\"5-way blade selection\",\"price\":0,\"page_title\":\"Spulenumschaltung\",\"page_label\":\"5-Wege-Schalter\"},{\"category\":\"fretboard_extense\",\"title\":\"Fretboard Extension\",\"option\":\"extense_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"Griffbrettverlängerung\",\"page_label\":\"keine\"},{\"category\":\"case\",\"title\":\"Gigbag\",\"option\":\"case_standard\",\"label\":\"Standard gigbag\",\"price\":0,\"page_title\":\"Gigbag\",\"page_label\":\"Standard-Gigbag\"}],\"total\":2000,\"price_on_request\":false,\"selections\":{\"orientation\":\"right_hand\",\"strings\":\"guitar_6\",\"scale\":\"guitar_25_5\",\"string_spacing\":\"spacing_std\",\"nut_size\":\"guitar_nut_43\",\"nut_material\":\"guitar_bone_nut\",\"neck\":\"guitar_neck_5pc\",\"radius\":\"guitar_radius_16\",\"fret_type\":\"guitar_fret_24\",\"fretboard_extense\":\"extense_none\",\"body_construction\":\"guitar_body_2pc\",\"hardware_bridge\":\"guitar_gotoh_510t\",\"hardware_machine_head\":\"guitar_gotoh_sg381\",\"pickup_configuration\":\"guitar_hh\",\"pickups\":\"guitar_lundgren_m6\",\"electronics\":\"guitar_zuta_core\",\"control_layout\":\"guitar_controls\",\"coil_switch\":\"guitar_blade_selection\",\"color_top\":\"top_oil\",\"color_back_side\":\"back_oil\",\"case\":\"case_standard\",\"factory_setup\":\"guitar_setup_reference\",\"neck_profile\":\"guitar_profile_reference\",\"fretboard\":\"guitar_indian_rosewood\",\"fret_material\":\"mat_nickel\",\"fret_size\":\"size_xjumbo\",\"fret_side\":\"side_no\",\"inlay_type\":\"inlay_none\",\"side_dot\":\"sdot_std\",\"body_wood_single\":\"guitar_swamp_ash\",\"top_type\":\"guitar_top_none\",\"extra_finish_burst\":\"burst_none\",\"extra_finish_flake\":\"flake_none\",\"color_headstock\":\"head_match\",\"knob\":\"knob_metal\",\"hardware_color\":\"hw_chrome\"},\"not_applied\":[{\"category\":\"fretboard\",\"option\":\"ebony\",\"reason\":\"not available for this model or combination\"}],\"extras_not_available\":[]},\"stop_reason\":\"end_turn\"}",
+      "elapsedMs": 11356,
+      "parity": true
+    },
+    {
+      "phase": "draft",
+      "at": "2026-10-31T14:28:59.659Z",
+      "request": {
+        "language": "de",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Ich spiele Metal auf einer sechssaitigen 25,5-Zoll-HH-Gitarre, keinem Bass. Hohe Bünde sind bei meiner Gitarre schwer erreichbar. Passt GRAMR? Bitte mit Gründen empfehlen und die Standardkonfiguration berechnen."
+          },
+          {
+            "role": "assistant",
+            "content": "Kurz: Ja — GRAMR passt gut für Metal auf einer 6‑saitigen 25,5\"-HH‑Gitarre. Gründe:\n\n- Design: GRAMR ist ein 6‑saitiger 25,5\" Superstrat mit HH‑Routing und kräftiger Hardware (Gotoh 510T), also tonales und spielmechanisches Fundament für Metal.\n- Spielbarkeit: 25,5\" Mensur und extra‑jumbo Bünde unterstützen aggressive Anschlagtechnik und tiefe Saitenstimmung; die Standard-5‑teilige Halskonstruktion ist stabil für starke Saiten.\n- High‑fret‑Zugänglichkeit: die Standard‑GRAMR‑Halskontur ist eine Referenz — sie kann gut funktionieren, aber wenn du jetzt Probleme hast, helfen typischerweise:\n  - schlankere Halskontur oder individuell angepasste Profile (guitar_profile_custom — auf Anfrage),\n  - compound Radius (für leichteres Bending und flacheres Spiel) — auf Anfrage,\n  - tiefer ausgeschnittene Cutaway‑Formen oder gezielte Heel‑Relief‑Arbeiten (beschreiben in Special Instructions) — klären wir mit RavenForge.\n\nStandardkonfiguration berechnet (aktuelle Auswahl):\n- Model: GRAMR — Basis €2000\n- Alle gewählten Optionen (Rechts, 6 Saiten, 25.5\", Gotoh 510T, Lundgren M6 HH, 5pc Hals, 16\" Radius, extra jumbo Bünde, Swamp Ash body, Naturöl Finish, Standard Setup, Standard Gigbag usw.)\n- Total (ohne Mehrwertsteuer): €2000\n\nDies ist ein Kostenvoranschlag basierend auf der Konfigurator‑Regelung; RavenForge bestätigt den endgültigen Preis. Wenn du die Konfiguration sichern willst: wähle auf der Seite \"Spezifikation als PDF speichern\" und sende die PDF mit deiner Anfrage an den Hersteller.\n\nEine Frage zur Feinabstimmung: Welche Bünde genau sind schwer erreichbar — die höchsten (22–24) oder eher Mittelbereich? Bevorzugst du einen sehr schlanken Hals oder eher flacheres Profil zum Greifen?"
+          },
+          {
+            "role": "user",
+            "content": "Erkläre mein AKTUELL gewähltes Modell, Griffbrett, Pickups und EQ mit Funktionen und Einschränkungen."
+          },
+          {
+            "role": "assistant",
+            "content": "Kurz und konkret — Beschreibung deines AKTUELL gewählten Setups (Seitebegriffe verwendet):\n\n- Model — GRAMR (Superstrat 24F · 6-string / 25.5-inch)\n  - Was es ist: 6‑saitige Superstrat im 25,5\" Format, 24 Bünde, Gotoh 510T‑Brücke. Gut geeignet für Metal‑Stilistik, stabile Hardware und klassische Mensuransprache.\n  - Einschränkungen: kein Nullbund; Hals/Body‑Kontur ist ein Referenz‑Profil (GRAMR reference profile) — Änderungen am Profil oder Radius sind möglich, aber oft als \"on request\" definiert.\n\n- Griffbrett — Griffbrett: rosewood (Palisander)\n  - Funktionen: warmer, leicht gedämpfter Anschlagssound und vertraute Haptik; kombinierbar mit 16\" Radius für gutes Saitenbending und Akkordspiel.\n  - Einschränkungen: Palisander nimmt nicht die extreme Glätte eines Ebenholzes; für sehr flache, schnelle Spielweisen helfen oft flacherer Radius oder glattere Holzwahl (auf Anfrage).\n\n- Pickups — Tonabnehmer: Lundgren M6 Hals + Steg\n  - Funktionen: aktive/passiv? Die Lundgren M6 im Katalog sind passive, offen‑coil Humbucker mit klarer, aggressive Ansprache; gut für tightes High‑gain, definierte Mitten und Schnelligkeit bei Metal.\n  - Einschränkungen: sie haben feste klangliche Charakteristika; wenn du spezielle Splits/Coiltaps oder andere Voice‑Optionen willst, braucht das zusätzliche Schalttechnik (und Bestätigung der Montage- /Wiring‑Details).\n\n- EQ / Onboard‑EQ — Onboard‑EQ: Zuta Core — geplant\n  - Funktionen: Paket ist als \"planned\" gelistet — vorgesehenes Gitarren‑Elektronikpaket, wird in der Konfiguration als enthalten gezeigt.\n  - Einschränkungen: \"planned\" bedeutet: finale Schaltungsdetails und Verdrahtung sind noch zu bestätigen; Endgültige Funktion, Komponenten und Frequenzantwort werden von RavenForge bestätigt. Wenn du aktive 2‑ oder 3‑Band‑Preamp‑Funktionen, Batterieplatz oder spezielle Regelanordnungen brauchst, klären wir das vor dem Angebot.\n\nMöchtest du, dass ich Vorschläge mache, um die Erreichbarkeit hoher Bünde zu verbessern (z. B. schlankeres Halsprofil, Heel‑Relief oder Radius‑Änderung)?"
+          },
+          {
+            "role": "user",
+            "content": "Vergleiche GRAMR in Standardausführung mit GRAMR mit Ebenholzgriffbrett. Andere Optionen bleiben Standard. Erkläre beide Preise und Unterschiede; berechne letztere Variante zuletzt. Noch nicht angenommen, bitte nicht übernehmen."
+          },
+          {
+            "role": "assistant",
+            "content": "Kurzvergleich — beide Preise stammen aus dem Konfigurator.\n\n- GRAMR Standardausführung (aktuelle Auswahl):\n  - Griffbrett: guitar_indian_rosewood (Palisander)\n  - Pickups: guitar_lundgren_m6 (Lundgren M6 Hals + Steg)\n  - Onboard‑EQ: guitar_zuta_core (Zuta Core — planned)\n  - Funktionen/Einschränkungen wie vorher beschrieben: 6‑Saiter, 25,5\" Mensur, 24 Bünde, Gotoh 510T, 16\" Radius; Lundgren M6 sind passive HH, Zuta Core ist als \"planned\" gelistet (finale Schaltung noch zu bestätigen).\n  - Preis (Konfigurator‑Zeile): Total 2.000 EUR (ohne MwSt). Dies ist ein Kostenvoranschlag basierend auf den Konfiguratorregeln; RavenForge bestätigt den finalen Preis.\n\n- GRAMR mit Ebenholzgriffbrett (von dir gewünscht):\n  - Ich habe die Option \"fretboard = ebony\" geprüft. Der Konfigurator hat die Änderung nicht angewendet: diese Option ist für GRAMR nicht verfügbar.\n  - Ergebnis der Prüfung: die Änderung wurde nicht übernommen; die konfigurierte Auswahl blieb bei rosewood (guitar_indian_rosewood).\n  - Preis nach Versuch (Konfigurator‑Zeile): Total 2.000 EUR (ohne MwSt). Kein Aufpreis wurde angewandt, weil Ebenholz nicht verfügbar war.\n\nWas heißt das praktisch:\n- Du kannst direkt im Konfigurator das Griffbrett ändern: Öffne die Kategorie \"Griffbrett\".\n- Für Ebenholz wäre es ein \"on request\" / nicht standard Fall — ich kann auf Wunsch anfragen, ob RavenForge Ebenholz als Sonderoption machen kann; das würde separate Preis‑ und Machbarkeitsprüfung erfordern.\n- Alternative sofort verfügbar: Palisander (aktuell), oder du fragst explizit nach einem Ebenholz‑Upgrade (RavenForge bestätigt Preis und Verfügbarkeit).\n\nWenn du möchtest, frage ich für dich an (dann formuliere ich die Frage an den Hersteller). Wenn du die Konfiguration sichern willst, klicke \"Spezifikation als PDF speichern\". Was möchtest du als nächsten Schritt — Sonderanfrage für Ebenholz oder eine andere Griffbrettoption?"
+          },
+          {
+            "role": "user",
+            "content": "Erstelle einen Anfrageentwurf. Trenne AKTUELL gewählte Spezifikationen von nicht angenommenen Vorschlägen. Nicht genanntes Budget und Termine bleiben offen. Nichts versenden."
+          }
+        ],
+        "configuration": {
+          "model": "GRAMR",
+          "selections": {
+            "orientation": "right_hand",
+            "strings": "guitar_6",
+            "scale": "guitar_25_5",
+            "string_spacing": "spacing_std",
+            "nut_size": "guitar_nut_43",
+            "nut_material": "guitar_bone_nut",
+            "neck": "guitar_neck_5pc",
+            "radius": "guitar_radius_16",
+            "fret_type": "guitar_fret_24",
+            "fretboard_extense": "extense_none",
+            "body_construction": "guitar_body_2pc",
+            "hardware_bridge": "guitar_gotoh_510t",
+            "hardware_machine_head": "guitar_gotoh_sg381",
+            "pickup_configuration": "guitar_hh",
+            "pickups": "guitar_lundgren_m6",
+            "electronics": "guitar_zuta_core",
+            "control_layout": "guitar_controls",
+            "coil_switch": "guitar_blade_selection",
+            "color_top": "top_oil",
+            "color_back_side": "back_oil",
+            "case": "case_standard",
+            "factory_setup": "guitar_setup_reference",
+            "neck_profile": "guitar_profile_reference",
+            "fretboard": "guitar_indian_rosewood",
+            "fret_material": "mat_nickel",
+            "fret_size": "size_xjumbo",
+            "fret_side": "side_no",
+            "inlay_type": "inlay_none",
+            "side_dot": "sdot_std",
+            "body_wood_single": "guitar_swamp_ash",
+            "top_type": "guitar_top_none",
+            "extra_finish_burst": "burst_none",
+            "extra_finish_flake": "flake_none",
+            "color_headstock": "head_match",
+            "knob": "knob_metal",
+            "hardware_color": "hw_chrome"
+          },
+          "specialOptions": [],
+          "accessories": []
+        }
+      },
+      "status": 200,
+      "body": "{\"reply\":\"Hier der angeforderte Anfrageentwurf — nichts wird gesendet.\\n\\nKundenziel / Angaben\\n- Spielstil: Metal auf einer sechssaitigen 25,5\\\"-Gitarre.\\n- Problem: Hohe Bünde sind schwer erreichbar.\\n- Budget und Termine: offen.\\n\\nAKTUELL gewählte Spezifikation (aus Konfigurator; Preiszeilen unten)\\n- Model (Seite: Model): GRAMR (Superstrat 24F · 6-string / 25.5-inch)\\n- Griffbrett (Seite: Griffbrett): guitar_indian_rosewood — Palisander\\n- Pickups (Seite: Tonabnehmer): guitar_lundgren_m6 — Lundgren M6 Hals + Steg\\n- Onboard‑EQ (Seite: Onboard‑EQ): guitar_zuta_core — Zuta Core — geplant\\n- Hals (Seite: Hals): guitar_neck_5pc — 5-teiliger laminierter Gitarrenhals\\n- Halsprofil (Seite: Halsprofil): guitar_profile_reference — GRAMR-Referenzprofil\\n- Griffbrettradius (Seite: Griffbrettradius): guitar_radius_16 — 16-Zoll-Radius\\n- Bundgröße (Seite: Bundgröße): size_xjumbo — Extra Jumbo\\n- Body (Seite: Korpusholz): guitar_swamp_ash — Swamp Ash\\n- Finish (Seite: Finish der Decke / Rückseite): Naturöl / Naturöl\\n- Setup (Seite: Setup ab Werk): guitar_setup_reference — Standard-Gitarreneinstellung\\n- Gigbag (Seite: Gigbag): case_standard — Standard-Gigbag\\n\\nPreis (Konfigurator‑Schätzung)\\n- Einzelpositionen wie oben aus dem Konfigurator.\\n- Gesamt (ohne MwSt): 2.000 EUR (Schätzung basierend auf der aktuellen Konfiguration; RavenForge bestätigt den Endpreis).\\n\\nVorschläge (noch nicht angenommen)\\n- Ebenholzgriffbrett (Ebony) — Upgrade / Verfügbarkeit auf Anfrage (wurde in der Konfiguration nicht eingestellt; Preis/Verfügbarkeit klären).\\n- Schlankeres Halsprofil oder Guitar_profile_custom — zur Verbesserung der High‑fret‑Erreichbarkeit (Profiländerung ist \\\"on request\\\").\\n- Compound Radius oder spezielles Heel‑Relief — für leichteren Zugang zu hohen Bünden (beides auf Anfrage).\\n\\nFragen an den Hersteller (bitte beantworten)\\n- Ist ein Ebenholzgriffbrett (guitar ebony) für GRAMR möglich? Bitte Verfügbarkeit, Fertigungsbedingungen und Preis nennen.\\n- Welche Optionen für ein schlankeres Halsprofil (oder individuelles Profil) sind möglich und mit welchem Aufpreis bzw. Ablauf?\\n- Können Sie Optionen für verbesserte High‑fret‑Erreichbarkeit bestätigen (z. B. spezielles Heel‑Relief oder Cutaway‑Arbeit)? Aufwand und Kosten?\\n- Zuta Core ist als \\\"planned\\\" gelistet — welche Funktionen/Wiring sind final vorgesehen und muss das bestätigt werden?\\n\\nHinweis zum Weiterreichen\\n- Das ist ein Entwurf. Wenn Sie die aktuelle Konfiguration als PDF sichern wollen: klicken Sie \\\"Spezifikation als PDF speichern\\\" auf der Seite und senden die PDF mit dieser Anfrage.\\n\\nSoll ich diese Fragen formulieren und an RavenForge zur Prüfung schicken (nur Anfrageformulierung, nichts bestellen)?\",\"quote\":{\"model\":\"GRAMR\",\"currency\":\"EUR\",\"base_price\":2000,\"lines\":[{\"category\":\"orientation\",\"title\":\"Orientation\",\"option\":\"right_hand\",\"label\":\"right-handed\",\"price\":0,\"page_title\":\"Rechts-/Linkshänder\",\"page_label\":\"Rechtshänder\"},{\"category\":\"strings\",\"title\":\"Strings\",\"option\":\"guitar_6\",\"label\":\"6 guitar strings\",\"price\":0,\"page_title\":\"Saitenzahl\",\"page_label\":\"6 Gitarrensaiten\"},{\"category\":\"factory_setup\",\"title\":\"Factory Setup\",\"option\":\"guitar_setup_reference\",\"label\":\"standard guitar setup\",\"price\":0,\"page_title\":\"Setup ab Werk\",\"page_label\":\"Standard-Gitarreneinstellung\"},{\"category\":\"scale\",\"title\":\"Scale\",\"option\":\"guitar_25_5\",\"label\":\"25.5-inch single scale\",\"price\":0,\"page_title\":\"Mensur\",\"page_label\":\"25,5 Zoll Single-Scale\"},{\"category\":\"string_spacing\",\"title\":\"String Spacing\",\"option\":\"spacing_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"Saitenabstand\",\"page_label\":\"Standard\"},{\"category\":\"nut_size\",\"title\":\"Nut Width\",\"option\":\"guitar_nut_43\",\"label\":\"43.0 mm\",\"price\":0,\"page_title\":\"Sattelbreite\",\"page_label\":\"43.0 mm\"},{\"category\":\"nut_material\",\"title\":\"Nut Material\",\"option\":\"guitar_bone_nut\",\"label\":\"buffalo bone nut\",\"price\":0,\"page_title\":\"Sattelmaterial\",\"page_label\":\"Sattel aus Büffelknochen\"},{\"category\":\"neck\",\"title\":\"Neck\",\"option\":\"guitar_neck_5pc\",\"label\":\"5-piece laminated guitar neck\",\"price\":0,\"page_title\":\"Hals\",\"page_label\":\"5-teiliger laminierter Gitarrenhals\"},{\"category\":\"neck_profile\",\"title\":\"Neck Profile\",\"option\":\"guitar_profile_reference\",\"label\":\"GRAMR reference profile\",\"price\":0,\"page_title\":\"Halsprofil\",\"page_label\":\"GRAMR-Referenzprofil\"},{\"category\":\"fretboard\",\"title\":\"Fretboard\",\"option\":\"guitar_indian_rosewood\",\"label\":\"rosewood\",\"price\":0,\"page_title\":\"Griffbrett\",\"page_label\":\"Palisander\"},{\"category\":\"radius\",\"title\":\"Radius\",\"option\":\"guitar_radius_16\",\"label\":\"16-inch radius\",\"price\":0,\"page_title\":\"Griffbrettradius\",\"page_label\":\"16-Zoll-Radius\"},{\"category\":\"fret_type\",\"title\":\"Fret Type\",\"option\":\"guitar_fret_24\",\"label\":\"24 frets; no zero fret\",\"price\":0,\"page_title\":\"Bundausführung\",\"page_label\":\"24 Bünde; kein Nullbund\"},{\"category\":\"fret_material\",\"title\":\"Fret Material\",\"option\":\"mat_nickel\",\"label\":\"18% nickel-silver\",\"price\":0,\"page_title\":\"Bundmaterial\",\"page_label\":\"18 % Neusilber\"},{\"category\":\"fret_size\",\"title\":\"Fret Size\",\"option\":\"size_xjumbo\",\"label\":\"extra jumbo\",\"price\":0,\"page_title\":\"Bundgröße\",\"page_label\":\"Extra Jumbo\"},{\"category\":\"fret_side\",\"title\":\"Fret Side\",\"option\":\"side_no\",\"label\":\"none\",\"price\":0,\"page_title\":\"Griffbrettrand\",\"page_label\":\"keine\"},{\"category\":\"inlay_type\",\"title\":\"Inlay\",\"option\":\"inlay_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"Einlagen\",\"page_label\":\"keine\"},{\"category\":\"side_dot\",\"title\":\"Side Dot\",\"option\":\"sdot_std\",\"label\":\"standard (black or white)\",\"price\":0,\"page_title\":\"Seitliche Markierungen\",\"page_label\":\"Standard (schwarz oder weiß)\"},{\"category\":\"body_construction\",\"title\":\"Body Construction\",\"option\":\"guitar_body_2pc\",\"label\":\"2-piece solid body\",\"price\":0,\"page_title\":\"Korpuskonstruktion\",\"page_label\":\"2-teiliger massiver Korpus\"},{\"category\":\"body_wood_single\",\"title\":\"Body Wood\",\"option\":\"guitar_swamp_ash\",\"label\":\"swamp ash\",\"price\":0,\"page_title\":\"Korpusholz\",\"page_label\":\"Swamp Ash\"},{\"category\":\"top_type\",\"title\":\"Top Type\",\"option\":\"guitar_top_none\",\"label\":\"no separate top\",\"price\":0,\"page_title\":\"Deckenausführung\",\"page_label\":\"keine separate Decke\"},{\"category\":\"color_top\",\"title\":\"Finish Color - Top\",\"option\":\"top_oil\",\"label\":\"natural oil\",\"price\":0,\"page_title\":\"Finish der Decke\",\"page_label\":\"Naturöl\"},{\"category\":\"color_back_side\",\"title\":\"Finish Color - Back & Side\",\"option\":\"back_oil\",\"label\":\"natural oil\",\"price\":0,\"page_title\":\"Finish von Rückseite und Seiten\",\"page_label\":\"Naturöl\"},{\"category\":\"extra_finish_burst\",\"title\":\"Burst Option\",\"option\":\"burst_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"Burst-Finish\",\"page_label\":\"keine\"},{\"category\":\"extra_finish_flake\",\"title\":\"Flake Option\",\"option\":\"flake_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"Flake-Finish\",\"page_label\":\"keine\"},{\"category\":\"color_headstock\",\"title\":\"Finish Color - Headstock\",\"option\":\"head_match\",\"label\":\"match\",\"price\":0,\"page_title\":\"Kopfplatten-Finish\",\"page_label\":\"passend\"},{\"category\":\"hardware_bridge\",\"title\":\"Hardware - Bridge\",\"option\":\"guitar_gotoh_510t\",\"label\":\"Gotoh 510T-FE1\",\"price\":0,\"page_title\":\"Brücke\",\"page_label\":\"Gotoh 510T-FE1\"},{\"category\":\"hardware_machine_head\",\"title\":\"Hardware - Machine Head\",\"option\":\"guitar_gotoh_sg381\",\"label\":\"Gotoh SG381-07-MGT\",\"price\":0,\"page_title\":\"Stimmmechaniken\",\"page_label\":\"Gotoh SG381-07-MGT\"},{\"category\":\"electronics\",\"title\":\"Onboard EQ\",\"option\":\"guitar_zuta_core\",\"label\":\"Zuta Core — planned\",\"price\":0,\"page_title\":\"Onboard-EQ\",\"page_label\":\"Zuta Core — geplant\"},{\"category\":\"pickup_configuration\",\"title\":\"Pickup Configuration\",\"option\":\"guitar_hh\",\"label\":\"HH / 2 guitar humbuckers\",\"price\":0,\"page_title\":\"Tonabnehmer-Konfiguration\",\"page_label\":\"HH / 2 Gitarren-Humbucker\"},{\"category\":\"pickups\",\"title\":\"Pickups\",\"option\":\"guitar_lundgren_m6\",\"label\":\"Lundgren M6 Neck + Bridge\",\"price\":0,\"page_title\":\"Tonabnehmer\",\"page_label\":\"Lundgren M6 Hals + Steg\"},{\"category\":\"knob\",\"title\":\"Control Knobs\",\"option\":\"knob_metal\",\"label\":\"metal dome\",\"price\":0,\"page_title\":\"Reglerknöpfe\",\"page_label\":\"Metall-Dome\"},{\"category\":\"hardware_color\",\"title\":\"Hardware Color\",\"option\":\"hw_chrome\",\"label\":\"chrome\",\"price\":0,\"page_title\":\"Hardwarefarbe\",\"page_label\":\"Chrom\"},{\"category\":\"control_layout\",\"title\":\"Control Layout\",\"option\":\"guitar_controls\",\"label\":\"1 Volume / 1 Tone / 5-way blade\",\"price\":0,\"page_title\":\"Regler & Verdrahtung\",\"page_label\":\"1 Volume / 1 Tone / 5-Wege-Schalter\"},{\"category\":\"coil_switch\",\"title\":\"Select Coil Switch\",\"option\":\"guitar_blade_selection\",\"label\":\"5-way blade selection\",\"price\":0,\"page_title\":\"Spulenumschaltung\",\"page_label\":\"5-Wege-Schalter\"},{\"category\":\"fretboard_extense\",\"title\":\"Fretboard Extension\",\"option\":\"extense_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"Griffbrettverlängerung\",\"page_label\":\"keine\"},{\"category\":\"case\",\"title\":\"Gigbag\",\"option\":\"case_standard\",\"label\":\"Standard gigbag\",\"price\":0,\"page_title\":\"Gigbag\",\"page_label\":\"Standard-Gigbag\"}],\"total\":2000,\"price_on_request\":false,\"selections\":{\"orientation\":\"right_hand\",\"strings\":\"guitar_6\",\"scale\":\"guitar_25_5\",\"string_spacing\":\"spacing_std\",\"nut_size\":\"guitar_nut_43\",\"nut_material\":\"guitar_bone_nut\",\"neck\":\"guitar_neck_5pc\",\"radius\":\"guitar_radius_16\",\"fret_type\":\"guitar_fret_24\",\"fretboard_extense\":\"extense_none\",\"body_construction\":\"guitar_body_2pc\",\"hardware_bridge\":\"guitar_gotoh_510t\",\"hardware_machine_head\":\"guitar_gotoh_sg381\",\"pickup_configuration\":\"guitar_hh\",\"pickups\":\"guitar_lundgren_m6\",\"electronics\":\"guitar_zuta_core\",\"control_layout\":\"guitar_controls\",\"coil_switch\":\"guitar_blade_selection\",\"color_top\":\"top_oil\",\"color_back_side\":\"back_oil\",\"case\":\"case_standard\",\"factory_setup\":\"guitar_setup_reference\",\"neck_profile\":\"guitar_profile_reference\",\"fretboard\":\"guitar_indian_rosewood\",\"fret_material\":\"mat_nickel\",\"fret_size\":\"size_xjumbo\",\"fret_side\":\"side_no\",\"inlay_type\":\"inlay_none\",\"side_dot\":\"sdot_std\",\"body_wood_single\":\"guitar_swamp_ash\",\"top_type\":\"guitar_top_none\",\"extra_finish_burst\":\"burst_none\",\"extra_finish_flake\":\"flake_none\",\"color_headstock\":\"head_match\",\"knob\":\"knob_metal\",\"hardware_color\":\"hw_chrome\"},\"not_applied\":[],\"extras_not_available\":[]},\"stop_reason\":\"end_turn\"}",
+      "elapsedMs": 11811,
+      "parity": true
+    }
+  ]
+}

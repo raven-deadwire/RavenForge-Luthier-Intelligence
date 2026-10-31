@@ -1,0 +1,50 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> test
+> node --test test/*.test.js
+
+✔ runs the price tool and returns the final reply (47.569937ms)
+✔ after a mid-output fallback, only tool calls after the marker are echoed and answered (4.105478ms)
+✔ a refusal returns a fixed reply in the page language (0.55194ms)
+✔ haiku requests carry no fallbacks (0.345523ms)
+✔ rejects malformed conversations (1.066438ms)
+✔ enquiry context retains bounded visitor finish and maker notes for every model (14.24928ms)
+Anthropic API error 400
+Anthropic API error 500
+✔ HTTP boundaries reject invalid requests before spending API tokens (27.066779ms)
+✔ long legitimate assistant replies remain usable for a follow-up (1.315237ms)
+✔ output budget, tool count and truncated replies stop without further API calls (1.201621ms)
+✔ cumulative output budget stops repeated tool rounds at 8192 tokens (11.24533ms)
+✔ tool loops stop after four API calls or eight cumulative tool calls (46.207091ms)
+✔ HTTP provider failures are bounded, sanitized, and never retried (38.786708ms)
+✔ category and option names match what configurator.html shows in each language (5.926123ms)
+✔ priced lines carry the page-language names (10.15746ms)
+✔ the catalog in the prompt lists the page names next to the catalog names (8.055238ms)
+✔ a rejected tool call keeps its error instead of failing on page names (1.738625ms)
+✔ OpenAI pricing round preserves reasoning, call ids, limits and server-computed prices (168.493957ms)
+✔ provider errors, malformed arguments and truncated answers never become successful replies (64.823038ms)
+✔ OpenAI mode requires its own key and the existing rate limiter (31.292576ms)
+Verified 1108 model/option transitions against the page handler and summary.
+✔ all four models: every offered option matches the actual page click and summary total (5979.730086ms)
+✔ every instrument option and accessory matches page summary, including passive gating (88.924468ms)
+✔ Fishman departure and return update both pickup and EQ with exact page pricing (20.730547ms)
+✔ bass models retain fretboard catalog and correct ebony price (9.566931ms)
+✔ active-only exclusions are reported and malformed tool inputs do not throw (1.304661ms)
+✔ fretless, nut overrides, premium gigbag and strap retain page pricing in combination (125.014089ms)
+✔ every model's standard build costs its base price (52.381149ms)
+✔ changes add their listed price for the model (11.137383ms)
+✔ options the rules reject are reported, not priced (9.505333ms)
+✔ an on-request option leaves the total incomplete (7.854392ms)
+✔ passive-only instrument options drop out under active electronics (9.714574ms)
+✔ page input is limited to known ids (0.468063ms)
+✔ catalog text names every model (8.842353ms)
+✔ the prompt names the PDF button as the page shows it in every language (8.031031ms)
+✔ runtime neck, headstock and pickguard options retain request pricing and page names (174.826029ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6750.246332

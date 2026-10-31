@@ -1,0 +1,301 @@
+{
+  "key": "ko-ASKR",
+  "source": "2546afa584d662243cd48646a9100dba387cc74d",
+  "mode": "live deployed OpenAI Worker API; browser application recorded separately",
+  "calls": [
+    {
+      "phase": "recommend",
+      "at": "2026-10-31T14:20:17.933Z",
+      "request": {
+        "language": "ko",
+        "messages": [
+          {
+            "role": "user",
+            "content": "5현 멀티스케일 베이스로 저음 B 메탈을 연주합니다. 37–34인치를 원하고 기존 34인치 저음현 장력이 아쉽습니다. ASKR가 맞는지 추천 이유와 기본 견적을 알려주세요."
+          }
+        ],
+        "configuration": {
+          "model": "ASKR",
+          "selections": {
+            "orientation": "right_hand",
+            "string_spacing": "spacing_std",
+            "nut_size": "nut_std",
+            "nut_material": "nut_brass",
+            "radius": "rad_std",
+            "fret_type": "fret_24",
+            "fretboard_extense": "extense_none",
+            "body_construction": "3pc_solid",
+            "hardware_bridge": "payson",
+            "hardware_machine_head": "gotoh_707",
+            "pickup_configuration": "pickup_2",
+            "control_layout": "control_std",
+            "case": "case_standard",
+            "strings": "5_strings",
+            "scale": "multi",
+            "neck": "5pc",
+            "pickups": "fishman",
+            "electronics": "fishman",
+            "factory_setup": "setup_std",
+            "neck_profile": "profile_modern_asym",
+            "fretboard": "wenge",
+            "fret_material": "mat_brass",
+            "fret_size": "size_xjumbo",
+            "fret_side": "side_no",
+            "inlay_type": "inlay_none",
+            "side_dot": "sdot_std",
+            "body_core_wood": "core_ash",
+            "body_wing_wood": "wing_ash",
+            "top_type": "none",
+            "color_top": "top_oil",
+            "color_back_side": "back_oil",
+            "extra_finish_burst": "burst_none",
+            "extra_finish_flake": "flake_none",
+            "color_headstock": "head_match",
+            "pickup_position": "pos_middle_bridge",
+            "knob": "knob_metal",
+            "hardware_color": "hw_chrome",
+            "finger_ramp": "ramp_none"
+          },
+          "specialOptions": [],
+          "accessories": []
+        }
+      },
+      "status": 200,
+      "body": "{\"reply\":\"요청하신 사항(5현 · 37–34인치 · 저음 B용 메탈)에 대해:\\n\\n- 추천: ASKR가 적절합니다. 이유:\\n  - 표준 스케일이 37–34인치 멀티스케일로, 저음(B) 현의 장력을 높여 낮은 튜닝에서도 타이트하고 정의된 저음을 얻기 쉽습니다.\\n  - Payson 멀티스케일 브리지와 5피스 래미네이트 넥은 멀티스케일·하이텐션 환경에서 안정성과 스트링 응답을 제공합니다.\\n  - Fishman Fluence 픽업 + Fluence 2밴드 이큿 구성은 메탈에서 필요한 고출력과 톤 쉐이핑(브라이트니스/미드 컨트롤)에 유리합니다.\\n  - 넥 프로파일(Modern asymmetrical)과 웬지 지판은 빠른 연주와 공격적 톤에 잘 어울립니다.\\n\\n기본 견적(현재 선택 사양으로 가격을 책정한 견적):\\n- 구성: ASKR, 5 strings, 37–34-inch multiscale 등 현재 선택 그대로\\n- 견적 합계(부가세 제외): €3200 (견적은 구성자의 규칙으로 계산된 추정 가격이며 RavenForge가 확인합니다)\\n- 상세 항목은 현재 구성 프리뷰에 표시된 라인과 동일합니다. 최종 확인을 원하시면 페이지에서 \\\"사양서 PDF 저장\\\" 버튼을 눌러 PDF를 첨부해 문의하시면 됩니다.\\n\\n다음으로 확인할 점 하나:\\n- B 다운튜닝을 위한 특정 현 게이지나 공장 셋업(예: setup_down 또는 custom setup)을 원하십니까? (원하시면 공장셋업 옵션을 열어 선택하실 수 있습니다.)\",\"quote\":{\"model\":\"ASKR\",\"currency\":\"EUR\",\"base_price\":3200,\"lines\":[{\"category\":\"orientation\",\"title\":\"Orientation\",\"option\":\"right_hand\",\"label\":\"right-handed\",\"price\":0,\"page_title\":\"오른손·왼손용\",\"page_label\":\"오른손용\"},{\"category\":\"strings\",\"title\":\"Strings\",\"option\":\"5_strings\",\"label\":\"5 strings\",\"price\":0,\"page_title\":\"현수\",\"page_label\":\"5현\"},{\"category\":\"factory_setup\",\"title\":\"Factory Setup\",\"option\":\"setup_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"기본 셋업\",\"page_label\":\"기본\"},{\"category\":\"scale\",\"title\":\"Scale\",\"option\":\"multi\",\"label\":\"37–34-inch multiscale\",\"price\":0,\"page_title\":\"스케일\",\"page_label\":\"37–34인치 멀티스케일\"},{\"category\":\"string_spacing\",\"title\":\"String Spacing\",\"option\":\"spacing_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"현 간격\",\"page_label\":\"기본\"},{\"category\":\"nut_size\",\"title\":\"Nut Width\",\"option\":\"nut_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"너트 폭\",\"page_label\":\"기본\"},{\"category\":\"nut_material\",\"title\":\"Nut Material\",\"option\":\"nut_brass\",\"label\":\"brass zero-fret string guide\",\"price\":0,\"page_title\":\"너트 소재\",\"page_label\":\"황동 제로 프렛 스트링 가이드\"},{\"category\":\"neck\",\"title\":\"Neck\",\"option\":\"5pc\",\"label\":\"5 piece laminated\",\"price\":0,\"page_title\":\"넥\",\"page_label\":\"5피스 라미네이트\"},{\"category\":\"neck_profile\",\"title\":\"Neck Profile\",\"option\":\"profile_modern_asym\",\"label\":\"RavenForge modern asymmetrical\",\"price\":0,\"page_title\":\"넥 그립\",\"page_label\":\"RavenForge modern asymmetrical\"},{\"category\":\"fretboard\",\"title\":\"Fretboard\",\"option\":\"wenge\",\"label\":\"wenge\",\"price\":0,\"page_title\":\"지판\",\"page_label\":\"웬지\"},{\"category\":\"radius\",\"title\":\"Radius\",\"option\":\"rad_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"지판 곡률\",\"page_label\":\"기본\"},{\"category\":\"fret_type\",\"title\":\"Fret Type\",\"option\":\"fret_24\",\"label\":\"24 frets with zero fret\",\"price\":0,\"page_title\":\"프렛 구성\",\"page_label\":\"24프렛 + 제로 프렛\"},{\"category\":\"fret_material\",\"title\":\"Fret Material\",\"option\":\"mat_brass\",\"label\":\"brass\",\"price\":0,\"page_title\":\"프렛 소재\",\"page_label\":\"황동\"},{\"category\":\"fret_size\",\"title\":\"Fret Size\",\"option\":\"size_xjumbo\",\"label\":\"extra jumbo\",\"price\":0,\"page_title\":\"프렛 크기\",\"page_label\":\"엑스트라 점보\"},{\"category\":\"fret_side\",\"title\":\"Fret Side\",\"option\":\"side_no\",\"label\":\"none\",\"price\":0,\"page_title\":\"지판 테두리\",\"page_label\":\"없음\"},{\"category\":\"inlay_type\",\"title\":\"Inlay\",\"option\":\"inlay_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"인레이\",\"page_label\":\"없음\"},{\"category\":\"side_dot\",\"title\":\"Side Dot\",\"option\":\"sdot_std\",\"label\":\"standard (black or white)\",\"price\":0,\"page_title\":\"사이드 도트\",\"page_label\":\"기본 (블랙 또는 화이트)\"},{\"category\":\"body_construction\",\"title\":\"Body Construction\",\"option\":\"3pc_solid\",\"label\":\"3 piece - 1 tone block with solid side wings\",\"price\":0,\"page_title\":\"바디 구조\",\"page_label\":\"3피스 - 톤블록 1개 + 솔리드 사이드 윙\"},{\"category\":\"body_core_wood\",\"title\":\"Core Wood\",\"option\":\"core_ash\",\"label\":\"hard ash\",\"price\":0,\"page_title\":\"바디 코어 목재\",\"page_label\":\"하드 애쉬\"},{\"category\":\"body_wing_wood\",\"title\":\"Side Wing Wood\",\"option\":\"wing_ash\",\"label\":\"ash\",\"price\":0,\"page_title\":\"바디 윙 목재\",\"page_label\":\"애쉬\"},{\"category\":\"top_type\",\"title\":\"Top Type\",\"option\":\"none\",\"label\":\"standard / matching top\",\"price\":0,\"page_title\":\"탑 구성\",\"page_label\":\"기본 / 매칭 탑\"},{\"category\":\"color_top\",\"title\":\"Finish Color - Top\",\"option\":\"top_oil\",\"label\":\"natural oil\",\"price\":0,\"page_title\":\"탑 마감\",\"page_label\":\"내추럴 오일\"},{\"category\":\"color_back_side\",\"title\":\"Finish Color - Back & Side\",\"option\":\"back_oil\",\"label\":\"natural oil\",\"price\":0,\"page_title\":\"후면·측면 마감\",\"page_label\":\"내추럴 오일\"},{\"category\":\"extra_finish_burst\",\"title\":\"Burst Option\",\"option\":\"burst_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"버스트 마감\",\"page_label\":\"없음\"},{\"category\":\"extra_finish_flake\",\"title\":\"Flake Option\",\"option\":\"flake_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"플레이크 마감\",\"page_label\":\"없음\"},{\"category\":\"color_headstock\",\"title\":\"Finish Color - Headstock\",\"option\":\"head_match\",\"label\":\"match\",\"price\":0,\"page_title\":\"헤드스톡 마감\",\"page_label\":\"매칭\"},{\"category\":\"hardware_bridge\",\"title\":\"Hardware - Bridge\",\"option\":\"payson\",\"label\":\"Payson Multi-Scale Bass Bridge\",\"price\":0,\"page_title\":\"브리지\",\"page_label\":\"Payson Multi-Scale Bass Bridge\"},{\"category\":\"hardware_machine_head\",\"title\":\"Hardware - Machine Head\",\"option\":\"gotoh_707\",\"label\":\"Gotoh GB707\",\"price\":0,\"page_title\":\"튜너\",\"page_label\":\"Gotoh GB707\"},{\"category\":\"electronics\",\"title\":\"Onboard EQ\",\"option\":\"fishman\",\"label\":\"Fishman Fluence 2 band\",\"price\":0,\"page_title\":\"온보드 EQ\",\"page_label\":\"Fishman Fluence 2밴드\"},{\"category\":\"pickup_configuration\",\"title\":\"Pickup Configuration\",\"option\":\"pickup_2\",\"label\":\"2 pickups\",\"price\":0,\"page_title\":\"픽업 구성\",\"page_label\":\"2픽업\"},{\"category\":\"pickup_position\",\"title\":\"Pickup Position\",\"option\":\"pos_middle_bridge\",\"label\":\"middle + bridge\",\"price\":0,\"page_title\":\"픽업 위치\",\"page_label\":\"미들 + 브리지\"},{\"category\":\"pickups\",\"title\":\"Pickups\",\"option\":\"fishman\",\"label\":\"Fishman Fluence\",\"price\":0,\"page_title\":\"픽업\",\"page_label\":\"Fishman Fluence\"},{\"category\":\"knob\",\"title\":\"Control Knobs\",\"option\":\"knob_metal\",\"label\":\"metal dome\",\"price\":0,\"page_title\":\"컨트롤 노브\",\"page_label\":\"메탈 돔\"},{\"category\":\"hardware_color\",\"title\":\"Hardware Color\",\"option\":\"hw_chrome\",\"label\":\"chrome\",\"price\":0,\"page_title\":\"하드웨어 색상\",\"page_label\":\"크롬\"},{\"category\":\"control_layout\",\"title\":\"Control Layout\",\"option\":\"control_std\",\"label\":\"Standard Layout\",\"price\":0,\"page_title\":\"컨트롤·배선\",\"page_label\":\"기본 레이아웃\"},{\"category\":\"fretboard_extense\",\"title\":\"Fretboard Extension\",\"option\":\"extense_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"지판 연장\",\"page_label\":\"없음\"},{\"category\":\"finger_ramp\",\"title\":\"Finger Ramp\",\"option\":\"ramp_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"핑거램프\",\"page_label\":\"없음\"},{\"category\":\"case\",\"title\":\"Gigbag\",\"option\":\"case_standard\",\"label\":\"Standard gigbag\",\"price\":0,\"page_title\":\"긱백\",\"page_label\":\"기본 긱백\"}],\"total\":3200,\"price_on_request\":false,\"selections\":{\"orientation\":\"right_hand\",\"string_spacing\":\"spacing_std\",\"nut_size\":\"nut_std\",\"nut_material\":\"nut_brass\",\"radius\":\"rad_std\",\"fret_type\":\"fret_24\",\"fretboard_extense\":\"extense_none\",\"body_construction\":\"3pc_solid\",\"hardware_bridge\":\"payson\",\"hardware_machine_head\":\"gotoh_707\",\"pickup_configuration\":\"pickup_2\",\"control_layout\":\"control_std\",\"case\":\"case_standard\",\"strings\":\"5_strings\",\"scale\":\"multi\",\"neck\":\"5pc\",\"pickups\":\"fishman\",\"electronics\":\"fishman\",\"factory_setup\":\"setup_std\",\"neck_profile\":\"profile_modern_asym\",\"fretboard\":\"wenge\",\"fret_material\":\"mat_brass\",\"fret_size\":\"size_xjumbo\",\"fret_side\":\"side_no\",\"inlay_type\":\"inlay_none\",\"side_dot\":\"sdot_std\",\"body_core_wood\":\"core_ash\",\"body_wing_wood\":\"wing_ash\",\"top_type\":\"none\",\"color_top\":\"top_oil\",\"color_back_side\":\"back_oil\",\"extra_finish_burst\":\"burst_none\",\"extra_finish_flake\":\"flake_none\",\"color_headstock\":\"head_match\",\"pickup_position\":\"pos_middle_bridge\",\"knob\":\"knob_metal\",\"hardware_color\":\"hw_chrome\",\"finger_ramp\":\"ramp_none\"},\"not_applied\":[],\"extras_not_available\":[]},\"stop_reason\":\"end_turn\"}",
+      "elapsedMs": 9620,
+      "parity": true
+    },
+    {
+      "phase": "explain",
+      "at": "2026-10-31T14:20:33.455Z",
+      "request": {
+        "language": "ko",
+        "messages": [
+          {
+            "role": "user",
+            "content": "5현 멀티스케일 베이스로 저음 B 메탈을 연주합니다. 37–34인치를 원하고 기존 34인치 저음현 장력이 아쉽습니다. ASKR가 맞는지 추천 이유와 기본 견적을 알려주세요."
+          },
+          {
+            "role": "assistant",
+            "content": "요청하신 사항(5현 · 37–34인치 · 저음 B용 메탈)에 대해:\n\n- 추천: ASKR가 적절합니다. 이유:\n  - 표준 스케일이 37–34인치 멀티스케일로, 저음(B) 현의 장력을 높여 낮은 튜닝에서도 타이트하고 정의된 저음을 얻기 쉽습니다.\n  - Payson 멀티스케일 브리지와 5피스 래미네이트 넥은 멀티스케일·하이텐션 환경에서 안정성과 스트링 응답을 제공합니다.\n  - Fishman Fluence 픽업 + Fluence 2밴드 이큿 구성은 메탈에서 필요한 고출력과 톤 쉐이핑(브라이트니스/미드 컨트롤)에 유리합니다.\n  - 넥 프로파일(Modern asymmetrical)과 웬지 지판은 빠른 연주와 공격적 톤에 잘 어울립니다.\n\n기본 견적(현재 선택 사양으로 가격을 책정한 견적):\n- 구성: ASKR, 5 strings, 37–34-inch multiscale 등 현재 선택 그대로\n- 견적 합계(부가세 제외): €3200 (견적은 구성자의 규칙으로 계산된 추정 가격이며 RavenForge가 확인합니다)\n- 상세 항목은 현재 구성 프리뷰에 표시된 라인과 동일합니다. 최종 확인을 원하시면 페이지에서 \"사양서 PDF 저장\" 버튼을 눌러 PDF를 첨부해 문의하시면 됩니다.\n\n다음으로 확인할 점 하나:\n- B 다운튜닝을 위한 특정 현 게이지나 공장 셋업(예: setup_down 또는 custom setup)을 원하십니까? (원하시면 공장셋업 옵션을 열어 선택하실 수 있습니다.)"
+          },
+          {
+            "role": "user",
+            "content": "현재 선택한 모델과 지판, 픽업, EQ 옵션의 역할과 제약을 설명해 주세요."
+          }
+        ],
+        "configuration": {
+          "model": "ASKR",
+          "selections": {
+            "orientation": "right_hand",
+            "string_spacing": "spacing_std",
+            "nut_size": "nut_std",
+            "nut_material": "nut_brass",
+            "radius": "rad_std",
+            "fret_type": "fret_24",
+            "fretboard_extense": "extense_none",
+            "body_construction": "3pc_solid",
+            "hardware_bridge": "payson",
+            "hardware_machine_head": "gotoh_707",
+            "pickup_configuration": "pickup_2",
+            "control_layout": "control_std",
+            "case": "case_standard",
+            "strings": "5_strings",
+            "scale": "multi",
+            "neck": "5pc",
+            "pickups": "fishman",
+            "electronics": "fishman",
+            "factory_setup": "setup_std",
+            "neck_profile": "profile_modern_asym",
+            "fretboard": "wenge",
+            "fret_material": "mat_brass",
+            "fret_size": "size_xjumbo",
+            "fret_side": "side_no",
+            "inlay_type": "inlay_none",
+            "side_dot": "sdot_std",
+            "body_core_wood": "core_ash",
+            "body_wing_wood": "wing_ash",
+            "top_type": "none",
+            "color_top": "top_oil",
+            "color_back_side": "back_oil",
+            "extra_finish_burst": "burst_none",
+            "extra_finish_flake": "flake_none",
+            "color_headstock": "head_match",
+            "pickup_position": "pos_middle_bridge",
+            "knob": "knob_metal",
+            "hardware_color": "hw_chrome",
+            "finger_ramp": "ramp_none"
+          },
+          "specialOptions": [],
+          "accessories": []
+        }
+      },
+      "status": 200,
+      "body": "{\"reply\":\"알겠습니다. 현재 선택(CURRENT selected configuration)을 기준으로 간단히 정리합니다.\\n\\n- 모델 — ASKR\\n  - 37–34인치 멀티스케일, 5현 기본 설계로 저음 B 튜닝에서 높은 현 장력을 얻기 쉬워요. Payson Multi-Scale Bass Bridge와 5피스 라미네이트 넥은 멀티스케일·하이텐션 상황에서 안정성과 서스테인을 지원합니다.\\n\\n- 지판 — 지판: 웬지 (Fretboard — wenge)\\n  - 성격: 단단하고 반응이 빠른 목재입니다. 어택이 명확하고 높은 출력·하이게인 톤에서 음상이 잘 유지됩니다.\\n  - 장점: 내구성 좋고 슬랩/피킹에서 정의감이 좋음.\\n  - 단점/주의: 매우 단단해 작업·수리 시 특수 공구가 필요할 수 있고, 건조 환경에서 수축·변형 관리를 주의해야 합니다.\\n  - 카테고리 열기: \\\"지판\\\"을 여셔서 다른 지판 후보(예: 에보니 등)를 비교할 수 있습니다.\\n\\n- 픽업 — 픽업: Fishman Fluence (Pickups — fishman)\\n  - 성격: Fluence는 액티브 구조의 모듈형 픽업으로 고출력·클린/하이게인 모두에서 잡음 제어와 일정한 톤을 제공합니다.\\n  - 장점: 명확한 미드·하이 응답, 다이내믹스 유지, 메탈에서의 공격적인 톤에 유리합니다. 멀티스케일·깊은 튜닝에서도 안정적인 출력과 밸런스를 냅니다.\\n  - 제약/확인사항: 설치 시 캐비티·마운팅·스크류 위치를 확인해야 합니다(페이지에서 “픽업” 항목 설명에 명시). RavenForge가 최종 장착·깊이·스크루 위치를 확인합니다.\\n\\n- 온보드 EQ — 온보드 EQ: Fishman Fluence 2밴드 (Electronics — Fishman Fluence 2 band)\\n  - 성격: Fluence 픽업 전용으로 제공되는 2밴드 온보드 옵션입니다(해당 옵션은 Fluence 픽업과 페어링되어야 함 — 현재 호환됨).\\n  - 기능: 기본적으로 저역/고역(또는 저역+중고역 성격)을 조정하는 단순하고 실용적인 톤 쉐이핑을 제공합니다. 메탈에서 필요한 저역 정의와 브라이트니스 조절에 유용합니다.\\n  - 제약/확인사항: 이 EQ는 Fluence 픽업 전용으로 구성되므로 다른 픽업과는 적용 불가(이미 Fluence로 맞춰져 있어 문제 없음). 배터리·배치·배선 등 최종 확인은 제작자가 진행합니다.\\n\\n추가로 현재 선택된 \\\"너트 소재: 황동 제로 프렛 스트링 가이드\\\"는 제로 프렛 기준으로 오픈음 접촉점을 정의합니다(개방음 성향이 조금 더 일정함). 필요하시면 다음 중 하나를 열어 선택해 보세요: \\\"지판\\\", \\\"픽업\\\", \\\"온보드 EQ\\\" — 변경 방향 알려주시면 추천을 드리겠습니다.\",\"quote\":null,\"stop_reason\":\"end_turn\"}",
+      "elapsedMs": 12138
+    },
+    {
+      "phase": "compare",
+      "at": "2026-10-31T14:20:46.819Z",
+      "request": {
+        "language": "ko",
+        "messages": [
+          {
+            "role": "user",
+            "content": "5현 멀티스케일 베이스로 저음 B 메탈을 연주합니다. 37–34인치를 원하고 기존 34인치 저음현 장력이 아쉽습니다. ASKR가 맞는지 추천 이유와 기본 견적을 알려주세요."
+          },
+          {
+            "role": "assistant",
+            "content": "요청하신 사항(5현 · 37–34인치 · 저음 B용 메탈)에 대해:\n\n- 추천: ASKR가 적절합니다. 이유:\n  - 표준 스케일이 37–34인치 멀티스케일로, 저음(B) 현의 장력을 높여 낮은 튜닝에서도 타이트하고 정의된 저음을 얻기 쉽습니다.\n  - Payson 멀티스케일 브리지와 5피스 래미네이트 넥은 멀티스케일·하이텐션 환경에서 안정성과 스트링 응답을 제공합니다.\n  - Fishman Fluence 픽업 + Fluence 2밴드 이큿 구성은 메탈에서 필요한 고출력과 톤 쉐이핑(브라이트니스/미드 컨트롤)에 유리합니다.\n  - 넥 프로파일(Modern asymmetrical)과 웬지 지판은 빠른 연주와 공격적 톤에 잘 어울립니다.\n\n기본 견적(현재 선택 사양으로 가격을 책정한 견적):\n- 구성: ASKR, 5 strings, 37–34-inch multiscale 등 현재 선택 그대로\n- 견적 합계(부가세 제외): €3200 (견적은 구성자의 규칙으로 계산된 추정 가격이며 RavenForge가 확인합니다)\n- 상세 항목은 현재 구성 프리뷰에 표시된 라인과 동일합니다. 최종 확인을 원하시면 페이지에서 \"사양서 PDF 저장\" 버튼을 눌러 PDF를 첨부해 문의하시면 됩니다.\n\n다음으로 확인할 점 하나:\n- B 다운튜닝을 위한 특정 현 게이지나 공장 셋업(예: setup_down 또는 custom setup)을 원하십니까? (원하시면 공장셋업 옵션을 열어 선택하실 수 있습니다.)"
+          },
+          {
+            "role": "user",
+            "content": "현재 선택한 모델과 지판, 픽업, EQ 옵션의 역할과 제약을 설명해 주세요."
+          },
+          {
+            "role": "assistant",
+            "content": "알겠습니다. 현재 선택(CURRENT selected configuration)을 기준으로 간단히 정리합니다.\n\n- 모델 — ASKR\n  - 37–34인치 멀티스케일, 5현 기본 설계로 저음 B 튜닝에서 높은 현 장력을 얻기 쉬워요. Payson Multi-Scale Bass Bridge와 5피스 라미네이트 넥은 멀티스케일·하이텐션 상황에서 안정성과 서스테인을 지원합니다.\n\n- 지판 — 지판: 웬지 (Fretboard — wenge)\n  - 성격: 단단하고 반응이 빠른 목재입니다. 어택이 명확하고 높은 출력·하이게인 톤에서 음상이 잘 유지됩니다.\n  - 장점: 내구성 좋고 슬랩/피킹에서 정의감이 좋음.\n  - 단점/주의: 매우 단단해 작업·수리 시 특수 공구가 필요할 수 있고, 건조 환경에서 수축·변형 관리를 주의해야 합니다.\n  - 카테고리 열기: \"지판\"을 여셔서 다른 지판 후보(예: 에보니 등)를 비교할 수 있습니다.\n\n- 픽업 — 픽업: Fishman Fluence (Pickups — fishman)\n  - 성격: Fluence는 액티브 구조의 모듈형 픽업으로 고출력·클린/하이게인 모두에서 잡음 제어와 일정한 톤을 제공합니다.\n  - 장점: 명확한 미드·하이 응답, 다이내믹스 유지, 메탈에서의 공격적인 톤에 유리합니다. 멀티스케일·깊은 튜닝에서도 안정적인 출력과 밸런스를 냅니다.\n  - 제약/확인사항: 설치 시 캐비티·마운팅·스크류 위치를 확인해야 합니다(페이지에서 “픽업” 항목 설명에 명시). RavenForge가 최종 장착·깊이·스크루 위치를 확인합니다.\n\n- 온보드 EQ — 온보드 EQ: Fishman Fluence 2밴드 (Electronics — Fishman Fluence 2 band)\n  - 성격: Fluence 픽업 전용으로 제공되는 2밴드 온보드 옵션입니다(해당 옵션은 Fluence 픽업과 페어링되어야 함 — 현재 호환됨).\n  - 기능: 기본적으로 저역/고역(또는 저역+중고역 성격)을 조정하는 단순하고 실용적인 톤 쉐이핑을 제공합니다. 메탈에서 필요한 저역 정의와 브라이트니스 조절에 유용합니다.\n  - 제약/확인사항: 이 EQ는 Fluence 픽업 전용으로 구성되므로 다른 픽업과는 적용 불가(이미 Fluence로 맞춰져 있어 문제 없음). 배터리·배치·배선 등 최종 확인은 제작자가 진행합니다.\n\n추가로 현재 선택된 \"너트 소재: 황동 제로 프렛 스트링 가이드\"는 제로 프렛 기준으로 오픈음 접촉점을 정의합니다(개방음 성향이 조금 더 일정함). 필요하시면 다음 중 하나를 열어 선택해 보세요: \"지판\", \"픽업\", \"온보드 EQ\" — 변경 방향 알려주시면 추천을 드리겠습니다."
+          },
+          {
+            "role": "user",
+            "content": "ASKR 기본 구성과 에보니 지판 + EMG 40TWX 픽업 + Darkglass Tone Capsule 구성을 비교해주세요. 다른 옵션은 기본값입니다. 두 가격과 차이를 설명하고 후자의 견적을 마지막으로 보여주세요. 아직 수락하지 않았으니 적용하지 마세요."
+          }
+        ],
+        "configuration": {
+          "model": "ASKR",
+          "selections": {
+            "orientation": "right_hand",
+            "string_spacing": "spacing_std",
+            "nut_size": "nut_std",
+            "nut_material": "nut_brass",
+            "radius": "rad_std",
+            "fret_type": "fret_24",
+            "fretboard_extense": "extense_none",
+            "body_construction": "3pc_solid",
+            "hardware_bridge": "payson",
+            "hardware_machine_head": "gotoh_707",
+            "pickup_configuration": "pickup_2",
+            "control_layout": "control_std",
+            "case": "case_standard",
+            "strings": "5_strings",
+            "scale": "multi",
+            "neck": "5pc",
+            "pickups": "fishman",
+            "electronics": "fishman",
+            "factory_setup": "setup_std",
+            "neck_profile": "profile_modern_asym",
+            "fretboard": "wenge",
+            "fret_material": "mat_brass",
+            "fret_size": "size_xjumbo",
+            "fret_side": "side_no",
+            "inlay_type": "inlay_none",
+            "side_dot": "sdot_std",
+            "body_core_wood": "core_ash",
+            "body_wing_wood": "wing_ash",
+            "top_type": "none",
+            "color_top": "top_oil",
+            "color_back_side": "back_oil",
+            "extra_finish_burst": "burst_none",
+            "extra_finish_flake": "flake_none",
+            "color_headstock": "head_match",
+            "pickup_position": "pos_middle_bridge",
+            "knob": "knob_metal",
+            "hardware_color": "hw_chrome",
+            "finger_ramp": "ramp_none"
+          },
+          "specialOptions": [],
+          "accessories": []
+        }
+      },
+      "status": 200,
+      "body": "{\"reply\":\"요약 비교(다른 옵션은 기본값 유지). 가격은 구성기 규칙에 따른 견적입니다.\\n\\n- ASKR 기본 구성 (현재 선택)\\n  - 주요 역할/특징: 37–34인치 멀티스케일, 5현, Payson 브리지, Fishman Fluence 픽업+Fluence 2밴드 EQ — 저음 B에서 높은 현 장력과 안정적 응답을 목표로 한 기본 패키지입니다.\\n  - 가격(구성기 표시): €3200 (부가세 제외). 이 금액은 구성기의 현재 상태에 따른 추정 총액입니다.\\n\\n- 제안 구성: 에보니 지판 + EMG 40TWX 픽업 + Darkglass Tone Capsule 3밴드 (다른 옵션은 기본)\\n  - 에보니 지판(지판 — ebony): 단단하고 반응이 빠름. 어택과 하이게인 환경에서 음상이 또렷해지는 경향이 있습니다. (카테고리 열기: \\\"지판\\\")\\n  - 픽업 (픽업 — EMG 40TWX): 액티브 EMG 픽업으로 높은 출력과 일정한 톤, 하이게인 대응력이 강점입니다. 캐비티, 마운팅·배선 확인 필요.\\n  - 온보드 EQ (온보드 EQ — Darkglass Tone Capsule 3밴드): Darkglass의 3밴드 톤 쉐이핑은 메탈에서 공격적 톤·컨트롤을 세밀하게 조정하는 데 유리합니다.\\n  - 제약/확인: EMG와 Darkglass는 각각 ASKR에서 허용되는 옵션입니다. 장착·캐비티·배선 세부는 RavenForge가 최종 확인합니다.\\n\\n- 가격 (구성기 계산): €3660 (부가세 제외).\\n  - 세부 증감: 기본 €3200 → 제안 구성 €3660 (+€460). (에보니 +€50, EMG +€245, Darkglass +€165 — 구성기가 적용한 항목별 금액은 위 견적에 반영되어 있습니다.)\\n\\n참고:\\n- 아직 변경을 적용하지 않았습니다(구성은 미적용 상태). 최종 확인을 원하시면 페이지에서 \\\"사양서 PDF 저장\\\"을 눌러 현재 또는 원하는 사양 PDF를 첨부해 문의하세요.\\n- 이 금액들은 구성기의 규칙에 따른 추정치이며 RavenForge가 최종 확인합니다. 다음으로 어떤 항목(예: 픽업 조합, 넥 프로파일 변경, 공장 셋업)을 더 비교해 보시겠습니까?\",\"quote\":{\"model\":\"ASKR\",\"currency\":\"EUR\",\"base_price\":3200,\"lines\":[{\"category\":\"orientation\",\"title\":\"Orientation\",\"option\":\"right_hand\",\"label\":\"right-handed\",\"price\":0,\"page_title\":\"오른손·왼손용\",\"page_label\":\"오른손용\"},{\"category\":\"strings\",\"title\":\"Strings\",\"option\":\"5_strings\",\"label\":\"5 strings\",\"price\":0,\"page_title\":\"현수\",\"page_label\":\"5현\"},{\"category\":\"factory_setup\",\"title\":\"Factory Setup\",\"option\":\"setup_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"기본 셋업\",\"page_label\":\"기본\"},{\"category\":\"scale\",\"title\":\"Scale\",\"option\":\"multi\",\"label\":\"37–34-inch multiscale\",\"price\":0,\"page_title\":\"스케일\",\"page_label\":\"37–34인치 멀티스케일\"},{\"category\":\"string_spacing\",\"title\":\"String Spacing\",\"option\":\"spacing_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"현 간격\",\"page_label\":\"기본\"},{\"category\":\"nut_size\",\"title\":\"Nut Width\",\"option\":\"nut_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"너트 폭\",\"page_label\":\"기본\"},{\"category\":\"nut_material\",\"title\":\"Nut Material\",\"option\":\"nut_brass\",\"label\":\"brass zero-fret string guide\",\"price\":0,\"page_title\":\"너트 소재\",\"page_label\":\"황동 제로 프렛 스트링 가이드\"},{\"category\":\"neck\",\"title\":\"Neck\",\"option\":\"5pc\",\"label\":\"5 piece laminated\",\"price\":0,\"page_title\":\"넥\",\"page_label\":\"5피스 라미네이트\"},{\"category\":\"neck_profile\",\"title\":\"Neck Profile\",\"option\":\"profile_modern_asym\",\"label\":\"RavenForge modern asymmetrical\",\"price\":0,\"page_title\":\"넥 그립\",\"page_label\":\"RavenForge modern asymmetrical\"},{\"category\":\"fretboard\",\"title\":\"Fretboard\",\"option\":\"ebony\",\"label\":\"ebony\",\"price\":50,\"page_title\":\"지판\",\"page_label\":\"에보니\"},{\"category\":\"radius\",\"title\":\"Radius\",\"option\":\"rad_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"지판 곡률\",\"page_label\":\"기본\"},{\"category\":\"fret_type\",\"title\":\"Fret Type\",\"option\":\"fret_24\",\"label\":\"24 frets with zero fret\",\"price\":0,\"page_title\":\"프렛 구성\",\"page_label\":\"24프렛 + 제로 프렛\"},{\"category\":\"fret_material\",\"title\":\"Fret Material\",\"option\":\"mat_brass\",\"label\":\"brass\",\"price\":0,\"page_title\":\"프렛 소재\",\"page_label\":\"황동\"},{\"category\":\"fret_size\",\"title\":\"Fret Size\",\"option\":\"size_xjumbo\",\"label\":\"extra jumbo\",\"price\":0,\"page_title\":\"프렛 크기\",\"page_label\":\"엑스트라 점보\"},{\"category\":\"fret_side\",\"title\":\"Fret Side\",\"option\":\"side_no\",\"label\":\"none\",\"price\":0,\"page_title\":\"지판 테두리\",\"page_label\":\"없음\"},{\"category\":\"inlay_type\",\"title\":\"Inlay\",\"option\":\"inlay_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"인레이\",\"page_label\":\"없음\"},{\"category\":\"side_dot\",\"title\":\"Side Dot\",\"option\":\"sdot_std\",\"label\":\"standard (black or white)\",\"price\":0,\"page_title\":\"사이드 도트\",\"page_label\":\"기본 (블랙 또는 화이트)\"},{\"category\":\"body_construction\",\"title\":\"Body Construction\",\"option\":\"3pc_solid\",\"label\":\"3 piece - 1 tone block with solid side wings\",\"price\":0,\"page_title\":\"바디 구조\",\"page_label\":\"3피스 - 톤블록 1개 + 솔리드 사이드 윙\"},{\"category\":\"body_core_wood\",\"title\":\"Core Wood\",\"option\":\"core_ash\",\"label\":\"hard ash\",\"price\":0,\"page_title\":\"바디 코어 목재\",\"page_label\":\"하드 애쉬\"},{\"category\":\"body_wing_wood\",\"title\":\"Side Wing Wood\",\"option\":\"wing_ash\",\"label\":\"ash\",\"price\":0,\"page_title\":\"바디 윙 목재\",\"page_label\":\"애쉬\"},{\"category\":\"top_type\",\"title\":\"Top Type\",\"option\":\"none\",\"label\":\"standard / matching top\",\"price\":0,\"page_title\":\"탑 구성\",\"page_label\":\"기본 / 매칭 탑\"},{\"category\":\"color_top\",\"title\":\"Finish Color - Top\",\"option\":\"top_oil\",\"label\":\"natural oil\",\"price\":0,\"page_title\":\"탑 마감\",\"page_label\":\"내추럴 오일\"},{\"category\":\"color_back_side\",\"title\":\"Finish Color - Back & Side\",\"option\":\"back_oil\",\"label\":\"natural oil\",\"price\":0,\"page_title\":\"후면·측면 마감\",\"page_label\":\"내추럴 오일\"},{\"category\":\"extra_finish_burst\",\"title\":\"Burst Option\",\"option\":\"burst_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"버스트 마감\",\"page_label\":\"없음\"},{\"category\":\"extra_finish_flake\",\"title\":\"Flake Option\",\"option\":\"flake_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"플레이크 마감\",\"page_label\":\"없음\"},{\"category\":\"color_headstock\",\"title\":\"Finish Color - Headstock\",\"option\":\"head_match\",\"label\":\"match\",\"price\":0,\"page_title\":\"헤드스톡 마감\",\"page_label\":\"매칭\"},{\"category\":\"hardware_bridge\",\"title\":\"Hardware - Bridge\",\"option\":\"payson\",\"label\":\"Payson Multi-Scale Bass Bridge\",\"price\":0,\"page_title\":\"브리지\",\"page_label\":\"Payson Multi-Scale Bass Bridge\"},{\"category\":\"hardware_machine_head\",\"title\":\"Hardware - Machine Head\",\"option\":\"gotoh_707\",\"label\":\"Gotoh GB707\",\"price\":0,\"page_title\":\"튜너\",\"page_label\":\"Gotoh GB707\"},{\"category\":\"electronics\",\"title\":\"Onboard EQ\",\"option\":\"darkglass\",\"label\":\"Darkglass Tone Capsule 3 band\",\"price\":165,\"page_title\":\"온보드 EQ\",\"page_label\":\"Darkglass Tone Capsule 3밴드\"},{\"category\":\"pickup_configuration\",\"title\":\"Pickup Configuration\",\"option\":\"pickup_2\",\"label\":\"2 pickups\",\"price\":0,\"page_title\":\"픽업 구성\",\"page_label\":\"2픽업\"},{\"category\":\"pickup_position\",\"title\":\"Pickup Position\",\"option\":\"pos_middle_bridge\",\"label\":\"middle + bridge\",\"price\":0,\"page_title\":\"픽업 위치\",\"page_label\":\"미들 + 브리지\"},{\"category\":\"pickups\",\"title\":\"Pickups\",\"option\":\"emg\",\"label\":\"EMG 40TWX\",\"price\":245,\"page_title\":\"픽업\",\"page_label\":\"EMG 40TWX\"},{\"category\":\"knob\",\"title\":\"Control Knobs\",\"option\":\"knob_metal\",\"label\":\"metal dome\",\"price\":0,\"page_title\":\"컨트롤 노브\",\"page_label\":\"메탈 돔\"},{\"category\":\"hardware_color\",\"title\":\"Hardware Color\",\"option\":\"hw_chrome\",\"label\":\"chrome\",\"price\":0,\"page_title\":\"하드웨어 색상\",\"page_label\":\"크롬\"},{\"category\":\"control_layout\",\"title\":\"Control Layout\",\"option\":\"control_std\",\"label\":\"Standard Layout\",\"price\":0,\"page_title\":\"컨트롤·배선\",\"page_label\":\"기본 레이아웃\"},{\"category\":\"fretboard_extense\",\"title\":\"Fretboard Extension\",\"option\":\"extense_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"지판 연장\",\"page_label\":\"없음\"},{\"category\":\"finger_ramp\",\"title\":\"Finger Ramp\",\"option\":\"ramp_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"핑거램프\",\"page_label\":\"없음\"},{\"category\":\"case\",\"title\":\"Gigbag\",\"option\":\"case_standard\",\"label\":\"Standard gigbag\",\"price\":0,\"page_title\":\"긱백\",\"page_label\":\"기본 긱백\"}],\"total\":3660,\"price_on_request\":false,\"selections\":{\"orientation\":\"right_hand\",\"string_spacing\":\"spacing_std\",\"nut_size\":\"nut_std\",\"nut_material\":\"nut_brass\",\"radius\":\"rad_std\",\"fret_type\":\"fret_24\",\"fretboard_extense\":\"extense_none\",\"body_construction\":\"3pc_solid\",\"hardware_bridge\":\"payson\",\"hardware_machine_head\":\"gotoh_707\",\"pickup_configuration\":\"pickup_2\",\"control_layout\":\"control_std\",\"case\":\"case_standard\",\"strings\":\"5_strings\",\"scale\":\"multi\",\"neck\":\"5pc\",\"pickups\":\"emg\",\"electronics\":\"darkglass\",\"factory_setup\":\"setup_std\",\"neck_profile\":\"profile_modern_asym\",\"fretboard\":\"ebony\",\"fret_material\":\"mat_brass\",\"fret_size\":\"size_xjumbo\",\"fret_side\":\"side_no\",\"inlay_type\":\"inlay_none\",\"side_dot\":\"sdot_std\",\"body_core_wood\":\"core_ash\",\"body_wing_wood\":\"wing_ash\",\"top_type\":\"none\",\"color_top\":\"top_oil\",\"color_back_side\":\"back_oil\",\"extra_finish_burst\":\"burst_none\",\"extra_finish_flake\":\"flake_none\",\"color_headstock\":\"head_match\",\"pickup_position\":\"pos_middle_bridge\",\"knob\":\"knob_metal\",\"hardware_color\":\"hw_chrome\",\"finger_ramp\":\"ramp_none\"},\"not_applied\":[],\"extras_not_available\":[]},\"stop_reason\":\"end_turn\"}",
+      "elapsedMs": 12502,
+      "parity": true
+    },
+    {
+      "phase": "draft",
+      "at": "2026-10-31T14:20:57.542Z",
+      "request": {
+        "language": "ko",
+        "messages": [
+          {
+            "role": "user",
+            "content": "5현 멀티스케일 베이스로 저음 B 메탈을 연주합니다. 37–34인치를 원하고 기존 34인치 저음현 장력이 아쉽습니다. ASKR가 맞는지 추천 이유와 기본 견적을 알려주세요."
+          },
+          {
+            "role": "assistant",
+            "content": "요청하신 사항(5현 · 37–34인치 · 저음 B용 메탈)에 대해:\n\n- 추천: ASKR가 적절합니다. 이유:\n  - 표준 스케일이 37–34인치 멀티스케일로, 저음(B) 현의 장력을 높여 낮은 튜닝에서도 타이트하고 정의된 저음을 얻기 쉽습니다.\n  - Payson 멀티스케일 브리지와 5피스 래미네이트 넥은 멀티스케일·하이텐션 환경에서 안정성과 스트링 응답을 제공합니다.\n  - Fishman Fluence 픽업 + Fluence 2밴드 이큿 구성은 메탈에서 필요한 고출력과 톤 쉐이핑(브라이트니스/미드 컨트롤)에 유리합니다.\n  - 넥 프로파일(Modern asymmetrical)과 웬지 지판은 빠른 연주와 공격적 톤에 잘 어울립니다.\n\n기본 견적(현재 선택 사양으로 가격을 책정한 견적):\n- 구성: ASKR, 5 strings, 37–34-inch multiscale 등 현재 선택 그대로\n- 견적 합계(부가세 제외): €3200 (견적은 구성자의 규칙으로 계산된 추정 가격이며 RavenForge가 확인합니다)\n- 상세 항목은 현재 구성 프리뷰에 표시된 라인과 동일합니다. 최종 확인을 원하시면 페이지에서 \"사양서 PDF 저장\" 버튼을 눌러 PDF를 첨부해 문의하시면 됩니다.\n\n다음으로 확인할 점 하나:\n- B 다운튜닝을 위한 특정 현 게이지나 공장 셋업(예: setup_down 또는 custom setup)을 원하십니까? (원하시면 공장셋업 옵션을 열어 선택하실 수 있습니다.)"
+          },
+          {
+            "role": "user",
+            "content": "현재 선택한 모델과 지판, 픽업, EQ 옵션의 역할과 제약을 설명해 주세요."
+          },
+          {
+            "role": "assistant",
+            "content": "알겠습니다. 현재 선택(CURRENT selected configuration)을 기준으로 간단히 정리합니다.\n\n- 모델 — ASKR\n  - 37–34인치 멀티스케일, 5현 기본 설계로 저음 B 튜닝에서 높은 현 장력을 얻기 쉬워요. Payson Multi-Scale Bass Bridge와 5피스 라미네이트 넥은 멀티스케일·하이텐션 상황에서 안정성과 서스테인을 지원합니다.\n\n- 지판 — 지판: 웬지 (Fretboard — wenge)\n  - 성격: 단단하고 반응이 빠른 목재입니다. 어택이 명확하고 높은 출력·하이게인 톤에서 음상이 잘 유지됩니다.\n  - 장점: 내구성 좋고 슬랩/피킹에서 정의감이 좋음.\n  - 단점/주의: 매우 단단해 작업·수리 시 특수 공구가 필요할 수 있고, 건조 환경에서 수축·변형 관리를 주의해야 합니다.\n  - 카테고리 열기: \"지판\"을 여셔서 다른 지판 후보(예: 에보니 등)를 비교할 수 있습니다.\n\n- 픽업 — 픽업: Fishman Fluence (Pickups — fishman)\n  - 성격: Fluence는 액티브 구조의 모듈형 픽업으로 고출력·클린/하이게인 모두에서 잡음 제어와 일정한 톤을 제공합니다.\n  - 장점: 명확한 미드·하이 응답, 다이내믹스 유지, 메탈에서의 공격적인 톤에 유리합니다. 멀티스케일·깊은 튜닝에서도 안정적인 출력과 밸런스를 냅니다.\n  - 제약/확인사항: 설치 시 캐비티·마운팅·스크류 위치를 확인해야 합니다(페이지에서 “픽업” 항목 설명에 명시). RavenForge가 최종 장착·깊이·스크루 위치를 확인합니다.\n\n- 온보드 EQ — 온보드 EQ: Fishman Fluence 2밴드 (Electronics — Fishman Fluence 2 band)\n  - 성격: Fluence 픽업 전용으로 제공되는 2밴드 온보드 옵션입니다(해당 옵션은 Fluence 픽업과 페어링되어야 함 — 현재 호환됨).\n  - 기능: 기본적으로 저역/고역(또는 저역+중고역 성격)을 조정하는 단순하고 실용적인 톤 쉐이핑을 제공합니다. 메탈에서 필요한 저역 정의와 브라이트니스 조절에 유용합니다.\n  - 제약/확인사항: 이 EQ는 Fluence 픽업 전용으로 구성되므로 다른 픽업과는 적용 불가(이미 Fluence로 맞춰져 있어 문제 없음). 배터리·배치·배선 등 최종 확인은 제작자가 진행합니다.\n\n추가로 현재 선택된 \"너트 소재: 황동 제로 프렛 스트링 가이드\"는 제로 프렛 기준으로 오픈음 접촉점을 정의합니다(개방음 성향이 조금 더 일정함). 필요하시면 다음 중 하나를 열어 선택해 보세요: \"지판\", \"픽업\", \"온보드 EQ\" — 변경 방향 알려주시면 추천을 드리겠습니다."
+          },
+          {
+            "role": "user",
+            "content": "ASKR 기본 구성과 에보니 지판 + EMG 40TWX 픽업 + Darkglass Tone Capsule 구성을 비교해주세요. 다른 옵션은 기본값입니다. 두 가격과 차이를 설명하고 후자의 견적을 마지막으로 보여주세요. 아직 수락하지 않았으니 적용하지 마세요."
+          },
+          {
+            "role": "assistant",
+            "content": "요약 비교(다른 옵션은 기본값 유지). 가격은 구성기 규칙에 따른 견적입니다.\n\n- ASKR 기본 구성 (현재 선택)\n  - 주요 역할/특징: 37–34인치 멀티스케일, 5현, Payson 브리지, Fishman Fluence 픽업+Fluence 2밴드 EQ — 저음 B에서 높은 현 장력과 안정적 응답을 목표로 한 기본 패키지입니다.\n  - 가격(구성기 표시): €3200 (부가세 제외). 이 금액은 구성기의 현재 상태에 따른 추정 총액입니다.\n\n- 제안 구성: 에보니 지판 + EMG 40TWX 픽업 + Darkglass Tone Capsule 3밴드 (다른 옵션은 기본)\n  - 에보니 지판(지판 — ebony): 단단하고 반응이 빠름. 어택과 하이게인 환경에서 음상이 또렷해지는 경향이 있습니다. (카테고리 열기: \"지판\")\n  - 픽업 (픽업 — EMG 40TWX): 액티브 EMG 픽업으로 높은 출력과 일정한 톤, 하이게인 대응력이 강점입니다. 캐비티, 마운팅·배선 확인 필요.\n  - 온보드 EQ (온보드 EQ — Darkglass Tone Capsule 3밴드): Darkglass의 3밴드 톤 쉐이핑은 메탈에서 공격적 톤·컨트롤을 세밀하게 조정하는 데 유리합니다.\n  - 제약/확인: EMG와 Darkglass는 각각 ASKR에서 허용되는 옵션입니다. 장착·캐비티·배선 세부는 RavenForge가 최종 확인합니다.\n\n- 가격 (구성기 계산): €3660 (부가세 제외).\n  - 세부 증감: 기본 €3200 → 제안 구성 €3660 (+€460). (에보니 +€50, EMG +€245, Darkglass +€165 — 구성기가 적용한 항목별 금액은 위 견적에 반영되어 있습니다.)\n\n참고:\n- 아직 변경을 적용하지 않았습니다(구성은 미적용 상태). 최종 확인을 원하시면 페이지에서 \"사양서 PDF 저장\"을 눌러 현재 또는 원하는 사양 PDF를 첨부해 문의하세요.\n- 이 금액들은 구성기의 규칙에 따른 추정치이며 RavenForge가 최종 확인합니다. 다음으로 어떤 항목(예: 픽업 조합, 넥 프로파일 변경, 공장 셋업)을 더 비교해 보시겠습니까?"
+          },
+          {
+            "role": "user",
+            "content": "제작 문의서 초안을 작성해 주세요. 현재 선택한 사양과 아직 수락하지 않은 제안을 구분하고, 말하지 않은 예산과 일정은 미정으로 두세요. 전송하지 마세요."
+          }
+        ],
+        "configuration": {
+          "model": "ASKR",
+          "selections": {
+            "orientation": "right_hand",
+            "string_spacing": "spacing_std",
+            "nut_size": "nut_std",
+            "nut_material": "nut_brass",
+            "radius": "rad_std",
+            "fret_type": "fret_24",
+            "fretboard_extense": "extense_none",
+            "body_construction": "3pc_solid",
+            "hardware_bridge": "payson",
+            "hardware_machine_head": "gotoh_707",
+            "pickup_configuration": "pickup_2",
+            "control_layout": "control_std",
+            "case": "case_standard",
+            "strings": "5_strings",
+            "scale": "multi",
+            "neck": "5pc",
+            "pickups": "emg",
+            "electronics": "darkglass",
+            "factory_setup": "setup_std",
+            "neck_profile": "profile_modern_asym",
+            "fretboard": "ebony",
+            "fret_material": "mat_brass",
+            "fret_size": "size_xjumbo",
+            "fret_side": "side_no",
+            "inlay_type": "inlay_none",
+            "side_dot": "sdot_std",
+            "body_core_wood": "core_ash",
+            "body_wing_wood": "wing_ash",
+            "top_type": "none",
+            "color_top": "top_oil",
+            "color_back_side": "back_oil",
+            "extra_finish_burst": "burst_none",
+            "extra_finish_flake": "flake_none",
+            "color_headstock": "head_match",
+            "pickup_position": "pos_middle_bridge",
+            "knob": "knob_metal",
+            "hardware_color": "hw_chrome",
+            "finger_ramp": "ramp_none"
+          },
+          "specialOptions": [],
+          "accessories": []
+        }
+      },
+      "status": 200,
+      "body": "{\"reply\":\"요청하신 제작 문의서 초안(전송하지 않음). 예산·일정: 미정.\\n\\n- 고객 요청(고객이 밝힘)\\n  - 목적/플레이: 5현 멀티스케일 베이스로 저음 B 튜닝(메탈 연주)\\n  - 스케일: 37–34인치 멀티스케일을 원함\\n  - 주요 요구: 저음 B에서 충분한 현 장력과 타이트한 저음, 메탈 장르에 적합한 공격적 톤과 내구성\\n\\n- CURRENT 선택 사양(현재 구성 — 페이지의 CURRENT 상태 기준)\\n  - 모델: ASKR\\n  - 현수: 5현\\n  - 스케일(스케일): 37–34인치 멀티스케일\\n  - 넥(넥): 5피스 라미네이트\\n  - 넥 그립(넥 그립): RavenForge modern asymmetrical\\n  - 지판(지판): ebony (에보니) — +€50\\n  - 프렛 구성(프렛 구성): 24프렛 + 제로 프렛\\n  - 브리지(브리지): Payson Multi-Scale Bass Bridge\\n  - 픽업(픽업): EMG 40TWX — +€245\\n  - 온보드 EQ(온보드 EQ): Darkglass Tone Capsule 3밴드 — +€165\\n  - 기타 주요 항목: 하드 애쉬 코어/애쉬 윙, 메탈 돔 노브, 크롬 하드웨어, 기본 긱백\\n  - 현재 합계: €3660 (부가세 제외, 구성기의 추정 총액)\\n\\n- 아직 수락하지 않은 제안(고객이 고려 중인 대안)\\n  - Fishman Fluence 픽업 + Fluence 2밴드 EQ 조합(기본 제안): 멀티스케일에서의 밸런스와 플루언스의 다목적성 장점\\n  - 공장 셋업 옵션: B 튜닝용 setup_down 또는 맞춤 setup (현 게이지와 액션 조정) — 추가 비용/온리스트 확인 필요\\n\\n- 제작자에게 묻고 싶은 질문(문의로 포함 요청)\\n  - EMG 40TWX 장착을 위한 캐비티·마운팅 세부와 Darkglass 모듈 케이스/배터리 위치 확인 가능 여부\\n  - B 튜닝(저음 B)에 권장되는 스트링 게이지와 공장 셋업(setup_down 또는 custom setup) 제안\\n  - 목재 안정성(에보니 지판 + 5피스 넥)과 멀티스케일 환경에서의 넥 안정화 조치\\n  - 최종 견적, 납기 예측(프로토타입 설계이므로 확정 필요)\\n\\n참고: 이 초안은 전송되지 않았습니다. RavenForge에 문의하실 준비가 되면 페이지에서 \\\"사양서 PDF 저장\\\" 버튼을 눌러 현재 사양 PDF를 저장해 첨부해 문의하세요. 수정할 점이나 추가 요청 있으시면 알려주세요.\",\"quote\":null,\"stop_reason\":\"end_turn\"}",
+      "elapsedMs": 10225
+    }
+  ]
+}

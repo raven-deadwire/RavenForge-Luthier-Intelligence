@@ -1,0 +1,93 @@
+AssertionError [ERR_ASSERTION]: ko/EDDA: finishColor missing from enquiry request
+ko/EDDA: specialInstructions missing from enquiry request
+ko/EDDA: successful retry did not create an editable enquiry
+ko/EMBLA: finishColor missing from enquiry request
+ko/EMBLA: specialInstructions missing from enquiry request
+ko/EMBLA: successful retry did not create an editable enquiry
+ko/ASKR: finishColor missing from enquiry request
+ko/ASKR: specialInstructions missing from enquiry request
+ko/ASKR: successful retry did not create an editable enquiry
+ko/GRAMR: finishColor missing from enquiry request
+ko/GRAMR: specialInstructions missing from enquiry request
+ko/GRAMR: successful retry did not create an editable enquiry
+en/EDDA: finishColor missing from enquiry request
+en/EDDA: specialInstructions missing from enquiry request
+en/EDDA: successful retry did not create an editable enquiry
+en/EMBLA: finishColor missing from enquiry request
+en/EMBLA: specialInstructions missing from enquiry request
+en/EMBLA: successful retry did not create an editable enquiry
+en/ASKR: finishColor missing from enquiry request
+en/ASKR: specialInstructions missing from enquiry request
+en/ASKR: successful retry did not create an editable enquiry
+en/GRAMR: finishColor missing from enquiry request
+en/GRAMR: specialInstructions missing from enquiry request
+en/GRAMR: successful retry did not create an editable enquiry
+de/EDDA: finishColor missing from enquiry request
+de/EDDA: specialInstructions missing from enquiry request
+de/EDDA: successful retry did not create an editable enquiry
+de/EMBLA: finishColor missing from enquiry request
+de/EMBLA: specialInstructions missing from enquiry request
+de/EMBLA: successful retry did not create an editable enquiry
+de/ASKR: finishColor missing from enquiry request
+de/ASKR: specialInstructions missing from enquiry request
+de/ASKR: successful retry did not create an editable enquiry
++ actual - expected
+
++ [
++   'ko/EDDA: finishColor missing from enquiry request',
++   'ko/EDDA: specialInstructions missing from enquiry request',
++   'ko/EDDA: successful retry did not create an editable enquiry',
++   'ko/EMBLA: finishColor missing from enquiry request',
++   'ko/EMBLA: specialInstructions missing from enquiry request',
++   'ko/EMBLA: successful retry did not create an editable enquiry',
++   'ko/ASKR: finishColor missing from enquiry request',
++   'ko/ASKR: specialInstructions missing from enquiry request',
++   'ko/ASKR: successful retry did not create an editable enquiry',
++   'ko/GRAMR: finishColor missing from enquiry request',
++   'ko/GRAMR: specialInstructions missing from enquiry request',
++   'ko/GRAMR: successful retry did not create an editable enquiry',
++   'en/EDDA: finishColor missing from enquiry request',
++   'en/EDDA: specialInstructions missing from enquiry request',
++   'en/EDDA: successful retry did not create an editable enquiry',
++   'en/EMBLA: finishColor missing from enquiry request',
++   'en/EMBLA: specialInstructions missing from enquiry request',
++   'en/EMBLA: successful retry did not create an editable enquiry',
++   'en/ASKR: finishColor missing from enquiry request',
++   'en/ASKR: specialInstructions missing from enquiry request',
++   'en/ASKR: successful retry did not create an editable enquiry',
++   'en/GRAMR: finishColor missing from enquiry request',
++   'en/GRAMR: specialInstructions missing from enquiry request',
++   'en/GRAMR: successful retry did not create an editable enquiry',
++   'de/EDDA: finishColor missing from enquiry request',
++   'de/EDDA: specialInstructions missing from enquiry request',
++   'de/EDDA: successful retry did not create an editable enquiry',
++   'de/EMBLA: finishColor missing from enquiry request',
++   'de/EMBLA: specialInstructions missing from enquiry request',
++   'de/EMBLA: successful retry did not create an editable enquiry',
++   'de/ASKR: finishColor missing from enquiry request',
++   'de/ASKR: specialInstructions missing from enquiry request',
++   'de/ASKR: successful retry did not create an editable enquiry'
++ ]
+- []
+
+    at /workspace/scratch/c0019f8f5f8f/ravenforge/tools/test_advisor_enquiry_regressions.cjs:62:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [Array],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+ecialInstructions missing from enquiry request',
++   'de/GRAMR: successful retry did not create an editable enquiry'
++ ]
+- []
+
+    at /workspace/scratch/c0019f8f5f8f/ravenforge/tools/test_advisor_enquiry_regressions.cjs:62:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [Array],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}

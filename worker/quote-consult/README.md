@@ -64,7 +64,7 @@ Configurator 옆에서 고객의 악기 선택과 견적 상담에 답하는 Clo
 ```
 
 - `messages`: user와 assistant가 번갈아 오고 user로 끝나는 텍스트 턴, 최대 30개. 사용자 턴은 2000자, assistant 턴은 6000자 이하이고 전체 대화는 20000자 이하입니다. JSON 요청 본문은 128 KiB까지 읽습니다.
-- `configuration`: configurator의 `selectedModel`, `selections`, `specialOptions`, `accessories`. 없으면 생략합니다.
+- `configuration`: configurator의 `selectedModel`, `selections`, `specialOptions`, `accessories`와 문의서용 `finishColor`(최대 300자), `specialInstructions`(최대 1,000자). 없으면 생략합니다. 문의서용 문자열은 가격 계산에 사용하지 않습니다.
 - `language`: `en` | `de` | `ko`.
 
 응답: `{ "reply": "...", "quote": { "total": 2600, "lines": [...], ... } | null, "stop_reason": "end_turn" }`
