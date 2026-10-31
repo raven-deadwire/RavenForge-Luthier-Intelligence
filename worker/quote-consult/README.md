@@ -7,10 +7,9 @@ Three actions help visitors find an instrument, understand their current options
 and prepare an editable enquiry. The last priced configuration can be reviewed
 and explicitly applied. Enquiries download as text; nothing is sent automatically.
 
-The existing Anthropic deployment remains the default. To switch this Worker,
-set `AI_PROVIDER = "openai"`, `OPENAI_MODEL = "gpt-5-mini"`, and
-`OPENAI_EFFORT = "low"` in the runtime configuration, and change the placement
-hostname to `api.openai.com`. Provision `OPENAI_API_KEY` as a Worker secret
+The production configuration uses `AI_PROVIDER = "openai"`,
+`OPENAI_MODEL = "gpt-5-mini"`, `OPENAI_EFFORT = "low"` and placement near
+`api.openai.com`. Provision `OPENAI_API_KEY` as a Worker secret
 through the deployment environment's secure secret input, never in HTML or Git.
 For local testing, supply these values through the local process environment or
 an ignored `.dev.vars` file. Do not copy a secret into a tracked file.
@@ -31,7 +30,7 @@ review/apply and editable enquiry workflow with mocked responses, in three
 languages on desktop and mobile. It uses the same browser and URL environment
 variables as `tools/test_configurator_chat.cjs`.
 
-Configurator 옆에서 고객의 견적 상담에 답하는 Cloudflare Worker입니다. Claude API를 쓰고, 가격은 `configurator.html`과 같은 카탈로그와 규칙으로 계산합니다.
+Configurator 옆에서 고객의 악기 선택과 견적 상담에 답하는 Cloudflare Worker입니다. 운영 설정은 OpenAI API를 사용하며 가격은 `configurator.html`과 같은 카탈로그와 규칙으로 계산합니다. 아래 Claude 설정과 비용 기록은 기존 제공자 운영 기록입니다. 롤백할 때는 `AI_PROVIDER = "anthropic"`과 `api.anthropic.com` placement를 함께 복원합니다.
 
 ## 동작 방식
 

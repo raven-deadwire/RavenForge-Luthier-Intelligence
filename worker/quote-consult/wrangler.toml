@@ -3,13 +3,16 @@ main = "src/index.js"
 compatibility_date = "2026-10-01"
 compatibility_flags = ["nodejs_compat"]
 
-# Run the Worker next to api.anthropic.com instead of the visitor's nearest
+# Run the Worker next to api.openai.com instead of the visitor's nearest
 # data center: the API calls dominate each request's latency.
 [placement]
 mode = "targeted"
-hostname = "api.anthropic.com"
+hostname = "api.openai.com"
 
 [vars]
+AI_PROVIDER = "openai"
+OPENAI_MODEL = "gpt-5-mini"
+OPENAI_EFFORT = "low"
 # Pages allowed to call /chat (comma-separated, exact origins).
 ALLOWED_ORIGINS = "https://raven-deadwire.github.io"
 # claude-sonnet-5-5 costs half as much per token as claude-opus-5-5.
@@ -17,7 +20,8 @@ MODEL = "claude-opus-5-5"
 # low | medium | high: how much the model thinks before answering.
 EFFORT = "medium"
 
-# ANTHROPIC_API_KEY is a secret: `npx wrangler secret put ANTHROPIC_API_KEY`
+# OPENAI_API_KEY is a Worker secret; never include its value in this file.
+# ANTHROPIC_API_KEY is retained only for an explicit provider rollback.
 # (for `wrangler dev`, put ANTHROPIC_API_KEY=... in .dev.vars).
 
 # 5 messages per minute per visitor IP. Cloudflare counts approximately:
