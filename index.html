@@ -1606,6 +1606,7 @@
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <div class="flex justify-between items-center mb-6 border-b pb-3">
                     <h2 class="text-3xl font-bold" data-lang-key="configuratorTitle">RavenForge Instrument Configurator</h2>
+                    <a href="configurator.html?advisor=1" target="_blank" rel="noopener" class="text-sm bg-slate-800 text-white px-4 py-2 rounded hover:bg-slate-700 transition" data-lang-key="advisorOpenBtn">Find my instrument</a>
                     <a href="configurator.html" target="_blank" rel="noopener" class="text-sm bg-slate-800 text-white px-4 py-2 rounded hover:bg-slate-700 transition" data-lang-key="configuratorOpenBtn">Open in New Tab</a>
                 </div>
                 
@@ -1680,6 +1681,7 @@
         configuratorTitle: "RavenForge Instrument Configurator",
         configuratorDesc: "Configure a RavenForge bass or GRAMR guitar with materials, neck feel, finishes, hardware and electronics suited to its existing dimensions and layouts. Additional string counts, scales and new routing layouts are planned. Choose the finish method and specify your desired colour separately.",
         configuratorOpenBtn: "Open in New Tab",
+        advisorOpenBtn: "Find my instrument",
 
         // About Section Tabs
         aboutTabBrief: "Brief Intro & Vision",
@@ -2011,6 +2013,7 @@ brandEdgeContent: "<p>RavenForge's goals are 'unwavering structure' and 'overwhe
         configuratorTitle: "RavenForge Instrumenten&shy;konfigurator",
         configuratorDesc: "Konfigurieren Sie einen RavenForge-Bass oder eine GRAMR-Gitarre mit Materialien, Halsgefühl, Oberflächen, Hardware und Elektronik innerhalb der bestehenden Maße und Anordnungen. Weitere Saitenzahlen, Mensuren und neue Fräsformen sind geplant. Wählen Sie die Oberflächenbehandlung und geben Sie die gewünschte Farbe separat an.",
         configuratorOpenBtn: "In neuem Tab öffnen",
+        advisorOpenBtn: "Mein Instrument finden",
 
         // About Section Tabs
         aboutTabBrief: "Einführung & Vision",
@@ -2343,6 +2346,7 @@ brandEdgeContent: "<p>Die Ziele von RavenForge sind 'unerschütterliche Struktur
         configuratorTitle: "RavenForge 악기 컨피규레이터",
         configuratorDesc: "RavenForge 베이스와 GRAMR 기타의 기본 치수·배치 안에서 소재·넥 그립·마감·호환 하드웨어·전자 사양을 선택하세요. 추가 현수·스케일과 새로운 가공 형상은 추후 추가 예정입니다. 마감 방식과 원하는 색상은 따로 지정할 수 있습니다.",
         configuratorOpenBtn: "새 탭에서 크게 보기",
+        advisorOpenBtn: "나에게 맞는 악기 찾기",
 
         // About Section Tabs
         aboutTabBrief: "간략한 소개 및 비전",
@@ -3296,6 +3300,8 @@ translations.ko.luthierData = [
                 }
                 const configuratorLink = document.querySelector('#configurator a[data-lang-key="configuratorOpenBtn"]');
                 if (configuratorLink) configuratorLink.setAttribute('href', configuratorUrl);
+                const advisorLink = document.querySelector('#configurator a[data-lang-key="advisorOpenBtn"]');
+                if (advisorLink) advisorLink.setAttribute('href', configuratorUrl + (configuratorUrl.includes('?') ? '&' : '?') + 'advisor=1');
             }
             
             function renderAll() {

@@ -59,6 +59,8 @@ jobs:
         env:
           CHAT_QA_DIR: ${{ runner.temp }}/quote-chat
         run: node tools/test_configurator_chat.cjs
+      - name: Verify instrument discovery, explicit apply and editable enquiry
+        run: node tools/test_instrument_advisor.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

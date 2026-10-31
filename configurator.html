@@ -79,8 +79,8 @@
   <script src="./assets/configurator-geometry.js?v=20261021-v27"></script>
   <script src="./assets/configurator-preview.js?v=20261029-strap-pins-2"></script>
   <!-- Quote consultation chat: set data-endpoint to the deployed worker/quote-consult URL; empty hides the chat. -->
-  <link rel="stylesheet" href="./assets/configurator-chat.css?v=20261030-chat">
-  <script src="./assets/configurator-chat.js?v=20261030-chat-reviewed" data-endpoint="https://ravenforge-quote-consult.ravenforge.workers.dev"></script>
+  <link rel="stylesheet" href="./assets/configurator-chat.css?v=20261031-advisor">
+  <script src="./assets/configurator-chat.js?v=20261031-advisor" data-endpoint="https://ravenforge-quote-consult.ravenforge.workers.dev"></script>
   <script type="text/babel">
     const { useState, useEffect, useMemo } = React;
 
@@ -668,7 +668,7 @@
       const [currentStep, setCurrentStep] = useState(1);
       const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
       const [pdfError, setPdfError] = useState('');
-      const [chatOpen, setChatOpen] = useState(false);
+      const [chatOpen, setChatOpen] = useState(new URLSearchParams(location.search).get('advisor') === '1');
       const fixedSelections = RavenForgePlatforms.fixed(selectedModel);
       const platform = { ...RavenForgePlatforms.summary(selectedModel), ...(ui.platformSummaries?.[selectedModel] || {}) };
       const currentSpecialOptions = selectedModel === 'GRAMR'
@@ -1998,7 +1998,15 @@ const handleOptionChange = (categoryId, optionId) => {
           </nav>
           {window.RavenForgeQuoteChat?.enabled && (
             <RavenForgeQuoteChat.Component language={language} open={chatOpen} onClose={() => setChatOpen(false)}
-              configuration={{ model: selectedModel, selections, specialOptions, accessories }} />
+              configuration={{ model: selectedModel, selections, specialOptions, accessories }}
+              onApply={quote => {
+                if (!configData.models.some(model => model.id === quote.model) || !quote.selections || !Array.isArray(quote.lines)) return;
+                handleModelChange(quote.model);
+                setSelectedModel(quote.model);
+                setSelections(normalizeSelections(quote.model, quote.selections));
+                setSpecialOptions(quote.lines.filter(line => line.category === 'instrument_options').map(line => line.option));
+                setAccessories(quote.lines.filter(line => line.category === 'accessories').map(line => line.option));
+              }} />
           )}
         </div>
       );

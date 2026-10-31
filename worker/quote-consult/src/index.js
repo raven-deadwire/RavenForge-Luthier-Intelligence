@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
+import { createOpenAIClient, OpenAIError } from './openai-client.js';
 import { MODEL_IDS, priceConfiguration, priceWithChanges, sanitizeConfiguration, withPageNames } from './pricing.js';
 import { PRICE_TOOL, SYSTEM_PROMPT } from './prompt.js';
 
@@ -12,7 +13,7 @@ const MAX_TOOL_CALLS = 8;
 const MAX_OUTPUT_TOKENS = 4096;
 const MAX_REQUEST_OUTPUT_TOKENS = 8192;
 const REQUEST_TIMEOUT_MS = 90000;
-export const BUILD_VERSION = '20261030-quote-review-1';
+export const BUILD_VERSION = '20261031-instrument-advisor-1';
 const LANGUAGES = ['en', 'de', 'ko'];
 
 const FALLBACK_REPLY = {
@@ -196,17 +197,19 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
     if (request.method !== 'POST') return json(405, { error: 'Use POST.' }, cors);
 
-    if (!env.RATE_LIMITER || !env.ANTHROPIC_API_KEY) return json(503, { error: 'The consultant is not configured.' }, cors);
+    const provider = env.AI_PROVIDER || 'anthropic';
+    if (!['anthropic', 'openai'].includes(provider) || !env.RATE_LIMITER || !(provider === 'openai' ? env.OPENAI_API_KEY : env.ANTHROPIC_API_KEY)) return json(503, { error: 'The consultant is not configured.' }, cors);
     if (!/^application\/json(?:\s*;|$)/i.test(request.headers.get('Content-Type') || '')) return json(415, { error: 'Use application/json.' }, cors);
 
     try {
       const { success } = await env.RATE_LIMITER.limit({ key: request.headers.get('CF-Connecting-IP') || 'unknown' });
       if (!success) return json(429, { error: 'Too many messages. Please wait a minute.' }, { ...cors, 'Retry-After': '60' });
       const body = await readBody(request);
-      const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY, maxRetries: 0, timeout: REQUEST_TIMEOUT_MS });
+      const client = provider === 'openai' ? createOpenAIClient(env) : new Anthropic({ apiKey: env.ANTHROPIC_API_KEY, maxRetries: 0, timeout: REQUEST_TIMEOUT_MS });
       return json(200, await handleChat(body, env, client), cors);
     } catch (error) {
       if (error instanceof RequestError) return json(error.status, { error: error.message }, cors);
+      if (error instanceof OpenAIError) return json(error.status === 429 ? 429 : 502, { error: 'The consultant is unavailable right now. Please try again later.' }, cors);
       if (error instanceof Anthropic.RateLimitError) return json(429, { error: 'The consultant is busy. Please try again shortly.' }, cors);
       if (error instanceof Anthropic.APIConnectionError) return json(502, { error: 'Could not reach the consultant. Please try again.' }, cors);
       if (error instanceof Anthropic.APIError) {

@@ -1,5 +1,36 @@
 # Quote consultation Worker
 
+## Instrument advisor and optional OpenAI connection
+
+The homepage's “Find my instrument” link opens the existing consultation panel.
+Three actions help visitors find an instrument, understand their current options,
+and prepare an editable enquiry. The last priced configuration can be reviewed
+and explicitly applied. Enquiries download as text; nothing is sent automatically.
+
+The existing Anthropic deployment remains the default. To switch this Worker,
+set `AI_PROVIDER = "openai"`, `OPENAI_MODEL = "gpt-5-mini"`, and
+`OPENAI_EFFORT = "low"` in the runtime configuration, and change the placement
+hostname to `api.openai.com`. Provision `OPENAI_API_KEY` as a Worker secret
+through the deployment environment's secure secret input, never in HTML or Git.
+For local testing, supply these values through the local process environment or
+an ignored `.dev.vars` file. Do not copy a secret into a tracked file.
+
+OpenAI uses Responses with `store: false`, the same pricing tool and the existing
+request, output and rate limits. It does not silently fall back to another provider.
+The `MODEL` and `EFFORT` variables remain Anthropic-specific. The key currently
+created for this project has a 30-day expiration: replace the server secret before
+expiry and verify a price question, or create a non-expiring key if account policy
+allows. This repository change does not alter the key's expiration.
+
+Before enabling OpenAI publicly, run the test suite and catalog check, verify a
+live answer with the deployment's own secret, and check account spending controls.
+The existing visitor limit is approximate and is not a global spending cap.
+
+`node tools/test_instrument_advisor.cjs` (from the repository root) checks the new
+review/apply and editable enquiry workflow with mocked responses, in three
+languages on desktop and mobile. It uses the same browser and URL environment
+variables as `tools/test_configurator_chat.cjs`.
+
 Configurator 옆에서 고객의 견적 상담에 답하는 Cloudflare Worker입니다. Claude API를 쓰고, 가격은 `configurator.html`과 같은 카탈로그와 규칙으로 계산합니다.
 
 ## 동작 방식
