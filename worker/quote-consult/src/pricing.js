@@ -62,6 +62,10 @@ export function sanitizeConfiguration(input) {
   return {
     model: input.model,
     selections,
+    // Match the visitor fields' limits in configurator.html. Keep these as
+    // untrusted enquiry context; they never participate in catalog pricing.
+    finishColor: typeof input.finishColor === 'string' ? input.finishColor.slice(0, 300) : '',
+    specialInstructions: typeof input.specialInstructions === 'string' ? input.specialInstructions.slice(0, 1000) : '',
     specialOptions: pick(input.specialOptions, specialOptionsFor(input.model)),
     accessories: pick(input.accessories, accessoriesFor(input.model))
   };

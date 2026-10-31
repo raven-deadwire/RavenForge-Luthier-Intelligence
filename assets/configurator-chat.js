@@ -57,6 +57,7 @@
     var errorState = React.useState(''), error = errorState[0], setError = errorState[1];
     var draftState = React.useState(''), draft = draftState[0], setDraft = draftState[1];
     var quoteState = React.useState(null), quote = quoteState[0], setQuote = quoteState[1];
+    var retryState = React.useState(null), retry = retryState[0], setRetry = retryState[1];
     var listRef = React.useRef(null);
     var inputRef = React.useRef(null);
 
@@ -73,11 +74,15 @@
       event.preventDefault();
       var text = (preset || input).trim();
       if (!text || pending || full) return;
+      // The form is also the retry path for a failed action button. Preserve
+      // draft intent only while retrying that exact request, not a new question.
+      var isDraft = Boolean(makeDraft || (!preset && retry && retry.text === text && retry.makeDraft));
       var next = history.concat([{ role: 'user', content: text }]);
       setHistory(next);
       setInput('');
       setError('');
       setPending(true);
+      setRetry(null);
       var controller = new AbortController();
       var timeout = setTimeout(function () { controller.abort(); }, 100000);
       fetch(endpoint.replace(/\/$/, '') + '/chat', {
@@ -89,12 +94,13 @@
           if (!response.ok || typeof data.reply !== 'string') throw new Error(data.error || response.status);
           setHistory(next.concat([{ role: 'assistant', content: data.reply }]));
           setQuote(data.quote || null);
-          if (makeDraft) setDraft(data.reply);
+          if (isDraft) setDraft(data.reply);
         });
       }).catch(function () {
         // Put the question back so it can be sent again.
         setHistory(history);
         setInput(text);
+        setRetry({ text: text, makeDraft: isDraft });
         setError(ui.error);
       }).then(function () { clearTimeout(timeout); setPending(false); });
     }
@@ -105,6 +111,7 @@
       setInput('');
       setDraft('');
       setQuote(null);
+      setRetry(null);
     }
 
     function saveDraft() {

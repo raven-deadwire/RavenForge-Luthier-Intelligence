@@ -13,7 +13,7 @@ const MAX_TOOL_CALLS = 8;
 const MAX_OUTPUT_TOKENS = 4096;
 const MAX_REQUEST_OUTPUT_TOKENS = 8192;
 const REQUEST_TIMEOUT_MS = 90000;
-export const BUILD_VERSION = '20261031-instrument-advisor-1';
+export const BUILD_VERSION = '20261031-advisor-enquiry-2';
 const LANGUAGES = ['en', 'de', 'ko'];
 
 const FALLBACK_REPLY = {
@@ -85,13 +85,14 @@ export async function handleChat(body, env, client) {
 
   // The configurator state rides along with the newest user turn only.
   const state = { page_language: language, current_configuration: currentQuote
-    ? { ...currentQuote, instrument_options: configuration.specialOptions, accessories: configuration.accessories }
+    ? { ...currentQuote, instrument_options: configuration.specialOptions, accessories: configuration.accessories,
+      finishColor: configuration.finishColor, specialInstructions: configuration.specialInstructions }
     : null };
   const last = messages.pop();
   const conversation = [...messages, {
     role: 'user',
     content: [
-      { type: 'text', text: `<configurator_state>\n${JSON.stringify(state)}\n</configurator_state>` },
+      { type: 'text', text: `<configurator_state>\n${JSON.stringify(state).replace(/</g, '\\u003c')}\n</configurator_state>` },
       { type: 'text', text: last.content }
     ]
   }];

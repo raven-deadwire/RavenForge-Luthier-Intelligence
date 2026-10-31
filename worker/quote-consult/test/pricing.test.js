@@ -47,7 +47,7 @@ test('passive-only instrument options drop out under active electronics', () => 
 test('page input is limited to known ids', () => {
   assert.equal(sanitizeConfiguration({ model: 'X' }), null);
   const clean = sanitizeConfiguration({ model: 'GRAMR', selections: { strings: 'guitar_6', evil: 'x' }, specialOptions: ['delano_buffer', 'kill_switch'], accessories: ['flight_case'] });
-  assert.deepEqual(clean, { model: 'GRAMR', selections: { strings: 'guitar_6' }, specialOptions: ['kill_switch'], accessories: [] });
+  assert.deepEqual(clean, { model: 'GRAMR', selections: { strings: 'guitar_6' }, finishColor: '', specialInstructions: '', specialOptions: ['kill_switch'], accessories: [] });
 });
 
 test('catalog text names every model', () => {
