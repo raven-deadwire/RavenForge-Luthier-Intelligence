@@ -13,8 +13,8 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const site = path.resolve(here, '../../..');
 const output = path.resolve(here, '../src/catalog.generated.js');
 
-const html = fs.readFileSync(path.join(site, 'configurator.html'), 'utf8');
-let platforms = fs.readFileSync(path.join(site, 'assets/configurator-platforms.js'), 'utf8');
+const html = fs.readFileSync(path.join(site, 'configurator.html'), 'utf8').replace(/\r\n/g, '\n');
+let platforms = fs.readFileSync(path.join(site, 'assets/configurator-platforms.js'), 'utf8').replace(/\r\n/g, '\n');
 
 // The page's own names for categories and options in each language
 // (assets/configurator-ui.js), so replies can name what the customer sees.
@@ -74,7 +74,7 @@ export { RavenForgePlatforms, configData, specialOptionsList, accessoriesList, i
 `;
 
 if (process.argv.includes('--check')) {
-  const committed = fs.existsSync(output) ? fs.readFileSync(output, 'utf8') : '';
+  const committed = fs.existsSync(output) ? fs.readFileSync(output, 'utf8').replace(/\r\n/g, '\n') : '';
   if (committed !== generated) {
     console.error('src/catalog.generated.js is stale: run `npm run build:catalog` in worker/quote-consult.');
     process.exit(1);

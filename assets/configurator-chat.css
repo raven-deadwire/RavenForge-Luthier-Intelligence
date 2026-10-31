@@ -21,6 +21,15 @@
 .rf-chat-form button:disabled { background:#94a3b8; cursor:not-allowed; }
 .rf-chat-note { margin:0; padding:0 12px 10px; font-size:11px; color:#64748b; }
 /* Keep clear of the fixed mobile summary bar. */
+.rf-chat-actions { display:flex; flex-wrap:wrap; gap:6px; padding:10px; border-bottom:1px solid #e2e8f0; }
+.rf-chat-actions button,.rf-chat-quote button,.rf-chat-draft button { padding:7px 10px; border:1px solid #64748b; border-radius:8px; font-size:12px; color:#101818; background:#fff; }
+.rf-chat-actions button:disabled { opacity:.5; }
+.rf-chat-log { min-height:70px; }
+.rf-chat-quote,.rf-chat-draft { padding:10px; border:1px solid #cbd5e1; border-radius:8px; color:#101818; background:#fff; }
+.rf-chat-quote summary { cursor:pointer; font-weight:600; }
+.rf-chat-quote ul { padding:10px 0; font-size:12px; }
+.rf-chat-draft label { display:block; font-size:12px; margin-bottom:6px; }
+.rf-chat-draft textarea { width:100%; padding:8px; border:1px solid #64748b; border-radius:6px; font:inherit; resize:vertical; }
 @media (max-width:1023px) {
   .rf-chat-panel { right:8px; left:8px; bottom:68px; width:auto; height:min(560px,calc(100vh - 84px)); }
 }

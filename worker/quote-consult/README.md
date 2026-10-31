@@ -1,6 +1,36 @@
 # Quote consultation Worker
 
-Configurator 옆에서 고객의 견적 상담에 답하는 Cloudflare Worker입니다. Claude API를 쓰고, 가격은 `configurator.html`과 같은 카탈로그와 규칙으로 계산합니다.
+## Instrument advisor and optional OpenAI connection
+
+The homepage's “Find my instrument” link opens the existing consultation panel.
+Three actions help visitors find an instrument, understand their current options,
+and prepare an editable enquiry. The last priced configuration can be reviewed
+and explicitly applied. Enquiries download as text; nothing is sent automatically.
+
+The production configuration uses `AI_PROVIDER = "openai"`,
+`OPENAI_MODEL = "gpt-5-mini"`, `OPENAI_EFFORT = "low"` and placement near
+`api.openai.com`. Provision `OPENAI_API_KEY` as a Worker secret
+through the deployment environment's secure secret input, never in HTML or Git.
+For local testing, supply these values through the local process environment or
+an ignored `.dev.vars` file. Do not copy a secret into a tracked file.
+
+OpenAI uses Responses with `store: false`, the same pricing tool and the existing
+request, output and rate limits. It does not silently fall back to another provider.
+The `MODEL` and `EFFORT` variables remain Anthropic-specific. The key currently
+created for this project has a 30-day expiration: replace the server secret before
+expiry and verify a price question, or create a non-expiring key if account policy
+allows. This repository change does not alter the key's expiration.
+
+Before enabling OpenAI publicly, run the test suite and catalog check, verify a
+live answer with the deployment's own secret, and check account spending controls.
+The existing visitor limit is approximate and is not a global spending cap.
+
+`node tools/test_instrument_advisor.cjs` (from the repository root) checks the new
+review/apply and editable enquiry workflow with mocked responses, in three
+languages on desktop and mobile. It uses the same browser and URL environment
+variables as `tools/test_configurator_chat.cjs`.
+
+Configurator 옆에서 고객의 악기 선택과 견적 상담에 답하는 Cloudflare Worker입니다. 운영 설정은 OpenAI API를 사용하며 가격은 `configurator.html`과 같은 카탈로그와 규칙으로 계산합니다. 아래 Claude 설정과 비용 기록은 기존 제공자 운영 기록입니다. 롤백할 때는 `AI_PROVIDER = "anthropic"`과 `api.anthropic.com` placement를 함께 복원합니다.
 
 ## 동작 방식
 
