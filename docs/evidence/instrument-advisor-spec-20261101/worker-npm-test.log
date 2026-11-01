@@ -1,0 +1,25 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> test
+> node --test test/*.test.js
+
+✔ test/chat.test.js (407.027831ms)
+✔ test/enquiry.test.js (451.986786ms)
+✔ test/guards.test.js (535.299475ms)
+✔ test/names.test.js (232.366985ms)
+✔ test/openai.test.js (749.881246ms)
+✔ test/parity.test.js (4321.862313ms)
+✔ test/pricing.test.js (226.424391ms)
+✔ test/prompt.test.js (271.296912ms)
+✔ test/runtime-catalog.test.js (301.141549ms)
+✔ test/specification-chat.test.js (671.823651ms)
+✔ test/specification-validation.test.js (367.064597ms)
+✔ test/specifications.test.js (600.521119ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4356.895011

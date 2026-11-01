@@ -1468,6 +1468,45 @@ const applyOptionChange = (selectedModel, current, categoryId, optionId) => {
     return normalizeSelections(selectedModel, nextSelections);
 };
 
+const getAutomaticPowerSupply = (selectedModel, currentSelections, currentSpecialOptions = [], ui) => {
+        const eq = currentSelections?.electronics;
+        if (selectedModel === 'GRAMR') {
+          if (eq === 'guitar_passive') return { label: ui.supplies.noBattery, spec: ui.supplies.passiveGuitar };
+          return { label: ui.supplyPending, spec: ui.plannedElectronicsNote };
+        }
+        const hasXpureBuffer = currentSpecialOptions.includes('delano_buffer');
+
+        if (!eq || eq === 'passive') {
+          if (currentSelections?.pickups === 'emg') return { label: '9V', spec: ui.supplies.emgPassive };
+          if (hasXpureBuffer) {
+            return { label: '9V', spec: ui.supplies.xpure };
+          }
+          return { label: ui.supplies.noBattery, spec: ui.supplies.passivePath };
+        }
+
+        // High-headroom house configuration where the selected preamp explicitly supports 18V.
+        if (eq === 'darkglass') {
+          return { label: '18V', spec: ui.supplies.darkglass };
+        }
+        if (eq === 'glockenklang') {
+          return { label: '18V', spec: ui.supplies.glockenklang };
+        }
+
+        // LHZ supports both 9V and 18V; voltage is a tonal preference rather than a compatibility requirement.
+        if (eq === 'lhz') {
+          if (currentSelections?.lhz_voltage === 'lhz_18v') {
+            return { label: '18V', spec: ui.supplies.lhzHigh };
+          }
+          return { label: '9V', spec: ui.supplies.lhzClassic };
+        }
+
+        if (eq === 'fishman') {
+          return { label: '9V', spec: ui.supplies.fishman };
+        }
+
+        return { label: '9V', spec: ui.supplies.active };
+      };
+
 const pageCopy = {
  "en": {
   "categoryTitles": {
@@ -1547,9 +1586,25 @@ const pageCopy = {
    "neck_natural": "Natural",
    "neck_body": "Match body colour"
   },
+  "optionSpecs": {},
   "catalog": {},
   "instrumentOptions": "Instrument options",
-  "accessories": "Accessories"
+  "accessories": "Accessories",
+  "supplies": {
+   "noBattery": "No battery",
+   "passiveGuitar": "passive guitar pickups and controls",
+   "emgPassive": "active EMG pickups with passive controls",
+   "xpure": "Delano xPure buffer power",
+   "passivePath": "fully passive signal path",
+   "darkglass": "high-headroom configuration for Darkglass Tone Capsule",
+   "glockenklang": "high-headroom configuration for Glockenklang onboard preamp",
+   "lhzHigh": "LHZ high-headroom / transparent response",
+   "lhzClassic": "LHZ classic HAZ-style response",
+   "fishman": "standard Fishman Fluence bass supply",
+   "active": "standard active-electronics supply"
+  },
+  "supplyPending": "To be confirmed",
+  "plannedElectronicsNote": "ZUTA CORE integration and supply are to be confirmed."
  },
  "ko": {
   "categoryTitles": {
@@ -1629,6 +1684,7 @@ const pageCopy = {
    "neck_natural": "내추럴",
    "neck_body": "바디 색상 매칭"
   },
+  "optionSpecs": {},
   "catalog": {
    "right-handed": "오른손용",
    "left-handed": "왼손용",
@@ -1912,7 +1968,22 @@ const pageCopy = {
    "Alternative bridge and pickup layouts": "다른 브리지와 픽업 배치"
   },
   "instrumentOptions": "악기 추가 옵션",
-  "accessories": "액세서리"
+  "accessories": "액세서리",
+  "supplies": {
+   "noBattery": "배터리 없음",
+   "passiveGuitar": "패시브 기타 픽업 및 컨트롤",
+   "emgPassive": "액티브 EMG 픽업, 패시브 컨트롤",
+   "xpure": "Delano xPure 버퍼 전원",
+   "passivePath": "완전 패시브 신호 경로",
+   "darkglass": "Darkglass Tone Capsule용 고헤드룸 구성",
+   "glockenklang": "Glockenklang 온보드 프리앰프용 고헤드룸 구성",
+   "lhzHigh": "LHZ 고헤드룸 / 투명한 응답",
+   "lhzClassic": "LHZ 클래식 HAZ 스타일 응답",
+   "fishman": "Fishman Fluence 베이스 기본 전원",
+   "active": "액티브 회로 기본 전원"
+  },
+  "supplyPending": "추후 확정",
+  "plannedElectronicsNote": "ZUTA CORE의 적용과 전원 사양은 확인 후 확정됩니다."
  },
  "de": {
   "categoryTitles": {
@@ -1992,6 +2063,7 @@ const pageCopy = {
    "neck_natural": "Natur",
    "neck_body": "An Korpusfarbe anpassen"
   },
+  "optionSpecs": {},
   "catalog": {
    "right-handed": "Rechtshänder",
    "left-handed": "Linkshänder",
@@ -2275,8 +2347,24 @@ const pageCopy = {
    "Alternative bridge and pickup layouts": "alternative Brücken- und Tonabnehmeranordnungen"
   },
   "instrumentOptions": "Instrumentenoptionen",
-  "accessories": "Zubehör"
+  "accessories": "Zubehör",
+  "supplies": {
+   "noBattery": "Keine Batterie",
+   "passiveGuitar": "passive Gitarren-Tonabnehmer und Regler",
+   "emgPassive": "aktive EMG-Tonabnehmer mit passiven Reglern",
+   "xpure": "Stromversorgung für den Delano-xPure-Buffer",
+   "passivePath": "vollständig passiver Signalweg",
+   "darkglass": "High-Headroom-Konfiguration für Darkglass Tone Capsule",
+   "glockenklang": "High-Headroom-Konfiguration für den Glockenklang-Onboard-Preamp",
+   "lhzHigh": "LHZ High-Headroom / transparente Wiedergabe",
+   "lhzClassic": "LHZ klassische Wiedergabe im HAZ-Stil",
+   "fishman": "Standardversorgung für Fishman Fluence Bass",
+   "active": "Standardversorgung für aktive Elektronik"
+  },
+  "supplyPending": "Noch zu bestätigen",
+  "plannedElectronicsNote": "Die Einbindung von ZUTA CORE und die Stromversorgung sind noch zu bestätigen."
  }
 };
+const menuCategoryIds = ["orientation","strings","factory_setup","scale","string_spacing","nut_size","nut_material","neck","neck_profile","fretboard","radius","fret_type","fret_material","fret_size","fretline","fret_side","inlay_type","inlay_oval_mat","inlay_dot_pos","inlay_dot_mat","inlay_custom_spec","side_dot","fretboard_extense","body_construction","body_wood_single","body_core_wood","body_wing_wood","top_type","top_wood_selection","color_top","color_back_side","extra_finish_burst","extra_finish_flake","color_headstock","neck_finish","hardware_bridge","hardware_machine_head","knob","hardware_color","pickguard","pickguard_material","pickguard_colour","pickguard_finish","pickup_configuration","pickup_position","pickups","electronics","lhz_voltage","control_layout","coil_switch","case"];
 
-export { RavenForgePlatforms, configData, specialOptionsList, accessoriesList, isCategoryVisible, isOptionVisible, normalizeSelections, applyOptionChange, pageCopy };
+export { RavenForgePlatforms, configData, specialOptionsList, accessoriesList, isCategoryVisible, isOptionVisible, normalizeSelections, applyOptionChange, getAutomaticPowerSupply, pageCopy, menuCategoryIds };

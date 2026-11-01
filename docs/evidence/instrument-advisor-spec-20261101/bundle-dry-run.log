@@ -1,0 +1,18 @@
+▲ [WARNING] Proxy environment variables detected. We'll use your proxy for fetch requests.
+
+
+
+ ⛅️ wrangler 4.155.0
+────────────────────
+Total Upload: 1130.05 KiB / gzip: 206.70 KiB
+Your Worker has access to the following bindings:
+Binding                                                       Resource
+env.RATE_LIMITER (5 requests/60s)                             Rate Limit
+env.AI_PROVIDER ("openai")                                    Environment Variable
+env.OPENAI_MODEL ("gpt-5-mini")                               Environment Variable
+env.OPENAI_EFFORT ("low")                                     Environment Variable
+env.ALLOWED_ORIGINS ("https://raven-deadwire.github.io")      Environment Variable
+env.MODEL ("claude-opus-5-5")                                 Environment Variable
+env.EFFORT ("medium")                                         Environment Variable
+
+--dry-run: exiting now.

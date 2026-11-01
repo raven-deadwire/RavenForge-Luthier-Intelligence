@@ -1,0 +1,6 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> check:catalog
+> node tools/build-catalog.mjs --check
+
+src/catalog.generated.js is up to date.

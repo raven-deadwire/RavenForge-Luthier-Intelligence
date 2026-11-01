@@ -1,0 +1,391 @@
+Anthropic API error 400
+Anthropic API error 500
+Verified 1108 model/option transitions against the page handler and summary.
+TAP version 13
+# Subtest: runs the price tool and returns the final reply
+ok 1 - runs the price tool and returns the final reply
+  ---
+  duration_ms: 29.066724
+  type: 'test'
+  ...
+# Subtest: after a mid-output fallback, only tool calls after the marker are echoed and answered
+ok 2 - after a mid-output fallback, only tool calls after the marker are echoed and answered
+  ---
+  duration_ms: 5.10403
+  type: 'test'
+  ...
+# Subtest: a refusal returns a fixed reply in the page language
+ok 3 - a refusal returns a fixed reply in the page language
+  ---
+  duration_ms: 5.137299
+  type: 'test'
+  ...
+# Subtest: haiku requests carry no fallbacks
+ok 4 - haiku requests carry no fallbacks
+  ---
+  duration_ms: 0.317439
+  type: 'test'
+  ...
+# Subtest: rejects malformed conversations
+ok 5 - rejects malformed conversations
+  ---
+  duration_ms: 0.682369
+  type: 'test'
+  ...
+# Subtest: enquiry context retains bounded visitor finish and maker notes for every model
+ok 6 - enquiry context retains bounded visitor finish and maker notes for every model
+  ---
+  duration_ms: 43.977205
+  type: 'test'
+  ...
+# Subtest: HTTP boundaries reject invalid requests before spending API tokens
+ok 7 - HTTP boundaries reject invalid requests before spending API tokens
+  ---
+  duration_ms: 93.510941
+  type: 'test'
+  ...
+# Subtest: long legitimate assistant replies remain usable for a follow-up
+ok 8 - long legitimate assistant replies remain usable for a follow-up
+  ---
+  duration_ms: 0.435938
+  type: 'test'
+  ...
+# Subtest: output budget, tool count and truncated replies stop without further API calls
+ok 9 - output budget, tool count and truncated replies stop without further API calls
+  ---
+  duration_ms: 4.745499
+  type: 'test'
+  ...
+# Subtest: cumulative output budget stops repeated tool rounds at 8192 tokens
+ok 10 - cumulative output budget stops repeated tool rounds at 8192 tokens
+  ---
+  duration_ms: 6.407174
+  type: 'test'
+  ...
+# Subtest: tool loops stop after four API calls or eight cumulative tool calls
+ok 11 - tool loops stop after four API calls or eight cumulative tool calls
+  ---
+  duration_ms: 58.591929
+  type: 'test'
+  ...
+# Subtest: HTTP provider failures are bounded, sanitized, and never retried
+ok 12 - HTTP provider failures are bounded, sanitized, and never retried
+  ---
+  duration_ms: 35.573309
+  type: 'test'
+  ...
+# Subtest: category and option names match what configurator.html shows in each language
+ok 13 - category and option names match what configurator.html shows in each language
+  ---
+  duration_ms: 1.2003
+  type: 'test'
+  ...
+# Subtest: priced lines carry the page-language names
+ok 14 - priced lines carry the page-language names
+  ---
+  duration_ms: 2.269583
+  type: 'test'
+  ...
+# Subtest: the catalog in the prompt lists the page names next to the catalog names
+ok 15 - the catalog in the prompt lists the page names next to the catalog names
+  ---
+  duration_ms: 2.00232
+  type: 'test'
+  ...
+# Subtest: a rejected tool call keeps its error instead of failing on page names
+ok 16 - a rejected tool call keeps its error instead of failing on page names
+  ---
+  duration_ms: 0.240863
+  type: 'test'
+  ...
+# Subtest: OpenAI pricing round preserves reasoning, call ids, limits and server-computed prices
+ok 17 - OpenAI pricing round preserves reasoning, call ids, limits and server-computed prices
+  ---
+  duration_ms: 14.207731
+  type: 'test'
+  ...
+# Subtest: provider errors, malformed arguments and truncated answers never become successful replies
+ok 18 - provider errors, malformed arguments and truncated answers never become successful replies
+  ---
+  duration_ms: 7.645923
+  type: 'test'
+  ...
+# Subtest: OpenAI mode requires its own key and the existing rate limiter
+ok 19 - OpenAI mode requires its own key and the existing rate limiter
+  ---
+  duration_ms: 0.843792
+  type: 'test'
+  ...
+# Subtest: all four models: every offered option matches the actual page click and summary total
+ok 20 - all four models: every offered option matches the actual page click and summary total
+  ---
+  duration_ms: 3735.111488
+  type: 'test'
+  ...
+# Subtest: every instrument option and accessory matches page summary, including passive gating
+ok 21 - every instrument option and accessory matches page summary, including passive gating
+  ---
+  duration_ms: 57.370924
+  type: 'test'
+  ...
+# Subtest: Fishman departure and return update both pickup and EQ with exact page pricing
+ok 22 - Fishman departure and return update both pickup and EQ with exact page pricing
+  ---
+  duration_ms: 12.39146
+  type: 'test'
+  ...
+# Subtest: bass models retain fretboard catalog and correct ebony price
+ok 23 - bass models retain fretboard catalog and correct ebony price
+  ---
+  duration_ms: 4.653309
+  type: 'test'
+  ...
+# Subtest: active-only exclusions are reported and malformed tool inputs do not throw
+ok 24 - active-only exclusions are reported and malformed tool inputs do not throw
+  ---
+  duration_ms: 0.734388
+  type: 'test'
+  ...
+# Subtest: fretless, nut overrides, premium gigbag and strap retain page pricing in combination
+ok 25 - fretless, nut overrides, premium gigbag and strap retain page pricing in combination
+  ---
+  duration_ms: 78.997836
+  type: 'test'
+  ...
+# Subtest: every model's standard build costs its base price
+ok 26 - every model's standard build costs its base price
+  ---
+  duration_ms: 1.20019
+  type: 'test'
+  ...
+# Subtest: changes add their listed price for the model
+ok 27 - changes add their listed price for the model
+  ---
+  duration_ms: 0.916833
+  type: 'test'
+  ...
+# Subtest: options the rules reject are reported, not priced
+ok 28 - options the rules reject are reported, not priced
+  ---
+  duration_ms: 0.768529
+  type: 'test'
+  ...
+# Subtest: an on-request option leaves the total incomplete
+ok 29 - an on-request option leaves the total incomplete
+  ---
+  duration_ms: 1.38566
+  type: 'test'
+  ...
+# Subtest: passive-only instrument options drop out under active electronics
+ok 30 - passive-only instrument options drop out under active electronics
+  ---
+  duration_ms: 0.897013
+  type: 'test'
+  ...
+# Subtest: page input is limited to known ids
+ok 31 - page input is limited to known ids
+  ---
+  duration_ms: 0.127082
+  type: 'test'
+  ...
+# Subtest: catalog text names every model
+ok 32 - catalog text names every model
+  ---
+  duration_ms: 1.130035
+  type: 'test'
+  ...
+# Subtest: the prompt names the PDF button as the page shows it in every language
+ok 33 - the prompt names the PDF button as the page shows it in every language
+  ---
+  duration_ms: 1.170406
+  type: 'test'
+  ...
+# Subtest: runtime neck, headstock and pickguard options retain request pricing and page names
+ok 34 - runtime neck, headstock and pickguard options retain request pricing and page names
+  ---
+  duration_ms: 9.045604
+  type: 'test'
+  ...
+# Subtest: MOCK ko/powered-passive-buffer: real Worker loop sends catalog facts and preserves the quote
+ok 35 - MOCK ko/powered-passive-buffer: real Worker loop sends catalog facts and preserves the quote
+  ---
+  duration_ms: 11.42346
+  type: 'test'
+  ...
+# Subtest: MOCK ko/edda-product-scope: real Worker loop sends catalog facts and preserves the quote
+ok 36 - MOCK ko/edda-product-scope: real Worker loop sends catalog facts and preserves the quote
+  ---
+  duration_ms: 12.60326
+  type: 'test'
+  ...
+# Subtest: MOCK ko/edda-current-embla-standard: real Worker loop sends catalog facts and preserves the quote
+ok 37 - MOCK ko/edda-current-embla-standard: real Worker loop sends catalog facts and preserves the quote
+  ---
+  duration_ms: 11.497843
+  type: 'test'
+  ...
+# Subtest: MOCK ko/gramr-no-exotic-menu: real Worker loop sends catalog facts and preserves the quote
+ok 38 - MOCK ko/gramr-no-exotic-menu: real Worker loop sends catalog facts and preserves the quote
+  ---
+  duration_ms: 8.573161
+  type: 'test'
+  ...
+# Subtest: MOCK en/powered-passive-buffer: real Worker loop sends catalog facts and preserves the quote
+ok 39 - MOCK en/powered-passive-buffer: real Worker loop sends catalog facts and preserves the quote
+  ---
+  duration_ms: 5.600758
+  type: 'test'
+  ...
+# Subtest: MOCK en/edda-product-scope: real Worker loop sends catalog facts and preserves the quote
+ok 40 - MOCK en/edda-product-scope: real Worker loop sends catalog facts and preserves the quote
+  ---
+  duration_ms: 6.706676
+  type: 'test'
+  ...
+# Subtest: MOCK en/edda-current-embla-standard: real Worker loop sends catalog facts and preserves the quote
+ok 41 - MOCK en/edda-current-embla-standard: real Worker loop sends catalog facts and preserves the quote
+  ---
+  duration_ms: 5.718265
+  type: 'test'
+  ...
+# Subtest: MOCK en/gramr-no-exotic-menu: real Worker loop sends catalog facts and preserves the quote
+ok 42 - MOCK en/gramr-no-exotic-menu: real Worker loop sends catalog facts and preserves the quote
+  ---
+  duration_ms: 6.216276
+  type: 'test'
+  ...
+# Subtest: MOCK de/powered-passive-buffer: real Worker loop sends catalog facts and preserves the quote
+ok 43 - MOCK de/powered-passive-buffer: real Worker loop sends catalog facts and preserves the quote
+  ---
+  duration_ms: 6.486584
+  type: 'test'
+  ...
+# Subtest: MOCK de/edda-product-scope: real Worker loop sends catalog facts and preserves the quote
+ok 44 - MOCK de/edda-product-scope: real Worker loop sends catalog facts and preserves the quote
+  ---
+  duration_ms: 7.008651
+  type: 'test'
+  ...
+# Subtest: MOCK de/edda-current-embla-standard: real Worker loop sends catalog facts and preserves the quote
+ok 45 - MOCK de/edda-current-embla-standard: real Worker loop sends catalog facts and preserves the quote
+  ---
+  duration_ms: 5.769392
+  type: 'test'
+  ...
+# Subtest: MOCK de/gramr-no-exotic-menu: real Worker loop sends catalog facts and preserves the quote
+ok 46 - MOCK de/gramr-no-exotic-menu: real Worker loop sends catalog facts and preserves the quote
+  ---
+  duration_ms: 5.670062
+  type: 'test'
+  ...
+# Subtest: a no-tool answer still receives authoritative current power facts in every page language
+ok 47 - a no-tool answer still receives authoritative current power facts in every page language
+  ---
+  duration_ms: 3.814614
+  type: 'test'
+  ...
+# Subtest: specification questions cover four known failure families in all three languages
+ok 48 - specification questions cover four known failure families in all three languages
+  ---
+  duration_ms: 0.221555
+  type: 'test'
+  ...
+# Subtest: recorded old production replies remain negative evidence, never candidate live passes
+ok 49 - recorded old production replies remain negative evidence, never candidate live passes
+  ---
+  duration_ms: 4.340917
+  type: 'test'
+  ...
+# Subtest: synthetic evaluator examples permit exact supported products and negative menu statements
+ok 50 - synthetic evaluator examples permit exact supported products and negative menu statements
+  ---
+  duration_ms: 1.660034
+  type: 'test'
+  ...
+# Subtest: synthetic KO/EN/DE contradictions are flagged even when xPure and 9V are present
+ok 51 - synthetic KO/EN/DE contradictions are flagged even when xPure and 9V are present
+  ---
+  duration_ms: 0.200162
+  type: 'test'
+  ...
+# Subtest: synthetic KO/EN/DE EDDA availability assertions do not confuse allowed ACG EQ-01 with Uni Pre 5
+ok 52 - synthetic KO/EN/DE EDDA availability assertions do not confuse allowed ACG EQ-01 with Uni Pre 5
+  ---
+  duration_ms: 0.305902
+  type: 'test'
+  ...
+# Subtest: synthetic KO/EN/DE EMBLA passive-standard assertions are flagged without treating EDDA as EMBLA
+ok 53 - synthetic KO/EN/DE EMBLA passive-standard assertions are flagged without treating EDDA as EMBLA
+  ---
+  duration_ms: 0.164488
+  type: 'test'
+  ...
+# Subtest: live validation without a key records a block and makes zero provider requests
+ok 54 - live validation without a key records a block and makes zero provider requests
+  ---
+  duration_ms: 61.303315
+  type: 'test'
+  ...
+# Subtest: ko: power, visible menus and localized specs match the actual page; all quote fields survive
+ok 55 - ko: power, visible menus and localized specs match the actual page; all quote fields survive
+  ---
+  duration_ms: 48.991426
+  type: 'test'
+  ...
+# Subtest: ko: regress xPure, exact EDDA products, EMBLA defaults and GRAMR menus
+ok 56 - ko: regress xPure, exact EDDA products, EMBLA defaults and GRAMR menus
+  ---
+  duration_ms: 11.128706
+  type: 'test'
+  ...
+# Subtest: en: power, visible menus and localized specs match the actual page; all quote fields survive
+ok 57 - en: power, visible menus and localized specs match the actual page; all quote fields survive
+  ---
+  duration_ms: 30.228444
+  type: 'test'
+  ...
+# Subtest: en: regress xPure, exact EDDA products, EMBLA defaults and GRAMR menus
+ok 58 - en: regress xPure, exact EDDA products, EMBLA defaults and GRAMR menus
+  ---
+  duration_ms: 10.237131
+  type: 'test'
+  ...
+# Subtest: de: power, visible menus and localized specs match the actual page; all quote fields survive
+ok 59 - de: power, visible menus and localized specs match the actual page; all quote fields survive
+  ---
+  duration_ms: 30.136346
+  type: 'test'
+  ...
+# Subtest: de: regress xPure, exact EDDA products, EMBLA defaults and GRAMR menus
+ok 60 - de: regress xPure, exact EDDA products, EMBLA defaults and GRAMR menus
+  ---
+  duration_ms: 11.136979
+  type: 'test'
+  ...
+# Subtest: conditional LHZ menu appears only after a real dependency transition; rejected xPure is absent
+ok 61 - conditional LHZ menu appears only after a real dependency transition; rejected xPure is absent
+  ---
+  duration_ms: 5.287385
+  type: 'test'
+  ...
+# Subtest: standard facts are generated per model and bad quotes pass through without invented facts
+ok 62 - standard facts are generated per model and bad quotes pass through without invented facts
+  ---
+  duration_ms: 5.214636
+  type: 'test'
+  ...
+# Subtest: fixed platform specifications are never described as selectable menus
+ok 63 - fixed platform specifications are never described as selectable menus
+  ---
+  duration_ms: 13.98259
+  type: 'test'
+  ...
+1..63
+# tests 63
+# suites 0
+# pass 63
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4912.880251

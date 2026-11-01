@@ -1,0 +1,45 @@
+{
+  "format_version": 1,
+  "mode": "live_openai_candidate",
+  "started_at": "2026-11-01T08:23:52.346Z",
+  "status": "blocked_missing_openai_api_key",
+  "scope": "Current local handleChat + OpenAI Responses adapter. This is not a deployed Worker, CORS, rate-limiter or browser test.",
+  "candidate": {
+    "git_head": "f1742bcea13989f4f52d2b2c88d716322f8847e0",
+    "working_tree_status": "M worker/quote-consult/README.md\n M worker/quote-consult/src/catalog.generated.js\n M worker/quote-consult/src/index.js\n M worker/quote-consult/src/prompt.js\n M worker/quote-consult/tools/build-catalog.mjs\n?? worker/quote-consult/src/specifications.js\n?? worker/quote-consult/test/fixtures/\n?? worker/quote-consult/test/specification-chat.test.js\n?? worker/quote-consult/test/specification-validation.test.js\n?? worker/quote-consult/test/specifications.test.js\n?? worker/quote-consult/tools/validate-specifications.mjs",
+    "source_hashes": {
+      "worker/quote-consult/package-lock.json": "227cd8410170728a190f0df0b5353b6a62b4843feefeef29da45bbc79962edc1",
+      "worker/quote-consult/src/catalog.generated.js": "4d2393675334c95fd491e24729830092407b0f658580d410b3bfcfa5b43421bb",
+      "worker/quote-consult/src/index.js": "70da3ab097fde7bf64f0204ecb8558e3ac6b23e5342ddc88dacc7fd03b829c84",
+      "worker/quote-consult/src/openai-client.js": "ef240d0648f22556d5d288501101bc82da02fe7427d83eaeb4604adbc9b4fce1",
+      "worker/quote-consult/src/pricing.js": "a94dca1c4bd68a5028f4859b5012f7aeb6623f075442903ed4281f5d9e68a0a9",
+      "worker/quote-consult/src/prompt.js": "3dd1a550b54e517abfe154e30f067f719d2feeeb58ae170038aa511643f00ec4",
+      "worker/quote-consult/src/specifications.js": "86065bdfa86898460bbc3e7f223af833ec86fefd371f9e9eef8ce6dd8ca5560c",
+      "worker/quote-consult/test/fixtures/specification-cases.js": "0a50bf6ad0562b8bd4b2fb9e7161258595424eea195d8f605d5f83b2b9f19b0b",
+      "worker/quote-consult/tools/validate-specifications.mjs": "addd2279536c3338492124f88c71b899c7b549e6bfa2b73b85bef3c822773fad"
+    },
+    "source_manifest_sha256": "18c38de3f2fd62638ea26c0ec688ac09756e86c6b6003286914987ae00d8ba9e",
+    "build_version": "20261101-advisor-spec-grounding-1",
+    "system_prompt_sha256": null
+  },
+  "provider": {
+    "name": "openai",
+    "model": "gpt-5-mini",
+    "effort": "low"
+  },
+  "counts": {
+    "requested_cases": 16,
+    "completed_cases": 0,
+    "transport_failures": 0,
+    "records_with_findings": 0,
+    "openai_http_attempts": 0,
+    "openai_http_responses": 0,
+    "mock_requests": 0,
+    "manual_review_pending": 0
+  },
+  "manual_review_required": true,
+  "semantic_quality": "not_certified",
+  "records": [],
+  "finished_at": "2026-11-01T08:23:52.364Z",
+  "reason": "OPENAI_API_KEY is not available. No credentials were created, searched for or sent, and no API request was made."
+}
