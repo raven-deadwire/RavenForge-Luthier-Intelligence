@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { createOpenAIClient, OpenAIError } from './openai-client.js';
 import { MODEL_IDS, priceConfiguration, priceWithChanges, sanitizeConfiguration, withPageNames } from './pricing.js';
+import { withSpecifications } from './specifications.js';
 import { PRICE_TOOL, SYSTEM_PROMPT } from './prompt.js';
 
 const MAX_MESSAGES = 30;
@@ -13,7 +14,7 @@ const MAX_TOOL_CALLS = 8;
 const MAX_OUTPUT_TOKENS = 4096;
 const MAX_REQUEST_OUTPUT_TOKENS = 8192;
 const REQUEST_TIMEOUT_MS = 90000;
-export const BUILD_VERSION = '20261031-advisor-enquiry-2';
+export const BUILD_VERSION = '20261101-advisor-spec-grounding-1';
 const LANGUAGES = ['en', 'de', 'ko'];
 
 const FALLBACK_REPLY = {
@@ -67,7 +68,7 @@ function runPriceTool(input, current, language) {
     accessories: input.accessories
   });
   if (input.start_from === 'current' && start !== current) result.note = 'No current configuration for this model; priced from the standard build.';
-  return withPageNames(result, language);
+  return withSpecifications(withPageNames(result, language), language);
 }
 
 // After a mid-output fallback, blocks of the declined attempt before the last
@@ -81,7 +82,7 @@ function echoable(content) {
 export async function handleChat(body, env, client) {
   const { messages, configuration, language } = parseRequest(body);
   const model = env.MODEL || 'claude-opus-5-5';
-  const currentQuote = configuration ? withPageNames(priceConfiguration(configuration), language) : null;
+  const currentQuote = configuration ? withSpecifications(withPageNames(priceConfiguration(configuration), language), language) : null;
 
   // The configurator state rides along with the newest user turn only.
   const state = { page_language: language, current_configuration: currentQuote

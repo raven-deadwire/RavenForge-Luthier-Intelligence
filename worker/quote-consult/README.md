@@ -42,6 +42,58 @@ at build time. Its changed categories and localized labels are baked into the
 Worker; renderer code is not included in the Worker bundle. Both the website
 and Worker need the update for enquiry colour/notes to reach the model.
 
+### Specification grounding and validation
+
+Every current-state quote and successful `price_configuration` result now has
+an additive `specification` object. Existing `lines`, `selections`, prices,
+rejection lists and explicit-apply behavior are unchanged.
+
+- `standard`: the requested model's normalized default electronics, power and
+  fretboard. A zero-cost option is not necessarily the default.
+- `selected`: electronics, power and retained instrument options for this
+  resolved quote. Passive controls can still require a powered xPure buffer.
+- `available_categories` / `available_instrument_options`: actual selectable
+  controls for the resolved model and dependencies, with page-language names
+  and specifications. Page-step membership and fixed-platform exclusions apply.
+- `fixed_specifications`: fixed values, never suggested as editable menus.
+
+Power comes from the page's own `getAutomaticPowerSupply`, copied at build time.
+`required` carries the selected voltage; `not_required` has
+`battery_required=false` and a not-applicable `voltage=null`;
+`confirmation_required` has `battery_required=null`. The last state is not a
+claim that the instrument needs no battery. GRAMR's planned Zuta package retains
+its unconfirmed circuit and supply status. Price calculation is unchanged.
+
+`npm test` includes source-level page parity and **mock** Responses transport
+regressions for KO/EN/DE. These prove which facts reach the model, not that live
+OpenAI always follows the prompt. The targeted text-audit fixtures also keep the
+four known old production errors as negative evidence. See
+[`INSTRUMENT_ADVISOR_SPEC_GROUNDING_20261101.ko.md`](../../docs/INSTRUMENT_ADVISOR_SPEC_GROUNDING_20261101.ko.md).
+
+From this directory, inspect the recorded baseline without API calls:
+
+```bash
+node tools/validate-specifications.mjs --recorded --output /tmp/rf-spec-recorded
+```
+
+To run the candidate through real OpenAI Responses, supply `OPENAI_API_KEY` in
+the environment and explicitly opt in (uses API credits; no deployment):
+
+```bash
+node tools/validate-specifications.mjs --live --include-original --output /tmp/rf-spec-live
+```
+
+This runs 12 targeted language/case combinations and four original request
+histories. `--case ko-xpure_power` limits a diagnostic run. `OPENAI_MODEL` and
+`OPENAI_EFFORT` default to the production settings, `gpt-5-mini` / `low`.
+Use a fresh output directory for each run. Missing credentials produce exit 2,
+`blocked_missing_openai_api_key` and zero provider attempts, never a passing
+result. Live records include request IDs, tool rounds, source/prompt hashes,
+settings and responses; authorization headers are omitted and encrypted
+reasoning is retained only as a digest/length. Automatic text findings are an
+audit aid: even a clean run requires a manual specification review. Local live
+validation does not certify deployed Worker, browser or rate-limit behavior.
+
 Configurator 옆에서 고객의 악기 선택과 견적 상담에 답하는 Cloudflare Worker입니다. 운영 설정은 OpenAI API를 사용하며 가격은 `configurator.html`과 같은 카탈로그와 규칙으로 계산합니다. 아래 Claude 설정과 비용 기록은 기존 제공자 운영 기록입니다. 롤백할 때는 `AI_PROVIDER = "anthropic"`과 `api.anthropic.com` placement를 함께 복원합니다.
 
 ## 동작 방식

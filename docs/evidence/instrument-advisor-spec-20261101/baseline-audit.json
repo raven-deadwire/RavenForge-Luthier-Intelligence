@@ -1,0 +1,138 @@
+{
+  "format_version": 1,
+  "mode": "recorded_baseline_audit",
+  "started_at": "2026-11-01T08:23:52.350Z",
+  "finished_at": "2026-11-01T08:23:52.359Z",
+  "status": "known_errors_detected",
+  "scope": "Reinspection of recorded old production replies. No new OpenAI request and no candidate quality claim.",
+  "counts": {
+    "records": 4,
+    "records_with_findings": 4,
+    "openai_http_attempts": 0,
+    "openai_http_responses": 0,
+    "mock_requests": 0
+  },
+  "report": "baseline-audit.json (records below; original responses remain in PR #82 evidence)",
+  "records": [
+    {
+      "id": "original-ko-xpure_power",
+      "family": "xpure_power",
+      "language": "ko",
+      "original": {
+        "file": "docs/evidence/instrument-advisor-20261031/live-api/ko-EDDA.json",
+        "sha256": "502f96ba2ff9242295cc418c0eeaee41f09949240a5767b978aa1474f71b5405",
+        "selector": "calls[phase=explain]",
+        "source_commit": "2546afa584d662243cd48646a9100dba387cc74d",
+        "captured_at": "2026-10-31T14:18:46.938Z",
+        "http_status": 200,
+        "worker_version": "20261031-instrument-advisor-1"
+      },
+      "audit": {
+        "language": "ko",
+        "automatic_status": "findings_require_review",
+        "findings": [
+          {
+            "code": "xpure_9v_not_stated",
+            "description": "No explicit 9V requirement was found."
+          },
+          {
+            "code": "xpure_battery_free_assertion",
+            "description": "An explicit battery-free assertion contradicts the xPure power requirement, even if 9V is mentioned."
+          }
+        ],
+        "manual_review_required": true,
+        "scope": "Targeted text checks only; availability, negation, scope and all other prose require human review."
+      }
+    },
+    {
+      "id": "original-de-edda_electronics",
+      "family": "edda_electronics",
+      "language": "de",
+      "original": {
+        "file": "docs/evidence/instrument-advisor-20261031/live-api/de-EDDA.json",
+        "sha256": "9d49798bffb677ea3e8fa81256d63a013399d0c8ada4a9727b42861146ec9455",
+        "selector": "calls[phase=explain]",
+        "source_commit": "2546afa584d662243cd48646a9100dba387cc74d",
+        "captured_at": "2026-10-31T14:25:43.167Z",
+        "http_status": 200,
+        "worker_version": "20261031-instrument-advisor-1"
+      },
+      "audit": {
+        "language": "de",
+        "automatic_status": "findings_require_review",
+        "findings": [
+          {
+            "code": "edda_eq01_not_distinguished",
+            "description": "The supported John East ACG EQ-01 must be distinguished from Uni Pre 5."
+          },
+          {
+            "code": "edda_uni_pre_not_addressed",
+            "description": "The requested Uni Pre 5 availability question was not explicitly addressed."
+          }
+        ],
+        "manual_review_required": true,
+        "scope": "Targeted text checks only; availability, negation, scope and all other prose require human review."
+      }
+    },
+    {
+      "id": "original-en-gramr_fretboard",
+      "family": "gramr_fretboard",
+      "language": "en",
+      "original": {
+        "file": "docs/evidence/instrument-advisor-20261031/live-api/en-GRAMR.json",
+        "sha256": "ef60c181dc141f8ce6e7f4810954a18ee7ff27633c07db9a1bdb14961448ba74",
+        "selector": "calls[phase=compare]",
+        "source_commit": "2546afa584d662243cd48646a9100dba387cc74d",
+        "captured_at": "2026-10-31T14:25:05.988Z",
+        "http_status": 200,
+        "worker_version": "20261031-instrument-advisor-1"
+      },
+      "audit": {
+        "language": "en",
+        "automatic_status": "findings_require_review",
+        "findings": [
+          {
+            "code": "gramr_exotic_navigation",
+            "description": "An affirmative-looking instruction navigates to an unsupported exotic fretboard menu."
+          }
+        ],
+        "manual_review_required": true,
+        "scope": "Targeted text checks only; availability, negation, scope and all other prose require human review."
+      }
+    },
+    {
+      "id": "original-en-embla_default",
+      "family": "embla_default",
+      "language": "en",
+      "original": {
+        "file": "docs/evidence/instrument-advisor-20261031/live-apply.json",
+        "sha256": "dd4e667acd1f9960f75135cd59cc33224e7482078517bf6e788749dbc981453d",
+        "selector": "[model=EMBLA,language=en]",
+        "source_commit": "2546afa584d662243cd48646a9100dba387cc74d",
+        "captured_at": null,
+        "http_status": 200,
+        "worker_version": "20261031-instrument-advisor-1"
+      },
+      "audit": {
+        "language": "en",
+        "automatic_status": "findings_require_review",
+        "findings": [
+          {
+            "code": "embla_zuta_not_stated",
+            "description": "The standard EMBLA electronics must be identified."
+          },
+          {
+            "code": "embla_9v_not_stated",
+            "description": "No explicit EMBLA 9V supply was found."
+          },
+          {
+            "code": "embla_legacy_passive_standard",
+            "description": "The recorded passive electronics (standard) claim reappeared."
+          }
+        ],
+        "manual_review_required": true,
+        "scope": "Targeted text checks only; availability, negation, scope and all other prose require human review."
+      }
+    }
+  ]
+}
