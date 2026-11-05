@@ -1,0 +1,43 @@
+/* About > My Works. Reuses the site's paper, ink and copper palette. */
+#about-content-works .rf-works-intro { max-width: 52rem; line-height: 1.8; }
+.rf-works-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin: 1.5rem 0 2rem; }
+.rf-works-filter { min-height: 44px; padding: .55rem 1rem; border: 1px solid var(--rf-line, #cbd2cc); background: transparent; color: var(--rf-ink, #202526); font: inherit; font-size: .9rem; cursor: pointer; }
+.rf-works-filter:hover { background: #e8ece9; }
+.rf-works-filter[aria-pressed="true"] { background: var(--rf-dark, #181e20); border-color: var(--rf-dark, #181e20); color: #fff; }
+.rf-works-count { flex: 1 1 13rem; margin: 0; text-align: right; font-size: .8rem; color: var(--rf-muted, #586162); }
+.rf-works-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+.rf-works-card { min-width: 0; border: 1px solid var(--rf-line, #cbd2cc); background: #f8f8f4; }
+.rf-works-card--featured { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+.rf-works-media { position: relative; display: block; width: 100%; padding: 0; border: 0; background: #f7f6f1; cursor: zoom-in; overflow: hidden; }
+.rf-works-media img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; }
+.rf-works-card--featured .rf-works-media img { aspect-ratio: 1 / 1; }
+.rf-works-media-label { position: absolute; right: .6rem; bottom: .6rem; padding: .4rem .7rem; color: #fff; background: #202526; font-size: .75rem; line-height: 1.4; }
+.rf-works-media:hover .rf-works-media-label { background: #7b4224; }
+.rf-works-copy { display: flex; flex-direction: column; align-items: flex-start; padding: clamp(1.25rem, 2.7vw, 2.25rem); }
+.rf-works-copy > * { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+html[lang="ko"] #about-content-works :is(h3, h4, p, a, button, li, time) { word-break: keep-all; overflow-wrap: anywhere; }
+.rf-works-meta { display: flex; flex-wrap: wrap; gap: .6rem 1rem; align-items: center; width: 100%; margin-bottom: 1.1rem; color: var(--rf-muted, #586162); font-size: .75rem; }
+.rf-works-stage { border-left: 2px solid var(--rf-accent, #9a542e); padding-left: .65rem; font-weight: 600; color: #774222; }
+.rf-works-meta time { margin-left: auto; font-variant-numeric: tabular-nums; }
+#about-content-works .rf-works-title { margin: 0 0 .85rem; font-size: clamp(1.2rem, 2.1vw, 1.7rem); line-height: 1.35; font-weight: 600; letter-spacing: -.025em; }
+#about-content-works .rf-works-card--featured .rf-works-title { font-size: clamp(1.45rem, 2.5vw, 2rem); }
+.rf-works-description { margin: 0 0 1.2rem; color: var(--rf-muted, #586162); font-size: .95rem; line-height: 1.8; }
+.rf-works-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 1.5rem; padding: 0; list-style: none; }
+.rf-works-tags li { padding: .25rem .55rem; background: #e9ede7; color: #41504a; font-size: .75rem; }
+.rf-works-links { display: flex; flex-wrap: wrap; gap: .65rem 1.4rem; margin-top: auto; }
+.rf-works-links a { display: inline-flex; align-items: center; min-height: 44px; color: #774222; font-size: .9rem; font-weight: 600; text-decoration: underline; text-underline-offset: .3em; }
+.rf-works-links a:hover { color: #202526; }
+.rf-works-archive { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--rf-line, #cbd2cc); }
+#about-content-works .rf-works-archive h4 { margin: 0 0 .75rem; font-size: 1.3rem; font-weight: 600; }
+.rf-works-archive > p { margin: 0 0 1.4rem; color: var(--rf-muted, #586162); line-height: 1.7; }
+#about-content-works [hidden] { display: none !important; }
+@media (max-width: 720px) {
+  .rf-works-grid, .rf-works-card--featured { grid-template-columns: minmax(0, 1fr); }
+  .rf-works-count { flex-basis: 100%; text-align: left; margin-top: .4rem; }
+  .rf-works-card--featured .rf-works-media img { aspect-ratio: 1 / 1; }
+  .rf-works-copy { padding: 1.25rem; }
+}
+@media print {
+  .rf-works-toolbar, .rf-works-media-label { display: none; }
+  .rf-works-card { break-inside: avoid; }
+}

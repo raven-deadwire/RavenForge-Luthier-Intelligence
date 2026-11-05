@@ -55,6 +55,7 @@
 .rf-site .about-tab-btn:hover, .rf-site .spec-btn:hover { background: #e8ece9; }
 .rf-site .about-tab-btn.active, .rf-site .spec-btn.active { background: var(--rf-dark); border-color: var(--rf-dark); color: #fff; }
 .rf-site .about-content { padding-top: 1.5rem; }
+.rf-site #about-content-bio .flex.border-b > div { min-width: 0; overflow-wrap: anywhere; }
 .rf-site #personal-intro { padding: 1.5rem 0 3rem; border-color: var(--rf-line); }
 .rf-site #personal-intro > div { align-items: center; }
 .rf-site #personal-intro > div > div:first-child { border-radius: 50%; }
