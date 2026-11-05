@@ -92,6 +92,9 @@
 .rf-site .about-content .bg-stone-50, .rf-site .about-content .bg-slate-50 { background-color: rgb(248 249 246 / .5); }
 .rf-site #research-filters button { min-height: 44px; border-radius: 2px; }
 .rf-site #analysis select, .rf-site #analysis button { font-size: 1rem; min-height: 44px; }
+.rf-site #analysis .rf-featured-card-caption { flex-wrap: wrap; overflow-wrap: anywhere; }
+.rf-site #chimera .rf-chimera-muted { overflow-wrap: anywhere; }
+.rf-site #quest .rf-q-hero > * { min-width: 0; }
 .rf-site > footer { border-top: 1px solid rgb(184 148 106 / .3); background: rgb(15 23 29 / .88); color: #c6cfcd; font-size: .875rem; }
 .rf-eyebrow { font-size: .8125rem; letter-spacing: .12em; line-height: 1.6; font-weight: 500; }
 .rf-hero { display: grid; grid-template-columns: .85fr 1.15fr; background: rgb(15 25 32 / .88); margin: 0 0 2.5rem; border: 1px solid rgb(184 148 106 / .3); border-radius: 8px; }

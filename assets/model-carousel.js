@@ -54,12 +54,12 @@
 
     document.getElementById('btn-about-intro')?.remove();
 
-    const validTabs = ['brand', 'bio', 'mentors', 'works'];
+    const buttons = [...about.querySelectorAll('.about-tab-btn')];
     const savedTab = sessionStorage.getItem('activeAboutTab');
-    const activeTab = validTabs.includes(savedTab) ? savedTab : 'brand';
+    const activeTab = buttons.some(button => button.dataset.target === savedTab) ? savedTab : 'brand';
     sessionStorage.setItem('activeAboutTab', activeTab);
 
-    about.querySelectorAll('.about-tab-btn').forEach(button => {
+    buttons.forEach(button => {
       button.classList.toggle('active', button.dataset.target === activeTab);
     });
     about.querySelectorAll('.about-content').forEach(content => {
