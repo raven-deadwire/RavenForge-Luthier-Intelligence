@@ -55,7 +55,11 @@
     document.getElementById('btn-about-intro')?.remove();
 
     const buttons = [...about.querySelectorAll('.about-tab-btn')];
-    const savedTab = sessionStorage.getItem('activeAboutTab');
+    let savedTab = sessionStorage.getItem('activeAboutTab');
+    if (savedTab === 'repairs') {
+      savedTab = 'works';
+      sessionStorage.setItem('activeWorksCategory', 'repairs');
+    }
     const activeTab = buttons.some(button => button.dataset.target === savedTab) ? savedTab : 'brand';
     sessionStorage.setItem('activeAboutTab', activeTab);
 

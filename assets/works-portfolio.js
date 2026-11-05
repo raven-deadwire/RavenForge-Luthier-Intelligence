@@ -1,4 +1,4 @@
-/* Project filters and translated image labels for About > My Works / Repairs. */
+/* Category filters and translated image labels for About > My Works. */
 (() => {
   'use strict';
   const copy = {
@@ -11,7 +11,8 @@
       buildJig: "Fingerboard blank secured in the fret-slotting jig.",
       buildSlots: "Fingerboard after the fret slots were cut.",
       buildClamps: "Spring clamps hold the fingerboard against the neck blank.",
-      filters: 'Filter projects by type',
+      photoCount: photos => `${photos} ${photos === 1 ? 'photo' : 'photos'}`,
+      filters: 'Filter work by category',
       count: projects => `${projects} ${projects === 1 ? 'project' : 'projects'}`,
       open: title => `Enlarge: ${title}`,
       workshop: 'RavenForge workshop — four-room 3D design study',
@@ -42,7 +43,8 @@
       buildJig: "Der Griffbrettrohling ist in die Vorrichtung zum Sägen der Bundschlitze eingespannt.",
       buildSlots: "Das Griffbrett nach dem Sägen der Bundschlitze.",
       buildClamps: "Federzwingen pressen das Griffbrett auf den Halsrohling.",
-      filters: 'Projekte nach Art der Unterlagen filtern',
+      photoCount: photos => `${photos} ${photos === 1 ? 'Foto' : 'Fotos'}`,
+      filters: 'Arbeiten nach Kategorie filtern',
       count: projects => `${projects} ${projects === 1 ? 'Projekt' : 'Projekte'}`,
       open: title => `Vergrößern: ${title}`,
       workshop: 'RavenForge-Werkstatt — 3D-Entwurf mit vier Räumen',
@@ -73,7 +75,8 @@
       buildJig: "프렛 슬롯 가공 지그에 고정한 지판재.",
       buildSlots: "프렛 슬롯 가공을 마친 지판.",
       buildClamps: "스프링 클램프로 지판과 넥 블랭크를 압착한 모습.",
-      filters: '프로젝트 자료 분류',
+      photoCount: photos => `사진 ${photos}장`,
+      filters: '작업 카테고리',
       count: projects => `프로젝트 ${projects}개`,
       open: title => `${title} 크게 보기`,
       workshop: 'RavenForge 공방 — 네 개 공간의 3D 설계 모델',
@@ -99,16 +102,28 @@
 
   function init() {
     const works = document.getElementById('about-content-works');
-    const repairs = document.getElementById('about-content-repairs');
-    if (!works && !repairs) return;
+    if (!works) return;
+    const repairs = works.querySelector('#works-repairs');
     const toolbar = works?.querySelector('.rf-works-toolbar');
     const cards = [...(works?.querySelectorAll('[data-works-categories]') || [])];
     const grid = works?.querySelector('.rf-works-grid');
     const filters = [...(toolbar?.querySelectorAll('[data-works-filter]') || [])];
     const count = works?.querySelector('[data-works-count]');
-    const imageButtons = [works, repairs].flatMap(panel => [...(panel?.querySelectorAll('[data-works-image]') || [])]);
+    const imageButtons = [...works.querySelectorAll('[data-works-image]')];
     const labels = () => copy[document.documentElement.lang.toLowerCase().split('-')[0]] || copy.en;
-    let selected = 'all';
+    const params = new URLSearchParams(location.search);
+    const legacyRepairLink = params.get('about') === 'repairs';
+    const requested = legacyRepairLink ? 'repairs' : params.get('category');
+    const initial = requested || (params.get('about') === 'works' ? 'all' : sessionStorage.getItem('activeWorksCategory'));
+    let selected = filters.some(button => button.dataset.worksFilter === initial) ? initial : 'all';
+
+    function updateUrl() {
+      const url = new URL(location.href);
+      url.searchParams.set('about', 'works');
+      if (selected === 'all') url.searchParams.delete('category');
+      else url.searchParams.set('category', selected);
+      history.replaceState(history.state, '', url);
+    }
 
     function render() {
       const t = labels();
@@ -123,7 +138,16 @@
       });
       if (grid) grid.hidden = projects === 0;
       filters.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.worksFilter === selected)));
-      if (count) count.textContent = t.count(projects);
+      const showRepairs = selected === 'all' || selected === 'repairs';
+      if (repairs) repairs.hidden = !showRepairs;
+      const photos = showRepairs ? repairs?.querySelectorAll('[data-works-image]').length || 0 : 0;
+      if (count) {
+        const counts = [];
+        if (projects) counts.push(t.count(projects));
+        if (photos) counts.push(t.photoCount(photos));
+        count.textContent = counts.join(' · ');
+      }
+      sessionStorage.setItem('activeWorksCategory', selected);
 
       imageButtons.forEach(button => {
         const title = t[button.dataset.worksLabel];
@@ -141,12 +165,22 @@
 
     filters.forEach(button => button.addEventListener('click', () => {
       selected = button.dataset.worksFilter;
+      updateUrl();
       render();
     }));
     imageButtons.forEach(button => button.addEventListener('click', () => {
       if (typeof window.openImagePopup !== 'function' || !button.dataset.worksImage) return;
       window.openImagePopup(button.dataset.worksImage, labels()[button.dataset.worksLabel]);
     }));
+
+    window.addEventListener('popstate', () => {
+      const params = new URLSearchParams(location.search);
+      if (location.hash !== '#about' || !['works', 'repairs'].includes(params.get('about'))) return;
+      const requested = params.get('about') === 'repairs' ? 'repairs' : params.get('category');
+      selected = filters.some(button => button.dataset.worksFilter === requested) ? requested : 'all';
+      render();
+    });
+    if (legacyRepairLink) updateUrl();
 
     new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
     render();

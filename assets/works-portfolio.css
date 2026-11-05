@@ -1,8 +1,7 @@
-/* About > My Works / Instrument Repairs. Reuses the site's paper, ink and copper palette. */
-:is(#about-content-works, #about-content-repairs) .rf-works-intro { max-width: 52rem; line-height: 1.8; overflow-wrap: anywhere; }
-.rf-repair-photo { display: flex; flex-direction: column; min-width: 0; padding: 0; text-align: start; border: 1px solid var(--rf-line, #cbd2cc); background: #f8f8f4; color: var(--rf-ink, #202526); cursor: zoom-in; }
-.rf-repair-photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: contain; background: #202526; }
-.rf-repair-photo [data-works-caption] { padding: .75rem 1rem; font-size: .925rem; line-height: 1.5; overflow-wrap: anywhere; }
+/* About > My Works and its repair photo category. Reuses the site's paper, ink and copper palette. */
+#about-content-works .rf-works-intro { max-width: 52rem; line-height: 1.8; overflow-wrap: anywhere; }
+.rf-repair-photo { display: block; width: 100%; min-width: 0; padding: 0; text-align: start; border: 1px solid var(--rf-line, #cbd2cc); background: #f8f8f4; color: var(--rf-ink, #202526); cursor: zoom-in; }
+.rf-repair-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; background: #202526; }
 .rf-repair-photo:hover, .rf-repair-photo:focus-visible { border-color: var(--rf-accent, #9a542e); }
 .rf-works-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin: 1.5rem 0 2rem; }
 .rf-works-filter { min-height: 44px; padding: .55rem 1rem; border: 1px solid var(--rf-line, #cbd2cc); background: transparent; color: var(--rf-ink, #202526); font: inherit; font-size: .9rem; cursor: pointer; }
@@ -19,7 +18,7 @@
 .rf-works-media:hover .rf-works-media-label { background: #7b4224; }
 .rf-works-copy { display: flex; flex-direction: column; align-items: flex-start; padding: clamp(1.25rem, 2.7vw, 2.25rem); }
 .rf-works-copy > * { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
-html[lang="ko"] :is(#about-content-works, #about-content-repairs) :is(h3, h4, p, a, button, li, time) { word-break: keep-all; overflow-wrap: anywhere; }
+html[lang="ko"] #about-content-works :is(h3, h4, p, a, button, li, time) { word-break: keep-all; overflow-wrap: anywhere; }
 .rf-works-meta { display: flex; flex-wrap: wrap; gap: .6rem 1rem; align-items: center; width: 100%; margin-bottom: 1.1rem; color: var(--rf-muted, #586162); font-size: .75rem; }
 .rf-works-stage { border-left: 2px solid var(--rf-accent, #9a542e); padding-left: .65rem; font-weight: 600; color: #774222; }
 .rf-works-meta time { margin-left: auto; font-variant-numeric: tabular-nums; }
@@ -31,7 +30,7 @@ html[lang="ko"] :is(#about-content-works, #about-content-repairs) :is(h3, h4, p,
 .rf-works-links { display: flex; flex-wrap: wrap; gap: .65rem 1.4rem; margin-top: auto; }
 .rf-works-links a { display: inline-flex; align-items: center; min-height: 44px; color: #774222; font-size: .9rem; font-weight: 600; text-decoration: underline; text-underline-offset: .3em; }
 .rf-works-links a:hover { color: #202526; }
-:is(#about-content-works, #about-content-repairs) [hidden] { display: none !important; }
+#about-content-works [hidden] { display: none !important; }
 @media (max-width: 720px) {
   .rf-works-grid, .rf-works-card--featured { grid-template-columns: minmax(0, 1fr); }
   .rf-works-count { flex-basis: 100%; text-align: left; margin-top: .4rem; }
@@ -59,11 +58,6 @@ html[lang="ko"] :is(#about-content-works, #about-content-repairs) :is(h3, h4, p,
   .rf-works-card { break-inside: avoid; }
 }
 
-.rf-repair-record { min-width: 0; border: 1px solid var(--rf-line, #cbd2cc); background: #f8f8f4; }
-.rf-repair-record .rf-repair-photo { width: 100%; border: 0; }
-.rf-repair-copy { padding: 0 1rem 1rem; overflow-wrap: anywhere; }
-.rf-repair-copy h4 { font-weight: 600; margin-bottom: .6rem; }
-.rf-repair-copy summary { cursor: pointer; min-height: 44px; padding: .5rem 0; }
-.rf-repair-copy dl > div { margin-top: .7rem; }
-.rf-repair-copy dt { font-weight: 600; }
-.rf-repair-copy dd { margin: .15rem 0 0; color: var(--rf-muted, #586162); }
+.rf-repair-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+@media (max-width: 720px) { .rf-repair-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 440px) { .rf-repair-gallery { grid-template-columns: minmax(0, 1fr); } }
