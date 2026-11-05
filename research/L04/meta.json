@@ -1,0 +1,20 @@
+{
+  "id": "L04",
+  "date": "2026-11-05",
+  "category": "liberal",
+  "ko": {
+    "title": "The Epistemology of Craft — 암묵적 앎, 숙련된 판단과 악기의 제작",
+    "excerpt": "문헌·개념 검토판 / 제작 관찰·실증 검증 대기. 제작 중 판단은 어떻게 성립하며, 무엇을 명시적 규칙으로 기록할 수 있는가? Polanyi와 Sennett를 출발점으로 도면·공차·측정치, 감각적 단서와 경험이 결합하는 관계를 검토한다. 제작자의 판단을 기록하고 결과와 대조할 Craft Judgment Record를 제안한다. 이번 회차에는 신규 제작 실험이나 숙련자 관찰이 포함되지 않는다.",
+    "link": "research/L04/ko.html"
+  },
+  "en": {
+    "title": "The Epistemology of Craft — Tacit Knowing, Skilled Judgment, and the Making of an Instrument",
+    "excerpt": "Literature/conceptual review edition / craft-observation validation pending. How does judgment arise during making, and what can be recorded as an explicit rule? Starting from Polanyi and Sennett, this study examines the relationship between drawings, tolerances, measurements, sensory cues and experience. It proposes a Craft Judgment Record that connects decisions with observable outcomes. No new making experiment or observation of skilled practitioners was conducted for this edition.",
+    "link": "research/L04/en.html"
+  },
+  "de": {
+    "title": "The Epistemology of Craft — Implizites Wissen, fachkundiges Urteilen und der Bau eines Instruments",
+    "excerpt": "Literatur- und Konzeptfassung / Validierung durch Werkstattbeobachtung ausstehend. Wie entstehen Urteile beim Herstellen, und was lässt sich als ausdrückliche Regel festhalten? Ausgehend von Polanyi und Sennett untersucht L04 das Verhältnis von Zeichnungen, Toleranzen, Messungen, sinnlichen Hinweisen und Erfahrung. Vorgeschlagen wird ein Craft Judgment Record, der Entscheidungen mit beobachtbaren Ergebnissen verbindet. Für diese Fassung wurden weder neue Fertigungsversuche noch Beobachtungen erfahrener Fachkräfte durchgeführt.",
+    "link": "research/L04/de.html"
+  }
+}

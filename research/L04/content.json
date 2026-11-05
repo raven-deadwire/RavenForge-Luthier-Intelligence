@@ -1,0 +1,386 @@
+{
+  "ko": {
+    "subtitle": "암묵적 앎, 숙련된 판단과 악기의 제작",
+    "status": "문헌·개념 검토판 / 제작 관찰·실증 검증 대기",
+    "purpose": "제작 중 판단은 어떻게 성립하며, 무엇을 명시적 규칙으로 기록할 수 있는가? Polanyi와 Sennett를 출발점으로 도면·공차·측정치, 감각적 단서와 경험이 결합하는 관계를 검토한다. 제작자의 판단을 기록하고 결과와 대조할 Craft Judgment Record를 제안한다. 이번 회차에는 신규 제작 실험이나 숙련자 관찰이 포함되지 않는다.",
+    "thesis": "제작 판단은 명세, 신체화된 숙련, 재료의 단서, 경험과 품질 기준을 특정 상황에서 통합하는 실천적 앎으로 다룬다. 이는 RavenForge의 종합 명제이며 두 저자의 직접 인용이나 검증된 인지 모형이 아니다.",
+    "sections": [
+      [
+        "연구 질문 — 제작은 언제 앎이 되는가?",
+        "도면은 목표 형상을, 공차는 허용 범위를 설명한다. 그러나 작업자는 현재 상태를 읽고 다음 개입을 선택해야 한다. L04의 질문은 명세를 없애는 것이 아니라 명세를 사용하는 판단이 어떻게 이루어지는가이다. 같은 수정 지시도 재료 상태, 지지 조건, 도구와 작업 단계가 달라지면 다른 조치를 요구할 수 있다. 이 가능성을 실제 관찰로 확인하기 전에는 특정 제작자의 능력으로 단정하지 않는다."
+      ],
+      [
+        "Polanyi — subsidiary와 focal awareness",
+        "Polanyi는 여러 단서를 통해 하나의 초점적 대상을 파악하는 앎의 구조를 설명한다 [1]. 부차적 의식(subsidiary awareness)은 무의식의 동의어가 아니라 초점적 대상에 기여하는 역할이다. 단서 자체로 주의를 옮기면 수행 속에서 갖던 의미와 관계가 달라질 수 있다. 이 from–to 관계는 암묵지와 명시지를 서로 독립된 두 저장소로 분리하는 설명보다 이번 연구에 적합하다. The Tacit Dimension은 배경 문헌이며, 이번 검토에서 단행본 전체를 대조한 것은 아니다 [2]."
+      ],
+      [
+        "암묵적 앎은 비밀 지식이 아니다",
+        "설명이 충분하지 않다는 사실은 설명이나 검증이 원천적으로 불가능하다는 뜻이 아니다. 반대로 작업 설명서를 길게 쓴다고 수행에 필요한 통합이 그대로 전달되는 것도 아니다. L04는 관찰 가능한 단서를 가능한 범위에서 기록하되, 기록이 실제 판단 과정을 완전히 재현한다고 주장하지 않는다. 설명되지 않은 부분은 공백으로 남기고 후속 확인 조건을 적는다. 이 기록 원칙은 RavenForge의 방법론적 선택이다."
+      ],
+      [
+        "Indwelling, 숙련과 도제 학습",
+        "Polanyi의 도구 사용 논의는 손과 도구에 의지해 작업 대상에 주의를 향하는 관계를 다룬다 [1]. 이를 교육에 적용할 때에는 시범, 수행, 피드백과 재수행을 함께 기록하는 방식을 제안할 수 있다. 학습자가 같은 말을 반복하는 것과 다른 조건에서 적절히 판단하는 것은 구분해야 한다. L04는 숙련 획득의 특정 시간 임계값을 제시하지 않으며, 반복 횟수를 능력의 보증으로 쓰지 않는다."
+      ],
+      [
+        "Sennett — 제작과 사고를 함께 읽기",
+        "Sennett는 craftsmanship을 손으로 물건을 만드는 직종에 한정하지 않고 일 자체를 잘하려는 태도와 숙련의 문제로 확장한다 [3]. 공식 목차에는 작업장, 기계, 재료 의식, 손, 저항과 모호성, 품질 중심 작업이 함께 배치되어 있다 [4]. L04는 이 범위를 바탕으로 제작을 판단과 학습이 일어나는 활동으로 다룬다. 세부 장 전체를 검증한 것으로 표기하거나 수공구의 우월성을 이 서지 근거에서 추론하지 않는다."
+      ],
+      [
+        "재료의 저항과 품질 기준",
+        "예상과 다른 절삭 저항이나 접촉 흔적은 추가 확인을 시작할 단서가 될 수 있다. 그러나 그것만으로 원인을 확정할 수는 없다. 도구 상태, 결 방향, 지그의 지지, 작업자 동작 등 대안 설명을 남겨야 한다. 품질 역시 단일 감각 점수로 축약하지 않는다. 형상 적합성, 구조, 연주 요구, 유지보수 조건과 외관이 충돌하면 어떤 기준을 우선했는지 기록한다. 이는 Sennett의 재료·품질 주제를 악기 제작에 적용한 제안이다."
+      ],
+      [
+        "명세와 판단 — 충돌을 삭제하지 않기",
+        "측정치가 허용 범위 안인데 연주자가 불편을 보고하면 공차 적합과 사용 평가를 별도로 보존한다. 반대로 편하다는 소감이 구조적 부적합을 취소하지도 않는다. 판정 기준을 결과를 본 뒤 유리하게 바꾸지 않도록 기준과 변경 사유를 버전으로 남긴다. 설명이 유창한 판단과 반복 관찰로 지지되는 판단도 구분한다."
+      ],
+      [
+        "제작 사례 — 관찰 결과가 아닌 적용 예시",
+        "프렛 작업에서는 직선자 반응, 표면 흔적과 저항 변화가 추가 확인의 단서가 될 수 있다. 넥 성형에서는 단면 치수와 좌우 비교, 그립 경험을 서로 다른 기록으로 남긴다. 접합에서는 틈과 접촉 흔적을 확인하고, 셋업에서는 현·튜닝·지지·환경 조건을 함께 적는다. 이러한 예시는 작업 절차나 합격 수치를 처방하지 않으며, 실제 RavenForge 제작품에서 관찰한 결과가 아니다."
+      ],
+      [
+        "Craft Judgment Record — 판단의 근거를 남기기",
+        "한 번의 판단을 아래 필드로 기록한다. 각 기록에 작업물 ID, 날짜, 작업자, 도면·공구·지그 버전, 환경과 사진·측정 파일 경로를 연결한다. 사전 관찰과 수정 후 해석을 구분하고, 단서를 관찰하지 못했다면 추정으로 채우지 않는다. 이 양식은 RavenForge의 제안이며 Polanyi나 Sennett가 제시한 표준이 아니다."
+      ],
+      [
+        "명시 가능성과 검증 가능성은 별도 축이다",
+        "기준을 문장으로 표현하기 쉽다는 것만으로 그 기준의 유효성이 입증되지는 않는다. 이유를 충분히 설명하지 못하는 판단도 관찰 가능한 결과와 연결해 제한적으로 평가할 수 있다. 아래 매트릭스는 기록상의 구분이며 사람이나 숙련 수준을 점수화하는 척도가 아니다."
+      ],
+      [
+        "L02·L03·L13과의 경계",
+        "L02가 신체적 편입, L03이 연주자에게 가능한 행동, L13이 기술적 매개를 다룬다면 L04는 제작자가 단서를 근거로 판단하고 그 판단을 수정하는 문제를 다룬다. 선행 연구는 질문의 연속성을 제공한다. 기존 문서의 존재가 제작자의 판단 정확도나 제품의 품질을 독립적으로 입증하지는 않는다."
+      ],
+      [
+        "Myth audit — 주장하지 않을 것",
+        "‘장인의 감은 측정보다 우월하다’, ‘암묵지는 전혀 설명할 수 없다’, ‘수작업만이 진정한 craft다’, ‘반복 시간만 채우면 전문가가 된다’, ‘숙련자의 판단은 항상 객관적이다’를 결론으로 사용하지 않는다. 같은 이유로 문서화가 모든 숙련을 대체한다거나 CNC가 판단을 없앤다고 단정하지 않는다."
+      ],
+      [
+        "후속 검증 — 아직 실행하지 않은 프로토콜",
+        "먼저 작업과 판단 질문을 좁히고 사전 기준을 고정한다. 수정 전 단서, 선택한 개입, 수정 후 측정과 사용 평가를 분리해 수집한다. 같은 작업물의 반복 측정과 서로 다른 작업물의 비교를 혼동하지 않는다. 회고 설명에는 기억과 사후 합리화의 한계가 있으며, 작업 중 발화는 수행을 바꿀 수 있으므로 기록 시점을 구분한다. 실패·불일치·미완료 사례를 보존하고, 비교 가능한 경우 독립 검토자의 판정 차이도 보고한다. 표본 수나 정확도 목표는 파일럿과 연구 질문에 근거해 정하며 이번 글에서 임의로 확정하지 않는다."
+      ],
+      [
+        "현재 결론과 L05로의 이관",
+        "제작 지식은 명시적 자원을 감각적 단서·경험·품질 기준과 통합해 상황에 맞게 판단하는 실천으로 다룰 수 있다. 기록의 목적은 그 판단을 권위로 봉인하는 것이 아니라 관찰 가능한 결과와 연결하고 수정 가능하게 만드는 것이다. 다음 정규 연구 L05 — Craft, CNC and the Location of Judgment에서는 판단이 설계, 공구 경로, 지그, 가공 중 개입과 검사에 어떻게 배치되는지 검토한다. L05는 후속 계획이며 이번 발행에 포함되지 않는다."
+      ]
+    ],
+    "record": [
+      [
+        "명시적 기준",
+        "도면·공차·검사 조건과 기준 버전"
+      ],
+      [
+        "관찰 단서",
+        "실제로 보고·듣고·느낀 것과 측정값"
+      ],
+      [
+        "판단",
+        "선택한 해석, 대안 설명과 판단 근거"
+      ],
+      [
+        "개입",
+        "변경 위치·방법·순서와 되돌릴 수 있는 범위"
+      ],
+      [
+        "결과",
+        "수정 후 측정·관찰; 미확인 결과는 미확인으로"
+      ],
+      [
+        "확신·불확실성",
+        "반복 확인 / 잠정 / 미해결의 근거"
+      ],
+      [
+        "재검토 조건",
+        "현 장력, 환경 변화, 연주 피드백 등 재확인 계기"
+      ]
+    ],
+    "matrix": [
+      [
+        "",
+        "결과 검증 조건이 정해짐",
+        "결과 검증 조건이 미정"
+      ],
+      [
+        "명시하기 쉬움",
+        "공차·측정 조건을 고정하고 실제 적합 확인",
+        "문서화된 선호·규칙: 유효성은 별도 확인"
+      ],
+      [
+        "명시하기 어려움",
+        "단서를 일부만 설명해도 결과와 반복성 확인",
+        "판단을 잠정 보류하고 관찰 조건부터 설계"
+      ]
+    ],
+    "diagram1": [
+      "명세·환경·이력",
+      "관찰 가능한 단서",
+      "숙련된 통합·판단",
+      "개입과 결과 확인"
+    ],
+    "diagram2": [
+      "손·도구의 저항",
+      "표면·직선자 단서",
+      "초점: 수정할 영역 판단"
+    ],
+    "captions": [
+      "그림 2. 판단 기록의 개념적 순환. 결과는 다음 판단의 근거가 된다. 인지 과정이나 효과 크기의 실측 모형이 아니다.",
+      "그림 1. Polanyi-inspired analytical schematic. 두 단서군을 초점적 판단에 연결한 RavenForge 적용 해석. 실제 숙련자 관찰 결과가 아니다."
+    ],
+    "sourceNote": "2026-11-05 확인 범위: [1]은 Polanyi Society가 허가를 받아 게재한 공개 원문이다. 웹 판본은 1969년 Knowing and Being 수록본을 따르며 첫 문단이 1965년 Brain 판본과 다르다는 안내를 유지한다. [2]는 Chicago Press의 2009년 판본 서지·소개, [3]은 Yale의 2009년 페이퍼백 서지·소개, [4]는 공식 목차를 확인했다. 단행본 전체, 장별 문구와 쪽수 인용 검증 완료를 주장하지 않는다. 심층 연구에서 제안된 후속 2차 문헌은 본 발행의 직접 근거로 채택하지 않았다. 모든 제작 예시·매트릭스·기록 양식은 RavenForge의 방법론적 제안이다.",
+    "complete": "완료: 다국어 문헌·개념 원고, 공개 출처 확인과 기록 프레임. 미실시: 제작자 관찰, 신규 벤치·연주 시험, 기록 양식의 타당도·효과 크기 검증."
+  },
+  "en": {
+    "subtitle": "Tacit Knowing, Skilled Judgment, and the Making of an Instrument",
+    "status": "Literature/conceptual review edition / craft-observation validation pending",
+    "purpose": "How does judgment arise during making, and what can be recorded as an explicit rule? Starting from Polanyi and Sennett, this study examines the relationship between drawings, tolerances, measurements, sensory cues and experience. It proposes a Craft Judgment Record that connects decisions with observable outcomes. No new making experiment or observation of skilled practitioners was conducted for this edition.",
+    "thesis": "Craft judgment is treated as a situated integration of specifications, embodied skill, material cues, experience and standards of quality. This is RavenForge’s synthesis, not a quotation from either author or a validated cognitive model.",
+    "sections": [
+      [
+        "Research question — when does making become knowing?",
+        "A drawing describes a target geometry; a tolerance defines an acceptable range. The maker must still read the current situation and choose an intervention. L04 asks how specifications are used in judgment. The same correction request may require different actions when material condition, support, tools or production stage change. Until observed, this possibility is not evidence of any particular maker’s competence."
+      ],
+      [
+        "Polanyi — subsidiary and focal awareness",
+        "Polanyi describes knowing a focal object through the integration of contributing clues [1]. Subsidiary awareness names a functional relationship to that object, not simply unconsciousness. Focusing on a clue itself can alter the meaning it has within performance. This from–to relationship is more useful here than treating tacit and explicit knowledge as separate stores. The Tacit Dimension provides background; its entire text was not checked for this edition [2]."
+      ],
+      [
+        "Tacit knowing is not secret knowledge",
+        "An incomplete explanation does not make explanation or testing impossible. Conversely, a longer manual does not necessarily transfer the integration required in performance. L04 records observable cues where possible without claiming to reproduce the whole judgment process. Unexplained aspects remain explicit gaps with conditions for further review. This recording principle is a RavenForge methodological choice."
+      ],
+      [
+        "Indwelling, skill and apprenticeship",
+        "Polanyi’s discussion of tool use concerns attending to a task through reliance on body and tool [1]. An educational application can therefore propose records of demonstration, performance, feedback and renewed attempts. Repeating an instructor’s words differs from judging appropriately under changed conditions. L04 specifies no universal time threshold for acquiring skill and does not treat repetition counts as guarantees of competence."
+      ],
+      [
+        "Sennett — reading making and thinking together",
+        "Sennett extends craftsmanship beyond manual occupations to the development of skill and a commitment to doing work well for its own sake [3]. The official contents place workshops, machines, material consciousness, the hand, resistance and ambiguity, and quality-driven work within the same inquiry [4]. L04 uses that scope to approach making as an activity involving judgment and learning. It does not claim a full chapter-by-chapter verification or infer the superiority of hand tools from bibliographic evidence."
+      ],
+      [
+        "Material resistance and standards of quality",
+        "Unexpected cutting resistance or contact marks may prompt further inspection; they do not establish a cause on their own. Tool condition, grain direction, jig support and operator movement remain alternative explanations. Quality is not reduced to a single sensory score. When geometry, structure, playing requirements, serviceability and appearance conflict, the priority chosen must be recorded. This is a proposed instrument-making application of Sennett’s material and quality themes."
+      ],
+      [
+        "Specification and judgment — preserve disagreement",
+        "If a measurement meets tolerance but a player reports discomfort, retain conformity and the use evaluation as separate findings. A positive impression does not cancel a structural nonconformity either. Version the criteria and reasons for changing them so that standards are not silently adjusted after seeing results. Distinguish a fluent explanation from a judgment supported by repeated observation."
+      ],
+      [
+        "Making examples — applications, not observations",
+        "In fretwork, straightedge responses, surface traces and resistance changes may prompt further checks. In neck shaping, section dimensions, side-to-side comparisons and grip experience belong in distinct records. Fit assessment can record gaps and contact traces; setup records should include strings, tuning, support and environment. These examples prescribe neither a procedure nor acceptance values, and are not reported observations of RavenForge instruments."
+      ],
+      [
+        "Craft Judgment Record — preserve the basis of a decision",
+        "Record one judgment using the fields below. Attach the workpiece ID, date, operator, drawing/tool/jig versions, environment and paths to photographs or measurement files. Separate prior observation from interpretation after intervention; do not fill unobserved cues with guesses. The form is a RavenForge proposal, not a standard devised by Polanyi or Sennett."
+      ],
+      [
+        "Articulability and testability are separate axes",
+        "A criterion that is easy to state has not thereby been shown to be valid. A judgment whose reasons are difficult to articulate may still be assessed against observable outcomes under defined conditions. The matrix is a recording distinction, not a scoring scale for people or expertise."
+      ],
+      [
+        "Boundaries with L02, L03 and L13",
+        "L02 addresses bodily incorporation, L03 the actions available to a player, and L13 technological mediation. L04 concerns how makers judge from cues and revise those judgments. Earlier studies provide continuity of questions. Their existence does not independently establish the accuracy of a maker’s judgment or the quality of a product."
+      ],
+      [
+        "Myth audit — claims not adopted",
+        "This study does not conclude that craft intuition outranks measurement, that tacit knowing is entirely inexpressible, that only handwork is authentic craft, that accumulated hours guarantee expertise, or that skilled judgment is always objective. Nor does it assume that documentation replaces all skill or that CNC removes judgment."
+      ],
+      [
+        "Future validation — a protocol not yet executed",
+        "First narrow the task and judgment question, then fix the criteria in advance. Collect cues before intervention, the intervention chosen, and subsequent measurements and use evaluations separately. Do not confuse repeated measurement of one workpiece with comparisons between different workpieces. Retrospective explanations are limited by memory and hindsight; concurrent speech may alter performance, so record when explanations were collected. Preserve failures, disagreements and incomplete cases. Where comparison is feasible, report differences between independent reviewers. Sample sizes and accuracy targets should follow the research question and a pilot, not arbitrary values assigned in this article."
+      ],
+      [
+        "Current conclusion and the handoff to L05",
+        "Making knowledge can be approached as the practice of integrating explicit resources with sensory cues, experience and quality standards to judge a particular situation. Records should connect that judgment with observable outcomes and make revision possible. The next regular study, L05 — Craft, CNC and the Location of Judgment, will examine how judgment is distributed across design, toolpaths, fixtures, intervention during machining and inspection. L05 is a future study, not part of this publication."
+      ]
+    ],
+    "record": [
+      [
+        "Explicit specification",
+        "Drawing, tolerance, inspection conditions and criterion version"
+      ],
+      [
+        "Observable cue",
+        "What was actually seen, heard, felt or measured"
+      ],
+      [
+        "Judgment",
+        "Chosen interpretation, alternatives and grounds"
+      ],
+      [
+        "Intervention",
+        "Location, method, sequence and scope for reversal"
+      ],
+      [
+        "Outcome",
+        "Post-intervention measurements and observations; unknowns stay unknown"
+      ],
+      [
+        "Confidence / uncertainty",
+        "Grounds for repeatable, tentative or unresolved status"
+      ],
+      [
+        "Review condition",
+        "Triggers such as string tension, environmental change or player feedback"
+      ]
+    ],
+    "matrix": [
+      [
+        "",
+        "Outcome test conditions defined",
+        "Outcome test conditions undefined"
+      ],
+      [
+        "Easier to articulate",
+        "Fix tolerance and measurement conditions; check actual conformity",
+        "Documented preferences or rules still require validation"
+      ],
+      [
+        "Harder to articulate",
+        "Check outcomes and repeatability even if cues are only partly explained",
+        "Keep judgment provisional; design observation conditions first"
+      ]
+    ],
+    "diagram1": [
+      "Specification, context, history",
+      "Observable cues",
+      "Skilled integration and judgment",
+      "Intervention and outcome review"
+    ],
+    "diagram2": [
+      "Resistance through hand and tool",
+      "Surface and straightedge clues",
+      "Focus: judging the area to revise"
+    ],
+    "captions": [
+      "Figure 2. Conceptual recording loop. Outcomes inform later judgments. This is not a measured cognitive model or an estimate of effect size.",
+      "Figure 1. Polanyi-inspired analytical schematic. RavenForge links two groups of clues to a focal judgment. No skilled-practitioner observation is represented."
+    ],
+    "sourceNote": "Scope checked on 2026-11-05: [1] is the authorized public text hosted by the Polanyi Society. Its notice states that it follows the 1969 Knowing and Being version, with a modified first paragraph relative to the 1965 Brain publication. For [2], the Chicago Press 2009 edition’s bibliographic record and description were checked; for [3], Yale’s 2009 paperback record and description; for [4], the official contents. This is not a claim to have verified the complete books or chapter-specific wording and page quotations. Additional secondary literature suggested in the research report is not used as direct evidence in this edition. All making examples, matrices and record forms are RavenForge methodological proposals.",
+    "complete": "Completed: multilingual conceptual manuscript, public-source checks and recording framework. Not conducted: craft observation, new bench or playing tests, validation of the record form or estimation of its effects."
+  },
+  "de": {
+    "subtitle": "Implizites Wissen, fachkundiges Urteilen und der Bau eines Instruments",
+    "status": "Literatur- und Konzeptfassung / Validierung durch Werkstattbeobachtung ausstehend",
+    "purpose": "Wie entstehen Urteile beim Herstellen, und was lässt sich als ausdrückliche Regel festhalten? Ausgehend von Polanyi und Sennett untersucht L04 das Verhältnis von Zeichnungen, Toleranzen, Messungen, sinnlichen Hinweisen und Erfahrung. Vorgeschlagen wird ein Craft Judgment Record, der Entscheidungen mit beobachtbaren Ergebnissen verbindet. Für diese Fassung wurden weder neue Fertigungsversuche noch Beobachtungen erfahrener Fachkräfte durchgeführt.",
+    "thesis": "Handwerkliches Urteilen wird als situationsgebundene Integration von Spezifikationen, verkörpertem Können, Materialhinweisen, Erfahrung und Qualitätsmaßstäben behandelt. Dies ist RavenForges Synthese, kein Zitat der Autoren und kein validiertes kognitives Modell.",
+    "sections": [
+      [
+        "Forschungsfrage — wann wird Herstellen zum Erkennen?",
+        "Eine Zeichnung beschreibt die Zielgeometrie, eine Toleranz den zulässigen Bereich. Die ausführende Person muss dennoch den aktuellen Zustand beurteilen und einen Eingriff wählen. L04 fragt, wie Spezifikationen im Urteil verwendet werden. Derselbe Korrekturauftrag kann bei anderem Materialzustand, anderer Auflage, anderen Werkzeugen oder in einer anderen Fertigungsphase andere Maßnahmen erfordern. Ohne Beobachtung belegt diese Möglichkeit nicht die Kompetenz einer bestimmten Person."
+      ],
+      [
+        "Polanyi — subsidiäres und fokales Bewusstsein",
+        "Polanyi beschreibt das Erkennen eines fokalen Gegenstands durch die Integration beitragender Hinweise [1]. Subsidiäres Bewusstsein bezeichnet eine funktionale Beziehung zu diesem Gegenstand und ist nicht einfach mit Unbewusstheit gleichzusetzen. Wird ein Hinweis selbst fokussiert, kann sich seine Bedeutung innerhalb des Vollzugs verändern. Diese Von-zu-Struktur ist hier hilfreicher als zwei getrennte Speicher für implizites und explizites Wissen. The Tacit Dimension dient als Hintergrundliteratur; der vollständige Buchtext wurde für diese Fassung nicht geprüft [2]."
+      ],
+      [
+        "Implizites Wissen ist kein Geheimwissen",
+        "Eine unvollständige Erklärung macht Erklärung oder Prüfung nicht grundsätzlich unmöglich. Umgekehrt überträgt ein längeres Handbuch nicht zwangsläufig die im Handeln erforderliche Integration. L04 dokumentiert beobachtbare Hinweise, soweit möglich, ohne den gesamten Urteilsprozess zu rekonstruieren. Unerklärte Aspekte bleiben ausdrücklich Lücken mit Bedingungen für eine spätere Prüfung. Dieses Dokumentationsprinzip ist eine methodische Entscheidung von RavenForge."
+      ],
+      [
+        "Indwelling, Können und Ausbildung",
+        "Polanyis Erörterung des Werkzeuggebrauchs behandelt die Hinwendung zur Aufgabe im Vertrauen auf Körper und Werkzeug [1]. Für die Ausbildung lässt sich daraus eine Dokumentation von Vorführung, Ausführung, Rückmeldung und erneutem Versuch vorschlagen. Die Worte einer Lehrperson zu wiederholen ist etwas anderes, als unter veränderten Bedingungen angemessen zu urteilen. L04 nennt keine allgemeine Stundenschwelle für den Kompetenzerwerb und verwendet Wiederholungszahlen nicht als Kompetenzgarantie."
+      ],
+      [
+        "Sennett — Herstellen und Denken gemeinsam betrachten",
+        "Sennett erweitert Handwerk über manuelle Berufe hinaus auf Können und den Anspruch, eine Arbeit um ihrer selbst willen gut zu machen [3]. Das offizielle Inhaltsverzeichnis verbindet Werkstatt, Maschinen, Materialbewusstsein, Hand, Widerstand und Mehrdeutigkeit sowie qualitätsorientiertes Arbeiten [4]. L04 betrachtet Herstellen vor diesem Hintergrund als Tätigkeit, in der geurteilt und gelernt wird. Eine vollständige Prüfung aller Kapitel oder eine daraus abgeleitete Überlegenheit von Handwerkzeugen wird nicht behauptet."
+      ],
+      [
+        "Materialwiderstand und Qualitätsmaßstäbe",
+        "Unerwarteter Schnittwiderstand oder Kontaktspuren können eine weitere Prüfung veranlassen, legen die Ursache aber nicht allein fest. Werkzeugzustand, Faserrichtung, Aufspannung und Bewegung bleiben alternative Erklärungen. Qualität wird nicht auf einen einzigen sinnlichen Wert reduziert. Wenn Geometrie, Struktur, Spielanforderungen, Wartbarkeit und Erscheinungsbild miteinander kollidieren, ist die gewählte Priorität zu dokumentieren. Dies ist eine vorgeschlagene Anwendung von Sennetts Material- und Qualitätsthemen auf den Instrumentenbau."
+      ],
+      [
+        "Spezifikation und Urteil — Widersprüche bewahren",
+        "Liegt ein Messwert innerhalb der Toleranz, während eine spielende Person Beschwerden meldet, bleiben Maßhaltigkeit und Nutzungserfahrung getrennte Befunde. Ein positiver Eindruck hebt umgekehrt keine strukturelle Abweichung auf. Kriterien und Änderungsgründe erhalten Versionsstände, damit Maßstäbe nicht nach Kenntnis der Ergebnisse stillschweigend angepasst werden. Eine sprachlich überzeugende Erklärung ist von einem durch wiederholte Beobachtung gestützten Urteil zu unterscheiden."
+      ],
+      [
+        "Fertigungsbeispiele — Anwendungen, keine Beobachtungsdaten",
+        "Bei Bundarbeiten können die Reaktion eines Richtscheits, Oberflächenspuren und Widerstandsänderungen weitere Prüfungen veranlassen. Beim Formen eines Halses werden Querschnittsmaße, Seitenvergleiche und Griffempfinden getrennt dokumentiert. Bei Passungen lassen sich Spalte und Kontaktspuren festhalten; beim Setup gehören Saiten, Stimmung, Auflage und Umgebung dazu. Diese Beispiele schreiben weder Arbeitsverfahren noch Abnahmewerte vor und sind keine berichteten Beobachtungen an RavenForge-Instrumenten."
+      ],
+      [
+        "Craft Judgment Record — Entscheidungsgrundlagen festhalten",
+        "Ein einzelnes Urteil wird mit den folgenden Feldern dokumentiert. Ergänzt werden Werkstück-ID, Datum, ausführende Person, Versionen von Zeichnung, Werkzeug und Vorrichtung, Umgebung sowie Pfade zu Fotos oder Messdateien. Beobachtungen vor dem Eingriff sind von späteren Interpretationen zu trennen. Nicht beobachtete Hinweise werden nicht durch Vermutungen ersetzt. Das Formular ist RavenForges Vorschlag, kein von Polanyi oder Sennett entwickelter Standard."
+      ],
+      [
+        "Artikulierbarkeit und Prüfbarkeit sind getrennte Achsen",
+        "Ein leicht formulierbares Kriterium ist dadurch noch nicht als gültig erwiesen. Auch ein schwer begründbares Urteil kann unter definierten Bedingungen anhand beobachtbarer Ergebnisse eingeschränkt geprüft werden. Die Matrix unterscheidet Dokumentationslagen; sie bewertet weder Personen noch Kompetenzstufen."
+      ],
+      [
+        "Abgrenzung zu L02, L03 und L13",
+        "L02 behandelt leibliche Integration, L03 die Handlungsmöglichkeiten von Spielenden und L13 technische Mediation. L04 untersucht, wie Herstellende anhand von Hinweisen urteilen und ihre Urteile revidieren. Frühere Studien sichern die Kontinuität der Fragen. Ihre Existenz belegt weder die Urteilsgenauigkeit einer Fachkraft noch die Qualität eines Produkts unabhängig."
+      ],
+      [
+        "Mythenprüfung — nicht übernommene Behauptungen",
+        "L04 behauptet weder, dass handwerkliche Intuition Messungen überlegen sei, noch dass implizites Wissen völlig unaussprechlich sei, nur Handarbeit als echtes Handwerk gelte, angesammelte Stunden Expertise garantierten oder fachkundige Urteile immer objektiv seien. Ebenso wenig wird angenommen, Dokumentation ersetze jedes Können oder CNC beseitige das Urteilen."
+      ],
+      [
+        "Künftige Validierung — noch nicht durchgeführtes Protokoll",
+        "Zuerst werden Aufgabe und Urteilsfrage eingegrenzt und Kriterien vorab festgelegt. Hinweise vor dem Eingriff, gewählte Maßnahmen sowie anschließende Messungen und Nutzungseinschätzungen werden getrennt erhoben. Wiederholte Messungen eines Werkstücks sind nicht mit Vergleichen verschiedener Werkstücke gleichzusetzen. Rückblickende Erklärungen unterliegen Erinnerungs- und Rechtfertigungseffekten; begleitendes Sprechen kann die Ausführung verändern. Deshalb wird der Zeitpunkt der Erklärung erfasst. Fehler, Widersprüche und unvollständige Fälle bleiben erhalten. Wo Vergleiche möglich sind, werden auch Abweichungen zwischen unabhängigen Prüfenden berichtet. Stichprobengröße und Genauigkeitsziele folgen Forschungsfrage und Pilotstudie, nicht willkürlichen Vorgaben dieses Artikels."
+      ],
+      [
+        "Aktueller Schluss und Übergang zu L05",
+        "Fertigungswissen lässt sich als Praxis verstehen, die ausdrückliche Ressourcen mit sinnlichen Hinweisen, Erfahrung und Qualitätsmaßstäben zu situationsbezogenen Urteilen verbindet. Aufzeichnungen sollen Urteile mit beobachtbaren Ergebnissen verknüpfen und Revision ermöglichen. Die nächste reguläre Studie L05 — Craft, CNC and the Location of Judgment untersucht die Verteilung des Urteilens auf Entwurf, Werkzeugbahnen, Vorrichtungen, Eingriffe während der Bearbeitung und Prüfung. L05 ist ein Vorhaben und nicht Bestandteil dieser Veröffentlichung."
+      ]
+    ],
+    "record": [
+      [
+        "Explizite Spezifikation",
+        "Zeichnung, Toleranz, Prüfbedingungen und Kriterienversion"
+      ],
+      [
+        "Beobachtbarer Hinweis",
+        "Was tatsächlich gesehen, gehört, gefühlt oder gemessen wurde"
+      ],
+      [
+        "Urteil",
+        "Gewählte Deutung, Alternativen und Gründe"
+      ],
+      [
+        "Eingriff",
+        "Ort, Methode, Reihenfolge und Umkehrbarkeit"
+      ],
+      [
+        "Ergebnis",
+        "Messungen und Beobachtungen danach; Unbekanntes bleibt unbekannt"
+      ],
+      [
+        "Sicherheit / Unsicherheit",
+        "Begründung für wiederholt bestätigt, vorläufig oder ungeklärt"
+      ],
+      [
+        "Bedingung der erneuten Prüfung",
+        "Anlässe wie Saitenzug, Umgebungsänderung oder Rückmeldung von Spielenden"
+      ]
+    ],
+    "matrix": [
+      [
+        "",
+        "Prüfbedingungen des Ergebnisses definiert",
+        "Prüfbedingungen des Ergebnisses offen"
+      ],
+      [
+        "Leichter artikulierbar",
+        "Toleranz und Messbedingungen fixieren; tatsächliche Konformität prüfen",
+        "Dokumentierte Vorlieben oder Regeln benötigen weiterhin Validierung"
+      ],
+      [
+        "Schwerer artikulierbar",
+        "Ergebnisse und Wiederholbarkeit trotz nur teilweise erklärter Hinweise prüfen",
+        "Urteil vorläufig lassen; zunächst Beobachtungsbedingungen entwerfen"
+      ]
+    ],
+    "diagram1": [
+      "Spezifikation, Kontext, Verlauf",
+      "Beobachtbare Hinweise",
+      "Fachkundige Integration und Urteil",
+      "Eingriff und Ergebnisprüfung"
+    ],
+    "diagram2": [
+      "Widerstand über Hand und Werkzeug",
+      "Oberflächen- und Richtscheithinweise",
+      "Fokus: zu korrigierenden Bereich beurteilen"
+    ],
+    "captions": [
+      "Abbildung 2. Begrifflicher Dokumentationskreislauf. Ergebnisse gehen in spätere Urteile ein. Kein gemessenes kognitives Modell und keine Effektgrößenschätzung.",
+      "Abbildung 1. Von Polanyi inspiriertes analytisches Schema. RavenForge verbindet zwei Hinweisgruppen mit einem fokalen Urteil. Keine Beobachtungsdaten von Fachkräften."
+    ],
+    "sourceNote": "Prüfumfang am 2026-11-05: [1] ist der von der Polanyi Society mit Genehmigung veröffentlichte Volltext. Laut Hinweis folgt er der Fassung in Knowing and Being von 1969; der erste Absatz unterscheidet sich von der Brain-Veröffentlichung von 1965. Bei [2] wurden Bibliografie und Beschreibung der Chicago-Press-Ausgabe von 2009 geprüft, bei [3] der Yale-Taschenbuchausgabe von 2009 und bei [4] das offizielle Inhaltsverzeichnis. Eine vollständige Prüfung der Bücher, einzelner Kapitelformulierungen oder Seitenzitate wird nicht behauptet. Im Forschungsbericht vorgeschlagene weitere Sekundärliteratur wird in dieser Fassung nicht als unmittelbarer Beleg verwendet. Alle Fertigungsbeispiele, Matrizen und Formulare sind methodische Vorschläge von RavenForge.",
+    "complete": "Abgeschlossen: mehrsprachiges begriffliches Manuskript, Prüfung öffentlicher Quellen und Dokumentationsrahmen. Nicht durchgeführt: Werkstattbeobachtung, neue Mess- oder Spielversuche, Validierung des Formulars oder Schätzung seiner Wirkungen."
+  }
+}
