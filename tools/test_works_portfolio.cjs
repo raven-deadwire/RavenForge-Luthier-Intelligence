@@ -110,7 +110,7 @@ async function main() {
   }
   // Published legacy links and saved tabs must still lead to the repair category.
   for (const [lang,file] of [['en','index.html'],['ko','ko.html'],['de','de.html']]) {
-    for (const query of ['?about=repairs#about','?about=works&category=repairs#about']) {
+    for (const query of [`?lang=${lang}&about=repairs#about`,`?lang=${lang}&about=works&category=repairs#about`]) {
       await page.goto(base + file + query);
       await page.locator('#works-repairs').waitFor({state:'visible'});
       assert.equal(await page.locator('#about-content-works').isVisible(),true);
@@ -120,7 +120,7 @@ async function main() {
       assert.equal(new URL(page.url()).searchParams.get('category'),'repairs');
     }
     await page.evaluate(() => sessionStorage.setItem('activeAboutTab','repairs'));
-    await page.goto(base + file + '#about');
+    await page.goto(base + file + `?lang=${lang}#about`);
     await page.locator('#works-repairs').waitFor({state:'visible'});
     assert.equal(await page.locator('[data-works-filter="repairs"]').getAttribute('aria-pressed'),'true');
     report.cases.push({lang,view:'repair-link-migration',status:'pass'});
@@ -141,6 +141,7 @@ async function main() {
   for(const scenario of ['missing-img','missing-popup','missing-popup-empty-image','missing-archive','missing-grid','missing-count','unknown-label','empty-image','de-DE','ko-KR','EN-us']) {
     const only=process.argv.find(arg=>arg.startsWith('--scenario='))?.split('=')[1]; if(only && scenario!==only) continue;
     await page.goto(base + '__works-fixture.html');
+    await page.evaluate(() => sessionStorage.clear());
     const regional=scenario.includes('-')&&['de-DE','ko-KR','EN-us'].includes(scenario);
     await page.setContent(`<html lang="${regional?scenario:'en'}"><body><div id="about-content-works"><div class="rf-works-toolbar" hidden><button data-works-filter="all"></button><button data-works-filter="repairs"></button></div><p data-works-count></p><div class="rf-works-grid"><article data-works-categories="models"><button data-works-image="${['empty-image','missing-popup-empty-image'].includes(scenario)?'':'x'}" data-works-label="${scenario==='unknown-label'?'unknown':'workshop'}">${scenario==='missing-img'?'':'<img>'}</button></article></div><section id="works-repairs"><img></section></div>${scenario.startsWith('missing-popup')?'':'<img id="popup-img" src="x">'}</body></html>`);
     if(['missing-archive','missing-grid','missing-count'].includes(scenario)) await page.locator({'missing-archive':'#works-repairs','missing-grid':'.rf-works-grid','missing-count':'[data-works-count]'}[scenario]).evaluate(el=>el.remove());
@@ -154,7 +155,7 @@ async function main() {
     }
      await page.locator('[data-works-filter="repairs"]').click();
     assert.deepEqual(errors,[],scenario);assert.equal(await page.locator('.rf-works-toolbar').isVisible(),true,scenario);
-    if(regional) assert.equal(await page.locator('.rf-works-toolbar').getAttribute('aria-label'),{'de-DE':'Projekte nach Art der Unterlagen filtern','ko-KR':'프로젝트 자료 분류','EN-us':'Filter projects by type'}[scenario]);
+    if(regional) assert.equal(await page.locator('.rf-works-toolbar').getAttribute('aria-label'),{'de-DE':'Arbeiten nach Kategorie filtern','ko-KR':'작업 카테고리','EN-us':'Filter work by category'}[scenario]);
     page.off('pageerror',handler);report.cases.push({scenario,status:'pass'});
   }
   assert.deepEqual(report.errors,[]);
