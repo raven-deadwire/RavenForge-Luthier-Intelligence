@@ -58,3 +58,12 @@ html[lang="ko"] :is(#about-content-works, #about-content-repairs) :is(h3, h4, p,
   .rf-works-toolbar, .rf-works-media-label { display: none; }
   .rf-works-card { break-inside: avoid; }
 }
+
+.rf-repair-record { min-width: 0; border: 1px solid var(--rf-line, #cbd2cc); background: #f8f8f4; }
+.rf-repair-record .rf-repair-photo { width: 100%; border: 0; }
+.rf-repair-copy { padding: 0 1rem 1rem; overflow-wrap: anywhere; }
+.rf-repair-copy h4 { font-weight: 600; margin-bottom: .6rem; }
+.rf-repair-copy summary { cursor: pointer; min-height: 44px; padding: .5rem 0; }
+.rf-repair-copy dl > div { margin-top: .7rem; }
+.rf-repair-copy dt { font-weight: 600; }
+.rf-repair-copy dd { margin: .15rem 0 0; color: var(--rf-muted, #586162); }

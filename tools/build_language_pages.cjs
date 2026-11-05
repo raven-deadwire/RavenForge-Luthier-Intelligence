@@ -53,6 +53,8 @@ function localizeAttribute(tag, attribute, value) {
 
 // Keep image descriptions accurate before the enhancement script loads.
 function prefillPortfolioLabels(html, copy) {
+  html = html.replace(/<div id="image-popup"[^>]*>/, tag => localizeAttribute(tag, 'aria-label', copy.image));
+  html = html.replace(/<button id="popup-close"[^>]*>/, tag => localizeAttribute(tag, 'aria-label', copy.close));
   html = replaceOnce(html, /<div\b[^>]*\bclass="[^"]*\brf-works-toolbar\b[^"]*"[^>]*>/,
     tag => localizeAttribute(tag, 'aria-label', copy.filters), 'portfolio toolbar');
   return html.replace(/(<button\b[^>]*\bdata-works-label="([^"]+)"[^>]*>)([\s\S]*?)(<\/button>)/g,

@@ -294,3 +294,7 @@
 .rf-site .rune-font.text-amber-600 { color: #92400e; }
 .rf-site .rf-chimera-number { color: #7a4c26; }
 .rf-site #concept .rf-eyebrow { color: #7f4423; }
+
+/* Let long compounds and equipment lists wrap within narrow cards. */
+.rf-site main :is(h1, h2, h3, h4, h5, p, li, a) { overflow-wrap: anywhere; }
+.rf-site main :is(.grid, .flex) > * { min-width: 0; }

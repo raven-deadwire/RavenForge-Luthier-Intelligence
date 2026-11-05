@@ -3,6 +3,7 @@
   'use strict';
   const copy = {
     en: {
+      image: 'Image', close: 'Close',
       buildMaterials: "Timber for the GRAMR build alongside the specification sheet.",
       buildNeck: "Laminated neck blank on the table saw, with the contrasting center strips visible.",
       buildVise: "Neck blank held between the padded jaws of a bench vise.",
@@ -33,6 +34,7 @@
       repair15: 'A tool against the edge of a strung fingerboard'
     },
     de: {
+      image: 'Bild', close: 'Schließen',
       buildMaterials: "Das Holz für den Bau der GRAMR neben dem Datenblatt.",
       buildNeck: "Der verleimte Halsrohling auf der Tischkreissäge. In der Mitte sind die kontrastierenden Holzstreifen zu sehen.",
       buildVise: "Der Halsrohling zwischen den gepolsterten Backen des Schraubstocks.",
@@ -63,6 +65,7 @@
       repair15: 'Werkzeug an der Griffbrettkante bei aufgezogenen Saiten'
     },
     ko: {
+      image: '이미지', close: '닫기',
       buildMaterials: "GRAMR 제작용 목재와 사양서.",
       buildNeck: "테이블쏘 위의 적층 넥 블랭크. 중앙에 색이 다른 목재를 겹친 구조가 보인다.",
       buildVise: "작업대 바이스에 보호대를 대고 고정한 넥 블랭크.",
@@ -110,6 +113,8 @@
     function render() {
       const t = labels();
       toolbar?.setAttribute('aria-label', t.filters);
+      document.getElementById('image-popup')?.setAttribute('aria-label', t.image);
+      document.getElementById('popup-close')?.setAttribute('aria-label', t.close);
       let projects = 0;
       cards.forEach(card => {
         const visible = selected === 'all' || card.dataset.worksCategories.split(' ').includes(selected);
@@ -122,6 +127,7 @@
 
       imageButtons.forEach(button => {
         const title = t[button.dataset.worksLabel];
+        if (typeof title !== 'string') return;
         button.setAttribute('aria-label', t.open(title));
         const image = button.querySelector('img');
         if (image) image.alt = title;
@@ -138,7 +144,7 @@
       render();
     }));
     imageButtons.forEach(button => button.addEventListener('click', () => {
-      if (typeof window.openImagePopup !== 'function') return;
+      if (typeof window.openImagePopup !== 'function' || !button.dataset.worksImage) return;
       window.openImagePopup(button.dataset.worksImage, labels()[button.dataset.worksLabel]);
     }));
 
