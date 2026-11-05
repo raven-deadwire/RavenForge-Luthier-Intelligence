@@ -47,6 +47,12 @@
   };
 
   document.addEventListener('keydown', event => {
+    if (event.key === 'Tab' && isOpen('image-popup')) {
+      // The close button is the only interactive control in this dialog.
+      event.preventDefault();
+      document.getElementById('popup-close')?.focus();
+      return;
+    }
     if (event.key === 'Escape') {
       if (isOpen('image-popup') && typeof window.closeImagePopup === 'function') { window.closeImagePopup(); return; }
       if (isOpen('luthier-modal')) document.getElementById('modal-close')?.click();

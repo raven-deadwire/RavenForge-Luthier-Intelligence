@@ -30,12 +30,12 @@ const LOCALES = { en: 'en_US', de: 'de_DE', ko: 'ko_KR' };
 const escapeAttr = value => String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 const escapeText = value => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
-// Page titles and subtitles shown to visitors come from assets/site-context.js.
-function loadSiteCopy() {
-  const text = fs.readFileSync(path.join(ROOT, 'assets', 'site-context.js'), 'utf8');
+// Reuse the same copy objects as the browser enhancements.
+function loadAssetCopy(file) {
+  const text = fs.readFileSync(path.join(ROOT, 'assets', file), 'utf8');
   const start = text.indexOf('const copy = {');
   const end = text.indexOf('\n  };', start);
-  if (start < 0 || end < 0) throw new Error('copy object not found in assets/site-context.js');
+  if (start < 0 || end < 0) throw new Error(`copy object not found in assets/${file}`);
   return vm.runInNewContext(`(${text.slice(start + 'const copy = '.length, end + '\n  }'.length)})`);
 }
 
@@ -46,7 +46,31 @@ function replaceOnce(text, pattern, replacement, label) {
   return out;
 }
 
-function build(source, lang, translations, siteCopy) {
+function localizeAttribute(tag, attribute, value) {
+  return replaceOnce(tag, new RegExp(`\\b${attribute}="[^"]*"`),
+    () => `${attribute}="${escapeAttr(value)}"`, `portfolio ${attribute}`);
+}
+
+// Keep image descriptions accurate before the enhancement script loads.
+function prefillPortfolioLabels(html, copy) {
+  html = html.replace(/<div id="image-popup"[^>]*>/, tag => localizeAttribute(tag, 'aria-label', copy.image));
+  html = html.replace(/<button id="popup-close"[^>]*>/, tag => localizeAttribute(tag, 'aria-label', copy.close));
+  html = replaceOnce(html, /<div\b[^>]*\bclass="[^"]*\brf-works-toolbar\b[^"]*"[^>]*>/,
+    tag => localizeAttribute(tag, 'aria-label', copy.filters), 'portfolio toolbar');
+  return html.replace(/(<button\b[^>]*\bdata-works-label="([^"]+)"[^>]*>)([\s\S]*?)(<\/button>)/g,
+    (all, open, key, body, close) => {
+      const title = copy[key];
+      if (typeof title !== 'string') throw new Error(`Missing portfolio image label: ${key}`);
+      open = localizeAttribute(open, 'aria-label', copy.open(title));
+      body = replaceOnce(body, /<img\b[^>]*>/,
+        tag => localizeAttribute(tag, 'alt', title), `portfolio image ${key}`);
+      body = body.replace(/(<span data-works-caption>)[^<]*(<\/span>)/,
+        (_, start, end) => start + escapeText(title) + end);
+      return open + body + close;
+    });
+}
+
+function build(source, lang, translations, siteCopy, portfolioCopy) {
   const { file, locale } = PAGES[lang];
   const copy = siteCopy[lang];
   const url = SITE + file;
@@ -74,7 +98,7 @@ function build(source, lang, translations, siteCopy) {
     return open + JSON.stringify(data).replace(/</g, '\\u003c') + close;
   }, 'JSON-LD');
 
-  return prefill(html, translations[lang]).text;
+  return prefillPortfolioLabels(prefill(html, translations[lang]).text, portfolioCopy[lang]);
 }
 
 if (require.main === module) {
@@ -82,11 +106,12 @@ if (require.main === module) {
   const source = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
   if (/data-page-lang=/.test(source.slice(0, 2000))) throw new Error('index.html must not carry data-page-lang');
   const translations = loadTranslations(source);
-  const siteCopy = loadSiteCopy();
+  const siteCopy = loadAssetCopy('site-context.js');
+  const portfolioCopy = loadAssetCopy('works-portfolio.js');
   const stale = [];
   for (const lang of Object.keys(PAGES)) {
     const target = path.join(ROOT, PAGES[lang].file);
-    const html = build(source, lang, translations, siteCopy);
+    const html = build(source, lang, translations, siteCopy, portfolioCopy);
     const current = fs.existsSync(target) ? fs.readFileSync(target, 'utf8') : null;
     if (current === html) continue;
     stale.push(PAGES[lang].file);
