@@ -3,7 +3,7 @@
   'use strict';
   const copy = {
     en: {
-      buildMaterials: "Project timber laid out with the Superstrat 24F specification sheet.",
+      buildMaterials: "Timber for the GRAMR build alongside the specification sheet.",
       buildNeck: "Laminated neck blank on the table saw, with the contrasting center strips visible.",
       buildVise: "Neck blank held between the padded jaws of a bench vise.",
       buildRod: "Truss rod seated in the channel along the center of the neck.",
@@ -33,7 +33,7 @@
       repair15: 'A tool against the edge of a strung fingerboard'
     },
     de: {
-      buildMaterials: "Die Hölzer für das Projekt mit dem Datenblatt der Superstrat 24F.",
+      buildMaterials: "Das Holz für den Bau der GRAMR neben dem Datenblatt.",
       buildNeck: "Der verleimte Halsrohling auf der Tischkreissäge. In der Mitte sind die kontrastierenden Holzstreifen zu sehen.",
       buildVise: "Der Halsrohling zwischen den gepolsterten Backen des Schraubstocks.",
       buildRod: "Der Halsstab liegt in der mittig gefrästen Nut des Halsrohlings.",
@@ -63,7 +63,7 @@
       repair15: 'Werkzeug an der Griffbrettkante bei aufgezogenen Saiten'
     },
     ko: {
-      buildMaterials: "제작에 사용할 목재와 Superstrat 24F 사양서.",
+      buildMaterials: "GRAMR 제작용 목재와 사양서.",
       buildNeck: "테이블쏘 위의 적층 넥 블랭크. 중앙에 색이 다른 목재를 겹친 구조가 보인다.",
       buildVise: "작업대 바이스에 보호대를 대고 고정한 넥 블랭크.",
       buildRod: "넥 중앙에 가공한 홈에 끼운 트러스로드.",
