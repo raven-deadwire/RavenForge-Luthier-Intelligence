@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
+import { createRequire } from 'node:module';
 import { configData, specialOptionsList, accessoriesList } from '../src/catalog.generated.js';
 import { catalogText, pageCategoryTitle, pageOptionLabel, priceWithChanges, sanitizeConfiguration, withPageNames } from '../src/pricing.js';
 
@@ -9,6 +10,8 @@ import { catalogText, pageCategoryTitle, pageOptionLabel, priceWithChanges, sani
 const context = vm.createContext({ window: {} });
 vm.runInContext(fs.readFileSync(new URL('../../../assets/configurator-ui.js', import.meta.url), 'utf8'), context);
 const pageCopy = context.window.RF_CONFIG_I18N;
+// The production preview extends both the catalog and the displayed names.
+createRequire(import.meta.url)('../../../assets/configurator-preview.js').configureTestOptions(structuredClone(configData), pageCopy);
 
 test('category and option names match what configurator.html shows in each language', () => {
   for (const [language, ui] of Object.entries(pageCopy)) {

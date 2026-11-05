@@ -30,6 +30,18 @@ review/apply and editable enquiry workflow with mocked responses, in three
 languages on desktop and mobile. It uses the same browser and URL environment
 variables as `tools/test_configurator_chat.cjs`.
 
+Additional deterministic regressions (no provider calls):
+- `node tools/test_advisor_enquiry_regressions.cjs`: all four models and three
+  languages retain visitor colour/notes, preserve draft intent on retry and
+  download the exact edited text without sending it.
+- `node tools/test_advisor_catalog.cjs`: the same matrix preserves runtime
+  neck/headstock/pickguard selections and their on-request status when applied.
+
+The catalog builder also executes the production preview's catalog extension
+at build time. Its changed categories and localized labels are baked into the
+Worker; renderer code is not included in the Worker bundle. Both the website
+and Worker need the update for enquiry colour/notes to reach the model.
+
 Configurator 옆에서 고객의 악기 선택과 견적 상담에 답하는 Cloudflare Worker입니다. 운영 설정은 OpenAI API를 사용하며 가격은 `configurator.html`과 같은 카탈로그와 규칙으로 계산합니다. 아래 Claude 설정과 비용 기록은 기존 제공자 운영 기록입니다. 롤백할 때는 `AI_PROVIDER = "anthropic"`과 `api.anthropic.com` placement를 함께 복원합니다.
 
 ## 동작 방식
@@ -52,7 +64,7 @@ Configurator 옆에서 고객의 악기 선택과 견적 상담에 답하는 Clo
 ```
 
 - `messages`: user와 assistant가 번갈아 오고 user로 끝나는 텍스트 턴, 최대 30개. 사용자 턴은 2000자, assistant 턴은 6000자 이하이고 전체 대화는 20000자 이하입니다. JSON 요청 본문은 128 KiB까지 읽습니다.
-- `configuration`: configurator의 `selectedModel`, `selections`, `specialOptions`, `accessories`. 없으면 생략합니다.
+- `configuration`: configurator의 `selectedModel`, `selections`, `specialOptions`, `accessories`와 문의서용 `finishColor`(최대 300자), `specialInstructions`(최대 1,000자). 없으면 생략합니다. 문의서용 문자열은 가격 계산에 사용하지 않습니다.
 - `language`: `en` | `de` | `ko`.
 
 응답: `{ "reply": "...", "quote": { "total": 2600, "lines": [...], ... } | null, "stop_reason": "end_turn" }`

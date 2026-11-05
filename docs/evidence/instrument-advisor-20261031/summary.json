@@ -1,0 +1,23 @@
+{
+  "source": "2546afa584d662243cd48646a9100dba387cc74d",
+  "fix_code_commit": "d4a8ec4b135eb2ec8da10a212350d7c17fdeced9",
+  "matrix_cases": 12,
+  "matrix_requests": 48,
+  "matrix_http_statuses": {
+    "200": 48
+  },
+  "matrix_priced_responses": 28,
+  "matrix_pricing_parity_pass": 28,
+  "live_ui_cases": 4,
+  "live_ui_errors": [],
+  "unaccepted_draft_requests": 3,
+  "total_live_requests": 55,
+  "all_live_http_statuses": {
+    "200": 55
+  },
+  "replay_cases": 24,
+  "replay_failed_checks": {
+    "all selections equal quote": 24
+  },
+  "replay_errors": []
+}

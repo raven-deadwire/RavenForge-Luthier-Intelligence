@@ -10,6 +10,8 @@ const html = fs.readFileSync(new URL('../../../configurator.html', import.meta.u
 const between = (a, b) => html.slice(html.indexOf(a), html.indexOf(b, html.indexOf(a)));
 const context = vm.createContext({ RavenForgePlatforms: require('../../../assets/configurator-platforms.js'), useMemo: fn => fn(), language:'en', ui: {supplies:{},strapPins:'{colour}'}, finishColor:'', platform:{}, hasNovaBridge:false, categoryTitle:c=>c.title, optionLabel:o=>o.label, optionSpec:o=>o.spec||'', selectedOptionLabel:()=>'', getAutomaticPowerSupply:()=>({label:'',spec:''}) });
 vm.runInContext(`${between('const specialOptionsList =', 'const App = () => {')}\n${between('const isCategoryVisible =', 'const getDefaultSelections =')}\n${between('const handleOptionChange =', 'const handleSpecialOptionToggle =')}\nthis.norm = normalizeSelections; this.click = handleOptionChange;`,context);
+// Match the production App's runtime extension, not only its initial literal.
+require('../../../assets/configurator-preview.js').configureTestOptions(vm.runInContext('configData', context));
 const summarySource = between('const summary = useMemo(', 'const activeCategories =');
 // Extract the exact memo body, without any following UI declarations.
 const summaryEnd = summarySource.indexOf('\n      const ', 1);

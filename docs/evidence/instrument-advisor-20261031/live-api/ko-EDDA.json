@@ -1,0 +1,297 @@
+{
+  "key": "ko-EDDA",
+  "source": "2546afa584d662243cd48646a9100dba387cc74d",
+  "mode": "live deployed OpenAI Worker API; browser application recorded separately",
+  "calls": [
+    {
+      "phase": "recommend",
+      "at": "2026-10-31T14:18:33.868Z",
+      "request": {
+        "language": "ko",
+        "messages": [
+          {
+            "role": "user",
+            "content": "4현 34인치 베이스로 록을 연주합니다. 패시브 조작이 좋고 기존 5현은 넥이 넓어 불편합니다. EDDA가 맞는지 추천 이유와 기본 견적을 알려주세요."
+          }
+        ],
+        "configuration": {
+          "model": "EDDA",
+          "selections": {
+            "orientation": "right_hand",
+            "string_spacing": "spacing_std",
+            "nut_size": "nut_std",
+            "nut_material": "nut_brass",
+            "radius": "rad_std",
+            "fret_type": "fret_24",
+            "fretboard_extense": "extense_none",
+            "body_construction": "3pc_solid",
+            "hardware_bridge": "ets_custom",
+            "hardware_machine_head": "gotoh_707",
+            "pickup_configuration": "pickup_2",
+            "control_layout": "control_std",
+            "case": "case_standard",
+            "strings": "4_strings",
+            "scale": "34",
+            "neck": "1pc",
+            "pickups": "nova_mm",
+            "electronics": "passive",
+            "factory_setup": "setup_std",
+            "neck_profile": "profile_edda_vintage",
+            "fretboard": "rosewood",
+            "fret_material": "mat_brass",
+            "fret_size": "size_vintage",
+            "fret_side": "side_no",
+            "inlay_type": "inlay_none",
+            "side_dot": "sdot_std",
+            "body_core_wood": "core_alder",
+            "body_wing_wood": "wing_alder",
+            "top_type": "none",
+            "color_top": "top_oil",
+            "color_back_side": "back_oil",
+            "extra_finish_burst": "burst_none",
+            "extra_finish_flake": "flake_none",
+            "color_headstock": "head_match",
+            "knob": "knob_metal",
+            "hardware_color": "hw_chrome",
+            "finger_ramp": "ramp_none"
+          },
+          "specialOptions": [],
+          "accessories": []
+        }
+      },
+      "status": 200,
+      "body": "{\"reply\":\"좋습니다 — 말씀하신 조건(4현 · 34\\\" · 록 · 패시브 선호 · 넥 폭 좁음 불편)에 EDDA가 잘 맞습니다.\\n\\n이유:\\n- EDDA는 기본이 4현·34\\\"로 희망하는 스펙과 일치합니다.\\n- 패시브 회로가 표준으로 제공되어 원하시는 조작감과 톤 특성에 맞습니다.\\n- 기본 넥(1피스 메이플 + RavenForge vintage boutique 프로파일)은 전통적인 그립감으로, 5현보다 좁은 너트 폭과 익숙한 손감촉을 유지합니다. (넥 프로파일을 더 슬림하게 원하면 profile_vintage_slender 등 옵션으로 조정 가능합니다.)\\n\\n기본 견적(현재 선택 상태):\\n- 모델: EDDA (기본 구성)\\n- 합계(견적): €2,100 (부가세 제외). 이 금액은 구성기를 기준으로 한 견적이며 RavenForge가 확인한 최종 가격은 문의 후 확정됩니다.\\n\\n다음 단계 제안:\\n- 넥을 더 얇게 원하십니까? (예: 넥 그립 열기에서 profile_vintage_slender 선택 시 추가 옵션이 있습니다.)\\n- 픽업 성향(클린·밸런스 vs. 공격적·펀치)을 하나만 골라주시면, 픽업/프리셋 추천과 변경 시 가격을 다시 보여드리겠습니다.\\n\\n구성 확인 후 RavenForge에 문의하려면 페이지에서 \\\"사양서 PDF 저장\\\" 버튼을 눌러 저장한 PDF를 첨부해 문의하시면 됩니다.\",\"quote\":{\"model\":\"EDDA\",\"currency\":\"EUR\",\"base_price\":2100,\"lines\":[{\"category\":\"orientation\",\"title\":\"Orientation\",\"option\":\"right_hand\",\"label\":\"right-handed\",\"price\":0,\"page_title\":\"오른손·왼손용\",\"page_label\":\"오른손용\"},{\"category\":\"strings\",\"title\":\"Strings\",\"option\":\"4_strings\",\"label\":\"4 strings\",\"price\":0,\"page_title\":\"현수\",\"page_label\":\"4현\"},{\"category\":\"factory_setup\",\"title\":\"Factory Setup\",\"option\":\"setup_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"기본 셋업\",\"page_label\":\"기본\"},{\"category\":\"scale\",\"title\":\"Scale\",\"option\":\"34\",\"label\":\"34\\\"\",\"price\":0,\"page_title\":\"스케일\",\"page_label\":\"34\\\"\"},{\"category\":\"string_spacing\",\"title\":\"String Spacing\",\"option\":\"spacing_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"현 간격\",\"page_label\":\"기본\"},{\"category\":\"nut_size\",\"title\":\"Nut Width\",\"option\":\"nut_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"너트 폭\",\"page_label\":\"기본\"},{\"category\":\"nut_material\",\"title\":\"Nut Material\",\"option\":\"nut_brass\",\"label\":\"brass zero-fret string guide\",\"price\":0,\"page_title\":\"너트 소재\",\"page_label\":\"황동 제로 프렛 스트링 가이드\"},{\"category\":\"neck\",\"title\":\"Neck\",\"option\":\"1pc\",\"label\":\"1 piece maple\",\"price\":0,\"page_title\":\"넥\",\"page_label\":\"1피스 메이플\"},{\"category\":\"neck_profile\",\"title\":\"Neck Profile\",\"option\":\"profile_edda_vintage\",\"label\":\"RavenForge vintage boutique\",\"price\":0,\"page_title\":\"넥 그립\",\"page_label\":\"RavenForge vintage boutique\"},{\"category\":\"fretboard\",\"title\":\"Fretboard\",\"option\":\"rosewood\",\"label\":\"rosewood\",\"price\":0,\"page_title\":\"지판\",\"page_label\":\"로즈우드\"},{\"category\":\"radius\",\"title\":\"Radius\",\"option\":\"rad_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"지판 곡률\",\"page_label\":\"기본\"},{\"category\":\"fret_type\",\"title\":\"Fret Type\",\"option\":\"fret_24\",\"label\":\"24 frets with zero fret\",\"price\":0,\"page_title\":\"프렛 구성\",\"page_label\":\"24프렛 + 제로 프렛\"},{\"category\":\"fret_material\",\"title\":\"Fret Material\",\"option\":\"mat_brass\",\"label\":\"brass\",\"price\":0,\"page_title\":\"프렛 소재\",\"page_label\":\"황동\"},{\"category\":\"fret_size\",\"title\":\"Fret Size\",\"option\":\"size_vintage\",\"label\":\"vintage\",\"price\":0,\"page_title\":\"프렛 크기\",\"page_label\":\"빈티지\"},{\"category\":\"fret_side\",\"title\":\"Fret Side\",\"option\":\"side_no\",\"label\":\"none\",\"price\":0,\"page_title\":\"지판 테두리\",\"page_label\":\"없음\"},{\"category\":\"inlay_type\",\"title\":\"Inlay\",\"option\":\"inlay_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"인레이\",\"page_label\":\"없음\"},{\"category\":\"side_dot\",\"title\":\"Side Dot\",\"option\":\"sdot_std\",\"label\":\"standard (black or white)\",\"price\":0,\"page_title\":\"사이드 도트\",\"page_label\":\"기본 (블랙 또는 화이트)\"},{\"category\":\"body_construction\",\"title\":\"Body Construction\",\"option\":\"3pc_solid\",\"label\":\"3 piece - 1 tone block with solid side wings\",\"price\":0,\"page_title\":\"바디 구조\",\"page_label\":\"3피스 - 톤블록 1개 + 솔리드 사이드 윙\"},{\"category\":\"body_core_wood\",\"title\":\"Core Wood\",\"option\":\"core_alder\",\"label\":\"alder\",\"price\":0,\"page_title\":\"바디 코어 목재\",\"page_label\":\"알더\"},{\"category\":\"body_wing_wood\",\"title\":\"Side Wing Wood\",\"option\":\"wing_alder\",\"label\":\"alder\",\"price\":0,\"page_title\":\"바디 윙 목재\",\"page_label\":\"알더\"},{\"category\":\"top_type\",\"title\":\"Top Type\",\"option\":\"none\",\"label\":\"standard / matching top\",\"price\":0,\"page_title\":\"탑 구성\",\"page_label\":\"기본 / 매칭 탑\"},{\"category\":\"color_top\",\"title\":\"Finish Color - Top\",\"option\":\"top_oil\",\"label\":\"natural oil\",\"price\":0,\"page_title\":\"탑 마감\",\"page_label\":\"내추럴 오일\"},{\"category\":\"color_back_side\",\"title\":\"Finish Color - Back & Side\",\"option\":\"back_oil\",\"label\":\"natural oil\",\"price\":0,\"page_title\":\"후면·측면 마감\",\"page_label\":\"내추럴 오일\"},{\"category\":\"extra_finish_burst\",\"title\":\"Burst Option\",\"option\":\"burst_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"버스트 마감\",\"page_label\":\"없음\"},{\"category\":\"extra_finish_flake\",\"title\":\"Flake Option\",\"option\":\"flake_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"플레이크 마감\",\"page_label\":\"없음\"},{\"category\":\"color_headstock\",\"title\":\"Finish Color - Headstock\",\"option\":\"head_match\",\"label\":\"match\",\"price\":0,\"page_title\":\"헤드스톡 마감\",\"page_label\":\"매칭\"},{\"category\":\"hardware_bridge\",\"title\":\"Hardware - Bridge\",\"option\":\"ets_custom\",\"label\":\"ETS Custom\",\"price\":0,\"page_title\":\"브리지\",\"page_label\":\"ETS Custom\"},{\"category\":\"hardware_machine_head\",\"title\":\"Hardware - Machine Head\",\"option\":\"gotoh_707\",\"label\":\"Gotoh GB707\",\"price\":0,\"page_title\":\"튜너\",\"page_label\":\"Gotoh GB707\"},{\"category\":\"electronics\",\"title\":\"Onboard EQ\",\"option\":\"passive\",\"label\":\"passive\",\"price\":0,\"page_title\":\"온보드 EQ\",\"page_label\":\"패시브\"},{\"category\":\"pickup_configuration\",\"title\":\"Pickup Configuration\",\"option\":\"pickup_2\",\"label\":\"2 pickups\",\"price\":0,\"page_title\":\"픽업 구성\",\"page_label\":\"2픽업\"},{\"category\":\"pickups\",\"title\":\"Pickups\",\"option\":\"nova_mm\",\"label\":\"Nova Omnia MM\",\"price\":0,\"page_title\":\"픽업\",\"page_label\":\"Nova Omnia MM\"},{\"category\":\"knob\",\"title\":\"Control Knobs\",\"option\":\"knob_metal\",\"label\":\"metal dome\",\"price\":0,\"page_title\":\"컨트롤 노브\",\"page_label\":\"메탈 돔\"},{\"category\":\"hardware_color\",\"title\":\"Hardware Color\",\"option\":\"hw_chrome\",\"label\":\"chrome\",\"price\":0,\"page_title\":\"하드웨어 색상\",\"page_label\":\"크롬\"},{\"category\":\"control_layout\",\"title\":\"Control Layout\",\"option\":\"control_std\",\"label\":\"Standard Layout\",\"price\":0,\"page_title\":\"컨트롤·배선\",\"page_label\":\"기본 레이아웃\"},{\"category\":\"fretboard_extense\",\"title\":\"Fretboard Extension\",\"option\":\"extense_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"지판 연장\",\"page_label\":\"없음\"},{\"category\":\"finger_ramp\",\"title\":\"Finger Ramp\",\"option\":\"ramp_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"핑거램프\",\"page_label\":\"없음\"},{\"category\":\"case\",\"title\":\"Gigbag\",\"option\":\"case_standard\",\"label\":\"Standard gigbag\",\"price\":0,\"page_title\":\"긱백\",\"page_label\":\"기본 긱백\"}],\"total\":2100,\"price_on_request\":false,\"selections\":{\"orientation\":\"right_hand\",\"string_spacing\":\"spacing_std\",\"nut_size\":\"nut_std\",\"nut_material\":\"nut_brass\",\"radius\":\"rad_std\",\"fret_type\":\"fret_24\",\"fretboard_extense\":\"extense_none\",\"body_construction\":\"3pc_solid\",\"hardware_bridge\":\"ets_custom\",\"hardware_machine_head\":\"gotoh_707\",\"pickup_configuration\":\"pickup_2\",\"control_layout\":\"control_std\",\"case\":\"case_standard\",\"strings\":\"4_strings\",\"scale\":\"34\",\"neck\":\"1pc\",\"pickups\":\"nova_mm\",\"electronics\":\"passive\",\"factory_setup\":\"setup_std\",\"neck_profile\":\"profile_edda_vintage\",\"fretboard\":\"rosewood\",\"fret_material\":\"mat_brass\",\"fret_size\":\"size_vintage\",\"fret_side\":\"side_no\",\"inlay_type\":\"inlay_none\",\"side_dot\":\"sdot_std\",\"body_core_wood\":\"core_alder\",\"body_wing_wood\":\"wing_alder\",\"top_type\":\"none\",\"color_top\":\"top_oil\",\"color_back_side\":\"back_oil\",\"extra_finish_burst\":\"burst_none\",\"extra_finish_flake\":\"flake_none\",\"color_headstock\":\"head_match\",\"knob\":\"knob_metal\",\"hardware_color\":\"hw_chrome\",\"finger_ramp\":\"ramp_none\"},\"not_applied\":[],\"extras_not_available\":[]},\"stop_reason\":\"end_turn\"}",
+      "elapsedMs": 9916,
+      "parity": true
+    },
+    {
+      "phase": "explain",
+      "at": "2026-10-31T14:18:46.938Z",
+      "request": {
+        "language": "ko",
+        "messages": [
+          {
+            "role": "user",
+            "content": "4현 34인치 베이스로 록을 연주합니다. 패시브 조작이 좋고 기존 5현은 넥이 넓어 불편합니다. EDDA가 맞는지 추천 이유와 기본 견적을 알려주세요."
+          },
+          {
+            "role": "assistant",
+            "content": "좋습니다 — 말씀하신 조건(4현 · 34\" · 록 · 패시브 선호 · 넥 폭 좁음 불편)에 EDDA가 잘 맞습니다.\n\n이유:\n- EDDA는 기본이 4현·34\"로 희망하는 스펙과 일치합니다.\n- 패시브 회로가 표준으로 제공되어 원하시는 조작감과 톤 특성에 맞습니다.\n- 기본 넥(1피스 메이플 + RavenForge vintage boutique 프로파일)은 전통적인 그립감으로, 5현보다 좁은 너트 폭과 익숙한 손감촉을 유지합니다. (넥 프로파일을 더 슬림하게 원하면 profile_vintage_slender 등 옵션으로 조정 가능합니다.)\n\n기본 견적(현재 선택 상태):\n- 모델: EDDA (기본 구성)\n- 합계(견적): €2,100 (부가세 제외). 이 금액은 구성기를 기준으로 한 견적이며 RavenForge가 확인한 최종 가격은 문의 후 확정됩니다.\n\n다음 단계 제안:\n- 넥을 더 얇게 원하십니까? (예: 넥 그립 열기에서 profile_vintage_slender 선택 시 추가 옵션이 있습니다.)\n- 픽업 성향(클린·밸런스 vs. 공격적·펀치)을 하나만 골라주시면, 픽업/프리셋 추천과 변경 시 가격을 다시 보여드리겠습니다.\n\n구성 확인 후 RavenForge에 문의하려면 페이지에서 \"사양서 PDF 저장\" 버튼을 눌러 저장한 PDF를 첨부해 문의하시면 됩니다."
+          },
+          {
+            "role": "user",
+            "content": "현재 선택한 모델과 지판, 픽업, EQ 옵션의 역할과 제약을 설명해 주세요."
+          }
+        ],
+        "configuration": {
+          "model": "EDDA",
+          "selections": {
+            "orientation": "right_hand",
+            "string_spacing": "spacing_std",
+            "nut_size": "nut_std",
+            "nut_material": "nut_brass",
+            "radius": "rad_std",
+            "fret_type": "fret_24",
+            "fretboard_extense": "extense_none",
+            "body_construction": "3pc_solid",
+            "hardware_bridge": "ets_custom",
+            "hardware_machine_head": "gotoh_707",
+            "pickup_configuration": "pickup_2",
+            "control_layout": "control_std",
+            "case": "case_standard",
+            "strings": "4_strings",
+            "scale": "34",
+            "neck": "1pc",
+            "pickups": "nova_mm",
+            "electronics": "passive",
+            "factory_setup": "setup_std",
+            "neck_profile": "profile_edda_vintage",
+            "fretboard": "rosewood",
+            "fret_material": "mat_brass",
+            "fret_size": "size_vintage",
+            "fret_side": "side_no",
+            "inlay_type": "inlay_none",
+            "side_dot": "sdot_std",
+            "body_core_wood": "core_alder",
+            "body_wing_wood": "wing_alder",
+            "top_type": "none",
+            "color_top": "top_oil",
+            "color_back_side": "back_oil",
+            "extra_finish_burst": "burst_none",
+            "extra_finish_flake": "flake_none",
+            "color_headstock": "head_match",
+            "knob": "knob_metal",
+            "hardware_color": "hw_chrome",
+            "finger_ramp": "ramp_none"
+          },
+          "specialOptions": [],
+          "accessories": []
+        }
+      },
+      "status": 200,
+      "body": "{\"reply\":\"좋습니다. 현재 선택하신 항목(모델·지판·픽업·EQ)에 대해 역할과 주요 제약을 간단히 정리해 드립니다.\\n\\n- 모델 — EDDA\\n  - 설명: 기본이 4현·34\\\"·패시브 구성인 전통적 성향의 베이스입니다. 록에서 요구하는 펀치와 직관적 패시브 조작에 적합한 설계입니다.\\n  - 제약: EDDA의 표준 라인업·경로에 맞는 픽업과 하드웨어 규격(예: Nova MM 호환 라우트)이 전제됩니다.\\n\\n- 지판 — Fretboard (지판) : rosewood (로즈우드)\\n  - 역할: 음색에 대한 미세한 영향(따뜻함/부드러움)과 손감촉, 연주 내구성에 기여합니다.\\n  - 제약/주의: 로즈우드는 EDDA 표준으로 추가 비용 없이 선택 가능합니다. 대안(예: ebony +€50 등)은 지판 카테고리에서 변경할 수 있습니다. 프렛리스(프렛 구성 = fretless)를 선택하면 너트 소재가 자동으로 verawood로 바뀔 수 있습니다(현재는 프렛 24 + 제로 프렛).\\n\\n- 픽업 — Pickups (픽업) : Nova Omnia MM\\n  - 역할: 픽업은 출력, 응답, 중역 성향 등 톤의 핵심을 만듭니다. Nova Omnia MM은 EDDA의 기존 MM 라우트에 맞춘 포함 픽업으로, MM 스타일 하우징 톤과 물리적 장착 호환을 전제로 합니다.\\n  - 제약/주의: configurator 문구대로 \\\"confirm outline, mounting ears, depth and screws\\\"가 필요합니다 — 즉, 실제 장착 면에서 세부 확인이 필요합니다. 다른 픽업(예: Delano 등)은 모델과 라우트에 따라 추가 비용 또는 불가가 있을 수 있습니다. 픽업 구성은 pickup_configuration = pickup_2(2픽업) 상태이며, 두 픽업 배치·상호작용은 바디 라우팅과 전기 배선에 의존합니다.\\n\\n- 온보드 EQ — Onboard EQ (온보드 EQ) : passive (패시브)\\n  - 역할: 패시브 회로는 배터리나 액티브 프리앰프 없이 픽업 신호를 직접 조작합니다. 톤 노브·볼륨으로 직관적이고 다이내믹한 반응을 얻습니다(특히 록에서의 직접적인 터치 반응).\\n  - 제약/주의: 액티브 프리앰프(Underhill, Glockenklang, John East 등)는 선택 불가(또는 별도 옵션으로 교체 시 비용 발생)합니다. 패시브 상태에서 사용할 수 있는 부가 옵션으로는 Delano xPure buffer 같은 \\\"passive electronics only\\\" 항목(+€100)이 있으며, 배터리 없는 패시브 특성을 유지하면서 신호 안정화를 원할 경우 고려할 수 있습니다. 또한 dual_tone(듀얼 톤 커패시티)는 패시브 회로에서 사용 가능합니다(옵션으로 +€100).\\n\\n원하시면 다음 중 하나를 제안드립니다:\\n- 픽업을 더 공격적인 성향(하이 출력)으로 바꾸어 비교 견적을 보여드릴까요?\\n- 넥 프로파일을 profile_vintage_slender로 얇게 바꿔볼까요? (저희가 변경 시 가격을 다시 보여드립니다)\\n\\n변경을 원하시면 해당 카테고리(지판, 픽업, 온보드 EQ)를 열어 선택하시면 됩니다.\",\"quote\":null,\"stop_reason\":\"end_turn\"}",
+      "elapsedMs": 9978
+    },
+    {
+      "phase": "compare",
+      "at": "2026-10-31T14:18:57.210Z",
+      "request": {
+        "language": "ko",
+        "messages": [
+          {
+            "role": "user",
+            "content": "4현 34인치 베이스로 록을 연주합니다. 패시브 조작이 좋고 기존 5현은 넥이 넓어 불편합니다. EDDA가 맞는지 추천 이유와 기본 견적을 알려주세요."
+          },
+          {
+            "role": "assistant",
+            "content": "좋습니다 — 말씀하신 조건(4현 · 34\" · 록 · 패시브 선호 · 넥 폭 좁음 불편)에 EDDA가 잘 맞습니다.\n\n이유:\n- EDDA는 기본이 4현·34\"로 희망하는 스펙과 일치합니다.\n- 패시브 회로가 표준으로 제공되어 원하시는 조작감과 톤 특성에 맞습니다.\n- 기본 넥(1피스 메이플 + RavenForge vintage boutique 프로파일)은 전통적인 그립감으로, 5현보다 좁은 너트 폭과 익숙한 손감촉을 유지합니다. (넥 프로파일을 더 슬림하게 원하면 profile_vintage_slender 등 옵션으로 조정 가능합니다.)\n\n기본 견적(현재 선택 상태):\n- 모델: EDDA (기본 구성)\n- 합계(견적): €2,100 (부가세 제외). 이 금액은 구성기를 기준으로 한 견적이며 RavenForge가 확인한 최종 가격은 문의 후 확정됩니다.\n\n다음 단계 제안:\n- 넥을 더 얇게 원하십니까? (예: 넥 그립 열기에서 profile_vintage_slender 선택 시 추가 옵션이 있습니다.)\n- 픽업 성향(클린·밸런스 vs. 공격적·펀치)을 하나만 골라주시면, 픽업/프리셋 추천과 변경 시 가격을 다시 보여드리겠습니다.\n\n구성 확인 후 RavenForge에 문의하려면 페이지에서 \"사양서 PDF 저장\" 버튼을 눌러 저장한 PDF를 첨부해 문의하시면 됩니다."
+          },
+          {
+            "role": "user",
+            "content": "현재 선택한 모델과 지판, 픽업, EQ 옵션의 역할과 제약을 설명해 주세요."
+          },
+          {
+            "role": "assistant",
+            "content": "좋습니다. 현재 선택하신 항목(모델·지판·픽업·EQ)에 대해 역할과 주요 제약을 간단히 정리해 드립니다.\n\n- 모델 — EDDA\n  - 설명: 기본이 4현·34\"·패시브 구성인 전통적 성향의 베이스입니다. 록에서 요구하는 펀치와 직관적 패시브 조작에 적합한 설계입니다.\n  - 제약: EDDA의 표준 라인업·경로에 맞는 픽업과 하드웨어 규격(예: Nova MM 호환 라우트)이 전제됩니다.\n\n- 지판 — Fretboard (지판) : rosewood (로즈우드)\n  - 역할: 음색에 대한 미세한 영향(따뜻함/부드러움)과 손감촉, 연주 내구성에 기여합니다.\n  - 제약/주의: 로즈우드는 EDDA 표준으로 추가 비용 없이 선택 가능합니다. 대안(예: ebony +€50 등)은 지판 카테고리에서 변경할 수 있습니다. 프렛리스(프렛 구성 = fretless)를 선택하면 너트 소재가 자동으로 verawood로 바뀔 수 있습니다(현재는 프렛 24 + 제로 프렛).\n\n- 픽업 — Pickups (픽업) : Nova Omnia MM\n  - 역할: 픽업은 출력, 응답, 중역 성향 등 톤의 핵심을 만듭니다. Nova Omnia MM은 EDDA의 기존 MM 라우트에 맞춘 포함 픽업으로, MM 스타일 하우징 톤과 물리적 장착 호환을 전제로 합니다.\n  - 제약/주의: configurator 문구대로 \"confirm outline, mounting ears, depth and screws\"가 필요합니다 — 즉, 실제 장착 면에서 세부 확인이 필요합니다. 다른 픽업(예: Delano 등)은 모델과 라우트에 따라 추가 비용 또는 불가가 있을 수 있습니다. 픽업 구성은 pickup_configuration = pickup_2(2픽업) 상태이며, 두 픽업 배치·상호작용은 바디 라우팅과 전기 배선에 의존합니다.\n\n- 온보드 EQ — Onboard EQ (온보드 EQ) : passive (패시브)\n  - 역할: 패시브 회로는 배터리나 액티브 프리앰프 없이 픽업 신호를 직접 조작합니다. 톤 노브·볼륨으로 직관적이고 다이내믹한 반응을 얻습니다(특히 록에서의 직접적인 터치 반응).\n  - 제약/주의: 액티브 프리앰프(Underhill, Glockenklang, John East 등)는 선택 불가(또는 별도 옵션으로 교체 시 비용 발생)합니다. 패시브 상태에서 사용할 수 있는 부가 옵션으로는 Delano xPure buffer 같은 \"passive electronics only\" 항목(+€100)이 있으며, 배터리 없는 패시브 특성을 유지하면서 신호 안정화를 원할 경우 고려할 수 있습니다. 또한 dual_tone(듀얼 톤 커패시티)는 패시브 회로에서 사용 가능합니다(옵션으로 +€100).\n\n원하시면 다음 중 하나를 제안드립니다:\n- 픽업을 더 공격적인 성향(하이 출력)으로 바꾸어 비교 견적을 보여드릴까요?\n- 넥 프로파일을 profile_vintage_slender로 얇게 바꿔볼까요? (저희가 변경 시 가격을 다시 보여드립니다)\n\n변경을 원하시면 해당 카테고리(지판, 픽업, 온보드 EQ)를 열어 선택하시면 됩니다."
+          },
+          {
+            "role": "user",
+            "content": "EDDA 기본 구성과 에보니 지판 구성을 비교해주세요. 다른 옵션은 기본값입니다. 두 가격과 차이를 설명하고 후자의 견적을 마지막으로 보여주세요. 아직 수락하지 않았으니 적용하지 마세요."
+          }
+        ],
+        "configuration": {
+          "model": "EDDA",
+          "selections": {
+            "orientation": "right_hand",
+            "string_spacing": "spacing_std",
+            "nut_size": "nut_std",
+            "nut_material": "nut_brass",
+            "radius": "rad_std",
+            "fret_type": "fret_24",
+            "fretboard_extense": "extense_none",
+            "body_construction": "3pc_solid",
+            "hardware_bridge": "ets_custom",
+            "hardware_machine_head": "gotoh_707",
+            "pickup_configuration": "pickup_2",
+            "control_layout": "control_std",
+            "case": "case_standard",
+            "strings": "4_strings",
+            "scale": "34",
+            "neck": "1pc",
+            "pickups": "nova_mm",
+            "electronics": "passive",
+            "factory_setup": "setup_std",
+            "neck_profile": "profile_edda_vintage",
+            "fretboard": "rosewood",
+            "fret_material": "mat_brass",
+            "fret_size": "size_vintage",
+            "fret_side": "side_no",
+            "inlay_type": "inlay_none",
+            "side_dot": "sdot_std",
+            "body_core_wood": "core_alder",
+            "body_wing_wood": "wing_alder",
+            "top_type": "none",
+            "color_top": "top_oil",
+            "color_back_side": "back_oil",
+            "extra_finish_burst": "burst_none",
+            "extra_finish_flake": "flake_none",
+            "color_headstock": "head_match",
+            "knob": "knob_metal",
+            "hardware_color": "hw_chrome",
+            "finger_ramp": "ramp_none"
+          },
+          "specialOptions": [],
+          "accessories": []
+        }
+      },
+      "status": 200,
+      "body": "{\"reply\":\"좋습니다. 요청하신 비교와 견적입니다. 아직 변경을 적용하지 않았습니다.\\n\\n- EDDA 기본 구성 (현재 선택)\\n  - 주요 차이점: 지판 = 로즈우드(기본)\\n  - 가격 라인: 전체 합계 €2,100 (부가세 제외). 이 가격은 구성기를 기준한 견적이며 RavenForge가 최종 확인합니다.\\n\\n- EDDA + 에보니 지판\\n  - 변경: Fretboard — ebony (에보니) (+€50)\\n  - 가격 라인: 전체 합계 €2,150 (부가세 제외). 에보니 지판 선택으로 기본에서 +€50가 추가됩니다. 이 금액 역시 구성기 기준 견적이며 최종 가격은 확인 후 확정됩니다.\\n\\n후자의 견적(에보니 지판)을 마지막으로 보여드립니다(아직 적용하지 않음):\\n- 모델: EDDA\\n- 변경 사항: 지판 — ebony\\n- 합계(견적): €2,150 (부가세 제외)\\n\\n원하시면 지금 이 구성을 구성기에서 적용해 드리거나 다른 지판(예: ebony 대신 ebony + 다른 옵션)과 조합해 다시 가격 비교해 드리겠습니다. 구성 확정 전에는 페이지에서 \\\"사양서 PDF 저장\\\"으로 PDF를 저장해 문의 자료로 보내시면 편합니다.\",\"quote\":{\"model\":\"EDDA\",\"currency\":\"EUR\",\"base_price\":2100,\"lines\":[{\"category\":\"orientation\",\"title\":\"Orientation\",\"option\":\"right_hand\",\"label\":\"right-handed\",\"price\":0,\"page_title\":\"오른손·왼손용\",\"page_label\":\"오른손용\"},{\"category\":\"strings\",\"title\":\"Strings\",\"option\":\"4_strings\",\"label\":\"4 strings\",\"price\":0,\"page_title\":\"현수\",\"page_label\":\"4현\"},{\"category\":\"factory_setup\",\"title\":\"Factory Setup\",\"option\":\"setup_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"기본 셋업\",\"page_label\":\"기본\"},{\"category\":\"scale\",\"title\":\"Scale\",\"option\":\"34\",\"label\":\"34\\\"\",\"price\":0,\"page_title\":\"스케일\",\"page_label\":\"34\\\"\"},{\"category\":\"string_spacing\",\"title\":\"String Spacing\",\"option\":\"spacing_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"현 간격\",\"page_label\":\"기본\"},{\"category\":\"nut_size\",\"title\":\"Nut Width\",\"option\":\"nut_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"너트 폭\",\"page_label\":\"기본\"},{\"category\":\"nut_material\",\"title\":\"Nut Material\",\"option\":\"nut_brass\",\"label\":\"brass zero-fret string guide\",\"price\":0,\"page_title\":\"너트 소재\",\"page_label\":\"황동 제로 프렛 스트링 가이드\"},{\"category\":\"neck\",\"title\":\"Neck\",\"option\":\"1pc\",\"label\":\"1 piece maple\",\"price\":0,\"page_title\":\"넥\",\"page_label\":\"1피스 메이플\"},{\"category\":\"neck_profile\",\"title\":\"Neck Profile\",\"option\":\"profile_edda_vintage\",\"label\":\"RavenForge vintage boutique\",\"price\":0,\"page_title\":\"넥 그립\",\"page_label\":\"RavenForge vintage boutique\"},{\"category\":\"fretboard\",\"title\":\"Fretboard\",\"option\":\"ebony\",\"label\":\"ebony\",\"price\":50,\"page_title\":\"지판\",\"page_label\":\"에보니\"},{\"category\":\"radius\",\"title\":\"Radius\",\"option\":\"rad_std\",\"label\":\"standard\",\"price\":0,\"page_title\":\"지판 곡률\",\"page_label\":\"기본\"},{\"category\":\"fret_type\",\"title\":\"Fret Type\",\"option\":\"fret_24\",\"label\":\"24 frets with zero fret\",\"price\":0,\"page_title\":\"프렛 구성\",\"page_label\":\"24프렛 + 제로 프렛\"},{\"category\":\"fret_material\",\"title\":\"Fret Material\",\"option\":\"mat_brass\",\"label\":\"brass\",\"price\":0,\"page_title\":\"프렛 소재\",\"page_label\":\"황동\"},{\"category\":\"fret_size\",\"title\":\"Fret Size\",\"option\":\"size_vintage\",\"label\":\"vintage\",\"price\":0,\"page_title\":\"프렛 크기\",\"page_label\":\"빈티지\"},{\"category\":\"fret_side\",\"title\":\"Fret Side\",\"option\":\"side_no\",\"label\":\"none\",\"price\":0,\"page_title\":\"지판 테두리\",\"page_label\":\"없음\"},{\"category\":\"inlay_type\",\"title\":\"Inlay\",\"option\":\"inlay_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"인레이\",\"page_label\":\"없음\"},{\"category\":\"side_dot\",\"title\":\"Side Dot\",\"option\":\"sdot_std\",\"label\":\"standard (black or white)\",\"price\":0,\"page_title\":\"사이드 도트\",\"page_label\":\"기본 (블랙 또는 화이트)\"},{\"category\":\"body_construction\",\"title\":\"Body Construction\",\"option\":\"3pc_solid\",\"label\":\"3 piece - 1 tone block with solid side wings\",\"price\":0,\"page_title\":\"바디 구조\",\"page_label\":\"3피스 - 톤블록 1개 + 솔리드 사이드 윙\"},{\"category\":\"body_core_wood\",\"title\":\"Core Wood\",\"option\":\"core_alder\",\"label\":\"alder\",\"price\":0,\"page_title\":\"바디 코어 목재\",\"page_label\":\"알더\"},{\"category\":\"body_wing_wood\",\"title\":\"Side Wing Wood\",\"option\":\"wing_alder\",\"label\":\"alder\",\"price\":0,\"page_title\":\"바디 윙 목재\",\"page_label\":\"알더\"},{\"category\":\"top_type\",\"title\":\"Top Type\",\"option\":\"none\",\"label\":\"standard / matching top\",\"price\":0,\"page_title\":\"탑 구성\",\"page_label\":\"기본 / 매칭 탑\"},{\"category\":\"color_top\",\"title\":\"Finish Color - Top\",\"option\":\"top_oil\",\"label\":\"natural oil\",\"price\":0,\"page_title\":\"탑 마감\",\"page_label\":\"내추럴 오일\"},{\"category\":\"color_back_side\",\"title\":\"Finish Color - Back & Side\",\"option\":\"back_oil\",\"label\":\"natural oil\",\"price\":0,\"page_title\":\"후면·측면 마감\",\"page_label\":\"내추럴 오일\"},{\"category\":\"extra_finish_burst\",\"title\":\"Burst Option\",\"option\":\"burst_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"버스트 마감\",\"page_label\":\"없음\"},{\"category\":\"extra_finish_flake\",\"title\":\"Flake Option\",\"option\":\"flake_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"플레이크 마감\",\"page_label\":\"없음\"},{\"category\":\"color_headstock\",\"title\":\"Finish Color - Headstock\",\"option\":\"head_match\",\"label\":\"match\",\"price\":0,\"page_title\":\"헤드스톡 마감\",\"page_label\":\"매칭\"},{\"category\":\"hardware_bridge\",\"title\":\"Hardware - Bridge\",\"option\":\"ets_custom\",\"label\":\"ETS Custom\",\"price\":0,\"page_title\":\"브리지\",\"page_label\":\"ETS Custom\"},{\"category\":\"hardware_machine_head\",\"title\":\"Hardware - Machine Head\",\"option\":\"gotoh_707\",\"label\":\"Gotoh GB707\",\"price\":0,\"page_title\":\"튜너\",\"page_label\":\"Gotoh GB707\"},{\"category\":\"electronics\",\"title\":\"Onboard EQ\",\"option\":\"passive\",\"label\":\"passive\",\"price\":0,\"page_title\":\"온보드 EQ\",\"page_label\":\"패시브\"},{\"category\":\"pickup_configuration\",\"title\":\"Pickup Configuration\",\"option\":\"pickup_2\",\"label\":\"2 pickups\",\"price\":0,\"page_title\":\"픽업 구성\",\"page_label\":\"2픽업\"},{\"category\":\"pickups\",\"title\":\"Pickups\",\"option\":\"nova_mm\",\"label\":\"Nova Omnia MM\",\"price\":0,\"page_title\":\"픽업\",\"page_label\":\"Nova Omnia MM\"},{\"category\":\"knob\",\"title\":\"Control Knobs\",\"option\":\"knob_metal\",\"label\":\"metal dome\",\"price\":0,\"page_title\":\"컨트롤 노브\",\"page_label\":\"메탈 돔\"},{\"category\":\"hardware_color\",\"title\":\"Hardware Color\",\"option\":\"hw_chrome\",\"label\":\"chrome\",\"price\":0,\"page_title\":\"하드웨어 색상\",\"page_label\":\"크롬\"},{\"category\":\"control_layout\",\"title\":\"Control Layout\",\"option\":\"control_std\",\"label\":\"Standard Layout\",\"price\":0,\"page_title\":\"컨트롤·배선\",\"page_label\":\"기본 레이아웃\"},{\"category\":\"fretboard_extense\",\"title\":\"Fretboard Extension\",\"option\":\"extense_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"지판 연장\",\"page_label\":\"없음\"},{\"category\":\"finger_ramp\",\"title\":\"Finger Ramp\",\"option\":\"ramp_none\",\"label\":\"none\",\"price\":0,\"page_title\":\"핑거램프\",\"page_label\":\"없음\"},{\"category\":\"case\",\"title\":\"Gigbag\",\"option\":\"case_standard\",\"label\":\"Standard gigbag\",\"price\":0,\"page_title\":\"긱백\",\"page_label\":\"기본 긱백\"}],\"total\":2150,\"price_on_request\":false,\"selections\":{\"orientation\":\"right_hand\",\"string_spacing\":\"spacing_std\",\"nut_size\":\"nut_std\",\"nut_material\":\"nut_brass\",\"radius\":\"rad_std\",\"fret_type\":\"fret_24\",\"fretboard_extense\":\"extense_none\",\"body_construction\":\"3pc_solid\",\"hardware_bridge\":\"ets_custom\",\"hardware_machine_head\":\"gotoh_707\",\"pickup_configuration\":\"pickup_2\",\"control_layout\":\"control_std\",\"case\":\"case_standard\",\"strings\":\"4_strings\",\"scale\":\"34\",\"neck\":\"1pc\",\"pickups\":\"nova_mm\",\"electronics\":\"passive\",\"factory_setup\":\"setup_std\",\"neck_profile\":\"profile_edda_vintage\",\"fretboard\":\"ebony\",\"fret_material\":\"mat_brass\",\"fret_size\":\"size_vintage\",\"fret_side\":\"side_no\",\"inlay_type\":\"inlay_none\",\"side_dot\":\"sdot_std\",\"body_core_wood\":\"core_alder\",\"body_wing_wood\":\"wing_alder\",\"top_type\":\"none\",\"color_top\":\"top_oil\",\"color_back_side\":\"back_oil\",\"extra_finish_burst\":\"burst_none\",\"extra_finish_flake\":\"flake_none\",\"color_headstock\":\"head_match\",\"knob\":\"knob_metal\",\"hardware_color\":\"hw_chrome\",\"finger_ramp\":\"ramp_none\"},\"not_applied\":[],\"extras_not_available\":[]},\"stop_reason\":\"end_turn\"}",
+      "elapsedMs": 7247,
+      "parity": true
+    },
+    {
+      "phase": "draft",
+      "at": "2026-10-31T14:19:15.133Z",
+      "request": {
+        "language": "ko",
+        "messages": [
+          {
+            "role": "user",
+            "content": "4현 34인치 베이스로 록을 연주합니다. 패시브 조작이 좋고 기존 5현은 넥이 넓어 불편합니다. EDDA가 맞는지 추천 이유와 기본 견적을 알려주세요."
+          },
+          {
+            "role": "assistant",
+            "content": "좋습니다 — 말씀하신 조건(4현 · 34\" · 록 · 패시브 선호 · 넥 폭 좁음 불편)에 EDDA가 잘 맞습니다.\n\n이유:\n- EDDA는 기본이 4현·34\"로 희망하는 스펙과 일치합니다.\n- 패시브 회로가 표준으로 제공되어 원하시는 조작감과 톤 특성에 맞습니다.\n- 기본 넥(1피스 메이플 + RavenForge vintage boutique 프로파일)은 전통적인 그립감으로, 5현보다 좁은 너트 폭과 익숙한 손감촉을 유지합니다. (넥 프로파일을 더 슬림하게 원하면 profile_vintage_slender 등 옵션으로 조정 가능합니다.)\n\n기본 견적(현재 선택 상태):\n- 모델: EDDA (기본 구성)\n- 합계(견적): €2,100 (부가세 제외). 이 금액은 구성기를 기준으로 한 견적이며 RavenForge가 확인한 최종 가격은 문의 후 확정됩니다.\n\n다음 단계 제안:\n- 넥을 더 얇게 원하십니까? (예: 넥 그립 열기에서 profile_vintage_slender 선택 시 추가 옵션이 있습니다.)\n- 픽업 성향(클린·밸런스 vs. 공격적·펀치)을 하나만 골라주시면, 픽업/프리셋 추천과 변경 시 가격을 다시 보여드리겠습니다.\n\n구성 확인 후 RavenForge에 문의하려면 페이지에서 \"사양서 PDF 저장\" 버튼을 눌러 저장한 PDF를 첨부해 문의하시면 됩니다."
+          },
+          {
+            "role": "user",
+            "content": "현재 선택한 모델과 지판, 픽업, EQ 옵션의 역할과 제약을 설명해 주세요."
+          },
+          {
+            "role": "assistant",
+            "content": "좋습니다. 현재 선택하신 항목(모델·지판·픽업·EQ)에 대해 역할과 주요 제약을 간단히 정리해 드립니다.\n\n- 모델 — EDDA\n  - 설명: 기본이 4현·34\"·패시브 구성인 전통적 성향의 베이스입니다. 록에서 요구하는 펀치와 직관적 패시브 조작에 적합한 설계입니다.\n  - 제약: EDDA의 표준 라인업·경로에 맞는 픽업과 하드웨어 규격(예: Nova MM 호환 라우트)이 전제됩니다.\n\n- 지판 — Fretboard (지판) : rosewood (로즈우드)\n  - 역할: 음색에 대한 미세한 영향(따뜻함/부드러움)과 손감촉, 연주 내구성에 기여합니다.\n  - 제약/주의: 로즈우드는 EDDA 표준으로 추가 비용 없이 선택 가능합니다. 대안(예: ebony +€50 등)은 지판 카테고리에서 변경할 수 있습니다. 프렛리스(프렛 구성 = fretless)를 선택하면 너트 소재가 자동으로 verawood로 바뀔 수 있습니다(현재는 프렛 24 + 제로 프렛).\n\n- 픽업 — Pickups (픽업) : Nova Omnia MM\n  - 역할: 픽업은 출력, 응답, 중역 성향 등 톤의 핵심을 만듭니다. Nova Omnia MM은 EDDA의 기존 MM 라우트에 맞춘 포함 픽업으로, MM 스타일 하우징 톤과 물리적 장착 호환을 전제로 합니다.\n  - 제약/주의: configurator 문구대로 \"confirm outline, mounting ears, depth and screws\"가 필요합니다 — 즉, 실제 장착 면에서 세부 확인이 필요합니다. 다른 픽업(예: Delano 등)은 모델과 라우트에 따라 추가 비용 또는 불가가 있을 수 있습니다. 픽업 구성은 pickup_configuration = pickup_2(2픽업) 상태이며, 두 픽업 배치·상호작용은 바디 라우팅과 전기 배선에 의존합니다.\n\n- 온보드 EQ — Onboard EQ (온보드 EQ) : passive (패시브)\n  - 역할: 패시브 회로는 배터리나 액티브 프리앰프 없이 픽업 신호를 직접 조작합니다. 톤 노브·볼륨으로 직관적이고 다이내믹한 반응을 얻습니다(특히 록에서의 직접적인 터치 반응).\n  - 제약/주의: 액티브 프리앰프(Underhill, Glockenklang, John East 등)는 선택 불가(또는 별도 옵션으로 교체 시 비용 발생)합니다. 패시브 상태에서 사용할 수 있는 부가 옵션으로는 Delano xPure buffer 같은 \"passive electronics only\" 항목(+€100)이 있으며, 배터리 없는 패시브 특성을 유지하면서 신호 안정화를 원할 경우 고려할 수 있습니다. 또한 dual_tone(듀얼 톤 커패시티)는 패시브 회로에서 사용 가능합니다(옵션으로 +€100).\n\n원하시면 다음 중 하나를 제안드립니다:\n- 픽업을 더 공격적인 성향(하이 출력)으로 바꾸어 비교 견적을 보여드릴까요?\n- 넥 프로파일을 profile_vintage_slender로 얇게 바꿔볼까요? (저희가 변경 시 가격을 다시 보여드립니다)\n\n변경을 원하시면 해당 카테고리(지판, 픽업, 온보드 EQ)를 열어 선택하시면 됩니다."
+          },
+          {
+            "role": "user",
+            "content": "EDDA 기본 구성과 에보니 지판 구성을 비교해주세요. 다른 옵션은 기본값입니다. 두 가격과 차이를 설명하고 후자의 견적을 마지막으로 보여주세요. 아직 수락하지 않았으니 적용하지 마세요."
+          },
+          {
+            "role": "assistant",
+            "content": "좋습니다. 요청하신 비교와 견적입니다. 아직 변경을 적용하지 않았습니다.\n\n- EDDA 기본 구성 (현재 선택)\n  - 주요 차이점: 지판 = 로즈우드(기본)\n  - 가격 라인: 전체 합계 €2,100 (부가세 제외). 이 가격은 구성기를 기준한 견적이며 RavenForge가 최종 확인합니다.\n\n- EDDA + 에보니 지판\n  - 변경: Fretboard — ebony (에보니) (+€50)\n  - 가격 라인: 전체 합계 €2,150 (부가세 제외). 에보니 지판 선택으로 기본에서 +€50가 추가됩니다. 이 금액 역시 구성기 기준 견적이며 최종 가격은 확인 후 확정됩니다.\n\n후자의 견적(에보니 지판)을 마지막으로 보여드립니다(아직 적용하지 않음):\n- 모델: EDDA\n- 변경 사항: 지판 — ebony\n- 합계(견적): €2,150 (부가세 제외)\n\n원하시면 지금 이 구성을 구성기에서 적용해 드리거나 다른 지판(예: ebony 대신 ebony + 다른 옵션)과 조합해 다시 가격 비교해 드리겠습니다. 구성 확정 전에는 페이지에서 \"사양서 PDF 저장\"으로 PDF를 저장해 문의 자료로 보내시면 편합니다."
+          },
+          {
+            "role": "user",
+            "content": "제작 문의서 초안을 작성해 주세요. 현재 선택한 사양과 아직 수락하지 않은 제안을 구분하고, 말하지 않은 예산과 일정은 미정으로 두세요. 전송하지 마세요."
+          }
+        ],
+        "configuration": {
+          "model": "EDDA",
+          "selections": {
+            "orientation": "right_hand",
+            "string_spacing": "spacing_std",
+            "nut_size": "nut_std",
+            "nut_material": "nut_brass",
+            "radius": "rad_std",
+            "fret_type": "fret_24",
+            "fretboard_extense": "extense_none",
+            "body_construction": "3pc_solid",
+            "hardware_bridge": "ets_custom",
+            "hardware_machine_head": "gotoh_707",
+            "pickup_configuration": "pickup_2",
+            "control_layout": "control_std",
+            "case": "case_standard",
+            "strings": "4_strings",
+            "scale": "34",
+            "neck": "1pc",
+            "pickups": "nova_mm",
+            "electronics": "passive",
+            "factory_setup": "setup_std",
+            "neck_profile": "profile_edda_vintage",
+            "fretboard": "ebony",
+            "fret_material": "mat_brass",
+            "fret_size": "size_vintage",
+            "fret_side": "side_no",
+            "inlay_type": "inlay_none",
+            "side_dot": "sdot_std",
+            "body_core_wood": "core_alder",
+            "body_wing_wood": "wing_alder",
+            "top_type": "none",
+            "color_top": "top_oil",
+            "color_back_side": "back_oil",
+            "extra_finish_burst": "burst_none",
+            "extra_finish_flake": "flake_none",
+            "color_headstock": "head_match",
+            "knob": "knob_metal",
+            "hardware_color": "hw_chrome",
+            "finger_ramp": "ramp_none"
+          },
+          "specialOptions": [],
+          "accessories": []
+        }
+      },
+      "status": 200,
+      "body": "{\"reply\":\"요청하신 제작 문의서 초안입니다. 아직 전송하지 않았습니다.\\n\\n고객이 밝힌 요구\\n- 연주 스타일: 록\\n- 현수/스케일: 4현, 34\\\"\\n- 전자회로: 패시브 선호\\n- 불편사항: 기존 5현 넥이 넓어 불편함 — 좁은 너트 폭의 4현을 원함\\n- 예산: 미정\\n- 일정/납기: 미정\\n- 측정치(신체치수 등): 미정\\n\\n현재 선택된 사양 (CURRENT selected configuration — 구성기 현재값)\\n- 모델: EDDA\\n- 현수: 4현\\n- 스케일: 34\\\"\\n- 공장 셋업: 기본 셋업\\n- 넥: 1피스 메이플\\n- 넥 그립: RavenForge vintage boutique\\n- 지판: 지판 — 에보니\\n- 프렛 구성: 24프렛 + 제로 프렛\\n- 너트 소재: 황동 제로 프렛 스트링 가이드\\n- 픽업 구성: 2픽업 / 픽업 — Nova Omnia MM\\n- 온보드 EQ: 패시브\\n- 브리지: ETS Custom\\n- 하드웨어 색상: 크롬\\n- 컨트롤 노브: 메탈 돔\\n- 바디 구조: 3피스 - 톤블록 1개 + 솔리드 사이드 윙\\n- 바디 코어 목재: 알더 / 바디 윙 목재: 알더\\n- 탑 마감: 내추럴 오일 / 후면·측면: 내추럴 오일\\n- 긱백: 기본 긱백\\n- 합계(견적): €2,150 (부가세 제외) — 구성기를 기준한 견적, 최종 확정 필요\\n\\n제안(아직 수락하지 않음 / Suggestions not yet accepted)\\n- 넥 그립을 더 슬림하게: profile_vintage_slender 옵션 (넥 감촉을 더 빠르게 하는 선택지)\\n- 패시브 신호 안정화를 위한 Delano xPure buffer (+€100) — 패시브 회로 전용 옵션\\n- 픽업을 더 공격적인 성향이나 다른 모델로 교체(예: higher-output pickup) — 장착 호환성 및 추가 비용 확인 필요\\n\\n메이커에게 묻고 싶은 점 (Questions for the maker)\\n- Nova Omnia MM의 장착(윤곽, 마운트 귀, 깊이, 나사 위치) 확인 가능합니까? 추가 가공이 필요하면 비용/영향은?\\n- 에보니 지판(현재 선택)은 레퍼런스 목재 상태와 가공 방식(오일/사포 처리 등)을 어떻게 처리하나요?\\n- 넥 프로파일을 profile_vintage_slender로 변경 시 1) 예상 손감 차이, 2) 추가 비용, 3) 1/12프렛 두께 같은 치수 정보 제공 가능합니까?\\n- Delano xPure buffer를 추가하고 싶을 때 배터리/장소 제약은 없나요? 적용 시 가격과 설치 위치 확인 요청.\\n- 최종 확정 전의 총견적(부가세 포함 전/후)과 주문 가능 시점 또는 예상 제작 소요기간(확정 견적과 함께)을 알려주세요.\\n- 특별 주의사항이나 장착·조율(제로 프렛 관련)에 대한 권장 사양이 있으면 알려주십시오.\\n\\n비고\\n- 위 합계 €2,150은 구성기를 기준한 견적이며 RavenForge가 최종 확인합니다.\\n- 구성 PDF를 첨부해 문의하시려면 페이지의 \\\"사양서 PDF 저장\\\" 버튼을 사용하세요.\\n\\n수정하거나 추가할 내용(예: 넥 프로파일 변경, 버퍼 추가, 픽업 교체)이 있으면 알려주시면 반영한 문의서 초안을 다시 만들어 드리겠습니다.\",\"quote\":null,\"stop_reason\":\"end_turn\"}",
+      "elapsedMs": 12164
+    }
+  ]
+}

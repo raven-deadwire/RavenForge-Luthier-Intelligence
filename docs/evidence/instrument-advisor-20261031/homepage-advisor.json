@@ -1,0 +1,20 @@
+[
+  {
+    "language": "en",
+    "href": "configurator.html?lang=en&advisor=1",
+    "label": "Find my instrument",
+    "pass": true
+  },
+  {
+    "language": "ko",
+    "href": "configurator.html?lang=ko&advisor=1",
+    "label": "나에게 맞는 악기 찾기",
+    "pass": true
+  },
+  {
+    "language": "de",
+    "href": "configurator.html?lang=de&advisor=1",
+    "label": "Mein Instrument finden",
+    "pass": true
+  }
+]

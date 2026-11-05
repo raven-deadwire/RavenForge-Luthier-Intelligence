@@ -1,0 +1,74 @@
+AssertionError [ERR_ASSERTION]: ko/EDDA: unpriced options must keep the quote incomplete
+
+false !== true
+
+ko/EMBLA: unpriced options must keep the quote incomplete
+
+false !== true
+
+ko/ASKR: unpriced options must keep the quote incomplete
+
+false !== true
+
+ko/GRAMR: unpriced options must keep the quote incomplete
+
+false !== true
+
+en/EDDA: unpriced options must keep the quote incomplete
+
+false !== true
+
+en/EMBLA: unpriced options must keep the quote incomplete
+
+false !== true
+
+en/ASKR: unpriced options must keep the quote incomplete
+
+false !== true
+
+en/GRAMR: unpriced options must keep the quote incomplete
+
+false !== true
+
+de/EDDA: unpriced options must keep the quote incomplete
+
+false !== true
+
+de/EMBLA: unpriced options must keep the quote incomplete
+
+false !== true
+
+de/ASKR: unpriced options must keep the quote incomplete
+
+false !== true
+
+de/GRAMR: unpriced options must keep the quote incomplete
+
+false !== true
+
++ actual - expected
+
++ [
++   'ko/EDDA: unpriced options must keep the quote incomplete\n\nfalse !== true\n',
++   'ko/EMBLA: unpriced options must keep the quote incomplete\n\nfalse !== true\n',
++   'ko/ASKR: unpriced options must keep the quote incomplete\n\nfalse !== true\n',
++   'ko/GRAMR: unpriced options must keep the quote incomplete\n\nfalse !== true\n',
++   'en/EDDA: unpriced options must keep the quote incomplete\n\nfalse !== true\n',
++   'en/EMBLA: unpriced options must keep the quote incomplete\n\nfalse !== true\n',
++   'en/ASKR: unpriced options must keep the quote incomplete\n\nfalse !== true\n',
++   'en/GRAMR: unpriced options must keep the quote incomplete\n\nfalse !== true\n',
++   'de/EDDA: unpriced options must keep the quote incomplete\n\nfalse !== true\n',
++   'de/EMBLA: unpriced options must keep the quote incomplete\n\nfalse !== true\n',
++   'de/ASKR: unpriced options must keep the quote incomplete\n\nfalse !== true\n',
++   'de/GRAMR: unpriced options must keep the quote incomplete\n\nfalse !== true\n'
++ ]
+- []
+
+    at /workspace/scratch/c0019f8f5f8f/ravenforge/tools/test_advisor_catalog.cjs:55:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [Array],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
