@@ -26,6 +26,7 @@ async function main() {
   server=http.createServer(async(req,res)=>{
     try {
       let name=decodeURIComponent(new URL(req.url,'http://localhost').pathname); if(name.endsWith('/')) name+='index.html';
+      if (name === '/__works-fixture.html') { res.writeHead(200,{'Content-Type':'text/html'}).end('<!doctype html><html><body></body></html>'); return; }
       const file=path.resolve(root,'.'+name); assert(file.startsWith(root+path.sep));
       const type={'.html':'text/html; charset=utf-8','.js':'text/javascript','.css':'text/css','.webp':'image/webp','.png':'image/png','.json':'application/json','.pdf':'application/pdf'}[path.extname(file)]||'application/octet-stream';
       res.writeHead(200,{'Content-Type':type}).end(await fs.readFile(file));
@@ -44,35 +45,33 @@ async function main() {
     await page.locator('.rf-works-toolbar').waitFor({state:'visible'});
     assert.equal(await page.locator('html').getAttribute('lang'),lang);
     assert.equal(await page.locator('[data-works-categories]:visible').count(),4);
-    assert.equal(await page.locator('#about-content-repairs img').count(),15);
-    assert.equal(await page.locator('.rf-repair-record').count(),15);
+    assert.equal(await page.locator('#works-repairs img').count(),15);
+    assert.equal(await page.locator('#about-content-works #works-repairs .rf-repair-photo').count(),15);
+    assert.equal(await page.locator('#btn-about-repairs, #about-content-repairs').count(),0);
+    assert.equal((await page.locator('#works-repairs').textContent()).trim(),'');
+    assert.equal(await page.locator('#works-repairs details, #works-repairs [data-works-caption]').count(),0);
     // Translation coverage, including the generated static fallbacks.
     const untranslated=await page.evaluate(()=>[...document.querySelectorAll('#about-content-works [data-lang-key]')].filter(e=>e.textContent.includes('undefined')||e.textContent.includes('[object Object]')).length); assert.equal(untranslated,0);
     const strings=Object.fromEntries(Object.entries(translations[lang]).filter(([,v])=>typeof v==='string'));
-    const wrongCopy=await page.locator('#about-content-works [data-lang-key],#about-content-repairs [data-lang-key]').evaluateAll((els,strings)=>els.filter(el=>el.textContent.trim()!==new DOMParser().parseFromString(strings[el.dataset.langKey]||'','text/html').body.textContent.trim()).map(el=>el.dataset.langKey),strings);
+    const wrongCopy=await page.locator('#about-content-works [data-lang-key],#works-repairs [data-lang-key]').evaluateAll((els,strings)=>els.filter(el=>el.textContent.trim()!==new DOMParser().parseFromString(strings[el.dataset.langKey]||'','text/html').body.textContent.trim()).map(el=>el.dataset.langKey),strings);
     assert.deepEqual(wrongCopy,[]);
     if(width===390) for(const href of new Set(await page.locator('#about-content-works a[href]').evaluateAll(els=>els.map(el=>el.href)))) {
       const response=await context.request.get(href);assert.equal(response.status(),200,href);
       if(href.endsWith('.pdf')) assert((await response.body()).subarray(0,5).equals(Buffer.from('%PDF-')));
     }
-    for(const [filter,projects,photos] of [['builds',1,0],['drawings',2,0],['models',3,0],['all',4,0]]) {
+    for(const [filter,projects,photos] of [['builds',1,0],['drawings',2,0],['models',3,0],['all',4,15],['repairs',0,15]]) {
       await page.locator(`[data-works-filter="${filter}"]`).press('Enter');
       assert.equal(await page.locator('[data-works-categories]:visible').count(),projects);
-      assert.equal(await page.locator('#about-content-repairs img:visible').count(),photos);
+      assert.equal(await page.locator('#works-repairs img:visible').count(),photos);
       assert.equal(await page.locator(`[data-works-filter="${filter}"]`).getAttribute('aria-pressed'),'true');
       report.layout.push({lang,width,view:'works/'+filter,issues:await page.evaluate(scan)});
     }
-    // Native disclosure keyboard access, unknown fields, all image source mappings.
-    await page.locator('#btn-about-repairs').press('Enter');
-    assert.equal(await page.locator('#about-content-works').isVisible(),false);
-    assert.equal(await page.locator('#about-content-repairs').isVisible(),true);
-    assert.equal(new URL(page.url()).searchParams.get('about'),'repairs');
-    const summary=page.locator('.rf-repair-record summary').first();
-    const wasOpen=await page.locator('.rf-repair-record details').first().evaluate(el=>el.open);
-    await summary.press('Enter');
-    assert.equal(await page.locator('.rf-repair-record details').first().evaluate(el=>el.open),!wasOpen);
-    assert.equal(await page.locator('.rf-repair-record').first().locator('dd').count(),4);
-    report.layout.push({lang,width,view:'repair/details',issues:await page.evaluate(scan)});
+    // Repair photographs are a filter within My Works, with no visible record copy.
+    assert.equal(await page.locator('#about-content-works').isVisible(),true);
+    assert.equal(await page.locator('#works-repairs').isVisible(),true);
+    assert.equal(new URL(page.url()).searchParams.get('about'),'works');
+    assert.equal(new URL(page.url()).searchParams.get('category'),'repairs');
+    report.layout.push({lang,width,view:'works/repairs',issues:await page.evaluate(scan)});
     for(const selector of ['[data-works-label="repair01"]','[data-works-label="repair15"]']) {
       const opener=page.locator(selector); await opener.press('Space');
       await page.locator('#image-popup').waitFor({state:'visible'});
@@ -83,15 +82,15 @@ async function main() {
       await page.keyboard.press('Escape'); await page.locator('#image-popup').waitFor({state:'hidden'});
       assert.equal(await opener.evaluate(el=>el===document.activeElement),true);
     }
-    const badAssets=await page.locator('#about-content-works img,#about-content-repairs img').evaluateAll(async imgs=>{
+    const badAssets=await page.locator('#about-content-works img,#works-repairs img').evaluateAll(async imgs=>{
       await Promise.all(imgs.map(img=>{img.loading='eager';return img.decode().catch(()=>{});}));
       return imgs.filter(img=>!img.naturalWidth).map(img=>img.src);
     });assert.deepEqual(badAssets,[]);
     if(width===390||width===1440) {
-      await page.locator('#about-content-repairs').evaluate(el=>el.scrollIntoView());
+      await page.locator('#works-repairs').evaluate(el=>el.scrollIntoView());
       await page.screenshot({path:path.join(out,`repair-${lang}-${width}.png`)});
     }
-    await page.locator('#btn-about-works').click();
+    await page.locator('[data-works-filter="all"]').click();
     const workshop=page.locator('[data-works-label="workshop"]'); await workshop.press('Enter');
     await page.locator('#image-popup').waitFor({state:'visible'});
     assert.equal(await page.locator('#popup-img').getAttribute('alt'),await workshop.locator('img').getAttribute('alt'));
@@ -109,12 +108,31 @@ async function main() {
     }
     report.cases.push({lang,width,status:'pass'}); console.log(`PASS ${lang} ${width}`);
   }
+  // Published legacy links and saved tabs must still lead to the repair category.
+  for (const [lang,file] of [['en','index.html'],['ko','ko.html'],['de','de.html']]) {
+    for (const query of ['?about=repairs#about','?about=works&category=repairs#about']) {
+      await page.goto(base + file + query);
+      await page.locator('#works-repairs').waitFor({state:'visible'});
+      assert.equal(await page.locator('#about-content-works').isVisible(),true);
+      assert.equal(await page.locator('[data-works-filter="repairs"]').getAttribute('aria-pressed'),'true');
+      assert.equal(await page.locator('[data-works-categories]:visible').count(),0);
+      assert.equal(new URL(page.url()).searchParams.get('about'),'works');
+      assert.equal(new URL(page.url()).searchParams.get('category'),'repairs');
+    }
+    await page.evaluate(() => sessionStorage.setItem('activeAboutTab','repairs'));
+    await page.goto(base + file + '#about');
+    await page.locator('#works-repairs').waitFor({state:'visible'});
+    assert.equal(await page.locator('[data-works-filter="repairs"]').getAttribute('aria-pressed'),'true');
+    report.cases.push({lang,view:'repair-link-migration',status:'pass'});
+  }
   // No-JS static accessibility localization must not depend on runtime render().
   const nojs=await browser.newContext({javaScriptEnabled:false});const staticPage=await nojs.newPage();
   for(const [lang,file,marker] of [['de','de.html','Vergrößern'],['ko','ko.html','크게 보기']]) {
     await staticPage.goto(base+file);
     for(const button of await staticPage.locator('[data-works-image]').all()) assert((await button.getAttribute('aria-label')).includes(marker));
-    assert.equal(await staticPage.locator('.rf-repair-record dd').count(),60);
+    assert.equal(await staticPage.locator('#about-content-works #works-repairs img').count(),15);
+    assert.equal((await staticPage.locator('#works-repairs').textContent()).trim(),'');
+    assert.equal(await staticPage.locator('#btn-about-repairs, #about-content-repairs').count(),0);
     report.cases.push({lang,view:'no-js labels',status:'pass'});
   }await nojs.close();
   }
@@ -122,10 +140,10 @@ async function main() {
   const code=await fs.readFile(path.join(root,'assets/works-portfolio.js'),'utf8');
   for(const scenario of ['missing-img','missing-popup','missing-popup-empty-image','missing-archive','missing-grid','missing-count','unknown-label','empty-image','de-DE','ko-KR','EN-us']) {
     const only=process.argv.find(arg=>arg.startsWith('--scenario='))?.split('=')[1]; if(only && scenario!==only) continue;
-    await page.goto('about:blank');
+    await page.goto(base + '__works-fixture.html');
     const regional=scenario.includes('-')&&['de-DE','ko-KR','EN-us'].includes(scenario);
-    await page.setContent(`<html lang="${regional?scenario:'en'}"><body><div id="about-content-works"><div class="rf-works-toolbar" hidden><button data-works-filter="all"></button><button data-works-filter="repair"></button></div><p data-works-count></p><div class="rf-works-grid"><article data-works-categories="models"><button data-works-image="${['empty-image','missing-popup-empty-image'].includes(scenario)?'':'x'}" data-works-label="${scenario==='unknown-label'?'unknown':'workshop'}">${scenario==='missing-img'?'':'<img>'}</button></article></div></div><section id="about-content-repairs"><img></section>${scenario.startsWith('missing-popup')?'':'<img id="popup-img" src="x">'}</body></html>`);
-    if(['missing-archive','missing-grid','missing-count'].includes(scenario)) await page.locator({'missing-archive':'#about-content-repairs','missing-grid':'.rf-works-grid','missing-count':'[data-works-count]'}[scenario]).evaluate(el=>el.remove());
+    await page.setContent(`<html lang="${regional?scenario:'en'}"><body><div id="about-content-works"><div class="rf-works-toolbar" hidden><button data-works-filter="all"></button><button data-works-filter="repairs"></button></div><p data-works-count></p><div class="rf-works-grid"><article data-works-categories="models"><button data-works-image="${['empty-image','missing-popup-empty-image'].includes(scenario)?'':'x'}" data-works-label="${scenario==='unknown-label'?'unknown':'workshop'}">${scenario==='missing-img'?'':'<img>'}</button></article></div><section id="works-repairs"><img></section></div>${scenario.startsWith('missing-popup')?'':'<img id="popup-img" src="x">'}</body></html>`);
+    if(['missing-archive','missing-grid','missing-count'].includes(scenario)) await page.locator({'missing-archive':'#works-repairs','missing-grid':'.rf-works-grid','missing-count':'[data-works-count]'}[scenario]).evaluate(el=>el.remove());
     const errors=[];const handler=e=>errors.push(e.message);page.on('pageerror',handler);
     await page.addScriptTag({content:code}); assert.deepEqual(errors,[],scenario);
     if(scenario==='unknown-label') assert(!(await page.locator('[data-works-image]').getAttribute('aria-label') || '').includes('undefined'));
@@ -134,7 +152,7 @@ async function main() {
       await page.locator('[data-works-image]').click();
       assert.equal(await page.evaluate(()=>!!window.__popupCalled),false);
     }
-     await page.locator('[data-works-filter="repair"]').click();
+     await page.locator('[data-works-filter="repairs"]').click();
     assert.deepEqual(errors,[],scenario);assert.equal(await page.locator('.rf-works-toolbar').isVisible(),true,scenario);
     if(regional) assert.equal(await page.locator('.rf-works-toolbar').getAttribute('aria-label'),{'de-DE':'Projekte nach Art der Unterlagen filtern','ko-KR':'프로젝트 자료 분류','EN-us':'Filter projects by type'}[scenario]);
     page.off('pageerror',handler);report.cases.push({scenario,status:'pass'});
