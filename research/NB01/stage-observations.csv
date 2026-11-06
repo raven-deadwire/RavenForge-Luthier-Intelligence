@@ -1,0 +1,2 @@
+﻿wood_id,stage,timestamp,operator,criterion_revision,instrument,resolution_mm,repeatability_mm,reference_faces,gauge_length_mm,supports,restraint,temperature_c,rh_pct,mc_pct,mass_g,length_mm,width_a_mm,width_b_mm,width_c_mm,thickness_a_mm,thickness_b_mm,thickness_c_mm,bow_mm,crook_mm,twist_mm,removal_face_a_mm,removal_face_b_mm,wait_start,wait_end,photo_ids,decision,reason,next_measurement,approver
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
