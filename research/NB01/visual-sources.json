@@ -1,0 +1,47 @@
+{
+  "revision": "1.1",
+  "source_report": "기타 넥 제작 연구 로그용 심층 리서치: 영상 기반 공정·목재 안정화·검증 실험 체계",
+  "diagrams": "Re-rendered from the source Gantt and process flow; translated KO/EN/DE",
+  "images": [
+    {
+      "file": "assets/reference-1.jpg",
+      "title": "Sawmill Specials – Flame Maple Neck Blanks - StewMac",
+      "attribution": "StewMac",
+      "source_page": "https://www.stewmac.com/tonewoods/sawmill-specials/sawmill-specials-flame-maple-neck-blanks",
+      "source_image": "https://www.stewmac.com/globalassets/product-images/m008000/m008700/m008718-sawmill-specials--flame-maple-neck-blanks/m008718-1-group-on-bench.jpg?hash=638090339720000000",
+      "role": "Reference image retained from supplied research report; not RavenForge production evidence",
+      "width": 1200,
+      "height": 1200
+    },
+    {
+      "file": "assets/reference-2.jpg",
+      "title": "Hard Maple/ Quarter Sawn Maple Guitar Neck Blanks | Exotic Wood Zone\n – Exotic Wood Zone",
+      "attribution": "Exotic Wood Zone",
+      "source_page": "https://exoticwoodzone.com/products/hard-maple-guitar-neck-blanks",
+      "source_image": "https://exoticwoodzone.com/cdn/shop/files/hard-maple-neck-blank-img-2.webp?v=1738324015&width=1920",
+      "role": "Reference image retained from supplied research report; not RavenForge production evidence",
+      "width": 1200,
+      "height": 1200
+    },
+    {
+      "file": "assets/reference-3.jpg",
+      "title": "ギターのネックについて考える《動画あり》 | イシバシ楽器スタッフブログ",
+      "attribution": "イシバシ楽器",
+      "source_page": "https://www.ishibashi.co.jp/sale-event/20457",
+      "source_image": "https://www.ishibashi.co.jp/sale-event/img/maruta.jpg",
+      "role": "Reference image retained from supplied research report; not RavenForge production evidence",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "file": "assets/reference-4.jpg",
+      "title": "Saucet Guitars - How I Choose Wood For An Electric Guitar",
+      "attribution": "Saucet Guitars",
+      "source_page": "https://www.saucet-guitars.com/articles/how-i-choose-wood-for-an-electric-guitar",
+      "source_image": "https://www.saucet-guitars.com/_next/image?q=75&url=%2Farticles%2Fimages%2Fstraight-grain-neck-blank.jpg&w=2048",
+      "role": "Reference image retained from supplied research report; not RavenForge production evidence",
+      "width": 1024,
+      "height": 702
+    }
+  ]
+}
