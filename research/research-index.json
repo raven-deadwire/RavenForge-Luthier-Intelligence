@@ -2,6 +2,26 @@
   "schemaVersion": 1,
   "articles": [
     {
+      "id": "NB01",
+      "date": "2026-11-06",
+      "category": "log",
+      "ko": {
+        "title": "넥 블랭크 선별과 안정화 — 장인의 관찰을 공정 기록으로",
+        "excerpt": "말로우 베이스 제작 영상에서 출발한 목재·공정 연구일지. 개별 블랭크 이력, 단계 가공, 함수율·변형 측정과 GO/HOLD/REJECT 게이트를 제안하고 다섯 가지 후속 실험을 설계한다. 문헌·프로토콜판이며 신규 실측 결과는 없다.",
+        "link": "research/NB01/ko.html"
+      },
+      "en": {
+        "title": "Neck Blank Selection and Stabilization — From Craft Observation to Process Records",
+        "excerpt": "A research journal prompted by a Marleaux bass-making video: individual blank histories, staged machining, moisture and deformation measurements, decision gates and five proposed experiments. Literature/protocol edition; no new measurements.",
+        "link": "research/NB01/en.html"
+      },
+      "de": {
+        "title": "Auswahl und Stabilisierung von Halsrohlingen — Werkstattbeobachtung als Prozessprotokoll",
+        "excerpt": "Forschungsjournal ausgehend von einem Marleaux-Bassbauvideo: individuelle Materialhistorie, stufenweise Bearbeitung, Holzfeuchte und Verformung, Entscheidungspunkte und fünf geplante Versuche. Literatur-/Protokollfassung ohne neue Messdaten.",
+        "link": "research/NB01/de.html"
+      }
+    },
+    {
       "id": "L04",
       "date": "2026-11-05",
       "category": "liberal",
