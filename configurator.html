@@ -81,6 +81,8 @@
   <!-- Quote consultation chat: set data-endpoint to the deployed worker/quote-consult URL; empty hides the chat. -->
   <link rel="stylesheet" href="./assets/configurator-chat.css?v=20261107-krw">
   <script src="./assets/configurator-chat.js?v=20261107-krw" data-endpoint="https://ravenforge-quote-consult.ravenforge.workers.dev"></script>
+  <!-- Configuration sharing: put the Kakao app's JavaScript key in data-kakao-key to show KakaoTalk sharing on Korean pages; empty keeps only "copy link". -->
+  <script src="./assets/configurator-share.js?v=20261107-share" data-kakao-key=""></script>
   <script type="text/babel">
     const { useState, useEffect, useMemo } = React;
 
@@ -904,6 +906,63 @@
         setFinishColor('');
         setPdfError('');
       };
+
+      // Restore a configuration shared as ?cfg=…; every id is checked against the catalog.
+      useEffect(() => {
+        const shared = window.RavenForgeShare?.decode(new URLSearchParams(window.location.search).get('cfg'));
+        if (!shared || !configData.models.some(model => model.id === shared.m)) return;
+        const requested = {};
+        Object.entries(shared.s).forEach(([categoryId, optionId]) => {
+          if (configData.categories.find(category => category.id === categoryId)?.options.some(option => option.id === optionId)) requested[categoryId] = optionId;
+        });
+        const allowedSpecials = (shared.m === 'GRAMR'
+          ? specialOptionsList.filter(option => ['kill_switch', 'dual_tone'].includes(option.id))
+          : specialOptionsList.filter(option => option.id !== 'locking_jack')).map(option => option.id);
+        const allowedAccessories = (shared.m === 'GRAMR'
+          ? accessoriesList.filter(option => option.id === 'leather_strap') : accessoriesList).map(option => option.id);
+        setSelectedModel(shared.m);
+        setSelections(normalizeSelections(shared.m, requested));
+        setSpecialOptions(shared.o.filter(id => allowedSpecials.includes(id)));
+        setAccessories(shared.a.filter(id => allowedAccessories.includes(id)));
+        setFinishColor(shared.f);
+      }, []);
+
+      const [shareStatus, setShareStatus] = useState('');
+      const shareCopy = {
+        en: { copy: 'Copy configuration link', copied: 'Link copied', failed: 'Could not copy the link', kakao: 'Share on KakaoTalk', kakaoFailed: 'KakaoTalk sharing is unavailable' },
+        ko: { copy: '구성 링크 복사', copied: '링크를 복사했습니다', failed: '링크를 복사하지 못했습니다', kakao: '카카오톡으로 공유', kakaoFailed: '카카오톡 공유를 사용할 수 없습니다' },
+        de: { copy: 'Konfigurationslink kopieren', copied: 'Link kopiert', failed: 'Link konnte nicht kopiert werden', kakao: 'Über KakaoTalk teilen', kakaoFailed: 'Teilen über KakaoTalk ist nicht verfügbar' }
+      }[language] || {};
+      // A link to the standalone configurator that restores the current selections.
+      const shareUrl = () => {
+        const defaults = getDefaultSelections(selectedModel);
+        const changed = {};
+        Object.entries(selections).forEach(([categoryId, optionId]) => { if (defaults[categoryId] !== optionId) changed[categoryId] = optionId; });
+        const url = new URL(window.location.href);
+        url.search = '';
+        url.hash = '';
+        url.searchParams.set('lang', language);
+        url.searchParams.set('cfg', window.RavenForgeShare.encode({ m: selectedModel, s: changed, o: specialOptions, a: accessories, f: finishColor.trim().slice(0, 80) }));
+        return url.toString();
+      };
+      const copyShareLink = async () => {
+        const ok = await window.RavenForgeShare.copy(shareUrl());
+        setShareStatus(ok ? shareCopy.copied : shareCopy.failed);
+      };
+      const shareOnKakao = async () => {
+        const price = typeof summary.totalPrice === 'number' ? '€' + summary.totalPrice : ui.requestPrice;
+        try {
+          await window.RavenForgeShare.shareKakao({
+            text: `RavenForge ${selectedModel} 사양 구성\n예상 견적 ${price}${summary.requiresRequest ? ' + 별도 확인' : ''} (세금·배송비 별도)\n최종 금액은 RavenForge가 확정합니다.`,
+            url: shareUrl(),
+            buttonTitle: '구성 보기'
+          });
+          setShareStatus('');
+        } catch (error) {
+          setShareStatus(shareCopy.kakaoFailed);
+        }
+      };
+      useEffect(() => { setShareStatus(''); }, [selectedModel, selectionState, specialOptions, accessories, finishColor, language]);
 
       const summary = useMemo(() => {
         const basePrice = configData.models.find(m => m.id === selectedModel)?.basePrice ?? null;
@@ -1981,6 +2040,23 @@ const handleOptionChange = (categoryId, optionId) => {
                       >
                         {isGeneratingPDF ? ui.generatingPDF : ui.savePDF}
                       </button>
+                    </div>
+                    <div id="quote-share-area">
+                      {window.RavenForgeShare && (
+                        <div data-share-actions className={`mt-3 grid gap-2 ${window.RavenForgeShare.kakaoEnabled && language === 'ko' ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                          <button type="button" onClick={copyShareLink}
+                            className="w-full border border-slate-300 text-slate-700 hover:bg-slate-100 font-semibold py-3 px-3 rounded-xl text-sm transition-colors">
+                            {shareCopy.copy}
+                          </button>
+                          {window.RavenForgeShare.kakaoEnabled && language === 'ko' && (
+                            <button type="button" onClick={shareOnKakao}
+                              className="w-full bg-[#FEE500] text-[#191919] hover:brightness-95 font-semibold py-3 px-3 rounded-xl text-sm transition">
+                              {shareCopy.kakao}
+                            </button>
+                          )}
+                        </div>
+                      )}
+                      {shareStatus && <p role="status" className="text-xs text-slate-600 mt-2 text-center">{shareStatus}</p>}
                     </div>
                   </div>
                 </div>

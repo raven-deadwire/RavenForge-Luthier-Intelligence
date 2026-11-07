@@ -1,0 +1,12 @@
+{
+  "_comment": "Naver DataLab search trend groups (at most 5 groups, 20 keywords each). Ratios are relative: 100 is the highest week across all groups in one request, so the series is replaced on every run.",
+  "since": "2023-01-01",
+  "time_unit": "week",
+  "groups": [
+    { "name": "커스텀·수제 베이스", "keywords": ["커스텀 베이스", "커스텀베이스", "수제 베이스", "핸드메이드 베이스"] },
+    { "name": "5현·6현 베이스", "keywords": ["5현 베이스", "5현베이스", "6현 베이스", "6현베이스"] },
+    { "name": "멀티스케일 베이스", "keywords": ["멀티스케일 베이스", "팬드프렛 베이스", "팬프렛 베이스"] },
+    { "name": "프렛리스 베이스", "keywords": ["프렛리스 베이스", "프렛리스베이스"] },
+    { "name": "베이스 기타 (기준)", "keywords": ["베이스 기타", "베이스기타", "일렉 베이스"] }
+  ]
+}
