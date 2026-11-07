@@ -2,6 +2,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { createOpenAIClient, OpenAIError } from './openai-client.js';
 import { MODEL_IDS, priceConfiguration, priceWithChanges, sanitizeConfiguration, withPageNames } from './pricing.js';
 import { PRICE_TOOL, SYSTEM_PROMPT } from './prompt.js';
+import { eurKrwRate, krwReference } from './exchange-rate.js';
 
 const MAX_MESSAGES = 30;
 const MAX_MESSAGE_CHARS = 2000;
@@ -13,7 +14,7 @@ const MAX_TOOL_CALLS = 8;
 const MAX_OUTPUT_TOKENS = 4096;
 const MAX_REQUEST_OUTPUT_TOKENS = 8192;
 const REQUEST_TIMEOUT_MS = 90000;
-export const BUILD_VERSION = '20261031-instrument-advisor-1';
+export const BUILD_VERSION = '20261107-krw-reference-1';
 const LANGUAGES = ['en', 'de', 'ko'];
 
 const FALLBACK_REPLY = {
@@ -78,8 +79,15 @@ function echoable(content) {
     index > boundary || !['thinking', 'redacted_thinking', 'tool_use', 'server_tool_use'].includes(block.type));
 }
 
-export async function handleChat(body, env, client) {
+export async function handleChat(body, env, client, { rateOptions } = {}) {
   const { messages, configuration, language } = parseRequest(body);
+  // Korean visitors get a KRW reference next to the EUR estimate. Fetched alongside the
+  // model call; a missing key or failed lookup leaves it out without affecting the reply.
+  const ratePromise = language === 'ko' ? eurKrwRate(env, rateOptions) : Promise.resolve(null);
+  const withKrw = async result => {
+    const krw = krwReference(result.quote, await ratePromise);
+    return krw ? { ...result, krw_reference: krw } : result;
+  };
   const model = env.MODEL || 'claude-opus-5-5';
   const currentQuote = configuration ? withPageNames(priceConfiguration(configuration), language) : null;
 
@@ -118,7 +126,7 @@ export async function handleChat(body, env, client) {
     remainingTokens -= Math.min(requestedTokens, Math.max(0, response.usage?.output_tokens ?? requestedTokens));
     if (response.stop_reason === 'max_tokens') throw new RequestError(502, 'The consultant reached its response limit. Please ask a shorter question.');
 
-    if (response.stop_reason === 'refusal') return { reply: FALLBACK_REPLY[language], quote: lastQuote, stop_reason: 'refusal' };
+    if (response.stop_reason === 'refusal') return withKrw({ reply: FALLBACK_REPLY[language], quote: lastQuote, stop_reason: 'refusal' });
 
     if (response.stop_reason === 'tool_use') {
       const echoed = echoable(response.content);
@@ -141,7 +149,7 @@ export async function handleChat(body, env, client) {
 
     const reply = response.content.filter(block => block.type === 'text').map(block => block.text).join('\n\n').trim();
     if (reply.length > MAX_REPLY_CHARS) throw new RequestError(502, 'The answer is too long. Please ask a shorter question.');
-    return { reply: reply || FALLBACK_REPLY[language], quote: lastQuote, stop_reason: response.stop_reason };
+    return withKrw({ reply: reply || FALLBACK_REPLY[language], quote: lastQuote, stop_reason: response.stop_reason });
   }
   throw new RequestError(502, 'The consultant did not finish its answer.');
 }
