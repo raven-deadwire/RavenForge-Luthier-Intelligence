@@ -14,7 +14,7 @@ const MAX_TOOL_CALLS = 8;
 const MAX_OUTPUT_TOKENS = 4096;
 const MAX_REQUEST_OUTPUT_TOKENS = 8192;
 const REQUEST_TIMEOUT_MS = 90000;
-export const BUILD_VERSION = '20261107-krw-reference-1';
+export const BUILD_VERSION = '20261108-krw-reference-resilience-1';
 const LANGUAGES = ['en', 'de', 'ko'];
 
 const FALLBACK_REPLY = {
@@ -79,11 +79,14 @@ function echoable(content) {
     index > boundary || !['thinking', 'redacted_thinking', 'tool_use', 'server_tool_use'].includes(block.type));
 }
 
-export async function handleChat(body, env, client, { rateOptions } = {}) {
+export async function handleChat(body, env, client, { rateOptions, ctx } = {}) {
   const { messages, configuration, language } = parseRequest(body);
   // Korean visitors get a KRW reference next to the EUR estimate. Fetched alongside the
   // model call; a missing key or failed lookup leaves it out without affecting the reply.
   const ratePromise = language === 'ko' ? eurKrwRate(env, rateOptions) : Promise.resolve(null);
+  // A model failure can finish the request while another request awaits this shared
+  // lookup. Keep the initiating I/O context alive for the bounded refresh.
+  if (language === 'ko') ctx?.waitUntil(ratePromise);
   const withKrw = async result => {
     const krw = krwReference(result.quote, await ratePromise);
     return krw ? { ...result, krw_reference: krw } : result;
@@ -197,7 +200,7 @@ async function readBody(request) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (url.pathname !== '/chat') return json(404, { error: 'Not found.' });
     const cors = corsHeaders(request.headers.get('Origin'), env);
@@ -214,7 +217,7 @@ export default {
       if (!success) return json(429, { error: 'Too many messages. Please wait a minute.' }, { ...cors, 'Retry-After': '60' });
       const body = await readBody(request);
       const client = provider === 'openai' ? createOpenAIClient(env) : new Anthropic({ apiKey: env.ANTHROPIC_API_KEY, maxRetries: 0, timeout: REQUEST_TIMEOUT_MS });
-      return json(200, await handleChat(body, env, client), cors);
+      return json(200, await handleChat(body, env, client, { ctx }), cors);
     } catch (error) {
       if (error instanceof RequestError) return json(error.status, { error: error.message }, cors);
       if (error instanceof OpenAIError) return json(error.status === 429 ? 429 : 502, { error: 'The consultant is unavailable right now. Please try again later.' }, cors);

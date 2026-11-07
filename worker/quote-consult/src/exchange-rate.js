@@ -7,15 +7,17 @@
 // walks back to the most recent business day.
 
 export const EXIM_ENDPOINT = 'https://oapi.koreaexim.go.kr/site/program/financial/exchangeJSON';
-const LOOKBACK_DAYS = 7; // covers long holidays such as Chuseok and Seollal
-const REQUEST_TIMEOUT_MS = 2500;
+const LOOKBACK_DAYS = 10; // today through nine calendar days ago; not a holiday calendar
+const MAX_REQUESTS = 7; // keep a hard per-refresh call budget
+const LOOKUP_TIMEOUT_MS = 2500; // one budget for the entire lookup, including bodies
 const CACHE_TTL_MS = 3 * 60 * 60 * 1000;
 const FAILURE_TTL_MS = 10 * 60 * 1000; // after a failure, do not retry on every message
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
 
-let cache = null; // { value, expires } per Worker isolate
+let cache = null; // { key, value, expires } per Worker isolate
+let inFlight = null; // one refresh shared by same-key callers in this isolate
 
-export function resetRateCache() { cache = null; }
+export function resetRateCache() { cache = null; inFlight = null; }
 
 // YYYYMMDD of the KST calendar day `daysBack` days before `now`.
 export function kstDate(now, daysBack = 0) {
@@ -28,13 +30,19 @@ const parseRate = text => {
   return Number.isFinite(rate) && rate > 0 ? rate : null;
 };
 
-async function lookup(env, fetchImpl, now) {
-  for (let daysBack = 0; daysBack < LOOKBACK_DAYS; daysBack += 1) {
+async function lookup(key, fetchImpl, now, signal) {
+  let requests = 0;
+  for (let daysBack = 0; daysBack < LOOKBACK_DAYS && requests < MAX_REQUESTS; daysBack += 1) {
+    signal.throwIfAborted();
+    const day = new Date(now + KST_OFFSET_MS - daysBack * 86400000).getUTCDay();
+    if (day === 0 || day === 6) continue; // Saturday/Sunday publish no rate
     const date = kstDate(now, daysBack);
-    const url = `${EXIM_ENDPOINT}?${new URLSearchParams({ authkey: env.KOREAEXIM_API_KEY, searchdate: date, data: 'AP01' })}`;
-    const response = await fetchImpl(url, { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) });
+    const url = `${EXIM_ENDPOINT}?${new URLSearchParams({ authkey: key, searchdate: date, data: 'AP01' })}`;
+    requests += 1;
+    const response = await fetchImpl(url, { signal, redirect: 'manual' });
     if (!response.ok) throw new Error(`exchange rate HTTP ${response.status}`);
     const rows = await response.json();
+    signal.throwIfAborted();
     if (!Array.isArray(rows)) throw new Error('exchange rate response is not a list');
     if (!rows.length) continue; // no publication that day
     // result: 1 success, 2 data code error, 3 authentication error, 4 daily limit exceeded
@@ -48,13 +56,31 @@ async function lookup(env, fetchImpl, now) {
 
 // Resolves to { rate, date } or null. Never throws.
 export async function eurKrwRate(env, { fetchImpl = fetch, now = Date.now() } = {}) {
-  if (!env?.KOREAEXIM_API_KEY) return null;
-  if (cache && cache.expires > now) return cache.value;
-  let value = null;
-  try { value = await lookup(env, fetchImpl, now); }
-  catch (error) { console.error('Exchange rate unavailable', error?.message || 'Error'); }
-  cache = { value, expires: now + (value ? CACHE_TTL_MS : FAILURE_TTL_MS) };
-  return value;
+  const key = env?.KOREAEXIM_API_KEY;
+  if (!key) return null;
+  if (cache?.key === key && cache.expires > now) return cache.value;
+  if (inFlight?.key === key) return inFlight.promise;
+
+  const flight = { key, promise: null };
+  inFlight = flight;
+  // Defer the lookup until the shared promise has been published, even for sync throws.
+  flight.promise = Promise.resolve().then(async () => {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), LOOKUP_TIMEOUT_MS);
+    let value = null;
+    try { value = await lookup(key, fetchImpl, now, controller.signal); }
+    catch {
+      // Fetch/JSON errors may contain the query URL or response text, including authkey.
+      console.error('Exchange rate unavailable');
+    } finally { clearTimeout(timer); }
+    // A reset/key rotation must not be overwritten by an older refresh completing later.
+    if (inFlight === flight) {
+      cache = { key, value, expires: now + (value ? CACHE_TTL_MS : FAILURE_TTL_MS) };
+      inFlight = null;
+    }
+    return value;
+  });
+  return flight.promise;
 }
 
 // The KRW reference for a priced quote, rounded to the nearest 1,000 won, or null.
