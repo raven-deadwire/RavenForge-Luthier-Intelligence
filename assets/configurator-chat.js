@@ -88,7 +88,7 @@
         return response.json().catch(function () { return {}; }).then(function (data) {
           if (!response.ok || typeof data.reply !== 'string') throw new Error(data.error || response.status);
           setHistory(next.concat([{ role: 'assistant', content: data.reply }]));
-          setQuote(data.quote || null);
+          setQuote(data.quote ? Object.assign({}, data.quote, { krw: data.krw_reference || null }) : null);
           if (makeDraft) setDraft(data.reply);
         });
       }).catch(function () {
@@ -136,7 +136,12 @@
         })),
       h('div', { className: 'rf-chat-log', ref: listRef, 'aria-live': 'polite' }, bubbles,
         quote && props.onApply && Array.isArray(quote.lines) ? h('details', { className: 'rf-chat-quote' },
-          h('summary', null, advisor.estimate + ': ' + quote.model + ' · ' + (Number.isFinite(quote.total) ? '€' + quote.total : '—') + (quote.price_on_request ? ' + …' : '')),
+          h('summary', null, advisor.estimate + ': ' + quote.model + ' · ' + (Number.isFinite(quote.total) ? '€' + quote.total : '—') + (quote.price_on_request ? ' + …' : '') +
+            (quote.krw && props.language === 'ko' ? ' (약 ₩' + quote.krw.total_krw.toLocaleString('ko-KR') + ')' : '')),
+          quote.krw && props.language === 'ko' ? h('p', { className: 'rf-chat-krw' },
+            '약 ₩' + quote.krw.total_krw.toLocaleString('ko-KR') + (quote.krw.price_on_request ? ' + 별도 확인 금액' : '') +
+            ' · 참고 환산 (한국수출입은행 ' + quote.krw.rate_date + ' 매매기준율 €1 = ₩' + quote.krw.rate.toLocaleString('ko-KR') +
+            '). 부가세 별도이며 최종 견적은 유로(EUR) 기준입니다.') : null,
           h('ul', null, quote.lines.map(function (line, i) { return h('li', { key: i }, (line.page_title || line.title) + ': ' + (line.page_label || line.label)); })),
           h('button', { type: 'button', disabled: pending, onClick: function () { props.onApply(quote); setQuote(null); } }, advisor.apply)) : null,
         draft ? h('div', { className: 'rf-chat-draft' },

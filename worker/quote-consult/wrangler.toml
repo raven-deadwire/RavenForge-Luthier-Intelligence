@@ -21,6 +21,8 @@ MODEL = "claude-opus-5-5"
 EFFORT = "medium"
 
 # OPENAI_API_KEY is a Worker secret; never include its value in this file.
+# KOREAEXIM_API_KEY (optional) is a Worker secret for the Export-Import Bank of Korea
+# exchange-rate API; with it, Korean pages show a rounded KRW reference next to EUR quotes.
 # ANTHROPIC_API_KEY is retained only for an explicit provider rollback.
 # (for `wrangler dev`, put ANTHROPIC_API_KEY=... in .dev.vars).
 

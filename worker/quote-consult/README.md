@@ -39,6 +39,17 @@ Configurator 옆에서 고객의 악기 선택과 견적 상담에 답하는 Clo
 - **옵션 연동도 같은 소스입니다.** 빌드가 실제 `handleOptionChange`의 본문을 복사합니다. 가상 변경은 배열 순서대로 화면 클릭과 같은 Fishman/EQ·너트·브리지 연동을 거치며, 거절된 변경과 사용할 수 없는 추가 옵션을 별도로 반환합니다.
 - **대화 기록은 페이지가 가집니다.** Worker는 상태를 저장하지 않습니다. 페이지가 텍스트 대화 기록과 현재 configurator 상태를 매번 보내고, Worker는 답변 텍스트와 마지막 견적 결과를 돌려줍니다.
 
+## 원화 참고가 (한국수출입은행 환율 API)
+
+한국어 페이지(`language: "ko"`)에서는 견적 요약에 원화 참고가를 함께 보여 줍니다. 견적은 계속 유로(EUR)로 계산하고, 모델은 통화를 직접 환산하지 않습니다.
+
+- Worker가 [한국수출입은행 현재환율 API](https://www.koreaexim.go.kr/ir/HPHKIR020M01?apino=2&viewtype=C)(`data=AP01`)에서 EUR 매매기준율을 받아 `krw_reference`로 응답에 붙입니다. 금액은 1,000원 단위로 반올림합니다.
+- 환율은 영업일 오전 11시(KST) 무렵 게시되므로, 그 전이나 주말·공휴일에는 최대 7일 전까지 거슬러 올라가 가장 최근 게시일의 환율을 씁니다. 결과는 isolate당 3시간 캐시하고, 실패하면 10분 동안 다시 시도하지 않습니다. 하루 호출 한도는 1,000회입니다.
+- 키가 없거나 조회에 실패하면 `krw_reference`를 생략하며, 상담 답변에는 영향이 없습니다.
+- 켜는 방법: 한국수출입은행 Open API에서 인증키를 발급받은 뒤 `npx wrangler secret put KOREAEXIM_API_KEY`를 실행합니다.
+
+응답 예: `"krw_reference": { "total_krw": 3856000, "rate": 1512.34, "rate_date": "2026-11-06", "source": "koreaexim-deal-bas-r", "price_on_request": false }`
+
 ## API
 
 `POST /chat`

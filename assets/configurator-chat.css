@@ -34,3 +34,5 @@
   .rf-chat-panel { right:8px; left:8px; bottom:68px; width:auto; height:min(560px,calc(100vh - 84px)); }
 }
 @media print { .rf-chat-panel { display:none; } }
+
+.rf-chat-krw { margin: 0.25rem 0 0.5rem; font-size: 0.8125rem; line-height: 1.4; opacity: 0.8; }
