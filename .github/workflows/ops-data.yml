@@ -1,0 +1,91 @@
+name: Operations data
+
+# Daily outdoor climate log (KMA ASOS via data.go.kr) and weekly Naver DataLab
+# search trends for ops/index.html. Each collector skips without its secrets:
+#   DATA_GO_KR_API_KEY                      climate (portal "Decoding" key)
+#   NAVER_CLIENT_ID, NAVER_CLIENT_SECRET    search trends
+# Station and keyword groups: ops/config/climate.json, ops/config/search-trends.json.
+
+on:
+  schedule:
+    - cron: '23 2 * * *'   # 11:23 KST daily: yesterday's ASOS day is published by then
+    - cron: '41 1 * * 1'   # 10:41 KST Mondays: search trends
+  workflow_dispatch:
+    inputs:
+      collect:
+        description: 'What to collect'
+        type: choice
+        options: [both, climate, trends]
+        default: both
+      since:
+        description: 'Climate backfill start (YYYY-MM-DD, optional)'
+        required: false
+        default: ''
+  pull_request:
+    paths: ['tools/ops_*.mjs', 'tools/test_ops_data.mjs', 'ops/**', '.github/workflows/ops-data.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ops-data
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Collector tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test tools/test_ops_data.mjs
+
+  collect:
+    name: Collect
+    needs: test
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Climate log
+        if: github.event.schedule == '23 2 * * *' || (github.event_name == 'workflow_dispatch' && inputs.collect != 'trends')
+        env:
+          DATA_GO_KR_API_KEY: ${{ secrets.DATA_GO_KR_API_KEY }}
+          SINCE: ${{ inputs.since }}
+        run: |
+          if [ -n "$SINCE" ]; then node tools/ops_climate.mjs --since "$SINCE"; else node tools/ops_climate.mjs; fi
+
+      - name: Search trends
+        if: github.event.schedule == '41 1 * * 1' || (github.event_name == 'workflow_dispatch' && inputs.collect != 'climate')
+        env:
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+        run: node tools/ops_search_trends.mjs
+
+      - name: Commit changed data
+        run: |
+          git add ops/data
+          if git diff --cached --quiet; then
+            echo "No data changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update operations data"
+          for attempt in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push && exit 0
+            sleep $((attempt * 5))
+          done
+          exit 1

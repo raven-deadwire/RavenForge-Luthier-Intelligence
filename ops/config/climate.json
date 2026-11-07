@@ -1,0 +1,6 @@
+{
+  "_comment": "Outdoor weather station for the workshop climate log. To move the workshop, change station_id and station_name; each station keeps its own file in ops/data/climate-<station_id>.json. Common KMA ASOS stations: 108 Seoul, 112 Incheon, 119 Suwon, 133 Daejeon, 143 Daegu, 156 Gwangju, 159 Busan, 184 Jeju.",
+  "station_id": "108",
+  "station_name": "서울",
+  "since": "2026-01-01"
+}

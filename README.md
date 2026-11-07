@@ -17,6 +17,30 @@ Independent instrument-design, research and prototype portfolio by Raven Cho.
 | `tools/` | Build, image and test scripts used by the workflows. |
 | `docs/` | Configurator documentation. |
 
+## Operations data
+
+`ops/index.html` (unlisted, `noindex`) charts data collected by
+`.github/workflows/ops-data.yml`:
+
+- **Workshop-area outdoor climate**: KMA ASOS daily data via data.go.kr, with the
+  wood equilibrium moisture content (EMC) for each day. Outdoor air only; it does
+  not replace in-shop hygrometer readings. Secret `DATA_GO_KR_API_KEY` (the
+  portal's Decoding key). Location: `ops/config/climate.json` (`station_id`).
+- **Search interest**: Naver DataLab search trends for the keyword groups in
+  `ops/config/search-trends.json`. Secrets `NAVER_CLIENT_ID`, `NAVER_CLIENT_SECRET`.
+
+Each collector skips without its secrets. Run it once from Actions → Operations
+data → Run workflow (optionally with a climate backfill date); afterwards the
+climate log updates daily and search trends every Monday.
+
+## Configuration links and KakaoTalk sharing
+
+The configurator's "copy configuration link" button creates a `?cfg=` link that
+restores the model, options and finish colour. KakaoTalk sharing appears on Korean
+pages once the Kakao app's JavaScript key is set in the `data-kakao-key` attribute
+of the `configurator-share.js` script tag in `configurator.html` (register
+`https://raven-deadwire.github.io` under the Kakao app's Web platform).
+
 ## Generated files
 
 GitHub Actions keeps these up to date on `main`; a pull request fails when a
@@ -40,4 +64,4 @@ python3 -m http.server 8000
 
 ## 한국어 요약
 
-RavenForge 악기 설계·연구·프로토타입 포트폴리오 사이트입니다. 홈페이지는 `index.html` 한 파일로 된 단일 페이지이며, 영어/독일어/한국어를 지원합니다(`?lang=ko`로 한국어 링크 공유 가능). 연구 문서는 `research/`, 이미지와 스크립트는 `assets/`, 빌드·테스트 도구는 `tools/`에 있습니다. Tailwind CSS와 최적화 이미지 같은 생성 파일은 GitHub Actions가 `main`에서 자동으로 다시 만듭니다.
+RavenForge 악기 설계·연구·프로토타입 포트폴리오 사이트입니다. 운영 데이터(서울 외기·목재 평형함수율, 네이버 검색 트렌드)는 `ops/index.html`에서 보며, 지역과 검색어는 `ops/config/`에서 바꿉니다. Configurator의 "구성 링크 복사"와 카카오톡 공유(키 설정 시)로 사양 구성을 공유할 수 있습니다. 홈페이지는 `index.html` 한 파일로 된 단일 페이지이며, 영어/독일어/한국어를 지원합니다(`?lang=ko`로 한국어 링크 공유 가능). 연구 문서는 `research/`, 이미지와 스크립트는 `assets/`, 빌드·테스트 도구는 `tools/`에 있습니다. Tailwind CSS와 최적화 이미지 같은 생성 파일은 GitHub Actions가 `main`에서 자동으로 다시 만듭니다.
