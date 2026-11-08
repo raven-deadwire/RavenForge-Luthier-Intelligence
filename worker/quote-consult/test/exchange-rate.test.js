@@ -30,7 +30,7 @@ test('walks back over an unpublished morning and the weekend to Friday', async (
   const fetch = fakeFetch({ 20261106: eurRow('1,512.34') });
   const rate = await eurKrwRate(env, { fetchImpl: fetch.impl, now: MONDAY_MORNING });
   assert.deepEqual(rate, { rate: 1512.34, date: '2026-11-06' });
-  assert.equal(fetch.urls.length, 4); // Mon, Sun, Sat, Fri
+  assert.equal(fetch.urls.length, 2); // Mon, Fri; skip weekend without requests
   const url = new URL(fetch.urls[0]);
   assert.equal(url.origin + url.pathname, EXIM_ENDPOINT);
   assert.equal(url.searchParams.get('authkey'), 'test-key');

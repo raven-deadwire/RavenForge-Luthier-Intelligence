@@ -44,9 +44,11 @@ Configurator 옆에서 고객의 악기 선택과 견적 상담에 답하는 Clo
 한국어 페이지(`language: "ko"`)에서는 견적 요약에 원화 참고가를 함께 보여 줍니다. 견적은 계속 유로(EUR)로 계산하고, 모델은 통화를 직접 환산하지 않습니다.
 
 - Worker가 [한국수출입은행 현재환율 API](https://www.koreaexim.go.kr/ir/HPHKIR020M01?apino=2&viewtype=C)(`data=AP01`)에서 EUR 매매기준율을 받아 `krw_reference`로 응답에 붙입니다. 금액은 1,000원 단위로 반올림합니다.
-- 환율은 영업일 오전 11시(KST) 무렵 게시되므로, 그 전이나 주말·공휴일에는 최대 7일 전까지 거슬러 올라가 가장 최근 게시일의 환율을 씁니다. 결과는 isolate당 3시간 캐시하고, 실패하면 10분 동안 다시 시도하지 않습니다. 하루 호출 한도는 1,000회입니다.
-- 키가 없거나 조회에 실패하면 `krw_reference`를 생략하며, 상담 답변에는 영향이 없습니다.
-- 켜는 방법: 한국수출입은행 Open API에서 인증키를 발급받은 뒤 `npx wrangler secret put KOREAEXIM_API_KEY`를 실행합니다.
+- 환율은 영업일 오전 11시(KST) 무렵 게시됩니다. 오늘부터 9일 전까지 탐색하되 토·일요일은 호출 없이 건너뛰고, 조회 한 번당 HTTP 최대 7회와 전체 2.5초 제한을 적용합니다. 공휴일은 빈 응답으로 판별하며, 제한 안에서 환율을 찾지 못하면 원화 표시를 생략합니다.
+- 결과는 isolate당 3시간, 실패는 10분 캐시합니다. 같은 키의 동시 조회는 한 번으로 합치며, 서로 다른 키의 진행 중 조회와 캐시는 분리합니다. 완료된 캐시는 isolate당 최근 2개 키까지만 보관합니다. 공유 조회는 `ctx.waitUntil`로 유지해 모델 오류로 시작 요청이 먼저 끝나도 다른 요청의 환율 대기가 중단되지 않도록 합니다. 다른 isolate·지역·재시작 사이에는 캐시나 진행 중 조회가 공유되지 않으므로 이 처리가 문서상의 하루 1,000회 호출 한도를 보장하지는 않습니다. 전역 호출량 제한이 필요하면 별도의 공유 수집자나 Durable Object가 필요합니다.
+- 키가 없거나 조회에 실패하면 `krw_reference`를 생략하고 EUR 상담 답변은 유지합니다. 환율은 모델 호출과 병렬로 실행되므로 모델이 먼저 끝나면 남은 환율 조회시간만큼 응답을 기다릴 수 있습니다. 만료된 정상 환율을 무기한 재사용하지 않습니다.
+- 키는 `KOREAEXIM_API_KEY` Worker Secret으로 등록하며 소스·`[vars]`·로그에 넣지 않습니다. 요청 URL, 원시 응답과 외부 예외 메시지도 기록하지 않습니다. HTTP redirect는 허용하지 않습니다.
+- `wrangler secret put`은 새 버전을 즉시 배포합니다. 배포 승인 전 준비에는 `wrangler versions secret put` 또는 보안 임시 파일을 사용하는 `wrangler versions upload --secrets-file`을 사용하고, 확인한 버전 ID를 지정해 배포합니다. 임시 파일은 저장소 밖에서 접근권한을 제한하고 사용 후 삭제합니다. 실제 키 등록·운영 API 검증 여부는 별도로 확인해야 합니다.
 
 응답 예: `"krw_reference": { "total_krw": 3856000, "rate": 1512.34, "rate_date": "2026-11-06", "source": "koreaexim-deal-bas-r", "price_on_request": false }`
 
@@ -129,4 +131,6 @@ API 응답은 호출당 최대 4096 출력 토큰, 요청 전체 최대 8192 출
 ```bash
 npm test               # 가격 계산과 대화 처리 (API 호출 없음)
 npm run check:catalog  # 카탈로그 복사본이 최신인지 확인
+# npm ci (devDependencies 포함) 후 Workers 런타임의 공유 조회/요청 수명 검사:
+node tools/check-fx-workerd.mjs
 ```
