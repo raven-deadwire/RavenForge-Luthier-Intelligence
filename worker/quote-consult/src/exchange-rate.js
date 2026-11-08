@@ -14,10 +14,11 @@ const CACHE_TTL_MS = 3 * 60 * 60 * 1000;
 const FAILURE_TTL_MS = 10 * 60 * 1000; // after a failure, do not retry on every message
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
 
-let cache = null; // { key, value, expires } per Worker isolate
-let inFlight = null; // one refresh shared by same-key callers in this isolate
+const MAX_CACHE_KEYS = 2; // bound retained configuration keys in this isolate
+const caches = new Map(); // key -> { value, expires }
+const inFlights = new Map(); // key -> refresh shared by same-key callers
 
-export function resetRateCache() { cache = null; inFlight = null; }
+export function resetRateCache() { caches.clear(); inFlights.clear(); }
 
 // YYYYMMDD of the KST calendar day `daysBack` days before `now`.
 export function kstDate(now, daysBack = 0) {
@@ -58,11 +59,13 @@ async function lookup(key, fetchImpl, now, signal) {
 export async function eurKrwRate(env, { fetchImpl = fetch, now = Date.now() } = {}) {
   const key = env?.KOREAEXIM_API_KEY;
   if (!key) return null;
-  if (cache?.key === key && cache.expires > now) return cache.value;
-  if (inFlight?.key === key) return inFlight.promise;
+  const cached = caches.get(key);
+  if (cached && cached.expires > now) return cached.value;
+  const active = inFlights.get(key);
+  if (active) return active.promise;
 
   const flight = { key, promise: null };
-  inFlight = flight;
+  inFlights.set(key, flight);
   // Defer the lookup until the shared promise has been published, even for sync throws.
   flight.promise = Promise.resolve().then(async () => {
     const controller = new AbortController();
@@ -73,10 +76,12 @@ export async function eurKrwRate(env, { fetchImpl = fetch, now = Date.now() } = 
       // Fetch/JSON errors may contain the query URL or response text, including authkey.
       console.error('Exchange rate unavailable');
     } finally { clearTimeout(timer); }
-    // A reset/key rotation must not be overwritten by an older refresh completing later.
-    if (inFlight === flight) {
-      cache = { key, value, expires: now + (value ? CACHE_TTL_MS : FAILURE_TTL_MS) };
-      inFlight = null;
+    // Reset invalidates old completions; different keys never overwrite each other.
+    if (inFlights.get(key) === flight) {
+      caches.delete(key);
+      caches.set(key, { value, expires: now + (value ? CACHE_TTL_MS : FAILURE_TTL_MS) });
+      while (caches.size > MAX_CACHE_KEYS) caches.delete(caches.keys().next().value);
+      inFlights.delete(key);
     }
     return value;
   });

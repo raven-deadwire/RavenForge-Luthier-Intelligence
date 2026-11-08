@@ -147,3 +147,20 @@ test('a model failure retains the bounded lookup in the request context', async(
   }),/model-down/);
   assert.equal(pending.length,1);gate.resolve();assert.equal((await pending[0]).rate,1512.34);
 });
+
+test('interleaved keys share their own refresh and cache', async()=>{
+  const gate=deferred();const counts=new Map();
+  const fetchImpl=async url=>{const key=new URL(url).searchParams.get('authkey');counts.set(key,(counts.get(key)||0)+1);await gate.promise;return response(row);};
+  const second={KOREAEXIM_API_KEY:'second-runtime-test-key'};
+  const pending=[eurKrwRate(env,{now:monday,fetchImpl}),eurKrwRate(second,{now:monday,fetchImpl}),eurKrwRate(env,{now:monday,fetchImpl})];
+  gate.resolve();await Promise.all(pending);
+  assert.equal(counts.get(env.KOREAEXIM_API_KEY),1);assert.equal(counts.get(second.KOREAEXIM_API_KEY),1);
+  for(const current of [env,second]) assert.equal((await eurKrwRate(current,{now:monday+1,fetchImpl:()=>assert.fail('each key has a cache')})).rate,1512.34);
+});
+
+test('completed cache entries retain at most two keys', async()=>{
+  for(const key of ['old-test-key','middle-test-key','new-test-key']) await eurKrwRate({KOREAEXIM_API_KEY:key},{now:monday,fetchImpl:async()=>response(row)});
+  let calls=0;
+  await eurKrwRate({KOREAEXIM_API_KEY:'old-test-key'},{now:monday+1,fetchImpl:async()=>{calls++;return response(row);}});
+  assert.equal(calls,1);
+});
