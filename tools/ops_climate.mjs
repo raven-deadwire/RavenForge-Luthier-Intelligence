@@ -13,6 +13,7 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { ApiError, asosXmlCode, fetchText, runCli } from './ops_reporting.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const ASOS_DAILY_ENDPOINT = 'https://apis.data.go.kr/1360000/AsosDalyInfoService/getWthrDataList';
@@ -62,18 +63,20 @@ async function fetchPage({ key, stationId, start, end, page, fetchImpl }) {
     serviceKey: key, pageNo: String(page), numOfRows: String(PAGE_SIZE), dataType: 'JSON',
     dataCd: 'ASOS', dateCd: 'DAY', startDt: compact(start), endDt: compact(end), stnIds: stationId
   });
-  const response = await fetchImpl(`${ASOS_DAILY_ENDPOINT}?${params}`, { signal: AbortSignal.timeout(30000) });
-  const text = await response.text();
-  if (!response.ok) throw new Error(`ASOS HTTP ${response.status}`);
+  const { response, text } = await fetchText(fetchImpl, `${ASOS_DAILY_ENDPOINT}?${params}`, { signal: AbortSignal.timeout(30000) });
+  if (!response.ok) throw new ApiError(response.status);
   let data;
   // An unregistered or wrong key is answered with an XML error page and HTTP 200.
-  try { data = JSON.parse(text); } catch { throw new Error(`ASOS returned non-JSON: ${text.replace(/\s+/g, ' ').slice(0, 160)}`); }
+  try { data = JSON.parse(text); } catch { throw new ApiError(response.status, asosXmlCode(text)); }
   const header = data?.response?.header;
   if (header?.resultCode === '03') return { items: [], total: 0 }; // NODATA
-  if (header?.resultCode !== '00') throw new Error(`ASOS error ${header?.resultCode}: ${header?.resultMsg}`);
+  if (header?.resultCode !== '00') throw new ApiError(response.status, header?.resultCode);
   const body = data.response.body;
+  if (!body || !Number.isFinite(Number(body.totalCount))) throw new ApiError(response.status, 'INVALID_RESPONSE');
   const items = body?.items?.item;
-  return { items: Array.isArray(items) ? items : items ? [items] : [], total: Number(body?.totalCount) || 0 };
+  const list = Array.isArray(items) ? items : items ? [items] : [];
+  if (list.some(item => !/^\d{4}-\d{2}-\d{2}$/.test(item?.tm || ''))) throw new ApiError(response.status, 'INVALID_RESPONSE');
+  return { items: list, total: Number(body.totalCount) };
 }
 
 export async function fetchDays({ key, stationId, start, end, fetchImpl = fetch }) {
@@ -93,9 +96,9 @@ export function mergeDays(existing, fresh) {
   return [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date));
 }
 
-export async function run({ env = process.env, now = Date.now(), fetchImpl = fetch, root = ROOT, since: sinceOverride, log = console.log } = {}) {
+export async function run({ env = process.env, now = Date.now(), fetchImpl = fetch, root = ROOT, since: sinceOverride } = {}) {
   const key = env.DATA_GO_KR_API_KEY;
-  if (!key) { log('DATA_GO_KR_API_KEY is not set; climate log unchanged.'); return { changed: false, skipped: true }; }
+  if (!key?.trim()) return { changed: false, skipped: true, status: 'SKIPPED_MISSING_SECRET' };
   const config = JSON.parse(await readFile(path.join(root, 'ops/config/climate.json'), 'utf8'));
   if (!/^\d{2,4}$/.test(String(config.station_id))) throw new Error('ops/config/climate.json: station_id must be a KMA ASOS station number');
   const file = path.join(root, `ops/data/climate-${config.station_id}.json`);
@@ -107,9 +110,12 @@ export async function run({ env = process.env, now = Date.now(), fetchImpl = fet
   const last = existing.at(-1)?.date;
   let start = sinceOverride || (last ? isoDay(Date.parse(last) - REFETCH_DAYS * 86400000) : config.since);
   if (start < config.since && !sinceOverride) start = config.since;
-  if (start > end) { log(`Nothing to fetch (start ${start} after ${end}).`); return { changed: false }; }
+  if (start > end) return { changed: false, status: 'NO_DATA', count: 0 };
 
   const fresh = await fetchDays({ key, stationId: String(config.station_id), start, end, fetchImpl });
+  // An empty response is not a successful collection and must not create an
+  // empty public file or replace previously collected data.
+  if (!fresh.length) return { changed: false, status: 'NO_DATA', count: 0 };
   const days = mergeDays(existing, fresh);
   const output = {
     station_id: String(config.station_id),
@@ -123,13 +129,14 @@ export async function run({ env = process.env, now = Date.now(), fetchImpl = fet
     await mkdir(path.dirname(file), { recursive: true });
     await writeFile(file, JSON.stringify(output, null, 1) + '\n');
   }
-  log(`Station ${config.station_id} ${start}..${end}: ${fresh.length} days fetched, ${days.length} stored${changed ? '' : ' (no change)'}.`);
-  return { changed, days, file };
+  return { changed, days, file, status: 'SUCCESS', count: fresh.length, latest: days.at(-1)?.date };
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const sinceIndex = process.argv.indexOf('--since');
   const since = sinceIndex > 0 ? process.argv[sinceIndex + 1] : undefined;
-  if (since !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(since)) { console.error('--since must be YYYY-MM-DD'); process.exit(2); }
-  run({ since }).catch(error => { console.error(error.message); process.exit(1); });
+  process.exitCode = await runCli('climate', () => {
+    if (sinceIndex > 0 && !/^\d{4}-\d{2}-\d{2}$/.test(since || '')) throw new Error('Invalid backfill date');
+    return run({ since });
+  });
 }
