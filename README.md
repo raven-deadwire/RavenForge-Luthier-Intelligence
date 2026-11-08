@@ -29,9 +29,38 @@ Independent instrument-design, research and prototype portfolio by Raven Cho.
 - **Search interest**: Naver DataLab search trends for the keyword groups in
   `ops/config/search-trends.json`. Secrets `NAVER_CLIENT_ID`, `NAVER_CLIENT_SECRET`.
 
-Each collector skips without its secrets. Run it once from Actions → Operations
-data → Run workflow (optionally with a climate backfill date); afterwards the
-climate log updates daily and search trends every Monday.
+Register these as **repository Actions secrets**, not Variables or environment
+secrets (the collection job does not select an environment). Do not put key
+values in source files, workflow inputs, command arguments, or logs.
+
+Each collector reports `SKIPPED_MISSING_SECRET`, `NO_DATA`, `SUCCESS`,
+`API_ERROR`, or `COLLECTOR_ERROR` in the Actions job summary. Empty API results
+leave existing files untouched; `SUCCESS` with `changed=false` means valid data
+was fetched but was identical. Errors report only HTTP status and allowlisted
+codes; response bodies, request URLs and arbitrary exception messages are not
+logged. A missing data directory is a normal no-change result, not a git error.
+
+With approved credentials and publication scope, run Actions → Operations data
+→ Run workflow on **main** (optionally with a climate backfill date). Other
+branches and pull requests run tests only. Afterwards climate is scheduled daily
+at 11:23 KST and trends on Mondays at 10:41 KST; GitHub may delay scheduled runs.
+If either selected collector fails, the run fails and no data is committed.
+
+After a changed-data push succeeds, a separate job with `pages: write` requests
+`POST /repos/{owner}/{repo}/pages/builds`. This is necessary because pushes using
+`GITHUB_TOKEN` do not trigger branch-based Pages builds. It rebuilds the **whole
+main/root site**, not only `ops/`. `PAGES_BUILD_REQUESTED` is a queued build request,
+not proof of deployment: verify the subsequent Pages run and the public JSON's
+latest date. No new PAT or Pages source-setting change is required.
+
+**Public access:** the HTML, configuration, collected JSON and repository history
+are publicly readable. `noindex, nofollow` requests search exclusion; it provides
+no authentication. Keep customer details, costs, inventory and workshop sensor
+records out of this public data path. An internal dashboard needs private data
+storage and authentication covering both the page and its data endpoints.
+
+Local regression tests (mock APIs and local git remotes only):
+`node --test tools/test_ops_data.mjs tools/test_ops_workflow.mjs`.
 
 ## Configuration links and KakaoTalk sharing
 

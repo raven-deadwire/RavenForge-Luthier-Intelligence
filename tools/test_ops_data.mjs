@@ -41,7 +41,7 @@ test('kstYesterday follows the Korean calendar', () => {
 
 test('climate: no key leaves everything unchanged', async () => {
   const result = await climate.run({ env: {}, root: await sandbox(), fetchImpl: () => assert.fail('no request without a key'), log: quiet });
-  assert.deepEqual(result, { changed: false, skipped: true });
+  assert.deepEqual(result, { changed: false, skipped: true, status: 'SKIPPED_MISSING_SECRET' });
 });
 
 test('climate: backfills from config.since, then refetches only the last days', async () => {
@@ -142,7 +142,7 @@ test('search trends: sends the configured groups and stores the series', async (
   assert.equal(again.changed, false, 'identical data is not rewritten');
 });
 
-test('search trends: API errors surface the DataLab message', async () => {
+test('search trends: API errors expose only the HTTP status and allowlisted code', async () => {
   await assert.rejects(trends.run({ env: { NAVER_CLIENT_ID: 'id', NAVER_CLIENT_SECRET: 'bad' }, root: await sandbox(), log: quiet,
-    fetchImpl: async () => ({ ok: false, status: 401, text: async () => JSON.stringify({ errorMessage: 'Authentication failed', errorCode: '024' }) }) }), /401: Authentication failed/);
+    fetchImpl: async () => ({ ok: false, status: 401, text: async () => JSON.stringify({ errorMessage: 'Authentication failed', errorCode: '024' }) }) }), /API_ERROR HTTP=401 code=024/);
 });
