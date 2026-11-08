@@ -32,6 +32,13 @@ for attempt in 1 2 3; do
     report 'DATA_PUSHED (Pages deployment still pending)'
     exit 0
   fi
+  # A conflicted rebase must be cleared before another pull (or final exit).
+  if [[ -d "$(git rev-parse --git-path rebase-merge)" || -d "$(git rev-parse --git-path rebase-apply)" ]]; then
+    if ! git rebase --abort; then
+      report 'REBASE_ABORT_ERROR'
+      exit 1
+    fi
+  fi
   if [[ "$attempt" -lt 3 ]]; then sleep $((attempt * 5)); fi
 done
 report 'COMMIT_OR_PUSH_ERROR'

@@ -2,7 +2,7 @@
 // remotes are local temporary directories; no credentials or network needed.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, cp, readFile, writeFile, chmod, access } from 'node:fs/promises';
+import { mkdtemp, mkdir, cp, readFile, writeFile, chmod, access, rm } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
@@ -323,4 +323,194 @@ test('actual Pages request shell reports queued vs failure and suppresses raw er
     assert.equal(await readFile(args, 'utf8'), 'api\n--method\nPOST\nrepos/example/repo/pages/builds\n--silent\n');
     assert.ok(!(result.stdout + result.stderr + content).includes(marker));
   }
+});
+
+// PR #92 review gaps only. Run with --test-name-pattern='^review92:'.
+test('review92: null points become INVALID_RESPONSE, not TypeError, preserving bytes', async t => {
+  const root = await sandbox();
+  t.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, 'ops/data'));
+  const file = path.join(root, 'ops/data/search-trends.json');
+  const previous = '{"previous":"series"}\n';
+  await writeFile(file, previous);
+  const config = JSON.parse(await readFile(path.join(root, 'ops/config/search-trends.json'), 'utf8'));
+  const valid = { period: '2026-11-02', ratio: 12 };
+  for (const points of [[null], [valid, null]]) {
+    const results = config.groups.map(group => ({ title: group.name, keywords: group.keywords, data: [valid] }));
+    results.at(-1).data = points; // Correct metadata/count; reach the inner point validator.
+    const result = await capture(root, 'trends', async () => {
+      try {
+        await trends.run({ root, env: credentials, now, fetchImpl: async () => response({
+          startDate: '2023-01-01', endDate: '2026-11-08', timeUnit: 'week', results
+        }) });
+      } catch (error) {
+        assert.ok(error instanceof ApiError);
+        assert.equal(error.code, 'INVALID_RESPONSE');
+        assert.equal(error.httpStatus, 200);
+        throw error;
+      }
+    });
+    assert.equal(result.exitCode, 1);
+    assert.match(result.text, /API_ERROR HTTP=200 code=INVALID_RESPONSE/);
+    assert.ok(!result.text.includes('COLLECTOR_ERROR'));
+    assert.equal(await readFile(file, 'utf8'), previous);
+  }
+});
+
+const shellQuote = value => `'${value.replaceAll("'", "'\\''")}'`;
+const realGit = spawnSync('bash', ['-c', 'command -v git'], { encoding: 'utf8' }).stdout.trim();
+const reviewData = 'ops/data/search-trends.json';
+const collected = '{"value":"collected"}\n';
+async function retryFixture(t, { conflict = false, clearConflict = false, pullFailure = false, pushFailure = false, abortFailure = false } = {}) {
+  const f = await gitSandbox();
+  t.after(() => rm(f.root, { recursive: true, force: true }));
+  await mkdir(path.join(f.repo, 'ops/data'), { recursive: true });
+  await writeFile(path.join(f.repo, reviewData), '{"value":"base"}\n');
+  git(f.repo, 'add', reviewData);
+  git(f.repo, 'commit', '-m', 'seed data');
+  git(f.repo, 'push', 'origin', 'main');
+  f.peer = path.join(f.root, 'peer');
+  git(f.root, 'clone', f.remote, f.peer);
+  git(f.peer, 'config', 'user.name', 'Concurrent Writer');
+  git(f.peer, 'config', 'user.email', 'peer@example.invalid');
+  await writeFile(path.join(f.peer, conflict ? reviewData : 'README'), conflict ? '{"value":"remote"}\n' : 'concurrent documentation\n');
+  git(f.peer, 'add', '.');
+  git(f.peer, 'commit', '-m', 'concurrent update');
+  git(f.peer, 'push', 'origin', 'main');
+  f.remoteBefore = git(f.remote, 'rev-parse', 'main');
+  await writeFile(path.join(f.repo, reviewData), collected);
+  const bin = path.join(f.root, 'bin');
+  await mkdir(bin);
+  f.calls = path.join(f.root, 'calls');
+  f.snapshots = path.join(f.root, 'retry-state');
+  // Only failure injection/command tracing is mocked. Fetch, conflicts,
+  // rebase, abort, commits and pushes execute real Git against a local remote.
+  await writeFile(path.join(bin, 'git'), `#!/usr/bin/env bash
+set -eu
+if [[ "$1" == pull ]]; then
+  echo pull >> ${shellQuote(f.calls)}
+  if [[ ${pullFailure ? '1' : '0'} == 1 && ! -f ${shellQuote(path.join(f.root, 'pull-failed'))} ]]; then
+    touch ${shellQuote(path.join(f.root, 'pull-failed'))}
+    echo 'Injected transient transport failure' >&2
+    exit 128
+  fi
+fi
+if [[ "$1" == push ]]; then echo push >> ${shellQuote(f.calls)}; fi
+if [[ "$1" == rebase ]] && [[ "$2" == --abort ]]; then
+  echo abort >> ${shellQuote(f.calls)}
+  ${abortFailure ? 'exit 66' : ':'}
+fi
+exec ${shellQuote(realGit)} "$@"
+`);
+  await chmod(path.join(bin, 'git'), 0o755);
+  await writeFile(path.join(bin, 'sleep'), `#!/usr/bin/env bash
+set -eu
+if [[ -d "$(${shellQuote(realGit)} rev-parse --git-path rebase-merge)" || -d "$(${shellQuote(realGit)} rev-parse --git-path rebase-apply)" ]]; then
+  echo dirty >> ${shellQuote(f.snapshots)}
+else
+  echo clean >> ${shellQuote(f.snapshots)}
+fi
+${clearConflict ? `if [[ ! -f ${shellQuote(path.join(f.root, 'reverted'))} ]]; then
+  ${shellQuote(realGit)} -C ${shellQuote(f.peer)} revert --no-edit HEAD
+  ${shellQuote(realGit)} -C ${shellQuote(f.peer)} push origin main
+  touch ${shellQuote(path.join(f.root, 'reverted'))}
+fi` : ':'}
+`);
+  await chmod(path.join(bin, 'sleep'), 0o755);
+  if (pushFailure) {
+    const hook = path.join(f.remote, 'hooks/pre-receive');
+    await writeFile(hook, '#!/bin/sh\nif [ ! -f rejected-once ]; then touch rejected-once; exit 1; fi\n');
+    await chmod(hook, 0o755);
+  }
+  f.env.PATH = `${bin}:${process.env.PATH}`;
+  return f;
+}
+async function retryEvidence(f, r) {
+  const calls = (await readFile(f.calls, 'utf8')).trim().split('\n');
+  const retries = await readFile(f.snapshots, 'utf8').catch(() => '');
+  const active = await Promise.all(['rebase-merge', 'rebase-apply'].map(async dir => {
+    try { await access(path.join(f.repo, git(f.repo, 'rev-parse', '--git-path', dir))); return true; } catch { return false; }
+  }));
+  const info = {
+    exit: r.status, calls, retries: retries.trim(), active: active.some(Boolean),
+    branch: git(f.repo, 'rev-parse', '--abbrev-ref', 'HEAD'),
+    unmerged: git(f.repo, 'ls-files', '-u'), output: r.output.trim(), summary: r.summary.trim(),
+    conflictCount: (r.stdout.match(/CONFLICT/g) || []).length
+  };
+  // Diagnostic summaries are retained even when a baseline assertion fails.
+  console.log('review92 evidence', JSON.stringify(info));
+  return info;
+}
+
+test('review92: persistent conflict cleans each retry and final exit without losing data', async t => {
+  const f = await retryFixture(t, { conflict: true });
+  const r = await commitData(f);
+  const e = await retryEvidence(f, r);
+  assert.equal(r.status, 1);
+  assert.equal(e.conflictCount, 3);
+  assert.deepEqual(e.calls, ['pull', 'abort', 'pull', 'abort', 'pull', 'abort']);
+  assert.equal(e.retries, 'clean\nclean');
+  assert.equal(e.active, false);
+  assert.equal(e.branch, 'main');
+  assert.equal(e.unmerged, '');
+  assert.equal(git(f.repo, 'status', '--porcelain'), '');
+  assert.equal(await readFile(path.join(f.repo, reviewData), 'utf8'), collected);
+  assert.equal(git(f.repo, 'show', `HEAD:${reviewData}`), collected.trim());
+  assert.equal(git(f.remote, 'rev-parse', 'main'), f.remoteBefore);
+  assert.equal(r.output, 'pushed=false\n');
+  assert.match(r.summary, /COMMIT_OR_PUSH_ERROR/);
+});
+
+test('review92: conflict removed upstream permits second attempt to publish', async t => {
+  const f = await retryFixture(t, { conflict: true, clearConflict: true });
+  const r = await commitData(f);
+  const e = await retryEvidence(f, r);
+  assert.equal(r.status, 0, r.stderr);
+  assert.equal(e.conflictCount, 1);
+  assert.deepEqual(e.calls, ['pull', 'abort', 'pull', 'push']);
+  assert.equal(e.retries, 'clean');
+  assert.equal(e.active, false);
+  assert.equal(e.unmerged, '');
+  assert.equal(e.branch, 'main');
+  assert.equal(git(f.remote, 'show', `main:${reviewData}`), collected.trim());
+  assert.equal(git(f.remote, 'rev-parse', 'main'), git(f.repo, 'rev-parse', 'HEAD'));
+  assert.equal(r.output, 'pushed=false\npushed=true\n');
+});
+
+test('review92: transient pull failure retries without aborting a nonexistent rebase', async t => {
+  const f = await retryFixture(t, { pullFailure: true });
+  const r = await commitData(f);
+  const e = await retryEvidence(f, r);
+  assert.equal(r.status, 0, r.stderr);
+  assert.deepEqual(e.calls, ['pull', 'pull', 'push']);
+  assert.equal(e.active, false);
+  assert.equal(git(f.remote, 'show', 'main:README'), 'concurrent documentation');
+  assert.equal(git(f.remote, 'show', `main:${reviewData}`), collected.trim());
+  assert.equal(r.output, 'pushed=false\npushed=true\n');
+});
+
+test('review92: one rejected push preserves a completed rebase for the retry', async t => {
+  const f = await retryFixture(t, { pushFailure: true });
+  const r = await commitData(f);
+  const e = await retryEvidence(f, r);
+  assert.equal(r.status, 0, r.stderr);
+  assert.deepEqual(e.calls, ['pull', 'push', 'pull', 'push']);
+  assert.equal(e.active, false);
+  assert.equal(e.unmerged, '');
+  assert.equal(git(f.remote, 'show', 'main:README'), 'concurrent documentation');
+  assert.equal(git(f.remote, 'show', `main:${reviewData}`), collected.trim());
+  assert.equal(r.output, 'pushed=false\npushed=true\n');
+});
+
+test('review92: abort failure stops immediately and never enables publishing', async t => {
+  const f = await retryFixture(t, { conflict: true, abortFailure: true });
+  const r = await commitData(f);
+  const e = await retryEvidence(f, r);
+  assert.equal(r.status, 1);
+  assert.deepEqual(e.calls, ['pull', 'abort']);
+  assert.equal(e.retries, '');
+  assert.equal(e.active, true); // Recovery failed: do not claim a clean workspace.
+  assert.equal(git(f.remote, 'rev-parse', 'main'), f.remoteBefore);
+  assert.equal(r.output, 'pushed=false\n');
+  assert.match(r.summary, /REBASE_ABORT_ERROR/);
 });
