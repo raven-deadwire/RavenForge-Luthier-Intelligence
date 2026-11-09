@@ -1,9 +1,9 @@
 name: Operations data
 
-# Daily outdoor climate log (KMA ASOS via data.go.kr) and weekly Naver DataLab
+# Daily outdoor climate log (KMA ASOS via data.go.kr) and weekly NAVER API HUB
 # search trends for ops/index.html. Each collector skips without its secrets:
 #   DATA_GO_KR_API_KEY                      climate (portal "Decoding" key)
-#   NAVER_CLIENT_ID, NAVER_CLIENT_SECRET    search trends
+#   NAVER_API_HUB_CLIENT_ID, NAVER_API_HUB_CLIENT_SECRET    API HUB credentials only
 # Station and keyword groups: ops/config/climate.json, ops/config/search-trends.json.
 
 on:
@@ -72,8 +72,8 @@ jobs:
       - name: Search trends
         if: ${{ !cancelled() && (github.event.schedule == '41 1 * * 1' || (github.event_name == 'workflow_dispatch' && inputs.collect != 'climate')) }}
         env:
-          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
-          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+          NAVER_API_HUB_CLIENT_ID: ${{ secrets.NAVER_API_HUB_CLIENT_ID }}
+          NAVER_API_HUB_CLIENT_SECRET: ${{ secrets.NAVER_API_HUB_CLIENT_SECRET }}
         run: node tools/ops_search_trends.mjs
 
       - name: Commit changed data

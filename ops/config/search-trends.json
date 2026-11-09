@@ -1,5 +1,5 @@
 {
-  "_comment": "Naver DataLab search trend groups (at most 5 groups, 20 keywords each). Ratios are relative: 100 is the highest week across all groups in one request, so the series is replaced on every run.",
+  "_comment": "NAVER API HUB search trend groups (Naver DataLab; at most 5 groups, 20 keywords each). Ratios are relative: 100 is the highest week across all groups in one request, so the series is replaced on every run.",
   "since": "2023-01-01",
   "time_unit": "week",
   "groups": [
