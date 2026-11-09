@@ -759,5 +759,11 @@ console.log('PASS: ASKR front + bridge pickup position moves the neck pickup by 
  // Relative path commands resolve to the same pins as absolute ones.
  const parts=require('../assets/configurator-parts-renderer.js'),pinState={strapLock:true,unitsPerMm:{front:1},metal:'gold'},anchors=d=>parts.strapPins(pinState,'p',d,'y','front').match(/translate\([^)]*\)/g);
  assert.deepEqual(anchors('m0 10 c0 -10 10 -10 10 0 l-5 10z'),anchors('M0 10 C0 0 10 0 10 10 L5 20Z'));
+ // Closepath restores the subpath start before any following relative command.
+ assert.deepEqual(anchors('M10 10 L20 20 Z m5 0 l0 5'),anchors('M10 10 L20 20 Z M15 10 L15 15'));
+ // Extra moveto pairs are implicit lineto commands, not new subpath starts.
+ assert.deepEqual(anchors('m10 10 10 10 z m5 0 q0 5 5 5 5 0 5 -5'),anchors('M10 10 L20 20 Z M15 10 Q15 15 20 15 Q25 15 25 10'));
+ assert.deepEqual(anchors('M.5 .5 L1.5 -.5 Q2.5 .5 1.5 1.5 Z'),anchors('M0.5 0.5 L1.5 -0.5 Q2.5 0.5 1.5 1.5 Z'));
+ assert.deepEqual(anchors('M1e1 +10 L20 2e1 Q30 30 10 4e+1 Z'),anchors('M10 10 L20 20 Q30 30 10 40 Z'));
 }
 console.log('PASS: Schaller S-Lock strap pins appear on all models and sides only with the leather strap');

@@ -1,7 +1,7 @@
 name: Configurator production QA
 on:
   pull_request:
-    paths: ['configurator.html', 'assets/configurator-platforms.js', 'assets/configurator-ui.js', 'tools/test_configurator_contracts.cjs', 'tools/test_configurator.cjs', 'tools/test_configurator_homepage.cjs', 'tools/test_configurator_pdf_visual.py', 'tools/test_configurator_pdf_layout.cjs', 'tools/test_configurator_pdf_max.cjs', 'index.html', 'ko.html', 'de.html', 'configurator-preview.html', 'assets/configurator-preview.*', 'assets/configurator-tailwind.css', 'tailwind.configurator.config.cjs', 'assets/configurator-materials.js', 'assets/configurator-option-renderer.js', 'assets/configurator-parts-renderer.js', 'assets/configurator-bindrune-motifs.js', 'assets/configurator-geometry.js', 'assets/configurator-gramr-*', 'assets/configurator-bass-rear-geometry.js', 'assets/configurator-bass-front-geometry.js', 'assets/configurator-front/**', 'tools/extract_bass_front_geometry.py', 'assets/configurator-rear*', 'assets/configurator-rear/**', 'assets/configurator-drawing-renderer.js', 'assets/configurator-materials/**', 'assets/configurator-bindrune/**', 'tools/test_configurator_preview*.cjs', 'tools/package_configurator_preview.py', 'tools/build_configurator_standalone.py', '.github/workflows/configurator-preview.yml', 'tools/check_pages_freshness.py']
+    paths: ['configurator.html', 'assets/configurator-platforms.js', 'assets/configurator-ui.js', 'tools/test_configurator_contracts.cjs', 'tools/test_configurator.cjs', 'tools/test_configurator_homepage.cjs', 'tools/test_configurator_pdf_visual.py', 'tools/test_configurator_pdf_layout.cjs', 'tools/test_configurator_pdf_max.cjs', 'tools/test_configurator_strap_pins.cjs', 'index.html', 'ko.html', 'de.html', 'configurator-preview.html', 'assets/configurator-preview.*', 'assets/configurator-tailwind.css', 'tailwind.configurator.config.cjs', 'assets/configurator-materials.js', 'assets/configurator-option-renderer.js', 'assets/configurator-parts-renderer.js', 'assets/configurator-bindrune-motifs.js', 'assets/configurator-geometry.js', 'assets/configurator-gramr-*', 'assets/configurator-bass-rear-geometry.js', 'assets/configurator-bass-front-geometry.js', 'assets/configurator-front/**', 'tools/extract_bass_front_geometry.py', 'assets/configurator-rear*', 'assets/configurator-rear/**', 'assets/configurator-drawing-renderer.js', 'assets/configurator-materials/**', 'assets/configurator-bindrune/**', 'tools/test_configurator_preview*.cjs', 'tools/package_configurator_preview.py', 'tools/build_configurator_standalone.py', '.github/workflows/configurator-preview.yml', 'tools/check_pages_freshness.py']
   # Live-site regressions are owned by main: audit Pages after each deploy and
   # daily, so a cancelled or stuck deploy is also reported.
   workflow_run:
@@ -161,6 +161,10 @@ jobs:
           PREVIEW_QA_DIR: /tmp/ravenforge-qa/configurator-preview/live
           PREVIEW_QA_URL: http://127.0.0.1:8000/configurator.html
         run: node tools/test_configurator_preview_browser.cjs
+      - name: Verify strap pins against Chromium outlines and actual PDF images
+        env:
+          CONFIGURATOR_QA_DIR: ${{ runner.temp }}/configurator-preview/strap-pins
+        run: node tools/test_configurator.cjs --strap-pins --url "http://127.0.0.1:8000/configurator.html"
       - name: Preserve existing price, dependencies and PDF exports in 24 combinations
         env:
           CONFIGURATOR_QA_DIR: /tmp/ravenforge-qa/configurator-preview/regression
