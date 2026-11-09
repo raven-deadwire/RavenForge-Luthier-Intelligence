@@ -14,8 +14,8 @@ import { ApiError, runCli } from './ops_reporting.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const marker = 'fake-test-key+/%=DO_NOT_LOG';
 const now = Date.parse('2026-11-08T03:00:00Z');
-const credentials = { DATA_GO_KR_API_KEY: marker, NAVER_CLIENT_ID: 'fake-id', NAVER_CLIENT_SECRET: marker };
-const response = (value, status = 200) => ({ ok: status < 400, status, text: async () => typeof value === 'string' ? value : JSON.stringify(value) });
+const credentials = { DATA_GO_KR_API_KEY: marker, NAVER_API_HUB_CLIENT_ID: 'fake-id', NAVER_API_HUB_CLIENT_SECRET: marker };
+const response = (value, status = 200) => ({ ok: status >= 200 && status < 300, status, text: async () => typeof value === 'string' ? value : JSON.stringify(value) });
 const asos = (items = []) => response({ response: { header: { resultCode: '00' }, body: { totalCount: items.length, items: { item: items } } } });
 const item = { tm: '2026-11-07', avgTa: '12', avgRhm: '50' };
 const absent = async file => { await assert.rejects(access(file), { code: 'ENOENT' }); };
@@ -75,19 +75,110 @@ test('ASOS HTTP-200 XML and JSON errors expose only allowlisted codes', async ()
   }
 });
 
-test('DataLab 401/403/429/500 errors preserve data and never echo error bodies', async () => {
-  for (const status of [401, 403, 429, 500]) {
+test('API HUB Gateway errors preserve data and never echo error bodies', async () => {
+  for (const status of [300, 400, 401, 403, 429, 500]) {
     const root = await sandbox();
     await mkdir(path.join(root, 'ops/data'));
     const file = path.join(root, 'ops/data/search-trends.json');
     await writeFile(file, 'previous-series\n');
     const result = await capture(root, 'trends', () => trends.run({ root, env: credentials, now,
-      fetchImpl: async () => response({ errorCode: status === 401 ? '024' : marker, errorMessage: marker }, status) }));
+      fetchImpl: async () => response({ error: { errorCode: status === 401 ? '200' : String(status), message: marker, details: encodeURIComponent(marker) } }, status) }));
     assert.equal(result.exitCode, 1);
-    assert.match(result.text, new RegExp(`API_ERROR HTTP=${status}`));
-    assert.ok(!result.text.includes(marker));
+    assert.match(result.text, new RegExp(`API_ERROR HTTP=${status} code=${status === 401 ? '200' : status}`));
+    assert.ok(!result.text.includes(marker) && !result.text.includes(encodeURIComponent(marker)));
     assert.equal(await readFile(file, 'utf8'), 'previous-series\n');
   }
+});
+
+test('API HUB unknown codes, validation errors and non-JSON bodies remain private', async () => {
+  for (const payload of [
+    { error: { errorCode: marker, message: marker, details: encodeURIComponent(marker) } },
+    { errorCode: marker, errorMessage: marker },
+    { errMsg: marker, errId: encodeURIComponent(marker), body: JSON.stringify(credentials) },
+    `<html>${marker} ${encodeURIComponent(marker)}</html>`
+  ]) {
+    const root = await sandbox();
+    await mkdir(path.join(root, 'ops/data'));
+    const file = path.join(root, 'ops/data/search-trends.json');
+    await writeFile(file, 'previous-series\n');
+    const result = await capture(root, 'trends', () => trends.run({ root, env: credentials, now,
+      fetchImpl: async () => response(payload, 400) }));
+    assert.equal(result.exitCode, 1);
+    assert.match(result.text, /API_ERROR HTTP=400 code=UNKNOWN/);
+    assert.ok(!result.text.includes(marker) && !result.text.includes(encodeURIComponent(marker)));
+    assert.equal(await readFile(file, 'utf8'), 'previous-series\n');
+  }
+});
+
+test('API HUB error-shaped HTTP 200 is invalid, not a successful empty collection', async () => {
+  const root = await sandbox();
+  const result = await capture(root, 'trends', () => trends.run({ root, env: credentials, now,
+    fetchImpl: async () => response({ errMsg: marker, errId: marker, body: marker }) }));
+  assert.equal(result.exitCode, 1);
+  assert.match(result.text, /API_ERROR HTTP=200 code=INVALID_RESPONSE/);
+  assert.ok(!result.text.includes(marker));
+  await absent(path.join(root, 'ops/data'));
+});
+
+test('API HUB uses only the new credential pair and rejects redirect transport failures', async () => {
+  const root = await sandbox();
+  let calls = 0;
+  const result = await capture(root, 'trends', () => trends.run({ root, now,
+    env: { ...credentials, NAVER_CLIENT_ID: 'legacy-id', NAVER_CLIENT_SECRET: 'legacy-secret' },
+    fetchImpl: async (url, options) => {
+      calls++;
+      assert.equal(url, 'https://naverapihub.apigw.ntruss.com/search-trend/v1/search');
+      assert.equal(options.redirect, 'error');
+      assert.equal(options.headers['X-NCP-APIGW-API-KEY-ID'], credentials.NAVER_API_HUB_CLIENT_ID);
+      assert.equal(options.headers['X-NCP-APIGW-API-KEY'], marker);
+      assert.ok(!JSON.stringify(options).includes('legacy-'));
+      throw new TypeError(`redirect to https://example.invalid/${encodeURIComponent(marker)}`);
+    }
+  }));
+  assert.equal(calls, 1);
+  assert.equal(result.exitCode, 1);
+  assert.match(result.text, /API_ERROR HTTP=none code=NETWORK_ERROR/);
+  assert.ok(!result.text.includes(marker) && !result.text.includes(encodeURIComponent(marker)));
+  await absent(path.join(root, 'ops/data'));
+});
+
+test('API HUB actual CLI reports Gateway errors without exposing credentials', async t => {
+  const root = await sandbox();
+  t.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, 'tools'));
+  for (const name of ['ops_search_trends.mjs', 'ops_reporting.mjs']) {
+    await cp(path.join(ROOT, 'tools', name), path.join(root, 'tools', name));
+  }
+  const preload = path.join(root, 'mock-fetch.mjs');
+  await writeFile(preload, `globalThis.fetch = async () => ({ ok: false, status: 401,
+    text: async () => JSON.stringify({ error: { errorCode: '200', message: process.env.NAVER_API_HUB_CLIENT_SECRET } }) });`);
+  const summary = path.join(root, 'summary');
+  const output = path.join(root, 'output');
+  const result = spawnSync(process.execPath, ['--import', preload, path.join(root, 'tools/ops_search_trends.mjs')], {
+    encoding: 'utf8', env: { PATH: process.env.PATH, ...credentials, GITHUB_STEP_SUMMARY: summary, GITHUB_OUTPUT: output }
+  });
+  assert.equal(result.status, 1);
+  assert.equal(result.stderr, '');
+  const text = result.stdout + await readFile(summary, 'utf8') + await readFile(output, 'utf8');
+  assert.match(text, /API_ERROR HTTP=401 code=200/);
+  assert.match(text, /changed=false/);
+  assert.ok(!text.includes(marker));
+  await absent(path.join(root, 'ops/data'));
+});
+
+test('API HUB workflow and setup instructions agree on the new secret names', async () => {
+  const workflow = await readFile(path.join(ROOT, '.github/workflows/ops-data.yml'), 'utf8');
+  const notice = await readFile(path.join(ROOT, 'ops/ops.js'), 'utf8');
+  const readme = await readFile(path.join(ROOT, 'README.md'), 'utf8');
+  for (const name of ['NAVER_API_HUB_CLIENT_ID', 'NAVER_API_HUB_CLIENT_SECRET']) {
+    assert.ok(workflow.includes(`${name}: \u0024{{ secrets.${name} }}`));
+    assert.ok(notice.includes(name));
+    assert.ok(readme.includes(name));
+  }
+  assert.doesNotMatch(workflow, /secrets\.NAVER_CLIENT_/);
+  assert.doesNotMatch(notice, /NAVER_CLIENT_|네이버 개발자센터에서/);
+  assert.match(notice, /구 개발자센터 키 사용 불가/);
+  assert.match(readme, /Existing NAVER Developers\nCenter credentials cannot be used/);
 });
 
 test('empty ASOS and DataLab responses preserve existing data and report NO_DATA', async () => {

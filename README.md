@@ -26,12 +26,36 @@ Independent instrument-design, research and prototype portfolio by Raven Cho.
   wood equilibrium moisture content (EMC) for each day. Outdoor air only; it does
   not replace in-shop hygrometer readings. Secret `DATA_GO_KR_API_KEY` (the
   portal's Decoding key). Location: `ops/config/climate.json` (`station_id`).
-- **Search interest**: Naver DataLab search trends for the keyword groups in
-  `ops/config/search-trends.json`. Secrets `NAVER_CLIENT_ID`, `NAVER_CLIENT_SECRET`.
+- **Search interest**: Naver DataLab search trends through **NAVER API HUB** for
+  the keyword groups in `ops/config/search-trends.json`. Secrets
+  `NAVER_API_HUB_CLIENT_ID`, `NAVER_API_HUB_CLIENT_SECRET`.
 
 Register these as **repository Actions secrets**, not Variables or environment
 secrets (the collection job does not select an environment). Do not put key
 values in source files, workflow inputs, command arguments, or logs.
+
+### NAVER API HUB migration
+
+Apply for NAVER API HUB in the Naver Cloud Platform console, register an
+Application with **Search Trend** enabled, and use the new Application's Client
+ID and Client Secret for the two `NAVER_API_HUB_*` secrets above. Review the
+service terms and any charges before subscribing. Existing NAVER Developers
+Center credentials cannot be used with API HUB. The collector does not fall
+back to the old `NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET` secrets or endpoint.
+
+The collector sends `POST https://naverapihub.apigw.ntruss.com/search-trend/v1/search`
+with `X-NCP-APIGW-API-KEY-ID`, `X-NCP-APIGW-API-KEY` and JSON content type.
+The configured date range, keyword groups and relative-ratio interpretation
+stay the same; the public JSON schema is unchanged apart from its source label.
+Gateway errors use `error.errorCode`; validation errors may include `errMsg`,
+`errId` or a reflected request body. Only allowlisted codes and HTTP status
+are reported, never these arbitrary fields. Redirects remain blocked.
+
+References: [Search Trend API](https://api.ncloud-docs.com/docs/naver-api-hub-search-trend),
+[migration guide](https://guide.ncloud-docs.com/docs/apihub-migration),
+[headers and error formats](https://api.ncloud-docs.com/docs/naver-api-hub-overview).
+
+### Collection status and publication
 
 Each collector reports `SKIPPED_MISSING_SECRET`, `NO_DATA`, `SUCCESS`,
 `API_ERROR`, or `COLLECTOR_ERROR` in the Actions job summary. Empty API results

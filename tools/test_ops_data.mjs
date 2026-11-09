@@ -112,14 +112,28 @@ test('search trends: the shipped config is valid', async () => {
 });
 
 test('search trends: no credentials leave everything unchanged', async () => {
-  const result = await trends.run({ env: { NAVER_CLIENT_ID: 'id' }, root: await sandbox(), fetchImpl: () => assert.fail('no request'), log: quiet });
+  const result = await trends.run({ env: { NAVER_API_HUB_CLIENT_ID: 'id' }, root: await sandbox(), fetchImpl: () => assert.fail('no request'), log: quiet });
   assert.equal(result.skipped, true);
+});
+
+test('API HUB: missing, blank or legacy credentials never cause a request', async () => {
+  const legacy = { NAVER_CLIENT_ID: 'legacy-id', NAVER_CLIENT_SECRET: 'legacy-secret' };
+  for (const env of [
+    {}, legacy,
+    { ...legacy, NAVER_API_HUB_CLIENT_ID: 'hub-id' },
+    { ...legacy, NAVER_API_HUB_CLIENT_SECRET: 'hub-secret' },
+    { NAVER_API_HUB_CLIENT_ID: ' ', NAVER_API_HUB_CLIENT_SECRET: 'hub-secret' },
+    { NAVER_API_HUB_CLIENT_ID: 'hub-id', NAVER_API_HUB_CLIENT_SECRET: '\t' }
+  ]) {
+    const result = await trends.run({ env, root: '/unused-no-credentials', fetchImpl: () => assert.fail('no request') });
+    assert.deepEqual(result, { changed: false, skipped: true, status: 'SKIPPED_MISSING_SECRET' });
+  }
 });
 
 test('search trends: sends the configured groups and stores the series', async () => {
   const root = await sandbox();
   let sent;
-  const result = await trends.run({ env: { NAVER_CLIENT_ID: 'id', NAVER_CLIENT_SECRET: 'secret' }, root, now: Date.parse('2026-11-07T16:00:00Z'), log: quiet,
+  const result = await trends.run({ env: { NAVER_API_HUB_CLIENT_ID: 'id', NAVER_API_HUB_CLIENT_SECRET: 'secret' }, root, now: Date.parse('2026-11-07T16:00:00Z'), log: quiet,
     fetchImpl: async (url, options) => {
       sent = { url, options, body: JSON.parse(options.body) };
       return { ok: true, status: 200, text: async () => JSON.stringify({
@@ -127,22 +141,32 @@ test('search trends: sends the configured groups and stores the series', async (
         results: sent.body.keywordGroups.map((group, index) => ({ title: group.groupName, keywords: group.keywords, data: [{ period: '2023-01-02', ratio: 12.3456 + index }] }))
       }) };
     } });
-  assert.equal(sent.url, trends.DATALAB_ENDPOINT);
+  assert.equal(sent.url, trends.SEARCH_TREND_ENDPOINT);
+  assert.equal(sent.url, 'https://naverapihub.apigw.ntruss.com/search-trend/v1/search');
   assert.equal(sent.options.method, 'POST');
-  assert.equal(sent.options.headers['X-Naver-Client-Id'], 'id');
-  assert.equal(sent.options.headers['X-Naver-Client-Secret'], 'secret');
+  assert.deepEqual(sent.options.headers, {
+    'X-NCP-APIGW-API-KEY-ID': 'id', 'X-NCP-APIGW-API-KEY': 'secret', 'Content-Type': 'application/json'
+  });
+  assert.equal(sent.options.redirect, 'error');
+  assert.ok(sent.options.signal instanceof AbortSignal);
+  const config = JSON.parse(await readFile(path.join(root, 'ops/config/search-trends.json'), 'utf8'));
+  assert.deepEqual(sent.body, {
+    startDate: config.since, endDate: '2026-11-08', timeUnit: config.time_unit,
+    keywordGroups: config.groups.map(group => ({ groupName: group.name, keywords: group.keywords }))
+  });
   assert.equal(sent.body.endDate, '2026-11-08', 'end date is today in KST');
   assert.equal(sent.body.timeUnit, 'week');
   assert.equal(result.changed, true);
   const saved = JSON.parse(await readFile(path.join(root, 'ops/data/search-trends.json'), 'utf8'));
+  assert.equal(saved.source, 'NAVER API HUB search trend API (Naver DataLab)');
   assert.equal(saved.groups[0].points[0].ratio, 12.35);
-  const again = await trends.run({ env: { NAVER_CLIENT_ID: 'id', NAVER_CLIENT_SECRET: 'secret' }, root, now: Date.parse('2026-11-07T16:00:00Z'), log: quiet,
+  const again = await trends.run({ env: { NAVER_API_HUB_CLIENT_ID: 'id', NAVER_API_HUB_CLIENT_SECRET: 'secret' }, root, now: Date.parse('2026-11-07T16:00:00Z'), log: quiet,
     fetchImpl: async (url, options) => ({ ok: true, status: 200, text: async () => JSON.stringify({ startDate: '2023-01-01', endDate: '2026-11-08', timeUnit: 'week',
       results: JSON.parse(options.body).keywordGroups.map((group, index) => ({ title: group.groupName, keywords: group.keywords, data: [{ period: '2023-01-02', ratio: 12.3456 + index }] })) }) }) });
   assert.equal(again.changed, false, 'identical data is not rewritten');
 });
 
 test('search trends: API errors expose only the HTTP status and allowlisted code', async () => {
-  await assert.rejects(trends.run({ env: { NAVER_CLIENT_ID: 'id', NAVER_CLIENT_SECRET: 'bad' }, root: await sandbox(), log: quiet,
-    fetchImpl: async () => ({ ok: false, status: 401, text: async () => JSON.stringify({ errorMessage: 'Authentication failed', errorCode: '024' }) }) }), /API_ERROR HTTP=401 code=024/);
+  await assert.rejects(trends.run({ env: { NAVER_API_HUB_CLIENT_ID: 'id', NAVER_API_HUB_CLIENT_SECRET: 'bad' }, root: await sandbox(), log: quiet,
+    fetchImpl: async () => ({ ok: false, status: 401, text: async () => JSON.stringify({ error: { message: 'Authentication failed', errorCode: '200' } }) }) }), /API_ERROR HTTP=401 code=200/);
 });

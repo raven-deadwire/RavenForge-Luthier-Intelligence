@@ -6,6 +6,8 @@ import { appendFile } from 'node:fs/promises';
 const API_CODES = new Set([
   '01', '02', '04', '05', '10', '11', '12', '20', '21', '22', '23', '29', '30', '31', '32', '99',
   '024', 'INVALID_RESPONSE', 'NETWORK_ERROR', 'TIMEOUT',
+  // NAVER API HUB documented Gateway authentication and common error codes.
+  '200', '300', '400', '401', '403', '429', '500',
   'SERVICE_KEY_IS_NOT_REGISTERED_ERROR', 'SERVICE_ACCESS_DENIED_ERROR',
   'DEADLINE_HAS_EXPIRED_ERROR', 'LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR'
 ]);

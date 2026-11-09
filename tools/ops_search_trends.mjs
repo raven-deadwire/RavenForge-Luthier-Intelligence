@@ -1,8 +1,10 @@
 #!/usr/bin/env node
-// Search interest for RavenForge's instrument categories from the Naver DataLab
+// Search interest for RavenForge's instrument categories from NAVER API HUB's
 // search trend API. Groups and keywords live in ops/config/search-trends.json.
 //
-//   NAVER_CLIENT_ID=... NAVER_CLIENT_SECRET=... node tools/ops_search_trends.mjs
+// Provide NAVER_API_HUB_CLIENT_ID and NAVER_API_HUB_CLIENT_SECRET through the
+// environment, then run: node tools/ops_search_trends.mjs
+// Legacy NAVER Developers credentials are not accepted or used as a fallback.
 //
 // Ratios are relative within one request (100 = the highest period of any group),
 // so every run replaces the whole series. Without credentials the script exits
@@ -13,7 +15,7 @@ import path from 'node:path';
 import { ApiError, fetchText, runCli } from './ops_reporting.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const DATALAB_ENDPOINT = 'https://openapi.naver.com/v1/datalab/search';
+export const SEARCH_TREND_ENDPOINT = 'https://naverapihub.apigw.ntruss.com/search-trend/v1/search';
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
 
 export function validateConfig(config) {
@@ -39,20 +41,22 @@ export function requestBody(config, now) {
 }
 
 export async function run({ env = process.env, now = Date.now(), fetchImpl = fetch, root = ROOT } = {}) {
-  if (!env.NAVER_CLIENT_ID?.trim() || !env.NAVER_CLIENT_SECRET?.trim()) {
+  if (!env.NAVER_API_HUB_CLIENT_ID?.trim() || !env.NAVER_API_HUB_CLIENT_SECRET?.trim()) {
     return { changed: false, skipped: true, status: 'SKIPPED_MISSING_SECRET' };
   }
   const config = validateConfig(JSON.parse(await readFile(path.join(root, 'ops/config/search-trends.json'), 'utf8')));
   const body = requestBody(config, now);
-  const { response, text } = await fetchText(fetchImpl, DATALAB_ENDPOINT, {
+  const { response, text } = await fetchText(fetchImpl, SEARCH_TREND_ENDPOINT, {
     method: 'POST',
-    headers: { 'X-Naver-Client-Id': env.NAVER_CLIENT_ID, 'X-Naver-Client-Secret': env.NAVER_CLIENT_SECRET, 'Content-Type': 'application/json' },
+    headers: { 'X-NCP-APIGW-API-KEY-ID': env.NAVER_API_HUB_CLIENT_ID, 'X-NCP-APIGW-API-KEY': env.NAVER_API_HUB_CLIENT_SECRET, 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
     signal: AbortSignal.timeout(30000)
   });
   let data;
   try { data = JSON.parse(text); } catch { data = null; }
-  if (!response.ok) throw new ApiError(response.status, data?.errorCode);
+  // API Gateway wraps errorCode; search validation errors instead use errMsg,
+  // errId and sometimes the submitted body. Never expose those arbitrary fields.
+  if (!response.ok) throw new ApiError(response.status, data?.error?.errorCode ?? data?.errorCode);
   if (!Array.isArray(data?.results)) throw new ApiError(response.status, 'INVALID_RESPONSE');
   if (!data.results.length) return { changed: false, status: 'NO_DATA', count: 0 };
   // Never overwrite a valid series with a partial or malformed API response.
@@ -68,7 +72,7 @@ export async function run({ env = process.env, now = Date.now(), fetchImpl = fet
   }
 
   const output = {
-    source: 'Naver DataLab search trend API',
+    source: 'NAVER API HUB search trend API (Naver DataLab)',
     note: 'Relative search interest: 100 is the highest period across all groups in this request.',
     start_date: data.startDate,
     end_date: data.endDate,

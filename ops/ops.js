@@ -153,8 +153,8 @@
     if (!data?.groups?.length) {
       root.append(notice([
         '아직 수집된 검색 트렌드가 없습니다.',
-        '1) 네이버 개발자센터에서 애플리케이션을 등록하고 “데이터랩(검색어트렌드)” API를 추가',
-        '2) Client ID와 Secret을 저장소 Secret NAVER_CLIENT_ID, NAVER_CLIENT_SECRET으로 등록',
+        '1) 네이버 클라우드 플랫폼 NAVER API HUB에서 이용 신청 후 “검색어 트렌드” Application을 등록',
+        '2) API HUB에서 발급한 Client ID와 Secret을 저장소 Actions Secret NAVER_API_HUB_CLIENT_ID, NAVER_API_HUB_CLIENT_SECRET으로 등록 (구 개발자센터 키 사용 불가)',
         '3) Actions → Operations data → Run workflow (collect: trends). 이후 매주 월요일 자동 갱신됩니다.'
       ]));
       return;
