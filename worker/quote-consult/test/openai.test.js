@@ -4,7 +4,7 @@ import { createOpenAIClient, OpenAIError } from '../src/openai-client.js';
 import worker, { handleChat, RequestError } from '../src/index.js';
 
 const body = { messages: [{ role: 'user', content: '에보니 지판은 얼마인가요?' }], configuration: { model: 'EMBLA', selections: {}, specialOptions: [], accessories: [] }, language: 'ko' };
-const settings = { AI_PROVIDER: 'openai', OPENAI_API_KEY: 'test-only', OPENAI_MODEL: 'gpt-5-mini' };
+const settings = { AI_PROVIDER: 'openai', OPENAI_API_KEY: 'test-only' };
 test('OpenAI pricing round preserves reasoning, call ids, limits and server-computed prices', async () => {
   const requests = [];
   const outputs = [
@@ -20,13 +20,27 @@ test('OpenAI pricing round preserves reasoning, call ids, limits and server-comp
   const result = await handleChat(body, settings, client);
   assert.equal(result.quote.total, 2600);
   assert.equal(result.quote.selections.fretboard, 'ebony');
-  assert.equal(requests[0].store, false);
+  assert.equal(requests.length, 2);
+  for (const request of requests) {
+    assert.equal(request.model, 'gpt-5.6-terra');
+    assert.equal(request.store, false);
+    assert.deepEqual(request.reasoning, { effort: 'low' });
+    assert.deepEqual(request.include, ['reasoning.encrypted_content']);
+  }
   assert.equal(requests[0].tools[0].strict, true);
   assert.ok(requests[1].input.some(item => item.type === 'reasoning' && item.encrypted_content === 'opaque'));
   const toolResult = requests[1].input.find(item => item.type === 'function_call_output');
   assert.equal(toolResult.call_id, 'call_1');
   assert.equal(JSON.parse(toolResult.output).total, 2600);
   assert.ok(!JSON.stringify(requests).includes('test-only'));
+});
+test('an explicit OPENAI_MODEL takes precedence over the fallback', async () => {
+  const env = { ...settings, OPENAI_MODEL: 'override-for-test' };
+  const client = createOpenAIClient(env, async (_url, request) => {
+    assert.equal(JSON.parse(request.body).model, env.OPENAI_MODEL);
+    return Response.json({ status: 'completed', output: [] });
+  });
+  await handleChat(body, env, client);
 });
 test('provider errors, malformed arguments and truncated answers never become successful replies', async () => {
   for (const reply of [new Response('private error detail', { status: 401 }), Response.json({ status: 'completed', output: [{ type: 'function_call', arguments: 'broken' }] })]) {
