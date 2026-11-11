@@ -23,7 +23,7 @@ export function createOpenAIClient(env, fetcher = fetch) {
       method: 'POST', signal,
       headers: { Authorization: `Bearer ${env.OPENAI_API_KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: env.OPENAI_MODEL || 'gpt-5-mini', store: false,
+        model: env.OPENAI_MODEL || 'gpt-5.6-terra', store: false,
         include: ['reasoning.encrypted_content'],
         reasoning: { effort: env.OPENAI_EFFORT || 'low' },
         instructions: params.system.map(block => block.text).join('\n'), input,
