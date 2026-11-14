@@ -1,0 +1,67 @@
+{
+  "model": "GRAMR",
+  "source": "3b559cd2-RavenForge_Superstrat_24F_ver3_STRICT_R12-Model.pdf",
+  "sha256": "3edaab849e644ba2c1aa2e28abdbed9c92a246cb7a3ca5591da152d22c609b1d",
+  "page_rotation": 270,
+  "drawing_count": 5619,
+  "nut_x_pt": 437.1114837862649,
+  "centreline_y_pt": 572.3662821451823,
+  "scale_length_pt": 1382.854957863402,
+  "paper_scale_length_mm": 487.8404990240334,
+  "centreline_drift_pt": 0.01507568359375,
+  "fret_skew_max_pt": 0.0,
+  "fret_fit_residual_max_pt": 0.017317347433618124,
+  "nut_edge_x_offset_pt": -0.0014837862648846567,
+  "scale_mm": 648.0,
+  "mm_per_pt": 0.4685957817305734,
+  "plot_factor": 0.7528402762716565,
+  "fret_fit_residual_max_mm": 0.008114835958156225,
+  "nut_width_measured_mm": 43.08738213012625,
+  "nut_width_error_mm": 0.08738213012625096,
+  "contour_size_mm": {
+    "Body": [
+      459.04,
+      319.48
+    ],
+    "Headstock": [
+      179.65,
+      95.5
+    ],
+    "Pickguard": [
+      282.84,
+      221.92
+    ],
+    "PickupNeck": [
+      37.8,
+      69.6
+    ],
+    "PickupBridge": [
+      38.2,
+      70.01
+    ],
+    "Bridge": [
+      39.99,
+      83.49
+    ],
+    "Jack": [
+      54.87,
+      66.0
+    ]
+  },
+  "contour_join_gap_max_pt": {
+    "Body": 0.0413,
+    "Headstock": 0.0488,
+    "Pickguard": 0.0,
+    "PickupNeck": 0.0,
+    "PickupBridge": 0.0,
+    "Bridge": 0.0,
+    "Jack": 0.036
+  },
+  "objects_created": 52,
+  "status": "imported",
+  "source_note": "Run on the owner-supplied PDF (upload name carried a prefix). The PDF and the resulting .blend are not stored in this repository.",
+  "open_contours": [
+    "Body (open at the neck pocket)",
+    "Headstock (open at the nut)"
+  ]
+}
