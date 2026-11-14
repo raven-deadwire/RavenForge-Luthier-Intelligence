@@ -1,0 +1,72 @@
+{
+  "model": "GRAMR",
+  "stage": 4,
+  "parameters": {
+    "note": "Generic values chosen for visualisation, not taken from the drawing or the spec. Replace when section drawings exist.",
+    "fingerboard_thickness_centre_mm": 6.0,
+    "fingerboard_top_above_body_top_mm": 9.5,
+    "thickness_at_nut_mm": 20.5,
+    "thickness_at_12th_fret_mm": 22.5,
+    "heel_thickness_mm": 25.4,
+    "heel_blend_start_mm": 345.0,
+    "back_profile_exponent": 2.3,
+    "headstock_thickness_mm": 14.5,
+    "headstock_face_below_board_top_mm": 11.0,
+    "headstock_ramp_radius_mm": 20.0,
+    "nut_shelf_mm": 3.5,
+    "nut_blend_length_mm": 25.0,
+    "laminate": {
+      "core_width_mm": 10.0,
+      "stripe_width_mm": 3.0,
+      "order": [
+        "Northern Hard Maple",
+        "Wenge",
+        "Purpleheart",
+        "Wenge",
+        "Northern Hard Maple"
+      ]
+    }
+  },
+  "fingerboard_plan_mm": {
+    "length": 494.01,
+    "width_at_nut": 43.09,
+    "width_at_end": 56.01
+  },
+  "fingerboard_edge_drop_mm": {
+    "at_nut": 0.571,
+    "at_end": 0.966
+  },
+  "headstock_closing_edge_mm": {
+    "length": 43.09,
+    "x_at_ends": [
+      -0.003,
+      -0.013
+    ],
+    "origin": "the nut line; the neck continues across it"
+  },
+  "headstock_ramp_run_mm": 13.23,
+  "neck_material_slots": [
+    "RF_MAT_Placeholder_Maple",
+    "RF_MAT_Placeholder_Wenge",
+    "RF_MAT_Placeholder_Purpleheart"
+  ],
+  "neck_volume_cm3": 508.4,
+  "neck_manifold": true,
+  "fingerboard_volume_cm3": 140.6,
+  "fingerboard_manifold": true,
+  "thickness_centre_mm": {
+    "at_1st_fret": 20.724,
+    "at_12th_fret": 22.5,
+    "at_heel": 25.4,
+    "headstock": 14.5
+  },
+  "headstock_face_z_mm": -11.0,
+  "top_z_at_centre_mm": 0.0,
+  "body_z_range_mm": [
+    -54.5,
+    -9.5
+  ],
+  "heel_boundary_x_mm": 392.86,
+  "overall_length_mm": 961.16,
+  "status": "built"
+}

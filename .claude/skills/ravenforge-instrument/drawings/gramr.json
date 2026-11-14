@@ -14,10 +14,7 @@
     "first": 72,
     "count": 24
   },
-  "nut_edge_pt": [
-    [437.11, 526.49],
-    [437.11, 618.44]
-  ],
+  "nut_edge_pt": [[437.11, 526.49], [437.11, 618.44]],
   "contours": {
     "Body": {
       "ids": [1066, 1067, 1068, 1069, 1070, 1071, 1072, 1073, 1074, 1075, 1077, 1078, 1079, 1080, 1081, 1082, 1083, 1084, 1085, 1086, 1087, 1088, 1089],
@@ -80,6 +77,34 @@
       "length_mm": 220.0,
       "section_radius_mm": 120.0,
       "profile": "ellipsoidal cove"
+    }
+  },
+  "board_pt": [[437.11, 526.49], [437.11, 618.44], [1491.34, 632.12], [1491.34, 512.6]],
+  "fingerboard_radius_mm": 406.4,
+  "neck_illustrative": {
+    "note": "Generic values chosen for visualisation, not taken from the drawing or the spec. Replace when section drawings exist.",
+    "fingerboard_thickness_centre_mm": 6.0,
+    "fingerboard_top_above_body_top_mm": 9.5,
+    "thickness_at_nut_mm": 20.5,
+    "thickness_at_12th_fret_mm": 22.5,
+    "heel_thickness_mm": 25.4,
+    "heel_blend_start_mm": 345.0,
+    "back_profile_exponent": 2.3,
+    "headstock_thickness_mm": 14.5,
+    "headstock_face_below_board_top_mm": 11.0,
+    "headstock_ramp_radius_mm": 20.0,
+    "nut_shelf_mm": 3.5,
+    "nut_blend_length_mm": 25.0,
+    "laminate": {
+      "core_width_mm": 10.0,
+      "stripe_width_mm": 3.0,
+      "order": [
+        "Northern Hard Maple",
+        "Wenge",
+        "Purpleheart",
+        "Wenge",
+        "Northern Hard Maple"
+      ]
     }
   }
 }
