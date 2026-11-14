@@ -59,5 +59,27 @@
     "line_notes": {
       "HeelBoundary": "Projected boundary only. The machined heel shape, bolt positions and deep tenon are unapproved."
     }
+  },
+  "contours_illustrative": {
+    "note": "Generic values chosen for visualisation, not taken from the drawing or the spec. Replace when section drawings exist.",
+    "edge_radius_mm": 6.0,
+    "forearm": {
+      "face": "top",
+      "side": "bass",
+      "hinge_angle_deg": 32.0,
+      "width_mm": 90.0,
+      "depth_at_rim_mm": 19.0,
+      "profile": "cylindrical, tangent to the top face at the hinge line"
+    },
+    "tummy": {
+      "face": "back",
+      "side": "bass",
+      "centre_x_mm": 590.0,
+      "inward_mm": 75.0,
+      "depth_at_rim_mm": 19.0,
+      "length_mm": 220.0,
+      "section_radius_mm": 120.0,
+      "profile": "ellipsoidal cove"
+    }
   }
 }

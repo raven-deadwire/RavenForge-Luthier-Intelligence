@@ -94,6 +94,35 @@ python scripts/build_body.py --config drawings/gramr.json --blend gramr_stage1.b
 
 아직 없는 것: 모서리 라운드, 컨투어, 캐비티, 넥 포켓. 바디 윗면은 임시로 Z = 0에 두었다. 지판이 바디 위로 올라오는 높이를 알기 전까지는 확정하지 않는다.
 
+### GRAMR 3단계 실행 기록
+
+2026-11-14. `scripts/build_contours.py`로 모서리 라운드, 포어암 베벨, 터미 컷을 넣었다. **쓰인 수치는 전부 일반적인 값이며 도면·사양 근거가 없다.** 값은 `drawings/gramr.json`의 `contours_illustrative`에 있고, 바디의 `rf_status`는 `illustrative`로 내려갔다. 수치 전체는 `drawings/gramr.stage3-report.json`.
+
+```bash
+python scripts/build_contours.py --config drawings/gramr.json --blend gramr_stage2.blend --stage2-report gramr_stage2.json --out gramr_stage3.blend --report gramr_stage3.json --preview-dir previews
+```
+
+```bash
+python scripts/depth_map.py gramr_stage3.blend RF_GRAMR_Body previews/stage3_depth
+```
+
+| 요소 | 가정한 값 | 만든 방법 |
+|---|---|---|
+| 모서리 라운드 | 반경 6 mm, 앞뒤 테두리 | 베벨 6분할. 넥 포켓을 닫은 변은 각진 채로 둠 |
+| 포어암 베벨 | 윗면 저음 쪽 꼬리, 힌지선 각도 32°, 폭 90 mm, 테두리에서 깊이 19 mm | 힌지선에서 윗면에 접하는 원통면(반경 222.66 mm) |
+| 터미 컷 | 뒷면 저음 쪽, 중심 X = 590 mm, 안쪽으로 75 mm, 길이 220 mm, 테두리에서 깊이 19 mm | 타원체로 파낸 오목면(단면 반경 120 mm) |
+
+| 확인 항목 | 값 |
+|---|---|
+| 평면 크기 | 459.06 × 319.48 × 45.00 mm (변화 없음) |
+| 컨투어가 닿지 않은 중앙부 두께 | 45.000 mm |
+| 포어암: 테두리 8 mm 안쪽의 윗면 높이 | −15.652 mm (계산값 −15.649) |
+| 터미: 테두리 8 mm 안쪽의 파인 높이 | 19.346 mm (계산값 19.374) |
+| 부피 | 4,658.2 → 4,445.9 cm³ (라운드 −22.7, 포어암 −58.2, 터미 −131.4) |
+| 메시 | 닫혀 있음 |
+
+남은 한계: 컨투어가 테두리와 만나는 모서리는 라운드 없이 날카롭다. 사양의 "스컬프티드 힐"은 조인트가 미승인이라 만들지 않았다. 캐비티와 넥 포켓도 없다.
+
 ## 도면에 없는 정보
 
 평면도에는 두께 방향 정보가 없다. 아래는 별도 근거가 필요하다.
