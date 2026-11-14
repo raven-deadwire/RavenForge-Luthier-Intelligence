@@ -34,6 +34,24 @@ EDDA는 벡터 도면이 레포 기록에 없다. 전면은 후면 컨셉 경로
 5. **정렬**: 중심선을 X축에, 너트 앞면(또는 제로 프렛)을 원점에 맞춘다.
 6. **기록**: 복제해 만든 각 메시에 `rf_status = drawing`, `rf_source`(파일명 + 경로 인덱스), `rf_source_sha256`을 넣는다.
 
+## 자동화 스크립트
+
+위 1~6단계는 `scripts/import_drawing.py`가 한 번에 수행한다. `bpy`와 `pymupdf`가 설치된 파이썬으로 실행한다.
+
+```bash
+python scripts/import_drawing.py --config drawings/gramr.json --pdf SOURCE.pdf
+```
+
+```bash
+python scripts/import_drawing.py --config drawings/gramr.json --pdf SOURCE.pdf --scale-mm 648 --out gramr_stage1.blend --report gramr_stage1.json
+```
+
+- 첫 번째 형태는 측정만 한다. 프렛선을 평균율에 맞춰 너트 위치와 도면상의 스케일 길이를 구하고, 너트 폭으로 역산한 스케일 길이를 알려 준다.
+- 두 번째 형태는 지정한 스케일 길이로 축척을 정하고, 너트 폭과 0.2 mm 넘게 어긋나면 멈춘다. 통과하면 `RF_<MODEL>_Source`에 커브를 만든다.
+- 도면이 1:1로 출력되지 않았어도 된다. GRAMR의 공개 표시 좌표로 미리 계산해 보면 도면상 스케일 길이가 약 487.84 mm로, 출력 축척이 약 0.753이다.
+- 648 mm와 647.7 mm는 너트 폭 기준으로 0.02 mm밖에 차이 나지 않아 이 검증으로는 구분되지 않는다. 스케일 값은 도면의 치수 기입이나 CAD 원본에서 확인한다.
+- 모델별 경로 인덱스는 `drawings/<model>.json`에 둔다. 현재 GRAMR 전면만 있다.
+
 ## 도면에 없는 정보
 
 평면도에는 두께 방향 정보가 없다. 아래는 별도 근거가 필요하다.
