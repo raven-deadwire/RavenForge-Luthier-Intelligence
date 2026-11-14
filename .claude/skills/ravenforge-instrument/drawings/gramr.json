@@ -106,5 +106,11 @@
         "Northern Hard Maple"
       ]
     }
+  },
+  "fret_illustrative": {
+    "note": "Generic Extra Jumbo wire section chosen for visualisation. The spec names the size class and alloy only.",
+    "crown_width_mm": 2.9,
+    "crown_height_mm": 1.45,
+    "end_bevel_deg": 30.0
   }
 }
