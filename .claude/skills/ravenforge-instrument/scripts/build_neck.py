@@ -23,6 +23,18 @@ from build_body import sample
 MM = 0.001
 
 
+def board_plan(cfg, s1):
+    """Fingerboard plan from the drawing: (length, half-width at nut, half-width at end, hw(x)), metres."""
+    f, x0, yc = s1["mm_per_pt"], s1["nut_x_pt"], s1["centreline_y_pt"]
+    ys = -1 if cfg["orientation"]["treble"] == "-y" else 1
+    board = [Vector(((p[0] - x0) * f * MM, ys * (p[1] - yc) * f * MM)) for p in cfg["board_pt"]]
+    nut_pts = sorted([p for p in board if abs(p.x) < 1e-3], key=lambda p: p.y)
+    end_pts = sorted([p for p in board if abs(p.x) > 1e-3], key=lambda p: p.y)
+    L = (end_pts[0].x + end_pts[1].x) / 2
+    hw0, hw1 = (nut_pts[1].y - nut_pts[0].y) / 2, (end_pts[1].y - end_pts[0].y) / 2
+    return L, hw0, hw1, (lambda x: hw0 + (hw1 - hw0) * x / L)
+
+
 def mesh_object(name, bm, collection):
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     me = bpy.data.meshes.new(name); bm.to_mesh(me); bm.free()
@@ -97,14 +109,7 @@ def main(argv=None):
     rep = {"model": model, "stage": 4, "parameters": par}
 
     # --- drawing data in skill coordinates (metres)
-    f, x0, yc = s1["mm_per_pt"], s1["nut_x_pt"], s1["centreline_y_pt"]
-    ys = -1 if cfg["orientation"]["treble"] == "-y" else 1
-    board = [Vector(((p[0] - x0) * f * MM, ys * (p[1] - yc) * f * MM)) for p in cfg["board_pt"]]
-    nut_pts = sorted([p for p in board if abs(p.x) < 1e-3], key=lambda p: p.y)
-    end_pts = sorted([p for p in board if abs(p.x) > 1e-3], key=lambda p: p.y)
-    L = (end_pts[0].x + end_pts[1].x) / 2
-    hw0, hw1 = (nut_pts[1].y - nut_pts[0].y) / 2, (end_pts[1].y - end_pts[0].y) / 2
-    hw = lambda x: hw0 + (hw1 - hw0) * x / L
+    L, hw0, hw1, hw = board_plan(cfg, s1)
     rep["fingerboard_plan_mm"] = {"length": round(L / MM, 2), "width_at_nut": round(2 * hw0 / MM, 2),
                                   "width_at_end": round(2 * hw1 / MM, 2)}
 

@@ -158,6 +158,31 @@ python scripts/build_neck.py --config drawings/gramr.json --blend gramr_stage3.b
 
 남은 한계: 넥 포켓을 파지 않아 힐 블록이 바디와 겹친다(조인트는 `pending`). 프렛 홈, 너트, 튜너 구멍, 트러스 로드 접근부가 없다. 헤드스톡 뒷면 모서리는 각져 있다. 재질은 단색 자리 표시다.
 
+### GRAMR 5단계 실행 기록
+
+2026-11-14. `scripts/build_frets.py`로 프렛 24개를 만들었다. 위치는 도면의 프렛선, 곡률은 사양의 지판 반경, 길이는 도면의 지판 평면을 따른다. **와이어 단면과 끝 베벨은 일반적인 값이다.** 사양에는 크기 등급(Extra Jumbo)과 합금만 있다. 값은 `drawings/gramr.json`의 `fret_illustrative`에 있고 프렛의 `rf_status`는 `illustrative`다. 수치 전체는 `drawings/gramr.stage5-report.json`.
+
+```bash
+python scripts/build_frets.py --config drawings/gramr.json --blend gramr_stage4.blend --stage1-report gramr_stage1.json --out gramr_stage5.blend --report gramr_stage5.json --preview-dir previews
+```
+
+| 가정한 값 | |
+|---|---|
+| 크라운 폭 × 높이 | 2.9 × 1.45 mm (반경 1.45 mm의 원호) |
+| 끝 베벨 | 수직에서 30° (가로 0.837 mm) |
+
+| 확인 항목 | 값 |
+|---|---|
+| 개수 | 24 |
+| 도면 위치와 평균율 계산값의 최대 차이 | 0.0081 mm |
+| 도면 프렛선 길이와 지판 폭의 최대 차이 | 0.08 mm |
+| 12프렛 크라운 꼭대기 높이 | Z = 1.450 mm |
+| 프렛 길이 (1프렛 / 24프렛) | 43.98 / 55.74 mm |
+| 마지막 프렛 뒤 지판 여유 | 8.0 mm |
+| 메시 | 24개 모두 닫혀 있음 |
+
+남은 한계: 크라운만 있고 탱과 프렛 홈은 없다. 프렛 끝은 지판 가장자리에서 0.03 mm 안쪽에서 끝난다(끝면이 지판 옆면과 겹쳐 보이지 않게 하려는 처리). 재질은 단색 자리 표시다.
+
 ## 도면에 없는 정보
 
 평면도에는 두께 방향 정보가 없다. 아래는 별도 근거가 필요하다.
