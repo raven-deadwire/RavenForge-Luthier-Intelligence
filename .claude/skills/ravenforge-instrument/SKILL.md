@@ -159,4 +159,6 @@ illustrative·pending 목록과 사유
 | 프렛 계산 | `scripts/fret_math.py` | 지판 작업 시 |
 | 도면 임포트 (해시 확인, 축척 산출, 커브 생성) | `scripts/import_drawing.py` + `drawings/<model>.json` | 형상 작업 1단계 |
 | 바디 슬래브 생성 (윤곽 닫기, 두께 돌출) | `scripts/build_body.py` | 형상 작업 2단계 |
+| 모서리 라운드, 포어암 베벨, 터미 컷 (추정값) | `scripts/build_contours.py` | 형상 작업 3단계 |
+| 윗면·뒷면 깊이 지도 | `scripts/depth_map.py` | 컨투어를 만들거나 고친 뒤 확인용 |
 | 임포트 도구 자체 점검 | `scripts/test_import_drawing.py` | 임포트 스크립트를 고친 뒤 |
