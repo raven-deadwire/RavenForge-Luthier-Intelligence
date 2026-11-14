@@ -18,6 +18,7 @@
   "fret_fit_residual_max_mm": 0.008114835958156225,
   "nut_width_measured_mm": 43.08738213012625,
   "nut_width_error_mm": 0.08738213012625096,
+  "rear_centreline_y_pt": 1532.6536763509116,
   "contour_size_mm": {
     "Body": [
       459.04,
@@ -46,6 +47,10 @@
     "Jack": [
       54.87,
       66.0
+    ],
+    "RearBody": [
+      459.04,
+      319.48
     ]
   },
   "contour_join_gap_max_pt": {
@@ -55,9 +60,10 @@
     "PickupNeck": 0.0,
     "PickupBridge": 0.0,
     "Bridge": 0.0,
-    "Jack": 0.036
+    "Jack": 0.036,
+    "RearBody": 0.0409
   },
-  "objects_created": 52,
+  "objects_created": 54,
   "status": "imported",
   "source_note": "Run on the owner-supplied PDF (upload name carried a prefix). The PDF and the resulting .blend are not stored in this repository.",
   "open_contours": [

@@ -158,4 +158,5 @@ illustrative·pending 목록과 사유
 | 상태값과 표기 문구 | `references/approval-boundaries.md` | 속성 기록, 산출물 내보내기 전 |
 | 프렛 계산 | `scripts/fret_math.py` | 지판 작업 시 |
 | 도면 임포트 (해시 확인, 축척 산출, 커브 생성) | `scripts/import_drawing.py` + `drawings/<model>.json` | 형상 작업 1단계 |
+| 바디 슬래브 생성 (윤곽 닫기, 두께 돌출) | `scripts/build_body.py` | 형상 작업 2단계 |
 | 임포트 도구 자체 점검 | `scripts/test_import_drawing.py` | 임포트 스크립트를 고친 뒤 |

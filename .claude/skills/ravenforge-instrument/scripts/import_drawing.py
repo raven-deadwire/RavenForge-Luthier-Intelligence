@@ -164,6 +164,21 @@ def main(argv=None):
     def T(p):
         return (xs * (p[0] - x0) * f / 1000.0, ys * (p[1] - yc) * f / 1000.0, 0.0)
 
+    # The rear projection sits elsewhere on the sheet and is mirrored about the
+    # centreline. Map it into the same front-view coordinates.
+    rear = cfg.get("rear")
+    rear_yc = None
+    if rear:
+        def ybox(ids):
+            ys_ = [v for i in ids for r in [drawings[i]["rect"] * matrix] for v in (r.y0, r.y1)]
+            return min(ys_) + max(ys_)
+        front_ids = cfg["contours"][rear["match_front_contour"]]["ids"]
+        rear_yc = (ybox(rear["body_ids"]) + ybox(front_ids) - 2 * yc) / 2
+        rep["rear_centreline_y_pt"] = rear_yc
+
+    def TR(p):
+        return (xs * (p[0] - x0) * f / 1000.0, -ys * (p[1] - rear_yc) * f / 1000.0, 0.0)
+
     root = bpy.data.collections.new(f"RF_{model}")
     src = bpy.data.collections.new(f"RF_{model}_Source")
     scene.collection.children.link(root)
@@ -178,7 +193,7 @@ def main(argv=None):
         ob.hide_render = True
         src.objects.link(ob)
 
-    def curve_object(name, segs, cyclic):
+    def curve_object(name, segs, cyclic, T=T):
         cu = bpy.data.curves.new(name, "CURVE")
         cu.dimensions = "2D"
         cu.fill_mode = "NONE"
@@ -217,6 +232,21 @@ def main(argv=None):
         gaps[part] = round(gap, 4)
         bpy.context.view_layer.update()
         sizes[part] = [round(ob.dimensions.x * 1000, 2), round(ob.dimensions.y * 1000, 2)]
+
+    if rear:
+        note = "rear projection, mirrored into front-view coordinates"
+        segs, gap = order_contour(load_segments(drawings, matrix, rear["body_ids"]),
+                                  tuple(rear["body_start"]) if rear.get("body_start") else None)
+        ob = curve_object(f"RF_{model}_SRC_RearBody", segs, cyclic=True, T=TR)
+        tag(ob, rear["body_ids"], note)
+        gaps["RearBody"] = round(gap, 4)
+        bpy.context.view_layer.update()
+        sizes["RearBody"] = [round(ob.dimensions.x * 1000, 2), round(ob.dimensions.y * 1000, 2)]
+        for part, i in rear.get("lines", {}).items():
+            item = drawings[i]["items"][0]
+            ob = curve_object(f"RF_{model}_SRC_{part}",
+                              [("l", [tuple(p * matrix) for p in item[1:3]])], cyclic=False, T=TR)
+            tag(ob, [i], note + ". " + rear.get("line_notes", {}).get(part, ""))
 
     f0, n = cfg["frets"]["first"], cfg["frets"]["count"]
     for k in range(n):
