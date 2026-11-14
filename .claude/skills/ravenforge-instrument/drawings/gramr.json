@@ -3,24 +3,61 @@
   "source_name": "RavenForge_Superstrat_24F_ver3_STRICT_R12-Model(1).pdf",
   "sha256": "3edaab849e644ba2c1aa2e28abdbed9c92a246cb7a3ca5591da152d22c609b1d",
   "page": 0,
-  "note": "Front projection only. Path indices are those recorded by tools/extract_gramr_preview_geometry.py. The rear projection, the historical four-bolt plate and the neck joint are deliberately not imported.",
+  "note": "Front projection, plus the rear body outline and the transverse neck/body boundary line from the rear projection. The historical four-bolt plate and the neck joint are deliberately not imported.",
   "scale_mm": 648.0,
   "nut_width_mm": 43.0,
-  "orientation": {"nut_to_bridge": "+x", "treble": "-y"},
-  "frets": {"first": 72, "count": 24},
-  "nut_edge_pt": [[437.11, 526.49], [437.11, 618.44]],
+  "orientation": {
+    "nut_to_bridge": "+x",
+    "treble": "-y"
+  },
+  "frets": {
+    "first": 72,
+    "count": 24
+  },
+  "nut_edge_pt": [
+    [437.11, 526.49],
+    [437.11, 618.44]
+  ],
   "contours": {
-    "Body": {"ids": [1066,1067,1068,1069,1070,1071,1072,1073,1074,1075,1077,1078,1079,1080,1081,1082,1083,1084,1085,1086,1087,1088,1089], "start": [1275.49, 630.73]},
-    "Headstock": {"ids": [1096,1097,1098,1099,1100,1101,1102,1103], "start": [437.11, 526.45]},
-    "Pickguard": {"ids": [139]},
-    "PickupNeck": {"ids": [140]},
-    "PickupBridge": {"ids": [141]},
-    "Bridge": {"ids": [163]},
-    "Jack": {"ids": [1369,1370,1371,1372,1373,1374,1375]}
+    "Body": {
+      "ids": [1066, 1067, 1068, 1069, 1070, 1071, 1072, 1073, 1074, 1075, 1077, 1078, 1079, 1080, 1081, 1082, 1083, 1084, 1085, 1086, 1087, 1088, 1089],
+      "start": [1275.49, 630.73]
+    },
+    "Headstock": {
+      "ids": [1096, 1097, 1098, 1099, 1100, 1101, 1102, 1103],
+      "start": [437.11, 526.45]
+    },
+    "Pickguard": {
+      "ids": [139]
+    },
+    "PickupNeck": {
+      "ids": [140]
+    },
+    "PickupBridge": {
+      "ids": [141]
+    },
+    "Bridge": {
+      "ids": [163]
+    },
+    "Jack": {
+      "ids": [1369, 1370, 1371, 1372, 1373, 1374, 1375]
+    }
   },
   "centres": {
-    "Tuner": [1095,1094,1093,1092,1091,1090],
-    "Control": [218,1300],
-    "PickguardScrew": [146,147,148,149,150,151,152,153,154,155,156,157,158]
+    "Tuner": [1095, 1094, 1093, 1092, 1091, 1090],
+    "Control": [218, 1300],
+    "PickguardScrew": [146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158]
+  },
+  "body_thickness_mm": 45.0,
+  "rear": {
+    "match_front_contour": "Body",
+    "body_ids": [1941, 1942, 1943, 1944, 1945, 1946, 1947, 1948, 1949, 1950, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967],
+    "body_start": [1275.486, 1474.288],
+    "lines": {
+      "HeelBoundary": 5613
+    },
+    "line_notes": {
+      "HeelBoundary": "Projected boundary only. The machined heel shape, bolt positions and deep tenon are unapproved."
+    }
   }
 }

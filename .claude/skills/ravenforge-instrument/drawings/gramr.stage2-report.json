@@ -1,0 +1,60 @@
+{
+  "model": "GRAMR",
+  "stage": 2,
+  "thickness_mm": 45.0,
+  "chord_error_max_mm": 0.020030221856358235,
+  "closure": [
+    {
+      "from_mm": [
+        428.15,
+        27.5
+      ],
+      "to_mm": [
+        392.86,
+        26.98
+      ],
+      "length_mm": 35.29,
+      "origin": "straight edge added here; not a line in the drawing"
+    },
+    {
+      "from_mm": [
+        392.86,
+        26.98
+      ],
+      "to_mm": [
+        392.86,
+        -27.34
+      ],
+      "length_mm": 54.32,
+      "origin": "heel boundary line of the rear projection"
+    },
+    {
+      "from_mm": [
+        392.86,
+        -27.34
+      ],
+      "to_mm": [
+        392.86,
+        -27.35
+      ],
+      "length_mm": 0.01,
+      "origin": "gap between that line's end and the outline's start"
+    }
+  ],
+  "front_vs_rear_outline_max_mm": 0.015453475864233332,
+  "volume_cm3": 4658.2,
+  "top_area_cm2": 1035.2,
+  "manifold": true,
+  "verts": 7984,
+  "faces": 11855,
+  "size_mm": [
+    459.06,
+    319.48,
+    45.0
+  ],
+  "z_range_mm": [
+    -45.0,
+    0.0
+  ],
+  "status": "built"
+}
