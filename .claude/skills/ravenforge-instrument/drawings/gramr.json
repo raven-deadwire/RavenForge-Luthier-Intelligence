@@ -112,5 +112,57 @@
     "crown_width_mm": 2.9,
     "crown_height_mm": 1.45,
     "end_bevel_deg": 30.0
+  },
+  "selector_pt": [[1679.14, 383.12], [1725.49, 349.73]],
+  "pickguard_thickness_mm": 2.3,
+  "nut_width_spec_mm": 43.0,
+  "hardware_illustrative": {
+    "note": "Block-out shapes with generic sizes. Positions and plan outlines come from the drawing; heights, sections and small parts do not. No maker's geometry, logos or engraving.",
+    "nut": {
+      "top_above_board_centre_mm": 1.9
+    },
+    "pickup": {
+      "top_above_pickguard_mm": 5.0,
+      "depth_into_body_mm": 10.0
+    },
+    "bridge": {
+      "plate_gap_above_body_mm": 0.5,
+      "plate_thickness_mm": 3.0,
+      "saddle": {
+        "count": 6,
+        "pitch_mm": 10.8,
+        "width_mm": 9.6,
+        "length_mm": 20.0,
+        "height_mm": 9.0,
+        "centre_past_scale_mm": 2.0
+      }
+    },
+    "jack_plate_thickness_mm": 1.5,
+    "jack_hole_diameter_mm": 9.5,
+    "knob": {
+      "base_diameter_mm": 19.0,
+      "top_diameter_mm": 17.0,
+      "height_mm": 16.0
+    },
+    "selector": {
+      "slot_width_mm": 1.6,
+      "lever_diameter_mm": 6.0,
+      "lever_height_mm": 11.0
+    },
+    "screw": {
+      "head_diameter_mm": 6.0,
+      "head_height_mm": 0.9
+    },
+    "tuner": {
+      "washer_diameter_mm": 12.0,
+      "bushing_diameter_mm": 10.0,
+      "post_diameter_mm": 6.0,
+      "post_height_near_nut_mm": 10.0,
+      "post_height_far_mm": 8.0,
+      "housing_mm": [14.0, 19.0, 11.0],
+      "shaft_diameter_mm": 4.4,
+      "button_mm": [14.0, 20.0, 11.0],
+      "button_past_edge_mm": 13.0
+    }
   }
 }
