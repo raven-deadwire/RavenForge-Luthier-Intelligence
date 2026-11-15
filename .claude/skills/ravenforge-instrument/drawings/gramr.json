@@ -116,55 +116,6 @@
   "selector_pt": [[1679.14, 383.12], [1725.49, 349.73]],
   "pickguard_thickness_mm": 2.3,
   "nut_width_spec_mm": 43.0,
-  "hardware_illustrative": {
-    "note": "Block-out shapes with generic sizes. Positions and plan outlines come from the drawing; heights, sections and small parts do not. No maker's geometry, logos or engraving.",
-    "nut": {
-      "top_above_board_centre_mm": 1.9
-    },
-    "pickup": {
-      "top_above_pickguard_mm": 5.0,
-      "depth_into_body_mm": 10.0
-    },
-    "bridge": {
-      "plate_gap_above_body_mm": 0.5,
-      "plate_thickness_mm": 3.0,
-      "saddle": {
-        "count": 6,
-        "pitch_mm": 10.8,
-        "width_mm": 9.6,
-        "length_mm": 20.0,
-        "height_mm": 9.0,
-        "centre_past_scale_mm": 2.0
-      }
-    },
-    "jack_plate_thickness_mm": 1.5,
-    "jack_hole_diameter_mm": 9.5,
-    "knob": {
-      "base_diameter_mm": 19.0,
-      "top_diameter_mm": 17.0,
-      "height_mm": 16.0
-    },
-    "selector": {
-      "slot_width_mm": 1.6,
-      "lever_diameter_mm": 6.0,
-      "lever_height_mm": 11.0
-    },
-    "screw": {
-      "head_diameter_mm": 6.0,
-      "head_height_mm": 0.9
-    },
-    "tuner": {
-      "washer_diameter_mm": 12.0,
-      "bushing_diameter_mm": 10.0,
-      "post_diameter_mm": 6.0,
-      "post_height_near_nut_mm": 10.0,
-      "post_height_far_mm": 8.0,
-      "housing_mm": [14.0, 19.0, 11.0],
-      "shaft_diameter_mm": 4.4,
-      "button_mm": [14.0, 20.0, 11.0],
-      "button_past_edge_mm": 13.0
-    }
-  },
   "materials_illustrative": {
     "note": "Procedural look-dev materials. Colours are the configurator's own display colours, which the site calls illustrative and not a colour proof. Grain patterns, sheen and metal response are assumed. Nothing here certifies a species, a board or a finish.",
     "colour_sources": {
@@ -413,6 +364,91 @@
           "kind": "natural"
         }
       ]
+    }
+  },
+  "hardware": {
+    "note": "Functional shapes sized from published figures where found and standard or assumed values otherwise. Positions and plan outlines come from the drawing. No maker's logo, engraving or CAD file. The manufacturer's own dimension drawings could not be reached from the build environment, so nothing here is checked against them.",
+    "sources": {
+      "bridge": "Retailer listings for the Gotoh 510T-FE1: string pitch 10.8 mm (54 mm overall), stud pitch 56 mm, plate 83.5 x 40 mm, saddle 20 x 10 x 5.7 mm. Plate plan itself is from the drawing and measures 83.49 x 39.99 mm. Everything else assumed.",
+      "tuner": "Retailer listings for the Gotoh SG381 MG-T: 10 mm mounting hole, string hole 20 mm above the mounting base. One listing describes the posts as non-staggered while the concept spec says staggered; uniform posts are modelled. Housing, button and the locking mechanism are assumed or omitted.",
+      "pickup": "Plan outline from the drawing (37.8 x 69.6 mm). 78.4 mm height-screw spacing is the common humbucker standard, assumed. Pole type and pitch assumed.",
+      "other": "Knob, selector, jack and screw sizes are generic values, assumed."
+    },
+    "string_spread": {
+      "nut_e_to_e_mm": 35.0,
+      "note": "assumed; used only to place pickup poles under the strings"
+    },
+    "nut": {
+      "top_above_board_centre_mm": 1.9
+    },
+    "pickup": {
+      "top_above_pickguard_mm": 5.0,
+      "flange_thickness_mm": 1.2,
+      "bobbin_gap_mm": 0.6,
+      "mount_screw_spacing_mm": 78.4
+    },
+    "bridge": {
+      "plate_gap_above_body_mm": 3.9,
+      "plate_thickness_mm": 3.2,
+      "rear_wall_thickness_mm": 3.0,
+      "rear_wall_height_mm": 7.5,
+      "saddle": {
+        "count": 6,
+        "pitch_mm": 10.8,
+        "width_mm": 10.0,
+        "length_mm": 20.0,
+        "height_mm": 5.7,
+        "compensation_mm": [3.0, 2.2, 1.4, 2.6, 1.8, 1.0]
+      },
+      "stud": {
+        "pitch_mm": 56.0,
+        "diameter_mm": 8.0,
+        "height_mm": 9.6,
+        "centre_behind_front_edge_mm": 1.0
+      },
+      "arm": {
+        "socket_side": 1,
+        "socket_offset_mm": [6.0, 5.0],
+        "rise_mm": 14.0,
+        "heading_deg": 200.0,
+        "length_mm": 150.0,
+        "diameter_mm": 5.0,
+        "tip_length_mm": 22.0
+      }
+    },
+    "jack": {
+      "plate_thickness_mm": 1.5,
+      "rim_inner_scale": 0.78,
+      "bowl_depth_mm": 8.0,
+      "jack_tilt_deg": 30.0,
+      "screw_position": 0.89,
+      "pocket_depth_mm": 9.0
+    },
+    "knob": {
+      "diameter_mm": 19.0,
+      "height_mm": 16.0,
+      "knurl_depth_mm": 0.35
+    },
+    "selector": {
+      "slot_width_mm": 1.6,
+      "screw_spacing_mm": 41.3,
+      "lever_height_mm": 9.0,
+      "lever_position": 0.0
+    },
+    "screw": {
+      "head_diameter_mm": 6.0,
+      "head_height_mm": 1.0
+    },
+    "tuner": {
+      "washer_diameter_mm": 12.5,
+      "bushing_across_flats_mm": 10.0,
+      "post_diameter_mm": 6.0,
+      "string_hole_above_base_mm": 20.0,
+      "housing_mm": [14.6, 18.0, 10.5],
+      "housing_offset_mm": 2.0,
+      "shaft_diameter_mm": 4.5,
+      "button_mm": [18.0, 12.0, 8.0],
+      "button_centre_past_edge_mm": 14.0
     }
   }
 }

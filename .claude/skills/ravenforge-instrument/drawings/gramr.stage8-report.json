@@ -16,11 +16,11 @@
   "scale_measured_mm": 648.01,
   "scale_spec_mm": 648.0,
   "mesh_objects_by_status": {
-    "illustrative": 44,
+    "illustrative": 42,
     "spec": 1
   },
   "mesh_objects_missing_status_or_source": [],
-  "illustrative_objects": 44,
+  "illustrative_objects": 42,
   "pending_not_modelled": [
     "neck joint: pocket, bolt positions, deep tenon, sculpted heel",
     "strings, strap buttons, cavities, tremolo internals"
@@ -29,7 +29,7 @@
   "renders": {
     "Front_Ortho": {
       "file": "gramr_front_ortho.png",
-      "seconds": 65.6,
+      "seconds": 73.7,
       "size": [
         2400,
         900
@@ -37,7 +37,7 @@
     },
     "Rear_Ortho": {
       "file": "gramr_rear_ortho.png",
-      "seconds": 71.5,
+      "seconds": 73.1,
       "size": [
         2400,
         900
@@ -45,7 +45,7 @@
     },
     "ThreeQuarter": {
       "file": "gramr_threequarter.png",
-      "seconds": 64.9,
+      "seconds": 73.7,
       "size": [
         2000,
         1250
@@ -53,7 +53,7 @@
     },
     "Heel": {
       "file": "gramr_heel.png",
-      "seconds": 72.7,
+      "seconds": 76.9,
       "size": [
         1600,
         1000
@@ -61,7 +61,7 @@
     },
     "Headstock": {
       "file": "gramr_headstock.png",
-      "seconds": 39.8,
+      "seconds": 38.8,
       "size": [
         1600,
         1000

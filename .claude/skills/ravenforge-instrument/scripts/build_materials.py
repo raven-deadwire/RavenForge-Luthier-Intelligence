@@ -169,11 +169,13 @@ def main(argv=None):
                       "Single black. The white middle ply of the 3-ply guard is not shown.", coat=0.5)
     matte_m = make_plain("RF_MAT_BlackPlastic_Matte", lin(ac["black_plastic"]), 0.0, 0.5, "assumed", "Colour assumed.")
     dark_m = make_plain("RF_MAT_Dark", (0.004, 0.004, 0.004), 0.0, 0.8, "none", "Stand-in for openings.")
+    steel_m = make_plain("RF_MAT_Steel", lin(ac.get("steel", "#b9b9b4")), 1.0, 0.28, "assumed", "Colour and polish assumed.")
 
     swap = {"RF_MAT_Placeholder_Maple": maple_m, "RF_MAT_Placeholder_Wenge": wenge_m,
             "RF_MAT_Placeholder_Purpleheart": purple_m, "RF_MAT_Placeholder_Rosewood": rose_m,
             "RF_MAT_Placeholder_NickelSilver": fret_m, "RF_MAT_Placeholder_Gold": gold_m,
-            "RF_MAT_Placeholder_Bone": bone_m, "RF_MAT_Placeholder_Dark": dark_m}
+            "RF_MAT_Placeholder_Bone": bone_m, "RF_MAT_Placeholder_Dark": dark_m,
+            "RF_MAT_Placeholder_Steel": steel_m}
     pick = {f"RF_{model}_Pickguard": pg_m}
     body = o[f"RF_{model}_Body"]
     body.data.materials.clear(); body.data.materials.append(body_m)

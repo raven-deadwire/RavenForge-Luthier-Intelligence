@@ -2,7 +2,7 @@
   "model": "GRAMR",
   "stage": "glb",
   "split_check_body": {
-    "texels_compared": 18748,
+    "texels_compared": 18853,
     "linear_colour_difference": {
       "median": 0.0,
       "mean": 0.0,
@@ -17,7 +17,7 @@
       "materials": [
         "RF_MAT_SwampAsh_InfernoRedGrainFilledGloss"
       ],
-      "red_mean": 0.421
+      "red_mean": 0.424
     },
     "Neck": {
       "size_px": 2048,
@@ -287,12 +287,12 @@
     }
   },
   "file": {
-    "bytes": 2115992,
-    "nodes": 45,
-    "meshes": 45,
-    "materials": 51,
+    "bytes": 2565324,
+    "nodes": 43,
+    "meshes": 43,
+    "materials": 52,
     "images": 3,
-    "triangles": 67226,
+    "triangles": 81962,
     "extensions_used": [
       "KHR_materials_clearcoat",
       "KHR_materials_variants"
@@ -300,8 +300,8 @@
     "cameras": 0,
     "source_curves_included": 0,
     "studio_objects_included": 0,
-    "nodes_with_rf_status": 45,
-    "materials_with_colour_source": 51,
+    "nodes_with_rf_status": 43,
+    "materials_with_colour_source": 52,
     "variant_names": [
       "Inferno red",
       "Burgundy",
@@ -328,7 +328,7 @@
     ],
     "bbox_gltf_axes_mm": {
       "x": 961.16,
-      "y_up": 64.1,
+      "y_up": 75.35,
       "z": 319.48
     },
     "materials_with_base_colour_texture": [
@@ -427,8 +427,8 @@
     ]
   },
   "round_trip": {
-    "objects_exported": 45,
-    "objects_found_after_import": 45,
+    "objects_exported": 43,
+    "objects_found_after_import": 43,
     "missing": [],
     "largest_size_difference_mm": 0.0005,
     "objects_whose_rf_status_changed": [],

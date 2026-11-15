@@ -95,7 +95,7 @@ python scripts/run_pipeline.py --config drawings/gramr.json --pdf SOURCE.pdf --w
 다루는 원칙:
 
 - **프렛**: 도면의 프렛선 위치를 쓰고 `scripts/fret_math.py` 계산값과 비교한다. 눈대중 배치 금지. 팬프렛(ASKR)은 수직 프렛 번호와 현 간격을 도면에서 읽는다. 모르면 만들지 말고 묻는다.
-- **하드웨어**: 단순 블록아웃만 만든다. 제조사 형상·로고·각인·3D 파일은 쓰지 않는다.
+- **하드웨어**: 기능이 읽히는 실제 형태로 만든다(새들, 스터드, 보빈과 폴피스, 부싱과 하우징 등). 치수는 공개된 수치를 쓰고 출처를 설정의 `hardware.sources`에 적는다. 구하지 못한 치수는 가정으로 표시한다. 제조사의 로고·각인·3D 파일은 쓰지 않고, 제조사 도면 파일을 저장소에 넣지 않는다.
 - **조인트·내부**: 넥 포켓, 볼트 좌표, 테넌, 캐비티처럼 감사 문서에 "미승인"으로 남은 것은 모델링하지 않고 보고서의 미제작 목록에 적는다.
 - **닫는 변**: 도면에 없는 선으로 윤곽을 닫았으면 그 변을 보고서와 `rf_note`에 적는다.
 
@@ -185,7 +185,8 @@ python scripts/run_pipeline.py --config drawings/gramr.json --pdf SOURCE.pdf --w
 | `scripts/build_contours.py` | 3단계: 모서리 라운드, 포어암 베벨, 터미 컷 |
 | `scripts/build_neck.py` | 4단계: 지판, 넥, 헤드스톡, 적층 |
 | `scripts/build_frets.py` | 5단계: 프렛 |
-| `scripts/build_hardware.py` | 6단계: 하드웨어 블록아웃 |
+| `scripts/build_hardware.py` | 6단계: 하드웨어 배치와 조립 |
+| `scripts/hardware_parts.py` | 하드웨어 부품의 형상 라이브러리 (트레몰로, 튜너, 험버커, 노브, 셀렉터, 잭, 나사) |
 | `scripts/build_materials.py` | 7단계: 절차적 재질 |
 | `scripts/build_render.py` | 8단계: 조명, 카메라, 렌더, 캡션, 최종 점검 |
 | `scripts/export_glb.py` | GLB 내보내기: 나뭇결 베이크, 마감 변형, 상태·출처를 extras로, 파일 점검과 재임포트 비교 |

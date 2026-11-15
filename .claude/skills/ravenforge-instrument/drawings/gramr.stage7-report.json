@@ -39,24 +39,27 @@
     },
     "RF_MAT_Dark": {
       "colour_source": "none"
+    },
+    "RF_MAT_Steel": {
+      "colour_source": "assumed"
     }
   },
   "objects_per_material": {
     "RF_MAT_SwampAsh_InfernoRedGrainFilledGloss": 1,
-    "RF_MAT_Gold": 11,
+    "RF_MAT_Gold": 14,
+    "RF_MAT_BlackPlastic_Matte": 4,
+    "RF_MAT_Dark": 14,
     "RF_MAT_NickelSilver": 24,
     "RF_MAT_IndianRosewood_Natural": 1,
-    "RF_MAT_Dark": 2,
     "RF_MAT_HardMaple_InfernoRed": 1,
     "RF_MAT_Wenge_InfernoRed": 1,
     "RF_MAT_Purpleheart_InfernoRed": 1,
     "RF_MAT_Bone": 1,
     "RF_MAT_BlackPlastic_Gloss": 1,
-    "RF_MAT_BlackPlastic_Matte": 3
+    "RF_MAT_Steel": 3
   },
   "objects_without_material": [],
   "placeholders_left": [],
   "image_textures_used": 0,
-  "preview_view_transform": "Khronos PBR Neutral",
   "status": "built"
 }

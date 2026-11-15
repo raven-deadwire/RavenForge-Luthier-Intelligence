@@ -30,7 +30,7 @@ python scripts/run_pipeline.py --config drawings/gramr.json --pdf SOURCE.pdf --w
 | 3 컨투어 | `build_contours.py` | 없음 | 모서리 반경, 포어암 베벨, 터미 컷 (`contours_illustrative`) |
 | 4 넥·지판 | `build_neck.py` | 지판 평면, 지판 반경, 헤드 윤곽, 적층 순서 | 모든 높이와 두께, 뒷면 프로파일, 헤드 단차, 적층 폭 (`neck_illustrative`) |
 | 5 프렛 | `build_frets.py` | 위치, 곡률, 길이 | 와이어 단면, 끝 베벨 (`fret_illustrative`) |
-| 6 하드웨어 | `build_hardware.py` | 위치, 평면 외곽, 픽가드 두께, 너트 폭 | 높이, 단면, 작은 부품 전부 (`hardware_illustrative`) |
+| 6 하드웨어 | `build_hardware.py`, `hardware_parts.py` | 위치, 평면 외곽, 픽가드 두께, 너트 폭. 공개 치수: 브리지의 현 간격·스터드 간격·새들 크기, 튜너의 구멍 지름·줄 구멍 높이 | 그 밖의 높이, 단면, 세부 형태 (`hardware`) |
 | 7 머티리얼 | `build_materials.py` | 색 (컨피규레이터 표시색) | 나뭇결, 광택, 금속 반응 (`materials_illustrative`) |
 | 8 렌더 | `build_render.py` | 해당 없음 | 조명, 카메라, 캡션 (`studio`) |
 
@@ -44,7 +44,7 @@ python scripts/run_pipeline.py --config drawings/gramr.json --pdf SOURCE.pdf --w
 
 **5 프렛.** 도면 프렛선의 위치를 쓰고, `fret_math.py`의 계산값과 비교한 최대 차이를 보고한다. 프렛 끝은 지판 가장자리에서 0.03 mm 안쪽에서 끝낸다.
 
-**6 하드웨어.** 블록아웃이다. 제조사 형상, 로고, 각인은 넣지 않는다. 보고서의 포함 검사(나사·노브·픽업 중심이 픽가드 안에 있는가, 스케일 선이 브리지 외곽 안에 있는가)는 도면 요소끼리 서로 맞는지를 보는 것이다.
+**6 하드웨어.** 부품을 기능이 읽히는 형태로 만든다. 형상은 `hardware_parts.py`의 함수가 치수를 받아 만들고, 치수와 출처는 설정의 `hardware`에 있다. 로고와 각인은 넣지 않는다. 오목한 잭 플레이트 아래에는 바디에 가정 깊이의 포켓을 판다(이 단계가 바디를 바꾸는 유일한 경우다). 튜너 하우징이 헤드 가장자리 밖으로 나가는지, 새들이 플레이트 안에 있는지도 보고서에 나온다. 보고서의 포함 검사(나사·노브·픽업 중심이 픽가드 안에 있는가, 스케일 선이 브리지 외곽 안에 있는가)는 도면 요소끼리 서로 맞는지를 보는 것이다.
 
 **7 머티리얼.** 이미지 텍스처 없이 절차적 무늬만 쓴다. 재질마다 `rf_colour_source`가 들어간다. 재질 없는 오브젝트와 남은 자리 표시 재질이 0인지 본다.
 
