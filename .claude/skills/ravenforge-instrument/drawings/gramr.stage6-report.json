@@ -1,0 +1,274 @@
+{
+  "model": "GRAMR",
+  "stage": 6,
+  "parameters": {
+    "note": "Block-out shapes with generic sizes. Positions and plan outlines come from the drawing; heights, sections and small parts do not. No maker's geometry, logos or engraving.",
+    "nut": {
+      "top_above_board_centre_mm": 1.9
+    },
+    "pickup": {
+      "top_above_pickguard_mm": 5.0,
+      "depth_into_body_mm": 10.0
+    },
+    "bridge": {
+      "plate_gap_above_body_mm": 0.5,
+      "plate_thickness_mm": 3.0,
+      "saddle": {
+        "count": 6,
+        "pitch_mm": 10.8,
+        "width_mm": 9.6,
+        "length_mm": 20.0,
+        "height_mm": 9.0,
+        "centre_past_scale_mm": 2.0
+      }
+    },
+    "jack_plate_thickness_mm": 1.5,
+    "jack_hole_diameter_mm": 9.5,
+    "knob": {
+      "base_diameter_mm": 19.0,
+      "top_diameter_mm": 17.0,
+      "height_mm": 16.0
+    },
+    "selector": {
+      "slot_width_mm": 1.6,
+      "lever_diameter_mm": 6.0,
+      "lever_height_mm": 11.0
+    },
+    "screw": {
+      "head_diameter_mm": 6.0,
+      "head_height_mm": 0.9
+    },
+    "tuner": {
+      "washer_diameter_mm": 12.0,
+      "bushing_diameter_mm": 10.0,
+      "post_diameter_mm": 6.0,
+      "post_height_near_nut_mm": 10.0,
+      "post_height_far_mm": 8.0,
+      "housing_mm": [
+        14.0,
+        19.0,
+        11.0
+      ],
+      "shaft_diameter_mm": 4.4,
+      "button_mm": [
+        14.0,
+        20.0,
+        11.0
+      ],
+      "button_past_edge_mm": 13.0
+    }
+  },
+  "objects": {
+    "RF_GRAMR_Pickguard": {
+      "status": "spec",
+      "size_mm": [
+        282.84,
+        221.92,
+        2.3
+      ]
+    },
+    "RF_GRAMR_Nut": {
+      "status": "illustrative",
+      "size_mm": [
+        3.5,
+        43.0,
+        7.9
+      ]
+    },
+    "RF_GRAMR_PickupNeck": {
+      "status": "illustrative",
+      "size_mm": [
+        37.8,
+        69.6,
+        17.3
+      ],
+      "centre_inside_pickguard": true
+    },
+    "RF_GRAMR_PickupBridge": {
+      "status": "illustrative",
+      "size_mm": [
+        38.2,
+        70.01,
+        17.3
+      ],
+      "centre_inside_pickguard": true
+    },
+    "RF_GRAMR_Bridge": {
+      "status": "illustrative",
+      "size_mm": [
+        39.99,
+        83.49,
+        12.0
+      ]
+    },
+    "RF_GRAMR_JackPlate": {
+      "status": "illustrative",
+      "size_mm": [
+        54.88,
+        66.01,
+        1.5
+      ],
+      "centre_inside_pickguard": false
+    },
+    "RF_GRAMR_JackHole": {
+      "status": "illustrative",
+      "size_mm": [
+        9.5,
+        9.5,
+        1.6
+      ]
+    },
+    "RF_GRAMR_Knob_01": {
+      "status": "illustrative",
+      "size_mm": [
+        19.0,
+        19.0,
+        16.0
+      ],
+      "centre_inside_pickguard": true
+    },
+    "RF_GRAMR_Knob_02": {
+      "status": "illustrative",
+      "size_mm": [
+        19.0,
+        19.0,
+        16.0
+      ],
+      "centre_inside_pickguard": true
+    },
+    "RF_GRAMR_SelectorSlot": {
+      "status": "illustrative",
+      "size_mm": [
+        22.65,
+        16.94,
+        0.1
+      ]
+    },
+    "RF_GRAMR_SelectorLever": {
+      "status": "illustrative",
+      "size_mm": [
+        6.0,
+        6.0,
+        11.0
+      ]
+    },
+    "RF_GRAMR_PickguardScrews": {
+      "status": "illustrative",
+      "size_mm": [
+        267.9,
+        214.76,
+        0.9
+      ]
+    },
+    "RF_GRAMR_Tuner_01": {
+      "status": "illustrative",
+      "size_mm": [
+        25.91,
+        40.42,
+        35.5
+      ]
+    },
+    "RF_GRAMR_Tuner_02": {
+      "status": "illustrative",
+      "size_mm": [
+        25.92,
+        40.46,
+        35.5
+      ]
+    },
+    "RF_GRAMR_Tuner_03": {
+      "status": "illustrative",
+      "size_mm": [
+        25.75,
+        39.89,
+        35.5
+      ]
+    },
+    "RF_GRAMR_Tuner_04": {
+      "status": "illustrative",
+      "size_mm": [
+        25.88,
+        40.32,
+        33.5
+      ]
+    },
+    "RF_GRAMR_Tuner_05": {
+      "status": "illustrative",
+      "size_mm": [
+        25.87,
+        40.29,
+        33.5
+      ]
+    },
+    "RF_GRAMR_Tuner_06": {
+      "status": "illustrative",
+      "size_mm": [
+        25.85,
+        40.21,
+        33.5
+      ]
+    }
+  },
+  "pickguard_sits_on_flat_top": {
+    "body_top_under_outline_min_mm": -9.5,
+    "max_mm": -9.5,
+    "flat": true
+  },
+  "bridge": {
+    "outline_x_range_mm": [
+      637.57,
+      677.56
+    ],
+    "scale_line_x_mm": 648.0,
+    "scale_line_inside_outline": true,
+    "saddle_top_z_mm": 3.0
+  },
+  "selector": {
+    "slot_length_mm": 26.77,
+    "slot_centre_inside_pickguard": true
+  },
+  "pickguard_screws": {
+    "count": 13,
+    "centres_inside_pickguard": 13
+  },
+  "tuners": {
+    "count": 6,
+    "row_direction": [
+      0.9569,
+      -0.2903
+    ],
+    "buttons_point_toward": "bass side",
+    "centre_to_headstock_edge_mm": [
+      12.49,
+      12.53,
+      11.93,
+      12.38,
+      12.35,
+      12.27
+    ],
+    "pitch_mm": [
+      24.13,
+      24.06,
+      24.44,
+      24.25,
+      24.18
+    ],
+    "post_top_z_mm": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -3.0,
+      -3.0,
+      -3.0
+    ]
+  },
+  "not_made": [
+    "strings",
+    "strap buttons",
+    "neck joint bolts (pending)",
+    "tremolo arm, studs, springs, block",
+    "cavities and holes"
+  ],
+  "object_count": 18,
+  "status": "built"
+}

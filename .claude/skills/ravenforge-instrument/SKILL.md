@@ -162,5 +162,6 @@ illustrative·pending 목록과 사유
 | 모서리 라운드, 포어암 베벨, 터미 컷 (추정값) | `scripts/build_contours.py` | 형상 작업 3단계 |
 | 지판, 넥, 헤드스톡 (높이·두께는 추정값) | `scripts/build_neck.py` | 형상 작업 4단계 |
 | 프렛 (위치는 도면, 단면은 추정값) | `scripts/build_frets.py` | 형상 작업 5단계 |
+| 픽가드, 너트, 픽업, 브리지, 잭, 컨트롤, 나사, 튜너 (블록아웃) | `scripts/build_hardware.py` | 형상 작업 6단계 |
 | 윗면·뒷면 깊이 지도 | `scripts/depth_map.py` | 컨투어를 만들거나 고친 뒤 확인용 |
 | 임포트 도구 자체 점검 | `scripts/test_import_drawing.py` | 임포트 스크립트를 고친 뒤 |

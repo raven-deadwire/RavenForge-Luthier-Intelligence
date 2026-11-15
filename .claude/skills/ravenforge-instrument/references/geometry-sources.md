@@ -183,6 +183,38 @@ python scripts/build_frets.py --config drawings/gramr.json --blend gramr_stage4.
 
 남은 한계: 크라운만 있고 탱과 프렛 홈은 없다. 프렛 끝은 지판 가장자리에서 0.03 mm 안쪽에서 끝난다(끝면이 지판 옆면과 겹쳐 보이지 않게 하려는 처리). 재질은 단색 자리 표시다.
 
+### GRAMR 6단계 실행 기록
+
+2026-11-14. `scripts/build_hardware.py`로 하드웨어 18개 오브젝트를 만들었다. 위치와 평면 외곽은 도면에서, 픽가드 두께와 너트 폭은 사양에서 왔다. **높이, 단면, 작은 부품은 전부 일반적인 크기의 블록아웃이다.** 제조사 형상·로고·각인은 쓰지 않았다. 값은 `drawings/gramr.json`의 `hardware_illustrative`에 있다. 수치 전체는 `drawings/gramr.stage6-report.json`.
+
+```bash
+python scripts/build_hardware.py --config drawings/gramr.json --blend gramr_stage5.blend --stage1-report gramr_stage1.json --out gramr_stage6.blend --report gramr_stage6.json --preview-dir previews
+```
+
+| 오브젝트 | 도면·사양에서 온 것 | 가정한 것 | 상태 |
+|---|---|---|---|
+| 픽가드 | 윤곽(도면), 두께 2.3 mm(사양) | 없음. 3플라이·모서리 베벨·구멍은 생략 | `spec` |
+| 너트 | 폭 43.0 mm(사양) | 높이(지판 중앙 위 1.9 mm), 두께 3.5 mm, 줄 홈 없음 | `illustrative` |
+| 픽업 2개 | 평면 외곽 | 높이(픽가드 위 5 mm). 보빈·폴피스 없는 블록 | `illustrative` |
+| 브리지 | 베이스 플레이트 평면 | 플레이트 두께 3 mm, 바디 위 0.5 mm, 새들 6개(피치 10.8 mm, 높이 9 mm) | `illustrative` |
+| 잭 플레이트 | 평면 외곽 | 두께 1.5 mm의 평판, 구멍 위치·크기 | `illustrative` |
+| 노브 2개 | 중심 위치 | 지름 19 mm, 높이 16 mm, 골드 마감 | `illustrative` |
+| 셀렉터 | 슬롯 선 | 슬롯 폭, 레버 형상과 위치 | `illustrative` |
+| 픽가드 나사 13개 | 중심 위치 | 머리 지름 6 mm, 골드 마감 | `illustrative` |
+| 튜너 6개 | 포스트 보어 중심 | 와셔, 부싱, 포스트 높이(너트 쪽 3개 10 mm, 먼 쪽 3개 8 mm), 하우징, 축, 버튼 | `illustrative` |
+
+| 확인 항목 | 값 |
+|---|---|
+| 픽가드 아래 바디 윗면 | 전 구간 Z = −9.5 mm (컨투어와 겹치지 않음) |
+| 픽가드 나사 중 픽가드 안에 있는 것 | 13 / 13 |
+| 노브·셀렉터·픽업 중심이 픽가드 안에 있는가 | 모두 예 |
+| 잭 플레이트 중심이 픽가드 안에 있는가 | 아니오 (픽가드 밖 바디 위, 도면대로) |
+| 브리지 외곽의 X 범위 | 637.57 ~ 677.56 mm. 스케일 선 648 mm가 이 안에 있음 |
+| 튜너 간격 | 24.06 ~ 24.44 mm |
+| 튜너 중심에서 헤드스톡 가장자리까지 | 11.93 ~ 12.53 mm, 버튼은 저음 쪽 가장자리로 향함 |
+
+만들지 않은 것: 현, 스트랩 버튼, 조인트 볼트(`pending`), 트레몰로 암·스터드·스프링·블록, 캐비티와 구멍. 바디에 들어가는 부품은 바디와 겹쳐 있다.
+
 ## 도면에 없는 정보
 
 평면도에는 두께 방향 정보가 없다. 아래는 별도 근거가 필요하다.
