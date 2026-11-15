@@ -1,8 +1,10 @@
 // Validate a GLB and load it in a headless browser with three.js.
 //   npm install            (once, in this directory; Playwright with Chromium must also be available)
 //   node check.cjs MODEL.glb OUT_DIR
-// Writes OUT_DIR/web_check.json and OUT_DIR/web_<view>.png for four views. Look at the screenshots:
-// a file can validate cleanly and still look wrong.
+// Writes OUT_DIR/web_check.json and OUT_DIR/web_<view>.png for four views. If the file carries finish
+// variants (KHR_materials_variants) it also switches through each one, in three.js and again in
+// Google's <model-viewer>, and writes web_variant_*.png, web_variants_sheet.png and web_mv_*.png.
+// Look at the screenshots: a file can validate cleanly and still look wrong.
 const fs = require('fs'), path = require('path'), http = require('http');
 const validator = require('gltf-validator');
 const { chromium } = require('playwright');
@@ -37,6 +39,53 @@ const types = {'.html': 'text/html', '.js': 'text/javascript', '.glb': 'model/gl
     await page.waitForFunction('window.result !== undefined', null, {timeout: 120000});
     if (view === 'three') report.browser = await page.evaluate('window.result');
     await page.screenshot({path: path.join(outDir, `web_${view}.png`)});
+  }
+  // --- finish variants
+  const names = report.browser.variants || [];
+  if (names.length) {
+    const slug = n => n.toLowerCase().replace(/[^a-z0-9]+/g, '_');
+    const shots = [], pixels = {};
+    const base = await page.goto(`http://127.0.0.1:${srv.address().port}/viewer.html?view=three`).then(async () => {
+      await page.waitForFunction('window.result !== undefined', null, {timeout: 120000});
+      return {res: await page.evaluate('window.result'), png: await page.screenshot()};
+    });
+    let sameAsDefault = null;
+    for (const [i, n] of names.entries()) {
+      await page.goto(`http://127.0.0.1:${srv.address().port}/viewer.html?view=three&variant=${encodeURIComponent(n)}`);
+      await page.waitForFunction('window.result !== undefined', null, {timeout: 120000});
+      const res = await page.evaluate('window.result');
+      const file = path.join(outDir, `web_variant_${String(i + 1).padStart(2, '0')}_${slug(n)}.png`);
+      await page.screenshot({path: file});
+      shots.push({name: n, file}); pixels[n] = res.bodyPixel;
+      // Compare the sampled colour, not the PNG bytes: software rendering is not bit-stable between loads.
+      if (n === base.res.defaultFinish) sameAsDefault = res.bodyPixel.join(',') === base.res.bodyPixel.join(',');
+      if (i === 0) report.variant_meshes_swapped = res.swapped;
+    }
+    report.variants = {names, default: base.res.defaultFinish, default_body_pixel: base.res.bodyPixel,
+      body_pixel_by_variant: pixels,
+      distinct_body_colours: new Set(Object.values(pixels).map(p => p.join(','))).size,
+      default_body_colour_equals_its_named_variant: sameAsDefault};
+    // contact sheet
+    const cols = 4, w = 500, h = 300, rows = Math.ceil(shots.length / cols);
+    const cells = shots.map(s => `<figure><img src="data:image/png;base64,${fs.readFileSync(s.file).toString('base64')}"><figcaption>${s.name}</figcaption></figure>`).join('');
+    await page.setViewportSize({width: cols * w, height: rows * (h + 34)});
+    await page.setContent(`<style>body{margin:0;background:#111;display:grid;grid-template-columns:repeat(${cols},${w}px)}figure{margin:0;overflow:hidden;height:${h + 34}px}img{width:${w * 1.9}px;margin:-${h * 0.42}px 0 -${h * 0.5}px -${w * 0.45}px;display:block}figcaption{font:16px sans-serif;color:#ddd;padding:6px 10px;position:relative;background:#111}</style>${cells}`);
+    await page.screenshot({path: path.join(outDir, 'web_variants_sheet.png')});
+    await page.setViewportSize({width: 1500, height: 900});
+    // second implementation: <model-viewer>
+    try {
+      const mv = {};
+      for (const n of [names[0], names[Math.min(2, names.length - 1)], names[names.length - 1]]) {
+        await page.goto(`http://127.0.0.1:${srv.address().port}/model_viewer.html?variant=${encodeURIComponent(n)}`);
+        await page.waitForFunction('window.result !== undefined', null, {timeout: 180000});
+        const res = await page.evaluate('window.result');
+        mv.availableVariants = res.availableVariants; mv.loaded = res.loaded;
+        (mv.selected = mv.selected || []).push({asked: n, got: res.variantName});
+        await page.screenshot({path: path.join(outDir, `web_mv_${slug(n)}.png`)});
+      }
+      mv.lists_same_variants = JSON.stringify(mv.availableVariants) === JSON.stringify(names);
+      report.model_viewer = mv;
+    } catch (e) { report.model_viewer = {loaded: false, error: String(e).slice(0, 300)}; }
   }
   report.browser_console_errors = errors;
   await browser.close(); srv.close();

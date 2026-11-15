@@ -1,0 +1,16 @@
+<!doctype html>
+<!-- Second, independent check: Google's <model-viewer> element reads the same file and switches finishes itself. -->
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#1b1b1b}model-viewer{width:100vw;height:100vh;background:#1b1b1b}</style>
+<script type="module" src="./node_modules/@google/model-viewer/dist/model-viewer.min.js"></script></head>
+<body><model-viewer id="mv" src="model.glb" camera-orbit="35deg 50deg 2.4m" field-of-view="24deg" exposure="1" interaction-prompt="none"></model-viewer>
+<script type="module">
+const mv = document.getElementById('mv');
+mv.addEventListener('error', e => { window.result = {loaded: false, error: String(e.detail && e.detail.type)}; });
+mv.addEventListener('load', async () => {
+  const variant = new URLSearchParams(location.search).get('variant');
+  const available = mv.availableVariants.slice();
+  if (variant !== null) { mv.variantName = variant; await mv.updateComplete; }
+  await new Promise(r => setTimeout(r, 1500));
+  window.result = {loaded: true, availableVariants: available, variantName: mv.variantName};
+});
+</script></body></html>

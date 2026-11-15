@@ -33,6 +33,8 @@
 
 렌더 이미지에는 캡션으로 넣는다. `build_render.py`가 뷰마다 세 언어 문구를 붙인 `_captioned` 사본을 만든다. GLB에는 `asset.extras`의 `notice_ko` / `notice_en` / `notice_de`로 넣는다. `export_glb.py`가 넣고, 각 노드의 `extras.rf_status`와 재질의 `extras.rf_colour_source`도 함께 나간다. 웹 뷰어가 이 문구를 화면에 보여 주는 것은 뷰어 쪽에서 해야 한다.
 
+GLB에 든 마감 변형은 **컨피규레이터의 선택지이지 그 모델의 사양이 아니다.** 사양인 마감 하나만 기본 재질로 두고(`asset.extras.default_finish`), 나머지 변형 재질에는 "사양 마감이 아님, 색 견본이 아님"을 `extras.rf_note`에 적는다. 변형을 보여 주는 화면에서도 어느 것이 그 모델의 사양인지 구분해 표시한다.
+
 | 산출물 | ko | en | de |
 |---|---|---|---|
 | 컨셉·제품 렌더 | 컨셉 시각화입니다. 제작 전 CAD 검증과 하드웨어 실측에 따라 세부 사양이 달라질 수 있습니다. | Concept visualization. Details remain subject to CAD validation and measured hardware clearances before construction. | Konzeptvisualisierung. Details können sich nach CAD-Prüfung und Hardwarevermessung vor dem Bau ändern. |

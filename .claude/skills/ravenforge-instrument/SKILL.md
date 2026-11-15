@@ -136,6 +136,7 @@ python scripts/run_pipeline.py --config drawings/gramr.json --pdf SOURCE.pdf --w
 - [ ] 산출물에 표기 문구 포함 (`_captioned` 사본)
 - [ ] `run_pipeline.py --compare`로 기록과 일치하거나, 달라진 이유를 설명할 수 있음
 - [ ] GLB를 내보냈다면: 검증기 오류 0, 재임포트 치수 일치, 원본 커브·카메라·조명 미포함, 브라우저 스크린샷 확인
+- [ ] 마감 변형을 넣었다면: 분리 검증 통과, 두 뷰어가 같은 목록을 읽고 전환, 변형 모음 스크린샷 확인
 
 ## 보고 형식
 
@@ -186,8 +187,8 @@ python scripts/run_pipeline.py --config drawings/gramr.json --pdf SOURCE.pdf --w
 | `scripts/build_hardware.py` | 6단계: 하드웨어 블록아웃 |
 | `scripts/build_materials.py` | 7단계: 절차적 재질 |
 | `scripts/build_render.py` | 8단계: 조명, 카메라, 렌더, 캡션, 최종 점검 |
-| `scripts/export_glb.py` | GLB 내보내기: 나뭇결 베이크, 상태·출처를 extras로, 파일 점검과 재임포트 비교 |
-| `scripts/web_check/check.cjs` | GLB를 Khronos 검증기와 브라우저(three.js)로 점검, 스크린샷 |
+| `scripts/export_glb.py` | GLB 내보내기: 나뭇결 베이크, 마감 변형, 상태·출처를 extras로, 파일 점검과 재임포트 비교 |
+| `scripts/web_check/check.cjs` | GLB를 Khronos 검증기와 브라우저(three.js, model-viewer)로 점검, 마감 전환, 스크린샷 |
 | `scripts/depth_map.py` | 윗면·뒷면 깊이 지도 (컨투어 확인용) |
 | `scripts/fret_math.py` | 평균율 프렛 위치 계산 |
 | `scripts/test_import_drawing.py` | 합성 도면으로 임포터 점검 |

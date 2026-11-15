@@ -9,13 +9,19 @@ The source curves (the drawing itself), cameras and lights are left out. glTF
 cannot carry Blender's procedural node materials, so the wood colour is baked to
 image textures first; metals and plastics export as plain values. Object and
 material custom properties (rf_status, rf_source, ...) go out as glTF extras, and
-the concept-visualization notice is written to asset.extras. The input .blend
+the concept-visualization notice is written to asset.extras.
+
+Finish variants: a stained wood's colour is (stain colour) x (grain lightness), so the
+grain is baked once as a neutral texture and each finish is only a different
+baseColorFactor. The finishes listed under glb.finish_variants in the config are written
+as KHR_materials_variants, with the spec finish as the default material. The input .blend
 is not modified. After export the file is parsed and re-imported to check it.
 """
 import argparse, json, struct, tempfile
 from pathlib import Path
 import bpy
 from mathutils import Vector
+from build_materials import lin, lum
 
 MM = 0.001
 
@@ -63,6 +69,42 @@ def main(argv=None):
     sc.render.engine = "CYCLES"; sc.cycles.device = "CPU"; sc.cycles.samples = 4
     sc.render.bake.margin = g["bake_margin_px"]
     tmp = Path(tempfile.mkdtemp(prefix="rf_bake_"))
+
+    # Stained woods: colour = stain x k x grain, where grain = mix(dark_ratio, 1, pattern) x slow variation.
+    # Bake only `grain` (scaled by 1/HEAD so the variation's >1 peaks survive) and carry stain x k x HEAD
+    # as the material's baseColorFactor. Switching finish then changes the factor, not the texture.
+    HEAD = 1.06
+    mpar, src = cfg["materials_illustrative"], cfg["materials_illustrative"]["colour_sources"]
+    fv = g["finish_variants"]
+    stained = {}                       # material name -> key, lightness k, wood colour, dark ratio
+    for m in bpy.data.materials:
+        key = m.name.split("_")[2] if m.name.startswith("RF_MAT_") and m.name.count("_") >= 3 else None
+        p = mpar["wood"].get(key)
+        if not p or not p["stained"]:
+            continue
+        ref = "ash" if p["colour"] == "ash" else "maple"
+        wood = lin(src[p["colour"]]["hex"])
+        stained[m.name] = {"key": key, "k": lum(wood) / lum(lin(src[ref]["hex"])), "wood": wood,
+                           "dark_ratio": p["dark_ratio"]}
+    stain0 = lin(next(v["hex"] for v in fv["variants"] if v["name"] == fv["default"]))
+
+    def bake_object(ob, size, name, linear=False):
+        for o_ in bpy.data.objects:
+            o_.select_set(False)
+        ob.select_set(True); vl.objects.active = ob
+        # A float image keeps linear values in .pixels; a byte image holds sRGB-encoded ones.
+        img = bpy.data.images.new(name, size, size, alpha=False, float_buffer=linear)
+        nodes = []
+        for m in ob.data.materials:
+            n = m.node_tree.nodes.new("ShaderNodeTexImage"); n.image = img
+            m.node_tree.nodes.active = n; nodes.append((m, n))
+        bpy.ops.object.bake(type="DIFFUSE", pass_filter={"COLOR"})
+        return img, nodes
+
+    def set_neutral(m):
+        mix = next(n for n in m.node_tree.nodes if n.type == "MIX")
+        for ident, v in (("A_Color", stained[m.name]["dark_ratio"] / HEAD), ("B_Color", 1 / HEAD)):
+            next(s_ for s_ in mix.inputs if s_.identifier == ident).default_value = (v, v, v, 1)
     baked = {}
     for part, size in g["bake"].items():
         ob = bpy.data.objects[f"RF_{model}_{part}"]
@@ -73,12 +115,41 @@ def main(argv=None):
         bpy.ops.mesh.select_all(action="SELECT")
         bpy.ops.uv.smart_project(angle_limit=1.15, island_margin=0.003)
         bpy.ops.object.mode_set(mode="OBJECT")
-        img = bpy.data.images.new(f"RF_TEX_{model}_{part}_BaseColor", size, size, alpha=False)
-        nodes = []
+        if part == "Body":             # check the split is exact: colour bake vs neutral bake x factor
+            sc.render.bake.margin = 0
+            ci, cn = bake_object(ob, 512, "tmp_colour", linear=True)
+            colour = list(ci.pixels)
+            for m, n in cn:
+                m.node_tree.nodes.remove(n)
+            m0 = ob.data.materials[0]
+            set_neutral(m0)
+            ni, nn = bake_object(ob, 512, "tmp_neutral", linear=True)
+            neutral = list(ni.pixels)
+            for m, n in nn:
+                m.node_tree.nodes.remove(n)
+            fac = [c * stained[m0.name]["k"] * HEAD for c in stain0]
+            diffs = []
+            for i in range(0, len(colour), 4 * 7):
+                if neutral[i] <= 0:    # outside the UV islands
+                    continue
+                diffs.append(max(abs(colour[i + j] - neutral[i + j] * fac[j]) for j in range(3)))
+            diffs.sort()
+            # The two bakes sample each texel at slightly different sub-pixel positions, so texels that
+            # straddle a dark grain line differ. Away from those edges the two must agree.
+            rep["split_check_body"] = {
+                "texels_compared": len(diffs),
+                "linear_colour_difference": {"median": round(diffs[len(diffs) // 2], 5),
+                                             "mean": round(sum(diffs) / len(diffs), 5),
+                                             "p90": round(diffs[int(len(diffs) * 0.9)], 5),
+                                             "max": round(diffs[-1], 5)},
+                "share_within_0.01": round(sum(d < 0.01 for d in diffs) / len(diffs), 4)}
+            bpy.data.images.remove(ci); bpy.data.images.remove(ni)
+            sc.render.bake.margin = g["bake_margin_px"]
         for m in ob.data.materials:
-            n = m.node_tree.nodes.new("ShaderNodeTexImage"); n.image = img
-            m.node_tree.nodes.active = n; nodes.append((m, n))
-        bpy.ops.object.bake(type="DIFFUSE", pass_filter={"COLOR"})
+            if m.name in stained:
+                set_neutral(m)
+        kind = "Grain" if ob.data.materials[0].name in stained else "BaseColor"
+        img, nodes = bake_object(ob, size, f"RF_TEX_{model}_{part}_{kind}")
         img.filepath_raw = str(tmp / f"{img.name}.png"); img.file_format = "PNG"; img.save()
         for m, n in nodes:                         # texture replaces the procedural colour for export
             bsdf = m.node_tree.nodes["Principled BSDF"]
@@ -106,6 +177,56 @@ def main(argv=None):
                               export_image_format="JPEG", export_jpeg_quality=g["jpeg_quality"])
     gltf, rest = read_glb(out)
     gltf["asset"].setdefault("extras", {}).update(notice)
+
+    # --- finish variants (KHR_materials_variants): same grain texture, different baseColorFactor
+    mats = gltf["materials"]
+    index = {m["name"]: i for i, m in enumerate(mats)}
+    clip = lambda c: [round(min(max(v, 0.0), 1.0), 6) for v in c] + [1.0]
+    slug = lambda s_: "".join(w.capitalize() for w in s_.replace("-", " ").split())
+    table, variant_material = {}, {}   # variant_material: (default material index, variant index) -> material index
+    for vi, v in enumerate(fv["variants"]):
+        table[v["name"]] = {}
+        for name, info in stained.items():
+            if name not in index:
+                continue
+            if v["kind"] == "stain":
+                factor = clip([c * info["k"] * HEAD for c in lin(v["hex"])])
+                source = f"{fv['stain_source']} ('{v['name']}' {v['hex']}); lightness from the wood's catalog colour"
+            else:
+                factor = clip([c * HEAD for c in info["wood"]])
+                source = "assets/configurator-materials.js catalog colour of the wood itself (no stain)"
+            base = mats[index[name]]
+            if v["name"] == fv["default"]:
+                base["pbrMetallicRoughness"]["baseColorFactor"] = factor
+                variant_material[(index[name], vi)] = index[name]
+            else:
+                new = json.loads(json.dumps(base))
+                new["name"] = f"RF_MAT_{info['key']}_{slug(v['name'])}"
+                new["pbrMetallicRoughness"]["baseColorFactor"] = factor
+                ex = new.setdefault("extras", {})
+                ex["rf_colour_source"] = source
+                ex["rf_note"] = ("Configurator finish option, for comparison in a viewer. Not the concept spec finish. "
+                                 "Display colour, not a colour proof.")
+                mats.append(new)
+                variant_material[(index[name], vi)] = len(mats) - 1
+            table[v["name"]][info["key"]] = factor[:3]
+    gltf.setdefault("extensions", {})["KHR_materials_variants"] = {
+        "variants": [{"name": v["name"], "extras": {k: v[k] for k in ("kind", "hex") if k in v}} for v in fv["variants"]]}
+    gltf.setdefault("extensionsUsed", [])
+    if "KHR_materials_variants" not in gltf["extensionsUsed"]:
+        gltf["extensionsUsed"].append("KHR_materials_variants")
+    mapped = 0
+    for mesh in gltf["meshes"]:
+        for prim in mesh["primitives"]:
+            mi = prim.get("material")
+            if any(k[0] == mi for k in variant_material):
+                prim.setdefault("extensions", {})["KHR_materials_variants"] = {"mappings": [
+                    {"material": variant_material[(mi, vi)], "variants": [vi]} for vi in range(len(fv["variants"]))]}
+                mapped += 1
+    gltf["asset"]["extras"].update({"default_finish": fv["default"], "finish_note": fv["note"]})
+    rep["finish_variants"] = {"count": len(fv["variants"]), "default": fv["default"],
+                              "primitives_with_mappings": mapped, "materials_added": len(mats) - len(index),
+                              "base_colour_factor_linear": table}
     write_glb(out, gltf, rest)
 
     # --- check 1: parse the file
@@ -131,6 +252,7 @@ def main(argv=None):
         "studio_objects_included": sum(1 for n in names if n and ("RF_CAM" in n or "RF_LIGHT" in n or "RF_STUDIO" in n)),
         "nodes_with_rf_status": sum(1 for n in gltf["nodes"] if n.get("extras", {}).get("rf_status")),
         "materials_with_colour_source": sum(1 for m in gltf["materials"] if m.get("extras", {}).get("rf_colour_source")),
+        "variant_names": [v["name"] for v in gltf.get("extensions", {}).get("KHR_materials_variants", {}).get("variants", [])],
         "asset_extras_keys": sorted(gltf["asset"].get("extras", {})),
         "bbox_gltf_axes_mm": {"x": round((hi.x - lo.x) / MM, 2), "y_up": round((hi.y - lo.y) / MM, 2),
                               "z": round((hi.z - lo.z) / MM, 2)},

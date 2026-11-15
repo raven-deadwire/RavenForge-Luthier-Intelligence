@@ -4,6 +4,7 @@
   "description": "Checks an exported GLB with the Khronos validator and by loading it in a browser with three.js.",
   "dependencies": {
     "gltf-validator": "2.0.0-dev.3.10",
-    "three": "0.170.0"
+    "three": "0.169.0",
+    "@google/model-viewer": "4.0.0"
   }
 }
