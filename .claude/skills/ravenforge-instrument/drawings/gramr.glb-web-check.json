@@ -1,0 +1,32 @@
+{
+  "file": "gramr.glb",
+  "bytes": 1973816,
+  "validator": {
+    "version": "2.0.0-dev.3.10",
+    "errors": 0,
+    "warnings": 0,
+    "infos": 5,
+    "hints": 0,
+    "codes": {
+      "info UNUSED_OBJECT": 5
+    },
+    "drawCalls": 47,
+    "triangles": 67226,
+    "vertices": 44779,
+    "extensionsUsed": [
+      "KHR_materials_clearcoat"
+    ]
+  },
+  "browser": {
+    "loaded": true,
+    "meshes": 47,
+    "nodesWithStatus": 45,
+    "size_mm": [
+      961.16,
+      64.1,
+      319.48
+    ],
+    "notice": "Concept visualization. Details remain subject to CAD validation and measured hardware clearances before construction."
+  },
+  "browser_console_errors": []
+}

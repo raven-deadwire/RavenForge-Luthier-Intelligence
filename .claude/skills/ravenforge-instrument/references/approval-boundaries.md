@@ -31,7 +31,7 @@
 
 ## 산출물 표기 문구
 
-렌더 이미지에는 캡션으로 넣는다. `build_render.py`가 뷰마다 세 언어 문구를 붙인 `_captioned` 사본을 만든다. GLB에는 `asset.extras`로 넣는다(GLB 내보내기는 아직 검증하지 않았다).
+렌더 이미지에는 캡션으로 넣는다. `build_render.py`가 뷰마다 세 언어 문구를 붙인 `_captioned` 사본을 만든다. GLB에는 `asset.extras`의 `notice_ko` / `notice_en` / `notice_de`로 넣는다. `export_glb.py`가 넣고, 각 노드의 `extras.rf_status`와 재질의 `extras.rf_colour_source`도 함께 나간다. 웹 뷰어가 이 문구를 화면에 보여 주는 것은 뷰어 쪽에서 해야 한다.
 
 | 산출물 | ko | en | de |
 |---|---|---|---|

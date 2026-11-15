@@ -1,0 +1,82 @@
+{
+  "model": "GRAMR",
+  "stage": "glb",
+  "baked_textures": {
+    "Body": {
+      "size_px": 2048,
+      "materials": [
+        "RF_MAT_SwampAsh_InfernoRedGrainFilledGloss"
+      ],
+      "red_mean": 0.302
+    },
+    "Neck": {
+      "size_px": 2048,
+      "materials": [
+        "RF_MAT_HardMaple_InfernoRed",
+        "RF_MAT_Wenge_InfernoRed",
+        "RF_MAT_Purpleheart_InfernoRed"
+      ],
+      "red_mean": 0.182
+    },
+    "Fretboard": {
+      "size_px": 1024,
+      "materials": [
+        "RF_MAT_IndianRosewood_Natural"
+      ],
+      "red_mean": 0.077
+    }
+  },
+  "file": {
+    "bytes": 1973816,
+    "nodes": 45,
+    "meshes": 45,
+    "materials": 11,
+    "images": 3,
+    "triangles": 67226,
+    "extensions_used": [
+      "KHR_materials_clearcoat"
+    ],
+    "cameras": 0,
+    "source_curves_included": 0,
+    "studio_objects_included": 0,
+    "nodes_with_rf_status": 45,
+    "materials_with_colour_source": 11,
+    "asset_extras_keys": [
+      "model",
+      "notice_de",
+      "notice_en",
+      "notice_ko",
+      "source_sha256",
+      "status_legend",
+      "units"
+    ],
+    "bbox_gltf_axes_mm": {
+      "x": 961.16,
+      "y_up": 64.1,
+      "z": 319.48
+    },
+    "materials_with_base_colour_texture": [
+      "RF_MAT_HardMaple_InfernoRed",
+      "RF_MAT_IndianRosewood_Natural",
+      "RF_MAT_Purpleheart_InfernoRed",
+      "RF_MAT_SwampAsh_InfernoRedGrainFilledGloss",
+      "RF_MAT_Wenge_InfernoRed"
+    ],
+    "materials_with_clearcoat": [
+      "RF_MAT_BlackPlastic_Gloss",
+      "RF_MAT_HardMaple_InfernoRed",
+      "RF_MAT_Purpleheart_InfernoRed",
+      "RF_MAT_SwampAsh_InfernoRedGrainFilledGloss",
+      "RF_MAT_Wenge_InfernoRed"
+    ]
+  },
+  "round_trip": {
+    "objects_exported": 45,
+    "objects_found_after_import": 45,
+    "missing": [],
+    "largest_size_difference_mm": 0.0005,
+    "objects_whose_rf_status_changed": [],
+    "extra_objects": []
+  },
+  "status": "exported"
+}

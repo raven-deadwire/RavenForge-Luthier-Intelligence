@@ -50,6 +50,27 @@ python scripts/run_pipeline.py --config drawings/gramr.json --pdf SOURCE.pdf --w
 
 **8 렌더.** `--draft`로 조명과 구도를 먼저 맞춘다. 최종 실행은 스킬의 보고 형식에 필요한 값(스케일 실측, 윤곽 점검, 상태별 오브젝트 수)을 보고서에 모은다.
 
+## GLB 내보내기
+
+7단계나 8단계의 `.blend`에서 웹 뷰어용 파일을 만든다.
+
+```bash
+python scripts/export_glb.py --config drawings/gramr.json --blend out/gramr_stage7.blend --out out/gramr.glb --report out/gramr_glb.json
+```
+
+```bash
+cd scripts/web_check && npm install && node check.cjs ../../out/gramr.glb ../../out/webcheck
+```
+
+- **나가는 것**: Body, Neck, Hardware, Electronics 컬렉션의 메시. 모디파이어는 적용된다.
+- **나가지 않는 것**: `RF_<MODEL>_Source`의 원본 커브(도면 그 자체다), 카메라, 조명.
+- **재질**: glTF는 Blender의 절차적 노드를 담지 못한다. 그래서 목재의 색만 이미지로 구워 넣고(바디·넥 2048 px, 지판 1024 px, JPEG), 금속과 플라스틱은 값으로 나간다. 클리어코트는 `KHR_materials_clearcoat`로 나간다. 입력 `.blend`는 바뀌지 않는다.
+- **기록**: 노드마다 `extras.rf_status` / `rf_source` / `rf_note`, 재질마다 `extras.rf_colour_source`, 파일의 `asset.extras`에 세 언어 표기 문구와 원본 해시가 들어간다.
+- **스크립트가 하는 점검**: 파일을 다시 읽어 노드·재질·이미지 수와 전체 크기를 재고, 빈 씬에 다시 임포트해 오브젝트별 치수와 상태값이 그대로인지 비교한다.
+- **`web_check`가 하는 점검**: Khronos glTF 검증기, 그리고 헤드리스 Chromium에서 three.js로 실제로 열어 네 방향 스크린샷을 찍는다. Node와 Playwright(Chromium 포함)가 필요하다. **스크린샷은 직접 열어 본다.**
+- 압축(Draco, meshopt)은 하지 않는다. `bpy` 파이썬 모듈에 해당 라이브러리가 없었다.
+- 위에서 수직으로 내려다보면 뷰어의 천장 조명이 유광면에 그대로 비쳐 하얗게 뜬다. 파일 문제가 아니라 뷰어 조명 문제이며, 뷰어를 만들 때 고려해야 한다.
+
 ## 단계마다 반드시 할 것
 
 1. 보고서의 수치를 읽는다.

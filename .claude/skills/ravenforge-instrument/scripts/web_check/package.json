@@ -1,0 +1,9 @@
+{
+  "name": "ravenforge-glb-web-check",
+  "private": true,
+  "description": "Checks an exported GLB with the Khronos validator and by loading it in a browser with three.js.",
+  "dependencies": {
+    "gltf-validator": "2.0.0-dev.3.10",
+    "three": "0.170.0"
+  }
+}

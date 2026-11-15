@@ -45,6 +45,9 @@ def extrude_outline(ring, z0, z1):
     bpy.data.objects.remove(tmp); bpy.data.curves.remove(cu)
     bm = bmesh.new(); bm.from_mesh(me); bpy.data.meshes.remove(me)
     bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-7)
+    # The filled curve comes out as thousands of sliver triangles (outlines are sampled densely).
+    # Merge coplanar faces and near-collinear outline points, or viewers show cracks along the slivers.
+    bmesh.ops.dissolve_limit(bm, angle_limit=math.radians(0.3), verts=bm.verts, edges=bm.edges)
     bmesh.ops.translate(bm, verts=bm.verts, vec=(0, 0, (z0 + z1) / 2))
     return bm
 
