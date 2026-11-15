@@ -68,6 +68,9 @@ cd scripts/web_check && npm install && node check.cjs ../../out/gramr.glb ../../
 - **기록**: 노드마다 `extras.rf_status` / `rf_source` / `rf_note`, 재질마다 `extras.rf_colour_source`, 파일의 `asset.extras`에 세 언어 표기 문구와 원본 해시가 들어간다.
 - **스크립트가 하는 점검**: 파일을 다시 읽어 노드·재질·이미지 수와 전체 크기를 재고, 빈 씬에 다시 임포트해 오브젝트별 치수와 상태값이 그대로인지 비교한다.
 - **`web_check`가 하는 점검**: Khronos glTF 검증기, 그리고 헤드리스 Chromium에서 three.js로 실제로 열어 네 방향 스크린샷을 찍는다. Node와 Playwright(Chromium 포함)가 필요하다. **스크린샷은 직접 열어 본다.**
+- **마감 변형**: 설정의 `glb.finish_variants`에 적힌 마감이 glTF 표준 확장 `KHR_materials_variants`로 들어간다. 착색 목재의 색은 "스테인 색 × 나뭇결 밝기"로 나뉘므로, 나뭇결을 무채색 텍스처로 한 번만 굽고 마감마다 `baseColorFactor`만 다르게 한다. 그래서 변형이 늘어도 이미지는 늘지 않는다(GRAMR: 마감 11개에 +0.14 MB). 스크립트는 "색으로 구운 것"과 "무채색 × 계수"가 같은지 바디에서 비교한다(`split_check_body`).
+- 스테인은 바디와 넥에 똑같이 적용한다. 컨피규레이터처럼 탑과 백·사이드를 따로 고르는 것, 하드웨어 색 변형은 다루지 않는다.
+- `web_check`는 변형이 있으면 three.js와 Google `<model-viewer>` 두 구현에서 각각 전환해 보고, 변형 모음 이미지(`web_variants_sheet.png`)를 만든다.
 - 압축(Draco, meshopt)은 하지 않는다. `bpy` 파이썬 모듈에 해당 라이브러리가 없었다.
 - 위에서 수직으로 내려다보면 뷰어의 천장 조명이 유광면에 그대로 비쳐 하얗게 뜬다. 파일 문제가 아니라 뷰어 조명 문제이며, 뷰어를 만들 때 고려해야 한다.
 

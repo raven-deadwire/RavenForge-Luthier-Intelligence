@@ -98,7 +98,13 @@
     "laminate": {
       "core_width_mm": 10.0,
       "stripe_width_mm": 3.0,
-      "order": ["Northern Hard Maple", "Wenge", "Purpleheart", "Wenge", "Northern Hard Maple"]
+      "order": [
+        "Northern Hard Maple",
+        "Wenge",
+        "Purpleheart",
+        "Wenge",
+        "Northern Hard Maple"
+      ]
     }
   },
   "fret_illustrative": {
@@ -341,6 +347,72 @@
     },
     "bake_margin_px": 8,
     "jpeg_quality": 88,
-    "collections": ["Body", "Neck", "Hardware", "Electronics"]
+    "collections": [
+      "Body",
+      "Neck",
+      "Hardware",
+      "Electronics"
+    ],
+    "finish_variants": {
+      "note": "Finish options carried in the GLB as KHR_materials_variants. Only the default is the GRAMR concept spec; the others are the configurator's stain options applied to body and neck alike, for the viewer to switch between. Colours are the configurator's display colours, not a colour proof.",
+      "default": "Inferno red",
+      "stain_source": "assets/configurator-preview.js stainNames / stainColours",
+      "variants": [
+        {
+          "name": "Inferno red",
+          "kind": "stain",
+          "hex": "#b3121c"
+        },
+        {
+          "name": "Burgundy",
+          "kind": "stain",
+          "hex": "#5e0f22"
+        },
+        {
+          "name": "Turquoise blue",
+          "kind": "stain",
+          "hex": "#0f7d8c"
+        },
+        {
+          "name": "Sapphire blue",
+          "kind": "stain",
+          "hex": "#12326e"
+        },
+        {
+          "name": "Emerald green",
+          "kind": "stain",
+          "hex": "#0c5a3a"
+        },
+        {
+          "name": "Royal purple",
+          "kind": "stain",
+          "hex": "#4b1d6b"
+        },
+        {
+          "name": "Plum",
+          "kind": "stain",
+          "hex": "#5a1a4a"
+        },
+        {
+          "name": "Cognac",
+          "kind": "stain",
+          "hex": "#7a3b12"
+        },
+        {
+          "name": "Honey amber",
+          "kind": "stain",
+          "hex": "#b8730f"
+        },
+        {
+          "name": "Ebony",
+          "kind": "stain",
+          "hex": "#1c1714"
+        },
+        {
+          "name": "Natural",
+          "kind": "natural"
+        }
+      ]
+    }
   }
 }

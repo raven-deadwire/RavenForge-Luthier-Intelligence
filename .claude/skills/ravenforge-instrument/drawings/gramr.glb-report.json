@@ -1,13 +1,23 @@
 {
   "model": "GRAMR",
   "stage": "glb",
+  "split_check_body": {
+    "texels_compared": 18748,
+    "linear_colour_difference": {
+      "median": 0.0,
+      "mean": 0.0,
+      "p90": 0.0,
+      "max": 0.0
+    },
+    "share_within_0.01": 1.0
+  },
   "baked_textures": {
     "Body": {
       "size_px": 2048,
       "materials": [
         "RF_MAT_SwampAsh_InfernoRedGrainFilledGloss"
       ],
-      "red_mean": 0.302
+      "red_mean": 0.421
     },
     "Neck": {
       "size_px": 2048,
@@ -16,7 +26,7 @@
         "RF_MAT_Wenge_InfernoRed",
         "RF_MAT_Purpleheart_InfernoRed"
       ],
-      "red_mean": 0.182
+      "red_mean": 0.297
     },
     "Fretboard": {
       "size_px": 1024,
@@ -26,22 +36,288 @@
       "red_mean": 0.077
     }
   },
+  "finish_variants": {
+    "count": 11,
+    "default": "Inferno red",
+    "primitives_with_mappings": 4,
+    "materials_added": 40,
+    "base_colour_factor_linear": {
+      "Inferno red": {
+        "HardMaple": [
+          0.477833,
+          0.006412,
+          0.012309
+        ],
+        "Purpleheart": [
+          0.056791,
+          0.000762,
+          0.001463
+        ],
+        "SwampAsh": [
+          0.477833,
+          0.006412,
+          0.012309
+        ],
+        "Wenge": [
+          0.041431,
+          0.000556,
+          0.001067
+        ]
+      },
+      "Burgundy": {
+        "HardMaple": [
+          0.118648,
+          0.005064,
+          0.016956
+        ],
+        "Purpleheart": [
+          0.014102,
+          0.000602,
+          0.002015
+        ],
+        "SwampAsh": [
+          0.118648,
+          0.005064,
+          0.016956
+        ],
+        "Wenge": [
+          0.010288,
+          0.000439,
+          0.00147
+        ]
+      },
+      "Turquoise blue": {
+        "HardMaple": [
+          0.005064,
+          0.217383,
+          0.277986
+        ],
+        "Purpleheart": [
+          0.000602,
+          0.025836,
+          0.033039
+        ],
+        "SwampAsh": [
+          0.005064,
+          0.217383,
+          0.277986
+        ],
+        "Wenge": [
+          0.000439,
+          0.018849,
+          0.024103
+        ]
+      },
+      "Sapphire blue": {
+        "HardMaple": [
+          0.006412,
+          0.03381,
+          0.165282
+        ],
+        "Purpleheart": [
+          0.000762,
+          0.004018,
+          0.019644
+        ],
+        "SwampAsh": [
+          0.006412,
+          0.03381,
+          0.165282
+        ],
+        "Wenge": [
+          0.000556,
+          0.002932,
+          0.014331
+        ]
+      },
+      "Emerald green": {
+        "HardMaple": [
+          0.003897,
+          0.108376,
+          0.04485
+        ],
+        "Purpleheart": [
+          0.000463,
+          0.012881,
+          0.005331
+        ],
+        "SwampAsh": [
+          0.003897,
+          0.108376,
+          0.04485
+        ],
+        "Wenge": [
+          0.000338,
+          0.009397,
+          0.003889
+        ]
+      },
+      "Royal purple": {
+        "HardMaple": [
+          0.074582,
+          0.013024,
+          0.155849
+        ],
+        "Purpleheart": [
+          0.008864,
+          0.001548,
+          0.018523
+        ],
+        "SwampAsh": [
+          0.074582,
+          0.013024,
+          0.155849
+        ],
+        "Wenge": [
+          0.006467,
+          0.001129,
+          0.013513
+        ]
+      },
+      "Plum": {
+        "HardMaple": [
+          0.108376,
+          0.01095,
+          0.072587
+        ],
+        "Purpleheart": [
+          0.012881,
+          0.001301,
+          0.008627
+        ],
+        "SwampAsh": [
+          0.108376,
+          0.01095,
+          0.072587
+        ],
+        "Wenge": [
+          0.009397,
+          0.000949,
+          0.006294
+        ]
+      },
+      "Cognac": {
+        "HardMaple": [
+          0.206295,
+          0.046359,
+          0.006412
+        ],
+        "Purpleheart": [
+          0.024519,
+          0.00551,
+          0.000762
+        ],
+        "SwampAsh": [
+          0.206295,
+          0.046359,
+          0.006412
+        ],
+        "Wenge": [
+          0.017887,
+          0.00402,
+          0.000556
+        ]
+      },
+      "Honey amber": {
+        "HardMaple": [
+          0.508079,
+          0.181728,
+          0.005064
+        ],
+        "Purpleheart": [
+          0.060386,
+          0.021599,
+          0.000602
+        ],
+        "SwampAsh": [
+          0.508079,
+          0.181728,
+          0.005064
+        ],
+        "Wenge": [
+          0.044054,
+          0.015757,
+          0.000439
+        ]
+      },
+      "Ebony": {
+        "HardMaple": [
+          0.012309,
+          0.009082,
+          0.007415
+        ],
+        "Purpleheart": [
+          0.001463,
+          0.001079,
+          0.000881
+        ],
+        "SwampAsh": [
+          0.012309,
+          0.009082,
+          0.007415
+        ],
+        "Wenge": [
+          0.001067,
+          0.000787,
+          0.000643
+        ]
+      },
+      "Natural": {
+        "HardMaple": [
+          0.806156,
+          0.598594,
+          0.318576
+        ],
+        "Purpleheart": [
+          0.123989,
+          0.054346,
+          0.121301
+        ],
+        "SwampAsh": [
+          0.591841,
+          0.409615,
+          0.202674
+        ],
+        "Wenge": [
+          0.070623,
+          0.051062,
+          0.03381
+        ]
+      }
+    }
+  },
   "file": {
-    "bytes": 1973816,
+    "bytes": 2115992,
     "nodes": 45,
     "meshes": 45,
-    "materials": 11,
+    "materials": 51,
     "images": 3,
     "triangles": 67226,
     "extensions_used": [
-      "KHR_materials_clearcoat"
+      "KHR_materials_clearcoat",
+      "KHR_materials_variants"
     ],
     "cameras": 0,
     "source_curves_included": 0,
     "studio_objects_included": 0,
     "nodes_with_rf_status": 45,
-    "materials_with_colour_source": 11,
+    "materials_with_colour_source": 51,
+    "variant_names": [
+      "Inferno red",
+      "Burgundy",
+      "Turquoise blue",
+      "Sapphire blue",
+      "Emerald green",
+      "Royal purple",
+      "Plum",
+      "Cognac",
+      "Honey amber",
+      "Ebony",
+      "Natural"
+    ],
     "asset_extras_keys": [
+      "default_finish",
+      "finish_note",
       "model",
       "notice_de",
       "notice_en",
@@ -56,18 +332,98 @@
       "z": 319.48
     },
     "materials_with_base_colour_texture": [
+      "RF_MAT_HardMaple_Burgundy",
+      "RF_MAT_HardMaple_Cognac",
+      "RF_MAT_HardMaple_Ebony",
+      "RF_MAT_HardMaple_EmeraldGreen",
+      "RF_MAT_HardMaple_HoneyAmber",
       "RF_MAT_HardMaple_InfernoRed",
+      "RF_MAT_HardMaple_Natural",
+      "RF_MAT_HardMaple_Plum",
+      "RF_MAT_HardMaple_RoyalPurple",
+      "RF_MAT_HardMaple_SapphireBlue",
+      "RF_MAT_HardMaple_TurquoiseBlue",
       "RF_MAT_IndianRosewood_Natural",
+      "RF_MAT_Purpleheart_Burgundy",
+      "RF_MAT_Purpleheart_Cognac",
+      "RF_MAT_Purpleheart_Ebony",
+      "RF_MAT_Purpleheart_EmeraldGreen",
+      "RF_MAT_Purpleheart_HoneyAmber",
       "RF_MAT_Purpleheart_InfernoRed",
+      "RF_MAT_Purpleheart_Natural",
+      "RF_MAT_Purpleheart_Plum",
+      "RF_MAT_Purpleheart_RoyalPurple",
+      "RF_MAT_Purpleheart_SapphireBlue",
+      "RF_MAT_Purpleheart_TurquoiseBlue",
+      "RF_MAT_SwampAsh_Burgundy",
+      "RF_MAT_SwampAsh_Cognac",
+      "RF_MAT_SwampAsh_Ebony",
+      "RF_MAT_SwampAsh_EmeraldGreen",
+      "RF_MAT_SwampAsh_HoneyAmber",
       "RF_MAT_SwampAsh_InfernoRedGrainFilledGloss",
-      "RF_MAT_Wenge_InfernoRed"
+      "RF_MAT_SwampAsh_Natural",
+      "RF_MAT_SwampAsh_Plum",
+      "RF_MAT_SwampAsh_RoyalPurple",
+      "RF_MAT_SwampAsh_SapphireBlue",
+      "RF_MAT_SwampAsh_TurquoiseBlue",
+      "RF_MAT_Wenge_Burgundy",
+      "RF_MAT_Wenge_Cognac",
+      "RF_MAT_Wenge_Ebony",
+      "RF_MAT_Wenge_EmeraldGreen",
+      "RF_MAT_Wenge_HoneyAmber",
+      "RF_MAT_Wenge_InfernoRed",
+      "RF_MAT_Wenge_Natural",
+      "RF_MAT_Wenge_Plum",
+      "RF_MAT_Wenge_RoyalPurple",
+      "RF_MAT_Wenge_SapphireBlue",
+      "RF_MAT_Wenge_TurquoiseBlue"
     ],
     "materials_with_clearcoat": [
       "RF_MAT_BlackPlastic_Gloss",
+      "RF_MAT_HardMaple_Burgundy",
+      "RF_MAT_HardMaple_Cognac",
+      "RF_MAT_HardMaple_Ebony",
+      "RF_MAT_HardMaple_EmeraldGreen",
+      "RF_MAT_HardMaple_HoneyAmber",
       "RF_MAT_HardMaple_InfernoRed",
+      "RF_MAT_HardMaple_Natural",
+      "RF_MAT_HardMaple_Plum",
+      "RF_MAT_HardMaple_RoyalPurple",
+      "RF_MAT_HardMaple_SapphireBlue",
+      "RF_MAT_HardMaple_TurquoiseBlue",
+      "RF_MAT_Purpleheart_Burgundy",
+      "RF_MAT_Purpleheart_Cognac",
+      "RF_MAT_Purpleheart_Ebony",
+      "RF_MAT_Purpleheart_EmeraldGreen",
+      "RF_MAT_Purpleheart_HoneyAmber",
       "RF_MAT_Purpleheart_InfernoRed",
+      "RF_MAT_Purpleheart_Natural",
+      "RF_MAT_Purpleheart_Plum",
+      "RF_MAT_Purpleheart_RoyalPurple",
+      "RF_MAT_Purpleheart_SapphireBlue",
+      "RF_MAT_Purpleheart_TurquoiseBlue",
+      "RF_MAT_SwampAsh_Burgundy",
+      "RF_MAT_SwampAsh_Cognac",
+      "RF_MAT_SwampAsh_Ebony",
+      "RF_MAT_SwampAsh_EmeraldGreen",
+      "RF_MAT_SwampAsh_HoneyAmber",
       "RF_MAT_SwampAsh_InfernoRedGrainFilledGloss",
-      "RF_MAT_Wenge_InfernoRed"
+      "RF_MAT_SwampAsh_Natural",
+      "RF_MAT_SwampAsh_Plum",
+      "RF_MAT_SwampAsh_RoyalPurple",
+      "RF_MAT_SwampAsh_SapphireBlue",
+      "RF_MAT_SwampAsh_TurquoiseBlue",
+      "RF_MAT_Wenge_Burgundy",
+      "RF_MAT_Wenge_Cognac",
+      "RF_MAT_Wenge_Ebony",
+      "RF_MAT_Wenge_EmeraldGreen",
+      "RF_MAT_Wenge_HoneyAmber",
+      "RF_MAT_Wenge_InfernoRed",
+      "RF_MAT_Wenge_Natural",
+      "RF_MAT_Wenge_Plum",
+      "RF_MAT_Wenge_RoyalPurple",
+      "RF_MAT_Wenge_SapphireBlue",
+      "RF_MAT_Wenge_TurquoiseBlue"
     ]
   },
   "round_trip": {

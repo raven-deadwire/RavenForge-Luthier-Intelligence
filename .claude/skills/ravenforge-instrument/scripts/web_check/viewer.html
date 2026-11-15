@@ -6,7 +6,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-const view = new URLSearchParams(location.search).get('view') || 'three';
+const q = new URLSearchParams(location.search), view = q.get('view') || 'three', variant = q.get('variant');
 const r = new THREE.WebGLRenderer({antialias: true, preserveDrawingBuffer: true});
 r.setSize(innerWidth, innerHeight); r.toneMapping = THREE.NeutralToneMapping; document.body.appendChild(r.domElement);
 const scene = new THREE.Scene(); scene.background = new THREE.Color(0x1b1b1b);
@@ -23,9 +23,29 @@ new GLTFLoader().load('model.glb', g => {
   let target = c.clone(), dist = Math.max(s.x, s.z) * 2.5;
   if (view === 'body') { target = new THREE.Vector3(box.max.x - 0.22, c.y, c.z); dist = 1.1; }
   cam.position.copy(target).addScaledVector(d, dist); cam.lookAt(target);
+  // Finish variants (KHR_materials_variants). three.js exposes the data; switching is up to the page.
+  const ext = (g.userData.gltfExtensions || {})['KHR_materials_variants'];
+  const variants = ext ? ext.variants.map(v => v.name) : [];
+  const swaps = [];
+  if (variant !== null) {
+    const vi = variants.indexOf(variant);
+    g.scene.traverse(o => {
+      const me = o.isMesh && o.userData.gltfExtensions && o.userData.gltfExtensions['KHR_materials_variants'];
+      if (!me) return;
+      const map = me.mappings.find(m => m.variants.includes(vi));
+      if (map) swaps.push(g.parser.getDependency('material', map.material).then(m => { o.material = m; g.parser.assignFinalMaterial(o); }));
+    });
+  }
+  Promise.all(swaps).then(() => {
   r.render(scene, cam);
-  window.result = {loaded: true, meshes, nodesWithStatus: withStatus,
+  // colour of one point on the body top, bass side of the lower bout
+  const pt = new THREE.Vector3(box.max.x - 0.09, box.max.y - 0.0191, box.max.z - 0.06).project(cam);
+  const gl = r.getContext(), px = new Uint8Array(4);
+  gl.readPixels(Math.round((pt.x + 1) / 2 * gl.drawingBufferWidth), Math.round((pt.y + 1) / 2 * gl.drawingBufferHeight), 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+  window.result = {loaded: true, meshes, nodesWithStatus: withStatus, variants, variant, swapped: swaps.length, bodyPixel: [px[0], px[1], px[2]],
     size_mm: [s.x, s.y, s.z].map(v => Math.round(v * 100000) / 100),
-    notice: g.asset && g.asset.extras ? g.asset.extras.notice_en : null};
+    notice: g.asset && g.asset.extras ? g.asset.extras.notice_en : null,
+    defaultFinish: g.asset && g.asset.extras ? g.asset.extras.default_finish : null};
+  });
 }, undefined, e => { window.result = {loaded: false, error: String(e)}; });
 </script></body></html>
