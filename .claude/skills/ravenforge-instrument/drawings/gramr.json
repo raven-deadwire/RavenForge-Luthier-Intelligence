@@ -98,13 +98,7 @@
     "laminate": {
       "core_width_mm": 10.0,
       "stripe_width_mm": 3.0,
-      "order": [
-        "Northern Hard Maple",
-        "Wenge",
-        "Purpleheart",
-        "Wenge",
-        "Northern Hard Maple"
-      ]
+      "order": ["Northern Hard Maple", "Wenge", "Purpleheart", "Wenge", "Northern Hard Maple"]
     }
   },
   "fret_illustrative": {
@@ -337,5 +331,16 @@
       "ko": "컨셉 시각화입니다. 제작 전 CAD 검증과 하드웨어 실측에 따라 세부 사양이 달라질 수 있습니다.",
       "de": "Konzeptvisualisierung. Details können sich nach CAD-Prüfung und Hardwarevermessung vor dem Bau ändern."
     }
+  },
+  "glb": {
+    "note": "Export settings for the web viewer file. Grain is baked from the procedural materials into image textures; nothing here adds information about the instrument.",
+    "bake": {
+      "Body": 2048,
+      "Neck": 2048,
+      "Fretboard": 1024
+    },
+    "bake_margin_px": 8,
+    "jpeg_quality": 88,
+    "collections": ["Body", "Neck", "Hardware", "Electronics"]
   }
 }
