@@ -1,0 +1,72 @@
+{
+  "model": "GRAMR",
+  "stage": 8,
+  "view_transform": "Khronos PBR Neutral",
+  "samples": 256,
+  "silhouette_vs_source_outline": {
+    "Body": {
+      "points_checked": 1935,
+      "within_0.1mm": 1935
+    },
+    "Headstock": {
+      "points_checked": 175,
+      "within_0.1mm": 175
+    }
+  },
+  "scale_measured_mm": 648.01,
+  "scale_spec_mm": 648.0,
+  "mesh_objects_by_status": {
+    "illustrative": 44,
+    "spec": 1
+  },
+  "mesh_objects_missing_status_or_source": [],
+  "illustrative_objects": 44,
+  "pending_not_modelled": [
+    "neck joint: pocket, bolt positions, deep tenon, sculpted heel",
+    "strings, strap buttons, cavities, tremolo internals"
+  ],
+  "source_sha256": "3edaab849e644ba2c1aa2e28abdbed9c92a246cb7a3ca5591da152d22c609b1d",
+  "renders": {
+    "Front_Ortho": {
+      "file": "gramr_front_ortho.png",
+      "seconds": 65.6,
+      "size": [
+        2400,
+        900
+      ]
+    },
+    "Rear_Ortho": {
+      "file": "gramr_rear_ortho.png",
+      "seconds": 71.5,
+      "size": [
+        2400,
+        900
+      ]
+    },
+    "ThreeQuarter": {
+      "file": "gramr_threequarter.png",
+      "seconds": 64.9,
+      "size": [
+        2000,
+        1250
+      ]
+    },
+    "Heel": {
+      "file": "gramr_heel.png",
+      "seconds": 72.7,
+      "size": [
+        1600,
+        1000
+      ]
+    },
+    "Headstock": {
+      "file": "gramr_headstock.png",
+      "seconds": 39.8,
+      "size": [
+        1600,
+        1000
+      ]
+    }
+  },
+  "status": "rendered"
+}
