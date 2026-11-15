@@ -74,6 +74,40 @@ cd scripts/web_check && npm install && node check.cjs ../../out/gramr.glb ../../
 - 압축(Draco, meshopt)은 하지 않는다. `bpy` 파이썬 모듈에 해당 라이브러리가 없었다.
 - 위에서 수직으로 내려다보면 뷰어의 천장 조명이 유광면에 그대로 비쳐 하얗게 뜬다. 파일 문제가 아니라 뷰어 조명 문제이며, 뷰어를 만들 때 고려해야 한다.
 
+## 웹용 크기 줄이기와 로딩 측정
+
+`export_glb.py`가 내는 파일은 압축하지 않은 원본이다. 웹에 올릴 때는 표준 도구 `gltf-transform`으로 줄인 사본을 쓴다. 형상은 단순화하지 않는다.
+
+```bash
+cd scripts/web_check && npm install
+```
+
+```bash
+npm run optimize:compat -- IN.glb OUT.compat.glb
+```
+
+```bash
+npm run optimize:small -- IN.glb OUT.small.glb
+```
+
+```bash
+node perf.cjs OUT_DIR IN.glb OUT.compat.glb OUT.small.glb
+```
+
+| 사본 | 하는 일 | 뷰어 쪽 요구 | GRAMR 크기 |
+|---|---|---|---|
+| 원본 | — | 없음 | 2.12 MB |
+| `compat` | 좌표 양자화, 텍스처 WebP 1024 px | 없음 | 1.21 MB |
+| `small` | meshopt 압축, 텍스처 WebP 1024 px | **meshopt 해제기 필요** | 0.52 MB |
+| `small-joined` | `small` + 같은 재질끼리 메시 병합 | meshopt 해제기 필요 | 0.48 MB |
+
+- **`small`은 해제기 없이는 열리지 않는다.** three.js는 `loader.setMeshoptDecoder(...)`, `<model-viewer>`는 `ModelViewerElement.meshoptDecoderLocation`을 지정해야 한다. 지정하지 않은 `<model-viewer>`에서는 실제로 로드에 실패했다. 뷰어를 손댈 수 없으면 `compat`을 쓴다.
+- **`small-joined`는 오브젝트별 기록을 잃는다.** 드로 콜이 47에서 13으로 줄지만 `rf_status`가 든 노드가 45개에서 11개로 줄어든다. 부품별 상태를 화면에 보여 줄 계획이면 쓰지 않는다.
+- 세 사본 모두 마감 변형 11종, 표기 문구, 재질의 색 출처는 그대로 남는다. 양자화로 전체 폭이 0.03 mm 달라진다.
+- 줄인 사본도 `check.cjs`로 다시 점검한다.
+
+**`perf.cjs`가 재는 것과 못 재는 것.** 헤드리스 Chromium에서 CPU 속도 제한(4배, 6배), 네트워크 제한(9 Mbps, 1.6 Mbps), 휴대폰 화면 크기를 걸고 다운로드·해석·첫 화면까지의 시간을 잰다. 파일끼리 비교하는 데는 쓸 만하다. 그러나 렌더러가 소프트웨어 방식이라 **프레임 속도, 발열, 실제 GPU 메모리 한계는 알 수 없다.** 그것은 실제 기기에서만 확인된다.
+
 ## 단계마다 반드시 할 것
 
 1. 보고서의 수치를 읽는다.
