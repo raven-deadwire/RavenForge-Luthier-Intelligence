@@ -215,6 +215,38 @@ python scripts/build_hardware.py --config drawings/gramr.json --blend gramr_stag
 
 만들지 않은 것: 현, 스트랩 버튼, 조인트 볼트(`pending`), 트레몰로 암·스터드·스프링·블록, 캐비티와 구멍. 바디에 들어가는 부품은 바디와 겹쳐 있다.
 
+### GRAMR 7단계 실행 기록
+
+2026-11-15. `scripts/build_materials.py`로 자리 표시 색을 절차적 재질 11개로 바꿨다. 이미지 텍스처는 쓰지 않았다. **색은 컨피규레이터의 표시색이고, 나뭇결 무늬·광택·금속 반응은 가정이다.** 모든 재질에 `rf_status = illustrative`와 색 출처를 넣었다. 값은 `drawings/gramr.json`의 `materials_illustrative`, 수치 전체는 `drawings/gramr.stage7-report.json`.
+
+```bash
+python scripts/build_materials.py --config drawings/gramr.json --blend gramr_stage6.blend --out gramr_stage7.blend --report gramr_stage7.json --preview-dir previews
+```
+
+| 색 | 값 | 출처 |
+|---|---|---|
+| Inferno Red 스테인 | `#b3121c` | `assets/configurator-preview.js` `stainColours[0]` |
+| 애쉬 / 메이플 / 웬지 / 퍼플하트 / 로즈우드 | `#c5a779` / `#e2c695` / `#493e32` / `#60405f` / `#573c30` | `assets/configurator-materials.js` `catalog` |
+| 골드 | `#c9a75c` | `assets/configurator-preview.js` `metals.hw_gold` |
+| 니켈실버, 본, 블랙 플라스틱 | `#c8c5ba`, `#e3dcc4`, `#0b0b0b` | 가정 |
+
+| 재질 | 적용 대상 | 비고 |
+|---|---|---|
+| `RF_MAT_SwampAsh_InfernoRedGrainFilledGloss` | 바디 | 중심 접합선 양쪽이 서로 다른 판재로 보이게 처리. 북매치는 아님 |
+| `RF_MAT_HardMaple_InfernoRed`, `RF_MAT_Wenge_InfernoRed`, `RF_MAT_Purpleheart_InfernoRed` | 넥 적층 | 메이플 대비 밝기: 웬지 0.087, 퍼플하트 0.119 |
+| `RF_MAT_IndianRosewood_Natural` | 지판 | 착색 없음, 코트 없음 |
+| `RF_MAT_Gold` | 하드웨어 11개 오브젝트 | |
+| `RF_MAT_NickelSilver` | 프렛 24개 | |
+| `RF_MAT_Bone`, `RF_MAT_BlackPlastic_Gloss`, `RF_MAT_BlackPlastic_Matte`, `RF_MAT_Dark` | 너트, 픽가드, 픽업·레버, 구멍 표시 | |
+
+| 확인 항목 | 값 |
+|---|---|
+| 재질이 없는 오브젝트 | 0 |
+| 남은 자리 표시 재질 | 0 |
+| 이미지 텍스처 | 0 |
+
+가정으로 남은 것: 넥 뒷면과 헤드스톡 앞면까지 전부 붉게 칠했다(사양은 "넥 마감: 투명 Inferno Red"만 밝힘). 넥의 광택 정도, 3플라이 픽가드의 흰 중간층 생략, 나뭇결의 간격과 흐름. 미리보기는 색이 덜 바래는 Khronos PBR Neutral 표시 방식으로 렌더했다. 금속은 조명에 따라 어둡게 보이며, 이는 8단계에서 다룬다.
+
 ## 도면에 없는 정보
 
 평면도에는 두께 방향 정보가 없다. 아래는 별도 근거가 필요하다.

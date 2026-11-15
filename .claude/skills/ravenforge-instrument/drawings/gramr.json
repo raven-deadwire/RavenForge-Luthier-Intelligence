@@ -164,5 +164,95 @@
       "button_mm": [14.0, 20.0, 11.0],
       "button_past_edge_mm": 13.0
     }
+  },
+  "materials_illustrative": {
+    "note": "Procedural look-dev materials. Colours are the configurator's own display colours, which the site calls illustrative and not a colour proof. Grain patterns, sheen and metal response are assumed. Nothing here certifies a species, a board or a finish.",
+    "colour_sources": {
+      "stain_inferno": {
+        "hex": "#b3121c",
+        "source": "assets/configurator-preview.js stainColours[0] ('Inferno red')"
+      },
+      "ash": {
+        "hex": "#c5a779",
+        "source": "assets/configurator-materials.js catalog.ash.colour"
+      },
+      "maple": {
+        "hex": "#e2c695",
+        "source": "assets/configurator-materials.js catalog.maple.colour"
+      },
+      "wenge": {
+        "hex": "#493e32",
+        "source": "assets/configurator-materials.js catalog.wenge.colour"
+      },
+      "purpleheart": {
+        "hex": "#60405f",
+        "source": "assets/configurator-materials.js catalog.purpleheart.colour"
+      },
+      "rosewood": {
+        "hex": "#573c30",
+        "source": "assets/configurator-materials.js catalog.rosewood.colour"
+      },
+      "gold": {
+        "hex": "#c9a75c",
+        "source": "assets/configurator-preview.js colourWords.gold"
+      }
+    },
+    "assumed_colours": {
+      "nickel_silver": "#c8c5ba",
+      "bone": "#e3dcc4",
+      "black_plastic": "#0b0b0b"
+    },
+    "wood": {
+      "SwampAsh": {
+        "colour": "ash",
+        "stained": true,
+        "ring_scale": 48,
+        "distortion": 1.3,
+        "line_width": 0.3,
+        "dark_ratio": 0.3,
+        "streak": 0.35
+      },
+      "HardMaple": {
+        "colour": "maple",
+        "stained": true,
+        "ring_scale": 140,
+        "distortion": 0.8,
+        "line_width": 0.15,
+        "dark_ratio": 0.86,
+        "streak": 0.1
+      },
+      "Wenge": {
+        "colour": "wenge",
+        "stained": true,
+        "ring_scale": 260,
+        "distortion": 0.6,
+        "line_width": 0.5,
+        "dark_ratio": 0.45,
+        "streak": 0.25
+      },
+      "Purpleheart": {
+        "colour": "purpleheart",
+        "stained": true,
+        "ring_scale": 180,
+        "distortion": 0.8,
+        "line_width": 0.2,
+        "dark_ratio": 0.8,
+        "streak": 0.15
+      },
+      "IndianRosewood": {
+        "colour": "rosewood",
+        "stained": false,
+        "ring_scale": 120,
+        "distortion": 1.6,
+        "line_width": 0.4,
+        "dark_ratio": 0.55,
+        "streak": 0.3
+      }
+    },
+    "sheen": {
+      "body_coat_roughness": 0.03,
+      "neck_coat_roughness": 0.08,
+      "fretboard_roughness": 0.5
+    }
   }
 }
