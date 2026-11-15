@@ -247,6 +247,44 @@ python scripts/build_materials.py --config drawings/gramr.json --blend gramr_sta
 
 가정으로 남은 것: 넥 뒷면과 헤드스톡 앞면까지 전부 붉게 칠했다(사양은 "넥 마감: 투명 Inferno Red"만 밝힘). 넥의 광택 정도, 3플라이 픽가드의 흰 중간층 생략, 나뭇결의 간격과 흐름. 미리보기는 색이 덜 바래는 Khronos PBR Neutral 표시 방식으로 렌더했다. 금속은 조명에 따라 어둡게 보이며, 이는 8단계에서 다룬다.
 
+### GRAMR 8단계 실행 기록
+
+2026-11-15. `scripts/build_render.py`로 스튜디오 조명 4개와 카메라 5개를 파일에 저장하고 전부 렌더했다. 조명과 카메라는 보여 주기 위한 선택이며 악기 자체에 대한 정보가 아니다. 값은 `drawings/gramr.json`의 `studio`, 수치 전체는 `drawings/gramr.stage8-report.json`.
+
+```bash
+python scripts/build_render.py --config drawings/gramr.json --blend gramr_stage7.blend --out gramr_stage8.blend --report gramr_stage8.json --render-dir renders
+```
+
+`--draft`를 붙이면 작고 거친 시험 렌더만 뽑는다. 조명 세기와 구도는 이 방식으로 세 번 조정했다.
+
+| 조명 | 역할 |
+|---|---|
+| `RF_LIGHT_Overhead` | 넓고 약한 천장. 평평한 금속면이 반사할 대상 |
+| `RF_LIGHT_Key` | 주광. 정면 정사영 카메라에 평평한 유광면이 그대로 비치지 않도록 비스듬히 둠 |
+| `RF_LIGHT_Fill` | 그림자 완화 |
+| `RF_LIGHT_Rim` | 먼 쪽 가장자리 하이라이트 |
+
+| 카메라 | 내용 | 해상도 |
+|---|---|---|
+| `RF_CAM_Front_Ortho` | 정면 정사영 | 2400 × 900 |
+| `RF_CAM_Rear_Ortho` | 후면 정사영 (헤드 왼쪽, 저음 쪽이 위) | 2400 × 900 |
+| `RF_CAM_ThreeQuarter` | 3/4 뷰, 85 mm | 2000 × 1250 |
+| `RF_CAM_Heel` | 넥 조인트 쪽 근접, 85 mm | 1600 × 1000 |
+| `RF_CAM_Headstock` | 헤드스톡 근접, 85 mm | 1600 × 1000 |
+
+렌더마다 캡션 없는 원본과 ko/en/de 표기 문구를 붙인 `_captioned` 사본이 나온다. 정면 정사영에는 도면 원본 윤곽을 겹쳐 그린 `_front_ortho_overlay`도 나온다.
+
+| 최종 점검 (스킬의 보고 형식) | 값 |
+|---|---|
+| 모델 / 원본 | GRAMR / `RavenForge_Superstrat_24F_ver3_STRICT_R12`, SHA-256 `3edaab84…` |
+| 스케일 실측 | 648.01 mm (사양 648.0 mm) |
+| 윤곽 점검 (허용 0.1 mm) | 바디 1,935점 중 1,935점, 헤드스톡 175점 중 175점 통과 |
+| 상태별 메시 오브젝트 | `drawing` 0 / `spec` 1 / `illustrative` 44 / `pending` 0 |
+| 상태나 출처가 빠진 오브젝트 | 0 |
+| 만들지 않고 `pending`으로 남긴 것 | 넥 조인트(포켓, 볼트 좌표, 딥 테넌, 스컬프티드 힐), 현, 스트랩 버튼, 캐비티, 트레몰로 내부 |
+
+`drawing` 상태의 메시가 없는 이유: 도면에서 온 것은 평면 윤곽과 위치뿐이고, 모든 부품의 높이 방향에 가정이 섞여 있어 규칙대로 낮은 쪽으로 기록했다. 도면 그대로인 것은 `RF_GRAMR_Source`의 원본 커브 54개다.
+
 ## 도면에 없는 정보
 
 평면도에는 두께 방향 정보가 없다. 아래는 별도 근거가 필요하다.

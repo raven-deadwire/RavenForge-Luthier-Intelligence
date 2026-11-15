@@ -104,7 +104,7 @@ RF_<MODEL>                     최상위 컬렉션 (예: RF_GRAMR)
 
 ## 카메라 세트
 
-모델 간 비교가 되도록 같은 세트를 쓴다. 전부 정사영이 아니라고 명시된 것 외에는 동일 초점거리로 고정한다.
+모델 간 비교가 되도록 같은 세트를 쓴다. 카메라와 조명의 실제 값은 `drawings/<model>.json`의 `studio`에 두고 `scripts/build_render.py`가 만든다. 뒤에서 보는 카메라(`Rear_Ortho`, `Heel`)는 조명을 악기 뒤쪽으로 대칭 이동해 쓴다. 전부 정사영이 아니라고 명시된 것 외에는 동일 초점거리로 고정한다.
 
 | 이름 | 내용 |
 |---|---|
@@ -166,5 +166,6 @@ illustrative·pending 목록과 사유
 | 프렛 (위치는 도면, 단면은 추정값) | `scripts/build_frets.py` | 형상 작업 5단계 |
 | 픽가드, 너트, 픽업, 브리지, 잭, 컨트롤, 나사, 튜너 (블록아웃) | `scripts/build_hardware.py` | 형상 작업 6단계 |
 | 절차적 룩뎁 재질 (색은 컨피규레이터 표시색) | `scripts/build_materials.py` | 7단계 머티리얼 |
+| 스튜디오 조명, 카메라 세트, 렌더, 캡션, 최종 점검 | `scripts/build_render.py` | 8단계 렌더 |
 | 윗면·뒷면 깊이 지도 | `scripts/depth_map.py` | 컨투어를 만들거나 고친 뒤 확인용 |
 | 임포트 도구 자체 점검 | `scripts/test_import_drawing.py` | 임포트 스크립트를 고친 뒤 |
