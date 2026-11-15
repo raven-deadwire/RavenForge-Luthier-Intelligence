@@ -1,10 +1,16 @@
 {
   "name": "ravenforge-glb-web-check",
   "private": true,
-  "description": "Checks an exported GLB with the Khronos validator and by loading it in a browser with three.js.",
+  "description": "Checks an exported GLB: Khronos validator, two browser viewers, finish switching, emulated load timing, and size-reduced copies.",
   "dependencies": {
+    "@gltf-transform/cli": "^4.1.1",
+    "@google/model-viewer": "4.0.0",
     "gltf-validator": "2.0.0-dev.3.10",
-    "three": "0.169.0",
-    "@google/model-viewer": "4.0.0"
+    "three": "0.169.0"
+  },
+  "scripts": {
+    "optimize:compat": "gltf-transform optimize --compress quantize --texture-compress webp --texture-size 1024 --simplify false --palette false --instance false --join false --flatten false",
+    "optimize:small": "gltf-transform optimize --compress meshopt --texture-compress webp --texture-size 1024 --simplify false --palette false --instance false --join false --flatten false",
+    "optimize:small-joined": "gltf-transform optimize --compress meshopt --texture-compress webp --texture-size 1024 --simplify false --palette false --instance false --join true"
   }
 }

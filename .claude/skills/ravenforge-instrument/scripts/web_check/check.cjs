@@ -11,7 +11,7 @@ const { chromium } = require('playwright');
 const [glb, outDir] = process.argv.slice(2).map(p => path.resolve(p));
 if (!glb || !outDir) { console.error('usage: node check.cjs MODEL.glb OUT_DIR'); process.exit(2); }
 fs.mkdirSync(outDir, {recursive: true});
-const types = {'.html': 'text/html', '.js': 'text/javascript', '.glb': 'model/gltf-binary'};
+const types = {'.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.wasm': 'application/wasm', '.glb': 'model/gltf-binary'};
 
 (async () => {
   const v = await validator.validateBytes(new Uint8Array(fs.readFileSync(glb)), {maxIssues: 500});

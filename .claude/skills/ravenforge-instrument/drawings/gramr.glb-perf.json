@@ -1,0 +1,330 @@
+{
+  "note": "Emulated in headless Chromium with a software renderer. Not a measurement on real devices.",
+  "profiles": {
+    "desktop": {
+      "viewport": {
+        "width": 1500,
+        "height": 900
+      },
+      "dpr": 1,
+      "cpu": 1,
+      "net": null
+    },
+    "mid_phone": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "dpr": 3,
+      "cpu": 4,
+      "net": {
+        "down_mbps": 9,
+        "up_mbps": 9,
+        "latency_ms": 60
+      }
+    },
+    "low_phone": {
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "dpr": 2,
+      "cpu": 6,
+      "net": {
+        "down_mbps": 1.6,
+        "up_mbps": 0.75,
+        "latency_ms": 150
+      }
+    }
+  },
+  "results": {
+    "gramr.glb": {
+      "bytes": 2115992,
+      "desktop": {
+        "ok": true,
+        "bytes": 2115992,
+        "download_ms": 27.7,
+        "parse_ms": 66.9,
+        "first_frame_ms": 394.5,
+        "ready_ms": 489.1,
+        "software_draw_ms_median": 1.1000000000931323,
+        "switch_ms": 2,
+        "info": {
+          "calls": 47,
+          "triangles": 67226,
+          "geometries": 59,
+          "textures": 5
+        },
+        "texture_gpu_bytes_estimate": 50331648,
+        "canvas": [
+          1500,
+          900
+        ],
+        "js_heap_bytes": 13721663,
+        "gl_renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "mid_phone": {
+        "ok": true,
+        "bytes": 2115992,
+        "download_ms": 2004.9,
+        "parse_ms": 193.5,
+        "first_frame_ms": 417.6,
+        "ready_ms": 2616,
+        "software_draw_ms_median": 3.8999999999068677,
+        "switch_ms": 4.1,
+        "info": {
+          "calls": 46,
+          "triangles": 67038,
+          "geometries": 58,
+          "textures": 5
+        },
+        "texture_gpu_bytes_estimate": 50331648,
+        "canvas": [
+          1170,
+          2532
+        ],
+        "js_heap_bytes": 14137016,
+        "gl_renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "low_phone": {
+        "ok": true,
+        "bytes": 2115992,
+        "download_ms": 10824.3,
+        "parse_ms": 285.5,
+        "first_frame_ms": 664,
+        "ready_ms": 11773.8,
+        "software_draw_ms_median": 6.900000000372529,
+        "switch_ms": 7.8,
+        "info": {
+          "calls": 46,
+          "triangles": 67038,
+          "geometries": 58,
+          "textures": 5
+        },
+        "texture_gpu_bytes_estimate": 50331648,
+        "canvas": [
+          720,
+          1600
+        ],
+        "js_heap_bytes": 13574667,
+        "gl_renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    },
+    "gramr.compat.glb": {
+      "bytes": 1214440,
+      "desktop": {
+        "ok": true,
+        "bytes": 1214440,
+        "download_ms": 21,
+        "parse_ms": 33.7,
+        "first_frame_ms": 268.8,
+        "ready_ms": 323.5,
+        "software_draw_ms_median": 0.8000000002793968,
+        "switch_ms": 3,
+        "info": {
+          "calls": 47,
+          "triangles": 67226,
+          "geometries": 58,
+          "textures": 5
+        },
+        "texture_gpu_bytes_estimate": 16777216,
+        "canvas": [
+          1500,
+          900
+        ],
+        "js_heap_bytes": 11214459,
+        "gl_renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "mid_phone": {
+        "ok": true,
+        "bytes": 1214440,
+        "download_ms": 1184.7,
+        "parse_ms": 135.5,
+        "first_frame_ms": 285.8,
+        "ready_ms": 1606,
+        "software_draw_ms_median": 3.8999999999068677,
+        "switch_ms": 8.5,
+        "info": {
+          "calls": 46,
+          "triangles": 67038,
+          "geometries": 57,
+          "textures": 5
+        },
+        "texture_gpu_bytes_estimate": 16777216,
+        "canvas": [
+          1170,
+          2532
+        ],
+        "js_heap_bytes": 11613987,
+        "gl_renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "low_phone": {
+        "ok": true,
+        "bytes": 1214440,
+        "download_ms": 6292.4,
+        "parse_ms": 217.2,
+        "first_frame_ms": 336.7,
+        "ready_ms": 6846.3,
+        "software_draw_ms_median": 6.599999999627471,
+        "switch_ms": 9.9,
+        "info": {
+          "calls": 46,
+          "triangles": 67038,
+          "geometries": 57,
+          "textures": 5
+        },
+        "texture_gpu_bytes_estimate": 16777216,
+        "canvas": [
+          720,
+          1600
+        ],
+        "js_heap_bytes": 11152582,
+        "gl_renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    },
+    "gramr.small.glb": {
+      "bytes": 521040,
+      "desktop": {
+        "ok": true,
+        "bytes": 521040,
+        "download_ms": 22.4,
+        "parse_ms": 48.4,
+        "first_frame_ms": 300.6,
+        "ready_ms": 371.4,
+        "software_draw_ms_median": 0.8999999999068677,
+        "switch_ms": 1.4,
+        "info": {
+          "calls": 47,
+          "triangles": 67226,
+          "geometries": 58,
+          "textures": 5
+        },
+        "texture_gpu_bytes_estimate": 16777216,
+        "canvas": [
+          1500,
+          900
+        ],
+        "js_heap_bytes": 11207567,
+        "gl_renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "mid_phone": {
+        "ok": true,
+        "bytes": 521040,
+        "download_ms": 551.8,
+        "parse_ms": 169.6,
+        "first_frame_ms": 431.7,
+        "ready_ms": 1153.1,
+        "software_draw_ms_median": 6,
+        "switch_ms": 5.9,
+        "info": {
+          "calls": 46,
+          "triangles": 67038,
+          "geometries": 57,
+          "textures": 5
+        },
+        "texture_gpu_bytes_estimate": 16777216,
+        "canvas": [
+          1170,
+          2532
+        ],
+        "js_heap_bytes": 9715003,
+        "gl_renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "low_phone": {
+        "ok": true,
+        "bytes": 521040,
+        "download_ms": 2785,
+        "parse_ms": 215,
+        "first_frame_ms": 323.9,
+        "ready_ms": 3323.9,
+        "software_draw_ms_median": 6.7000000001862645,
+        "switch_ms": 11.3,
+        "info": {
+          "calls": 46,
+          "triangles": 67038,
+          "geometries": 57,
+          "textures": 5
+        },
+        "texture_gpu_bytes_estimate": 16777216,
+        "canvas": [
+          720,
+          1600
+        ],
+        "js_heap_bytes": 9364874,
+        "gl_renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    },
+    "gramr.small-joined.glb": {
+      "bytes": 483096,
+      "desktop": {
+        "ok": true,
+        "bytes": 483096,
+        "download_ms": 18.7,
+        "parse_ms": 35.8,
+        "first_frame_ms": 274.7,
+        "ready_ms": 329.2,
+        "software_draw_ms_median": 0.6999999997206032,
+        "switch_ms": 6.5,
+        "info": {
+          "calls": 13,
+          "triangles": 67226,
+          "geometries": 25,
+          "textures": 5
+        },
+        "texture_gpu_bytes_estimate": 16777216,
+        "canvas": [
+          1500,
+          900
+        ],
+        "js_heap_bytes": 9728971,
+        "gl_renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "mid_phone": {
+        "ok": true,
+        "bytes": 483096,
+        "download_ms": 545.5,
+        "parse_ms": 195.4,
+        "first_frame_ms": 387.3,
+        "ready_ms": 1128.2,
+        "software_draw_ms_median": 5.5,
+        "switch_ms": 5.2,
+        "info": {
+          "calls": 13,
+          "triangles": 67226,
+          "geometries": 25,
+          "textures": 5
+        },
+        "texture_gpu_bytes_estimate": 16777216,
+        "canvas": [
+          1170,
+          2532
+        ],
+        "js_heap_bytes": 9864651,
+        "gl_renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      },
+      "low_phone": {
+        "ok": true,
+        "bytes": 483096,
+        "download_ms": 2601.3,
+        "parse_ms": 258,
+        "first_frame_ms": 349.7,
+        "ready_ms": 3209,
+        "software_draw_ms_median": 3.8999999999068677,
+        "switch_ms": 5.8,
+        "info": {
+          "calls": 13,
+          "triangles": 67226,
+          "geometries": 25,
+          "textures": 5
+        },
+        "texture_gpu_bytes_estimate": 16777216,
+        "canvas": [
+          720,
+          1600
+        ],
+        "js_heap_bytes": 8639234,
+        "gl_renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    }
+  }
+}

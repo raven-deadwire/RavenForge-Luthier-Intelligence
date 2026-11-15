@@ -6,12 +6,13 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 const q = new URLSearchParams(location.search), view = q.get('view') || 'three', variant = q.get('variant');
 const r = new THREE.WebGLRenderer({antialias: true, preserveDrawingBuffer: true});
 r.setSize(innerWidth, innerHeight); r.toneMapping = THREE.NeutralToneMapping; document.body.appendChild(r.domElement);
 const scene = new THREE.Scene(); scene.background = new THREE.Color(0x1b1b1b);
 scene.environment = new THREE.PMREMGenerator(r).fromScene(new RoomEnvironment(), 0.04).texture;
-new GLTFLoader().load('model.glb', g => {
+new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load('model.glb', g => {
   scene.add(g.scene);
   const box = new THREE.Box3().setFromObject(g.scene), c = box.getCenter(new THREE.Vector3()), s = box.getSize(new THREE.Vector3());
   let meshes = 0, withStatus = 0;
