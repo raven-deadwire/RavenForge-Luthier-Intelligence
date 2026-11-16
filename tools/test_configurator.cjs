@@ -8,6 +8,7 @@
  *   node tools/test_configurator.cjs --url http://localhost:8000/configurator.html
  *   node tools/test_configurator.cjs --bootstrap
  *   node tools/test_configurator.cjs --pdf-only
+ *   node tools/test_configurator.cjs --strap-pins
  *   node tools/test_configurator.cjs --matrix
  *   node tools/test_configurator.cjs --homepage --url https://example.test/index.html
  *   node tools/test_configurator.cjs --matrix-ui-only --url https://example.test/configurator.html
@@ -47,6 +48,7 @@ const matrixUiOnly = args.includes('--matrix-ui-only');
 const matrixOnly = args.includes('--matrix') || matrixUiOnly;
 const homepageOnly = args.includes('--homepage');
 const pdfLayoutOnly = args.includes('--pdf-layout');
+const strapPinsOnly = args.includes('--strap-pins');
 const caseFilter = arg('--case');
 const fromFilter = arg('--from');
 const root = path.resolve(__dirname, '..');
@@ -249,6 +251,17 @@ async function run() {
         if (fullSummary) assert.match(text, /\bHH\b|dual humbucker|2 humbuckers/i, 'Gramr must retain its HH layout');
       }
     };
+
+    if (strapPinsOnly) {
+      activeCheck = 'strap pin geometry and PDF images';
+      await require('./test_configurator_strap_pins.cjs')({
+        page, hostPage, report, output, expectedModels, step, freshModel, quotedAmount, selectOption,
+      });
+      assert.deepEqual(report.pageErrors, [], 'No browser runtime errors during strap pin tests');
+      assert.deepEqual(report.failedRequests, [], 'All strap pin preview and PDF assets must load');
+      report.result = 'PASS';
+      return;
+    }
 
     if (pdfLayoutOnly) {
       activeCheck = 'PDF layout matrix';
