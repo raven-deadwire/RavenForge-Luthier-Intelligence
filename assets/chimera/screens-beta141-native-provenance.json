@@ -22,6 +22,13 @@
       "run_id": 44061815200,
       "sha256": "ae59668c0d41756a623a98996662643b6cd30fc7c05300084ad250ac2c4960b1",
       "size_bytes": 345704358
+    },
+    {
+      "id": 14331326321,
+      "name": "Chimera-Windows-UI-snapshots",
+      "run_id": 44061796357,
+      "sha256": "80dc17edd2e90c22c155ad8c2963cee182661634de231f025cdb2bee386e6d98",
+      "size_bytes": 91140104
     }
   ],
   "images": [
@@ -92,6 +99,46 @@
       "sha256": "0e6589fb8db015c38b02354f79bbb22ebd26f3c1b7fbb32333f1926df1e2fdb4",
       "size_bytes": 1237247,
       "width": 1440,
+      "height": 780,
+      "pixel_edits": false
+    },
+    {
+      "file": "assets/chimera/cabinet-room-beta141.png",
+      "artifact_id": 14331326321,
+      "artifact_path": "Dual-cabinet-room.png",
+      "sha256": "3fe4e169ee39d896fd0c42b159775871e21c875d42fcd048217dbc196f9d3b7a",
+      "size_bytes": 679056,
+      "width": 1000,
+      "height": 648,
+      "pixel_edits": false
+    },
+    {
+      "file": "assets/chimera/cabinet-library-beta141.png",
+      "artifact_id": 14331326321,
+      "artifact_path": "IR-public-factory-library.png",
+      "sha256": "dccfe43a7690ebed3e618a819bd137935401f89326db1e0bc4a8221ddafe221f",
+      "size_bytes": 78721,
+      "width": 1000,
+      "height": 672,
+      "pixel_edits": false
+    },
+    {
+      "file": "assets/chimera/pre-board-beta141.png",
+      "artifact_id": 14331326321,
+      "artifact_path": "PRE-types-4.png",
+      "sha256": "35af5fcb6abac9762278821b7c41f5f95086be753072aa7ea10255f19991eab1",
+      "size_bytes": 840334,
+      "width": 1180,
+      "height": 780,
+      "pixel_edits": false
+    },
+    {
+      "file": "assets/chimera/post-rack-beta141.png",
+      "artifact_id": 14331326321,
+      "artifact_path": "Native-Post-Rack.png",
+      "sha256": "6036c86733e34d9c7530a999ea4c3db378f1b2e5af03edf3176a840747e95098",
+      "size_bytes": 805132,
+      "width": 1180,
       "height": 780,
       "pixel_edits": false
     }
