@@ -182,9 +182,9 @@ def validate_local(lock, inventory, root=ROOT):
         image_source = lock["source_sha"] if expected_kind == "artwork" else lock.get("native_capture", lock)["source_sha"]
         require(provenance["source_sha"] == image_source, "Head images have a different source")
         records = provenance["images"]
-        require(len(records) == (25 if expected_kind == "artwork" else 3), "Incomplete head image evidence")
+        require(len(records) == (30 if expected_kind == "artwork" else 3), "Incomplete head image evidence")
         if expected_kind == "artwork":
-            require({record["model_index"] for record in records} == set(range(26)) - {16},
+            require({record["model_index"] for record in records} == set(range(31)) - {16},
                     "Artwork must cover every active amp exactly once")
         else:
             require({record["file"] for record in records} == {
@@ -241,10 +241,10 @@ def validate_local(lock, inventory, root=ROOT):
     linked_assets, images = set(), set()
     for page in inventory:
         if page["file"] == "manual/chimera.html":
-            require(page["models"] == {"preModels": 39, "ampModels": 25, "postModels": 21}, "Rendered model count mismatch")
+            require(page["models"] == {"preModels": 51, "ampModels": 30, "postModels": 39}, "Rendered model count mismatch")
             require(page["presets"] == lock["counts"]["presets"], "Rendered preset count mismatch")
         else:
-            require(page["stats"] == [lock["counts"]["amps"], 60, lock["counts"]["presets"]], "Homepage count mismatch")
+            require(page["stats"] == [lock["counts"]["amps"], 99, lock["counts"]["presets"]], "Homepage count mismatch")
         for item in page["links"]:
             url = item["url"]
             parsed = urlsplit(url)

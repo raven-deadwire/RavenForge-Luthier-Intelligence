@@ -327,7 +327,7 @@ class LocalContentContract(unittest.TestCase):
 
     def test_three_languages_render_and_all_local_links_exist(self):
         result = check.validate_local(self.lock, self.inventory)
-        self.assertEqual(result["remote_images"], 85)
+        self.assertEqual(result["remote_images"], 132)
         for path in ["assets/chimera/dual-cabinet-beta13.png", "assets/chimera/ir-loader-beta13.png"]:
             self.assertIn(path, self.lock["reviewed_files"])
             self.assertTrue(any(i["image"] and i["url"] == path for i in self.inventory[0]["links"]))

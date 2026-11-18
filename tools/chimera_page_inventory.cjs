@@ -38,9 +38,9 @@ function validateProductContent(product, lang) {
   require(gallery.querySelectorAll('figure').length === 2,
           'AMP / RIGS requires exactly two screenshots: Classic and Dual');
   for (const [scope, alt, caption, file, label] of [
-    [hero, 'screenAlt', 'screen', 'rigs-matrix-beta132.png', 'Matrix hero'],
-    [gallery, 'rigsClassicAlt', 'rigsClassicCaption', 'rigs-classic-beta132.png', 'Classic'],
-    [gallery, 'rigsDualAlt', 'rigsDualCaption', 'rigs-dual-beta132.png', 'Dual']
+    [hero, 'screenAlt', 'screen', 'rigs-matrix-beta141.png', 'Matrix hero'],
+    [gallery, 'rigsClassicAlt', 'rigsClassicCaption', 'rigs-classic-beta141.png', 'Classic'],
+    [gallery, 'rigsDualAlt', 'rigsDualCaption', 'rigs-dual-beta141.png', 'Dual']
   ]) {
     const image = one(scope, `img[data-chimera-alt="${alt}"]`);
     const source = `assets/chimera/${file}`;
@@ -61,8 +61,8 @@ function validateProductContent(product, lang) {
   const heads = one(editing, '.rf-chimera-head-gallery');
   require(heads.querySelectorAll('figure').length === 2,
           'Direct editing requires native Brit Edge and Iron Tube screenshots');
-  for (const [key, file] of [['headBrit', 'head-brit-edge-beta132.png'],
-                            ['headBass', 'head-iron-tube-beta132.png']]) {
+  for (const [key, file] of [['headBrit', 'head-brit-edge-beta141.png'],
+                            ['headBass', 'head-iron-tube-beta141.png']]) {
     const image = one(heads, `img[data-chimera-alt="${key}Alt"]`);
     require(image.getAttribute('src') === `assets/chimera/${file}` &&
             image.closest('a')?.getAttribute('href') === image.getAttribute('src'),
@@ -83,7 +83,7 @@ function validateProductContent(product, lang) {
     require(image.getAttribute('src').trim() &&
             image.closest('a')?.getAttribute('href') === image.getAttribute('src'),
             `${id} requires its native control image linked at full size`);
-    require(image.getAttribute('src') === `assets/chimera/head-${prefix}-beta132.png`,
+    require(image.getAttribute('src') === `assets/chimera/head-${prefix}-beta141.png`,
             `${id} requires the revised native head controls`);
     copy(artwork, `${prefix}Caption`);
     const channelCards = one(amp, '.rf-chimera-nastrond-channels');
@@ -130,9 +130,9 @@ function collectInventory() {
       throw new Error(`${lang}: Manual update guidance needs the product download link`);
     }
     const ampImages = [...manual.window.document.querySelectorAll('#ampModels img')];
-    if (ampImages.length !== 25 || ampImages.some(image =>
+    if (ampImages.length !== 30 || ampImages.some(image =>
         !/^https:\/\/raw\.githubusercontent\.com\/raven-deadwire\/SpectralForge-Chimera-Amp-Matrix\/[a-f0-9]{40}\/Assets\/Artwork\/HeadShells\/head-shell-\d{2}\.png$/.test(image.getAttribute('src')))) {
-      throw new Error(`${lang}: All 25 active manual amps require the complete production enclosure artwork`);
+      throw new Error(`${lang}: All 30 active manual amps require the complete production enclosure artwork`);
     }
     for (const image of manual.window.document.querySelectorAll('.workflow-asset img')) {
       if (/\/Assets\/Artwork\/a[^/]+\.(png|jpg)$/.test(image.getAttribute('src'))) {

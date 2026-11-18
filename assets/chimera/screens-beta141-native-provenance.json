@@ -1,0 +1,99 @@
+{
+  "schema": "spectralforge.chimera.homepage-native-ci-snapshots.v1",
+  "source_sha": "6bc7216cd2dc72772daaca65a89edbaf6b5a8c43",
+  "version": "1.4.1-beta.1",
+  "run_id": 44061819037,
+  "run_attempt": 1,
+  "platform": "windows",
+  "capture_kind": "native-peer-component-snapshot",
+  "pixel_edits": false,
+  "note": "Unmodified component PNGs captured after attaching the final-source CI test editor to a visible native desktop peer. These are automated test scenes, not DAW acceptance or named factory preset captures.",
+  "artifacts": [
+    {
+      "id": 14320467311,
+      "name": "SignalEQ-Integration-Windows-6bc7216cd2dc72772daaca65a89edbaf6b5a8c43-attempt-1",
+      "run_id": 44061819037,
+      "sha256": "521c3f7e8b0949308f8ee32a9d14839f4778a56b14cbf797a6471811e148e562",
+      "size_bytes": 220395051
+    },
+    {
+      "id": 14319442240,
+      "name": "AmpHead-Controls-Windows-6bc7216cd2dc72772daaca65a89edbaf6b5a8c43-attempt-1",
+      "run_id": 44061815200,
+      "sha256": "ae59668c0d41756a623a98996662643b6cd30fc7c05300084ad250ac2c4960b1",
+      "size_bytes": 345704358
+    }
+  ],
+  "images": [
+    {
+      "file": "assets/chimera/rigs-matrix-beta141.png",
+      "artifact_id": 14320467311,
+      "artifact_path": "signal-path-snapshots/signal-workflow-head-mode-2-dual-0-scale-100.png",
+      "sha256": "04f8d6e277cdaa3bb3f8e291895422e55e1f8077be9f832a1b6327ea5f9dd62c",
+      "size_bytes": 594485,
+      "width": 1180,
+      "height": 780,
+      "pixel_edits": false
+    },
+    {
+      "file": "assets/chimera/rigs-classic-beta141.png",
+      "artifact_id": 14320467311,
+      "artifact_path": "signal-path-snapshots/signal-workflow-head-mode-0-dual-0-scale-100.png",
+      "sha256": "019b07bb1494d22d9bf5c818677a75998edda8a7dcfe228ff27e40de31beba3e",
+      "size_bytes": 647800,
+      "width": 1180,
+      "height": 780,
+      "pixel_edits": false
+    },
+    {
+      "file": "assets/chimera/rigs-dual-beta141.png",
+      "artifact_id": 14320467311,
+      "artifact_path": "signal-path-snapshots/signal-workflow-head-mode-1-dual-0-scale-100.png",
+      "sha256": "31661a37635c0defbb300338422d9d4a1d5a8d12e8997f9b85e8473603ea8dd7",
+      "size_bytes": 580883,
+      "width": 1180,
+      "height": 780,
+      "pixel_edits": false
+    },
+    {
+      "file": "assets/chimera/head-brit-edge-beta141.png",
+      "artifact_id": 14319442240,
+      "artifact_path": "amp-head-snapshots/all-model-1-channel-0-1440.png",
+      "sha256": "fd9f685a72072a89fff40c931e3e25212515352f637fce92c82acd486d231dbe",
+      "size_bytes": 1562186,
+      "width": 1440,
+      "height": 780,
+      "pixel_edits": false
+    },
+    {
+      "file": "assets/chimera/head-niflheimr-beta141.png",
+      "artifact_id": 14319442240,
+      "artifact_path": "amp-head-snapshots/all-model-25-channel-0-1440.png",
+      "sha256": "655b6e2d70b6d72d9f853f7eb5b12e9a0b1c1362ee76109a1afaa8e969dd5a7f",
+      "size_bytes": 1493550,
+      "width": 1440,
+      "height": 780,
+      "pixel_edits": false
+    },
+    {
+      "file": "assets/chimera/head-nastrond-beta141.png",
+      "artifact_id": 14319442240,
+      "artifact_path": "amp-head-snapshots/all-model-24-channel-0-1440.png",
+      "sha256": "08e550cc1656af72ac8c1d24fbf651e915a7a48955b86b499a3e3d3636058c68",
+      "size_bytes": 1632481,
+      "width": 1440,
+      "height": 780,
+      "pixel_edits": false
+    },
+    {
+      "file": "assets/chimera/head-iron-tube-beta141.png",
+      "artifact_id": 14319442240,
+      "artifact_path": "amp-head-snapshots/all-model-5-channel-0-1440.png",
+      "sha256": "0e6589fb8db015c38b02354f79bbb22ebd26f3c1b7fbb32333f1926df1e2fdb4",
+      "size_bytes": 1237247,
+      "width": 1440,
+      "height": 780,
+      "pixel_edits": false
+    }
+  ]
+}
