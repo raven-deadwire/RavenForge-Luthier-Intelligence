@@ -328,7 +328,7 @@ class LocalContentContract(unittest.TestCase):
     def test_three_languages_render_and_all_local_links_exist(self):
         result = check.validate_local(self.lock, self.inventory)
         self.assertEqual(result["remote_images"], 132)
-        for path in ["assets/chimera/dual-cabinet-beta13.png", "assets/chimera/ir-loader-beta13.png"]:
+        for path in ["assets/chimera/cabinet-room-beta141.png", "assets/chimera/cabinet-library-beta141.png"]:
             self.assertIn(path, self.lock["reviewed_files"])
             self.assertTrue(any(i["image"] and i["url"] == path for i in self.inventory[0]["links"]))
 
@@ -378,7 +378,7 @@ for (const lang of ['en', 'ko', 'de']) {
         self.assertEqual(run.returncode, 0, run.stderr)
 
     def test_stale_content_hash_is_blocked(self):
-        for path in ["manual/chimera.html", "assets/chimera/dual-cabinet-beta13.png", "assets/chimera/ir-loader-beta13.png"]:
+        for path in ["manual/chimera.html", "assets/chimera/cabinet-room-beta141.png", "assets/chimera/cabinet-library-beta141.png"]:
             lock = copy.deepcopy(self.lock); lock["reviewed_files"][path] = "0" * 64
             with self.subTest(path=path), self.assertRaisesRegex(check.InvalidRelease, "changed since source review"):
                 check.validate_local(lock, self.inventory)
