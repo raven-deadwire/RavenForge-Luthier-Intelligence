@@ -22,7 +22,7 @@ on:
         required: false
         default: ''
   pull_request:
-    paths: ['tools/ops_*.mjs', 'tools/test_ops_data.mjs', 'ops/**', '.github/workflows/ops-data.yml']
+    paths: ['tools/ops_*', 'tools/test_ops_*.mjs', 'ops/**', '.github/workflows/ops-data.yml']
 
 permissions:
   contents: read
@@ -43,16 +43,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: node --test tools/test_ops_data.mjs
+      - run: node --test tools/test_ops_data.mjs tools/test_ops_workflow.mjs
 
   collect:
     name: Collect
     needs: test
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
       contents: write
+    outputs:
+      pushed: ${{ steps.commit.outputs.pushed }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
@@ -68,24 +70,34 @@ jobs:
           if [ -n "$SINCE" ]; then node tools/ops_climate.mjs --since "$SINCE"; else node tools/ops_climate.mjs; fi
 
       - name: Search trends
-        if: github.event.schedule == '41 1 * * 1' || (github.event_name == 'workflow_dispatch' && inputs.collect != 'climate')
+        if: ${{ !cancelled() && (github.event.schedule == '41 1 * * 1' || (github.event_name == 'workflow_dispatch' && inputs.collect != 'climate')) }}
         env:
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
         run: node tools/ops_search_trends.mjs
 
       - name: Commit changed data
+        id: commit
+        run: bash tools/ops_commit_data.sh
+
+  publish:
+    name: Request Pages build
+    needs: collect
+    if: needs.collect.outputs.pushed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pages: write
+    steps:
+      - name: Request build from main
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          git add ops/data
-          if git diff --cached --quiet; then
-            echo "No data changes."
-            exit 0
+          # GITHUB_TOKEN pushes do not trigger branch-based Pages builds.
+          # This requests a rebuild of the whole main/root site, not only ops/.
+          if gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds" --silent >/dev/null 2>&1; then
+            echo 'PAGES_BUILD_REQUESTED (deployment not yet verified)' >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'PAGES_BUILD_REQUEST_FAILED' >> "$GITHUB_STEP_SUMMARY"
+            exit 1
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Update operations data"
-          for attempt in 1 2 3; do
-            git pull --rebase origin "${GITHUB_REF_NAME}" && git push && exit 0
-            sleep $((attempt * 5))
-          done
-          exit 1

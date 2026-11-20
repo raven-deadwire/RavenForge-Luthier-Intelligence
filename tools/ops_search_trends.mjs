@@ -10,6 +10,7 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { ApiError, fetchText, runCli } from './ops_reporting.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const DATALAB_ENDPOINT = 'https://openapi.naver.com/v1/datalab/search';
@@ -37,24 +38,34 @@ export function requestBody(config, now) {
   };
 }
 
-export async function run({ env = process.env, now = Date.now(), fetchImpl = fetch, root = ROOT, log = console.log } = {}) {
-  if (!env.NAVER_CLIENT_ID || !env.NAVER_CLIENT_SECRET) {
-    log('NAVER_CLIENT_ID / NAVER_CLIENT_SECRET are not set; search trends unchanged.');
-    return { changed: false, skipped: true };
+export async function run({ env = process.env, now = Date.now(), fetchImpl = fetch, root = ROOT } = {}) {
+  if (!env.NAVER_CLIENT_ID?.trim() || !env.NAVER_CLIENT_SECRET?.trim()) {
+    return { changed: false, skipped: true, status: 'SKIPPED_MISSING_SECRET' };
   }
   const config = validateConfig(JSON.parse(await readFile(path.join(root, 'ops/config/search-trends.json'), 'utf8')));
   const body = requestBody(config, now);
-  const response = await fetchImpl(DATALAB_ENDPOINT, {
+  const { response, text } = await fetchText(fetchImpl, DATALAB_ENDPOINT, {
     method: 'POST',
     headers: { 'X-Naver-Client-Id': env.NAVER_CLIENT_ID, 'X-Naver-Client-Secret': env.NAVER_CLIENT_SECRET, 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
     signal: AbortSignal.timeout(30000)
   });
-  const text = await response.text();
   let data;
   try { data = JSON.parse(text); } catch { data = null; }
-  if (!response.ok) throw new Error(`DataLab HTTP ${response.status}: ${data?.errorMessage || text.slice(0, 160)}`);
-  if (!Array.isArray(data?.results)) throw new Error('DataLab response has no results');
+  if (!response.ok) throw new ApiError(response.status, data?.errorCode);
+  if (!Array.isArray(data?.results)) throw new ApiError(response.status, 'INVALID_RESPONSE');
+  if (!data.results.length) return { changed: false, status: 'NO_DATA', count: 0 };
+  // Never overwrite a valid series with a partial or malformed API response.
+  if (data.results.length !== config.groups.length || data.results.some(result => !Array.isArray(result?.data))) {
+    throw new ApiError(response.status, 'INVALID_RESPONSE');
+  }
+  if (data.results.every(result => !result.data.length)) return { changed: false, status: 'NO_DATA', count: 0 };
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(data.startDate || '') || !/^\d{4}-\d{2}-\d{2}$/.test(data.endDate || '') || data.timeUnit !== body.timeUnit ||
+    data.results.some(result => result.data.some(point => !/^\d{4}-\d{2}-\d{2}$/.test(point?.period || '') ||
+      !['number', 'string'].includes(typeof point.ratio) || String(point.ratio).trim() === '' ||
+      !Number.isFinite(Number(point.ratio)) || Number(point.ratio) < 0 || Number(point.ratio) > 100))) {
+    throw new ApiError(response.status, 'INVALID_RESPONSE');
+  }
 
   const output = {
     source: 'Naver DataLab search trend API',
@@ -77,10 +88,11 @@ export async function run({ env = process.env, now = Date.now(), fetchImpl = fet
     await mkdir(path.dirname(file), { recursive: true });
     await writeFile(file, next);
   }
-  log(`DataLab ${output.start_date}..${output.end_date} (${output.time_unit}): ${output.groups.length} groups${changed ? '' : ' (no change)'}.`);
-  return { changed, output, file };
+  const points = output.groups.flatMap(group => group.points);
+  return { changed, output, file, status: 'SUCCESS', count: points.length,
+    latest: points.map(point => point.period).sort().at(-1) };
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  run().catch(error => { console.error(error.message); process.exit(1); });
+  process.exitCode = await runCli('trends', () => run());
 }
