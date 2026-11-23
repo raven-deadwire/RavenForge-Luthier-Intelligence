@@ -70,7 +70,7 @@ function prefillPortfolioLabels(html, copy) {
     });
 }
 
-function build(source, lang, translations, siteCopy, portfolioCopy) {
+function build(source, lang, translations, siteCopy, portfolioCopy, chimeraCopy) {
   const { file, locale } = PAGES[lang];
   const copy = siteCopy[lang];
   const url = SITE + file;
@@ -98,6 +98,8 @@ function build(source, lang, translations, siteCopy, portfolioCopy) {
     return open + JSON.stringify(data).replace(/</g, '\\u003c') + close;
   }, 'JSON-LD');
 
+  html = replaceOnce(html, /<div\b[^>]* data-chimera-label="screensLabel"[^>]*>/g,
+    tag => localizeAttribute(tag, 'aria-label', chimeraCopy[lang].screensLabel), 'Chimera screenshot group');
   return prefillPortfolioLabels(prefill(html, translations[lang]).text, portfolioCopy[lang]);
 }
 
@@ -108,10 +110,11 @@ if (require.main === module) {
   const translations = loadTranslations(source);
   const siteCopy = loadAssetCopy('site-context.js');
   const portfolioCopy = loadAssetCopy('works-portfolio.js');
+  const chimeraCopy = loadAssetCopy('chimera.js');
   const stale = [];
   for (const lang of Object.keys(PAGES)) {
     const target = path.join(ROOT, PAGES[lang].file);
-    const html = build(source, lang, translations, siteCopy, portfolioCopy);
+    const html = build(source, lang, translations, siteCopy, portfolioCopy, chimeraCopy);
     const current = fs.existsSync(target) ? fs.readFileSync(target, 'utf8') : null;
     if (current === html) continue;
     stale.push(PAGES[lang].file);

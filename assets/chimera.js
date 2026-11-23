@@ -3,6 +3,7 @@
   'use strict';
   const copy = {
   "en": {
+    "screensLabel": "Chimera 1.4.1 screens",
     "status": "Free open beta",
     "subtitle": "Guitar & bass amps, cabinets and effects",
     "tagline": "Different amps. One voice.",
@@ -142,6 +143,7 @@
     "headBassAlt": "Actual Chimera 1.4.1-beta.1 Windows interface showing Iron Tube bass amp enlarged controls"
   },
   "ko": {
+    "screensLabel": "Chimera 1.4.1 스크린샷",
     "status": "무료 오픈베타",
     "subtitle": "기타·베이스 앰프, 캐비넷 & 이펙트 스위트",
     "tagline": "서로 다른 앰프를, 하나의 톤으로.",
@@ -281,6 +283,7 @@
     "headBassAlt": "Iron Tube 베이스 앰프의 확대 컨트롤을 표시한 Chimera 1.4.1-beta.1 Windows 실제 화면"
   },
   "de": {
+    "screensLabel": "Screenshots von Chimera 1.4.1",
     "status": "Kostenlose offene Beta",
     "subtitle": "Gitarren- und Bass-Amps, Cabinets und Effekte",
     "tagline": "Verschiedene Amps. Ein Klang.",
@@ -419,11 +422,14 @@
     "headBassCaption": "Iron Tube · Tatsächliche 1.4.1-beta.1 Windows-Oberfläche · Bild zum Vergrößern auswählen",
     "headBassAlt": "Tatsächliche Windows-Oberfläche von Chimera 1.4.1-beta.1 mit vergrößerten Reglern des Iron-Tube-Bass-Amps"
   }
-};
+  };
   function translate() {
     const lang = Object.hasOwn(copy, document.documentElement.lang) ? document.documentElement.lang : 'en';
     document.querySelectorAll('[data-chimera-key]').forEach(node => {
       node.textContent = copy[lang][node.dataset.chimeraKey];
+    });
+    document.querySelectorAll('[data-chimera-label]').forEach(node => {
+      node.setAttribute('aria-label', copy[lang][node.dataset.chimeraLabel]);
     });
     document.querySelectorAll('[data-chimera-alt]').forEach(node => {
       node.alt = copy[lang][node.dataset.chimeraAlt];
