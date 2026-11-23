@@ -2,6 +2,7 @@ import test, { beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { eurKrwRate, krwReference, kstDate, resetRateCache, EXIM_ENDPOINT } from '../src/exchange-rate.js';
 import { handleChat } from '../src/index.js';
+import { fakeClient, route, answer, config } from './helpers.js';
 
 const env = { KOREAEXIM_API_KEY: 'test-key' };
 // 2026-11-09 (Monday) 01:00 UTC = 10:00 KST, before that day's publication.
@@ -68,29 +69,25 @@ test('krwReference rounds to 1,000 won and keeps the on-request flag', () => {
   assert.equal(krwReference({ total: 2600 }, null), null);
 });
 
-const fakeClient = responses => ({ beta: { messages: { create: async () => responses.shift() } } });
-const pricedTurn = () => [
-  { stop_reason: 'tool_use', content: [{ type: 'tool_use', id: 'tu_1', name: 'price_configuration', input: { model: 'EMBLA', start_from: 'standard', changes: [], instrument_options: [], accessories: [] } }] },
-  { stop_reason: 'end_turn', content: [{ type: 'text', text: '기본 사양 견적입니다.' }] }
-];
+const pricedTurn = () => fakeClient([route('quote', { configurations: [config('EMBLA')] }), answer('기본 사양 견적입니다.')]);
 
 test('handleChat adds a KRW reference for Korean pages only', async () => {
   const fetch = fakeFetch({ 20261109: eurRow('1,500') });
   const rateOptions = { fetchImpl: fetch.impl, now: MONDAY_MORNING };
   const body = language => ({ messages: [{ role: 'user', content: 'EMBLA 기본 가격?' }], language });
 
-  const ko = await handleChat(body('ko'), env, fakeClient(pricedTurn()), { rateOptions });
+  const ko = await handleChat(body('ko'), env, pricedTurn(), { rateOptions });
   assert.equal(ko.krw_reference.total_krw, Math.round(ko.quote.total * 1.5) * 1000);
   assert.equal(ko.krw_reference.rate_date, '2026-11-09');
   assert.equal(ko.quote.currency, 'EUR');
 
-  const en = await handleChat(body('en'), env, fakeClient(pricedTurn()), { rateOptions });
+  const en = await handleChat(body('en'), env, pricedTurn(), { rateOptions });
   assert.equal(en.krw_reference, undefined);
 });
 
 test('handleChat answers normally when the rate lookup fails', async () => {
   const result = await handleChat({ messages: [{ role: 'user', content: '가격?' }], language: 'ko' }, env,
-    fakeClient(pricedTurn()), { rateOptions: { fetchImpl: async () => { throw new Error('down'); }, now: MONDAY_MORNING } });
+    pricedTurn(), { rateOptions: { fetchImpl: async () => { throw new Error('down'); }, now: MONDAY_MORNING } });
   assert.equal(result.reply, '기본 사양 견적입니다.');
   assert.ok(Number.isFinite(result.quote.total));
   assert.equal(result.krw_reference, undefined);

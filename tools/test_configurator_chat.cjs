@@ -53,6 +53,10 @@ async function main(){
    await input.fill('Follow-up');await input.press('Enter');
    await page.waitForFunction(()=>!document.querySelector('.rf-chat-pending'));
    assert.equal(requests[1].messages.length,3);
+   // A follow-up carries the configuration priced in the previous answer.
+   assert.equal(requests[0].previous_quote,null);
+   assert.equal(requests[1].previous_quote.model,model);
+   assert.equal(requests[1].previous_quote.selections.fretboard,fretboard);
    failNext=true;await input.fill('Retry me');await input.press('Enter');
    await panel.getByRole('alert').waitFor();assert.equal(await input.inputValue(),'Retry me');
    assert.equal(await panel.locator('.rf-chat-user').count(),2);
