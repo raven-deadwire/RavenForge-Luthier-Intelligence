@@ -13,6 +13,16 @@ const publicURL = 'https://raven-deadwire.github.io/RavenForge-Luthier-Intellige
 const live = process.argv.includes('--public');
 const widths = [1440, 1024, 820, 768, 761, 760, 640, 390, 360, 320];
 const languages = {en:'EN',ko:'KR',de:'DE'};
+const screensLabels = {
+  en: 'Chimera 1.4.1 screens',
+  ko: 'Chimera 1.4.1 스크린샷',
+  de: 'Screenshots von Chimera 1.4.1',
+};
+async function checkScreensLabel(page, lang) {
+  const group = page.locator('.rf-chimera-cab-art');
+  assert.equal(await group.getAttribute('aria-label'), screensLabels[lang]);
+  assert.equal(await group.and(page.getByRole('group', {name:screensLabels[lang], exact:true})).count(), 1);
+}
 const markers = {en:'Select image to enlarge',ko:'이미지를 눌러 확대',de:'Bild zum Vergrößern auswählen'};
 const images = ['.rf-chimera-preview img','.rf-chimera-rigs-gallery img'];
 const report = {schema:1,target:live?'public':'candidate',started:new Date().toISOString(),cases:[],links:[],errors:[]};
@@ -79,6 +89,17 @@ async function main() {
     report.sourceHashes[file] = createHash('sha256').update(bytes).digest('hex');
     if(live) assert.equal(report.sourceHashes[file],createHash('sha256').update(await fs.readFile(path.join(root,file))).digest('hex'),'Deployed asset differs: '+file);
   }
+  const direct = await browser.newContext({javaScriptEnabled:false});
+  try {
+    const entry = await direct.newPage();
+    for (const lang of ['ko', 'de']) {
+      const response = await entry.goto(base+lang+'.html#chimera', {waitUntil:'domcontentloaded'});
+      assert.equal(response.status(), 200);
+      await checkScreensLabel(entry, lang);
+    }
+  } finally {
+    await direct.close();
+  }
   await page.goto(base+'#chimera',{waitUntil:'domcontentloaded',timeout:60000});
   await page.locator('#chimera').waitFor({state:'visible'});
   for (const width of widths) for (const [lang,label] of Object.entries(languages)) {
@@ -93,6 +114,7 @@ async function main() {
     await page.evaluate(()=>document.fonts.ready);
     await check('localized descriptions and links',async()=>{
       await page.waitForFunction(marker=>document.querySelector('[data-chimera-key="rigsClassicCaption"]').textContent.includes(marker),markers[lang]);
+      await checkScreensLabel(page, lang);
       for(const key of ['screenAlt','rigsClassicAlt','rigsDualAlt']) assert((await page.locator(`[data-chimera-alt="${key}"]`).getAttribute('alt')).length>30);
       const captions = await page.locator('.rf-chimera-rigs-gallery figcaption').allTextContents();
       assert.equal(captions.length,2); assert(captions.every(x=>x.includes(markers[lang])));
