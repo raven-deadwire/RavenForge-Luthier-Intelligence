@@ -1,6 +1,13 @@
 (function (root) {
   'use strict';
 
+  // The configuration priced in the last answer, so a follow-up such as "and with the gigbag?" continues from it.
+  function previousQuote(quote) {
+    if (!quote || !quote.selections || !Array.isArray(quote.lines)) return null;
+    var ids = function (category) { return quote.lines.filter(function (line) { return line.category === category; }).map(function (line) { return line.option; }); };
+    return { model: quote.model, selections: quote.selections, specialOptions: ids('instrument_options'), accessories: ids('accessories') };
+  }
+
   // Quote consultation chat. Talks to the Cloudflare Worker in
   // worker/quote-consult; the endpoint comes from this script tag's
   // data-endpoint attribute, and the chat stays hidden while it is empty.
@@ -83,7 +90,7 @@
       fetch(endpoint.replace(/\/$/, '') + '/chat', {
         method: 'POST', signal: controller.signal,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: next, configuration: props.configuration, language: props.language })
+        body: JSON.stringify({ messages: next, configuration: props.configuration, language: props.language, previous_quote: previousQuote(quote) })
       }).then(function (response) {
         return response.json().catch(function () { return {}; }).then(function (data) {
           if (!response.ok || typeof data.reply !== 'string') throw new Error(data.error || response.status);

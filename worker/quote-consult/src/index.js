@@ -1,7 +1,8 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { createOpenAIClient, OpenAIError } from './openai-client.js';
-import { MODEL_IDS, priceConfiguration, priceWithChanges, sanitizeConfiguration, withPageNames } from './pricing.js';
-import { PRICE_TOOL, SYSTEM_PROMPT } from './prompt.js';
+import { priceConfiguration, priceWithChanges, sanitizeConfiguration, withPageNames } from './pricing.js';
+import { SYSTEM_PROMPT } from './prompt.js';
+import { FIXED_REPLY, PRICED_TASKS, ROUTER_PROMPT, ROUTE_TOOL, looksLikeCode, parseRoute, quoteOnlyReply } from './scope.js';
 import { eurKrwRate, krwReference } from './exchange-rate.js';
 
 const MAX_MESSAGES = 30;
@@ -9,19 +10,12 @@ const MAX_MESSAGE_CHARS = 2000;
 const MAX_REPLY_CHARS = 6000;
 const MAX_HISTORY_CHARS = 20000;
 const MAX_BODY_BYTES = 128 * 1024;
-const MAX_TOOL_ROUNDS = 4;
-const MAX_TOOL_CALLS = 8;
+const ROUTE_OUTPUT_TOKENS = 2048;
 const MAX_OUTPUT_TOKENS = 4096;
 const MAX_REQUEST_OUTPUT_TOKENS = 8192;
 const REQUEST_TIMEOUT_MS = 90000;
-export const BUILD_VERSION = '20261107-krw-reference-1';
+export const BUILD_VERSION = '20261123-scope-gate-1';
 const LANGUAGES = ['en', 'de', 'ko'];
-
-const FALLBACK_REPLY = {
-  en: 'Sorry, I can\'t help with that here. Please contact RavenForge directly.',
-  de: 'Dabei kann ich hier leider nicht helfen. Bitte wende dich direkt an RavenForge.',
-  ko: '죄송하지만 이 부분은 여기서 도와드리기 어렵습니다. RavenForge에 직접 문의해 주세요.'
-};
 
 export class RequestError extends Error {
   constructor(status, message) { super(message); this.status = status; }
@@ -52,106 +46,139 @@ function parseRequest(body) {
   return {
     messages: messages.map(({ role, content }) => ({ role, content })),
     configuration: sanitizeConfiguration(body.configuration),
+    // The configuration priced in the previous answer, so "and with the gigbag?" continues from it.
+    previous: sanitizeConfiguration(body.previous_quote),
     language: LANGUAGES.includes(body.language) ? body.language : 'en'
   };
 }
 
-function runPriceTool(input, current, language) {
-  if (!input || typeof input !== 'object') return { error: 'Invalid tool input.' };
-  if (!MODEL_IDS.includes(input.model)) return { error: `Unknown model ${input.model}.` };
-  const start = input.start_from === 'current' && current?.model === input.model
-    ? current
-    : { model: input.model, selections: {}, specialOptions: [], accessories: [] };
+const extrasOf = quote => ({
+  instrument_options: quote.lines.filter(line => line.category === 'instrument_options').map(line => line.option),
+  accessories: quote.lines.filter(line => line.category === 'accessories').map(line => line.option)
+});
+
+// Prices one configuration the router asked for. Only catalog ids survive priceWithChanges.
+function priceRouted(entry, current, previous, language) {
+  const named = { current, previous }[entry.start_from];
+  const start = named?.model === entry.model ? named : { model: entry.model, selections: {}, specialOptions: [], accessories: [] };
   const result = priceWithChanges(start, {
-    changes: input.changes,
-    instrumentOptions: input.instrument_options,
-    accessories: input.accessories
+    changes: entry.changes,
+    instrumentOptions: entry.instrument_options ?? undefined,
+    accessories: entry.accessories ?? undefined
   });
-  if (input.start_from === 'current' && start !== current) result.note = 'No current configuration for this model; priced from the standard build.';
+  if (result.error) return null;
+  if (entry.start_from !== 'standard' && start !== named) result.note = `No ${entry.start_from} configuration for this model; priced from the standard build.`;
   return withPageNames(result, language);
 }
 
-// After a mid-output fallback, blocks of the declined attempt before the last
-// fallback marker must not be echoed back (non-streaming responses omit them anyway).
-function echoable(content) {
-  const boundary = content.findLastIndex(block => block.type === 'fallback');
-  return content.filter((block, index) =>
-    index > boundary || !['thinking', 'redacted_thinking', 'tool_use', 'server_tool_use'].includes(block.type));
-}
-
+// Every request takes the same path:
+//   1. route: one model call that may only return a task and catalog ids (ROUTE_TOOL);
+//   2. the server validates that answer, refuses or narrows without another model call,
+//      and computes every price itself;
+//   3. answer: one model call without tools writes the text for the chosen task from
+//      the server's brief; output that looks like code is discarded.
+// A computed quote is returned even when its explanation fails.
 export async function handleChat(body, env, client, { rateOptions } = {}) {
-  const { messages, configuration, language } = parseRequest(body);
+  const { messages, configuration, previous, language } = parseRequest(body);
   // Korean visitors get a KRW reference next to the EUR estimate. Fetched alongside the
-  // model call; a missing key or failed lookup leaves it out without affecting the reply.
+  // model calls; a missing key or failed lookup leaves it out without affecting the reply.
   const ratePromise = language === 'ko' ? eurKrwRate(env, rateOptions) : Promise.resolve(null);
-  const withKrw = async result => {
+  let answerCalls = 0;
+  const finish = async result => {
     const krw = krwReference(result.quote, await ratePromise);
-    return krw ? { ...result, krw_reference: krw } : result;
+    return { ...result, answer_calls: answerCalls, ...(krw ? { krw_reference: krw } : {}) };
   };
+  const fixed = (kind, task, stopReason = kind) => finish({ reply: FIXED_REPLY[kind][language], quote: null, task, stop_reason: stopReason });
+
   const model = env.MODEL || 'claude-opus-5-5';
   const currentQuote = configuration ? withPageNames(priceConfiguration(configuration), language) : null;
+  const previousQuote = previous ? withPageNames(priceConfiguration(previous), language) : null;
+  const state = {
+    page_language: language,
+    current_configuration: currentQuote ? { ...currentQuote, ...extrasOf(currentQuote) } : null,
+    previous_quote: previousQuote ? { ...previousQuote, ...extrasOf(previousQuote) } : null
+  };
+  const stateText = `<configurator_state>\n${JSON.stringify(state)}\n</configurator_state>`;
+  const history = messages.slice(0, -1);
+  const latest = messages.at(-1).content;
+  const signal = AbortSignal.timeout(REQUEST_TIMEOUT_MS);
 
-  // The configurator state rides along with the newest user turn only.
-  const state = { page_language: language, current_configuration: currentQuote
-    ? { ...currentQuote, instrument_options: configuration.specialOptions, accessories: configuration.accessories }
-    : null };
-  const last = messages.pop();
-  const conversation = [...messages, {
-    role: 'user',
-    content: [
-      { type: 'text', text: `<configurator_state>\n${JSON.stringify(state)}\n</configurator_state>` },
-      { type: 'text', text: last.content }
-    ]
-  }];
+  // 1. Route. Earlier turns only resolve references; the latest turn is what gets classified.
+  const routed = await client.beta.messages.create({
+    model,
+    max_tokens: ROUTE_OUTPUT_TOKENS,
+    system: [{ type: 'text', text: ROUTER_PROMPT, cache_control: { type: 'ephemeral' } }],
+    tools: [ROUTE_TOOL],
+    tool_choice: { type: 'tool', name: ROUTE_TOOL.name },
+    messages: [...history, { role: 'user', content: [{ type: 'text', text: stateText }, { type: 'text', text: latest }] }]
+  }, { signal });
+  const remainingTokens = MAX_REQUEST_OUTPUT_TOKENS - Math.min(ROUTE_OUTPUT_TOKENS, Math.max(0, routed.usage?.output_tokens ?? ROUTE_OUTPUT_TOKENS));
+  if (routed.stop_reason === 'refusal') return fixed('out_of_scope', 'out_of_scope', 'refusal');
+  const call = routed.content?.find(block => block.type === 'tool_use' && block.name === ROUTE_TOOL.name);
+  const route = parseRoute(call?.input);
+  // A failed or malformed classification never falls through to free generation.
+  if (!route) return fixed('clarify', 'clarify', 'route_invalid');
 
+  // 2. Gate and price.
+  if (route.task === 'out_of_scope') return fixed('out_of_scope', 'out_of_scope');
+  if (route.task === 'clarify') return fixed('clarify', 'clarify');
+  let quotes = [];
+  if (PRICED_TASKS.includes(route.task)) {
+    quotes = route.configurations.map(entry => priceRouted(entry, configuration, previous, language)).filter(Boolean);
+    if (!quotes.length && route.task === 'quote' && currentQuote) quotes = [currentQuote];
+    if (!quotes.length) return fixed('clarify', route.task, 'clarify');
+  }
+  const quote = quotes.at(-1) ?? (route.task === 'enquiry_draft' ? currentQuote : null);
+  const degrade = stopReason => (quote
+    ? finish({ reply: quoteOnlyReply(quote, language), quote, task: route.task, stop_reason: stopReason })
+    : null);
+
+  // 3. Answer. With an out-of-scope part, the customer's words are not passed on at all:
+  // the answer model sees only the server's brief for the consultation task.
+  const brief = {
+    task: route.task,
+    page_language: language,
+    out_of_scope_part: route.out_of_scope_part,
+    quotes: quotes.map(entry => ({ ...entry, ...extrasOf(entry) })),
+    current_configuration: state.current_configuration,
+    previous_quote: state.previous_quote
+  };
+  const briefText = `<consultation_brief>\n${JSON.stringify(brief)}\n</consultation_brief>`;
+  const conversation = route.out_of_scope_part
+    ? [{ role: 'user', content: [{ type: 'text', text: briefText }, { type: 'text', text: `Write the reply for the ${route.task} task in the page language.` }] }]
+    : [...history, { role: 'user', content: [{ type: 'text', text: briefText }, { type: 'text', text: latest }] }];
   const params = {
     model,
-    max_tokens: MAX_OUTPUT_TOKENS,
+    max_tokens: Math.min(MAX_OUTPUT_TOKENS, remainingTokens),
     thinking: { type: 'adaptive' },
     output_config: { effort: env.EFFORT || 'medium' },
     system: [{ type: 'text', text: SYSTEM_PROMPT, cache_control: { type: 'ephemeral' } }],
-    tools: [PRICE_TOOL]
+    messages: conversation
   };
   // Server-side refusal fallback; Haiku has none.
   if (!model.startsWith('claude-haiku')) Object.assign(params, { betas: ['server-side-fallback-2026-07-01'], fallbacks: 'default' });
 
-  let lastQuote = null;
-  let remainingTokens = MAX_REQUEST_OUTPUT_TOKENS;
-  let toolCalls = 0;
-  const signal = AbortSignal.timeout(REQUEST_TIMEOUT_MS);
-  for (let round = 0; round < MAX_TOOL_ROUNDS; round += 1) {
-    if (remainingTokens <= 0) throw new RequestError(502, 'The consultant reached its response limit.');
-    const requestedTokens = Math.min(MAX_OUTPUT_TOKENS, remainingTokens);
-    const response = await client.beta.messages.create({ ...params, max_tokens: requestedTokens, messages: conversation }, { signal });
-    remainingTokens -= Math.min(requestedTokens, Math.max(0, response.usage?.output_tokens ?? requestedTokens));
-    if (response.stop_reason === 'max_tokens') throw new RequestError(502, 'The consultant reached its response limit. Please ask a shorter question.');
-
-    if (response.stop_reason === 'refusal') return withKrw({ reply: FALLBACK_REPLY[language], quote: lastQuote, stop_reason: 'refusal' });
-
-    if (response.stop_reason === 'tool_use') {
-      const echoed = echoable(response.content);
-      conversation.push({ role: 'assistant', content: echoed });
-      // Answer only the tool calls that were echoed back, so every tool_result has its tool_use.
-      const calls = echoed.filter(block => block.type === 'tool_use');
-      toolCalls += calls.length;
-      if (!calls.length || toolCalls > MAX_TOOL_CALLS) throw new RequestError(502, 'Too many quote comparisons in one request.');
-      const results = calls.map(block => {
-        if (block.name !== PRICE_TOOL.name) {
-          return { type: 'tool_result', tool_use_id: block.id, content: `Unknown tool ${block.name}.`, is_error: true };
-        }
-        const result = runPriceTool(block.input, configuration, language);
-        if (!result.error) lastQuote = result;
-        return { type: 'tool_result', tool_use_id: block.id, content: JSON.stringify(result), is_error: Boolean(result.error) };
-      });
-      conversation.push({ role: 'user', content: results });
-      continue;
-    }
-
-    const reply = response.content.filter(block => block.type === 'text').map(block => block.text).join('\n\n').trim();
-    if (reply.length > MAX_REPLY_CHARS) throw new RequestError(502, 'The answer is too long. Please ask a shorter question.');
-    return withKrw({ reply: reply || FALLBACK_REPLY[language], quote: lastQuote, stop_reason: response.stop_reason });
+  let response;
+  answerCalls = 1;
+  try {
+    response = await client.beta.messages.create(params, { signal });
+  } catch (error) {
+    const degraded = degrade('answer_unavailable');
+    if (degraded) return degraded;
+    throw error;
   }
-  throw new RequestError(502, 'The consultant did not finish its answer.');
+  if (response.stop_reason === 'refusal') {
+    return finish({ reply: FIXED_REPLY.refusal[language], quote, task: route.task, stop_reason: 'refusal' });
+  }
+  const reply = (response.content || []).filter(block => block.type === 'text').map(block => block.text).join('\n\n').trim();
+  if (reply && looksLikeCode(reply)) return degrade('filtered') ?? fixed('out_of_scope', route.task, 'filtered');
+  if (response.stop_reason === 'max_tokens' || reply.length > MAX_REPLY_CHARS) {
+    const degraded = degrade('answer_too_long');
+    if (degraded) return degraded;
+    throw new RequestError(502, 'The consultant reached its response limit. Please ask a shorter question.');
+  }
+  if (!reply) return degrade('answer_empty') ?? fixed('refusal', route.task, 'answer_empty');
+  return finish({ reply, quote, task: route.task, stop_reason: response.stop_reason });
 }
 
 function corsHeaders(origin, env) {
