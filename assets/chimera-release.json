@@ -320,9 +320,9 @@
     "assets/chimera/metro-classic-beta150-linux.png": "381f9156721eb6773f0937ad9208af5c4cbad3101c599fdd8d8604d14266fcf0",
     "assets/chimera/metro-modern-beta150-linux.png": "9b9361322b095f782985b9d20e8c9926df6d4e00b8c508f0304b070f2ec01971",
     "assets/chimera/post-rack-beta150-linux.png": "f7cafb00d5f18cabb18bcc265a4b3b7f5cd27775e163741fad589be2359e3f55",
-    "assets/chimera/screens-beta150-linux-provenance.json": "8a6981a56f5690531c8d34321b7a720b7710f962bc1ddac5b4ef3e85b9ab2095",
-    "assets/chimera.css": "4764bbe567325ac016e31d0d8101c660915ff3a71a47a2358d605faa149551dc",
-    "assets/chimera.js": "de3b0ad1af3f1fea81c4836e048399da392f70ad1af318644023a2bdd29b1750",
+    "assets/chimera/screens-beta150-linux-provenance.json": "476296ef02d857fe9657e4f628f02d1a5aaead85f04e70321b52cdd870533791",
+    "assets/chimera.css": "67c5ccfa4301eb6fd61dfe34b24bd7eebe3a3b3dac4438fc7848d287daa615be",
+    "assets/chimera.js": "6bf56d91cea7a46eb81f7704d655a6e20bada2ac5d1fb87e88f38f592097ced4",
     "assets/chimera/dual-cabinet-beta13.png": "9b635d96d1a2140801fcad0125adf0a9102ef379325106b2fef39ca57a915fca",
     "assets/chimera/head-brit-edge-beta131.png": "20c7f662306f536d221be40a9e65c6cbb15caf7cb3be362f35f780faff00697d",
     "assets/chimera/head-nastrond-beta131.png": "7c266df61c2602fe1ee1fc3a214fa2f4769f3adc6c11551271a5379546b09e92",
@@ -348,7 +348,7 @@
     "docs/validation/chimera-commercial-rigs-capture-2026-10-11.log": "392464a125c78c2c38d08e5c5830c62116f701433a8b7960990921dc05f752cb",
     "docs/validation/chimera-rigs-capture-2026-10-11.cpp": "2f20dfd8ab82910ed1befe8cc4dc612df6885671673598a8db34a554ed8cc897",
     "manual/chimera.html": "ed104628415de50e84c33711b05b90adcdd2560c79b761fc6876b7f84d83abac",
-    "tools/chimera_page_inventory.cjs": "00223a9c4ee1899988f9084e4895eb5cc6d444ef7e1174f19cf2235d3f0c70f6",
+    "tools/chimera_page_inventory.cjs": "7baed88805ed2988da8ba23e8e2b695c9b09db589777c74a6b395c1979aabe08",
     "assets/chimera/screens-beta132-native-provenance.json": "25f93d59e3f485596f9197c7fb4d67099d2958a5706519bc8cdb8bb756f21f63",
     "assets/chimera/rigs-matrix-beta132.png": "e6769d3f0b3248ee60efacf8d0c45cd53f0a51bbdd6e07e0caa8034c4aa19f75",
     "assets/chimera/rigs-classic-beta132.png": "8cbc4ca3e3f5cff8ffd354ad0055f596913ae8c08cce91e1ec1894a508def249",
@@ -368,9 +368,12 @@
     "assets/chimera/cabinet-room-beta141.png": "3fe4e169ee39d896fd0c42b159775871e21c875d42fcd048217dbc196f9d3b7a",
     "assets/chimera/cabinet-library-beta141.png": "dccfe43a7690ebed3e618a819bd137935401f89326db1e0bc4a8221ddafe221f",
     "assets/chimera/pre-board-beta141.png": "35af5fcb6abac9762278821b7c41f5f95086be753072aa7ea10255f19991eab1",
-    "assets/chimera/post-rack-beta141.png": "6036c86733e34d9c7530a999ea4c3db378f1b2e5af03edf3176a840747e95098"
+    "assets/chimera/post-rack-beta141.png": "6036c86733e34d9c7530a999ea4c3db378f1b2e5af03edf3176a840747e95098",
+    "assets/chimera/matrix-hero-beta150-linux.png": "0233b515fc83f2afec29009c09168f0829ed52b7a73a6a5bb5b48fdd2829c76e",
+    "assets/chimera/dynamics-beta150-linux.png": "fbc0a241e4e44ddebb3feb5ea0597860a8e614fa1f32b929cc01721eb60bca9f",
+    "assets/chimera/synth-beta150-linux.png": "1f2f5dcd131ed04938a6eb2b8819d2f4e87631e4ac02af0dfd7645bc7d0a6be3"
   },
-  "product_markup_sha256": "7f976f01efcdff9797fdb8bf4b1a97ee99a0382a7e49be7874dfa88d71ec16ac",
+  "product_markup_sha256": "7aa3ac6511a755a2a339a3b73902ae81d1d1bd6c91ca28f13069938968684459",
   "native_capture": {
     "source_sha": "7b20cd9d1f90e3e2969c250712b199e893cf50cd",
     "version": "1.3.1-beta.1"

@@ -8,8 +8,17 @@
   "package": "SpectralForge-Chimera-1.5.0-beta.1-linux-x86_64.deb",
   "package_digest": "sha256:6e1c2375858309d1f6e81ca1f2f64db9d3baed0d198925da82ea887c6327b8de",
   "evidence_boundary": "Operator-captured published standalone UI only. No audio, real DAW, publisher signing, OBS, Pro Tools or AAX qualification.",
-  "capture": "Verified public DEB extracted using dpkg-deb -x and launched without system installation. Direct application-window PNGs captured with ImageMagick import -window 'SpectralForge Chimera'; no pixel edits, cropping or compositing.",
+  "capture": "Verified public DEB extracted using dpkg-deb -x and launched without system installation. Direct application-window PNGs captured with ImageMagick import -window 'SpectralForge Chimera'; no pixel edits, cropping or compositing. The Crom Cruach, Dynamics and Synth windows were captured in a scratch HOME/XDG session on a headless Xorg dummy display from the same verified package.",
   "images": [
+    {
+      "path": "assets/chimera/matrix-hero-beta150-linux.png",
+      "view": "matrix-crom-cruach",
+      "width": 1188,
+      "height": 814,
+      "sha256": "0233b515fc83f2afec29009c09168f0829ed52b7a73a6a5bb5b48fdd2829c76e",
+      "preset": "Deadwire Signature → Crom Cruach",
+      "capture_context": "Matrix Cabinet Room in Full Editor, 200 / 1800 Hz crossovers and 50% LOW DI blend"
+    },
     {
       "path": "assets/chimera/easy-beta150-linux.png",
       "view": "easy-view",
@@ -101,6 +110,22 @@
       "width": 1188,
       "height": 814,
       "sha256": "04a3e657a54525f617248e8bc101a748015fe54d9b81e25e624b29166f33f156"
+    },
+    {
+      "path": "assets/chimera/dynamics-beta150-linux.png",
+      "view": "dynamics-multiband",
+      "width": 1188,
+      "height": 814,
+      "sha256": "fbc0a241e4e44ddebb3feb5ea0597860a8e614fa1f32b929cc01721eb60bca9f",
+      "capture_context": "Full Editor Dynamics. Multiband page set to six bands in a scratch copy of Crom Cruach. No input signal."
+    },
+    {
+      "path": "assets/chimera/synth-beta150-linux.png",
+      "view": "synth-seidr-dynamic",
+      "width": 1188,
+      "height": 814,
+      "sha256": "1f2f5dcd131ed04938a6eb2b8819d2f4e87631e4ac02af0dfd7645bc7d0a6be3",
+      "capture_context": "Full Editor Synth page with Seidr Dynamic selected and Synth enabled in scratch state. No notes played."
     }
   ],
   "captured_at": "2026-11-24",

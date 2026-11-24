@@ -212,7 +212,10 @@ def validate_homepage_captures(target, lock, inventory, root):
     package = f"SpectralForge-Chimera-{target['version']}-linux-x86_64.deb"
     require(proof["package"] == package and proof["package_digest"] == target["assets"][package],
             "Released homepage capture package mismatch")
-    expected = {"easy-beta150-linux.png": "easy-view",
+    expected = {"matrix-hero-beta150-linux.png": "matrix-crom-cruach",
+                "dynamics-beta150-linux.png": "dynamics-multiband",
+                "synth-beta150-linux.png": "synth-seidr-dynamic",
+                "easy-beta150-linux.png": "easy-view",
                 "post-rack-beta150-linux.png": "post-rack-slot-2-selected",
                 "metro-modern-beta150-linux.png": "metro-clean-modern",
                 "metro-classic-beta150-linux.png": "metro-clean-classic",
