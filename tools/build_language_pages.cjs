@@ -34,9 +34,9 @@ const escapeText = value => String(value).replace(/&/g, '&amp;').replace(/</g, '
 function loadAssetCopy(file) {
   const text = fs.readFileSync(path.join(ROOT, 'assets', file), 'utf8');
   const start = text.indexOf('const copy = {');
-  const end = text.indexOf('\n  };', start);
+  const end = text.slice(start).search(/\n(?:  )?};/);
   if (start < 0 || end < 0) throw new Error(`copy object not found in assets/${file}`);
-  return vm.runInNewContext(`(${text.slice(start + 'const copy = '.length, end + '\n  }'.length)})`);
+  return vm.runInNewContext(`(${text.slice(start + 'const copy = '.length, text.indexOf(';', start + end))})`);
 }
 
 function replaceOnce(text, pattern, replacement, label) {
@@ -70,6 +70,16 @@ function prefillPortfolioLabels(html, copy) {
     });
 }
 
+// Keep release-specific notices readable before Chimera's enhancement runs.
+function prefillChimeraRelease(html, lang) {
+  const copy = loadAssetCopy('chimera.js')[lang];
+  for (const key of ['download', 'downloadNote', 'previewUpdate', 'presetUpdate']) {
+    const pattern = new RegExp(`(<(?:h3|p)\\b[^>]* data-chimera-key="${key}"[^>]*>)[^<]*(<\\/(?:h3|p)>)`, 'g');
+    html = replaceOnce(html, pattern, (_, start, end) => start + escapeText(copy[key]) + end, `Chimera release ${key}`);
+  }
+  return html;
+}
+
 function build(source, lang, translations, siteCopy, portfolioCopy) {
   const { file, locale } = PAGES[lang];
   const copy = siteCopy[lang];
@@ -98,7 +108,7 @@ function build(source, lang, translations, siteCopy, portfolioCopy) {
     return open + JSON.stringify(data).replace(/</g, '\\u003c') + close;
   }, 'JSON-LD');
 
-  return prefillPortfolioLabels(prefill(html, translations[lang]).text, portfolioCopy[lang]);
+  return prefillChimeraRelease(prefillPortfolioLabels(prefill(html, translations[lang]).text, portfolioCopy[lang]), lang);
 }
 
 if (require.main === module) {
