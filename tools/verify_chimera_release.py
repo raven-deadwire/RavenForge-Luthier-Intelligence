@@ -160,11 +160,54 @@ def validate_current_native_capture_public(proof):
                 "Current capture artifact differs from CI archive: " + expected["name"])
 
 
+def homepage_release(root=ROOT):
+    release = json.loads((root / "assets/chimera-homepage-release.json").read_text())
+    require(release["tag"] == "v" + release["version"]
+            and re.fullmatch(r"[0-9a-f]{40}", release["source_sha"]), "Invalid homepage release pin")
+    return release
+
+
+def validate_homepage_links(target, page):
+    base = WEB + "/releases/"
+    downloads = base + "download/" + target["tag"] + "/"
+    expected = {downloads + n for n in target["assets"]}
+    expected.add(base + "tag/" + target["tag"])
+    notes = RAW + target["source_sha"] + "/" + target["notes_path"]
+    actual = {item["url"] for item in page["links"]
+              if item["url"].startswith((base + "download/", base + "tag/"))}
+    require(actual == expected, f"Incorrect homepage release link inventory: {page['file']}")
+    require(notes in {item["url"] for item in page["links"]}, "Missing source-pinned homepage release notes")
+    require(page.get("releaseVersion") == "OPEN BETA · " + target["tag"], "Wrong homepage display version")
+    excluded = {
+        "en": "AAX for Pro Tools is not included in this beta.",
+        "ko": "이번 베타에는 Pro Tools용 AAX가 포함되지 않습니다.",
+        "de": "AAX für Pro Tools ist in dieser Beta nicht enthalten.",
+    }
+    require(excluded[page["lang"]] in (page.get("downloadNote") or ""), "Missing localized AAX exclusion")
+    require(not any("aax" in name.lower() for name in target["assets"]), "AAX cannot be listed for this beta")
+
+
+def validate_homepage_public(target):
+    tag = target["tag"]
+    ref = public_json(API + "/git/ref/tags/" + tag)["object"]
+    if ref["type"] == "tag":
+        ref = public_json(API + "/git/tags/" + ref["sha"])["object"]
+    require(ref["type"] == "commit", "Unresolved homepage release tag")
+    assets = validate_release_metadata(target, public_json(API + "/releases/tags/" + tag), ref["sha"])
+    for name, digest in target["assets"].items():
+        require(assets[name]["digest"] == digest, "Homepage asset digest changed: " + name)
+    body, _ = fetch(RAW + target["source_sha"] + "/" + target["notes_path"])
+    require(target["version"].encode() in body, "Homepage notes do not identify the release")
+    return {"tag": tag, "source_sha": ref["sha"], "linked_assets": len(target["assets"])}
+
+
 def validate_local(lock, inventory, root=ROOT):
     require(lock.get("schema") == 1 and re.fullmatch(r"[0-9a-f]{40}", lock.get("source_sha", "")), "Invalid source lock")
     require(lock["tag"] == "v" + lock["version"], "Tag/version mismatch")
     require({(p["file"], p["lang"]) for p in inventory} ==
-            {(f, l) for f in ("index.html", "manual/chimera.html") for l in ("en", "ko", "de")}, "Incomplete language rendering")
+            ({("index.html", "en"), ("ko.html", "ko"), ("de.html", "de")}
+             | {("manual/chimera.html", l) for l in ("en", "ko", "de")}), "Incomplete language rendering")
+    homepage = homepage_release(root)
     for file, digest in lock["reviewed_files"].items():
         require(hashlib.sha256((root / file).read_bytes()).hexdigest() == digest,
                 f"Content changed since source review; re-audit and update lock: {file}")
@@ -236,25 +279,23 @@ def validate_local(lock, inventory, root=ROOT):
                 and hashlib.sha256(contents).hexdigest() == record["sha256"]
                 and lock["reviewed_files"].get(filename) == record["sha256"],
                 "Native preset PNG differs from reviewed evidence: " + filename)
-    download = WEB + "/releases/download/" + lock["tag"] + "/"
     image_prefix = RAW + lock["source_sha"] + "/"
-    linked_assets, images = set(), set()
+    images = set()
     for page in inventory:
         if page["file"] == "manual/chimera.html":
             require(page["models"] == {"preModels": 51, "ampModels": 30, "postModels": 39}, "Rendered model count mismatch")
             require(page["presets"] == lock["counts"]["presets"], "Rendered preset count mismatch")
         else:
+            validate_homepage_links(homepage, page)
             require(page["stats"] == [lock["counts"]["amps"], 99, lock["counts"]["presets"]], "Homepage count mismatch")
         for item in page["links"]:
             url = item["url"]
             parsed = urlsplit(url)
-            if url.startswith(WEB + "/releases/download/"):
-                require(url.startswith(download), f"Wrong release in download link: {url}")
-                name = unquote(url[len(download):])
-                require(name in lock["assets"], f"Unreviewed download path: {name}")
-                linked_assets.add(name)
-            elif url.startswith(WEB + "/releases/tag/"):
-                require(url == WEB + "/releases/tag/" + lock["tag"], "Wrong release page")
+            if page["file"] == "manual/chimera.html" and url.startswith(
+                    (WEB + "/releases/download/", WEB + "/releases/tag/")):
+                require(url == WEB + "/releases/tag/" + lock["tag"]
+                        or url in {WEB + "/releases/download/" + lock["tag"] + "/" + n for n in lock["assets"]},
+                        "Unexpected historical release link in manual")
             if item["image"] and parsed.scheme:
                 require(url.startswith(image_prefix), f"Image must use the reviewed full source SHA: {url}")
                 path = unquote(url[len(image_prefix):])
@@ -264,9 +305,8 @@ def validate_local(lock, inventory, root=ROOT):
             if not parsed.scheme and parsed.path:
                 local = (root / Path(page["file"]).parent / unquote(parsed.path)).resolve()
                 require(local.is_relative_to(root.resolve()) and local.is_file(), f"Missing local reference: {page['file']}: {url}")
-    require(linked_assets == {n for n, a in lock["assets"].items() if a["linked"]}, "Missing reviewed download links")
     require(images == set(lock["images"]), "Image inventory changed; review the source lock")
-    return {"rendered_languages": ["en", "ko", "de"], "remote_images": len(images), "linked_assets": len(linked_assets)}
+    return {"rendered_languages": ["en", "ko", "de"], "remote_images": len(images), "linked_assets": len(homepage["assets"])}
 
 
 def validate_release_metadata(lock, release, tag_sha):
@@ -449,6 +489,7 @@ def main():
         report["local"] = validate_local(lock, load_inventory())
         if not args.offline:
             report["public"] = validate_public(lock)
+            report["homepage_public"] = validate_homepage_public(homepage_release())
             report["public_verified"] = True
         report["status"] = "OFFLINE_PASS" if args.offline else "PUBLIC_PASS"
     except Exception as error:

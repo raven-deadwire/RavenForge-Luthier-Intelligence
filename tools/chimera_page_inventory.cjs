@@ -112,7 +112,8 @@ function validateProductContent(product, lang) {
 function collectInventory() {
   const inventory = [];
   for (const lang of ['en', 'ko', 'de']) {
-    const home = new JSDOM(read('index.html'), {url: 'https://example.test/', runScripts: 'outside-only'});
+    const homepageFile = {en: 'index.html', ko: 'ko.html', de: 'de.html'}[lang];
+    const home = new JSDOM(read(homepageFile), {url: 'https://example.test/', runScripts: 'outside-only'});
     home.window.document.documentElement.lang = lang;
     home.window.eval(read('assets/chimera.js'));
     const product = home.window.document.querySelector('#chimera');
@@ -139,14 +140,16 @@ function collectInventory() {
         throw new Error(`${lang}: A workflow still displays superseded amp artwork`);
       }
     }
-    for (const [file, scope] of [['index.html', product], ['manual/chimera.html', manual.window.document]]) {
+    for (const [file, scope] of [[homepageFile, product], ['manual/chimera.html', manual.window.document]]) {
       const links = [...scope.querySelectorAll('[href], img[src]')].map(node => ({
         url: node.getAttribute(node.tagName === 'IMG' ? 'src' : 'href'),
         image: node.tagName === 'IMG', alt: node.tagName === 'IMG' ? node.alt : undefined
       }));
       inventory.push({file, lang, links, text: scope.textContent,
+        downloadNote: scope.querySelector('[data-chimera-key=downloadNote]')?.textContent,
+        releaseVersion: scope.querySelector('.rf-chimera-version')?.textContent,
         presets: file.startsWith('manual') ? scope.querySelectorAll('#presetTable tbody tr').length : undefined,
-        stats: file === 'index.html' ? [...scope.querySelectorAll('.rf-chimera-stats dd')].map(n => Number(n.textContent)) : undefined,
+        stats: file === homepageFile ? [...scope.querySelectorAll('.rf-chimera-stats dd')].map(n => Number(n.textContent)) : undefined,
         models: file.startsWith('manual') ? Object.fromEntries(['preModels', 'ampModels', 'postModels'].map(id => [id, scope.querySelectorAll(`#${id} .model-card`).length])) : undefined});
     }
     home.window.close(); manual.window.close();

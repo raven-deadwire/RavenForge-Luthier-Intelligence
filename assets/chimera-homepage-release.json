@@ -1,0 +1,18 @@
+{
+  "assets": {
+    "COPYRIGHT.txt": "sha256:fa9e00e350e9b9e8c566fe7f1a25bb0b8b99a36e987421f55a351cc2c7fe37c3",
+    "INSTALLATION.md": "sha256:56a258913869068f4b4fc4edabff11a097f0deb03a7be742330d78a3b9fd8cf6",
+    "MANUAL.html": "sha256:49fcf7ca94ee35fb34b5aff1e10b90137a3332518e591fd36238fa300e66081e",
+    "SHA256SUMS.txt": "sha256:7417f4987e3ea1b6ddce14e9041118dc353a0388114fc76a36721a7dc638124e",
+    "SpectralForge-Chimera-1.5.0-beta.1-linux-x86_64.deb": "sha256:6e1c2375858309d1f6e81ca1f2f64db9d3baed0d198925da82ea887c6327b8de",
+    "SpectralForge-Chimera-1.5.0-beta.1-linux-x86_64.tar.gz": "sha256:42dbebaf189cd31dac47c174f7b1d981a345a413028fb0bb097761ca46f05bd4",
+    "SpectralForge-Chimera-1.5.0-beta.1-macos-universal.pkg": "sha256:cebdd4399ef5b4964ae05115884e6cd0bbc1e25b27e5eb377bfb579a65daa4ca",
+    "SpectralForge-Chimera-1.5.0-beta.1-win64-Setup.exe": "sha256:50cf986ca2119840c81db7cc2b536e23d849d3ba30f916c14e3d2bf1373eb266",
+    "SpectralForge-Chimera-1.5.0-beta.1-win64.zip": "sha256:0e23ab240a206a1b6954c71908c9fd02aae6c3bd956379dd3606c6339b25b495",
+    "THIRD_PARTY_NOTICES.md": "sha256:b936cd11f179273d3505a0fe194a58626ff2a35b658aec65e2ff691758050b4c"
+  },
+  "notes_path": "docs/OPEN_BETA_1_5_RELEASE_NOTES.md",
+  "source_sha": "95a215eda8368c84e75bd0e8d32e9659b106361c",
+  "tag": "v1.5.0-beta.1",
+  "version": "1.5.0-beta.1"
+}

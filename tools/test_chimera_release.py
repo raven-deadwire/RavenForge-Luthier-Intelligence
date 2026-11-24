@@ -332,6 +332,18 @@ class LocalContentContract(unittest.TestCase):
             self.assertIn(path, self.lock["reviewed_files"])
             self.assertTrue(any(i["image"] and i["url"] == path for i in self.inventory[0]["links"]))
 
+    def test_every_homepage_rejects_missing_copy_or_wrong_release_links(self):
+        for original in [p for p in self.inventory if p["file"] != "manual/chimera.html"]:
+            for corruption in ["missing AAX exclusion", "wrong package"]:
+                page = copy.deepcopy(original)
+                if corruption == "wrong package":
+                    link = next(link for link in page["links"] if "/releases/download/" in link["url"])
+                    link["url"] = link["url"].replace("1.5.0-beta.1", "1.4.1-beta.1")
+                else:
+                    page["downloadNote"] = "Choose an installer."
+                with self.subTest(lang=page["lang"], corruption=corruption), self.assertRaises(check.InvalidRelease):
+                    check.validate_homepage_links(check.homepage_release(), page)
+
     def test_removed_rigs_or_original_amp_content_is_blocked(self):
         # Exercise removal from the rendered DOM, including the whole section
         # that used to disappear while the surviving-node inventory still passed.
