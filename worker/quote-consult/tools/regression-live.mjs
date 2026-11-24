@@ -63,7 +63,8 @@ const cases = [
   ['3 선물용 EDDA/EMBLA 비교', async () => {
     const data = await chat(ask('여자친구에게 선물할 베이스인데 EDDA와 EMBLA 중 뭐가 좋아?'));
     check('3 선물용 EDDA/EMBLA 비교', {
-      'consultation task': ['model_comparison', 'instrument_discovery'].includes(data.task),
+      'model_comparison': data.task === 'model_comparison',
+      'named model priced': ['EDDA', 'EMBLA'].includes(data.quote?.model) && data.quote?.total === priceConfiguration(current(data.quote.model)).total,
       'answered': data.answer_calls === 1,
       'no code': noCode(data), 'answer kept': kept(data)
     }, data);
