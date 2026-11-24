@@ -25,6 +25,11 @@ function validateProductContent(product, lang) {
 
   // Required sections must be asserted explicitly: scanning surviving nodes
   // alone allowed the entire AMP / RIGS showcase to disappear unnoticed.
+  const beta150 = one(product, '#chimera-beta150');
+  require(beta150.querySelectorAll('.rf-chimera-modes > article').length === 3,
+          '1.5 highlights require three feature cards');
+  for (const key of ['beta150Title', 'beta150PostTitle', 'beta150Post', 'beta150MetroTitle',
+                     'beta150Metro', 'beta150AutoTitle', 'beta150Auto', 'beta150Artwork']) copy(beta150, key);
   const rigs = one(product, '#chimera-rigs');
   for (const key of ['rigsTitle', 'rigsIntro', 'rigsControlsTitle', 'rigsControls',
                      'rigsPresetsTitle', 'rigsPresets']) copy(rigs, key);
@@ -115,7 +120,14 @@ function collectInventory() {
     const homepageFile = {en: 'index.html', ko: 'ko.html', de: 'de.html'}[lang];
     const home = new JSDOM(read(homepageFile), {url: 'https://example.test/', runScripts: 'outside-only'});
     home.window.document.documentElement.lang = lang;
+    const staticHighlights = [...home.window.document.querySelectorAll('#chimera-beta150 [data-chimera-key]')]
+      .map(node => node.textContent);
     home.window.eval(read('assets/chimera.js'));
+    const translatedHighlights = [...home.window.document.querySelectorAll('#chimera-beta150 [data-chimera-key]')]
+      .map(node => node.textContent);
+    if (staticHighlights.length !== 8 || staticHighlights.some((text, i) => text !== translatedHighlights[i])) {
+      throw new Error(`${lang}: feature highlights must be translated in static markup`);
+    }
     const product = home.window.document.querySelector('#chimera');
     validateProductContent(product, lang);
     const manual = new JSDOM(read('manual/chimera.html'), {url: 'https://example.test/manual/chimera.html', runScripts: 'outside-only'});

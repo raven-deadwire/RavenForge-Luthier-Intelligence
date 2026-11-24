@@ -3,6 +3,14 @@
   'use strict';
   const copy = {
   "en": {
+    "beta150Title": "What's new in Open Beta 1.5.0-beta.1",
+    "beta150PostTitle": "POST · Two slots per section",
+    "beta150Post": "Each of the seven POST sections has an independent second slot. Try a short delay and a long echo together, or drag a rack row by its grip to change the signal order. Second slots start off.",
+    "beta150MetroTitle": "Metro Clean · Two bass channels",
+    "beta150Metro": "MODERN carries forward Metro Clean; CLASSIC drives harder. The new O/D SYMMETRY control shapes overdrive. Older projects load on MODERN with their saved knob positions, but can sound different because the controls and their ranges changed.",
+    "beta150AutoTitle": "Auto Set · More controls for Dual and Matrix",
+    "beta150Auto": "Optional steps cover amp gain, channel selection and input trim for both Dual rigs and Matrix MID/HIGH. Dual Blend also gains a Presence and Resonance step. The new steps are off by default and have not been checked by listening to real instruments.",
+    "beta150Artwork": "Crystal 120, Bluestack 100, Eightyfire, Fortress 103 and Northlight have updated head artwork. Their sound has not changed.",
     "status": "Free open beta",
     "subtitle": "Guitar & bass amps, cabinets and effects",
     "tagline": "Different amps. One voice.",
@@ -142,6 +150,14 @@
     "headBassAlt": "Actual Chimera 1.4.1-beta.1 Windows interface showing Iron Tube bass amp enlarged controls"
   },
   "ko": {
+    "beta150Title": "Open Beta 1.5.0-beta.1의 새 기능",
+    "beta150PostTitle": "POST · 섹션마다 독립 슬롯 2개",
+    "beta150Post": "POST의 7개 섹션에 각각 독립된 두 번째 슬롯이 생겼습니다. 짧은 딜레이와 긴 에코를 함께 쓰거나 랙 줄의 손잡이를 끌어 신호 순서를 바꿀 수 있습니다. 두 번째 슬롯은 기본적으로 꺼져 있습니다.",
+    "beta150MetroTitle": "Metro Clean · 베이스 앰프 2채널",
+    "beta150Metro": "MODERN은 기존 Metro Clean을 잇는 채널이고 CLASSIC은 드라이브가 더 강한 새 채널입니다. O/D SYMMETRY로 오버드라이브 특성을 조절할 수 있습니다. 기존 프로젝트는 저장한 노브 위치를 유지한 채 MODERN으로 열리지만 컨트롤과 범위가 바뀌어 소리가 달라질 수 있습니다.",
+    "beta150AutoTitle": "Auto Set · Dual과 Matrix 설정 확대",
+    "beta150Auto": "Dual의 두 리그와 Matrix의 MID·HIGH 레인에 앰프 게인, 채널 선택, 입력 트림 단계가 추가됐습니다. Dual Blend에는 Presence와 Resonance 조절 단계도 추가됐습니다. 새 단계는 기본적으로 꺼져 있으며 실제 악기 청음은 아직 진행하지 않았습니다.",
+    "beta150Artwork": "Crystal 120, Bluestack 100, Eightyfire, Fortress 103, Northlight의 헤드 외관이 바뀌었습니다. 소리는 바뀌지 않았습니다.",
     "status": "무료 오픈베타",
     "subtitle": "기타·베이스 앰프, 캐비넷 & 이펙트 스위트",
     "tagline": "서로 다른 앰프를, 하나의 톤으로.",
@@ -281,6 +297,14 @@
     "headBassAlt": "Iron Tube 베이스 앰프의 확대 컨트롤을 표시한 Chimera 1.4.1-beta.1 Windows 실제 화면"
   },
   "de": {
+    "beta150Title": "Neu in Open Beta 1.5.0-beta.1",
+    "beta150PostTitle": "POST · Zwei Slots pro Sektion",
+    "beta150Post": "Jede der sieben POST-Sektionen hat einen unabhängigen zweiten Slot. Kombiniere etwa ein kurzes Delay mit einem langen Echo oder ändere die Signalreihenfolge über den Griff an der Rackzeile. Die zweiten Slots sind standardmäßig aus.",
+    "beta150MetroTitle": "Metro Clean · Zwei Basskanäle",
+    "beta150Metro": "MODERN führt Metro Clean fort, CLASSIC geht stärker in die Verzerrung. Mit O/D SYMMETRY lässt sich der Overdrive formen. Ältere Projekte öffnen auf MODERN mit den gespeicherten Reglerpositionen, können wegen geänderter Regler und Wertebereiche aber anders klingen.",
+    "beta150AutoTitle": "Auto Set · Mehr Optionen für Dual und Matrix",
+    "beta150Auto": "Optionale Schritte für Amp-Gain, Kanalwahl und Eingangs-Trim stehen für beide Dual-Rigs sowie für MID und HIGH in Matrix zur Verfügung. Dual Blend erhält außerdem einen Schritt für Presence und Resonance. Die neuen Schritte sind standardmäßig aus und wurden noch nicht mit echten Instrumenten im Hörtest geprüft.",
+    "beta150Artwork": "Crystal 120, Bluestack 100, Eightyfire, Fortress 103 und Northlight haben neue Gehäusegrafiken. Ihr Klang bleibt unverändert.",
     "status": "Kostenlose offene Beta",
     "subtitle": "Gitarren- und Bass-Amps, Cabinets und Effekte",
     "tagline": "Verschiedene Amps. Ein Klang.",

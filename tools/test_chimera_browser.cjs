@@ -102,6 +102,20 @@ async function main() {
       assert((await page.locator('[data-chimera-story]').getAttribute('href')).endsWith('/'+lang+'.html'));
       return captions;
     });
+    await check('localized 1.5 feature highlights remain within viewport', async () => {
+      const highlights = page.locator('#chimera-beta150');
+      const heading = {en: 'What’s new', ko: '새 기능', de: 'Neu in'};
+      const title = (await highlights.locator('h3').innerText()).replace("'", '’');
+      assert(title.includes(heading[lang]) && title.includes('1.5.0-beta.1'), title);
+      const cards = highlights.locator('.rf-chimera-modes > article');
+      assert.equal(await cards.count(), 3);
+      for (const card of await cards.all()) {
+        assert((await card.innerText()).trim().length > 35, 'Empty beta highlight');
+        const box = await card.boundingBox();
+        assert(box && box.x >= 0 && box.x + box.width <= width + 1, 'Beta highlight exceeds viewport');
+      }
+      return title;
+    });
     await check('uncropped images, proportions, spacing and breakpoint',async()=>{
       for(const locator of await page.locator(images.join(',')).all()) {
         await locator.scrollIntoViewIfNeeded();

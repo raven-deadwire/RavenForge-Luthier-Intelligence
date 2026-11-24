@@ -73,8 +73,10 @@ function prefillPortfolioLabels(html, copy) {
 // Keep release-specific notices readable before Chimera's enhancement runs.
 function prefillChimeraRelease(html, lang) {
   const copy = loadAssetCopy('chimera.js')[lang];
-  for (const key of ['download', 'downloadNote', 'previewUpdate', 'presetUpdate']) {
-    const pattern = new RegExp(`(<(?:h3|p)\\b[^>]* data-chimera-key="${key}"[^>]*>)[^<]*(<\\/(?:h3|p)>)`, 'g');
+  for (const key of ['download', 'downloadNote', 'previewUpdate', 'presetUpdate',
+                     'beta150Title', 'beta150PostTitle', 'beta150Post', 'beta150MetroTitle', 'beta150Metro',
+                     'beta150AutoTitle', 'beta150Auto', 'beta150Artwork']) {
+    const pattern = new RegExp(`(<(?:h3|h4|p)\\b[^>]* data-chimera-key="${key}"[^>]*>)[^<]*(<\\/(?:h3|h4|p)>)`, 'g');
     html = replaceOnce(html, pattern, (_, start, end) => start + escapeText(copy[key]) + end, `Chimera release ${key}`);
   }
   return html;
