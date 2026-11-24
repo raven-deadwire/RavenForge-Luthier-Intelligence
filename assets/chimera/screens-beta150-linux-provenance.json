@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "kind": "local-released-standalone-window-capture",
+  "version": "1.5.0-beta.1",
+  "tag": "v1.5.0-beta.1",
+  "source_sha": "95a215eda8368c84e75bd0e8d32e9659b106361c",
+  "platform": "linux-x86_64",
+  "package": "SpectralForge-Chimera-1.5.0-beta.1-linux-x86_64.deb",
+  "package_digest": "sha256:6e1c2375858309d1f6e81ca1f2f64db9d3baed0d198925da82ea887c6327b8de",
+  "evidence_boundary": "Operator-captured published standalone UI only. No audio, real DAW, publisher signing, OBS, Pro Tools or AAX qualification.",
+  "capture": "Verified public DEB extracted using dpkg-deb -x and launched without system installation. Direct application-window PNGs captured with ImageMagick import -window 'SpectralForge Chimera'; no pixel edits, cropping or compositing.",
+  "images": [
+    {
+      "path": "assets/chimera/easy-beta150-linux.png",
+      "view": "easy-view",
+      "width": 1188,
+      "height": 814,
+      "sha256": "ff0975b50fb58607428d01f1faae7ccb6baf051775e8e02cef704f2f6e116dbe"
+    },
+    {
+      "path": "assets/chimera/post-rack-beta150-linux.png",
+      "view": "post-rack-slot-2-selected",
+      "width": 1188,
+      "height": 814,
+      "sha256": "f7cafb00d5f18cabb18bcc265a4b3b7f5cd27775e163741fad589be2359e3f55"
+    },
+    {
+      "path": "assets/chimera/metro-modern-beta150-linux.png",
+      "view": "metro-clean-modern",
+      "width": 1188,
+      "height": 814,
+      "sha256": "9b9361322b095f782985b9d20e8c9926df6d4e00b8c508f0304b070f2ec01971"
+    },
+    {
+      "path": "assets/chimera/metro-classic-beta150-linux.png",
+      "view": "metro-clean-classic",
+      "width": 1188,
+      "height": 814,
+      "sha256": "381f9156721eb6773f0937ad9208af5c4cbad3101c599fdd8d8604d14266fcf0"
+    }
+  ],
+  "captured_at": "2026-11-24",
+  "standalone_executable": "usr/bin/chimera-amp-matrix",
+  "standalone_sha256": "292eed9bb83eefa32ad70ce83c06f89f9b0ac34fa75d3538cfade965a2bada84",
+  "environment": "Debian 13 x86_64, isolated HOME and XDG, Xvfb 1920×1200×24, 100% UI scale"
+}

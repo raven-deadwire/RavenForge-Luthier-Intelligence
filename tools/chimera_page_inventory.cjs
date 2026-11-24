@@ -43,7 +43,7 @@ function validateProductContent(product, lang) {
   require(gallery.querySelectorAll('figure').length === 2,
           'AMP / RIGS requires exactly two screenshots: Classic and Dual');
   for (const [scope, alt, caption, file, label] of [
-    [hero, 'screenAlt', 'screen', 'rigs-matrix-beta141.png', 'Matrix hero'],
+    [hero, 'screenAlt', 'screen', 'easy-beta150-linux.png', 'Easy view hero'],
     [gallery, 'rigsClassicAlt', 'rigsClassicCaption', 'rigs-classic-beta141.png', 'Classic'],
     [gallery, 'rigsDualAlt', 'rigsDualCaption', 'rigs-dual-beta141.png', 'Dual']
   ]) {
@@ -125,7 +125,7 @@ function collectInventory() {
     home.window.eval(read('assets/chimera.js'));
     const translatedHighlights = [...home.window.document.querySelectorAll('#chimera-beta150 [data-chimera-key]')]
       .map(node => node.textContent);
-    if (staticHighlights.length !== 8 || staticHighlights.some((text, i) => text !== translatedHighlights[i])) {
+    if (staticHighlights.length !== 10 || staticHighlights.some((text, i) => text !== translatedHighlights[i])) {
       throw new Error(`${lang}: feature highlights must be translated in static markup`);
     }
     const product = home.window.document.querySelector('#chimera');

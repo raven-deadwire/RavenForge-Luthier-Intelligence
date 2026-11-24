@@ -201,6 +201,46 @@ def validate_homepage_public(target):
     return {"tag": tag, "source_sha": ref["sha"], "linked_assets": len(target["assets"])}
 
 
+def validate_homepage_captures(target, lock, inventory, root):
+    path = "assets/chimera/screens-beta150-linux-provenance.json"
+    require(path in lock["reviewed_files"], "Unreviewed released homepage screenshot provenance")
+    proof = json.loads((root / path).read_text())
+    require(proof["schema"] == 1 and proof["kind"] == "local-released-standalone-window-capture"
+            and proof["platform"] == "linux-x86_64"
+            and all(proof[k] == target[k] for k in ("tag", "version", "source_sha")),
+            "Released homepage capture identity mismatch")
+    package = f"SpectralForge-Chimera-{target['version']}-linux-x86_64.deb"
+    require(proof["package"] == package and proof["package_digest"] == target["assets"][package],
+            "Released homepage capture package mismatch")
+    expected = {"easy-beta150-linux.png": "easy-view",
+                "post-rack-beta150-linux.png": "post-rack-slot-2-selected",
+                "metro-modern-beta150-linux.png": "metro-clean-modern",
+                "metro-classic-beta150-linux.png": "metro-clean-classic"}
+    images = {}
+    for record in proof["images"]:
+        name = Path(record["path"]).name
+        filename = "assets/chimera/" + name
+        require(name in expected and filename == record["path"] and record["view"] == expected[name]
+                and filename not in images, "Unrecognized released homepage capture")
+        data = (root / filename).read_bytes()
+        require(data[:16] == b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR"
+                and struct.unpack(">II", data[16:24]) == (record["width"], record["height"]) == (1188, 814)
+                and hashlib.sha256(data).hexdigest() == record["sha256"] == lock["reviewed_files"].get(filename),
+                "Released homepage capture bytes or dimensions differ: " + filename)
+        images[filename] = record
+    require(len(images) == len(expected), "Incomplete released homepage captures")
+    for page in inventory:
+        if page["file"] == "manual/chimera.html":
+            continue
+        for filename in images:
+            captions = [item.get("alt", "") for item in page["links"]
+                        if item["image"] and item["url"] == filename]
+            require(len(captions) == 1 and target["version"] in captions[0] and "Linux" in captions[0]
+                    and any(item["url"] == filename and not item["image"] for item in page["links"]),
+                    f"Missing source-labeled full-size capture: {page['file']}: {filename}")
+    return len(images)
+
+
 def validate_local(lock, inventory, root=ROOT):
     require(lock.get("schema") == 1 and re.fullmatch(r"[0-9a-f]{40}", lock.get("source_sha", "")), "Invalid source lock")
     require(lock["tag"] == "v" + lock["version"], "Tag/version mismatch")
@@ -213,6 +253,7 @@ def validate_local(lock, inventory, root=ROOT):
                 f"Content changed since source review; re-audit and update lock: {file}")
     require(hashlib.sha256(product_markup(root)).hexdigest() == lock["product_markup_sha256"],
             "Product markup changed since source review")
+    homepage_captures = validate_homepage_captures(homepage, lock, inventory, root)
     validate_current_native_capture(lock, root)
     # Keep raw production artwork distinct from actual native UI evidence.
     for name, expected_kind in [
@@ -306,7 +347,8 @@ def validate_local(lock, inventory, root=ROOT):
                 local = (root / Path(page["file"]).parent / unquote(parsed.path)).resolve()
                 require(local.is_relative_to(root.resolve()) and local.is_file(), f"Missing local reference: {page['file']}: {url}")
     require(images == set(lock["images"]), "Image inventory changed; review the source lock")
-    return {"rendered_languages": ["en", "ko", "de"], "remote_images": len(images), "linked_assets": len(homepage["assets"])}
+    return {"rendered_languages": ["en", "ko", "de"], "remote_images": len(images), "linked_assets": len(homepage["assets"]),
+            "released_homepage_captures": homepage_captures}
 
 
 def validate_release_metadata(lock, release, tag_sha):

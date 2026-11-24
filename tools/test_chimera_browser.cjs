@@ -14,7 +14,7 @@ const live = process.argv.includes('--public');
 const widths = [1440, 1024, 820, 768, 761, 760, 640, 390, 360, 320];
 const languages = {en:'EN',ko:'KR',de:'DE'};
 const markers = {en:'Select image to enlarge',ko:'이미지를 눌러 확대',de:'Bild zum Vergrößern auswählen'};
-const images = ['.rf-chimera-preview img','.rf-chimera-rigs-gallery img'];
+const images = ['.rf-chimera-preview img','#chimera-rigs .rf-chimera-rigs-gallery img'];
 const report = {schema:1,target:live?'public':'candidate',started:new Date().toISOString(),cases:[],links:[],errors:[]};
 let browser, server;
 async function main() {
@@ -94,11 +94,11 @@ async function main() {
     await check('localized descriptions and links',async()=>{
       await page.waitForFunction(marker=>document.querySelector('[data-chimera-key="rigsClassicCaption"]').textContent.includes(marker),markers[lang]);
       for(const key of ['screenAlt','rigsClassicAlt','rigsDualAlt']) assert((await page.locator(`[data-chimera-alt="${key}"]`).getAttribute('alt')).length>30);
-      const captions = await page.locator('.rf-chimera-rigs-gallery figcaption').allTextContents();
+      const captions = await page.locator('#chimera-rigs .rf-chimera-rigs-gallery figcaption').allTextContents();
       assert.equal(captions.length,2); assert(captions.every(x=>x.includes(markers[lang])));
-      assert((await page.locator('.rf-chimera-preview figcaption').innerText()).includes('Matrix · Tight 515'));
+      assert((await page.locator('.rf-chimera-preview figcaption').innerText()).includes('Linux'));
       assert(captions.every(x=>x.includes('1.4.1') && x.includes('Windows')));
-      assert((await page.locator('.rf-chimera-preview figcaption').innerText()).includes('1.4.1'));
+      assert((await page.locator('.rf-chimera-preview figcaption').innerText()).includes('1.5.0-beta.1'));
       assert((await page.locator('[data-chimera-story]').getAttribute('href')).endsWith('/'+lang+'.html'));
       return captions;
     });
@@ -114,6 +114,15 @@ async function main() {
         const box = await card.boundingBox();
         assert(box && box.x >= 0 && box.x + box.width <= width + 1, 'Beta highlight exceeds viewport');
       }
+      const metro = highlights.locator('#chimera-beta150-captures img');
+      assert.equal(await metro.count(), 2);
+      for (const shot of await metro.all()) {
+        await shot.scrollIntoViewIfNeeded();
+        await shot.evaluate(img => img.decode());
+        const box = await shot.boundingBox();
+        assert(box && box.x >= 0 && box.x + box.width <= width + 1, 'Metro Clean image exceeds viewport');
+        assert((await shot.getAttribute('alt')).includes('1.5.0-beta.1'));
+      }
       return title;
     });
     await check('uncropped images, proportions, spacing and breakpoint',async()=>{
@@ -127,8 +136,9 @@ async function main() {
       }));
       assert.equal(geometry.length,3);
       for(const g of geometry) {
-        assert.deepEqual(g.natural,[1180,780]);
-        assert(Math.abs(g.width/g.height-1180/780)<0.002,'Aspect ratio: '+g.src);
+        const expected = g.src.endsWith('easy-beta150-linux.png') ? [1188,814] : [1180,780];
+        assert.deepEqual(g.natural, expected);
+        assert(Math.abs(g.width/g.height-expected[0]/expected[1])<0.002,'Aspect ratio: '+g.src);
         assert(g.width>0 && g.x>=0 && g.right<=width+1,'Horizontal clipping: '+JSON.stringify(g));
         assert(g.x>=g.parent.x-1 && g.right<=g.parent.right+1 && g.y>=g.parent.y-1 && g.bottom<=g.parent.bottom+1,'Parent clips '+g.src);
       }
@@ -150,7 +160,7 @@ async function main() {
       assert(Math.max(...tops)-Math.min(...tops)<1,'Statistic values drift with wrapped labels: '+tops);return tops;
     });
     await check('three original-image popup links',async()=>{
-      const links = await page.locator('.rf-chimera-preview a,.rf-chimera-rigs-gallery a').all();
+      const links = await page.locator('.rf-chimera-preview a,#chimera-rigs .rf-chimera-rigs-gallery a').all();
       const opened=[];
       for(const link of links){
         const href=await link.getAttribute('href');
@@ -159,9 +169,25 @@ async function main() {
         await popup.waitForLoadState('load');
         assert.equal(popup.url(),new URL(href,base).href);
         await popup.locator('img').evaluate(img=>img.decode());
-        assert.deepEqual(await popup.locator('img').evaluate(img=>[img.naturalWidth,img.naturalHeight]),[1180,780]);
+        assert.deepEqual(await popup.locator('img').evaluate(img=>[img.naturalWidth,img.naturalHeight]),
+          href.endsWith('easy-beta150-linux.png') ? [1188,814] : [1180,780]);
         opened.push(popup.url());await popup.close();
       }return opened;
+    });
+    await check('released POST image is legible and source-labeled', async () => {
+      const shot = page.locator('img[data-chimera-alt="postAlt"]');
+      await shot.scrollIntoViewIfNeeded();
+      const result = await shot.evaluate(async img => {
+        await img.decode();
+        const r = img.getBoundingClientRect();
+        return {natural:[img.naturalWidth,img.naturalHeight], left:r.left, right:r.right,
+          alt:img.alt, src:img.getAttribute('src'), href:img.closest('a').getAttribute('href')};
+      });
+      assert.deepEqual(result.natural, [1188,814]);
+      assert(result.left >= 0 && result.right <= width + 1);
+      assert(result.alt.includes('1.5.0-beta.1') && result.alt.includes('Linux'));
+      assert.equal(result.href, result.src);
+      return result;
     });
     await check('native head images and original PNG links',async()=>{
       const headImages = await page.locator('.rf-chimera-head-gallery img,#chimera-niflheimr figure img,#chimera-nastrond figure img').all();

@@ -75,9 +75,13 @@ function prefillChimeraRelease(html, lang) {
   const copy = loadAssetCopy('chimera.js')[lang];
   for (const key of ['download', 'downloadNote', 'previewUpdate', 'presetUpdate',
                      'beta150Title', 'beta150PostTitle', 'beta150Post', 'beta150MetroTitle', 'beta150Metro',
-                     'beta150AutoTitle', 'beta150Auto', 'beta150Artwork']) {
-    const pattern = new RegExp(`(<(?:h3|h4|p)\\b[^>]* data-chimera-key="${key}"[^>]*>)[^<]*(<\\/(?:h3|h4|p)>)`, 'g');
+                     'beta150AutoTitle', 'beta150Auto', 'beta150Artwork', 'screen', 'postCaption', 'metroModernCaption', 'metroClassicCaption']) {
+    const pattern = new RegExp(`(<(?:h3|h4|p|figcaption)\\b[^>]* data-chimera-key="${key}"[^>]*>)[^<]*(<\\/(?:h3|h4|p|figcaption)>)`, 'g');
     html = replaceOnce(html, pattern, (_, start, end) => start + escapeText(copy[key]) + end, `Chimera release ${key}`);
+  }
+  for (const key of ['screenAlt', 'postAlt', 'metroModernAlt', 'metroClassicAlt']) {
+    const pattern = new RegExp(`<img\\b[^>]* data-chimera-alt="${key}"[^>]*>`, 'g');
+    html = replaceOnce(html, pattern, tag => localizeAttribute(tag, 'alt', copy[key]), `Chimera capture ${key}`);
   }
   return html;
 }
