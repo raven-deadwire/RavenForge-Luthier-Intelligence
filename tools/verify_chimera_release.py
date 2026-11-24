@@ -215,7 +215,16 @@ def validate_homepage_captures(target, lock, inventory, root):
     expected = {"easy-beta150-linux.png": "easy-view",
                 "post-rack-beta150-linux.png": "post-rack-slot-2-selected",
                 "metro-modern-beta150-linux.png": "metro-clean-modern",
-                "metro-classic-beta150-linux.png": "metro-clean-classic"}
+                "metro-classic-beta150-linux.png": "metro-clean-classic",
+                "rigs-classic-beta150-linux.png": "classic-head-glass",
+                "rigs-dual-beta150-linux.png": "dual-head-tight-515",
+                "cabinet-room-beta150-linux.png": "dual-cabinet-room",
+                "cabinet-library-beta150-linux.png": "cabinet-library-source-license",
+                "head-brit-edge-beta150-linux.png": "brit-edge-expanded-jumped",
+                "head-iron-tube-beta150-linux.png": "iron-tube-expanded",
+                "head-niflheimr-beta150-linux.png": "niflheimr-hrimfaxi-expanded",
+                "head-nastrond-beta150-linux.png": "nastrond-fenrir-expanded",
+                "pre-board-beta150-linux.png": "pre-board-five-fuzz"}
     images = {}
     for record in proof["images"]:
         name = Path(record["path"]).name
@@ -223,8 +232,9 @@ def validate_homepage_captures(target, lock, inventory, root):
         require(name in expected and filename == record["path"] and record["view"] == expected[name]
                 and filename not in images, "Unrecognized released homepage capture")
         data = (root / filename).read_bytes()
+        dimensions = (1202, 678) if record["view"].endswith(("expanded", "expanded-jumped")) else (1188, 814)
         require(data[:16] == b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR"
-                and struct.unpack(">II", data[16:24]) == (record["width"], record["height"]) == (1188, 814)
+                and struct.unpack(">II", data[16:24]) == (record["width"], record["height"]) == dimensions
                 and hashlib.sha256(data).hexdigest() == record["sha256"] == lock["reviewed_files"].get(filename),
                 "Released homepage capture bytes or dimensions differ: " + filename)
         images[filename] = record

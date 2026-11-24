@@ -44,8 +44,8 @@ function validateProductContent(product, lang) {
           'AMP / RIGS requires exactly two screenshots: Classic and Dual');
   for (const [scope, alt, caption, file, label] of [
     [hero, 'screenAlt', 'screen', 'easy-beta150-linux.png', 'Easy view hero'],
-    [gallery, 'rigsClassicAlt', 'rigsClassicCaption', 'rigs-classic-beta141.png', 'Classic'],
-    [gallery, 'rigsDualAlt', 'rigsDualCaption', 'rigs-dual-beta141.png', 'Dual']
+    [gallery, 'rigsClassicAlt', 'rigsClassicCaption', 'rigs-classic-beta150-linux.png', 'Classic'],
+    [gallery, 'rigsDualAlt', 'rigsDualCaption', 'rigs-dual-beta150-linux.png', 'Dual']
   ]) {
     const image = one(scope, `img[data-chimera-alt="${alt}"]`);
     const source = `assets/chimera/${file}`;
@@ -66,8 +66,8 @@ function validateProductContent(product, lang) {
   const heads = one(editing, '.rf-chimera-head-gallery');
   require(heads.querySelectorAll('figure').length === 2,
           'Direct editing requires native Brit Edge and Iron Tube screenshots');
-  for (const [key, file] of [['headBrit', 'head-brit-edge-beta141.png'],
-                            ['headBass', 'head-iron-tube-beta141.png']]) {
+  for (const [key, file] of [['headBrit', 'head-brit-edge-beta150-linux.png'],
+                            ['headBass', 'head-iron-tube-beta150-linux.png']]) {
     const image = one(heads, `img[data-chimera-alt="${key}Alt"]`);
     require(image.getAttribute('src') === `assets/chimera/${file}` &&
             image.closest('a')?.getAttribute('href') === image.getAttribute('src'),
@@ -88,7 +88,7 @@ function validateProductContent(product, lang) {
     require(image.getAttribute('src').trim() &&
             image.closest('a')?.getAttribute('href') === image.getAttribute('src'),
             `${id} requires its native control image linked at full size`);
-    require(image.getAttribute('src') === `assets/chimera/head-${prefix}-beta141.png`,
+    require(image.getAttribute('src') === `assets/chimera/head-${prefix}-beta150-linux.png`,
             `${id} requires the revised native head controls`);
     copy(artwork, `${prefix}Caption`);
     const channelCards = one(amp, '.rf-chimera-nastrond-channels');

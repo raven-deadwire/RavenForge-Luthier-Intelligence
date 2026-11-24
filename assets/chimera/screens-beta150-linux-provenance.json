@@ -37,6 +37,70 @@
       "width": 1188,
       "height": 814,
       "sha256": "381f9156721eb6773f0937ad9208af5c4cbad3101c599fdd8d8604d14266fcf0"
+    },
+    {
+      "path": "assets/chimera/rigs-classic-beta150-linux.png",
+      "view": "classic-head-glass",
+      "width": 1188,
+      "height": 814,
+      "sha256": "c2660cef67c1d3bc068bf39ae501bb97d09e3bdea9ad9558141578cae41b8b35"
+    },
+    {
+      "path": "assets/chimera/rigs-dual-beta150-linux.png",
+      "view": "dual-head-tight-515",
+      "width": 1188,
+      "height": 814,
+      "sha256": "3b49b992a9f33206f0cbd85f7564db047eb68d8973e8728e2bc17551ae3777e7"
+    },
+    {
+      "path": "assets/chimera/cabinet-room-beta150-linux.png",
+      "view": "dual-cabinet-room",
+      "width": 1188,
+      "height": 814,
+      "sha256": "913d208a5390520c4e7afd4f53d4d8b04eeb35cbce3098261718da83e835ff83"
+    },
+    {
+      "path": "assets/chimera/cabinet-library-beta150-linux.png",
+      "view": "cabinet-library-source-license",
+      "width": 1188,
+      "height": 814,
+      "sha256": "4b9304ec55d152fee75285269dfb5e3cc7ad0c9ee485ed6b6c4f467256bf84fb",
+      "capture_method": "Native Xvfb framebuffer bounded to the entire visible app window to include the separate X11 IR Library window; no retouch or content removed."
+    },
+    {
+      "path": "assets/chimera/head-brit-edge-beta150-linux.png",
+      "view": "brit-edge-expanded-jumped",
+      "width": 1202,
+      "height": 678,
+      "sha256": "161c48484e791fb1965de1d9d9b1e83539e5dfdb0de90dd620ef69e8d18de321"
+    },
+    {
+      "path": "assets/chimera/head-iron-tube-beta150-linux.png",
+      "view": "iron-tube-expanded",
+      "width": 1202,
+      "height": 678,
+      "sha256": "70c3421f1e663a73f60d796595827579406f79f5247c99d8ebc661abc28fe64d"
+    },
+    {
+      "path": "assets/chimera/head-niflheimr-beta150-linux.png",
+      "view": "niflheimr-hrimfaxi-expanded",
+      "width": 1202,
+      "height": 678,
+      "sha256": "08e2df486c10b1726835dd4f14b6b1158302a40b747b5b4ef58302e821445088"
+    },
+    {
+      "path": "assets/chimera/head-nastrond-beta150-linux.png",
+      "view": "nastrond-fenrir-expanded",
+      "width": 1202,
+      "height": 678,
+      "sha256": "49993ffd6a425019df9b5f23badb5c2cba56b5bbc0e3af7f28e9ccf72fa02891"
+    },
+    {
+      "path": "assets/chimera/pre-board-beta150-linux.png",
+      "view": "pre-board-five-fuzz",
+      "width": 1188,
+      "height": 814,
+      "sha256": "04a3e657a54525f617248e8bc101a748015fe54d9b81e25e624b29166f33f156"
     }
   ],
   "captured_at": "2026-11-24",

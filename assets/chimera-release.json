@@ -307,13 +307,22 @@
     "Assets/Artwork/sseidr.png": "289ffe25b4327c2483a82d2e0c6bedb6e5a39795"
   },
   "reviewed_files": {
+    "assets/chimera/head-brit-edge-beta150-linux.png": "161c48484e791fb1965de1d9d9b1e83539e5dfdb0de90dd620ef69e8d18de321",
+    "assets/chimera/head-iron-tube-beta150-linux.png": "70c3421f1e663a73f60d796595827579406f79f5247c99d8ebc661abc28fe64d",
+    "assets/chimera/head-niflheimr-beta150-linux.png": "08e2df486c10b1726835dd4f14b6b1158302a40b747b5b4ef58302e821445088",
+    "assets/chimera/head-nastrond-beta150-linux.png": "49993ffd6a425019df9b5f23badb5c2cba56b5bbc0e3af7f28e9ccf72fa02891",
+    "assets/chimera/pre-board-beta150-linux.png": "04a3e657a54525f617248e8bc101a748015fe54d9b81e25e624b29166f33f156",
+    "assets/chimera/rigs-classic-beta150-linux.png": "c2660cef67c1d3bc068bf39ae501bb97d09e3bdea9ad9558141578cae41b8b35",
+    "assets/chimera/rigs-dual-beta150-linux.png": "3b49b992a9f33206f0cbd85f7564db047eb68d8973e8728e2bc17551ae3777e7",
+    "assets/chimera/cabinet-room-beta150-linux.png": "913d208a5390520c4e7afd4f53d4d8b04eeb35cbce3098261718da83e835ff83",
+    "assets/chimera/cabinet-library-beta150-linux.png": "4b9304ec55d152fee75285269dfb5e3cc7ad0c9ee485ed6b6c4f467256bf84fb",
     "assets/chimera/easy-beta150-linux.png": "ff0975b50fb58607428d01f1faae7ccb6baf051775e8e02cef704f2f6e116dbe",
     "assets/chimera/metro-classic-beta150-linux.png": "381f9156721eb6773f0937ad9208af5c4cbad3101c599fdd8d8604d14266fcf0",
     "assets/chimera/metro-modern-beta150-linux.png": "9b9361322b095f782985b9d20e8c9926df6d4e00b8c508f0304b070f2ec01971",
     "assets/chimera/post-rack-beta150-linux.png": "f7cafb00d5f18cabb18bcc265a4b3b7f5cd27775e163741fad589be2359e3f55",
-    "assets/chimera/screens-beta150-linux-provenance.json": "11606dcda19726f5cc37874be3abeb1016847c539649520949953a59c6132b76",
+    "assets/chimera/screens-beta150-linux-provenance.json": "8a6981a56f5690531c8d34321b7a720b7710f962bc1ddac5b4ef3e85b9ab2095",
     "assets/chimera.css": "4764bbe567325ac016e31d0d8101c660915ff3a71a47a2358d605faa149551dc",
-    "assets/chimera.js": "74b973d328aafc6beb9f163a173bcd01b1132eaaf72dbd60db65bc2aa1034a12",
+    "assets/chimera.js": "de3b0ad1af3f1fea81c4836e048399da392f70ad1af318644023a2bdd29b1750",
     "assets/chimera/dual-cabinet-beta13.png": "9b635d96d1a2140801fcad0125adf0a9102ef379325106b2fef39ca57a915fca",
     "assets/chimera/head-brit-edge-beta131.png": "20c7f662306f536d221be40a9e65c6cbb15caf7cb3be362f35f780faff00697d",
     "assets/chimera/head-nastrond-beta131.png": "7c266df61c2602fe1ee1fc3a214fa2f4769f3adc6c11551271a5379546b09e92",
@@ -339,7 +348,7 @@
     "docs/validation/chimera-commercial-rigs-capture-2026-10-11.log": "392464a125c78c2c38d08e5c5830c62116f701433a8b7960990921dc05f752cb",
     "docs/validation/chimera-rigs-capture-2026-10-11.cpp": "2f20dfd8ab82910ed1befe8cc4dc612df6885671673598a8db34a554ed8cc897",
     "manual/chimera.html": "ed104628415de50e84c33711b05b90adcdd2560c79b761fc6876b7f84d83abac",
-    "tools/chimera_page_inventory.cjs": "64dc2b18248defbb2eedcc7a8152806734646c3bb453c88d285f1bd9c73c8a20",
+    "tools/chimera_page_inventory.cjs": "00223a9c4ee1899988f9084e4895eb5cc6d444ef7e1174f19cf2235d3f0c70f6",
     "assets/chimera/screens-beta132-native-provenance.json": "25f93d59e3f485596f9197c7fb4d67099d2958a5706519bc8cdb8bb756f21f63",
     "assets/chimera/rigs-matrix-beta132.png": "e6769d3f0b3248ee60efacf8d0c45cd53f0a51bbdd6e07e0caa8034c4aa19f75",
     "assets/chimera/rigs-classic-beta132.png": "8cbc4ca3e3f5cff8ffd354ad0055f596913ae8c08cce91e1ec1894a508def249",
@@ -361,7 +370,7 @@
     "assets/chimera/pre-board-beta141.png": "35af5fcb6abac9762278821b7c41f5f95086be753072aa7ea10255f19991eab1",
     "assets/chimera/post-rack-beta141.png": "6036c86733e34d9c7530a999ea4c3db378f1b2e5af03edf3176a840747e95098"
   },
-  "product_markup_sha256": "7dd9a6a8a55ab906edeb5689366e9a42400d0dad955e1fbf217a4570be514dd6",
+  "product_markup_sha256": "7f976f01efcdff9797fdb8bf4b1a97ee99a0382a7e49be7874dfa88d71ec16ac",
   "native_capture": {
     "source_sha": "7b20cd9d1f90e3e2969c250712b199e893cf50cd",
     "version": "1.3.1-beta.1"

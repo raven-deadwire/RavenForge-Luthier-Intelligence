@@ -330,11 +330,12 @@ class LocalContentContract(unittest.TestCase):
         self.assertEqual(result["remote_images"], 132)
         for path in ["assets/chimera/cabinet-room-beta141.png", "assets/chimera/cabinet-library-beta141.png"]:
             self.assertIn(path, self.lock["reviewed_files"])
-            self.assertTrue(any(i["image"] and i["url"] == path for i in self.inventory[0]["links"]))
+            released = path.replace("beta141.png", "beta150-linux.png")
+            self.assertTrue(any(i["image"] and i["url"] == released for i in self.inventory[0]["links"]))
 
     def test_released_homepage_captures_require_the_actual_release_and_labels(self):
         target = check.homepage_release()
-        self.assertEqual(check.validate_homepage_captures(target, self.lock, self.inventory, check.ROOT), 4)
+        self.assertEqual(check.validate_homepage_captures(target, self.lock, self.inventory, check.ROOT), 13)
         false_target = copy.deepcopy(target)
         package = f"SpectralForge-Chimera-{target['version']}-linux-x86_64.deb"
         false_target["assets"][package] = "sha256:" + "0" * 64

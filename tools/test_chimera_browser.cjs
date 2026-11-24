@@ -97,7 +97,7 @@ async function main() {
       const captions = await page.locator('#chimera-rigs .rf-chimera-rigs-gallery figcaption').allTextContents();
       assert.equal(captions.length,2); assert(captions.every(x=>x.includes(markers[lang])));
       assert((await page.locator('.rf-chimera-preview figcaption').innerText()).includes('Linux'));
-      assert(captions.every(x=>x.includes('1.4.1') && x.includes('Windows')));
+      assert(captions.every(x=>x.includes('1.5.0-beta.1') && x.includes('Linux')));
       assert((await page.locator('.rf-chimera-preview figcaption').innerText()).includes('1.5.0-beta.1'));
       assert((await page.locator('[data-chimera-story]').getAttribute('href')).endsWith('/'+lang+'.html'));
       return captions;
@@ -136,7 +136,7 @@ async function main() {
       }));
       assert.equal(geometry.length,3);
       for(const g of geometry) {
-        const expected = g.src.endsWith('easy-beta150-linux.png') ? [1188,814] : [1180,780];
+        const expected = [1188,814];
         assert.deepEqual(g.natural, expected);
         assert(Math.abs(g.width/g.height-expected[0]/expected[1])<0.002,'Aspect ratio: '+g.src);
         assert(g.width>0 && g.x>=0 && g.right<=width+1,'Horizontal clipping: '+JSON.stringify(g));
@@ -170,7 +170,7 @@ async function main() {
         assert.equal(popup.url(),new URL(href,base).href);
         await popup.locator('img').evaluate(img=>img.decode());
         assert.deepEqual(await popup.locator('img').evaluate(img=>[img.naturalWidth,img.naturalHeight]),
-          href.endsWith('easy-beta150-linux.png') ? [1188,814] : [1180,780]);
+          [1188,814]);
         opened.push(popup.url());await popup.close();
       }return opened;
     });
@@ -200,20 +200,23 @@ async function main() {
           return {natural:[img.naturalWidth,img.naturalHeight],width:rect.width,height:rect.height,
                   alt:img.alt,src:img.getAttribute('src'),href:img.closest('a')?.getAttribute('href')};
         });
-        assert.deepEqual(info.natural,[1440,780]);
-        assert(Math.abs(info.width/info.height-1440/780)<0.002,'Native head image proportions');
-        assert(info.alt.includes('1.4.1') && info.alt.includes('Windows'),'Native source caption missing');
+        const released = info.src.endsWith('-beta150-linux.png');
+        const [w,h] = released ? [1202,678] : [1440,780];
+        assert.deepEqual(info.natural,[w,h]);
+        assert(Math.abs(info.width/info.height-w/h)<0.002,'Native head image proportions');
+        assert(info.alt.includes(released ? '1.5.0-beta.1' : '1.4.1')
+          && info.alt.includes(released ? 'Linux' : 'Windows'),'Native source caption missing');
         assert.equal(info.href,info.src);
       }
       const captions=await page.locator('.rf-chimera-head-gallery figcaption').allTextContents();
       assert.equal(captions.length,2);
-      assert(captions.every(text=>text.includes('1.4.1') && text.includes('Windows') && text.includes(markers[lang])));
+      assert(captions.every(text=>text.includes('1.5.0-beta.1') && text.includes('Linux') && text.includes(markers[lang])));
       if(width===1440){
         for(const link of await page.locator('.rf-chimera-head-gallery a').all()){
           const popupPromise=page.waitForEvent('popup');
           await link.click();const popup=await popupPromise;
           await popup.waitForLoadState('load');await popup.locator('img').evaluate(img=>img.decode());
-          assert.deepEqual(await popup.locator('img').evaluate(img=>[img.naturalWidth,img.naturalHeight]),[1440,780]);
+          assert.deepEqual(await popup.locator('img').evaluate(img=>[img.naturalWidth,img.naturalHeight]),[1202,678]);
           await popup.close();
         }
       }
