@@ -216,3 +216,9 @@ test('looksLikeCode flags programs but not consultation text', () => {
     '제작 문의서 초안\n- 연주 목적: 메탈, 드롭 C\n- 현재 사양: ASKR, 에보니 지판\n- 확인 요청: 제작 가능 여부와 납기'
   ]) assert.equal(looksLikeCode(text), false, text);
 });
+
+test('the router treats two named models as a comparison even with personal context', () => {
+  assert.match(ROUTER_PROMPT, /names two or more RavenForge models/);
+  assert.match(ROUTER_PROMPT, /"a bass for my girlfriend, EDDA or EMBLA\?" is model_comparison, not instrument_discovery/);
+  assert.match(ROUTER_PROMPT, /without naming two or more models/);
+});

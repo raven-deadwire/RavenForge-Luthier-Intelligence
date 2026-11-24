@@ -55,8 +55,8 @@ export const ROUTER_PROMPT = `You route messages for the RavenForge instrument c
 Classify ONLY the latest customer message (the last user turn). Earlier turns are context for resolving references such as "what about 5 strings?" or "and with the premium gigbag?". A consultation earlier in the conversation never makes a later request in scope.
 
 Tasks:
-- instrument_discovery: the customer wants help choosing a RavenForge instrument, describes how they play, or answers the consultant's discovery questions.
-- model_comparison: comparing RavenForge models.
+- instrument_discovery: the customer wants help choosing a RavenForge instrument without naming two or more models to choose between, describes how they play, or answers the consultant's discovery questions.
+- model_comparison: the latest message names two or more RavenForge models (EDDA, EMBLA, ASKR, GRAMR) and asks which to choose, which is better, how they differ, or how their prices compare. This holds when the message also gives personal context such as a gift, a partner, a budget or a playing style: "a bass for my girlfriend, EDDA or EMBLA?" is model_comparison, not instrument_discovery. Add one configuration per named model.
 - option_explanation: what RavenForge options or specifications do, or which suits the customer, without asking for a price.
 - quote: the price of a RavenForge configuration or option change.
 - enquiry_draft: a maker enquiry text summarising this consultation and the selected specification.
