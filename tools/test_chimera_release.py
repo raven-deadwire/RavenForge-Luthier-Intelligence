@@ -335,7 +335,7 @@ class LocalContentContract(unittest.TestCase):
 
     def test_released_homepage_captures_require_the_actual_release_and_labels(self):
         target = check.homepage_release()
-        self.assertEqual(check.validate_homepage_captures(target, self.lock, self.inventory, check.ROOT), 13)
+        self.assertEqual(check.validate_homepage_captures(target, self.lock, self.inventory, check.ROOT), 16)
         false_target = copy.deepcopy(target)
         package = f"SpectralForge-Chimera-{target['version']}-linux-x86_64.deb"
         false_target["assets"][package] = "sha256:" + "0" * 64
@@ -371,6 +371,14 @@ const { validateProductContent } = require('./tools/chimera_page_inventory.cjs')
 const html = fs.readFileSync('index.html', 'utf8');
 const copy = fs.readFileSync('assets/chimera.js', 'utf8');
 const removed = [
+  '#chimera-workflow',
+  '#chimera-workflow [data-chimera-key="autoFeature"]',
+  '#chimera-amp-spotlight',
+  '#chimera-amp-spotlight [data-chimera-key="ampNorthlight"]',
+  '#chimera-sound-tools [data-chimera-key="dynBody"]',
+  '#chimera-sound-tools [data-chimera-key="synthBody"]',
+  '#chimera-sound-tools img[data-chimera-alt="synthShotAlt"]',
+  '.rf-chimera-preview img',
   '#chimera-rigs',
   '#chimera-rigs img[data-chimera-alt="rigsDualAlt"]',
   '#chimera-rigs [data-chimera-key="matrix"]',

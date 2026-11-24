@@ -125,6 +125,34 @@ async function main() {
       }
       return title;
     });
+    await check('Matrix hero and localized product features', async () => {
+      const hero = page.locator('.rf-chimera-preview');
+      assert((await hero.locator('img').getAttribute('src')).endsWith('matrix-hero-beta150-linux.png'));
+      assert((await hero.locator('figcaption').innerText()).includes('Crom Cruach'));
+      const easy = page.locator('#chimera-workflow img');
+      for (const shot of await page.locator('#chimera-sound-tools img').all()) {
+        await shot.scrollIntoViewIfNeeded();
+        await shot.evaluate(img=>img.decode());
+        const box=await shot.boundingBox();
+        assert(box && box.x>=0 && box.x+box.width<=width+1, 'Feature image exceeds viewport');
+        assert((await shot.getAttribute('alt')).includes('1.5.0-beta.1'));
+      }
+      assert((await easy.getAttribute('src')).endsWith('easy-beta150-linux.png'));
+      await easy.scrollIntoViewIfNeeded();
+      await easy.evaluate(img=>img.decode());
+      for (const [section, count] of [
+        ['chimera-workflow', 2], ['chimera-amp-spotlight', 5], ['chimera-sound-tools', 2]
+      ]) {
+        const cards=page.locator('#'+section+' article');
+        assert.equal(await cards.count(),count);
+        for (const card of await cards.all()) {
+          const body=(await card.locator('p').innerText()).trim();
+          assert(body.length>35 && body!=='undefined');
+          const box=await card.boundingBox();
+          assert(box && box.x>=0 && box.x+box.width<=width+1, 'Feature card exceeds viewport');
+        }
+      }
+    });
     await check('uncropped images, proportions, spacing and breakpoint',async()=>{
       for(const locator of await page.locator(images.join(',')).all()) {
         await locator.scrollIntoViewIfNeeded();

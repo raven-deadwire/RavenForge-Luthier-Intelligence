@@ -29,7 +29,21 @@ function validateProductContent(product, lang) {
   require(beta150.querySelectorAll('.rf-chimera-modes > article').length === 3,
           '1.5 highlights require three feature cards');
   for (const key of ['beta150Title', 'beta150PostTitle', 'beta150Post', 'beta150MetroTitle',
-                     'beta150Metro', 'beta150AutoTitle', 'beta150Auto', 'beta150Artwork']) copy(beta150, key);
+                     'beta150Metro', 'beta150AutoTitle', 'beta150Auto']) copy(beta150, key);
+  const workflow = one(product, '#chimera-workflow');
+  for (const key of ['workflowTitle', 'easyFeature', 'autoFeature', 'workflowGuide']) copy(workflow, key);
+  const spotlight = one(product, '#chimera-amp-spotlight');
+  for (const key of ['ampSpotTitle', 'ampSpotIntro', 'ampSpotGuide']) copy(spotlight, key);
+  const ampCards = [...spotlight.querySelectorAll('article')];
+  const amps = [['Crystal 120','ampCrystal'], ['Bluestack 100','ampBluestack'],
+    ['Eightyfire','ampEightyfire'], ['Fortress 103','ampFortress'], ['Northlight','ampNorthlight']];
+  require(ampCards.length === amps.length, 'Amp spotlight requires all five heads');
+  for (const [index, [name, key]] of amps.entries()) {
+    require(one(ampCards[index], 'h4').textContent === name, 'Missing named amp: ' + name);
+    copy(ampCards[index], key);
+  }
+  const soundTools = one(product, '#chimera-sound-tools');
+  for (const key of ['toolsTitle', 'dynTitle', 'dynBody', 'synthTitle', 'synthBody']) copy(soundTools, key);
   const rigs = one(product, '#chimera-rigs');
   for (const key of ['rigsTitle', 'rigsIntro', 'rigsControlsTitle', 'rigsControls',
                      'rigsPresetsTitle', 'rigsPresets']) copy(rigs, key);
@@ -39,11 +53,16 @@ function validateProductContent(product, lang) {
     copy(one(rigs, '.rf-chimera-modes'), mode.toLowerCase());
   }
   const hero = one(product, '.rf-chimera-preview');
+  require(hero.querySelector('figcaption')?.textContent.includes('Crom Cruach'),
+          'Matrix hero requires the Crom Cruach signature preset label');
   const gallery = one(rigs, '.rf-chimera-rigs-gallery');
   require(gallery.querySelectorAll('figure').length === 2,
           'AMP / RIGS requires exactly two screenshots: Classic and Dual');
   for (const [scope, alt, caption, file, label] of [
-    [hero, 'screenAlt', 'screen', 'easy-beta150-linux.png', 'Easy view hero'],
+    [hero, 'screenAlt', 'screen', 'matrix-hero-beta150-linux.png', 'Crom Cruach hero'],
+    [workflow, 'easyShotAlt', 'easyCaption', 'easy-beta150-linux.png', 'Easy View'],
+    [soundTools, 'dynShotAlt', 'dynCaption', 'dynamics-beta150-linux.png', 'Dynamics'],
+    [soundTools, 'synthShotAlt', 'synthCaption', 'synth-beta150-linux.png', 'Synth'],
     [gallery, 'rigsClassicAlt', 'rigsClassicCaption', 'rigs-classic-beta150-linux.png', 'Classic'],
     [gallery, 'rigsDualAlt', 'rigsDualCaption', 'rigs-dual-beta150-linux.png', 'Dual']
   ]) {
@@ -120,12 +139,17 @@ function collectInventory() {
     const homepageFile = {en: 'index.html', ko: 'ko.html', de: 'de.html'}[lang];
     const home = new JSDOM(read(homepageFile), {url: 'https://example.test/', runScripts: 'outside-only'});
     home.window.document.documentElement.lang = lang;
-    const staticHighlights = [...home.window.document.querySelectorAll('#chimera-beta150 [data-chimera-key]')]
-      .map(node => node.textContent);
+    const productFeatures = ['.rf-chimera-preview', '#chimera-beta150', '#chimera-workflow',
+      '#chimera-amp-spotlight', '#chimera-sound-tools'].join(',');
+    const featureCopy = () => [...home.window.document.querySelectorAll(productFeatures)]
+      .flatMap(section => [...section.querySelectorAll('[data-chimera-key], [data-chimera-alt]')])
+      .map(node => [
+        node.getAttribute('data-chimera-key') || node.getAttribute('data-chimera-alt'),
+        node.getAttribute('data-chimera-key') ? node.textContent : node.getAttribute('alt')
+      ]);
+    const staticFeatures = featureCopy();
     home.window.eval(read('assets/chimera.js'));
-    const translatedHighlights = [...home.window.document.querySelectorAll('#chimera-beta150 [data-chimera-key]')]
-      .map(node => node.textContent);
-    if (staticHighlights.length !== 10 || staticHighlights.some((text, i) => text !== translatedHighlights[i])) {
+    if (JSON.stringify(staticFeatures) !== JSON.stringify(featureCopy())) {
       throw new Error(`${lang}: feature highlights must be translated in static markup`);
     }
     const product = home.window.document.querySelector('#chimera');
