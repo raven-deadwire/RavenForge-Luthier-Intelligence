@@ -330,7 +330,23 @@ class LocalContentContract(unittest.TestCase):
         self.assertEqual(result["remote_images"], 132)
         for path in ["assets/chimera/cabinet-room-beta141.png", "assets/chimera/cabinet-library-beta141.png"]:
             self.assertIn(path, self.lock["reviewed_files"])
-            self.assertTrue(any(i["image"] and i["url"] == path for i in self.inventory[0]["links"]))
+            released = path.replace("beta141.png", "beta150-linux.png")
+            self.assertTrue(any(i["image"] and i["url"] == released for i in self.inventory[0]["links"]))
+
+    def test_released_homepage_captures_require_the_actual_release_and_labels(self):
+        target = check.homepage_release()
+        self.assertEqual(check.validate_homepage_captures(target, self.lock, self.inventory, check.ROOT), 13)
+        false_target = copy.deepcopy(target)
+        package = f"SpectralForge-Chimera-{target['version']}-linux-x86_64.deb"
+        false_target["assets"][package] = "sha256:" + "0" * 64
+        with self.assertRaisesRegex(check.InvalidRelease, "capture package mismatch"):
+            check.validate_homepage_captures(false_target, self.lock, self.inventory, check.ROOT)
+        inventory = copy.deepcopy(self.inventory)
+        ko = next(page for page in inventory if page["file"] == "ko.html")
+        image = next(link for link in ko["links"] if link["image"] and link["url"].endswith("easy-beta150-linux.png"))
+        image["alt"] = image["alt"].replace("Linux", "Windows")
+        with self.assertRaisesRegex(check.InvalidRelease, "Missing source-labeled full-size capture"):
+            check.validate_homepage_captures(target, self.lock, inventory, check.ROOT)
 
     def test_every_homepage_rejects_missing_copy_or_wrong_release_links(self):
         for original in [p for p in self.inventory if p["file"] != "manual/chimera.html"]:

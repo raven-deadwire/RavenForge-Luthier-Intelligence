@@ -47,8 +47,8 @@ function replaceOnce(text, pattern, replacement, label) {
 }
 
 function localizeAttribute(tag, attribute, value) {
-  return replaceOnce(tag, new RegExp(`\\b${attribute}="[^"]*"`),
-    () => `${attribute}="${escapeAttr(value)}"`, `portfolio ${attribute}`);
+  return replaceOnce(tag, new RegExp(`(\\s)${attribute}="[^"]*"`),
+    (_, space) => `${space}${attribute}="${escapeAttr(value)}"`, `HTML ${attribute}`);
 }
 
 // Keep image descriptions accurate before the enhancement script loads.
@@ -73,9 +73,19 @@ function prefillPortfolioLabels(html, copy) {
 // Keep release-specific notices readable before Chimera's enhancement runs.
 function prefillChimeraRelease(html, lang) {
   const copy = loadAssetCopy('chimera.js')[lang];
-  for (const key of ['download', 'downloadNote', 'previewUpdate', 'presetUpdate']) {
-    const pattern = new RegExp(`(<(?:h3|p)\\b[^>]* data-chimera-key="${key}"[^>]*>)[^<]*(<\\/(?:h3|p)>)`, 'g');
+  for (const key of ['download', 'downloadNote', 'previewUpdate', 'presetUpdate',
+                     'beta150Title', 'beta150PostTitle', 'beta150Post', 'beta150MetroTitle', 'beta150Metro',
+                     'beta150AutoTitle', 'beta150Auto', 'beta150Artwork', 'screen', 'postCaption', 'metroModernCaption', 'metroClassicCaption',
+                     'rigsClassicCaption', 'rigsDualCaption', 'cabArtwork', 'micArtwork', 'headBritCaption', 'headBassCaption',
+                     'niflheimrCaption', 'nastrondCaption', 'preCaption']) {
+    const pattern = new RegExp(`(<(?:h3|h4|p|figcaption)\\b[^>]* data-chimera-key="${key}"[^>]*>)[^<]*(<\\/(?:h3|h4|p|figcaption)>)`, 'g');
     html = replaceOnce(html, pattern, (_, start, end) => start + escapeText(copy[key]) + end, `Chimera release ${key}`);
+  }
+  for (const key of ['screenAlt', 'postAlt', 'metroModernAlt', 'metroClassicAlt',
+                     'rigsClassicAlt', 'rigsDualAlt', 'cabArtworkAlt', 'micArtworkAlt', 'headBritAlt', 'headBassAlt',
+                     'niflheimrAlt', 'nastrondAlt', 'preAlt']) {
+    const pattern = new RegExp(`<img\\b[^>]* data-chimera-alt="${key}"[^>]*>`, 'g');
+    html = replaceOnce(html, pattern, tag => localizeAttribute(tag, 'alt', copy[key]), `Chimera capture ${key}`);
   }
   return html;
 }
