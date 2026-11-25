@@ -4,12 +4,12 @@ import { createOpenAIClient, OpenAIError } from '../src/openai-client.js';
 import worker, { handleChat, RequestError } from '../src/index.js';
 
 const body = { messages: [{ role: 'user', content: '에보니 지판은 얼마인가요?' }], configuration: { model: 'EMBLA', selections: {}, specialOptions: [], accessories: [] }, language: 'ko' };
-const settings = { AI_PROVIDER: 'openai', OPENAI_API_KEY: 'test-only', OPENAI_MODEL: 'gpt-5-mini' };
+const settings = { AI_PROVIDER: 'openai', OPENAI_API_KEY: 'test-only' };
 const routeItem = input => ({ type: 'function_call', call_id: 'call_route', name: 'route_request', arguments: JSON.stringify({ out_of_scope_part: false, configurations: [], ...input }) });
 const textItem = text => ({ type: 'message', content: [{ type: 'output_text', text }] });
-function openai(outputs) {
+function openai(outputs, env = settings) {
   const requests = [];
-  const client = createOpenAIClient(settings, async (url, request) => {
+  const client = createOpenAIClient(env, async (url, request) => {
     assert.equal(url, 'https://api.openai.com/v1/responses');
     assert.ok(request.signal);
     requests.push(JSON.parse(request.body));
@@ -29,7 +29,13 @@ test('OpenAI routing is a forced strict function call; the answer call carries n
   assert.equal(result.quote.selections.fretboard, 'ebony');
   assert.equal(result.reply, '예상 금액은 €2600입니다.');
   const [routing, answering] = requests;
-  assert.equal(routing.store, false);
+  assert.equal(requests.length, 2);
+  for (const request of requests) {
+    assert.equal(request.model, 'gpt-6.1-terra');
+    assert.equal(request.store, false);
+    assert.deepEqual(request.reasoning, { effort: 'low' });
+    assert.deepEqual(request.include, ['reasoning.encrypted_content']);
+  }
   assert.deepEqual(routing.tool_choice, { type: 'function', name: 'route_request' });
   assert.equal(routing.tools.length, 1);
   assert.equal(routing.tools[0].strict, true);
@@ -38,6 +44,13 @@ test('OpenAI routing is a forced strict function call; the answer call carries n
   assert.equal('tool_choice' in answering, false);
   assert.match(answering.input.at(-2).content, /<consultation_brief>/);
   assert.ok(!JSON.stringify(requests).includes('test-only'));
+});
+
+test('explicit model override applies to both routing and answering', async () => {
+  const env = { ...settings, OPENAI_MODEL: 'override-for-test' };
+  const { client, requests } = openai([[routeItem({ task: 'option_explanation' })], [textItem('ok')]], env);
+  await handleChat(body, env, client);
+  assert.deepEqual(requests.map(request => request.model), [env.OPENAI_MODEL, env.OPENAI_MODEL]);
 });
 
 test('OpenAI out-of-scope routing ends after one call', async () => {

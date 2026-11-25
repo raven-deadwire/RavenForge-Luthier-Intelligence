@@ -8,7 +8,7 @@ and prepare an editable enquiry. The last priced configuration can be reviewed
 and explicitly applied. Enquiries download as text; nothing is sent automatically.
 
 The production configuration uses `AI_PROVIDER = "openai"`,
-`OPENAI_MODEL = "gpt-5-mini"`, `OPENAI_EFFORT = "low"` and placement near
+`OPENAI_MODEL = "gpt-6.1-terra"`, `OPENAI_EFFORT = "low"` and placement near
 `api.openai.com`. Provision `OPENAI_API_KEY` as a Worker secret
 through the deployment environment's secure secret input, never in HTML or Git.
 For local testing, supply these values through the local process environment or
