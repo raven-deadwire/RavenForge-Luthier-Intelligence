@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "kind": "local-released-standalone-window-capture",
+  "version": "1.5.0-beta.1",
+  "tag": "v1.5.0-beta.1",
+  "source_sha": "95a215eda8368c84e75bd0e8d32e9659b106361c",
+  "platform": "linux-x86_64",
+  "package": "SpectralForge-Chimera-1.5.0-beta.1-linux-x86_64.deb",
+  "package_digest": "sha256:6e1c2375858309d1f6e81ca1f2f64db9d3baed0d198925da82ea887c6327b8de",
+  "evidence_boundary": "Operator-captured published standalone UI only. No audio, real DAW, publisher signing, OBS, Pro Tools or AAX qualification.",
+  "capture": "Verified public DEB extracted using dpkg-deb -x and launched without system installation. Direct application-window PNGs captured with ImageMagick import -window 'SpectralForge Chimera'; no pixel edits, cropping or compositing. The Crom Cruach, Dynamics and Synth windows were captured in a scratch HOME/XDG session on a headless Xorg dummy display from the same verified package.",
+  "images": [
+    {
+      "path": "assets/chimera/matrix-hero-beta150-linux.png",
+      "view": "matrix-crom-cruach",
+      "width": 1188,
+      "height": 814,
+      "sha256": "0233b515fc83f2afec29009c09168f0829ed52b7a73a6a5bb5b48fdd2829c76e",
+      "preset": "Deadwire Signature → Crom Cruach",
+      "capture_context": "Matrix Cabinet Room in Full Editor, 200 / 1800 Hz crossovers and 50% LOW DI blend"
+    },
+    {
+      "path": "assets/chimera/easy-beta150-linux.png",
+      "view": "easy-view",
+      "width": 1188,
+      "height": 814,
+      "sha256": "ff0975b50fb58607428d01f1faae7ccb6baf051775e8e02cef704f2f6e116dbe"
+    },
+    {
+      "path": "assets/chimera/post-rack-beta150-linux.png",
+      "view": "post-rack-slot-2-selected",
+      "width": 1188,
+      "height": 814,
+      "sha256": "f7cafb00d5f18cabb18bcc265a4b3b7f5cd27775e163741fad589be2359e3f55"
+    },
+    {
+      "path": "assets/chimera/metro-modern-beta150-linux.png",
+      "view": "metro-clean-modern",
+      "width": 1188,
+      "height": 814,
+      "sha256": "9b9361322b095f782985b9d20e8c9926df6d4e00b8c508f0304b070f2ec01971"
+    },
+    {
+      "path": "assets/chimera/metro-classic-beta150-linux.png",
+      "view": "metro-clean-classic",
+      "width": 1188,
+      "height": 814,
+      "sha256": "381f9156721eb6773f0937ad9208af5c4cbad3101c599fdd8d8604d14266fcf0"
+    },
+    {
+      "path": "assets/chimera/rigs-classic-beta150-linux.png",
+      "view": "classic-head-glass",
+      "width": 1188,
+      "height": 814,
+      "sha256": "c2660cef67c1d3bc068bf39ae501bb97d09e3bdea9ad9558141578cae41b8b35"
+    },
+    {
+      "path": "assets/chimera/rigs-dual-beta150-linux.png",
+      "view": "dual-head-tight-515",
+      "width": 1188,
+      "height": 814,
+      "sha256": "3b49b992a9f33206f0cbd85f7564db047eb68d8973e8728e2bc17551ae3777e7"
+    },
+    {
+      "path": "assets/chimera/cabinet-room-beta150-linux.png",
+      "view": "dual-cabinet-room",
+      "width": 1188,
+      "height": 814,
+      "sha256": "913d208a5390520c4e7afd4f53d4d8b04eeb35cbce3098261718da83e835ff83"
+    },
+    {
+      "path": "assets/chimera/cabinet-library-beta150-linux.png",
+      "view": "cabinet-library-source-license",
+      "width": 1188,
+      "height": 814,
+      "sha256": "4b9304ec55d152fee75285269dfb5e3cc7ad0c9ee485ed6b6c4f467256bf84fb",
+      "capture_method": "Native Xvfb framebuffer bounded to the entire visible app window to include the separate X11 IR Library window; no retouch or content removed."
+    },
+    {
+      "path": "assets/chimera/head-brit-edge-beta150-linux.png",
+      "view": "brit-edge-expanded-jumped",
+      "width": 1202,
+      "height": 678,
+      "sha256": "161c48484e791fb1965de1d9d9b1e83539e5dfdb0de90dd620ef69e8d18de321"
+    },
+    {
+      "path": "assets/chimera/head-iron-tube-beta150-linux.png",
+      "view": "iron-tube-expanded",
+      "width": 1202,
+      "height": 678,
+      "sha256": "70c3421f1e663a73f60d796595827579406f79f5247c99d8ebc661abc28fe64d"
+    },
+    {
+      "path": "assets/chimera/head-niflheimr-beta150-linux.png",
+      "view": "niflheimr-hrimfaxi-expanded",
+      "width": 1202,
+      "height": 678,
+      "sha256": "08e2df486c10b1726835dd4f14b6b1158302a40b747b5b4ef58302e821445088"
+    },
+    {
+      "path": "assets/chimera/head-nastrond-beta150-linux.png",
+      "view": "nastrond-fenrir-expanded",
+      "width": 1202,
+      "height": 678,
+      "sha256": "49993ffd6a425019df9b5f23badb5c2cba56b5bbc0e3af7f28e9ccf72fa02891"
+    },
+    {
+      "path": "assets/chimera/pre-board-beta150-linux.png",
+      "view": "pre-board-five-fuzz",
+      "width": 1188,
+      "height": 814,
+      "sha256": "04a3e657a54525f617248e8bc101a748015fe54d9b81e25e624b29166f33f156"
+    },
+    {
+      "path": "assets/chimera/dynamics-beta150-linux.png",
+      "view": "dynamics-multiband",
+      "width": 1188,
+      "height": 814,
+      "sha256": "fbc0a241e4e44ddebb3feb5ea0597860a8e614fa1f32b929cc01721eb60bca9f",
+      "capture_context": "Full Editor Dynamics. Multiband page set to six bands in a scratch copy of Crom Cruach. No input signal."
+    },
+    {
+      "path": "assets/chimera/synth-beta150-linux.png",
+      "view": "synth-seidr-dynamic",
+      "width": 1188,
+      "height": 814,
+      "sha256": "1f2f5dcd131ed04938a6eb2b8819d2f4e87631e4ac02af0dfd7645bc7d0a6be3",
+      "capture_context": "Full Editor Synth page with Seidr Dynamic selected and Synth enabled in scratch state. No notes played."
+    }
+  ],
+  "captured_at": "2026-11-24",
+  "standalone_executable": "usr/bin/chimera-amp-matrix",
+  "standalone_sha256": "292eed9bb83eefa32ad70ce83c06f89f9b0ac34fa75d3538cfade965a2bada84",
+  "environment": "Debian 13 x86_64, isolated HOME and XDG, Xvfb 1920×1200×24, 100% UI scale"
+}

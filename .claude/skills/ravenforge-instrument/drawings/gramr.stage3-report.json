@@ -1,0 +1,82 @@
+{
+  "model": "GRAMR",
+  "stage": 3,
+  "parameters": {
+    "note": "Generic values chosen for visualisation, not taken from the drawing or the spec. Replace when section drawings exist.",
+    "edge_radius_mm": 6.0,
+    "forearm": {
+      "face": "top",
+      "side": "bass",
+      "hinge_angle_deg": 32.0,
+      "width_mm": 90.0,
+      "depth_at_rim_mm": 19.0,
+      "profile": "cylindrical, tangent to the top face at the hinge line"
+    },
+    "tummy": {
+      "face": "back",
+      "side": "bass",
+      "centre_x_mm": 590.0,
+      "inward_mm": 75.0,
+      "depth_at_rim_mm": 19.0,
+      "length_mm": 220.0,
+      "section_radius_mm": 120.0,
+      "profile": "ellipsoidal cove"
+    }
+  },
+  "volume_before_cm3": 4658.2,
+  "rim_edges_rounded": 1494,
+  "volume_after_radius_cm3": 4635.5,
+  "forearm": {
+    "cylinder_radius_mm": 222.66,
+    "hinge_line_through_mm": [
+      685.32,
+      -70.67
+    ],
+    "farthest_rim_point_mm": [
+      733.01,
+      -146.99
+    ],
+    "check_8mm_inside_rim": {
+      "top_surface_z_mm": -15.652,
+      "expected_z_mm": -15.649
+    }
+  },
+  "volume_after_forearm_cm3": 4577.3,
+  "tummy": {
+    "rim_point_mm": [
+      590.0,
+      -138.27
+    ],
+    "rim_tangent_deg": -20.57,
+    "ellipsoid_semi_axes_mm": [
+      201.8,
+      120.0,
+      120.0
+    ],
+    "ellipsoid_centre_mm": [
+      593.37,
+      -129.28,
+      -145.62
+    ],
+    "check_8mm_inside_rim": {
+      "back_surface_height_above_back_mm": 19.346,
+      "expected_mm": 19.374
+    }
+  },
+  "untouched_centre_thickness_mm": 45.0,
+  "volume_after_cm3": 4445.9,
+  "manifold": true,
+  "size_before_mm": [
+    459.06,
+    319.48,
+    45.0
+  ],
+  "size_after_mm": [
+    459.06,
+    319.48,
+    45.0
+  ],
+  "verts": 10672,
+  "faces": 9828,
+  "status": "built"
+}

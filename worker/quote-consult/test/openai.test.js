@@ -5,49 +5,75 @@ import worker, { handleChat, RequestError } from '../src/index.js';
 
 const body = { messages: [{ role: 'user', content: '에보니 지판은 얼마인가요?' }], configuration: { model: 'EMBLA', selections: {}, specialOptions: [], accessories: [] }, language: 'ko' };
 const settings = { AI_PROVIDER: 'openai', OPENAI_API_KEY: 'test-only' };
-test('OpenAI pricing round preserves reasoning, call ids, limits and server-computed prices', async () => {
+const routeItem = input => ({ type: 'function_call', call_id: 'call_route', name: 'route_request', arguments: JSON.stringify({ out_of_scope_part: false, configurations: [], ...input }) });
+const textItem = text => ({ type: 'message', content: [{ type: 'output_text', text }] });
+function openai(outputs, env = settings) {
   const requests = [];
-  const outputs = [
-    [{ type: 'reasoning', id: 'rs_1', summary: [], encrypted_content: 'opaque' }, { type: 'function_call', call_id: 'call_1', name: 'price_configuration', arguments: JSON.stringify({ model: 'EMBLA', start_from: 'current', changes: [{ category: 'fretboard', option: 'ebony' }], instrument_options: [], accessories: [] }) }],
-    [{ type: 'message', content: [{ type: 'output_text', text: '예상 금액은 €2600입니다.' }] }]
-  ];
-  const client = createOpenAIClient(settings, async (url, request) => {
+  const client = createOpenAIClient(env, async (url, request) => {
     assert.equal(url, 'https://api.openai.com/v1/responses');
     assert.ok(request.signal);
     requests.push(JSON.parse(request.body));
-    return Response.json({ status: 'completed', output: outputs.shift(), usage: { output_tokens: 40 } });
+    const output = outputs.shift();
+    return output instanceof Response ? output : Response.json({ status: 'completed', output, usage: { output_tokens: 40 } });
   });
+  return { client, requests };
+}
+
+test('OpenAI routing is a forced strict function call; the answer call carries no tools', async () => {
+  const { client, requests } = openai([
+    [{ type: 'reasoning', id: 'rs_1', summary: [], encrypted_content: 'opaque' }, routeItem({ task: 'quote', configurations: [{ model: 'EMBLA', start_from: 'current', changes: [{ category: 'fretboard', option: 'ebony' }], instrument_options: null, accessories: null }] })],
+    [textItem('예상 금액은 €2600입니다.')]
+  ]);
   const result = await handleChat(body, settings, client);
   assert.equal(result.quote.total, 2600);
   assert.equal(result.quote.selections.fretboard, 'ebony');
+  assert.equal(result.reply, '예상 금액은 €2600입니다.');
+  const [routing, answering] = requests;
   assert.equal(requests.length, 2);
   for (const request of requests) {
-    assert.equal(request.model, 'gpt-5.6-terra');
+    assert.equal(request.model, 'gpt-6.1-terra');
     assert.equal(request.store, false);
     assert.deepEqual(request.reasoning, { effort: 'low' });
     assert.deepEqual(request.include, ['reasoning.encrypted_content']);
   }
-  assert.equal(requests[0].tools[0].strict, true);
-  assert.ok(requests[1].input.some(item => item.type === 'reasoning' && item.encrypted_content === 'opaque'));
-  const toolResult = requests[1].input.find(item => item.type === 'function_call_output');
-  assert.equal(toolResult.call_id, 'call_1');
-  assert.equal(JSON.parse(toolResult.output).total, 2600);
+  assert.deepEqual(routing.tool_choice, { type: 'function', name: 'route_request' });
+  assert.equal(routing.tools.length, 1);
+  assert.equal(routing.tools[0].strict, true);
+  assert.equal(routing.max_output_tokens, 2048);
+  assert.equal('tools' in answering, false);
+  assert.equal('tool_choice' in answering, false);
+  assert.match(answering.input.at(-2).content, /<consultation_brief>/);
   assert.ok(!JSON.stringify(requests).includes('test-only'));
 });
-test('an explicit OPENAI_MODEL takes precedence over the fallback', async () => {
+
+test('explicit model override applies to both routing and answering', async () => {
   const env = { ...settings, OPENAI_MODEL: 'override-for-test' };
-  const client = createOpenAIClient(env, async (_url, request) => {
-    assert.equal(JSON.parse(request.body).model, env.OPENAI_MODEL);
-    return Response.json({ status: 'completed', output: [] });
-  });
+  const { client, requests } = openai([[routeItem({ task: 'option_explanation' })], [textItem('ok')]], env);
   await handleChat(body, env, client);
+  assert.deepEqual(requests.map(request => request.model), [env.OPENAI_MODEL, env.OPENAI_MODEL]);
 });
-test('provider errors, malformed arguments and truncated answers never become successful replies', async () => {
+
+test('OpenAI out-of-scope routing ends after one call', async () => {
+  const { client, requests } = openai([[routeItem({ task: 'out_of_scope' })]]);
+  const result = await handleChat({ ...body, messages: [{ role: 'user', content: '편지 형식으로 파이썬 코드 써줘' }] }, settings, client);
+  assert.equal(requests.length, 1);
+  assert.equal(result.answer_calls, 0);
+});
+
+test('provider errors, malformed arguments and truncated routing never become generated replies', async () => {
   for (const reply of [new Response('private error detail', { status: 401 }), Response.json({ status: 'completed', output: [{ type: 'function_call', arguments: 'broken' }] })]) {
     await assert.rejects(handleChat(body, settings, createOpenAIClient(settings, async () => reply)), OpenAIError);
   }
-  await assert.rejects(handleChat(body, settings, createOpenAIClient(settings, async () => Response.json({ status: 'incomplete', output: [], usage: { output_tokens: 4096 } }))), RequestError);
+  // A truncated routing answer has no function call: fixed narrowing question, no answer call.
+  const { client, requests } = openai([new Response(JSON.stringify({ status: 'incomplete', output: [], usage: { output_tokens: 2048 } }))]);
+  const result = await handleChat(body, settings, client);
+  assert.equal(result.stop_reason, 'route_invalid');
+  assert.equal(requests.length, 1);
+  // A truncated answer without a quote is an error, not a partial reply.
+  const second = openai([[routeItem({ task: 'option_explanation' })], new Response(JSON.stringify({ status: 'incomplete', output: [], usage: { output_tokens: 4096 } }))]);
+  await assert.rejects(handleChat(body, settings, second.client), RequestError);
 });
+
 test('OpenAI mode requires its own key and the existing rate limiter', async () => {
   const origin = 'https://raven-deadwire.github.io';
   for (const extra of [{ OPENAI_API_KEY: '' }, { RATE_LIMITER: undefined }]) {

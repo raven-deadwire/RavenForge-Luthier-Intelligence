@@ -1,4 +1,4 @@
-// Adapt Responses to the existing bounded pricing conversation loop.
+// Adapt Responses to the Messages-shaped calls in src/index.js (routing and answer steps).
 // Keys remain in the Worker; no automatic provider failover or retries.
 export class OpenAIError extends Error {
   constructor(status) { super('OpenAI request failed'); this.status = status; }
@@ -23,12 +23,16 @@ export function createOpenAIClient(env, fetcher = fetch) {
       method: 'POST', signal,
       headers: { Authorization: `Bearer ${env.OPENAI_API_KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: env.OPENAI_MODEL || 'gpt-5.6-terra', store: false,
+        model: env.OPENAI_MODEL || 'gpt-6.1-terra', store: false,
         include: ['reasoning.encrypted_content'],
         reasoning: { effort: env.OPENAI_EFFORT || 'low' },
         instructions: params.system.map(block => block.text).join('\n'), input,
         max_output_tokens: params.max_tokens,
-        tools: params.tools.map(tool => ({ type: 'function', name: tool.name, description: tool.description, parameters: tool.input_schema, strict: tool.strict }))
+        // The answer step sends no tools; the routing step forces its one function.
+        ...(params.tools?.length ? {
+          tools: params.tools.map(tool => ({ type: 'function', name: tool.name, description: tool.description, parameters: tool.input_schema, strict: tool.strict }))
+        } : {}),
+        ...(params.tool_choice?.type === 'tool' ? { tool_choice: { type: 'function', name: params.tool_choice.name } } : {})
       })
     });
     if (!response.ok) throw new OpenAIError(response.status);

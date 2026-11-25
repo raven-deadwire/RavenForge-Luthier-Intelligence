@@ -25,6 +25,25 @@ function validateProductContent(product, lang) {
 
   // Required sections must be asserted explicitly: scanning surviving nodes
   // alone allowed the entire AMP / RIGS showcase to disappear unnoticed.
+  const beta150 = one(product, '#chimera-beta150');
+  require(beta150.querySelectorAll('.rf-chimera-modes > article').length === 3,
+          '1.5 highlights require three feature cards');
+  for (const key of ['beta150Title', 'beta150PostTitle', 'beta150Post', 'beta150MetroTitle',
+                     'beta150Metro', 'beta150AutoTitle', 'beta150Auto']) copy(beta150, key);
+  const workflow = one(product, '#chimera-workflow');
+  for (const key of ['workflowTitle', 'easyFeature', 'autoFeature', 'workflowGuide']) copy(workflow, key);
+  const spotlight = one(product, '#chimera-amp-spotlight');
+  for (const key of ['ampSpotTitle', 'ampSpotIntro', 'ampSpotGuide']) copy(spotlight, key);
+  const ampCards = [...spotlight.querySelectorAll('article')];
+  const amps = [['Crystal 120','ampCrystal'], ['Bluestack 100','ampBluestack'],
+    ['Eightyfire','ampEightyfire'], ['Fortress 103','ampFortress'], ['Northlight','ampNorthlight']];
+  require(ampCards.length === amps.length, 'Amp spotlight requires all five heads');
+  for (const [index, [name, key]] of amps.entries()) {
+    require(one(ampCards[index], 'h4').textContent === name, 'Missing named amp: ' + name);
+    copy(ampCards[index], key);
+  }
+  const soundTools = one(product, '#chimera-sound-tools');
+  for (const key of ['toolsTitle', 'dynTitle', 'dynBody', 'synthTitle', 'synthBody']) copy(soundTools, key);
   const rigs = one(product, '#chimera-rigs');
   for (const key of ['rigsTitle', 'rigsIntro', 'rigsControlsTitle', 'rigsControls',
                      'rigsPresetsTitle', 'rigsPresets']) copy(rigs, key);
@@ -34,13 +53,18 @@ function validateProductContent(product, lang) {
     copy(one(rigs, '.rf-chimera-modes'), mode.toLowerCase());
   }
   const hero = one(product, '.rf-chimera-preview');
+  require(hero.querySelector('figcaption')?.textContent.includes('Crom Cruach'),
+          'Matrix hero requires the Crom Cruach signature preset label');
   const gallery = one(rigs, '.rf-chimera-rigs-gallery');
   require(gallery.querySelectorAll('figure').length === 2,
           'AMP / RIGS requires exactly two screenshots: Classic and Dual');
   for (const [scope, alt, caption, file, label] of [
-    [hero, 'screenAlt', 'screen', 'rigs-matrix-beta132.png', 'Matrix hero'],
-    [gallery, 'rigsClassicAlt', 'rigsClassicCaption', 'rigs-classic-beta132.png', 'Classic'],
-    [gallery, 'rigsDualAlt', 'rigsDualCaption', 'rigs-dual-beta132.png', 'Dual']
+    [hero, 'screenAlt', 'screen', 'matrix-hero-beta150-linux.png', 'Crom Cruach hero'],
+    [workflow, 'easyShotAlt', 'easyCaption', 'easy-beta150-linux.png', 'Easy View'],
+    [soundTools, 'dynShotAlt', 'dynCaption', 'dynamics-beta150-linux.png', 'Dynamics'],
+    [soundTools, 'synthShotAlt', 'synthCaption', 'synth-beta150-linux.png', 'Synth'],
+    [gallery, 'rigsClassicAlt', 'rigsClassicCaption', 'rigs-classic-beta150-linux.png', 'Classic'],
+    [gallery, 'rigsDualAlt', 'rigsDualCaption', 'rigs-dual-beta150-linux.png', 'Dual']
   ]) {
     const image = one(scope, `img[data-chimera-alt="${alt}"]`);
     const source = `assets/chimera/${file}`;
@@ -61,8 +85,8 @@ function validateProductContent(product, lang) {
   const heads = one(editing, '.rf-chimera-head-gallery');
   require(heads.querySelectorAll('figure').length === 2,
           'Direct editing requires native Brit Edge and Iron Tube screenshots');
-  for (const [key, file] of [['headBrit', 'head-brit-edge-beta132.png'],
-                            ['headBass', 'head-iron-tube-beta132.png']]) {
+  for (const [key, file] of [['headBrit', 'head-brit-edge-beta150-linux.png'],
+                            ['headBass', 'head-iron-tube-beta150-linux.png']]) {
     const image = one(heads, `img[data-chimera-alt="${key}Alt"]`);
     require(image.getAttribute('src') === `assets/chimera/${file}` &&
             image.closest('a')?.getAttribute('href') === image.getAttribute('src'),
@@ -83,7 +107,7 @@ function validateProductContent(product, lang) {
     require(image.getAttribute('src').trim() &&
             image.closest('a')?.getAttribute('href') === image.getAttribute('src'),
             `${id} requires its native control image linked at full size`);
-    require(image.getAttribute('src') === `assets/chimera/head-${prefix}-beta132.png`,
+    require(image.getAttribute('src') === `assets/chimera/head-${prefix}-beta150-linux.png`,
             `${id} requires the revised native head controls`);
     copy(artwork, `${prefix}Caption`);
     const channelCards = one(amp, '.rf-chimera-nastrond-channels');
@@ -112,9 +136,22 @@ function validateProductContent(product, lang) {
 function collectInventory() {
   const inventory = [];
   for (const lang of ['en', 'ko', 'de']) {
-    const home = new JSDOM(read('index.html'), {url: 'https://example.test/', runScripts: 'outside-only'});
+    const homepageFile = {en: 'index.html', ko: 'ko.html', de: 'de.html'}[lang];
+    const home = new JSDOM(read(homepageFile), {url: 'https://example.test/', runScripts: 'outside-only'});
     home.window.document.documentElement.lang = lang;
+    const productFeatures = ['.rf-chimera-preview', '#chimera-beta150', '#chimera-workflow',
+      '#chimera-amp-spotlight', '#chimera-sound-tools'].join(',');
+    const featureCopy = () => [...home.window.document.querySelectorAll(productFeatures)]
+      .flatMap(section => [...section.querySelectorAll('[data-chimera-key], [data-chimera-alt]')])
+      .map(node => [
+        node.getAttribute('data-chimera-key') || node.getAttribute('data-chimera-alt'),
+        node.getAttribute('data-chimera-key') ? node.textContent : node.getAttribute('alt')
+      ]);
+    const staticFeatures = featureCopy();
     home.window.eval(read('assets/chimera.js'));
+    if (JSON.stringify(staticFeatures) !== JSON.stringify(featureCopy())) {
+      throw new Error(`${lang}: feature highlights must be translated in static markup`);
+    }
     const product = home.window.document.querySelector('#chimera');
     validateProductContent(product, lang);
     const manual = new JSDOM(read('manual/chimera.html'), {url: 'https://example.test/manual/chimera.html', runScripts: 'outside-only'});
@@ -130,23 +167,25 @@ function collectInventory() {
       throw new Error(`${lang}: Manual update guidance needs the product download link`);
     }
     const ampImages = [...manual.window.document.querySelectorAll('#ampModels img')];
-    if (ampImages.length !== 25 || ampImages.some(image =>
+    if (ampImages.length !== 30 || ampImages.some(image =>
         !/^https:\/\/raw\.githubusercontent\.com\/raven-deadwire\/SpectralForge-Chimera-Amp-Matrix\/[a-f0-9]{40}\/Assets\/Artwork\/HeadShells\/head-shell-\d{2}\.png$/.test(image.getAttribute('src')))) {
-      throw new Error(`${lang}: All 25 active manual amps require the complete production enclosure artwork`);
+      throw new Error(`${lang}: All 30 active manual amps require the complete production enclosure artwork`);
     }
     for (const image of manual.window.document.querySelectorAll('.workflow-asset img')) {
       if (/\/Assets\/Artwork\/a[^/]+\.(png|jpg)$/.test(image.getAttribute('src'))) {
         throw new Error(`${lang}: A workflow still displays superseded amp artwork`);
       }
     }
-    for (const [file, scope] of [['index.html', product], ['manual/chimera.html', manual.window.document]]) {
+    for (const [file, scope] of [[homepageFile, product], ['manual/chimera.html', manual.window.document]]) {
       const links = [...scope.querySelectorAll('[href], img[src]')].map(node => ({
         url: node.getAttribute(node.tagName === 'IMG' ? 'src' : 'href'),
         image: node.tagName === 'IMG', alt: node.tagName === 'IMG' ? node.alt : undefined
       }));
       inventory.push({file, lang, links, text: scope.textContent,
+        downloadNote: scope.querySelector('[data-chimera-key=downloadNote]')?.textContent,
+        releaseVersion: scope.querySelector('.rf-chimera-version')?.textContent,
         presets: file.startsWith('manual') ? scope.querySelectorAll('#presetTable tbody tr').length : undefined,
-        stats: file === 'index.html' ? [...scope.querySelectorAll('.rf-chimera-stats dd')].map(n => Number(n.textContent)) : undefined,
+        stats: file === homepageFile ? [...scope.querySelectorAll('.rf-chimera-stats dd')].map(n => Number(n.textContent)) : undefined,
         models: file.startsWith('manual') ? Object.fromEntries(['preModels', 'ampModels', 'postModels'].map(id => [id, scope.querySelectorAll(`#${id} .model-card`).length])) : undefined});
     }
     home.window.close(); manual.window.close();

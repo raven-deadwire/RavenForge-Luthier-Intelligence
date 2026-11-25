@@ -7,8 +7,8 @@ Three actions help visitors find an instrument, understand their current options
 and prepare an editable enquiry. The last priced configuration can be reviewed
 and explicitly applied. Enquiries download as text; nothing is sent automatically.
 
-The checked-in Worker configuration uses `AI_PROVIDER = "openai"`,
-`OPENAI_MODEL = "gpt-5.6-terra"`, `OPENAI_EFFORT = "low"` and placement near
+The production configuration uses `AI_PROVIDER = "openai"`,
+`OPENAI_MODEL = "gpt-6.1-terra"`, `OPENAI_EFFORT = "low"` and placement near
 `api.openai.com`. Provision `OPENAI_API_KEY` as a Worker secret
 through the deployment environment's secure secret input, never in HTML or Git.
 For local testing, supply these values through the local process environment or
@@ -34,7 +34,10 @@ Configurator 옆에서 고객의 악기 선택과 견적 상담에 답하는 Clo
 
 ## 동작 방식
 
-- **가격은 코드가 계산합니다.** 모델은 `price_configuration` 도구를 호출하고, 도구가 configurator의 `summary`와 같은 방식(같은 `normalizeSelections`, `isOptionVisible`, 가격표)으로 줄별 금액과 합계를 돌려줍니다. 모델이 금액을 직접 만들지 않도록 프롬프트에서 막아 두었습니다.
+- **요청마다 분류 → 서버 계산 → 답변 순서로 처리합니다.** (`src/scope.js`, `src/index.js`)
+  1. **분류:** 모델 호출 1회가 `route_request` 함수만 반환합니다. 반환값은 허용 작업 하나(`instrument_discovery`, `model_comparison`, `option_explanation`, `quote`, `enquiry_draft`, `clarify`, `out_of_scope`)와 견적에 필요한 카탈로그 ID뿐입니다. 분류 대상은 마지막 사용자 메시지이고, 이전 대화는 "그럼 5현은?" 같은 후속 질문을 이해하는 데만 씁니다. 이전 턴이 정상 상담이었다고 다음 요청이 자동으로 허용되지는 않습니다.
+  2. **서버 검증과 계산:** Worker가 작업명·모델 ID·옵션 ID를 다시 검증합니다. `out_of_scope`와 `clarify`, 그리고 분류 실패(함수 미호출, 잘린 응답, 허용 목록 밖의 값, 거부)는 **답변 생성 호출 없이** 고정 안내를 반환합니다. 견적은 configurator의 `summary`와 같은 규칙(`normalizeSelections`, `isOptionVisible`, 가격표)으로 서버가 계산하며, 모델은 금액을 만들지 않습니다.
+  3. **답변:** 도구가 없는 모델 호출 1회가 서버의 `<consultation_brief>`(작업, 검증된 견적 항목)를 바탕으로 설명을 씁니다. 분류기가 범위 밖 요청이 섞여 있다고 판정하면(`out_of_scope_part`) **사용자 원문은 전달하지 않고** brief만 넘깁니다. 답변이 코드처럼 보이면 버리고, 견적이 있으면 서버가 만든 고정 견적 문장을, 없으면 고정 범위 안내를 반환합니다. 답변 생성이 실패해도 계산된 견적은 그대로 반환합니다.
 - **카탈로그는 사이트에서 복사합니다.** `npm run build:catalog`가 `configurator.html`과 `assets/configurator-platforms.js`에서 데이터와 규칙을 `src/catalog.generated.js`로 그대로 복사합니다. Workers는 eval을 쓸 수 없어서 빌드할 때 복사합니다. 사이트 가격이나 옵션을 바꾸면 다시 실행해야 하고, 복사본이 오래되면 CI(`.github/workflows/quote-consult-worker.yml`)가 실패합니다.
 - **옵션 연동도 같은 소스입니다.** 빌드가 실제 `handleOptionChange`의 본문을 복사합니다. 가상 변경은 배열 순서대로 화면 클릭과 같은 Fishman/EQ·너트·브리지 연동을 거치며, 거절된 변경과 사용할 수 없는 추가 옵션을 별도로 반환합니다.
 - **대화 기록은 페이지가 가집니다.** Worker는 상태를 저장하지 않습니다. 페이지가 텍스트 대화 기록과 현재 configurator 상태를 매번 보내고, Worker는 답변 텍스트와 마지막 견적 결과를 돌려줍니다.
@@ -65,8 +68,12 @@ Configurator 옆에서 고객의 악기 선택과 견적 상담에 답하는 Clo
 - `messages`: user와 assistant가 번갈아 오고 user로 끝나는 텍스트 턴, 최대 30개. 사용자 턴은 2000자, assistant 턴은 6000자 이하이고 전체 대화는 20000자 이하입니다. JSON 요청 본문은 128 KiB까지 읽습니다.
 - `configuration`: configurator의 `selectedModel`, `selections`, `specialOptions`, `accessories`. 없으면 생략합니다.
 - `language`: `en` | `de` | `ko`.
+- `previous_quote`(선택): 직전 답변에서 계산한 구성(`configuration`과 같은 형식). "그럼 프리미엄 긱백까지 하면?" 같은 후속 질문은 이 구성에서 이어서 계산합니다. 채팅 UI가 자동으로 보냅니다.
 
-응답: `{ "reply": "...", "quote": { "total": 2600, "lines": [...], ... } | null, "stop_reason": "end_turn" }`
+응답: `{ "reply": "...", "quote": { "total": 2600, "lines": [...], ... } | null, "task": "quote", "stop_reason": "end_turn", "answer_calls": 1 }`
+
+- `task`: 분류된 작업. `stop_reason`: `end_turn` 외에 `out_of_scope`, `clarify`, `route_invalid`(분류 실패), `refusal`, `filtered`(코드가 감지돼 답변을 버림), `answer_unavailable`·`answer_too_long`·`answer_empty`(답변 실패, 계산된 견적은 반환).
+- `answer_calls`: 답변 생성 호출 횟수(0 또는 1). 범위 밖 요청은 0입니다.
 
 ### Configurator 채팅 UI
 
@@ -114,7 +121,7 @@ npm run deploy
 | `MODEL` | `claude-opus-5-5` | `claude-sonnet-5-5`로 바꾸면 토큰당 비용이 절반입니다 |
 | `EFFORT` | `medium` | `low`로 낮추면 더 빠르고 저렴합니다 |
 
-API 응답은 호출당 최대 4096 출력 토큰, 요청 전체 최대 8192 출력 토큰·4회 호출·8개 가격 도구 호출·90초로 제한하고 SDK 자동 재시도는 끕니다. 키나 rate-limit binding이 없으면 요청을 차단합니다.
+요청당 모델 호출은 최대 2회(분류 최대 2048 출력 토큰, 답변 최대 4096 출력 토큰, 합계 8192 이하)이고 전체 90초로 제한하며, SDK 자동 재시도는 끕니다. 키나 rate-limit binding이 없으면 요청을 차단합니다.
 
 방문자 IP당 분당 5회를 Cloudflare Rate Limiting binding에 설정합니다(`[[ratelimits]]`). 이는 위치별·eventual consistency 기반 근사 제한이며 정확한 6번째 요청 차단 또는 전역 비용 한도를 보장하지 않습니다 ([Cloudflare 공식 문서](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/#accuracy)). 2026-10-30 고정 IP 시험(분당 10회 설정)에서는 몇 초 안에 몰아 보낸 15회가 모두 통과했고, 1초 간격으로 보낸 25회 중에서는 약 20회 이후 일부만 429로 차단되어 설정값을 5로 낮췄습니다. 엄격한 전역 제한이 필요하면 Durable Objects로 별도 구현해야 합니다. Origin 검사는 브라우저 밖에서는 우회할 수 있으니, Claude Console에서 월 지출 한도도 걸어 두세요.
 
@@ -127,6 +134,20 @@ API 응답은 호출당 최대 4096 출력 토큰, 요청 전체 최대 8192 출
 ## 테스트
 
 ```bash
-npm test               # 가격 계산과 대화 처리 (API 호출 없음)
+npm test               # 가격 계산, 범위 판정 경로, 대화 처리 (API 호출 없음)
 npm run check:catalog  # 카탈로그 복사본이 최신인지 확인
 ```
+
+`npm test`는 "분류 결과가 이렇게 나오면 서버가 이렇게 처리한다"까지만 검증합니다. 실제 모델이 메시지를 올바르게 분류하는지는 배포(또는 `npx wrangler dev`)한 엔드포인트에 직접 보내 확인합니다. 공개 배포 전에 실행하세요.
+
+```bash
+node tools/regression-live.mjs https://ravenforge-quote-consult.<subdomain>.workers.dev
+```
+
+범위 밖 요청 2건(편지 형식의 코드, ASKR 주인공 게임), 정상 요청(선물용 모델 비교), 혼합 요청(견적 + 게임 코드), 후속 질문(직전 구성 + 프리미엄 긱백), 화면 버튼 3개를 보냅니다. 기준은 다음과 같습니다.
+- 범위 밖 요청: 답변 생성 0회, 코드 미노출
+- 혼합 요청: 서버가 계산한 견적 그대로, 코드 미노출
+- 후속 질문: 서버 재계산 금액과 일치
+- 정상 요청: 답변이 코드 검사로 버려지지 않음
+
+실제 과금되는 호출 9회이며, 방문자 제한(분당 5회)을 넘지 않도록 13초 간격으로 보냅니다.

@@ -1,0 +1,54 @@
+# 상태값과 표기
+
+## `rf_status` 정의
+
+| 값 | 뜻 | 요구 사항 |
+|---|---|---|
+| `drawing` | 원본 도면의 벡터 경로에서 가져온 형상 | `rf_source`에 파일명과 경로 인덱스, `rf_source_sha256` 필수 |
+| `spec` | 공개된 사양 수치나 제조사 공식 도면 치수로 만든 형상 | `rf_source`에 문서 경로 또는 URL |
+| `illustrative` | 근거가 부족해 그럴듯하게 만든 형상 | `rf_note`에 무엇을 가정했는지 |
+| `pending` | 미확정·미승인. 자리 표시만 | 디테일 금지. 단순 블록이거나 생략 |
+
+한 오브젝트 안에 등급이 섞이면 낮은 쪽으로 기록한다. 예: 윤곽은 도면이지만 컨투어를 추정한 바디는 `illustrative`이고, `rf_note`에 "윤곽 drawing, 컨투어 추정"이라고 적는다.
+
+실제로는 이렇게 된다. GRAMR 파일럿에서 메시 45개 중 `drawing`은 0개, `spec`은 1개(픽가드: 윤곽은 도면, 두께는 사양), `illustrative`가 44개였다. 평면도에는 높이 정보가 없어서 입체로 만드는 순간 거의 모든 부품에 가정이 들어간다. 도면 그대로인 것은 `RF_<MODEL>_Source`의 커브뿐이다. 상태만 보면 전부 추정처럼 보이므로, 보고할 때는 "평면 윤곽과 위치는 도면, 높이 방향은 가정"이라고 풀어서 말한다.
+
+`pending`은 오브젝트에 붙이기보다 **만들지 않고 보고서의 미제작 목록에 적는** 쪽을 기본으로 한다. 자리 표시 블록이 꼭 필요하면(예: 넥 힐) 그 블록이 속한 오브젝트의 `rf_note`에 미승인임을 적는다.
+
+재질에도 같은 규칙을 쓴다. 색이 컨피규레이터 표시색에서 왔더라도 무늬와 광택이 가정이면 `illustrative`이고, `rf_colour_source`에 출처를 남긴다.
+
+## 레포에서 미승인으로 남아 있는 항목
+
+2026-10-20 감사 기록 기준이다. 작업 전에 `docs/CONFIGURATOR_DRAWING_AUDIT.md`와 `docs/CONFIGURATOR_PARTS.md`의 최신 내용을 다시 확인한다.
+
+- ASKR·EMBLA 후면: 넥 포켓 깊이, 공구 경로, 릴리프 단면
+- GRAMR: 볼트 좌표, 딥 테넌, 최종 힐 형상
+- ASKR 브리지: 커스텀 팬 브리지 형상
+- ETS Custom: 폭과 현 간격 (시각적 추정뿐)
+- Schaller 3D-5: 악기상의 위치, 높이, 반경, 드릴링
+- 3 / 4 / 6 노브 배치와 추가 스위치: 설치 예시일 뿐
+- "ironwood" 등 정확한 수종이 확정되지 않은 목재
+
+## 산출물 표기 문구
+
+렌더 이미지에는 캡션으로 넣는다. `build_render.py`가 뷰마다 세 언어 문구를 붙인 `_captioned` 사본을 만든다. GLB에는 `asset.extras`의 `notice_ko` / `notice_en` / `notice_de`로 넣는다. `export_glb.py`가 넣고, 각 노드의 `extras.rf_status`와 재질의 `extras.rf_colour_source`도 함께 나간다. 웹 뷰어가 이 문구를 화면에 보여 주는 것은 뷰어 쪽에서 해야 한다.
+
+GLB에 든 마감 변형은 **컨피규레이터의 선택지이지 그 모델의 사양이 아니다.** 사양인 마감 하나만 기본 재질로 두고(`asset.extras.default_finish`), 나머지 변형 재질에는 "사양 마감이 아님, 색 견본이 아님"을 `extras.rf_note`에 적는다. 변형을 보여 주는 화면에서도 어느 것이 그 모델의 사양인지 구분해 표시한다.
+
+| 산출물 | ko | en | de |
+|---|---|---|---|
+| 컨셉·제품 렌더 | 컨셉 시각화입니다. 제작 전 CAD 검증과 하드웨어 실측에 따라 세부 사양이 달라질 수 있습니다. | Concept visualization. Details remain subject to CAD validation and measured hardware clearances before construction. | Konzeptvisualisierung. Details können sich nach CAD-Prüfung und Hardwarevermessung vor dem Bau ändern. |
+| 목재·마감 | 도해용 표면입니다. 실제 판재와 수종을 보증하지 않습니다. | Illustrative surface. Not a photograph of stock and not a species certification. | Illustrative Oberfläche. Kein Foto des Materials und kein Artnachweis. |
+| 연구 도해 | 설명을 위한 도식이며 측정 결과가 아닙니다. | Explanatory diagram, not a measurement result. | Erläuternde Darstellung, kein Messergebnis. |
+
+문구는 레포의 기존 표현을 따랐다. 사이트 문구가 바뀌면 여기를 맞춘다.
+
+## 금지 표현
+
+"최종", "확정 사양", "제작 도면", "승인됨", "실측", "색 견본"을 렌더·도해 설명에 쓰지 않는다. 소유자가 "일반적인 값으로 진행"하라고 한 것은 그 값을 승인한 것이 아니다. 그렇게 만든 부분은 계속 가정으로 적는다. 실제로 승인된 항목이 생기면 사용자가 이 문서의 미승인 목록에서 지운 뒤에만 표현을 바꾼다.
+
+## 제3자 자료
+
+- 제조사 로고, 각인, 사진, PDF, 3D 파일을 `.blend`·렌더·GLB에 넣지 않는다.
+- 하드웨어는 공식 도면의 외곽 치수로 만든 단순 형상이다. 특정 제품으로 식별될 만한 세부는 사양 표기 텍스트로 전달하고 형상으로 복제하지 않는다.
+- 목재 텍스처에 공급사 사진의 픽셀을 쓰지 않는다.

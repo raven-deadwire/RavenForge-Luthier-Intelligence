@@ -1,0 +1,62 @@
+{
+  "model": "GRAMR",
+  "stage": 7,
+  "materials": {
+    "RF_MAT_SwampAsh_InfernoRedGrainFilledGloss": {
+      "colour_source": "assets/configurator-preview.js stainColours[0] ('Inferno red'); lightness from assets/configurator-materials.js catalog.ash.colour",
+      "lightness_vs_reference": 1.0
+    },
+    "RF_MAT_HardMaple_InfernoRed": {
+      "colour_source": "assets/configurator-preview.js stainColours[0] ('Inferno red'); lightness from assets/configurator-materials.js catalog.maple.colour",
+      "lightness_vs_reference": 1.0
+    },
+    "RF_MAT_Wenge_InfernoRed": {
+      "colour_source": "assets/configurator-preview.js stainColours[0] ('Inferno red'); lightness from assets/configurator-materials.js catalog.wenge.colour",
+      "lightness_vs_reference": 0.087
+    },
+    "RF_MAT_Purpleheart_InfernoRed": {
+      "colour_source": "assets/configurator-preview.js stainColours[0] ('Inferno red'); lightness from assets/configurator-materials.js catalog.purpleheart.colour",
+      "lightness_vs_reference": 0.119
+    },
+    "RF_MAT_IndianRosewood_Natural": {
+      "colour_source": "assets/configurator-materials.js catalog.rosewood.colour",
+      "lightness_vs_reference": 1.0
+    },
+    "RF_MAT_Gold": {
+      "colour_source": "assets/configurator-preview.js colourWords.gold"
+    },
+    "RF_MAT_NickelSilver": {
+      "colour_source": "assumed"
+    },
+    "RF_MAT_Bone": {
+      "colour_source": "assumed"
+    },
+    "RF_MAT_BlackPlastic_Gloss": {
+      "colour_source": "assumed"
+    },
+    "RF_MAT_BlackPlastic_Matte": {
+      "colour_source": "assumed"
+    },
+    "RF_MAT_Dark": {
+      "colour_source": "none"
+    }
+  },
+  "objects_per_material": {
+    "RF_MAT_SwampAsh_InfernoRedGrainFilledGloss": 1,
+    "RF_MAT_Gold": 11,
+    "RF_MAT_NickelSilver": 24,
+    "RF_MAT_IndianRosewood_Natural": 1,
+    "RF_MAT_Dark": 2,
+    "RF_MAT_HardMaple_InfernoRed": 1,
+    "RF_MAT_Wenge_InfernoRed": 1,
+    "RF_MAT_Purpleheart_InfernoRed": 1,
+    "RF_MAT_Bone": 1,
+    "RF_MAT_BlackPlastic_Gloss": 1,
+    "RF_MAT_BlackPlastic_Matte": 3
+  },
+  "objects_without_material": [],
+  "placeholders_left": [],
+  "image_textures_used": 0,
+  "preview_view_transform": "Khronos PBR Neutral",
+  "status": "built"
+}

@@ -327,10 +327,38 @@ class LocalContentContract(unittest.TestCase):
 
     def test_three_languages_render_and_all_local_links_exist(self):
         result = check.validate_local(self.lock, self.inventory)
-        self.assertEqual(result["remote_images"], 85)
-        for path in ["assets/chimera/dual-cabinet-beta13.png", "assets/chimera/ir-loader-beta13.png"]:
+        self.assertEqual(result["remote_images"], 132)
+        for path in ["assets/chimera/cabinet-room-beta141.png", "assets/chimera/cabinet-library-beta141.png"]:
             self.assertIn(path, self.lock["reviewed_files"])
-            self.assertTrue(any(i["image"] and i["url"] == path for i in self.inventory[0]["links"]))
+            released = path.replace("beta141.png", "beta150-linux.png")
+            self.assertTrue(any(i["image"] and i["url"] == released for i in self.inventory[0]["links"]))
+
+    def test_released_homepage_captures_require_the_actual_release_and_labels(self):
+        target = check.homepage_release()
+        self.assertEqual(check.validate_homepage_captures(target, self.lock, self.inventory, check.ROOT), 16)
+        false_target = copy.deepcopy(target)
+        package = f"SpectralForge-Chimera-{target['version']}-linux-x86_64.deb"
+        false_target["assets"][package] = "sha256:" + "0" * 64
+        with self.assertRaisesRegex(check.InvalidRelease, "capture package mismatch"):
+            check.validate_homepage_captures(false_target, self.lock, self.inventory, check.ROOT)
+        inventory = copy.deepcopy(self.inventory)
+        ko = next(page for page in inventory if page["file"] == "ko.html")
+        image = next(link for link in ko["links"] if link["image"] and link["url"].endswith("easy-beta150-linux.png"))
+        image["alt"] = image["alt"].replace("Linux", "Windows")
+        with self.assertRaisesRegex(check.InvalidRelease, "Missing source-labeled full-size capture"):
+            check.validate_homepage_captures(target, self.lock, inventory, check.ROOT)
+
+    def test_every_homepage_rejects_missing_copy_or_wrong_release_links(self):
+        for original in [p for p in self.inventory if p["file"] != "manual/chimera.html"]:
+            for corruption in ["missing AAX exclusion", "wrong package"]:
+                page = copy.deepcopy(original)
+                if corruption == "wrong package":
+                    link = next(link for link in page["links"] if "/releases/download/" in link["url"])
+                    link["url"] = link["url"].replace("1.5.0-beta.1", "1.4.1-beta.1")
+                else:
+                    page["downloadNote"] = "Choose an installer."
+                with self.subTest(lang=page["lang"], corruption=corruption), self.assertRaises(check.InvalidRelease):
+                    check.validate_homepage_links(check.homepage_release(), page)
 
     def test_removed_rigs_or_original_amp_content_is_blocked(self):
         # Exercise removal from the rendered DOM, including the whole section
@@ -343,6 +371,14 @@ const { validateProductContent } = require('./tools/chimera_page_inventory.cjs')
 const html = fs.readFileSync('index.html', 'utf8');
 const copy = fs.readFileSync('assets/chimera.js', 'utf8');
 const removed = [
+  '#chimera-workflow',
+  '#chimera-workflow [data-chimera-key="autoFeature"]',
+  '#chimera-amp-spotlight',
+  '#chimera-amp-spotlight [data-chimera-key="ampNorthlight"]',
+  '#chimera-sound-tools [data-chimera-key="dynBody"]',
+  '#chimera-sound-tools [data-chimera-key="synthBody"]',
+  '#chimera-sound-tools img[data-chimera-alt="synthShotAlt"]',
+  '.rf-chimera-preview img',
   '#chimera-rigs',
   '#chimera-rigs img[data-chimera-alt="rigsDualAlt"]',
   '#chimera-rigs [data-chimera-key="matrix"]',
@@ -378,7 +414,7 @@ for (const lang of ['en', 'ko', 'de']) {
         self.assertEqual(run.returncode, 0, run.stderr)
 
     def test_stale_content_hash_is_blocked(self):
-        for path in ["manual/chimera.html", "assets/chimera/dual-cabinet-beta13.png", "assets/chimera/ir-loader-beta13.png"]:
+        for path in ["manual/chimera.html", "assets/chimera/cabinet-room-beta141.png", "assets/chimera/cabinet-library-beta141.png"]:
             lock = copy.deepcopy(self.lock); lock["reviewed_files"][path] = "0" * 64
             with self.subTest(path=path), self.assertRaisesRegex(check.InvalidRelease, "changed since source review"):
                 check.validate_local(lock, self.inventory)

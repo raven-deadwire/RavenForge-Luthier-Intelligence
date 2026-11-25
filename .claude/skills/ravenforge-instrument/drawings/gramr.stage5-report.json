@@ -1,0 +1,165 @@
+{
+  "model": "GRAMR",
+  "stage": 5,
+  "parameters": {
+    "note": "Generic Extra Jumbo wire section chosen for visualisation. The spec names the size class and alloy only.",
+    "crown_width_mm": 2.9,
+    "crown_height_mm": 1.45,
+    "end_bevel_deg": 30.0
+  },
+  "count": 24,
+  "crown_arc_radius_mm": 1.45,
+  "end_bevel_run_mm": 0.837,
+  "position_vs_equal_temperament_max_mm": 0.0081,
+  "drawn_line_length_vs_board_width_max_mm": 0.08,
+  "all_manifold": true,
+  "frets": [
+    {
+      "fret": 1,
+      "x_mm": 36.367,
+      "ideal_mm": 36.369,
+      "length_mm": 43.98
+    },
+    {
+      "fret": 2,
+      "x_mm": 70.696,
+      "ideal_mm": 70.698,
+      "length_mm": 44.88
+    },
+    {
+      "fret": 3,
+      "x_mm": 103.1,
+      "ideal_mm": 103.099,
+      "length_mm": 45.72
+    },
+    {
+      "fret": 4,
+      "x_mm": 133.69,
+      "ideal_mm": 133.682,
+      "length_mm": 46.52
+    },
+    {
+      "fret": 5,
+      "x_mm": 162.55,
+      "ideal_mm": 162.549,
+      "length_mm": 47.28
+    },
+    {
+      "fret": 6,
+      "x_mm": 189.795,
+      "ideal_mm": 189.795,
+      "length_mm": 47.99
+    },
+    {
+      "fret": 7,
+      "x_mm": 215.507,
+      "ideal_mm": 215.512,
+      "length_mm": 48.66
+    },
+    {
+      "fret": 8,
+      "x_mm": 239.784,
+      "ideal_mm": 239.786,
+      "length_mm": 49.3
+    },
+    {
+      "fret": 9,
+      "x_mm": 262.699,
+      "ideal_mm": 262.697,
+      "length_mm": 49.9
+    },
+    {
+      "fret": 10,
+      "x_mm": 284.32,
+      "ideal_mm": 284.322,
+      "length_mm": 50.46
+    },
+    {
+      "fret": 11,
+      "x_mm": 304.732,
+      "ideal_mm": 304.734,
+      "length_mm": 51.0
+    },
+    {
+      "fret": 12,
+      "x_mm": 324.005,
+      "ideal_mm": 324.0,
+      "length_mm": 51.5
+    },
+    {
+      "fret": 13,
+      "x_mm": 342.182,
+      "ideal_mm": 342.185,
+      "length_mm": 51.98
+    },
+    {
+      "fret": 14,
+      "x_mm": 359.347,
+      "ideal_mm": 359.349,
+      "length_mm": 52.42
+    },
+    {
+      "fret": 15,
+      "x_mm": 375.555,
+      "ideal_mm": 375.55,
+      "length_mm": 52.85
+    },
+    {
+      "fret": 16,
+      "x_mm": 390.836,
+      "ideal_mm": 390.841,
+      "length_mm": 53.25
+    },
+    {
+      "fret": 17,
+      "x_mm": 405.274,
+      "ideal_mm": 405.274,
+      "length_mm": 53.63
+    },
+    {
+      "fret": 18,
+      "x_mm": 418.896,
+      "ideal_mm": 418.897,
+      "length_mm": 53.98
+    },
+    {
+      "fret": 19,
+      "x_mm": 431.759,
+      "ideal_mm": 431.756,
+      "length_mm": 54.32
+    },
+    {
+      "fret": 20,
+      "x_mm": 443.891,
+      "ideal_mm": 443.893,
+      "length_mm": 54.64
+    },
+    {
+      "fret": 21,
+      "x_mm": 455.348,
+      "ideal_mm": 455.348,
+      "length_mm": 54.94
+    },
+    {
+      "fret": 22,
+      "x_mm": 466.158,
+      "ideal_mm": 466.161,
+      "length_mm": 55.22
+    },
+    {
+      "fret": 23,
+      "x_mm": 476.364,
+      "ideal_mm": 476.367,
+      "length_mm": 55.49
+    },
+    {
+      "fret": 24,
+      "x_mm": 486.008,
+      "ideal_mm": 486.0,
+      "length_mm": 55.74
+    }
+  ],
+  "crown_top_z_at_fret_12_mm": 1.45,
+  "board_overhang_past_last_fret_mm": 8.0,
+  "status": "built"
+}
